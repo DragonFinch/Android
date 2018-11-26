@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.iyoyogo.android.widget.CheckableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="65dp"
+    android:layout_height="110dp"
+    android:orientation="vertical">
+
+
+    <ImageView
+android:layout_alignParentTop="true"
+        android:id="@+id/img"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+
+        android:src="@mipmap/sea" />
+
+    <ImageView
+
+android:visibility="visible"
+        android:id="@+id/choice_icon"
+        android:layout_width="20dp"
+        android:duplicateParentState="true"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@+id/img"
+        android:layout_alignRight="@+id/img"
+        android:src="@drawable/like_selector"
+         />
+
+
+    <TextView
+        android:layout_alignParentBottom="true"
+        android:id="@+id/tag_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="分类"
+        android:textColor="#333333"
+        android:textSize="15sp" />
+</com.iyoyogo.android.widget.CheckableLayout>

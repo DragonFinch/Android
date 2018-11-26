@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <View
+        android:id="@+id/v"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/colorFFFFFF" />
+
+    <RelativeLayout
+        android:id="@+id/RelativeLayoutbar"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:layout_below="@+id/v"
+        android:background="@color/colorFFFFFF">
+
+        <RelativeLayout
+            android:id="@+id/rl_finish"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <Button
+                android:id="@+id/tv_left_button"
+                android:layout_width="20dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@mipmap/back_black"
+                android:clickable="@null"
+                android:textColor="#0678e9"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="20dp"
+            android:layout_toRightOf="@+id/rl_finish"
+            android:background="@drawable/fillet_style"
+            android:drawableLeft="@mipmap/sousuo_white"
+            android:drawablePadding="8dp"
+            android:hint="小区/写字楼/学校"
+            android:paddingLeft="10dp"
+            android:paddingRight="8dp"
+            android:textColor="@color/color000000"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorFFFFFF" />
+
+    </RelativeLayout>
+
+    <ListView
+        android:visibility="visible"
+        android:id="@+id/lv_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/RelativeLayoutbar"
+        android:background="@color/colorFFFFFF"
+        android:scrollbars="none" />
+
+</RelativeLayout>

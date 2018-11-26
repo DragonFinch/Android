@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dp_123"
+    android:layout_height="@dimen/dp_123">
+<ImageView
+    android:scaleType="centerCrop"
+    android:id="@+id/img_picture"
+    android:layout_width="@dimen/dp_123"
+    android:layout_height="@dimen/dp_123"
+    android:src="@mipmap/sea"
+    />
+
+        <ImageView
+            android:id="@+id/iv"
+            android:button="@null"
+            android:src="@drawable/checkbox_selector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/img_picture"
+            />
+
+
+    <ImageView
+        android:layout_centerInParent="true"
+        android:src="@mipmap/ic_video"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/video_play"
+        />
+    <TextView
+        android:visibility="invisible"
+        android:id="@+id/video_duration"
+        android:layout_alignBottom="@+id/img_picture"
+        android:text="aaa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/img_picture"
+        />
+</RelativeLayout>

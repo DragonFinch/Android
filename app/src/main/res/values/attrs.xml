@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <declare-styleable name="CircleImageView" tools:ignore="MissingDefaultResource">
+        <attr name="civ_border_width" format="dimension" />
+        <attr name="civ_border_color" format="color" />
+        <attr name="civ_border_overlay" format="boolean" />
+        <!-- {@deprecated Use civ_circlebackground_color instead.} -->
+        <attr name="civ_fill_color" format="color" />
+        <attr name="civ_circle_background_color" format="color" />
+    </declare-styleable>
+    <declare-styleable name="CircleProgressBar">
+        <attr name="line_count" format="integer|reference"/>
+        <attr name="line_width" format="dimension|reference"/>
+        <attr name="progress_start_color" format="color|reference"/>
+        <attr name="progress_end_color" format="color|reference"/>
+        <attr name="progress_text_color" format="color|reference"/>
+        <attr name="progress_text_size" format="dimension|reference"/>
+        <attr name="progress_stroke_width" format="dimension|reference"/>
+        <attr name="progress_background_color" format="color|reference"/>
+        <attr name="progress_start_degree" format="integer|reference"/>
+        <attr name="drawBackgroundOutsideProgress" format="boolean|reference"/>
+
+        <attr name="style">
+            <enum name="line" value="0"/>
+            <enum name="solid" value="1"/>
+            <enum name="solid_line" value="2"/>
+        </attr>
+
+        <attr name="progress_shader">
+            <enum name="linear" value="0"/>
+            <enum name="radial" value="1"/>
+            <enum name="sweep" value="2"/>
+        </attr>
+
+        <attr name="progress_stroke_cap">
+            <enum name="butt" value="0"/>
+            <enum name="round" value="1"/>
+            <enum name="square" value="2"/>
+        </attr>
+
+    </declare-styleable>
+
+    <!-- 波纹进度条 -->
+    <declare-styleable name="WaveProgressView">
+        <attr name="progress_max" format="integer" />
+        <attr name="progress" format="integer" />
+        <attr name="speed" format="float" />
+        <attr name="wave_width" format="float" />
+        <attr name="wave_height" format="float" />
+        <attr name="stroke_color" format="color" />
+        <attr name="main_text" format="string" />
+        <attr name="main_text_color" format="color" />
+        <attr name="main_text_size" format="dimension" />
+        <attr name="hint_text" format="string" />
+        <attr name="hint_color" format="color" />
+        <attr name="hint_size" format="dimension" />
+        <attr name="text_space" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="RoundImageView">
+        <attr name="x_radius" format="dimension" />
+        <attr name="y_radius" format="dimension" />
+    </declare-styleable>
+
+
+    <declare-styleable name="Theme">
+        <attr name="customImageViewStyle" format="reference" />
+    </declare-styleable>
+    <!-- 自定义圆角ImageView -->
+    <declare-styleable name="CustomImageView">
+        <attr name="circle" format="boolean" />
+        <attr name="radius" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="CustomSpeedSeekBar">
+        <attr name="tickMarkFixed" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="CustomRoundColorView">
+        <attr name="color" format="color"/>
+    </declare-styleable>
+    <!--滑动选择器的自定义属性-->
+   <!-- <declare-styleable name="WheelView">
+        <attr name="normalTextColor" format="color" />
+        <attr name="normalTextSize" format="dimension" />
+        <attr name="selectedTextColor" format="color" />
+        <attr name="selectedTextSize" format="dimension" />
+        <attr name="unitHeight" format="dimension" />
+        <attr name="itemNumber" format="integer" />
+        <attr name="lineColor" format="color" />
+        <attr name="lineHeight" format="dimension" />
+        <attr name="maskHeight" format="dimension" />
+        <attr name="noEmpty" format="boolean" />
+        <attr name="isEnable" format="boolean" />
+    </declare-styleable>-->
+    <attr name="borderRadius" format="dimension" />
+    <attr name="type">
+        <enum name="circle" value="0" />
+        <enum name="round" value="1" />
+    </attr>
+    <attr name="textColor" format="color"/>
+    <attr name="textSize" format="dimension" />
+    <attr name="dragOut" format="boolean" />
+    <attr name="itemheight" format="dimension" />
+    <declare-styleable name="linewarplayout">
+        <attr name="magin" format="integer" />
+        <attr name="itemBg" format="reference"></attr>
+    </declare-styleable>
+
+    <declare-styleable name="LineEditText">
+        <attr name="lineColor" format="color"/>
+        <attr name="lineWidth" format="dimension"/>
+    </declare-styleable>
+    <declare-styleable name="SpaceBar">
+        <attr name="minNum" format="integer" />
+        <attr name="maxNum" format="integer" />
+    </declare-styleable>
+
+    <!--自定义MLImageView的属性 加上了自己的前缀，防止和其他自定义控件冲突-->
+    <declare-styleable name="MLImageView">
+        <attr name="ml_border_color" format="color" />
+        <attr name="ml_border_width" format="dimension" />
+        <attr name="ml_press_alpha" format="integer" />
+        <attr name="ml_press_color" format="color" />
+        <attr name="ml_radius" format="dimension" />
+        <attr name="ml_shape_type" format="enum">
+            <enum name="none" value="0" />
+            <enum name="round" value="1" />
+            <enum name="rectangle" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="VideoControlView">
+        <!--录制最小时间-->
+        <attr name="minTime" format="integer" />
+        <!--录制最大时间-->
+        <attr name="maxTime" format="integer" />
+        <!--内圆颜色-->
+        <attr name="innerCircleColor" format="color" />
+        <!--外圆颜色-->
+        <attr name="annulusColor" format="color" />
+        <!--进度条颜色-->
+        <attr name="progressColor" format="color" />
+        <!--内圆半径-->
+        <attr name="innerCircleRadius" format="dimension" />
+        <!--外圆半径-->
+        <attr name="excircleRadius" format="dimension" />
+        <!--外圆放大倍数-->
+        <attr name="excicleMagnification" format="float" />
+        <!--内圆缩小倍数-->
+        <attr name="innerCircleShrinks" format="float" />
+    </declare-styleable>
+</resources>

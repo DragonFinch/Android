@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.iyoyogo.android.widget.CustomTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <RelativeLayout
+        android:id="@+id/video_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="213dp"
+        android:background="#ff242728">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="77dp"
+            android:layout_marginBottom="59dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/download_more_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp">
+
+                <ImageView
+                    android:id="@+id/dowanloadImage"
+                    android:layout_width="35dp"
+                    android:layout_height="25dp"
+                    android:background="@mipmap/download_more"
+                    android:layout_marginTop="9dp"/>
+                <TextView
+                    android:id="@+id/dowanloadMoreText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/dowanloadImage"
+                    android:layout_marginTop="23dp"
+                    android:text="更多"
+                    android:textColor="#ffffffff"
+                    android:textSize="15sp"/>
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/theme_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="40dp">
+
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/themeAssetFinish"
+            android:layout_width="25dp"
+            android:layout_height="20dp"
+            android:background="@mipmap/finish"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"/>
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+    tools:context=".ui.home.yoxiu.AddAddressActivity">
+<include android:id="@+id/bar" layout="@layout/common_bar"/>
+<EditText
+    android:id="@+id/edit_add_address"
+    android:paddingRight="@dimen/dp_9"
+    android:layout_below="@+id/bar"
+    android:layout_marginTop="@dimen/dp_10"
+    android:layout_width="match_parent"
+
+    android:hint="@string/search_location"
+    android:paddingLeft="@dimen/dp_30"
+    android:layout_height="@dimen/dp_32"
+  android:background="@color/transparent"
+    android:layout_marginLeft="@dimen/dp_20"
+    />
+    <ImageView
+        android:layout_marginTop="@dimen/dp_9"
+        android:layout_centerVertical="true"
+        android:layout_alignTop="@+id/edit_add_address"
+        android:layout_alignLeft="@+id/edit_add_address"
+        android:layout_width="@dimen/dp_15"
+        android:layout_height="@dimen/dp_15"
+        android:src="@mipmap/sousuo_white"
+        android:background="#888888"
+        android:layout_marginLeft="@dimen/dp_11"
+        />
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/search_clear"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_9"
+        android:layout_centerVertical="true"
+        android:layout_alignTop="@+id/edit_add_address"
+        android:layout_alignRight="@+id/edit_add_address"
+        android:layout_width="@dimen/dp_15"
+        android:layout_height="@dimen/dp_15"
+        android:src="@mipmap/search_clear"
+
+        android:layout_marginLeft="@dimen/dp_11"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/edit_add_address"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent"
+        android:id="@+id/recycler_add_address"
+        />
+    <com.amap.api.maps2d.MapView
+
+        android:layout_below="@+id/edit_add_address"
+        android:layout_marginTop="@dimen/dp_11"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/map_add_address"
+        />
+    <ImageView
+        android:id="@+id/img_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/point_dingwei"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_21"
+        android:layout_marginBottom="@dimen/dp_48"
+        android:layout_alignParentBottom="true"
+        />
+</RelativeLayout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <com.example.administrator.test.view.CustomTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </com.example.administrator.test.view.CustomTitleBar>
+    <RelativeLayout
+        android:id="@+id/spaceLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="213dp"
+        android:background="#ff242728">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="38dp"
+            android:background="#979797"></View>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/captionStyleTab"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:tabMode="fixed"
+            app:tabTextColor="#ff909293"
+            app:tabSelectedTextColor="#ff4a90e2"
+            app:tabIndicatorColor="#ff4a90e2">
+
+        </android.support.design.widget.TabLayout>
+
+        <com.example.administrator.test.view.CustomViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="118dp"
+            android:layout_below="@+id/captionStyleTab">
+
+        </com.example.administrator.test.view.CustomViewPager>
+        <ImageView
+            android:id="@+id/captionAssetFinish"
+            android:layout_width="25dp"
+            android:layout_height="20dp"
+            android:background="@mipmap/finish"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"/>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view_stub"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <!--加载视图-->
+    <ViewStub
+        android:id="@+id/vs_loading_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <!--加载失败视图-->
+    <ViewStub
+        android:id="@+id/vs_empty_place_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</FrameLayout>

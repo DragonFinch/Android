@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="193dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="滤镜"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"/>
+
+        <RelativeLayout
+            android:id="@+id/intensity_layout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerVertical="true">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="滤镜程度"
+
+                    android:textColor="#000"
+                    android:textSize="15sp"
+                    android:layout_marginLeft="13dp"/>
+
+                <SeekBar
+                    android:id="@+id/intensitySeekBar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:maxHeight="2dp"
+                    android:minHeight="2dp"
+                    android:progress="12"
+                    android:progressDrawable="@drawable/seekbar"
+                    android:thumb="@drawable/beauty_seek_thumb">
+                </SeekBar>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/seekbar_enable_click_view"
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:layout_marginLeft="60dp"
+                android:layout_centerVertical="true"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="30dp">
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/more_filter_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp">
+
+                <ImageButton
+                    android:id="@+id/download_more_btn"
+                    android:layout_width="35dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/download_more"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_alignParentBottom="true"
+                    android:text="更多"
+                    android:textColor="@color/white"/>
+            </RelativeLayout>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/filterBar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="40dp"
+                android:layout_gravity="center_vertical"
+                android:background="@null"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/msff242728">
+
+    <com.example.administrator.test.view.CustomTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </com.example.administrator.test.view.CustomTitleBar>
+
+    <RelativeLayout
+        android:id="@+id/video_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="213dp"
+        android:background="#ff242728">
+
+        <RelativeLayout
+            android:id="@+id/control_layout"
+            android:layout_width="match_parent"
+            android:layout_height="34dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:id="@+id/zoom_out_btn"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_centerInParent="true"
+                        android:src="@mipmap/zoom_out" />
+
+                </RelativeLayout>
+                <TextView
+                    android:id="@+id/play_cur_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="16:08"
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+                <RelativeLayout
+                    android:id="@+id/zoom_in_btn"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_centerInParent="true"
+                        android:src="@mipmap/zoom_in" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+            <Button
+                android:id="@+id/captionStyleButton"
+                android:layout_width="39dp"
+                android:layout_height="17dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="13dp"
+                android:background="@drawable/shape_caption_style_corner_button"
+                android:text="样式"
+                android:textColor="#ffffffff"
+                android:textSize="10sp"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/timeline_edit_layout"
+            android:layout_width="match_parent"
+            android:layout_height="63dp"
+            android:layout_below="@id/control_layout">
+
+            <com.example.administrator.test.edit.timelineEditor.NvsTimelineEditor
+                android:id="@+id/caption_timeline_editor"
+                android:layout_width="wrap_content"
+                android:layout_height="49dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="48dp"
+                android:layout_centerVertical="true"/>
+
+
+
+
+            <RelativeLayout
+                android:id="@+id/play_btn_layout"
+                android:layout_width="48dp"
+                android:layout_height="26dp"
+                android:layout_centerVertical="true">
+
+                <Button
+                    android:id="@+id/play_btn"
+                    android:layout_width="22dp"
+                    android:layout_height="26dp"
+                    android:background="@mipmap/icon_edit_play"
+                    android:layout_centerHorizontal="true" />
+
+            </RelativeLayout>
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/span"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/add_caption_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@mipmap/add"
+            android:layout_below="@id/timeline_edit_layout"
+            android:layout_marginTop="15dp"
+            android:layout_centerHorizontal="true"/>
+        
+        <Button
+            android:id="@+id/ok_btn"
+            android:layout_width="25dp"
+            android:layout_height="20dp"
+            android:background="@mipmap/finish"
+            android:layout_below="@id/add_caption_btn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"/>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

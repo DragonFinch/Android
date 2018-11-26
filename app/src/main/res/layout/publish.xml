@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    android:background="@mipmap/publish_bg"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_225">
+    <LinearLayout
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+
+            android:layout_marginTop="@dimen/dp_37"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/publish_yoxiu"
+            android:visibility="visible"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/fayoxiu"
+                />
+            <TextView
+                android:layout_width="@dimen/dp_75"
+                android:layout_height="20dp"
+                android:text="发布yo·秀"
+                android:textColor="#ff333333"
+                android:textSize="15sp" />
+            <TextView
+                android:layout_width="@dimen/dp_120"
+                android:layout_height="@dimen/dp_18"
+                android:text="（1张美照or小视频）"
+                android:textColor="#ff888888"
+                android:textSize="12sp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/publish_yoji"
+            android:layout_marginTop="@dimen/dp_37"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/fayoji"
+                />
+            <TextView
+                android:layout_width="@dimen/dp_75"
+                android:layout_height="@dimen/dp_20"
+                android:text="发布yo·记"
+                android:textColor="#ff333333"
+                android:textSize="15sp" />
+            <TextView
+                android:layout_width="@dimen/dp_140"
+                android:layout_height="@dimen/dp_18"
+                android:text="（多张美图+专属标签）"
+                android:textColor="#ff888888"
+                android:textSize="@dimen/sp_12"/>
+        </LinearLayout>
+    </LinearLayout>
+<ImageView
+    android:layout_marginBottom="@dimen/dp_14"
+    android:id="@+id/publish_close"
+    android:layout_alignParentBottom="true"
+    android:src="@mipmap/guanbi_fabu"
+    android:layout_centerInParent="true"
+    android:layout_width="@dimen/dp_14"
+    android:layout_height="@dimen/dp_14" />
+</RelativeLayout>

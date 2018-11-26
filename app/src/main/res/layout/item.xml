@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:scaleType="centerCrop"
+    android:id="@+id/img_same"
+    android:background="@drawable/welcome2"
+    />
+
+    <ImageView
+        android:id="@+id/sign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/img_same"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="177dp"
+        android:layout_marginBottom="-1dp"
+        android:src="@drawable/no1" />
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/img_same"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recycler_same_para_item"
+        />
+</RelativeLayout>

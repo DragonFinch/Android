@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/rl_like"
+                    android:background="@mipmap/xiala_bg_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <com.iyoyogo.android.view.DrawableTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawablePadding="@dimen/dp_10"
+                android:text="@string/str_unlike"
+                android:textColor="@color/common_color"
+                android:textSize="@dimen/sp_15"
+                android:id="@+id/dt_like"
+                app:leftDrawable="@mipmap/buxihuan"
+                app:leftDrawableHeight="@dimen/dp_20"
+                app:leftDrawableWidth="@dimen/dp_20" />
+    </RelativeLayout>

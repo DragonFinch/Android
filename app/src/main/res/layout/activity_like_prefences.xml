@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_alignParentTop="true"
+        android:id="@+id/layout_interest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+      >
+
+        <TextView
+            android:layout_marginLeft="21dp"
+            android:layout_marginTop="28dp"
+            android:textSize="25sp"
+            android:maxLines="1"
+            android:textColor="#333333"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:text="选择兴趣标签"
+
+         />
+
+        <ImageButton
+            android:id="@+id/close_btn"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@color/transparent"
+            android:padding="@dimen/dp_10"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/quxiao" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_least"
+        android:layout_below="@+id/layout_interest"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="22dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="选择至少3个标签，没有人比我更想了解你～"
+        android:textColor="#ff888888"
+        android:textSize="10sp"/>
+
+    <GridView
+        android:numColumns="3"
+        android:id="@+id/gv_interest"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_least"
+      />
+
+
+
+    <Button
+        android:layout_alignParentBottom="true"
+        android:id="@+id/confirm_btn"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginBottom="27dp"
+        android:layout_marginLeft="83dp"
+        android:layout_marginRight="83dp"
+        android:layout_marginTop="@dimen/dp_25"
+        android:background="@drawable/login_btn_bg"
+        android:gravity="center"
+        android:text="@string/str_confirm"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/sp_15" />
+
+
+</RelativeLayout>

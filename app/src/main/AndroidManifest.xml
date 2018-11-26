@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.iyoyogo.android">
+
+    <!-- 用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 用于获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 用于访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 用于写入缓存数据到扩展存储卡 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 用于申请调用A-GPS模块 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <!-- 用于申请获取蓝牙信息进行室内定位 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!-- 允许程序打开网络套接字 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 允许程序设置内置sd卡的写权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 允许程序获取网络状态 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 允许程序访问WiFi网络信息 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 允许程序读写手机状态和身份 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 允许程序访问CellID或WiFi热点来获取粗略的位置 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 用于获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 用于访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 用于写入缓存数据到扩展存储卡 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 用于申请调用A-GPS模块 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <!-- 用于申请获取蓝牙信息进行室内定位 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- //定位包、导航包需要的额外权限（注：基础权限也需要） -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 用于访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 允许程序打开网络套接字 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 允许程序设置内置sd卡的写权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 允许程序获取网络状态 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 允许程序访问WiFi网络信息 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 允许程序读写手机状态和身份 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 允许程序访问CellID或WiFi热点来获取粗略的位置 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission
+        android:name="android.permission.SET_DEBUG_APP"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:name=".app.App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:name">
+        <service android:name="com.amap.api.location.APSService" />
+
+        <activity android:name=".ui.common.DingWei" />
+        <activity
+            android:name=".camera.utils.permission.PermissionsActivity"
+            android:theme="@style/TranslucentFullScreenTheme" />
+        <activity
+            android:name=".ui.common.SplashActivity"
+            android:theme="@style/LuncherActivityTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.common.WelcomeActivity" />
+        <activity android:name=".ui.common.CapturesActivity" />
+        <activity android:name=".ui.common.MainActivity" />
+        <activity android:name=".ui.common.CaptureActivity" />
+        <activity android:name=".camera.edit.clipEdit.trim.TrimActivity" />
+        <activity
+            android:name=".ui.common.EmptyActivity"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.music.SelectMusicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.VideoEditActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.makecover.MakeCoverActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.clipEdit.EditActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.filter.FilterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.theme.ThemeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.clipEdit.spilt.SpiltActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.animatesticker.AnimateStickerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.transition.TransitionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.animatesticker.AnimateStickerDowloadActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.filter.FilterDownloadActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.theme.ThemeDownloadActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.clipEdit.speed.SpeedActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.Caption.CaptionStyleActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".camera.edit.music.MusicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <!--
+            <activity
+            android:name=".camera.edit.music.SelectMusicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme"
+             />
+        -->
+        <activity
+            android:name=".camera.edit.Caption.CaptionStyleDownloadActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.transition.TransitionDownloadActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.clipEdit.correctionColor.CorrectionColorActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.clipEdit.volume.VolumeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.clipEdit.adjust.AdjustActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.clipEdit.photo.DurationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.clipEdit.photo.PhotoMovementActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.record.RecordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.animatesticker.customsticker.CustomAnimateStickerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.animatesticker.customsticker.CustomAnimateStickerEffectActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.animatesticker.customsticker.CustomStickerEffectDownloadActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.watermark.WaterMarkActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".camera.edit.watermark.SingleClickActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".ui.common.AlbumActivity"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity android:name=".ui.common.PictureOperateActivity" />
+        <activity
+            android:name=".TestActivity"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity
+            android:name=".MyTestActivity"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity android:name=".ui.common.SameParaActivity" />
+        <activity
+            android:name=".ui.common.PictureEditActivity"
+            android:theme="@style/LuncherActivityTheme" />
+        <activity android:name=".ui.common.YouXiuActivity" />
+        <activity android:name=".ui.common.WebActivity" />
+        <activity android:name=".ui.common.ResultActivity" />
+        <activity
+            android:name=".ui.common.LoginActivity"
+            android:theme="@style/AppThemes" />
+        <activity android:name=".ui.common.LikePrefencesActivity" />
+        <activity
+            android:name="com.umeng.socialize.editorpage.ShareActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.UMDefault" />
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5bea3cb0f1f5565cc1000170" />
+
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent1107050658" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.umeng.socialize.media.WBShareCallBackActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.sina.weibo.sdk.web.WeiboSdkWebActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.sina.weibo.sdk.share.WbShareTransActivity"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            tools:ignore="DuplicateActivity" />
+        <activity android:name=".ui.common.BindPhoneActivity" />
+        <activity android:name=".ui.common.SearchActivity" />
+        <activity android:name=".ui.common.LocationActivity" >
+
+        </activity>
+        <activity android:name=".ui.home.yoxiu.PublishYoXiuActivity" />
+        <activity android:name=".ui.home.yoji.PublishYoJiActivity" />
+        <!--  -->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="06f98328627f4f3559c8e8352062fee4" />
+
+        <activity android:name=".ui.home.yoxiu.SourceChooseActivity" />
+        <activity android:name=".ui.common.CreatePointActivity">
+
+        </activity>
+        <activity android:name=".ui.home.yoxiu.AddAddressActivity"></activity>
+    </application>
+
+</manifest>

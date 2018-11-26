@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_color_2"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_report1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:background="@color/colorWhite"
+        android:gravity="center"
+        android:text="@string/str_report_ad"
+        android:textColor="@color/common_color"
+        android:textSize="@dimen/sp_16" />
+
+    <View style="@style/CommonLine_Style" />
+
+    <TextView
+        android:id="@+id/tv_report2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:background="@color/colorWhite"
+        android:gravity="center"
+        android:text="@string/str_report_harmful"
+        android:textColor="@color/common_color"
+        android:textSize="@dimen/sp_16" />
+
+    <View style="@style/CommonLine_Style" />
+
+    <TextView
+        android:id="@+id/tv_report3"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:background="@color/colorWhite"
+        android:gravity="center"
+        android:text="@string/str_report_not_allowed"
+        android:textColor="@color/common_color"
+        android:textSize="@dimen/sp_16" />
+
+    <View style="@style/CommonLine_Style" />
+
+    <TextView
+        android:id="@+id/tv_report_other"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:background="@color/colorWhite"
+        android:gravity="center"
+        android:text="@string/str_other"
+        android:textColor="@color/common_color"
+        android:textSize="@dimen/sp_16" />
+
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@color/colorWhite"
+        android:gravity="center"
+        android:text="@string/cancel"
+        android:textColor="@color/common_color"
+        android:textSize="@dimen/sp_16" />
+</LinearLayout>

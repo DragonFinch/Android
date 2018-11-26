@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <com.iyoyogo.android.widget.CustomTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <include
+        android:id="@+id/compilePage"
+        layout="@layout/compile_layout"
+        android:visibility="gone"/>
+    <com.iyoyogo.android.camera.edit.grallyRecyclerView.SpeedRecyclerView
+        android:id="@+id/editClipRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:layout_weight="1" />
+    <RelativeLayout
+        android:id="@+id/spaceLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="213dp"
+      >
+        <TextView
+            android:id="@+id/trimDurationVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:textColor="#ffffffff"
+            android:textSize="10sp"
+            android:text="裁剪后总时长为00:07"/>
+        <com.iyoyogo.android.widget.NvsTimelineEditor
+            android:id="@+id/timelineEditor"
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:layout_below="@+id/trimDurationVal"
+            android:layout_marginTop="12dp"/>
+
+        <RelativeLayout
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <ImageView
+                android:id="@+id/qu"
+                android:src="@drawable/quxiao"
+                android:layout_width="wrap_content"
+                android:padding="10dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/trimFinish"
+                android:src="@drawable/queren"
+                android:layout_marginRight="20dp"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

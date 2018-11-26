@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <corners android:radius="4dp" />
+    <!--@color/bg_common_btn_disable_gradient_end-->
+    <gradient
+        android:angle="-45"
+        android:endColor="@color/bg_common_btn_disable_gradient_end"
+        android:startColor="@color/bg_common_btn_disable_gradient_start" />
+
+</shape>

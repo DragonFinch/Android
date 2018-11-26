@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/activity_main"
+    android:layout_height="match_parent">
+<TextView
+    android:text="aaa"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/test"
+    />
+    <FrameLayout
+        android:id="@+id/frame_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/group" />
+
+
+    <RadioGroup
+        android:id="@+id/group"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_alignParentBottom="true"
+
+        android:orientation="horizontal">
+
+
+        <RadioButton
+
+            android:id="@+id/home"
+            android:layout_width="26dp"
+            android:layout_height="19dp"
+            android:layout_marginLeft="71dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="13dp"
+            android:background="@drawable/index_home_selector"
+            android:button="@null"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/camera"
+            android:layout_width="41dp"
+            android:layout_height="34dp"
+            android:layout_marginLeft="63dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="14dp"
+            android:background="@mipmap/ic_camera"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/me"
+            android:layout_width="22dp"
+            android:layout_height="23dp"
+            android:layout_marginLeft="69dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginBottom="13dp"
+            android:background="@drawable/index_me_selector"
+            android:button="@null" />
+    </RadioGroup>
+
+    <ImageView
+        android:id="@+id/publish_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="77dp"
+        android:src="@mipmap/ic_release_btn" />
+
+</RelativeLayout>

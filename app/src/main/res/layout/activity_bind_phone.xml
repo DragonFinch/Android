@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorFFFFFF"
+   >
+
+
+    <LinearLayout
+        android:id="@+id/mBinding_toobar_id"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/mBinding_Back_ImgeView_id"
+            android:layout_width="9dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="20dp"
+            android:src="@mipmap/back_black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:gravity="center"
+            android:text="@string/binding_phone"
+            android:textColor="@color/color333333"
+            android:textSize="15dp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/mBinding_imageview_id"
+        android:layout_width="match_parent"
+        android:layout_height="191dp"
+        android:layout_below="@id/mBinding_toobar_id"
+        android:layout_marginTop="-1dp"
+        android:background="@mipmap/bangding">
+
+    </ImageView>
+
+    <RelativeLayout
+        android:id="@+id/my_rl_phone_id"
+        android:layout_width="334dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/mBinding_imageview_id"
+        android:layout_margin="20dp"
+        android:background="@drawable/border_radius">
+
+        <ImageView
+            android:id="@+id/img_bind_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/shoujihao" />
+
+        <View
+            android:id="@+id/bind_line"
+            android:layout_width="1dp"
+            android:layout_height="30dp"
+            android:layout_margin="8dp"
+            android:layout_toRightOf="@+id/img_bind_phone"
+            android:background="@color/colorC1C1C1" />
+
+        <EditText
+            android:id="@+id/edit_bind"
+            android:layout_width="334dp"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@+id/bind_line"
+            android:background="@null"
+            android:hint="@string/binding_phone_phone"
+            android:textSize="15dp" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/my_test_id"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@id/my_rl_phone_id"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/border_radius">
+
+        <ImageView
+            android:id="@+id/img_bind_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/yanzhengm" />
+
+        <View
+            android:id="@+id/line_bind_code"
+            android:layout_width="1dp"
+            android:layout_height="30dp"
+            android:layout_margin="8dp"
+            android:layout_toRightOf="@id/img_bind_code"
+            android:background="@color/colorC1C1C1" />
+
+        <EditText
+            android:id="@+id/edit_bind_code"
+            android:layout_width="180dp"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@+id/line_bind_code"
+            android:background="@null"
+            android:hint="@string/binding_phone_verification"
+            android:textSize="15dp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_bind_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/my_rl_phone_id"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="25dp"
+        android:text="@string/binding_phone_obtain_validation"
+        android:textColor="@color/colorFA800A" />
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/my_test_id"
+        android:layout_margin="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/radio_check_img"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@mipmap/xuanzhong" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/binding_phone_accept"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/bind_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/binding_phone_service"
+            android:textColor="@color/color5BCBF5"
+            android:textSize="12dp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_bind"
+        android:layout_width="334dp"
+        android:layout_height="45dp"
+        android:layout_below="@+id/ll"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/bind_phone_bg"
+
+        android:text="@string/binding_phone_binding"
+        android:textColor="@color/colorFFFFFF" />
+
+
+</RelativeLayout>

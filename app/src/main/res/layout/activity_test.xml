@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <com.meicam.sdk.NvsLiveWindow
+        android:id="@+id/liveWindow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.meicam.sdk.NvsLiveWindow>
+
+    <ImageView
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/imageAutoFocusRect"
+        android:scaleType="fitCenter"
+        android:contentDescription="@null"
+        app:srcCompat="@mipmap/icon_auto_focus" />
+
+    <TextView
+        android:id="@+id/recordTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00"
+        android:textColor="#ffffff"
+        android:textSize="19sp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="38dp"
+        android:visibility="invisible"/>
+    <LinearLayout
+        android:id="@+id/functionButtonLayout"
+        android:layout_marginTop="14dp"
+        android:weightSum="5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:textSize="12sp"
+            android:padding="5dp"
+            android:drawablePadding="12dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:text="首页"
+            android:layout_marginLeft="12dp"
+            android:background="#0000"
+            android:textColor="#fff"
+            android:drawableLeft="@mipmap/icon_back"
+            android:layout_height="wrap_content" />
+        <Button
+            android:background="#00000000"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:src="@mipmap/add"
+            android:text="4:3"
+            android:textColor="#fff"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/flashLayout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/icon_flash_off" />
+
+        <ImageView
+            android:id="@+id/switchFacingLayout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/icon_switch" />
+        <ImageView
+            android:id="@+id/filterLayout"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:src="@mipmap/icon_filter"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/startLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true">
+
+        <RelativeLayout
+            android:id="@+id/select_layout"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:id="@+id/record_type_layout"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/type_picture_btn"
+                    android:layout_width="30dp"
+                    android:layout_height="21dp"
+                    android:background="@color/colorTranslucent"
+                    android:text="单张"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"/>
+
+                <Button
+                    android:id="@+id/type_video_btn"
+                    android:layout_width="30dp"
+                    android:layout_height="21dp"
+                    android:background="@color/colorTranslucent"
+                    android:text="视频"
+                    android:textColor="@color/ms_red"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="30dp"/>
+
+                <View
+                    android:id="@+id/rightView"
+                    android:layout_width="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_height="21dp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:background="@drawable/red_circle_shape"
+                android:layout_below="@+id/record_type_layout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="2dp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_below="@+id/select_layout">
+
+            <ImageView
+                android:id="@+id/delete"
+                android:visibility="invisible"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@mipmap/icon_delete"
+                android:layout_toLeftOf="@+id/startRecordingImage"
+                android:layout_marginRight="28dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="5dp"/>
+
+            <com.iyoyogo.android.view.CircleProgressBar
+                android:id="@+id/startRecordingImage"
+                android:layout_centerInParent="true"
+                app:style="solid_line"
+                app:progress_stroke_width="3dp"
+                app:progress_background_color="@color/holo_darker_gray"
+                app:progress_start_color="@color/color_orange"
+                app:progress_text_color="@color/color_orange"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="@drawable/xiangji"/>
+
+            <TextView
+                android:id="@+id/startText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textSize="19dp"
+                android:textColor="#ffffff"/>
+
+
+            <ImageView
+                android:id="@+id/next"
+                android:visibility="invisible"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@mipmap/icon_next"
+                android:layout_toRightOf="@+id/startRecordingImage"
+                android:layout_marginLeft="28dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="5dp"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/picture_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/picture_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"/>
+
+        <Button
+            android:id="@+id/picture_cancel"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="20dp"
+            android:background="@mipmap/icon_close"/>
+
+        <Button
+            android:id="@+id/picture_ok"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="13dp"
+            android:layout_marginTop="20dp"
+            android:background="@mipmap/finish"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>

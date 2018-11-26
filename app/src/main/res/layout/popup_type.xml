@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+
+    android:background="@drawable/bg_corn"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+
+        android:background="@mipmap/border"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_24"
+            android:layout_marginLeft="@dimen/dp_107"
+            android:id="@+id/tv_choose_types"
+            android:layout_width="@dimen/dp_87"
+            android:layout_height="@dimen/dp_20"
+            android:text="请选择类别"
+            android:textColor="#ff333333"
+            android:textSize="18sp"
+           />
+        <ImageView
+            android:id="@+id/img_type"
+            android:layout_marginTop="@dimen/dp_17"
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:background="@drawable/item_type_bg_img"
+            android:layout_below="@+id/tv_choose_types"
+            android:layout_centerHorizontal="true"
+
+            />
+        <View
+            android:id="@+id/line_vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/img_type"
+            android:layout_width="@dimen/dp_10"
+            android:background="@drawable/type_vertical_line"
+            android:layout_height="@dimen/dp_380"/>
+        <View
+            android:background="@drawable/line_zhong"
+            android:layout_height="@dimen/dp_24"
+            android:id="@+id/line_center"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/line_vertical"
+            android:layout_width="@dimen/dp_17"
+           />
+        <View
+            android:background="@drawable/line_bottom"
+            android:layout_height="@dimen/dp_14"
+            android:id="@+id/line_bottom"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/line_center"
+            android:layout_width="@dimen/dp_31"
+            />
+        <android.support.v7.widget.RecyclerView
+            android:layout_below="@+id/img_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recycler_choose_type"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>

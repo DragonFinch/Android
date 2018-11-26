@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="1dp">
+
+    <ImageView
+        android:id="@+id/iv_id"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+
+    <CheckBox
+        android:button="@null"
+        android:id="@+id/cb_id"
+        android:background="@drawable/picture_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/iv_id"
+        android:checked="true" />
+</RelativeLayout>

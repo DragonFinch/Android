@@ -1,0 +1,391 @@
+<resources>
+    <string name="bianji">编辑yo·秀</string>
+    <string name="shier">十二使徒岩</string>
+    <string name="genghuan">更换</string>
+    <string name="gushi">给大家讲讲背后的故事吧~</string>
+    <string name="tuijian">推荐话题</string>
+    <string name="huati">+更多话题</string>
+    <string name="xuanze">选择频道</string>
+    <string name="gongkai">公开</string>
+    <string name="simi">私密</string>
+<string name="search_location">请输入搜索位置yo～</string>
+    //定位
+    <string name="quxiao">取消</string>
+    <string name="pleaseinput">请输入在哪里yo~</string>
+    <string name="photo">照片/图片位置信息</string>
+    <string name="app_name">yoyoGo</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="binding_phone">绑定手机号</string>
+    <string name="binding_phone_phone">请输入手机号</string>
+    <string name="binding_phone_verification">请输入验证码</string>
+    <string name="binding_phone_obtain_validation">获取验证码</string>
+    <string name="binding_phone_accept">我已阅读并接受</string>
+    <string name="binding_phone_service">服务条款＆隐私政策</string>
+    <string name="binding_phone_binding">立即绑定</string>
+    <string name="done">完成</string>
+    <string name="indext_title_recommend">推荐</string>
+    <string name="indext_title_attention">关注</string>
+    <string name="str_attention_person">关注的人</string>
+    <string name="str_mei_pai">美·拍</string>
+    <string name="str_zu_ji">足·迹</string>
+    <string name="str_all">ALL</string>
+    <string name="str_look_more">查看更多</string>
+    <string name="double_tap_to_exit">再按一次退出App</string>
+    <string name="str_create">直接创建</string>
+    <string name="str_open_cam">启动相机</string>
+    <string name="str_open_xiangce">从相册选</string>
+    <string name="str_cancel">取消</string>
+    <string name="str_search_histroy">历史搜索</string>
+    <string name="str_clear">清空</string>
+    <string name="str_search_hot">热门搜索</string>
+    <string name="str_search_type_desc">筛选</string>
+    <string name="str_zuji">yo记</string>
+    <string name="str_meipai">yo秀</string>
+    <string name="str_search_input_tips">请输入搜索内容</string>
+    <string name="str_add_attention">+ 关注</string>
+    <string name="unlock_black">解绑</string>
+    <string name="lock_black">拉黑</string>
+
+    <string name="str_add_attention2">添加关注</string>
+    <string name="input_phone_num">请输入电话号码</string>
+    <string name="get_ver_code">获取验证码</string>
+    <string name="input_ver_code">请输入验证码</string>
+    <string name="reg_desc"><![CDATA[我已阅读并接受]]></string>
+    <string name="reg_at"><![CDATA[&]]></string>
+
+    <string name="login">登录</string>
+    <string name="login_by_third">第三方账号快速登录</string>
+    <string name="input_wrong_phone_num">手机号码输入错误</string>
+    <string name="input_wrong_ver_code">验证码输入错误</string>
+    <string name="input_wrong_xieyi">尚未同意服务协议</string>
+    <string name="yo_tips">yo提示</string>
+    <string name="cancel">取消</string>
+    <string name="open">打开</string>
+    <string name="bind_phone_num">绑定手机号</string>
+    <string name="bind_phone_safe_desc">绑定手机号，让您的账户更安全</string>
+    <string name="bind_phone_now">立即绑定</string>
+    <string name="phone_change_now">立即更换</string>
+    <string name="change_phone_num">更改手机号</string>
+    <string name="weixin_gongzhonghao">微信公众号</string>
+    <string name="sina_weibo">新浪微博</string>
+    <string name="str_weibo">微博</string>
+    <string name="biaoyang">表扬一下</string>
+    <string name="phone">手机</string>
+    <string name="black">黑名单</string>
+
+    <string name="wechat">微信</string>
+    <string name="new_message_remind">新消息提醒</string>
+    <string name="tongxunlu">访问通讯录</string>
+    <string name="account_and_safe">账号与安全</string>
+
+    <string name="privary_setting">隐私设置</string>
+    <string name="feedback_question">问题与反馈</string>
+    <string name="about_us">关于我们</string>
+    <string name="now_version">当前版本</string>
+    <string name="clear_temp_cache">清空缓存</string>
+    <string name="logout">退出登录</string>
+    <string name="setting">设置</string>
+    <string name="feed_back">意见反馈</string>
+    <string name="str_biaoyang">您的表扬</string>
+    <string name="str_tk_nodeata">此处还没有人上传过Yo秀哦~</string>
+    <string name="str_biaoyang_desc">是我最大的动力</string>
+    <string name="str_next_time">下次再说</string>
+    <string name="str_next_step">下一步</string>
+    <string name="yoyogo_open_qq">yoyoGo想打开QQ</string>
+    <string name="yoyogo_open_wechat">yoyoGo想打开微信</string>
+    <string name="yoyogo_open_weibo">yoyoGo想打开微博</string>
+    <string name="fabu_yoji">发布yo迹</string>
+    <string name="fabu_yoxiu">发布yo秀</string>
+    <string name="location_now">当前位置</string>
+    <string name="loaction_again">重新定位</string>
+    <string name="location_again_now">重新定位中...</string>
+    <string name="locationing">正在定位...</string>
+    <string name="loaction_failed">定位失败</string>
+    <string name="share_your_story">说出你的故事吧~</string>
+    <string name="str_tongbu">同步到:</string>
+    <string name="str_confirm">确定</string>
+    <string name="str_detail">详情</string>
+    <string name="str_fayoxiu">发yo秀</string>
+    <string name="str_fayoji">写yo迹</string>
+    <string name="str_fabu">发布</string>
+    <string name="str_choice_fenlei">选择分类</string>
+    <string name="str_choice_channel">选择频道</string>
+
+    <string name="__picker_title">Images</string>
+    <string name="__picker_delete">Delete</string>
+    <string name="__picker_done">Done</string>
+    <string name="__picker_done_with_count">Done(%1$d/%2$d)</string>
+    <string name="__picker_image_index">%1$d/%2$d</string>
+    <string name="__picker_undo">Undo</string>
+    <string name="__picker_deleted_a_photo">Deleted a photo</string>
+    <string name="__picker_confirm_to_delete">Confirm to delete?</string>
+    <string name="__picker_yes">Yes</string>
+    <string name="__picker_cancel">Cancel</string>
+    <string name="__picker_all_image">All Images</string>
+    <string name="__picker_image_count">%1$d</string>
+    <string name="__picker_over_max_count_tips">You can only select %1$d images</string>
+    <string name="__picker_choice_photo">选择照片</string>
+    <string name="user_info_title">个人信息</string>
+    <string name="save">保存</string>
+    <string name="base_info">基本信息</string>
+    <string name="other_info">其他信息</string>
+    <string name="str_i_like_title">我喜欢过</string>
+    <string name="str_attention">关注</string>
+    <string name="str_invitation">邀请</string>
+    <string name="wechat_friend">微信好友</string>
+    <string name="weibo_friend">微博好友</string>
+    <string name="qq_friend">QQ好友</string>
+    <string name="tongxulu_friend">通讯录好友</string>
+    <string name="str_sys_message">系统消息</string>
+    <string name="str_like_me">喜欢我的</string>
+    <string name="str_comment_msg">评论消息</string>
+    <string name="str_attention_msg">关注消息</string>
+    <string name="str_message_center">消息中心</string>
+    <string name="str_attention_message">关注消息</string>
+    <string name="str_shoucang">收藏</string>
+    <string name="str_fans">粉丝</string>
+    <string name="str_yoji">yo迹</string>
+    <string name="str_yoxiu">yo秀</string>
+    <string name="str_my_draft">我的草稿</string>
+    <string name="str_create_collection_package">创建收藏夹</string>
+    <string name="str_my_collection">我的收藏</string>
+    <string name="str_manage">管理</string>
+    <string name="str_finish">完成</string>
+    <string name="str_title">标题</string>
+    <string name="str_only_myselft_see">仅自己可见</string>
+    <string name="str_carate_collection_package">创建收藏夹</string>
+    <string name="str_max_lenth_10">请输入10个字内</string>
+    <string name="str_input_title">输入标题</string>
+    <string name="str_collection_name_desc">您的收藏夹才可用哦~</string>
+    <string name="str_know">知道了</string>
+    <string name="str_share">分享</string>
+    <string name="str_edit">编辑</string>
+    <string name="str_edit_collectionpackage">编辑收藏夹</string>
+    <string name="str_select_all">全选</string>
+    <string name="str_move_to">移动到</string>
+    <string name="str_del">删除</string>
+    <string name="str_save">保存</string>
+    <string name="str_moments">朋友圈</string>
+    <string name="str_qq_firend">QQ好友</string>
+    <string name="str_choice_target_collection_album">选择目标收藏夹</string>
+    <string name="str_year">年</string>
+    <string name="str_monthy">月</string>
+    <string name="str_day">日</string>
+    <string name="str_constellation_mojiezuo">摩羯座</string>
+    <string name="str_constellation_shuipingzuo">水瓶座</string>
+    <string name="str_constellation_shuangyuzuo">双鱼座</string>
+    <string name="str_constellation_baiyangzuo">白羊座</string>
+    <string name="str_constellation_jinniuzuo">金牛座</string>
+    <string name="str_constellation_shuangzizuo">双子座</string>
+    <string name="str_constellation_juxiezuo">巨蟹座</string>
+    <string name="str_constellation_shizizuo">狮子座</string>
+    <string name="str_constellation_chunvzuo">处女座</string>
+    <string name="str_constellation_tianpingzuo">天秤座</string>
+    <string name="str_constellation_tianxiezuo">天蝎座</string>
+    <string name="str_constellation_sheshouzuo">射手座</string>
+    <string name="str_change_cover">更换封面</string>
+    <string name="str_choice_label">选择标签</string>
+    <string name="str_what_deserve_to_do">什么值得做</string>
+    <string name="str_fang_keng_zhi_nan">防坑指南</string>
+    <string name="str_wo_de_zhuanshu">我的专属</string>
+
+    <string name="str_lable_plus">&#160;&#160;+&#160;&#160;</string>
+    <string name="str_location_name">位置名称</string>
+    <string name="str_input_loaction_name">输入位置名称</string>
+    <string name="str_location_detail">选择城市、地区</string>
+    <string name="str_choice_location">选择地区</string>
+    <string name="str_address_detail">详细地址</string>
+    <string name="str_address_detail_hint">街道门牌信息</string>
+    <string name="str_location_type">所属类别</string>
+    <string name="str_location_type_hint">选择类别</string>
+    <string name="str_create_address">创建地址</string>
+    <string name="str_your_address_not_create">您的地址尚未创建</string>
+    <string name="str_really_leave">真的要离开吗？</string>
+    <string name="str_leave">狠心离开</string>
+    <string name="str_continue_create">继续创建</string>
+    <string name="str_hotel">酒店</string>
+    <string name="str_food">餐饮</string>
+    <string name="str_shopping">购物</string>
+    <string name="str_feature">景点</string>
+    <string name="str_other">其他</string>
+    <string name="str_phone_num_wrong">手机号码不正确</string>
+    <string name="str_sms_code_send">短信验证码已发送</string>
+    <string name="str_getCode_again">重新获取</string>
+    <string name="str_seconds">秒</string>
+    <string name="str_network_error">您的网络可能断开了</string>
+    <string name="str_commit">提交</string>
+    <string name="str_input_feedback_content">请输入反馈内容哦</string>
+    <string name="str_attention_each_other">互相关注</string>
+    <string name="str_like">喜欢</string>
+    <string name="str_unlike">不喜欢</string>
+
+    <string name="followed">已关注</string>
+
+    <string name="choose_image_location">此地址若不是照片中的地址,您可以切换到照片所在地,是否切换?</string>
+    <string name="choose_or_create">您可以定位或创建地址</string>
+    <string name="report">举报</string>
+
+    <string name="string_public">公开</string>
+    <string name="string_private">私密</string>
+
+    <string name="str_report_ad">广告内容</string>
+    <string name="str_report_harmful">有害信息</string>
+    <string name="str_report_not_allowed">违法违规</string>
+    <!--通用-->
+    <string name="connect_error">连接失败</string>
+    <string name="load_error_tips">加载失败～点击屏幕重试</string>
+    <string name="confirm">确定</string>
+    <string name="double_exit">再按一次退出伴婚礼</string>
+
+
+    <!--登录-->
+    <string name="login_title">登录/注册</string>
+    <string name="login_get_verification_code">获取验证码</string>
+    <string name="login_hint_input_code">请输入验证码</string>
+    <string name="login_hint_input_phone">请输入手机号码</string>
+    <string name="login_btn">登录/注册</string>
+    <string name="login_count_down">%1$ds后重新获取</string>
+    <string name="login_agreement_part1">已阅读并同意</string>
+    <string name="login_agreement_part2">协议</string>
+
+
+    <string name="regiest">注册</string>
+    <string name="choose">请选择你的身份</string>
+    <string name="boos">我是老板</string>
+    <string name="yuan">我是员工</string>
+    <string name="edit">编辑</string>
+    <string name="music">音乐</string>
+    <string name="record">配音</string>
+    <string name="select_music">选择音乐</string>
+    <string name="moreFilter">更多滤镜</string>
+    <string name="theme">主题</string>
+    <string name="moreTheme">更多主题</string>
+    <string name="caption">字幕</string>
+    <string name="moreCaptionStyle">更多字幕样式</string>
+    <string name="transition">转场</string>
+    <string name="moreTransition">更多转场</string>
+    <string name="animatedSticker">贴纸</string>
+    <string name="moreAnimatedSticker">更多贴纸</string>
+    <string name="customStickerselectimage">选择内容</string>
+    <string name="customStickerselecteffect">选择动效</string>
+    <string name="moreCustomStickerEffect">更多自定义效果</string>
+    <string name="split">分割</string>
+    <string name="trim">裁剪</string>
+    <string name="speed">速度</string>
+    <string name="correctionColor">校色</string>
+    <string name="volume">音量</string>
+    <string name="adjust">调整</string>
+    <string name="duration">时长</string>
+    <string name="movement">运动</string>
+    <string name="videoEdit">视频编辑</string>
+    <string name="compile">生成</string>
+    <string name="selectMedia">选中内容</string>
+    <string name="setSelectMedia">已选%1$d项</string>
+    <string name="play_error">播放异常</string>
+    <string name="startMaking">开始制作</string>
+    <string name="edit_theme">主题</string>
+    <string name="edit_edit">编辑</string>
+    <string name="edit_filter">滤镜</string>
+    <string name="edit_tags">贴纸</string>
+    <string name="edit_caption">字幕</string>
+    <string name="edit_watermark">水印</string>
+    <string name="edit_cutto">转场</string>
+    <string name="edit_music">音乐</string>
+    <string name="edit_dub">配音</string>
+    <string name="single_select_null">选择内容</string>
+    <string name="single_select_picture">选择图片</string>
+    <string name="select_video">选择视频</string>
+    <string name="single_select_one">已选择</string>
+    <string-array name="select_media">
+        <item>所有内容</item>
+        <item>视频</item>
+        <item>图片</item>
+    </string-array>
+
+    <string-array name="effectNamesVideo">
+        <item>剪裁</item>
+        <item>分割</item>
+        <item>校色</item>
+        <item>调整</item>
+        <item>速度</item>
+        <item>音量</item>
+        <item>复制</item>
+        <item>删除</item>
+    </string-array>
+
+    <string-array name="effectNamesImage">
+        <item>时长</item>
+        <item>运动</item>
+        <item>校色</item>
+        <item>复制</item>
+        <item>删除</item>
+    </string-array>
+
+    <string-array name="videoEdit">
+        <item>主题</item>
+        <item>编辑</item>
+        <item>滤镜</item>
+        <item>贴纸</item>
+        <item>字幕</item>
+        <item>水印</item>
+        <item>转场</item>
+        <item>音乐</item>
+        <item>配音</item>
+    </string-array>
+    <string-array name="captionEdit">
+        <item>样式</item>
+        <item>颜色</item>
+        <item>描边</item>
+        <item>字体</item>
+        <!--<item>大小</item>-->
+        <item>位置</item>
+    </string-array>
+
+    <array name="music_fragment_title">
+        <item>我的音乐</item>
+        <item>本地音乐</item>
+    </array>
+
+    <string name="switch_camera">切换</string>
+    <string name="flash">闪光灯</string>
+    <string name="cut_music">剪音乐</string>
+    <string name="beauty">美颜</string>
+    <string name="filter">滤镜</string>
+
+    <string name="speed_super_slow">极慢</string>
+    <string name="speed_slow">慢</string>
+    <string name="speed_standard">标准</string>
+    <string name="speed_fast">快</string>
+    <string name="speed_super_fast">极快</string>
+
+    <string name="timeline_fx">时间特效</string>
+    <string name="filter_fx">滤镜特效</string>
+    <string name="undo">撤销</string>
+    <string name="filter_fx_tip">选择位置后，长按使用特效</string>
+    <string name="timeline_fx_tip">点击选择时间特效</string>
+    <string name="normal_text">Normal</string>
+    <string name="timeline_fx_none">无</string>
+    <string name="timeline_fx_repeat">反复</string>
+    <string name="timeline_fx_slow_motion">慢动作</string>
+    <string name="timeline_fx_reverse">倒放</string>
+
+    <string name="capture_fx">滤镜</string>
+    <string name="capture_face">人脸</string>
+    <string name="capture_hand">手势</string>
+    <string name="capture_control">控制</string>
+    <string name="capture_range_count">速率</string>
+    <string name="capture_range_direction">大小</string>
+
+    <string name="btn_compile">生成视频</string>
+    <string name="in_compile">视频生成中...</string>
+    <string name="btn_complete">完成</string>
+    <string name="particle_tips">选中样式，在画面上拖动绘制效果</string>
+    <string name="compile_success">成功</string>
+    <string name="see_video">可以在照片相册中进行查看</string>
+    <string name="particle_range">速率</string>
+    <string name="particle_size_range">强度</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="false" android:drawable="@drawable/lvjingcd">
+
+    </item>
+    <item android:state_enabled="true" android:drawable="@drawable/lvjingcd"></item>
+</selector>
+    <!--  <shape android:shape="oval">
+              <solid android:color="#909293"/>
+              <corners android:radius="6dp"/>
+              <size android:width="15dp" android:height="15dp"/>
+          </shape>-->
+    <!-- <shape android:shape="oval">
+
+              <solid android:color="#4A90E2"/>
+              <corners android:radius="6dp"/>
+              <size android:width="15dp" android:height="15dp"/>
+          </shape>-->
