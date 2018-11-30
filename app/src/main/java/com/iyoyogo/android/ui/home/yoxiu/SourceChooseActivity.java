@@ -3,22 +3,29 @@ package com.iyoyogo.android.ui.home.yoxiu;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.MediaAdapter;
+import com.iyoyogo.android.ui.common.CaptureActivity;
+import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.FileSizeUtil;
 
 import java.util.ArrayList;
@@ -56,6 +63,7 @@ public class SourceChooseActivity extends AppCompatActivity {
     private MediaAdapter mediaAdapter;
     private String latitude;
     private String longitude;
+    private int num = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,25 +82,61 @@ public class SourceChooseActivity extends AppCompatActivity {
 
         Log.d("SourceChooseActivitys", "listImage.size():" + listImage.size());
         mediaAdapter = new MediaAdapter(SourceChooseActivity.this, listImage);
-
         gvPhotos.setAdapter(mediaAdapter);
         gvPhotos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mediaAdapter.setSelectedPosition(position);
-                path = listImage.get(position).get("_data");
-                btnContinue.setText("继续"+"(1)");
-                 autoFileOrFilesSize = fileSizeUtil.getAutoFileOrFilesSize(path);
-                latitude = listImage.get(position).get("latitude");
-                longitude = listImage.get(position).get("longitude");
-                Toast.makeText(SourceChooseActivity.this, path, Toast.LENGTH_SHORT).show();
+
+                if (position == 0) {
+                    startActivity(new Intent(SourceChooseActivity.this, CaptureActivity.class));
+                } else {
+                    if (num >= 1) {
+                        View view1 = getLayoutInflater().inflate(R.layout.common_yodialog, null);
+                        PopupWindow popup = new PopupWindow(view1, ViewGroup.LayoutParams.WRAP_CONTENT, DensityUtil.dp2px(SourceChooseActivity.this,173), true);
+                        popup.setOutsideTouchable(true);
+                        popup.setBackgroundDrawable(new ColorDrawable());
+                        ImageView img_delete = view1.findViewById(R.id.close_img);
+                        img_delete.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                popup.dismiss();
+                            }
+                        });
+
+                        //点击空白处时，隐藏掉pop窗口
+
+                        backgroundAlpha(0.6f);
+
+                        //添加pop窗口关闭事件
+                        popup.setOnDismissListener(new poponDismissListener());
+                        popup.showAtLocation(findViewById(R.id.activity_choose), Gravity.CENTER, 0, 0);
+                    } else {
+                        mediaAdapter.setSelectedPosition(position);
+                        path = listImage.get(position).get("_data");
+                        btnContinue.setText("继续" + "(1)");
+                        autoFileOrFilesSize = fileSizeUtil.getAutoFileOrFilesSize(path);
+                        latitude = listImage.get(position).get("latitude");
+                        longitude = listImage.get(position).get("longitude");
+                        Toast.makeText(SourceChooseActivity.this, path, Toast.LENGTH_SHORT).show();
+
+                        num++;
+                    }
+
+                }
                 mediaAdapter.notifyDataSetChanged();
+
+
             }
         });
 
 //        getAudio();
     }
-
+    private class poponDismissListener implements PopupWindow.OnDismissListener {
+        @Override
+        public void onDismiss() {
+            backgroundAlpha(1.0f);
+        }
+    }
     public void getImage() {
 
         String[] projection = {MediaStore.Images.Media._ID,
@@ -105,16 +149,23 @@ public class SourceChooseActivity extends AppCompatActivity {
         getContentProvider(uri, projection, orderBy);
     }
 
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; // 0.0~1.0
+        getWindow().setAttributes(lp); //act 是上下文context
+
+    }
+
     /**
      * 获取视频列表
      */
     public void getVideo() {
         // TODO Auto-generated method stub
         String[] projection = {MediaStore.Video.Media._ID,
-                MediaStore.Images.Media.LATITUDE,
-                MediaStore.Images.Media.LONGITUDE,
-                MediaStore.Video.Media.DISPLAY_NAME,
+                MediaStore.Video.Media.LATITUDE,
+                MediaStore.Video.Media.LONGITUDE,
                 MediaStore.Video.Media.DURATION,
+                MediaStore.Video.Media.DISPLAY_NAME,
                 MediaStore.Video.Media.DATA};
         String orderBy = MediaStore.Video.Media.DISPLAY_NAME;
         Uri uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
@@ -145,6 +196,7 @@ public class SourceChooseActivity extends AppCompatActivity {
 
         Cursor cursor = getContentResolver().query(uri, projection, null,
                 null, orderBy);
+
         if (null == cursor) {
             return;
         }
@@ -154,6 +206,7 @@ public class SourceChooseActivity extends AppCompatActivity {
                 map.put(projection[i], cursor.getString(i));
                 Log.d("Test", projection[i] + ":" + cursor.getString(i));
             }
+
             listImage.add(map);
             HashMap<String, String> data = listImage.get(0);
             String data1 = data.get("_data");
@@ -175,15 +228,16 @@ public class SourceChooseActivity extends AppCompatActivity {
             case R.id.btn_continue:
                 Intent intent = new Intent(SourceChooseActivity.this, PublishYoXiuActivity.class);
                 intent.putExtra("path", path);
-                if (latitude!=null&&longitude!=null){
+                if (latitude != null && longitude != null) {
                     intent.putExtra("latitude", latitude);
                     intent.putExtra("longitude", longitude);
 
-                }else {
+                } else {
                     intent.putExtra("latitude", "0");
                     intent.putExtra("longitude", "0");
                 }
                 startActivity(intent);
+                finish();
                 break;
             case R.id.back:
                 finish();

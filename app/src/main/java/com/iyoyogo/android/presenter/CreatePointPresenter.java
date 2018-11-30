@@ -4,6 +4,7 @@ import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BasePresenter;
+import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.yoxiu.TypeBean;
 import com.iyoyogo.android.contract.CreatePointContract;
 import com.iyoyogo.android.model.DataManager;
@@ -33,5 +34,17 @@ public class CreatePointPresenter extends BasePresenter<CreatePointContract.View
                         return true;
                     }
                 });
+    }
+
+    @Override
+    public void createPoint(String user_id, String user_token, String name, String en_name, String areas, String address, String lng, String lat, String type_id) {
+            DataManager.getFromRemote()
+                    .create_point(user_id,user_token,name,en_name,areas,address,lng,lat,type_id)
+                    .subscribe(new ApiObserver<BaseBean>(mView,this) {
+                        @Override
+                        protected void doOnSuccess(BaseBean baseBean) {
+                            mView.createPointSuccess();
+                        }
+                    });
     }
 }

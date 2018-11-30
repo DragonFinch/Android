@@ -11,13 +11,22 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.StrictMode;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -30,6 +39,10 @@ import com.iyoyogo.android.ui.common.LocationActivity;
 import com.iyoyogo.android.ui.common.SearchActivity;
 import com.iyoyogo.android.ui.home.attention.AttentionFragment;
 import com.iyoyogo.android.ui.home.recommend.RecommedFragment;
+import com.iyoyogo.android.ui.home.yoji.PublishYoJiActivity;
+import com.iyoyogo.android.ui.home.yoxiu.SourceChooseActivity;
+import com.iyoyogo.android.utils.DensityUtil;
+import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.view.YoyogoTopBarView;
 
 import java.security.MessageDigest;
@@ -39,6 +52,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 
@@ -46,6 +60,7 @@ import butterknife.Unbinder;
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends BaseFragment {
+    PopupWindow popup;
     @BindView(R.id.bar)
     YoyogoTopBarView bar;
     @BindView(R.id.frame_container_home)
@@ -61,6 +76,11 @@ public class HomeFragment extends BaseFragment {
     private static final String NOTIFICATION_CHANNEL_NAME = "BackgroundLocation";
     private NotificationManager notificationManager = null;
     boolean isCreateChannel = false;
+    private LinearLayout publish_yoxiu;
+    private LinearLayout publish_yoji;
+    private ImageView publish_close;
+    @BindView(R.id.publish_home)
+    ImageView publish_home;
 
     @SuppressLint("NewApi")
     private Notification buildNotification() {
@@ -170,17 +190,86 @@ public class HomeFragment extends BaseFragment {
     }
 
 
+    @OnClick(R.id.publish_home)
+    public void onViewClicked() {
+        backgroundAlpha(0.4f);
+
+        popup.showAtLocation(getActivity().findViewById(R.id.activity_main), Gravity.BOTTOM, 0, 0);
+    }
+
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
+        lp.alpha = bgAlpha; // 0.0~1.0
+        getActivity().getWindow().setAttributes(lp); //act 是上下文context
+
+    }
+
+    private class poponDismissListener implements PopupWindow.OnDismissListener {
+        @Override
+        public void onDismiss() {
+            backgroundAlpha(1f);
+        }
+    }
+
+    private void initPopup() {
+        View view = getLayoutInflater().inflate(R.layout.publish, null);
+        popup = new PopupWindow(view, DensityUtil.dp2px(getContext(), 375), DensityUtil.dp2px(getContext(), 225), true);
+        popup.setOutsideTouchable(true);
+        popup.setBackgroundDrawable(new ColorDrawable());
+        publish_yoxiu = view.findViewById(R.id.publish_yoxiu);
+        publish_yoji = view.findViewById(R.id.publish_yoji);
+        publish_close = view.findViewById(R.id.publish_close);
+        //发布yo.秀
+        publish_yoxiu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "发布yo.秀", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(), SourceChooseActivity.class));
+                popup.dismiss();
+            }
+        });
+        //发布yo.记
+        publish_yoji.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "发布yo.记", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(), PublishYoJiActivity.class));
+                popup.dismiss();
+            }
+        });
+        //关闭发布页
+        publish_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup.dismiss();
+                backgroundAlpha(1f);
+            }
+        });
+        popup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        //点击空白处时，隐藏掉pop窗口
+        popup.setFocusable(true);
+        popup.setBackgroundDrawable(new BitmapDrawable());
+        backgroundAlpha(1f);
+
+        //添加pop窗口关闭事件
+        popup.setOnDismissListener(new poponDismissListener());
+
+    }
 
 
-
-
+    @Override
+    protected void initData() {
+        super.initData();
+        initPopup();
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     protected void initView() {
         super.initView();
         initLocation();
-
+        StatusBarUtils.setWindowStatusBarColor(getActivity(), R.color.color_orange);
         //启动后台定位，第一个参数为通知栏ID，建议整个APP使用一个
 //        GdLocationUtil.getInstance().startContinueLocation(new AMapLocationListener() {
 //            @Override
@@ -311,11 +400,13 @@ public class HomeFragment extends BaseFragment {
     protected IBasePresenter createPresenter() {
         return null;
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         //可在此继续其他操作。
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

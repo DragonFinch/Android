@@ -4,8 +4,6 @@ package com.iyoyogo.android.ui.common;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -14,34 +12,24 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.camera.utils.asset.NvAssetManager;
 import com.iyoyogo.android.ui.home.HomeFragment;
-import com.iyoyogo.android.ui.home.yoji.PublishYoJiActivity;
-import com.iyoyogo.android.ui.home.yoxiu.SourceChooseActivity;
 import com.iyoyogo.android.ui.mine.MineFragment;
-import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
-import com.iyoyogo.android.utils.StatusBarUtils;
 import com.meicam.sdk.NvsStreamingContext;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 
 public class MainActivity extends BaseActivity {
@@ -61,8 +49,7 @@ public class MainActivity extends BaseActivity {
     RadioButton me;
     @BindView(R.id.group)
     RadioGroup group;
-    @BindView(R.id.publish_home)
-    ImageView publishHome;
+
     private HomeFragment homeFragment;
     private MineFragment mineFragment;
     private NvsStreamingContext mStreamingContext;
@@ -76,9 +63,7 @@ public class MainActivity extends BaseActivity {
     private static final int ARFACEERREQUESTLIST = 111;
     private static final int REQUEST_READ_EXTERNAL_STORAGE_PERMISSION_CODE = 203;
     private final int MIN_RECORD_DURATION = 1000000;
-    private LinearLayout publish_yoxiu;
-    private LinearLayout publish_yoji;
-    private ImageView publish_close;
+
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
@@ -103,12 +88,15 @@ public class MainActivity extends BaseActivity {
                 switch (checkedId) {
                     case R.id.camera:
                         startActivity(new Intent(MainActivity.this, CaptureActivity.class));
+
                         break;
                     case R.id.home:
                         switchFragment(homeFragment);
+
                         break;
                     case R.id.me:
                         switchFragment(mineFragment);
+
                         break;
                 }
                 ;
@@ -119,10 +107,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        StatusBarUtils.setWindowStatusBarColor(this, R.color.orgeen_color);
-        initPopup();
-
-
     }
 
     public void backgroundAlpha(float bgAlpha) {
@@ -251,57 +235,7 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    @OnClick(R.id.publish_home)
-    public void onViewClicked() {
-        backgroundAlpha(0.4f);
-        popup.showAtLocation(findViewById(R.id.activity_main), Gravity.BOTTOM, 0, 0);
-    }
 
-    private void initPopup() {
-        View view = getLayoutInflater().inflate(R.layout.publish, null);
-        popup = new PopupWindow(view, DensityUtil.dp2px(MainActivity.this, 375), DensityUtil.dp2px(MainActivity.this, 225), true);
-        popup.setOutsideTouchable(true);
-        popup.setBackgroundDrawable(new ColorDrawable());
-        publish_yoxiu = view.findViewById(R.id.publish_yoxiu);
-        publish_yoji = view.findViewById(R.id.publish_yoji);
-        publish_close = view.findViewById(R.id.publish_close);
-        //发布yo.秀
-        publish_yoxiu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "发布yo.秀", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(MainActivity.this,SourceChooseActivity.class));
-                popup.dismiss();
-            }
-        });
-        //发布yo.记
-        publish_yoji.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "发布yo.记", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(MainActivity.this,PublishYoJiActivity.class));
-                popup.dismiss();
-            }
-        });
-        //关闭发布页
-        publish_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popup.dismiss();
-                backgroundAlpha(1f);
-            }
-        });
-        popup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
-        popup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        //点击空白处时，隐藏掉pop窗口
-        popup.setFocusable(true);
-        popup.setBackgroundDrawable(new BitmapDrawable());
-        backgroundAlpha(1f);
-
-        //添加pop窗口关闭事件
-        popup.setOnDismissListener(new poponDismissListener());
-
-    }
 
 
 

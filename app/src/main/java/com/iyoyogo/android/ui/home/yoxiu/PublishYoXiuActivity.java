@@ -3,23 +3,33 @@ package com.iyoyogo.android.ui.home.yoxiu;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.sdk.android.oss.ClientConfiguration;
+import com.alibaba.sdk.android.oss.ClientException;
+import com.alibaba.sdk.android.oss.OSSClient;
+import com.alibaba.sdk.android.oss.ServiceException;
+import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
+import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
+import com.alibaba.sdk.android.oss.model.ObjectMetadata;
+import com.alibaba.sdk.android.oss.model.PutObjectRequest;
+import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.services.core.LatLonPoint;
@@ -29,21 +39,30 @@ import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.bumptech.glide.Glide;
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.adapter.ChannelMessageAdapter;
 import com.iyoyogo.android.app.Constant;
 import com.iyoyogo.android.base.BaseActivity;
-import com.iyoyogo.android.base.IBasePresenter;
+import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
+import com.iyoyogo.android.contract.PublishYoXiuContract;
+import com.iyoyogo.android.model.RObject;
+import com.iyoyogo.android.presenter.PublishYoXiuPresenter;
 import com.iyoyogo.android.ui.common.SearchActivity;
 import com.iyoyogo.android.utils.ImagePickAction;
+import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.FlowGroupView;
+import com.iyoyogo.android.widget.REditText;
 import com.luck.picture.lib.entity.LocalMedia;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.jzvd.JzvdStd;
 
-public class PublishYoXiuActivity extends BaseActivity  {
+public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Presenter> implements PublishYoXiuContract.View {
+
     ArrayList<String> names = new ArrayList<String>();
     @BindView(R.id.edit_back_id)
     ImageView editBackId;
@@ -62,7 +81,7 @@ public class PublishYoXiuActivity extends BaseActivity  {
     @BindView(R.id.edit_rlvideo_id)
     RelativeLayout editRlvideoId;
     @BindView(R.id.edit_edittext_id)
-    EditText editEdittextId;
+    REditText editEdittextId;
     @BindView(R.id.edit_number_id)
     TextView editNumberId;
     @BindView(R.id.edit_rledittext_id)
@@ -78,21 +97,16 @@ public class PublishYoXiuActivity extends BaseActivity  {
     @BindView(R.id.line1)
     View line1;
     @BindView(R.id.edit_llchoice_id)
-    LinearLayout editLlchoiceId;
+    RelativeLayout editLlchoiceId;
     @BindView(R.id.line2)
     View line2;
-    @BindView(R.id.edit_penyouquan_id)
-    ImageView editPenyouquanId;
-    @BindView(R.id.edit_weibo_id)
-    ImageView editWeiboId;
-    @BindView(R.id.edit_weixin_id)
-    ImageView editWeixinId;
-    @BindView(R.id.edit_qq_id)
-    ImageView editQqId;
     @BindView(R.id.edit_button_id)
     Button editButtonId;
     @BindView(R.id.edit_rlayout_id)
     RelativeLayout editRlayoutId;
+    @BindView(R.id.layout_open)
+    LinearLayout layoutOpen;
+    private int open_type = 1;
     private static final String[] SELECTIMAGES = {
             MediaStore.Images.Media.DATA,
             MediaStore.Images.Media.DISPLAY_NAME,
@@ -107,24 +121,75 @@ public class PublishYoXiuActivity extends BaseActivity  {
     AMapLocationClient mLocationClient = null;
     //声明AMapLocationClientOption对象
     public AMapLocationClientOption mLocationOption = null;
-
+    @BindView(R.id.channel_img)
+    ImageView channelImg;
+    @BindView(R.id.tv_channel)
+    TextView tvChannel;
+    @BindView(R.id.channel_next)
+    ImageView channelNext;
+    @BindView(R.id.channel_recycler)
+    RecyclerView channelRecycler;
+    @BindView(R.id.num_layout)
+    LinearLayout numLayout;
+    @BindView(R.id.tv_share)
+    TextView tvShare;
+    @BindView(R.id.share_layout)
+    RelativeLayout shareLayout;
+    @BindView(R.id.button_open)
+    Button buttonOpen;
+    @BindView(R.id.button_private)
+    Button buttonPrivate;
+    private int mHeight;
+    private int middleHeight;
+    private int maxHeight;
     private String path;
     private String latitude;
     private String longitude;
     private LatLonPoint latLonPoint;
     private String place;
     private GeocodeSearch geocoderSearch;
-    private void setCurrentLocationDetails(){
+    private String user_token;
+    private String user_id;
+    private int[] channel_arrays;
+    private boolean lenTips = true;
+
+    private int MAX_LENGTH = 200;
+    private MyTopic topic;
+    private List<Integer> type_list;
+    private String mimeType;
+    private LocalMedia mMedia;
+    private String neighborhood;
+    private String district;
+    private String city;
+    private String province;
+    private String country;
+    private String aoiName;
+    private OSSClient oss;
+    private String stsServer;
+    private String url;
+
+    private void setCurrentLocationDetails(LatLonPoint latLonPoint) {
 // 地址逆解析
         geocoderSearch = new GeocodeSearch(getApplicationContext());
         geocoderSearch.setOnGeocodeSearchListener(new GeocodeSearch.OnGeocodeSearchListener() {
             @Override
             public void onRegeocodeSearched(RegeocodeResult result, int rCode) {
                 place = result.getRegeocodeAddress().getFormatAddress();
-                String country = result.getRegeocodeAddress().getCountry();
-                String province = result.getRegeocodeAddress().getProvince();
-                Log.e("formatAddress", "formatAddress:"+ place);
-                Log.e("formatAddress", "rCode:"+rCode);
+                country = result.getRegeocodeAddress().getCountry();
+                province = result.getRegeocodeAddress().getProvince();
+                neighborhood = result.getRegeocodeAddress().getNeighborhood();
+                district = result.getRegeocodeAddress().getDistrict();
+                String towncode = result.getRegeocodeAddress().getTowncode();
+                city = result.getRegeocodeAddress().getCity();
+                Log.e("formatAddress", "formatAddress:" + place);
+                Log.e("formatAddress", "rCode:" + rCode);
+
+                for (int i = 0; i < result.getRegeocodeAddress().getAois().size(); i++) {
+                    aoiName = result.getRegeocodeAddress().getAois().get(i).getAoiName();
+                    Log.e("formatAddress", "aoiName:" + aoiName);
+                }
+                Log.e("formatAddress", "neighborhood:" + neighborhood);
+                publishPlace.setText(place);
             }
 
             @Override
@@ -137,42 +202,73 @@ public class PublishYoXiuActivity extends BaseActivity  {
         geocoderSearch.getFromLocationAsyn(query);
     }
 
+    @Override
+    protected void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
+        topic = new MyTopic();
+        type_list = new ArrayList<>();
+        topic.setObjectRule("#");
+        user_token = SpUtils.getString(PublishYoXiuActivity.this, "user_token", null);
+        user_id = SpUtils.getString(PublishYoXiuActivity.this, "user_id", null);
+        mPresenter.getRecommendTopic(user_id, user_token);
+        editEdittextId.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                int length = editEdittextId.getText().length();
+                editNumberId.setText(length + "");
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
     /**
-      *  获取回调的逆地址内容
+     * 获取回调的逆地址内容
      */
-
-
-
 
 
     @Override
     protected void initView() {
         super.initView();
-        setData();
+
+
         Intent intent = getIntent();
         latitude = intent.getStringExtra("latitude");
         longitude = intent.getStringExtra("longitude");
-        latLonPoint=new LatLonPoint(Double.valueOf(latitude),Double.valueOf(longitude));
-      setCurrentLocationDetails();
+        latLonPoint = new LatLonPoint(Double.valueOf(latitude), Double.valueOf(longitude));
+
         Log.d("PublishYoXiuActivity", latitude);
         Log.d("PublishYoXiuActivity", longitude);
-        if (latitude.equals("0")&&longitude.equals("0")){
-        shortToast("经纬度为空");
+        if (latitude.equals("0") && longitude.equals("0")) {
+            shortToast("经纬度为空");
+            publishPlace.setText("添加地点");
+        } else {
+            setCurrentLocationDetails(latLonPoint);
         }
-        path = intent.getStringExtra("path");
 
+        path = intent.getStringExtra("path");
+        Log.d("PublishYoXiuActivity", path);
         Glide.with(this).load(path).into(editVideoId);
-        LocalMedia mMedia = new LocalMedia();
+        mMedia = new LocalMedia();
         mMedia.setPath(path);
         String fileExtension = MimeTypeMap.getFileExtensionFromUrl(path);
-        String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileExtension);
+        mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileExtension);
         if (mimeType != null && mimeType.contains("video")) {
 
             mMedia.setPictureType(Constant.PARAM_VIDEO_MP4);
             Glide.with(this).load(ImagePickAction.getVideoThumb(mMedia.getPath(), 1)).into(editVideoId);
 
-        }else {
-                editStartId.setVisibility(View.GONE);
+        } else {
+            editStartId.setVisibility(View.GONE);
             Glide.with(this).load(path).into(editVideoId);
         }
 //        view = (FlowGroupView) findViewById(R.id.edit_flowgroupview_id);
@@ -180,16 +276,6 @@ public class PublishYoXiuActivity extends BaseActivity  {
             addTextView(names.get(i));
         }
 
-
-        Button button = (Button) findViewById(R.id.edit_button_id);
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                showPopupWindow(view);
-            }
-        });
 
     }
 
@@ -199,8 +285,8 @@ public class PublishYoXiuActivity extends BaseActivity  {
     }
 
     @Override
-    protected IBasePresenter createPresenter() {
-        return null;
+    protected PublishYoXiuContract.Presenter createPresenter() {
+        return new PublishYoXiuPresenter(this);
     }
 
     /**
@@ -240,73 +326,18 @@ public class PublishYoXiuActivity extends BaseActivity  {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
+
+
+                //话题内容
+                topic.setObjectText(tv.getText().toString());
+                editEdittextId.setObject(topic);// 设置话题
                 Toast.makeText(PublishYoXiuActivity.this, tv.getText().toString(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    private void setData() {
-        names.add("降龙十八掌");
-        names.add("黯然销魂掌");
-        names.add("小无相功");
-        names.add("打狗棍法");
-        names.add("蛤蟆功");
-        names.add("九阴白骨爪");
-        names.add("醉拳");
-        names.add("龙蛇虎豹");
-        names.add("葵花宝典");
-        names.add("吸星大法");
-    }
 
-
-    private void showPopupWindow(View view) {
-
-        // 一个自定义的布局，作为显示的内容
-        View contentView = LayoutInflater.from(this).inflate(
-                R.layout.item_popupwindow, null);
-        // 设置按钮的点击事件
-        Button button = (Button) contentView.findViewById(R.id.popup_but_id);
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(PublishYoXiuActivity.this, "我就加了一个!~~",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        final PopupWindow popupWindow = new PopupWindow(contentView,
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-
-        popupWindow.setTouchable(true);
-
-        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                Log.i("mengdd", "onTouch : ");
-
-                return false;
-                // 这里如果返回true的话，touch事件将被拦截
-                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
-            }
-        });
-
-        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
-        // 我觉得这里是API的一个bug
-        popupWindow.setBackgroundDrawable(getResources().getDrawable(
-                R.drawable.fillet_style));
-
-        // 设置显示位置
-        popupWindow.showAtLocation(findViewById(R.id.edit_rlayout_id), Gravity.CENTER, 300, 300);
-
-        // 设置好参数之后再show
-        popupWindow.showAsDropDown(view);
-    }
-
-
-    @OnClick({R.id.edit_back_id, R.id.edit_publish_id, R.id.edit_start_id, R.id.publish_place, R.id.edit_replace_id, R.id.more_topic, R.id.edit_penyouquan_id, R.id.edit_weibo_id, R.id.edit_weixin_id, R.id.edit_qq_id, R.id.edit_button_id})
+    @OnClick({R.id.edit_back_id, R.id.edit_publish_id, R.id.button_open, R.id.button_private, R.id.edit_start_id, R.id.publish_place, R.id.edit_replace_id, R.id.more_topic, R.id.edit_button_id, R.id.channel_next})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.edit_back_id:
@@ -314,45 +345,176 @@ public class PublishYoXiuActivity extends BaseActivity  {
                 break;
             case R.id.edit_publish_id:
 
+                Integer[] topic_arrays = type_list.toArray(new Integer[type_list.size()]);
+                for (int i = 0; i < topic_arrays.length; i++) {
+                    Log.d("PublishYoXiuActivity", "integers[i]:" + topic_arrays[i]);
+                }
+                if (aoiName == null) {
+
+                    if (mimeType != null && mimeType.contains("video")) {
+                        String uploadVideo = uploadYoXiuVideo();
+                        mPresenter.publishYoXiu(user_id, user_token, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, topic_arrays, 1, 1, "", country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), "");
+
+
+                    } else {
+                        String uploadImage = uploadYoXiuImage();
+                        mPresenter.publishYoXiu(user_id, user_token, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, topic_arrays, 1, 1, "", country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), "");
+                    }
+                } else {
+
+                    if (mimeType != null && mimeType.contains("video")) {
+                        String uploadVideo = uploadYoXiuVideo();
+                        mPresenter.publishYoXiu(user_id, user_token, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, topic_arrays, 1, 1, aoiName, country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), "");
+
+
+                    } else {
+                        String uploadImage = uploadYoXiuImage();
+                        mPresenter.publishYoXiu(user_id, user_token, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, topic_arrays, 1, 1, aoiName, country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), "");
+                    }
+                }
+
+
+                break;
+            case R.id.button_open:
+                open_type = 1;
+                layoutOpen.setVisibility(View.GONE);
+                break;
+            case R.id.button_private:
+                open_type = 2;
+                layoutOpen.setVisibility(View.GONE);
                 break;
             case R.id.edit_start_id:
                 JzvdStd.startFullscreen(PublishYoXiuActivity.this, JzvdStd.class, path, "");
                 break;
             case R.id.publish_place:
                 Intent intent = new Intent(PublishYoXiuActivity.this, SearchActivity.class);
-                intent.putExtra("latitude",latitude);
-                intent.putExtra("longitude",longitude);
-                intent.putExtra("place",place);
+                intent.putExtra("latitude", latitude);
+                intent.putExtra("longitude", longitude);
+                intent.putExtra("place", place);
 
-                startActivity(intent);
+                startActivityForResult(intent, 1);
                 break;
             case R.id.edit_replace_id:
 
                 break;
             case R.id.more_topic:
-
-                break;
-            case R.id.edit_penyouquan_id:
-
-                break;
-            case R.id.edit_weibo_id:
-
-                break;
-            case R.id.edit_weixin_id:
-
-                break;
-            case R.id.edit_qq_id:
-
+                startActivityForResult(new Intent(PublishYoXiuActivity.this, MoreTopicActivity.class), 1);
                 break;
             case R.id.edit_button_id:
+                layoutOpen.setVisibility(View.VISIBLE);
 
+                break;
+            case R.id.channel_next:
+                startActivityForResult(new Intent(PublishYoXiuActivity.this, ChannelActivity.class), 1);
                 break;
         }
     }
+
+    private String uploadYoXiuImage() {
+
+        final String endpoint = "oss-cn-beijing.aliyuncs.com";
+        final String bucketName = "xzdtest";
+        final String accessKeyId = "LTAInRzzjv0TZcA5";
+        final String accessKeySecret = "jQZXJDYzAU7Ki0DfZvfIoU3PxazsLy";
+        OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(accessKeyId, accessKeySecret);
+        ClientConfiguration conf = new ClientConfiguration();
+        conf.setConnectionTimeout(15 * 1000);
+        conf.setSocketTimeout(15 * 1000);
+        conf.setMaxConcurrentRequest(8);
+        conf.setMaxErrorRetry(2);
+        OSSClient ossClient = new OSSClient(PublishYoXiuActivity.this, endpoint, credentialProvider, conf);
+        ObjectMetadata objectMeta = new ObjectMetadata();
+        objectMeta.setContentType("image/jpeg");
+        String name = "yoyogo/yoxiu/image" + System.currentTimeMillis() + ".jpg";
+        PutObjectRequest put = new PutObjectRequest(bucketName, name, path);
+        put.setMetadata(objectMeta);
+        try {
+            PutObjectResult result = ossClient.putObject(put);
+            if (result != null && result.getStatusCode() == 200) {
+                url = "https://" + bucketName + "." + endpoint + "/" + name;
+                Log.d("PublishYoXiuActivity", url);
+            }
+        } catch (ClientException e) {
+            e.printStackTrace();
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
+    private String uploadYoXiuVideo() {
+
+        final String endpoint = "oss-cn-beijing.aliyuncs.com";
+        final String bucketName = "xzdtest";
+        final String accessKeyId = "LTAInRzzjv0TZcA5";
+        final String accessKeySecret = "jQZXJDYzAU7Ki0DfZvfIoU3PxazsLy";
+        OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(accessKeyId, accessKeySecret);
+        ClientConfiguration conf = new ClientConfiguration();
+        conf.setConnectionTimeout(15 * 1000);
+        conf.setSocketTimeout(15 * 1000);
+        conf.setMaxConcurrentRequest(8);
+        conf.setMaxErrorRetry(2);
+        OSSClient ossClient = new OSSClient(PublishYoXiuActivity.this, endpoint, credentialProvider, conf);
+        ObjectMetadata objectMeta = new ObjectMetadata();
+        objectMeta.setContentType("image/jpeg");
+        String name = "yoyogo/yoxiu/video" + System.currentTimeMillis() + ".mp4";
+        PutObjectRequest put = new PutObjectRequest(bucketName, name, path);
+        put.setMetadata(objectMeta);
+        try {
+            PutObjectResult result = ossClient.putObject(put);
+            if (result != null && result.getStatusCode() == 200) {
+                url = "https://" + bucketName + "." + endpoint + "/" + name;
+                Log.d("PublishYoXiuActivity", url);
+            }
+        } catch (ClientException e) {
+            e.printStackTrace();
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == 1) {
+            channelRecycler.setVisibility(View.VISIBLE);
+            tvChannel.setVisibility(View.GONE);
+            channel_arrays = data.getIntArrayExtra("channel_array");
+            ArrayList<String> channel_list = data.getStringArrayListExtra("channel_list");
+            ChannelMessageAdapter adapter = new ChannelMessageAdapter(channel_list);
+            channelRecycler.setLayoutManager(new GridLayoutManager(PublishYoXiuActivity.this, 3));
+            channelRecycler.setAdapter(adapter);
+        }
+        if (requestCode == 1 && resultCode == 2) {
+            String place = data.getStringExtra("place");
+            String type = data.getStringExtra("type");
+            double latitude = data.getDoubleExtra("latitude", 0.0);
+            double longitude = data.getDoubleExtra("longitude", 0.0);
+            LatLonPoint latLonPoint = new LatLonPoint(latitude, longitude);
+            publishPlace.setText(place);
+            setCurrentLocationDetails(latLonPoint);
+            Log.d("PublishYoXiuActivity", "latitude=" + latitude + "longitude= " + longitude);
+        } else if (requestCode == 1 && resultCode == 3) {
+            double latitude = data.getDoubleExtra("latitude", 0.0);
+            String title = data.getStringExtra("title");
+            double longitude = data.getDoubleExtra("longitude", 0.0);
+            publishPlace.setText(title);
+        } else if (requestCode == 1 && resultCode == 5) {
+            String topicName = data.getStringExtra("topic");
+            int type_id = data.getIntExtra("type_id", 0);
+
+            type_list.add(type_id);
+            topic.setObjectText(topicName);
+            editEdittextId.setObject(topic);// 设置话题
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mLocationClient!=null) {
+        if (mLocationClient != null) {
             mLocationClient.onDestroy();//销毁定位客户端。
         }
     }
@@ -360,16 +522,51 @@ public class PublishYoXiuActivity extends BaseActivity  {
     @Override
     protected void onStart() {
         super.onStart();
-        if(mLocationClient!=null) {
+        if (mLocationClient != null) {
             mLocationClient.startLocation(); // 启动定位
         }
     }
+
     @Override
     protected void onPause() {
         super.onPause();
-        if(mLocationClient!=null) {
+        if (mLocationClient != null) {
             mLocationClient.stopLocation();//停止定位
         }
     }
 
+    @Override
+    public void getRecommendTopicSuccess(List<HotTopicBean.DataBean.ListBean> list) {
+        for (int i = 0; i < list.size(); i++) {
+            addTextView(list.get(i).getTopic());
+            type_list.add(list.get(i).getId());
+        }
+    }
+
+    @Override
+    public void publishYoXiuSuccess() {
+        Toast.makeText(this, "发布成功耶耶耶", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
+
+    class MyTopic extends RObject {
+        private String id;
+
+        // 其他属性...
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+    }
 }

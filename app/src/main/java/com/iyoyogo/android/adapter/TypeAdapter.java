@@ -17,14 +17,15 @@ import java.util.List;
 
 public class TypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
     private Context context;
-    private List<TypeBean.DataBean> mList;
+    private List<TypeBean.DataBean.ListBean> mList;
     public static final int ONE = 0;
     public static final int TWO = 1;
 
 
-    public TypeAdapter(Context context, List<TypeBean.DataBean> mList) {
+    public TypeAdapter(Context context, List<TypeBean.DataBean.ListBean> mList) {
         this.context = context;
         this.mList = mList;
+
     }
 
     @NonNull
@@ -47,12 +48,12 @@ public class TypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (viewHolder instanceof ViewHolderOne) {
-            Glide.with(context).load(mList.get(position).getList().get(position).getLogo()).into( ((ViewHolderOne) viewHolder).img_type);
-            ((ViewHolderOne) viewHolder).tv_type.setText(mList.get(position).getList().get(position).getName());
+            Glide.with(context).load(mList.get(position).getLogo()).into( ((ViewHolderOne) viewHolder).img_type_left);
+            ((ViewHolderOne) viewHolder).tv_type_left.setText(mList.get(position).getName());
 
         } else if (viewHolder instanceof ViewHolderTwo) {
-            Glide.with(context).load(mList.get(position).getList().get(position).getLogo()).into( ((ViewHolderTwo) viewHolder).img_type);
-            ((ViewHolderTwo) viewHolder).tv_type.setText(mList.get(position).getList().get(position).getName());
+            Glide.with(context).load(mList.get(position).getLogo()).into( ((ViewHolderTwo) viewHolder).img_type_right);
+            ((ViewHolderTwo) viewHolder).tv_type_right.setText(mList.get(position).getName());
         }
         viewHolder.itemView.setTag(position);
     }
@@ -86,22 +87,22 @@ public class TypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
     public class ViewHolderOne extends RecyclerView.ViewHolder {
-        ImageView img_type;
-        TextView tv_type;
+        ImageView img_type_left;
+        TextView tv_type_left;
         public ViewHolderOne(@NonNull View itemView) {
             super(itemView);
-            img_type=itemView.findViewById(R.id.img_type);
-            tv_type=itemView.findViewById(R.id.tv_type);
+            img_type_left=itemView.findViewById(R.id.img_type_left);
+            tv_type_left=itemView.findViewById(R.id.tv_type_left);
         }
     }
 
     public class ViewHolderTwo extends RecyclerView.ViewHolder {
-        ImageView img_type;
-        TextView tv_type;
+        ImageView img_type_right;
+        TextView tv_type_right;
         public ViewHolderTwo(@NonNull View itemView) {
             super(itemView);
-            img_type=itemView.findViewById(R.id.img_type_right);
-            tv_type=itemView.findViewById(R.id.tv_type_right);
+            img_type_right=itemView.findViewById(R.id.img_type_right);
+            tv_type_right=itemView.findViewById(R.id.tv_type_right);
         }
     }
 }

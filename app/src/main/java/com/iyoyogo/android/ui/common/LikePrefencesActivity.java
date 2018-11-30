@@ -97,9 +97,6 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
                 for (int i = 0; i < array.length; i++) {
                     Log.d("LikePrefencesActivity", "array[i]:" + array[i]);
                 }
-//                if (img.getVisibility()==View.VISIBLE){
-//                    idList.add(data.get(position).getId());
-//                }
             }
         });
 //        interestAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -187,6 +184,9 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
                 } else {
                     Log.d("LikePrefencesActivity", "array.length:" + array.length);
                     Integer[] objects = (Integer[]) ifRepeat(array);
+                    for (int i = 0; i < objects.length; i++) {
+                        Log.d("LikePrefencesActivity", "objects[i]:" + objects[i]);
+                    }
                     mPresenter.addInterest(objects, user_id, user_token);
                 }
 

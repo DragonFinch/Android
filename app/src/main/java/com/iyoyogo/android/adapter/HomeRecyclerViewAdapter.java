@@ -14,22 +14,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.iyoyogo.android.R;
-import com.iyoyogo.android.bean.TestBean;
 import com.iyoyogo.android.bean.home.HomeViewPagerBean;
-import com.iyoyogo.android.net.ApiService;
 import com.iyoyogo.android.view.CardTransformer;
 import com.iyoyogo.android.view.MyViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int VIEWPAGER = 0;
@@ -114,11 +104,14 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        Log.d("HomeRecyclerViewAdapter", "mList.size():" + mList.size());
+        Log.d("HomeRecyclerViewAdapter", "mList.get(position).getYox_list().size():" + mList.get(0).getYox_list().size());
         if (viewHolder instanceof Holder_ViewPager) {
             setViewPagerHolder((Holder_ViewPager) viewHolder, position);
 
         } else if (viewHolder instanceof Holder_YouXiu) {
-            setYouXiuHolder((Holder_YouXiu) viewHolder, position);
+            List<HomeViewPagerBean.DataBean.YoxListBean> yox_list = mList.get(0).getYox_list();
+            setYouXiuHolder((Holder_YouXiu) viewHolder, yox_list);
         } else if (viewHolder instanceof Holder_YouJi) {
             setYouJiHolder((Holder_YouJi) viewHolder, position);
         }
@@ -189,48 +182,13 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     //友秀
-    private void setYouXiuHolder(Holder_YouXiu youXiuHolder, int position) {
-//        youXiuHolder.img_youxiu.setImageResource(R.mipmap.ic_yoji);
-/**
- * http://v.juhe.cn/toutiao/index?type=top&key=8838c5c10b0613d95fbfc4dfc47eaa93
- */
-      /*  Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://v.juhe.cn/")
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create()).build();
-        ApiService apiService = retrofit.create(ApiService.class);
-        apiService.test("toutiao/index?type=top&key=8838c5c10b0613d95fbfc4dfc47eaa93")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<TestBean>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+    private void setYouXiuHolder(Holder_YouXiu youXiuHolder, List<HomeViewPagerBean.DataBean.YoxListBean> yox_list) {
 
-                    }
-
-                    @Override
-                    public void onNext(TestBean testBean) {
-                       List<TestBean.ResultBean.DataBean> data = testBean.getResult().getData();
-                        Log.d("HomeRecyclerViewAdapter", "data.size():" + data.size());
-                        TestAdapter testAdapter = new TestAdapter(data, context);
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-                        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                        youXiuHolder.recycler_youxiu.setLayoutManager(linearLayoutManager);
-                        youXiuHolder.recycler_youxiu.setAdapter(testAdapter);
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("HomeRecyclerViewAdapter", e.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });*/
-      youXiuHolder.recycler_youxiu.setVisibility(View.GONE);
+        YoXiuAdapter yoXiuAdapter = new YoXiuAdapter(yox_list, context);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        youXiuHolder.recycler_youxiu.setLayoutManager(linearLayoutManager);
+        youXiuHolder.recycler_youxiu.setAdapter(yoXiuAdapter);
     }
 
     private void setYouJiHolder(Holder_YouJi youJiHolder, int position) {
@@ -288,7 +246,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemViewType(int position) {
-        if (position == VIEWPAGER) {
+        if (position == 0) {
             return VIEWPAGER;
         } else if (position == 1) {
             return YOUXIU;

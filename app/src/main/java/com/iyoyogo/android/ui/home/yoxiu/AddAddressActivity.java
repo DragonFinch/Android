@@ -24,9 +24,12 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.CameraUpdate;
+import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
+import com.amap.api.maps2d.model.CameraPosition;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
@@ -42,7 +45,9 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.PoiSearchAdapter;
 import com.iyoyogo.android.bean.LocationBean;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -74,14 +79,58 @@ public class AddAddressActivity extends AppCompatActivity {
     private double latitude;
     MyLocationStyle myLocationStyle;
     LocationSource.OnLocationChangedListener mListener;
-    AMapLocationClient mlocationClient;
-    AMapLocationClientOption mLocationOption;
+
     private PoiSearch.Query query;
     private PoiSearch poiSearch;
     private ArrayList<LocationBean> datas;
     private ArrayList<String> list;
     private PoiSearchAdapter adapter;
+    public AMapLocationClient mLocationClient = null;
+    //声明AMapLocationClientOption对象
+    public AMapLocationClientOption mLocationOption = null;
+    //声明定位回调监听器
+    public AMapLocationListener mLocationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation amapLocation) {
+            if (amapLocation != null) {
+                if (amapLocation.getErrorCode() == 0) {
+//可在其中解析amapLocation获取相应内容。
+                    amapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
+                    amapLocation.getLatitude();//获取纬度
+                    amapLocation.getLongitude();//获取经度
+                    amapLocation.getAccuracy();//获取精度信息
+                    String address = amapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
+                    String country = amapLocation.getCountry();//国家信息
+                    String province = amapLocation.getProvince();//省信息
+//城市信息
+                    String city = amapLocation.getCity();
 
+
+                    Log.d("LocationActivity", address);
+                    String district = amapLocation.getDistrict();//城区信息
+                    String street = amapLocation.getStreet();//街道信息
+                    String streetNum = amapLocation.getStreetNum();//街道门牌号信息
+                    Log.e("AddAddressActivity", province + city + district + street + streetNum);
+                    amapLocation.getCityCode();//城市编码
+                    amapLocation.getAdCode();//地区编码
+                    amapLocation.getAoiName();//获取当前定位点的AOI信息
+                    amapLocation.getBuildingId();//获取当前室内定位的建筑物Id
+                    amapLocation.getFloor();//获取当前室内定位的楼层
+                    amapLocation.getGpsAccuracyStatus();//获取GPS的当前状态
+
+//获取定位时间
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date = new Date(amapLocation.getTime());
+                    df.format(date);
+                } else {
+                    //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
+                    Log.e("AmapError", "location Error, ErrCode:"
+                            + amapLocation.getErrorCode() + ", errInfo:"
+                            + amapLocation.getErrorInfo());
+                }
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,14 +144,32 @@ public class AddAddressActivity extends AppCompatActivity {
         mapAddAddress.onCreate(savedInstanceState);
         aMap = mapAddAddress.getMap();
         aMap.getUiSettings().setZoomControlsEnabled(false);
-        myLocationStyle = new MyLocationStyle();
-        //初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
-        //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
-        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE);//只定位一次。
-        myLocationStyle.showMyLocation(false);
-        aMap.setMyLocationEnabled(false);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
-        aMap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
-//        aMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+        mLocationClient = new AMapLocationClient(getApplicationContext());
+//设置定位回调监听
+        mLocationClient.setLocationListener(mLocationListener);
+        mLocationOption = new AMapLocationClientOption();
+        mLocationOption.setNeedAddress(true);
+        mLocationOption.setLocationPurpose(AMapLocationClientOption.AMapLocationPurpose.SignIn);
+        if (null != mLocationClient) {
+            mLocationClient.setLocationOption(mLocationOption);
+            //设置场景模式后最好调用一次stop，再调用start以保证场景模式生效
+            mLocationClient.stopLocation();
+            mLocationClient.startLocation();
+        }
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        mLocationOption.setOnceLocation(true);
+
+//获取最近3s内精度最高的一次定位结果：
+//设置setOnceLocationLatest(boolean b)接口为true，启动定位时SDK会返回最近3s内精度最高的一次定位结果。如果设置其为true，setOnceLocation(boolean b)接口也会被设置为true，反之不会，默认为false。
+        mLocationOption.setOnceLocationLatest(true);
+
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+//启动定位
+        mLocationClient.startLocation();
+
+
         mapAddAddress.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -142,17 +209,17 @@ public class AddAddressActivity extends AppCompatActivity {
                 aMap.clear();
 
                 MarkerOptions markerOption = new MarkerOptions();
-
                 markerOption.position(latLng);
                 latitude = latLng.latitude;
                 longitude = latLng.longitude;
 
 
-                markerOption.draggable(true);//设置Marker可拖动
+
                 markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
                         .decodeResource(getResources(), R.mipmap.location)));
                 // 将Marker设置为贴地显示，可以双指下拉地图查看效果
-                Marker marker = aMap.addMarker(markerOption);
+                Marker marker = aMap.addMarker(markerOption.draggable(true));
+                marker.setDraggable(true);
                 aMap.invalidate();
             }
         });
@@ -240,6 +307,8 @@ public class AddAddressActivity extends AppCompatActivity {
                             LocationBean locationBean = new LocationBean();
                             String title = pois.get(i).getTitle();
                             String snippet = pois.get(i).getSnippet();
+                            String adName = pois.get(i).getAdName();
+                            Log.d("AddAddressActivity", adName);
                             String provinceName = pois.get(i).getProvinceName();
                             locationBean.setProvinceName(provinceName);
                             LatLonPoint latLonPoint = pois.get(i).getLatLonPoint();
@@ -270,8 +339,8 @@ public class AddAddressActivity extends AppCompatActivity {
 
                                latitude = datas.get(pos).getLatitude();
                                  longitude = datas.get(pos).getLongitude();
-                                 editAddAddress.setText(datas.get(pos).getTitle());
-                                aMap.clear();
+                                 editAddAddress.setText("");
+                              /*  aMap.clear();
 
                                 MarkerOptions markerOption = new MarkerOptions();
 
@@ -283,7 +352,9 @@ public class AddAddressActivity extends AppCompatActivity {
                                 markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
                                         .decodeResource(getResources(), R.mipmap.location)));
                                 // 将Marker设置为贴地显示，可以双指下拉地图查看效果
-                                Marker marker = aMap.addMarker(markerOption);
+                                Marker marker = aMap.addMarker(markerOption);*/
+                                CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(latitude,longitude),10,30,0));
+                              aMap.moveCamera(mCameraUpdate);
                                 recyclerAddAddress.setVisibility(View.GONE);
                                 mapAddAddress.setVisibility(View.VISIBLE);
                                 mapAddAddress.invalidate();
@@ -311,8 +382,8 @@ public class AddAddressActivity extends AppCompatActivity {
         super.onDestroy();
         //在activity执行onDestroy时执行mapview.onDestroy()，销毁地图
         mapAddAddress.onDestroy();
-        if (null != mlocationClient) {
-            mlocationClient.onDestroy();
+        if (null != mLocationClient) {
+            mLocationClient.onDestroy();
         }
     }
 
@@ -362,57 +433,19 @@ public class AddAddressActivity extends AppCompatActivity {
                 searchClear.setVisibility(View.INVISIBLE);
                 break;
             case R.id.img_location:
+                mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+                mLocationOption.setOnceLocation(true);
+
+//获取最近3s内精度最高的一次定位结果：
+//设置setOnceLocationLatest(boolean b)接口为true，启动定位时SDK会返回最近3s内精度最高的一次定位结果。如果设置其为true，setOnceLocation(boolean b)接口也会被设置为true，反之不会，默认为false。
+                mLocationOption.setOnceLocationLatest(true);
+
+                //给定位客户端对象设置定位参数
+                mLocationClient.setLocationOption(mLocationOption);
+//启动定位
+                mLocationClient.startLocation();
 
 
-                aMap.setMyLocationEnabled(true);// 可触发定位并显示当前位置
-                aMap.setLocationSource(new LocationSource() {
-                    @Override
-                    public void activate(OnLocationChangedListener onLocationChangedListener) {
-                        mListener = onLocationChangedListener;
-                        if (mlocationClient == null) {
-                            //初始化定位
-                            mlocationClient = new AMapLocationClient(AddAddressActivity.this);
-                            //初始化定位参数
-                            mLocationOption = new AMapLocationClientOption();
-                            //设置定位回调监听
-                            mlocationClient.setLocationListener(new AMapLocationListener() {
-                                @Override
-                                public void onLocationChanged(AMapLocation amapLocation) {
-                                    if (mListener != null && amapLocation != null) {
-                                        if (amapLocation != null
-                                                && amapLocation.getErrorCode() == 0) {
-                                            Toast.makeText(AddAddressActivity.this, amapLocation.getCity(), Toast.LENGTH_SHORT).show();
-                                            mListener.onLocationChanged(amapLocation);// 显示系统小蓝点
-                                        } else {
-                                            String errText = "定位失败," + amapLocation.getErrorCode() + ": " + amapLocation.getErrorInfo();
-                                            Log.e("AmapErr", errText);
-                                        }
-                                    }
-                                }
-                            });
-                            //设置为高精度定位模式
-                            mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-                            //设置定位参数
-                            mlocationClient.setLocationOption(mLocationOption);
-                            // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
-                            // 注意设置合适的定位时间的间隔（最小间隔支持为2000ms），并且在合适时间调用stopLocation()方法来取消定位请求
-                            // 在定位结束后，在合适的生命周期调用onDestroy()方法
-                            // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
-                            mlocationClient.startLocation();//启动定位
-                        }
-                    }
-
-                    @Override
-                    public void deactivate() {
-                        mListener = null;
-                        if (mlocationClient != null) {
-                            mlocationClient.stopLocation();
-                            mlocationClient.onDestroy();
-                        }
-                        mlocationClient = null;
-                    }
-
-                });//通过aMap对象设置定位数据源的监听
                 break;
         }
     }

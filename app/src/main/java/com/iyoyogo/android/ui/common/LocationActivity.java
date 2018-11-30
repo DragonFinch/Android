@@ -35,10 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LocationActivity extends AppCompatActivity {
-    //声明AMapLocationClient类对象
-    public AMapLocationClient mLocationClient = null;
-    //声明AMapLocationClientOption对象
-    public AMapLocationClientOption mLocationOption = null;
+
     //初始化AMapLocationClientOption对象
     private static final String NOTIFICATION_CHANNEL_NAME = "BackgroundLocation";
     private NotificationManager notificationManager = null;
@@ -106,7 +103,10 @@ public class LocationActivity extends AppCompatActivity {
         }
         return null;
     }
-
+    //声明AMapLocationClient类对象
+    public AMapLocationClient mLocationClient = null;
+    //声明AMapLocationClientOption对象
+    public AMapLocationClientOption mLocationOption = null;
     //声明定位回调监听器
     public AMapLocationListener mLocationListener = new AMapLocationListener() {
         @Override
@@ -123,8 +123,10 @@ public class LocationActivity extends AppCompatActivity {
                     amapLocation.getProvince();//省信息
                     String city = amapLocation.getCity();//城市信息
                     tv.setText(city);
+                    String address = amapLocation.getAddress();
+                    Log.d("LocationActivity", address);
                     amapLocation.getDistrict();//城区信息
-                    amapLocation.getStreet();//街道信息
+                    String street = amapLocation.getStreet();//街道信息
                     amapLocation.getStreetNum();//街道门牌号信息
                     amapLocation.getCityCode();//城市编码
                     amapLocation.getAdCode();//地区编码
@@ -132,6 +134,7 @@ public class LocationActivity extends AppCompatActivity {
                     amapLocation.getBuildingId();//获取当前室内定位的建筑物Id
                     amapLocation.getFloor();//获取当前室内定位的楼层
                     amapLocation.getGpsAccuracyStatus();//获取GPS的当前状态
+
 //获取定位时间
                     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date = new Date(amapLocation.getTime());
@@ -147,6 +150,8 @@ public class LocationActivity extends AppCompatActivity {
     };
     @BindView(R.id.tv)
     TextView tv;
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
@@ -178,7 +183,7 @@ public class LocationActivity extends AppCompatActivity {
 //设置定位回调监听
         mLocationClient.setLocationListener(mLocationListener);
         mLocationOption = new AMapLocationClientOption();
-
+        mLocationOption.setNeedAddress(true);
         mLocationOption.setLocationPurpose(AMapLocationClientOption.AMapLocationPurpose.SignIn);
         if (null != mLocationClient) {
             mLocationClient.setLocationOption(mLocationOption);

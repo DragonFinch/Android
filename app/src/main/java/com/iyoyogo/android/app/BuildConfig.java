@@ -7,7 +7,7 @@ public final class BuildConfig {
   public static final String FLAVOR = "wandoujia";
   public static final int VERSION_CODE = 1;
   public static final String VERSION_NAME = "1.0";
-  // Fields from default config.
+  // Fields from default_ic config.
   public static final String QQ_APP_ID = "1107727329";
   public static final String QQ_APP_KEY = "tZol8IvlCvKnuOQ7";
   public static final String RONG_CLOUD_APP_KEY = "82hegw5u8y6fx";

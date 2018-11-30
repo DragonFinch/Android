@@ -106,7 +106,7 @@ public class CircleProgressBar extends View {
     //Background color of the progress of the progress bar
     private int mProgressBackgroundColor;
 
-    //the rotate degree of the canvas, default is -90.
+    //the rotate degree of the canvas, default_ic is -90.
     private int mStartDegree;
 
     // whether draw the background only outside the progress area or not

@@ -1,8 +1,8 @@
 package com.iyoyogo.android.ui.common;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,15 +20,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.CameraUpdate;
+import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.UiSettings;
+import com.amap.api.maps2d.model.BitmapDescriptorFactory;
+import com.amap.api.maps2d.model.CameraPosition;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
+import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.geocoder.AoiItem;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
+import com.amap.api.services.geocoder.StreetNumber;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.TypeAdapter;
 import com.iyoyogo.android.base.BaseActivity;
@@ -85,6 +92,11 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
     private String province;
     private PopupWindow popup;
     private RecyclerView recycler_type;
+    private AMap aMap;
+    private String name;
+    private String city;
+    private int id;
+    private LatLonPoint latLonPoint;
 
     @Override
     protected int getLayoutId() {
@@ -97,10 +109,13 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
+        Intent intent = getIntent();
+        String address = intent.getStringExtra("address");
+        editCreatePoint.setText(address);
         map.onCreate(savedInstanceState);
         createComplete.setClickable(false);
         createComplete.setTextColor(Color.parseColor("#888888"));
-        AMap aMap = map.getMap();
+        aMap = map.getMap();
         map.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -133,7 +148,8 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
     protected void onDestroy() {
         super.onDestroy();
         //在activity执行onDestroy时执行mapview.onDestroy()，销毁地图
-        map.onDestroy();
+
+
     }
 
     @Override
@@ -163,13 +179,25 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 2) {
 
-            double latitude = data.getDoubleExtra("latitude",0.0);
-            double longitude = data.getDoubleExtra("longitude",0.0);
-            Log.d("CreatePointActivity", "latitude:" + latitude );
+             latitude = data.getDoubleExtra("latitude", 0.0);
+             longitude = data.getDoubleExtra("longitude", 0.0);
+            Log.d("CreatePointActivity", "latitude:" + latitude);
             Log.d("CreatePointActivity", "longitude:" + longitude);
-            LatLonPoint latLonPoint = new LatLonPoint(latitude,longitude);
+            latLonPoint = new LatLonPoint(latitude, longitude);
             setCurrentLocationDetails(latLonPoint);
+            aMap.clear();
+            CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(latitude,longitude),10,30,0));
+            aMap.moveCamera(mCameraUpdate);
+            MarkerOptions markerOption = new MarkerOptions();
+            LatLng latLng = new LatLng(latitude, longitude);
+            markerOption.position(latLng);
 
+
+            markerOption.draggable(true);//设置Marker可拖动
+            markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
+                    .decodeResource(getResources(), R.mipmap.location)));
+            // 将Marker设置为贴地显示，可以双指下拉地图查看效果
+            Marker marker = aMap.addMarker(markerOption);
             lineCreatePoint.setVisibility(View.VISIBLE);
             mapLine.setVisibility(View.VISIBLE);
             relativeLine.setVisibility(View.VISIBLE);
@@ -191,12 +219,29 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
                 place = result.getRegeocodeAddress().getFormatAddress();
                 country = result.getRegeocodeAddress().getCountry();
                 province = result.getRegeocodeAddress().getProvince();
+                StreetNumber streetNumber = result.getRegeocodeAddress().getStreetNumber();
+                String neighborhood = result.getRegeocodeAddress().getNeighborhood();
+                String district = result.getRegeocodeAddress().getDistrict();
+                String towncode = result.getRegeocodeAddress().getTowncode();
+                String city = result.getRegeocodeAddress().getCity();
                 Log.e("formatAddress", "formatAddress:" + place);
+                Log.e("formatAddress", "towncode:" + towncode);
+                Log.e("formatAddress", "district:" + district);
+                Log.e("formatAddress", "neighborhood:" + neighborhood);
+                Log.e("formatAddress", "streetNumber:" + streetNumber);
                 Log.e("formatAddress", "country:" + country);
                 Log.e("formatAddress", "province:" + province);
                 Log.e("formatAddress", "rCode:" + rCode);
+                List<AoiItem> aois = result.getRegeocodeAddress().getAois();
+                for (int i = 0; i < aois.size(); i++) {
+                    String aoiName = aois.get(i).getAoiName();
+                    Log.d("formatAddress", aoiName);
+                }
                 tvCity.setVisibility(View.VISIBLE);
-                tvCity.setText(province + "," + country);
+                tvCity.setText(district  +","+city+ "," + province + "," + country);
+                //城市
+                CreatePointActivity.this.city = place.substring(3, 6);
+                Log.e("formatAddress", CreatePointActivity.this.city);
             }
 
             @Override
@@ -216,22 +261,41 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
                 finish();
                 break;
             case R.id.create_complete:
-
+                String user_token = SpUtils.getString(CreatePointActivity.this, "user_token", null);
+                String user_id = SpUtils.getString(CreatePointActivity.this, "user_id", null);
+                Log.d("CreatePointActivity", "longitude:" + longitude);
+                Log.d("CreatePointActivity", "latitude:" + latitude);
+                mPresenter.createPoint(user_id, user_token, editCreatePoint.getText().toString().trim(), "", tvCity.getText().toString(), place, String.valueOf(longitude), String.valueOf(latitude), String.valueOf(id));
                 break;
             case R.id.tv_choose_type:
                 mPresenter.setType(SpUtils.getString(CreatePointActivity.this, "user_id", null), SpUtils.getString(CreatePointActivity.this, "user_token", null));
-                createComplete.setClickable(true);
-                createComplete.setTextColor(Color.parseColor("#FA800A"));
+
                 break;
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        if (createComplete.isClickable()) {
+            Intent intent = new Intent();
+            intent.putExtra("type", name);
+            intent.putExtra("place", place);
+
+            setResult(2, intent);
+            finish();
+        } else {
+            finish();
+        }
+
+    }
 
     @Override
     public void setTypeSuccess(TypeBean.DataBean data) {
         initPopup();
-        List<TypeBean.DataBean> mList = new ArrayList<>();
-        mList.add(data);
+        List<TypeBean.DataBean.ListBean> mList = new ArrayList<>();
+        mList.addAll(data.getList());
 
         recycler_type.setLayoutManager(new GridLayoutManager(CreatePointActivity.this, 2));
         TypeAdapter adapter = new TypeAdapter(CreatePointActivity.this, mList);
@@ -239,42 +303,67 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
         adapter.setOnItemClickListener(new TypeAdapter.OnItemClickListener() {
             @Override
             public void setOnItemClickListener(View v, int position) {
-                String name = mList.get(position).getList().get(position).getName();
+                name = mList.get(position).getName();
                 tvChooseType.setText(name);
+                id = mList.get(position).getId();
+                createComplete.setClickable(true);
+                createComplete.setTextColor(Color.parseColor("#FA800A"));
                 popup.dismiss();
             }
         });
     }
-//背景透明
+
+    @Override
+    public void createPointSuccess() {
+        Intent intent = new Intent();
+        intent.putExtra("type", name);
+        intent.putExtra("place", place);
+        intent.putExtra("latitude",latitude);
+        intent.putExtra("longitude",longitude);
+        Log.d("longitude", "latitude:" + latitude);
+        Log.d("longitude", "longitude:" + longitude);
+        setResult(2, intent);
+        finish();
+    }
+
+    //背景透明
     public void backgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = bgAlpha; // 0.0~1.0
         getWindow().setAttributes(lp); //act 是上下文context
 
     }
-//隐藏事件PopupWindow
+
+    //隐藏事件PopupWindow
     private class poponDismissListener implements PopupWindow.OnDismissListener {
         @Override
         public void onDismiss() {
-            backgroundAlpha(1f);
+            backgroundAlpha(1.0f);
         }
     }
-//初始化PopupWindow
+
+    //初始化PopupWindow
     private void initPopup() {
         View view = getLayoutInflater().inflate(R.layout.popup_type, null);
         popup = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popup.setOutsideTouchable(true);
         popup.setBackgroundDrawable(new ColorDrawable());
+        ImageView img_delete = view.findViewById(R.id.img_delete);
+        img_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup.dismiss();
+            }
+        });
         recycler_type = view.findViewById(R.id.recycler_choose_type);
         popup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         popup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         //点击空白处时，隐藏掉pop窗口
-        popup.setFocusable(true);
-        popup.setBackgroundDrawable(new BitmapDrawable());
-        backgroundAlpha(1f);
+
+        backgroundAlpha(0.6f);
 
         //添加pop窗口关闭事件
         popup.setOnDismissListener(new poponDismissListener());
-        popup.showAtLocation(findViewById(R.id.activity_create_point),Gravity.CENTER,0,0);
+        popup.showAtLocation(findViewById(R.id.activity_create_point), Gravity.CENTER, 0, 0);
     }
 }

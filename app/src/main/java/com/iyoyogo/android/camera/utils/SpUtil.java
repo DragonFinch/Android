@@ -21,7 +21,7 @@ public class SpUtil {
 
     private SpUtil(Context context) { //2)给当前类写个私有的构造方法
         if (sp == null) {
-            sp = context.getSharedPreferences("default", Context.MODE_PRIVATE);
+            sp = context.getSharedPreferences("default_ic", Context.MODE_PRIVATE);
         }
     }
 

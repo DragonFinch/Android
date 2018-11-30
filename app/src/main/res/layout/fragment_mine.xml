@@ -1,15 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.mine.MineFragment">
+    android:background="@color/white"
+    >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/jump_home"
+
+    <ImageView
+        android:id="@+id/my_bgi_iv_id"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="跳到首页" />
+        android:layout_height="@dimen/dp_170"
+        android:scaleType="fitXY"
+        android:src="@mipmap/sea" />
 
-</FrameLayout>
+>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:gravity="center">
+
+        <TextView
+            fontPath="fonts/PingFang-Medium.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my"
+            android:textColor="@color/ffffffff"
+            android:textSize="@dimen/sp_25"
+            tools:ignore="MissingPrefix" />
+
+        <ImageView
+            android:id="@+id/my_messge_im_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_50"
+            android:src="@mipmap/message" />
+
+        <View
+            android:id="@+id/my_dot_v_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="40dp" />
+
+        <ImageView
+            android:id="@+id/my_addfriend_im_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/add_friend" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/my_rllayout1_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_110"
+        android:layout_marginRight="@dimen/dp_15">
+
+        <include layout="@layout/my_basic" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/my_rllayout2_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/my_rllayout1_id"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_15">
+
+        <include layout="@layout/my_clock" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@id/my_rllayout2_id"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_15"
+        android:paddingBottom="@dimen/dp_10">
+
+        <include layout="@layout/my_option" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

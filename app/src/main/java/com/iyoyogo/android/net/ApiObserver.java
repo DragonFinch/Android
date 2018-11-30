@@ -111,7 +111,7 @@ public abstract class ApiObserver<T extends BaseBean> implements Observer<T> {
 //                break;
 //
 //
-//            default:
+//            default_ic:
 //                if (!doOnFailure(code, message)) {
 //                    if (isShowLoadFailedView) {
 //

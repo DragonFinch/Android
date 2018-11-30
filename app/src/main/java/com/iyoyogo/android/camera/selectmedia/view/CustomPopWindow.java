@@ -39,12 +39,12 @@ public class CustomPopWindow implements PopupWindow.OnDismissListener {
     private PopupWindow mPopupWindow;
     private int mAnimationStyle = -1;
 
-    private boolean mClippEnable = true;//default is true
+    private boolean mClippEnable = true;//default_ic is true
     private boolean mIgnoreCheekPress = false;
     private int mInputMode = -1;
     private PopupWindow.OnDismissListener mOnDismissListener;
     private int mSoftInputMode = -1;
-    private boolean mTouchable = true;//default is ture
+    private boolean mTouchable = true;//default_ic is ture
     private View.OnTouchListener mOnTouchListener;
 
     private Window mWindow;//当前Activity 的窗口

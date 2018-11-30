@@ -11,7 +11,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iyoyogo.android.R;
@@ -30,7 +30,7 @@ public class PoiSearchAdapter extends RecyclerView.Adapter<PoiSearchAdapter.View
     /**
      * 需要改变颜色的text
      */
-    private String text;
+
     /**
      * 属性动画
      */
@@ -39,10 +39,10 @@ public class PoiSearchAdapter extends RecyclerView.Adapter<PoiSearchAdapter.View
     /**
      * 在MainActivity中设置text
      */
+    private String text;
     public void setText(String text) {
         this.text = text;
     }
-
     public PoiSearchAdapter(Context context, List<LocationBean> list) {
         this.context = context;
         this.list = list;
@@ -121,13 +121,13 @@ public class PoiSearchAdapter extends RecyclerView.Adapter<PoiSearchAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private LinearLayout mLlItem;
+        private RelativeLayout mLlItem;
 
         private TextView tv_name;
         private TextView tv_province;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mLlItem = (LinearLayout) itemView.findViewById(R.id.ll_item);
+            mLlItem = (RelativeLayout) itemView.findViewById(R.id.ll_item);
             tv_province = (TextView) itemView.findViewById(R.id.tv_province);
             tv_name = (TextView) itemView.findViewById(R.id.tv_title);
         }

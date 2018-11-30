@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.iyoyogo.android.widget.CheckableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="65dp"
-    android:layout_height="110dp"
+    android:background="@drawable/channel_bg"
+    android:layout_height="@dimen/dp_150"
     android:orientation="vertical">
 
 
     <ImageView
+        android:layout_centerHorizontal="true"
 android:layout_alignParentTop="true"
         android:id="@+id/img"
         android:layout_width="65dp"
@@ -27,7 +29,9 @@ android:visibility="visible"
 
 
     <TextView
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/choice_icon"
+        android:layout_centerHorizontal="true"
+
         android:id="@+id/tag_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

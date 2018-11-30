@@ -72,7 +72,7 @@ public class CropImageView  {
                     this.onActionMove(event.getX(), event.getY());
                     this.getParent().requestDisallowInterceptTouchEvent(true);
                     return true;
-                default:
+                default_ic:
                     return false;
             }
         }
@@ -217,7 +217,7 @@ public class CropImageView  {
             case 4:
                 y = x * 0.75F;
                 break;
-            default:
+            default_ic:
                 y = this.mBitmapRect.height();
         }
 

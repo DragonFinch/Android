@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<LinearLayout android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Button
-        android:layout_width="150dp"
-        android:layout_height="55dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@color/colorFFFFFF"
         android:drawableLeft="@mipmap/gongkai_xz"
-        android:padding="20dp"
+      android:paddingLeft="@dimen/dp_5"
         android:text="@string/gongkai" />
 
     <Button
         android:id="@+id/popup_but_id"
-        android:layout_width="150dp"
-        android:layout_height="55dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/dp_10"
         android:background="@color/colorFFFFFF"
         android:drawableLeft="@mipmap/simi_wxz"
-        android:padding="20dp"
+        android:paddingLeft="@dimen/dp_5"
         android:text="@string/simi" />
 
 </LinearLayout>

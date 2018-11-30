@@ -93,7 +93,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     private String dateTime;
     private String sign;
     private boolean runningOne;
-    private boolean isAgree = false;
+    private boolean isAgree = true;
     //    Handler handler = new MyHandler(LoginActivity.this);
     private Map<String, String> para = new HashMap<>();
     private Intent intent;

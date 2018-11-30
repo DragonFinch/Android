@@ -8,6 +8,9 @@ import com.iyoyogo.android.bean.login.interest.InterestBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.bean.login.login.MarketBean;
 import com.iyoyogo.android.bean.yoxiu.TypeBean;
+import com.iyoyogo.android.bean.yoxiu.channel.ChannelBean;
+import com.iyoyogo.android.bean.yoxiu.topic.CreateTopicBean;
+import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
 import com.iyoyogo.android.model.en.SendMessageRequest;
 import com.iyoyogo.android.net.AddInterestRequest;
 import com.iyoyogo.android.net.HttpClient;
@@ -17,10 +20,7 @@ import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-/**
- * Created by Stephen on 2018/9/10 19:15
- * Email: 895745843@qq.com
- */
+
 public class Model {
     private volatile static Model model;
 
@@ -132,8 +132,75 @@ public class Model {
         return HttpClient.getApiService().homePager(user_id, user_token, type)
                 .compose(this.switchThread());
     }
-    public  Observable<TypeBean> getType(String user_id,String user_token){
-        return HttpClient.getApiService().getType(user_id,user_token)
+
+    public Observable<TypeBean> getType(String user_id, String user_token) {
+        return HttpClient.getApiService().getType(user_id, user_token)
+                .compose(this.switchThread());
+    }
+
+    public Observable<BaseBean> create_point(String user_id,
+                                             String user_token,
+                                             String name,
+                                             String en_name,
+                                             String areas,
+                                             String address,
+                                             String lng,
+                                             String lat,
+                                             String type_id) {
+        return HttpClient.getApiService().create_pointer(user_id, user_token, name, en_name, areas, address, lng, lat, type_id).compose(this.switchThread());
+    }
+
+    public Observable<HotTopicBean> getHotTopic(String user_id,
+                                                String user_token,
+                                                String search) {
+        return HttpClient.getApiService().getHotTopic(user_id, user_token, search)
+                .compose(this.switchThread());
+    }
+
+    public Observable<HotTopicBean> getNearTopic(String user_id,
+                                                 String user_token) {
+        return HttpClient.getApiService().getNearTopic(user_id, user_token)
+                .compose(this.switchThread());
+    }
+
+    public Observable<CreateTopicBean> createTopic(String user_id,
+                                                   String user_token, String topic) {
+        return HttpClient.getApiService().createTopic(user_id, user_token, topic)
+                .compose(this.switchThread());
+    }
+
+    public Observable<BaseBean> clearTopic(String user_id,
+                                           String user_token) {
+        return HttpClient.getApiService().clearTopic(user_id, user_token)
+                .compose(this.switchThread());
+    }
+
+    public Observable<HotTopicBean> getRecommend(String user_id,
+                                                 String user_token) {
+        return HttpClient.getApiService().getRecommend(user_id, user_token)
+                .compose(this.switchThread());
+    }
+
+    public Observable<ChannelBean> getChannel(String user_id,
+                                              String user_token) {
+        return HttpClient.getApiService().getChannel(user_id, user_token)
+                .compose(this.switchThread());
+    }
+
+    public Observable<BaseBean> publish_yoXiu(String user_id,
+                                              String user_token,
+                                              String file_path,
+                                              int file_type,
+                                              String file_desc,
+                                              int[] channel_ids,
+                                              Integer[] topic_ids,
+                                              int open,
+                                              int valid,
+                                              String position_name,
+                                              String position_areas,
+                                              String position_address,
+                                              String filter_id) {
+        return HttpClient.getApiService().publish_yoXiu(user_id, user_token, file_path, file_type, file_desc, channel_ids, topic_ids, open, valid, position_name, position_areas, position_address, filter_id)
                 .compose(this.switchThread());
     }
 }
