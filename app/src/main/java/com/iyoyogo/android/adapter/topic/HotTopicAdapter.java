@@ -91,7 +91,7 @@ public class HotTopicAdapter extends RecyclerView.Adapter<HotTopicAdapter.Holder
             }
             holder.relative_normal.setVisibility(View.GONE);
             holder.relative_one.setVisibility(View.VISIBLE);
-            holder.img_one.setImageResource(R.mipmap.one);
+//            holder.img_one.setImageResource(R.mipmap.one);
         } else if (position == 1) {
             if (text != null) {
                 SpannableString number = keyWordUtil.matcherSearchTitle(Color.parseColor("#ff9314"), mList.get(position).getTopic() + "", text);
@@ -103,7 +103,7 @@ public class HotTopicAdapter extends RecyclerView.Adapter<HotTopicAdapter.Holder
             }
             holder.relative_normal.setVisibility(View.GONE);
             holder.relative_one.setVisibility(View.VISIBLE);
-            holder.img_one.setImageResource(R.mipmap.two);
+//            holder.img_one.setImageResource(R.mipmap.two);
             holder.tv_message_one.setText(mList.get(position).getTopic());
         } else if (position == 2) {
             if (text != null) {
@@ -116,7 +116,7 @@ public class HotTopicAdapter extends RecyclerView.Adapter<HotTopicAdapter.Holder
             }
             holder.relative_normal.setVisibility(View.GONE);
             holder.relative_one.setVisibility(View.VISIBLE);
-            holder.img_one.setImageResource(R.mipmap.three);
+//            holder.img_one.setImageResource(R.mipmap.three);
 
         } else {
 

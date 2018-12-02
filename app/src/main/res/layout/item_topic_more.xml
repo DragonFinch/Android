@@ -16,7 +16,6 @@
             android:layout_width="@dimen/dp_9"
             android:layout_height="@dimen/dp_12"
             android:id="@+id/img_one"
-            android:src="@mipmap/one"
 
             />
         <TextView

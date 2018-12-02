@@ -73,6 +73,7 @@
             android:textSize="15sp" />
 
         <ImageView
+            android:scaleType="centerCrop"
             android:id="@+id/tip_img"
             android:layout_width="@dimen/dp_65"
             android:layout_height="@dimen/dp_52"
@@ -80,7 +81,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="@dimen/dp_21"
             android:layout_marginRight="@dimen/dp_16"
-            android:src="@mipmap/stamp_tishi" />
+            android:src="@mipmap/tishi_bg" />
 
         <ImageView
             android:id="@+id/water_mark_img"

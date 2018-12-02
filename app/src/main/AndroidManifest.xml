@@ -293,7 +293,7 @@
         <activity
             android:name=".ui.common.LoginActivity"
             android:theme="@style/AppThemes" />
-        <activity android:name=".ui.common.LikePrefencesActivity"></activity>
+        <activity android:name=".ui.common.LikePrefencesActivity" />
         <activity
             android:name="com.umeng.socialize.editorpage.ShareActivity"
             android:excludeFromRecents="true"
@@ -362,7 +362,8 @@
         <activity android:name=".ui.home.yoxiu.AddAddressActivity" />
         <activity android:name=".ui.home.yoxiu.MoreTopicActivity" />
         <activity android:name=".ui.home.yoxiu.ChannelActivity" />
-        <activity android:name=".ui.home.recommend.YoXiuDetailActivity"></activity>
+        <activity android:name=".ui.home.recommend.YoXiuDetailActivity" />
+        <activity android:name=".ui.home.yoxiu.YoXiuListActivity"></activity>
     </application>
 
 </manifest>

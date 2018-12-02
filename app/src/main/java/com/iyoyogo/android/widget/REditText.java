@@ -5,6 +5,8 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.TextUtils;
@@ -32,14 +34,15 @@ public class REditText extends EditText {
     // 默认,话题背景高亮颜色
     private static final int BACKGROUND_COLOR = Color.parseColor("#FFDEAD");
     private Paint linePaint;
-
+    Rect mRect;
+    ColorDrawable lineDivider;
     /**
      * 开发者可设置内容
      */
     private int mForegroundColor = FOREGROUND_COLOR;// 话题文本高亮颜色
     private int mBackgroundColor = BACKGROUND_COLOR;// 话题背景高亮颜色
     private List<RObject> mRObjectsList = new ArrayList<RObject>();// object集合
-
+    float lineDividerHeight;
     public REditText(Context context) {
         this(context, null);
     }
@@ -87,49 +90,7 @@ public class REditText extends EditText {
 
     }
 
-    @Override
-    protected void onDraw(Canvas paramCanvas) {
-        super.onDraw(paramCanvas);
-        paramCanvas.drawColor(paperColor);
 
-        int i = getLineCount();
-
-        int j = getHeight();
-
-        int k = getLineHeight();
-
-        int m = 1 + j / k;
-
-        if (i < m)
-
-            i = m;
-
-        int n = getCompoundPaddingTop();
-
-        paramCanvas.drawLine(0.0F, n, getRight(), n, this.linePaint);
-
-        for (int i2 = 0; ; i2++) {
-
-            if (i2 >= i) {
-
-                setPadding(10 + (int) this.margin, 0, 0, 0);
-
-                paramCanvas.restore();
-
-                return;
-
-            }
-
-            n += k;
-
-            paramCanvas.drawLine(0.0F, n, getRight(), n, this.linePaint);
-
-            paramCanvas.save();
-
-        }
-
-
-    }
 
     /**
      * 初始化控件,一些监听

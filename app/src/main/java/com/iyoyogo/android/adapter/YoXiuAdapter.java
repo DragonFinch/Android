@@ -17,9 +17,9 @@ import com.iyoyogo.android.utils.RoundTransform;
 
 import java.util.List;
 
-public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> {
-private List<HomeViewPagerBean.DataBean.YoxListBean> mList;
-private Context context;
+public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> implements View.OnClickListener {
+    private List<HomeViewPagerBean.DataBean.YoxListBean> mList;
+    private Context context;
 
     public YoXiuAdapter(List<HomeViewPagerBean.DataBean.YoxListBean> mList, Context context) {
         this.mList = mList;
@@ -31,6 +31,7 @@ private Context context;
     public Holder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context).inflate(R.layout.youxiu_item_recycler, viewGroup, false);
         Holder holder = new Holder(view);
+        view.setOnClickListener(this);
         return holder;
     }
 
@@ -43,25 +44,26 @@ private Context context;
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.mipmap.default_ic);
         requestOptions.error(R.mipmap.default_ic);
-        requestOptions.transform(new RoundTransform(context,8));
+        requestOptions.transform(new RoundTransform(context, 8));
         Glide.with(context).load(mList.get(position).getFile_path())
                 .apply(requestOptions)
                 .into(holder.imageView);
 
-        if (mList.get(position).getFile_path().endsWith("jpg")){
+        if (mList.get(position).getFile_path().endsWith("jpg")) {
             holder.img_video.setVisibility(View.GONE);
         }
-        if (position==0){
+        if (position == 0) {
             holder.typeImageView.setImageResource(R.mipmap.jingxuan);
-        }else if (position==1){
+        } else if (position == 1) {
             holder.typeImageView.setImageResource(R.mipmap.youzhi);
-        }else {
+        } else {
             holder.typeImageView.setVisibility(View.INVISIBLE);
         }
         Glide.with(context).load(mList.get(position).getUser_logo()).into(holder.user_icon);
         holder.user_name.setText(mList.get(position).getUser_nickname());
-        holder.num_like.setText(mList.get(position).getCount_praise()+"");
-        holder.num_see.setText(mList.get(position).getCount_view()+"");
+        holder.num_like.setText(mList.get(position).getCount_praise() + "");
+        holder.num_see.setText(mList.get(position).getCount_view() + "");
+        holder.itemView.setTag(position);
     }
 
     @Override
@@ -69,20 +71,38 @@ private Context context;
         return mList.size();
     }
 
+    public interface OnClickListener {
+        void onClick(View v, int position);
+    }
+
+    private OnClickListener onClickListener;
+
+    public void setOnItemClickListener(OnClickListener onItemClickListener) {
+        this.onClickListener = onItemClickListener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (onClickListener != null) {
+            onClickListener.onClick(v, (Integer) v.getTag());
+        }
+    }
+
 
     public class Holder extends RecyclerView.ViewHolder {
-        TextView tv_addr_cover,user_name,num_like,num_see;
-        ImageView img_video,imageView,typeImageView,user_icon;
+        TextView tv_addr_cover, user_name, num_like, num_see;
+        ImageView img_video, imageView, typeImageView, user_icon;
+
         public Holder(@NonNull View itemView) {
             super(itemView);
-            tv_addr_cover=itemView.findViewById(R.id.tv_addr_cover);
-            num_like=itemView.findViewById(R.id.num_like);
-            num_see=itemView.findViewById(R.id.num_see);
-            user_name=itemView.findViewById(R.id.user_name);
-            img_video=itemView.findViewById(R.id.iv_video);
-            imageView=itemView.findViewById(R.id.imageView);
-            typeImageView=itemView.findViewById(R.id.img_type);
-            user_icon=itemView.findViewById(R.id.user_icon);
+            tv_addr_cover = itemView.findViewById(R.id.tv_addr_cover);
+            num_like = itemView.findViewById(R.id.num_like);
+            num_see = itemView.findViewById(R.id.num_see);
+            user_name = itemView.findViewById(R.id.user_name);
+            img_video = itemView.findViewById(R.id.iv_video);
+            imageView = itemView.findViewById(R.id.imageView);
+            typeImageView = itemView.findViewById(R.id.img_type);
+            user_icon = itemView.findViewById(R.id.user_icon);
         }
     }
 }

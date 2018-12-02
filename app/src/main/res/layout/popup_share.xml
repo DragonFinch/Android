@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_117"
+  >
+
+
+    <ImageView
+        android:id="@+id/close_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_45"
+        android:src="@mipmap/guanbi" />
+
+
+    <RelativeLayout
+
+        android:id="@+id/share_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/close_img"
+        android:background="@drawable/bg_corn">
+
+        <ImageView
+            android:id="@+id/border_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/border_yoxiu"
+
+            />
+<LinearLayout
+    android:weightSum="4"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+ <LinearLayout
+     android:id="@+id/wechat_layout"
+     android:orientation="vertical"
+     android:gravity="center_horizontal"
+     android:layout_width="0dp"
+     android:layout_weight="1"
+     android:layout_height="wrap_content">
+     <ImageView
+
+       android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:src="@mipmap/ic_wechat_select"
+         />
+     <TextView
+         android:layout_marginTop="@dimen/dp_2"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="微信"
+         />
+ </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/comment_layout"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content">
+        <ImageView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_moment_select"
+            />
+        <TextView
+            android:layout_marginTop="@dimen/dp_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="朋友圈"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/sina_layout"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content">
+        <ImageView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_sina_select"
+            />
+        <TextView
+            android:layout_marginTop="@dimen/dp_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="微博"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/qq_layout"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content">
+        <ImageView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_qq_select"
+            />
+        <TextView
+            android:layout_marginTop="@dimen/dp_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QQ"
+            />
+    </LinearLayout>
+</LinearLayout>
+
+
+
+
+
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="取消"
+        android:textSize="@dimen/sp_15"
+        android:id="@+id/cancel"
+        android:layout_below="@+id/share_layout"
+        android:gravity="center_horizontal"
+        />
+</RelativeLayout>
