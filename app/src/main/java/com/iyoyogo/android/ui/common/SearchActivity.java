@@ -292,7 +292,7 @@ public class SearchActivity extends BaseActivity {
             case R.id.location_rl:
                 break;
             case R.id.go_create_point:
-                if (addressInfo.getText().toString()!=null){
+                if (locationETId.getText().length()!=0){
                     Intent intent = new Intent(SearchActivity.this, CreatePointActivity.class);
                     intent.putExtra("address",addressInfo.getText().toString());
                     startActivityForResult(intent, 1);

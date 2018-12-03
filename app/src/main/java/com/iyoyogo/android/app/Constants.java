@@ -4,7 +4,9 @@ package com.iyoyogo.android.app;
 import com.iyoyogo.android.camera.utils.asset.NvAsset;
 
 public class Constants {
-    public static final String BASE_URL="http://app.iyoyogo.com/";
+    // http://app.iyoyogo.com
+
+    public static final String BASE_URL="http://192.168.0.145/";
     /**
      * 美摄使用
      */

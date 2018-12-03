@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.home.HomeViewPagerBean;
 import com.iyoyogo.android.ui.home.recommend.YoXiuDetailActivity;
+import com.iyoyogo.android.ui.home.yoxiu.YoXiuListActivity;
 import com.iyoyogo.android.view.CardTransformer;
 import com.iyoyogo.android.view.MyViewPager;
 
@@ -185,8 +186,14 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     //友秀
     private void setYouXiuHolder(Holder_YouXiu youXiuHolder, List<HomeViewPagerBean.DataBean.YoxListBean> yox_list) {
-
+        youXiuHolder.youxiu_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, YoXiuListActivity.class));
+            }
+        });
         YoXiuAdapter yoXiuAdapter = new YoXiuAdapter(yox_list, context);
+        yoXiuAdapter.setHasStableIds(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         youXiuHolder.recycler_youxiu.setLayoutManager(linearLayoutManager);
@@ -194,7 +201,9 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         yoXiuAdapter.setOnItemClickListener(new YoXiuAdapter.OnClickListener() {
             @Override
             public void onClick(View v, int position) {
-                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                Intent intent = new Intent(context, YoXiuDetailActivity.class);
+                intent.putExtra("id",yox_list.get(position).getId());
+                context.startActivity(intent);
             }
         });
     }

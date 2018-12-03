@@ -19,9 +19,10 @@ import java.util.List;
 public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> {
     private List<TestBean.ResultBean.DataBean> mList;
     private Context context;
+
     public YoJiAdapter(List<TestBean.ResultBean.DataBean> data, Context context) {
-this.mList=data;
-this.context=context;
+        this.mList = data;
+        this.context = context;
     }
 
     @NonNull
@@ -35,7 +36,7 @@ this.context=context;
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int i) {
         RequestOptions requestOptions = new RequestOptions();
-        requestOptions.transform(new RoundTransform(context,8));
+        requestOptions.transform(new RoundTransform(context, 8));
         Glide.with(context).load(mList.get(i).getThumbnail_pic_s()).apply(requestOptions).into(holder.zuji_image);
     }
 
@@ -46,9 +47,10 @@ this.context=context;
 
     public class Holder extends RecyclerView.ViewHolder {
         ImageView zuji_image;
+
         public Holder(@NonNull View itemView) {
             super(itemView);
-            zuji_image=itemView.findViewById(R.id.zuji_image);
+            zuji_image = itemView.findViewById(R.id.zuji_image);
         }
     }
 }

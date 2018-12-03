@@ -8,6 +8,8 @@ import com.iyoyogo.android.bean.login.interest.InterestBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.bean.login.login.MarketBean;
 import com.iyoyogo.android.bean.yoxiu.TypeBean;
+import com.iyoyogo.android.bean.yoxiu.YoXiuDetailBean;
+import com.iyoyogo.android.bean.yoxiu.YouXiuListBean;
 import com.iyoyogo.android.bean.yoxiu.channel.ChannelBean;
 import com.iyoyogo.android.bean.yoxiu.topic.CreateTopicBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
@@ -201,6 +203,18 @@ public class Model {
                                               String position_address,
                                               String filter_id) {
         return HttpClient.getApiService().publish_yoXiu(user_id, user_token, file_path, file_type, file_desc, channel_ids, topic_ids, open, valid, position_name, position_areas, position_address, filter_id)
+                .compose(this.switchThread());
+    }
+    public Observable<YoXiuDetailBean> getDetail(String user_id,String user_token,int id){
+        return HttpClient.getApiService().getDetail(user_id,user_token,id)
+                .compose(this.switchThread());
+    }
+    public Observable<YouXiuListBean> getYoXiuList(String user_id, String user_token, int page){
+        return HttpClient.getApiService().getYoXiuList(user_id,user_token,page)
+                .compose(this.switchThread());
+    }
+    public Observable<BaseBean> praise(String user_id,String user_token,int yo_id,int comment){
+      return   HttpClient.getApiService().praise(user_id,user_token,yo_id,comment)
                 .compose(this.switchThread());
     }
 }

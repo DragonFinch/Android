@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.CameraUpdate;
@@ -265,7 +266,12 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
                 String user_id = SpUtils.getString(CreatePointActivity.this, "user_id", null);
                 Log.d("CreatePointActivity", "longitude:" + longitude);
                 Log.d("CreatePointActivity", "latitude:" + latitude);
+                if ( editCreatePoint.getText().toString().length()!=0){
+
                 mPresenter.createPoint(user_id, user_token, editCreatePoint.getText().toString().trim(), "", tvCity.getText().toString(), place, String.valueOf(longitude), String.valueOf(latitude), String.valueOf(id));
+                }else {
+                    Toast.makeText(this, "创建点的位置不能为空", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.tv_choose_type:
                 mPresenter.setType(SpUtils.getString(CreatePointActivity.this, "user_id", null), SpUtils.getString(CreatePointActivity.this, "user_token", null));

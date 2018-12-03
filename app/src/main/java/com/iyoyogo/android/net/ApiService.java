@@ -8,6 +8,8 @@ import com.iyoyogo.android.bean.login.interest.InterestBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.bean.login.login.MarketBean;
 import com.iyoyogo.android.bean.yoxiu.TypeBean;
+import com.iyoyogo.android.bean.yoxiu.YoXiuDetailBean;
+import com.iyoyogo.android.bean.yoxiu.YouXiuListBean;
 import com.iyoyogo.android.bean.yoxiu.channel.ChannelBean;
 import com.iyoyogo.android.bean.yoxiu.topic.CreateTopicBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
@@ -200,7 +202,22 @@ public interface ApiService {
                                        @Field("position_areas") String position_areas,
                                        @Field("position_address") String position_address,
                                        @Field("filter_id") String filter_id
-
     );
+    @POST("index.php/api/yox/get_details")
+    @FormUrlEncoded
+    Observable<YoXiuDetailBean> getDetail(@Field("user_id")String user_id,
+                                          @Field("user_token")String user_token,
+                                          @Field("id") int id);
+    @POST("index.php/api/yox/get_list")
+    @FormUrlEncoded
+    Observable<YouXiuListBean> getYoXiuList(@Field("user_id")String user_id,
+                                            @Field("user_token")String user_token,
+                                            @Field("page") int page);
+    @POST("index.php/api/praise/click")
+    @FormUrlEncoded
+    Observable<BaseBean> praise(@Field("user_id")String user_id,
+                                @Field("user_token")String user_token,
+                                @Field("yo_id") int yo_id ,
+                                @Field("comment") int comment);
 }
 

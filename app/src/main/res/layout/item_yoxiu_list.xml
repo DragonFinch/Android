@@ -6,10 +6,10 @@
     android:id="@+id/img_yoxiu"
     android:scaleType="centerCrop"
     android:src="@mipmap/sea"
-    android:layout_width="match_parent"
+    android:layout_width="@dimen/dp_300"
     android:layout_marginLeft="@dimen/dp_20"
     android:layout_marginRight="@dimen/dp_20"
-    android:layout_height="wrap_content" />
+    android:layout_height="@dimen/dp_187" />
     <TextView
         android:id="@+id/tv_yoxiu_desc"
         android:layout_width="wrap_content"
@@ -33,6 +33,7 @@
         android:src="@mipmap/ic_liked"
         />
     <TextView
+        android:id="@+id/num_like"
         android:layout_marginRight="@dimen/dp_10"
         android:layout_marginBottom="@dimen/dp_11"
         android:text="300"
@@ -52,6 +53,8 @@ android:textSize="@dimen/sp_9"
 android:src="@mipmap/default_touxiang"
     />
     <TextView
+        android:id="@+id/tv_user_name"
+        android:layout_marginLeft="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_16"
         android:layout_below="@+id/img_yoxiu"
         android:layout_toRightOf="@+id/user_icon"
@@ -62,15 +65,47 @@ android:src="@mipmap/default_touxiang"
         android:textSize="@dimen/sp_12"
         />
     <TextView
-
+        android:drawableLeft="@mipmap/see"
+        android:drawablePadding="@dimen/dp_6"
+        android:id="@+id/num_browse"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dp_12"
         android:text="1089"
-        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_60"
         android:layout_marginTop="@dimen/dp_15"
         android:textColor="#ff888888"
         android:textSize="@dimen/dp_10"
+        android:layout_toLeftOf="@+id/img_more"
         android:layout_below="@+id/img_yoxiu"
+
+        />
+    <ImageView
+        android:id="@+id/img_more"
+        android:layout_marginRight="@dimen/dp_20"
         android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/gengduo"
+        android:layout_below="@+id/img_yoxiu"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_below="@+id/user_icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recycler_comment"
+        />
+    <TextView
+        android:text="全部评论(666)"
+        android:textColor="#ff888888"
+        android:textSize="@dimen/sp_12"
+        android:id="@+id/comment_all"
+        android:layout_centerHorizontal="true"
+        android:drawableRight="@mipmap/next"
+        android:drawablePadding="@dimen/dp_8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/recycler_comment"
         />
 </RelativeLayout>

@@ -352,10 +352,10 @@
         <activity android:name=".ui.common.LocationActivity" />
         <activity android:name=".ui.home.yoxiu.PublishYoXiuActivity" />
         <activity android:name=".ui.home.yoji.PublishYoJiActivity" />
-        <!--  -->
+        <!--  06f98328627f4f3559c8e8352062fee4 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="06f98328627f4f3559c8e8352062fee4" />
+            android:value="f18716c6c88c9baac5f5b898f3f3621c" />
 
         <activity android:name=".ui.home.yoxiu.SourceChooseActivity" />
         <activity android:name=".ui.common.CreatePointActivity" />
@@ -363,7 +363,8 @@
         <activity android:name=".ui.home.yoxiu.MoreTopicActivity" />
         <activity android:name=".ui.home.yoxiu.ChannelActivity" />
         <activity android:name=".ui.home.recommend.YoXiuDetailActivity" />
-        <activity android:name=".ui.home.yoxiu.YoXiuListActivity"></activity>
+        <activity android:name=".ui.home.yoxiu.YoXiuListActivity" />
+        <activity android:name=".ui.mine.EditPersonalMessageActivity"></activity>
     </application>
 
 </manifest>
