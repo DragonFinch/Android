@@ -16,7 +16,10 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +31,36 @@ import com.iyoyogo.android.ui.common.EmptyActivity;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class EditPersonalMessageActivity extends AppCompatActivity {
+    @BindView(R.id.back_iv_id)
+    ImageView backIvId;
+    @BindView(R.id.preservation_tv_id)
+    TextView preservationTvId;
+    @BindView(R.id.head_im_id)
+    ImageView headImId;
+    @BindView(R.id.nick_name)
+    TextView nickName;
+    @BindView(R.id.girl)
+    RadioButton girl;
+    @BindView(R.id.boy)
+    RadioButton boy;
+    @BindView(R.id.group_sex)
+    RadioGroup groupSex;
+    @BindView(R.id.brith_tv_id)
+    TextView brithTvId;
+    @BindView(R.id.brith_rl_id)
+    RelativeLayout brithRlId;
+    @BindView(R.id.tv_start_seat)
+    TextView tvStartSeat;
+    @BindView(R.id.city_tv_id)
+    TextView cityTvId;
+    @BindView(R.id.city_rl_id)
+    RelativeLayout cityRlId;
+    @BindView(R.id.main_llayout_id)
+    LinearLayout mainLlayoutId;
     private RelativeLayout relativeLayout;
     private TextView textView;
     private RelativeLayout cityLayout;
@@ -50,21 +82,45 @@ public class EditPersonalMessageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_edit_personal_message);
+        ButterKnife.bind(this);
 
         init();
+        initListener();
     }
 
-    private void init() {
+    public String getStarSeat(int mouth, int day) {
+        String starSeat = null;
 
-        relativeLayout = findViewById(R.id.brith_rl_id);
-        textView = findViewById(R.id.brith_tv_id);
-        cityLayout = findViewById(R.id.city_rl_id);
-        citytextView = findViewById(R.id.city_tv_id);
-        headimage = findViewById(R.id.head_im_id);
-        back = findViewById(R.id.back_iv_id);
+        if ((mouth == 3 && day >= 21) || (mouth == 4 && day <= 19)) {
+            starSeat = "白羊座";
+        } else if ((mouth == 4 && day >= 20) || (mouth == 5 && day <= 20)) {
+            starSeat = "金牛座";
+        } else if ((mouth == 5 && day >= 21) || (mouth == 6 && day <= 21)) {
+            starSeat = "双子座";
+        } else if ((mouth == 6 && day >= 22) || (mouth == 7 && day <= 22)) {
+            starSeat = "巨蟹座";
+        } else if ((mouth == 7 && day >= 23) || (mouth == 8 && day <= 22)) {
+            starSeat = "狮子座";
+        } else if ((mouth == 8 && day >= 23) || (mouth == 9 && day <= 22)) {
+            starSeat = "处女座";
+        } else if ((mouth == 9 && day >= 23) || (mouth == 10 && day <= 23)) {
+            starSeat = "天秤座";
+        } else if ((mouth == 10 && day >= 24) || (mouth == 11 && day <= 22)) {
+            starSeat = "天蝎座";
+        } else if ((mouth == 11 && day >= 23) || (mouth == 12 && day <= 21)) {
+            starSeat = "射手座";
+        } else if ((mouth == 12 && day >= 22) || (mouth == 1 && day <= 19)) {
+            starSeat = "摩羯座";
+        } else if ((mouth == 1 && day >= 20) || (mouth == 2 && day <= 18)) {
+            starSeat = "水瓶座";
+        } else {
+            starSeat = "双鱼座";
+        }
+        return starSeat;
+    }
 
-        //返回
+    private void initListener() {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +138,7 @@ public class EditPersonalMessageActivity extends AppCompatActivity {
         });
 
         //保存
-        preser = findViewById(R.id.preservation_tv_id);
+
         preser.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
@@ -114,11 +170,29 @@ public class EditPersonalMessageActivity extends AppCompatActivity {
         });
     }
 
+    private void init() {
+        preser = findViewById(R.id.preservation_tv_id);
+        relativeLayout = findViewById(R.id.brith_rl_id);
+        textView = findViewById(R.id.brith_tv_id);
+        cityLayout = findViewById(R.id.city_rl_id);
+        citytextView = findViewById(R.id.city_tv_id);
+        headimage = findViewById(R.id.head_im_id);
+        back = findViewById(R.id.back_iv_id);
+
+        //返回
+
+    }
+
     private void MyTiem() {
         TimePickerView pvTime = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
+
                 textView.setText(getTime(date));
+                int month = date.getMonth();
+                int day = date.getDay();
+                String starSeat = getStarSeat(month, day);
+                tvStartSeat.setText(starSeat);
             }
         })
                 .setType(new boolean[]{true, true, true, false, false, false})// 默认全部显示
@@ -266,6 +340,7 @@ public class EditPersonalMessageActivity extends AppCompatActivity {
                 Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         popupView.startAnimation(animation);
     }
+
     /**
      * 设置手机屏幕亮度变暗
      */

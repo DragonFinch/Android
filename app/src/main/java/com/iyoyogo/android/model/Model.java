@@ -7,6 +7,7 @@ import com.iyoyogo.android.bean.login.SendMessageBean;
 import com.iyoyogo.android.bean.login.interest.InterestBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.bean.login.login.MarketBean;
+import com.iyoyogo.android.bean.mine.MineMessageBean;
 import com.iyoyogo.android.bean.yoxiu.TypeBean;
 import com.iyoyogo.android.bean.yoxiu.YoXiuDetailBean;
 import com.iyoyogo.android.bean.yoxiu.YouXiuListBean;
@@ -215,6 +216,10 @@ public class Model {
     }
     public Observable<BaseBean> praise(String user_id,String user_token,int yo_id,int comment){
       return   HttpClient.getApiService().praise(user_id,user_token,yo_id,comment)
+                .compose(this.switchThread());
+    }
+    public Observable<MineMessageBean> getUserInfo(String user_id,String user_token){
+        return HttpClient.getApiService().getUserInfo(user_id,user_token)
                 .compose(this.switchThread());
     }
 }

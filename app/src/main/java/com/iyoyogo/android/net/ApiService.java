@@ -7,6 +7,7 @@ import com.iyoyogo.android.bean.login.SendMessageBean;
 import com.iyoyogo.android.bean.login.interest.InterestBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.bean.login.login.MarketBean;
+import com.iyoyogo.android.bean.mine.MineMessageBean;
 import com.iyoyogo.android.bean.yoxiu.TypeBean;
 import com.iyoyogo.android.bean.yoxiu.YoXiuDetailBean;
 import com.iyoyogo.android.bean.yoxiu.YouXiuListBean;
@@ -219,5 +220,9 @@ public interface ApiService {
                                 @Field("user_token")String user_token,
                                 @Field("yo_id") int yo_id ,
                                 @Field("comment") int comment);
+    @POST("index.php/api/usercenter/get")
+    @FormUrlEncoded
+    Observable<MineMessageBean> getUserInfo(@Field("user_id")String user_id,
+                                            @Field("user_token")String user_token);
 }
 
