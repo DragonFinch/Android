@@ -29,7 +29,7 @@ import static com.iyoyogo.android.app.AppInfo.getCurProcessName;
 public class App extends Application {
 //5bea3cb0f1f5565cc1000170
     public static Context mContext;
-    public static App context;
+    public static Context context;
     public static boolean isLogin;
     public static UserInfo userInfo;
 

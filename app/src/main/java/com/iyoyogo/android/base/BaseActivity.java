@@ -4,7 +4,6 @@ package com.iyoyogo.android.base;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,18 +12,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.app.App;
-import com.iyoyogo.android.ui.common.MainActivity;
-import com.iyoyogo.android.ui.home.recommend.YoXiuDetailActivity;
-import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.DisplayAdapter;
 import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.widget.IStatusView;
@@ -56,10 +50,12 @@ public abstract class BaseActivity<T extends IBasePresenter> extends AppCompatAc
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setScreenOrientation();
         setDefaultDisplayAdaptOrientation();
         setStatusBar();
         setContentView(getLayoutId());
+        App.context=this;
         unbinder = ButterKnife.bind(this);//绑定ButterKnife
         initPermission();
         addStatusView();

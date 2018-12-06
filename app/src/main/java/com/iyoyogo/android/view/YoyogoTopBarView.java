@@ -3,6 +3,7 @@ package com.iyoyogo.android.view;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -64,14 +65,25 @@ public class YoyogoTopBarView extends RelativeLayout {
         locationIcon = findViewById(R.id.location_icon);
         attendtion_tv = findViewById(R.id.attendtion_tv);
         recommend_tv = findViewById(R.id.recommend_tv);
-        attentionImg = findViewById(R.id.attendtion_img);
-        recommendImg = findViewById(R.id.recommend_img);
 
+        Drawable drawableLeft1 = getResources().getDrawable(
+                R.mipmap.line_white);
+
+        recommend_tv.setCompoundDrawablesWithIntrinsicBounds(null,
+                null, null, drawableLeft1);
         attendtion_tv.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                recommendImg.setVisibility(VISIBLE);
-                attentionImg.setVisibility(GONE);
+                Drawable drawableLeft1 = getResources().getDrawable(
+                        R.mipmap.line_white);
+
+                attendtion_tv.setCompoundDrawablesWithIntrinsicBounds(null,
+                        null, null, drawableLeft1);
+                Drawable drawableLeft = getResources().getDrawable(
+                        R.mipmap.line_white);
+
+                recommend_tv.setCompoundDrawablesWithIntrinsicBounds(null,
+                        null, null, null);
                 attendtion_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
                 attendtion_tv.setTextColor(Color.parseColor("#ffffff"));
                 recommend_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
@@ -84,8 +96,16 @@ public class YoyogoTopBarView extends RelativeLayout {
         recommend_tv.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                recommendImg.setVisibility(GONE);
-                attentionImg.setVisibility(VISIBLE);
+                Drawable drawableLeft1 = getResources().getDrawable(
+                        R.mipmap.line_white);
+
+                attendtion_tv.setCompoundDrawablesWithIntrinsicBounds(null,
+                        null, null, null);
+                Drawable drawableLeft = getResources().getDrawable(
+                        R.mipmap.line_white);
+
+                recommend_tv.setCompoundDrawablesWithIntrinsicBounds(null,
+                        null, null, drawableLeft);
                 attendtion_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
                 attendtion_tv.setTextColor(Color.parseColor("#ffffff"));
 

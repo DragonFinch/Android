@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/dp_123"
-    android:layout_height="@dimen/dp_123">
+    android:layout_width="@dimen/dp_130"
+    android:layout_height="@dimen/dp_130">
 <ImageView
+    android:layout_centerInParent="true"
     android:scaleType="centerCrop"
     android:id="@+id/img_picture"
     android:layout_width="@dimen/dp_123"

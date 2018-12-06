@@ -2,11 +2,14 @@ package com.iyoyogo.android.model;
 
 
 import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.bean.home.HomeViewPagerBean;
 import com.iyoyogo.android.bean.login.SendMessageBean;
 import com.iyoyogo.android.bean.login.interest.InterestBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.bean.login.login.MarketBean;
+import com.iyoyogo.android.bean.mine.GetBindInfoBean;
+import com.iyoyogo.android.bean.mine.GetUserInfoBean;
 import com.iyoyogo.android.bean.mine.MineMessageBean;
 import com.iyoyogo.android.bean.yoxiu.TypeBean;
 import com.iyoyogo.android.bean.yoxiu.YoXiuDetailBean;
@@ -206,20 +209,60 @@ public class Model {
         return HttpClient.getApiService().publish_yoXiu(user_id, user_token, file_path, file_type, file_desc, channel_ids, topic_ids, open, valid, position_name, position_areas, position_address, filter_id)
                 .compose(this.switchThread());
     }
-    public Observable<YoXiuDetailBean> getDetail(String user_id,String user_token,int id){
-        return HttpClient.getApiService().getDetail(user_id,user_token,id)
+
+    public Observable<YoXiuDetailBean> getDetail(String user_id, String user_token, int id) {
+        return HttpClient.getApiService().getDetail(user_id, user_token, id)
                 .compose(this.switchThread());
     }
-    public Observable<YouXiuListBean> getYoXiuList(String user_id, String user_token, int page){
-        return HttpClient.getApiService().getYoXiuList(user_id,user_token,page)
+
+    public Observable<YouXiuListBean> getYoXiuList(String user_id, String user_token, int page) {
+        return HttpClient.getApiService().getYoXiuList(user_id, user_token, page)
                 .compose(this.switchThread());
     }
-    public Observable<BaseBean> praise(String user_id,String user_token,int yo_id,int comment){
-      return   HttpClient.getApiService().praise(user_id,user_token,yo_id,comment)
+
+    public Observable<BaseBean> praise(String user_id, String user_token, int yo_id, int comment_id) {
+        return HttpClient.getApiService().praise(user_id, user_token, yo_id, comment_id)
                 .compose(this.switchThread());
     }
-    public Observable<MineMessageBean> getUserInfo(String user_id,String user_token){
-        return HttpClient.getApiService().getUserInfo(user_id,user_token)
+
+    public Observable<MineMessageBean> getPersonInfo(String user_id, String user_token) {
+        return HttpClient.getApiService().getPersonInfo(user_id, user_token)
+                .compose(this.switchThread());
+    }
+
+    public Observable<CommentBean> getComment(String user_id, String user_token, int page, int yo_id, int comment_id) {
+        return HttpClient.getApiService().getComment(user_id, user_token, page, yo_id, comment_id)
+                .compose(this.switchThread())
+                ;
+    }
+
+    public Observable<BaseBean> addComment(String user_id, String user_token, int comment_id, int yo_id, String content) {
+        return HttpClient.getApiService().addComment(user_id, user_token, comment_id, yo_id, content)
+                .compose(this.switchThread());
+    }
+
+    public Observable<GetUserInfoBean> getUserInfo(String user_id, String user_token) {
+        return HttpClient.getApiService().getUserInfo(user_id, user_token)
+                .compose(this.switchThread());
+    }
+
+    public Observable<BaseBean> setUserInfo(String user_id,
+                                            String user_token,
+                                            String user_nickname,
+                                            String user_logo,
+                                            String user_sex,
+                                            String user_birthday,
+                                            String user_city) {
+        return HttpClient.getApiService().setUserInfo(user_id,user_token,user_nickname,user_logo,user_sex,user_birthday,user_city)
+                .compose(this.switchThread());
+
+    }
+    public Observable<GetBindInfoBean> getBindInfo(String user_id,String user_token){
+        return HttpClient.getApiService().getBindInfo(user_id,user_token)
+                .compose(this.switchThread());
+    }
+    public Observable<BaseBean> replacePhone(String user_id,String user_token,String phone,String yzm){
+        return HttpClient.getApiService().replacePhone(user_id,user_token,phone,yzm)
                 .compose(this.switchThread());
     }
 }

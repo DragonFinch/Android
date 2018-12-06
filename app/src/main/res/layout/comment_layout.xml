@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-<TextView
-    android:id="@+id/user_name"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="aaa"
-    android:textSize="@dimen/sp_12"
-    android:textColor="@color/orgeen_color"
-    />
+
     <TextView
-     android:maxLines="2"
-        android:id="@+id/tv_content"
-        android:layout_marginLeft="@dimen/dp_11"
+        android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="aaa"
-        android:textSize="@dimen/sp_12"
-       android:textColor="#888888"
-        />
+        android:textColor="@color/orgeen_color"
+        android:textSize="@dimen/sp_12" />
+
+    <TextView
+
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_11"
+        android:maxLines="2"
+        android:text="aaa"
+        android:textColor="#888888"
+        android:textSize="@dimen/sp_12" />
 
 </LinearLayout>

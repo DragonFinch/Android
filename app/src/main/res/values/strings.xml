@@ -9,7 +9,93 @@
     <string name="gongkai">公开</string>
     <string name="simi">私密</string>
     <string name="search_location">请输入搜索位置yo～</string>
-   <!-- //定位-->
+    <string name="app_name">Account security</string>
+    <string name="title">账号与安全</string>
+    <string name="VX">微信</string>
+    <string name="WB">微博</string>
+    <string name="QQ">QQ</string>
+    <string name="binding">已绑定</string>
+    <string name="Nobinding">未绑定</string>
+    <string name="phonenumber">18511193840</string>
+
+    <string name="replace">更换手机号</string>
+    <string name="placephone">请输入手机号</string>
+    <string name="verifycode">请输入短信验证码</string>
+    <string name="getcode">获取验证码</string>
+    <string name="instantly">立即更换</string>
+
+    <string name="about">关于我们</string>
+    <string name="edition">yoyoGo  V1.0</string>
+    <string name="wxpublic">微信公众号</string>
+    <string name="diary">折耳妮的旅行日记</string>
+    <string name="sina">新浪微博</string>
+    <string name="chick">折耳妮小妞</string>
+    <string name="praise">表扬一下</string>
+    <string name="protocolone">隐私政策</string>
+    <string name="protocoltow">服务条款</string>
+    <string name="company">悠悠行旅（北京）信息科技有限公司</string>
+    <string name="companytow">©2018 yoyoGo All Rights Reserved</string>
+
+    <string name="opinion">意见反馈</string>
+    <string name="submit">提交</string>
+    <string name="opiniontext">你的意见会让我们变得更好yo～</string>
+    <string name="phone">手机</string>
+    <string name="you">你的「表扬」</string>
+    <string name="yes">是我们最大的动力yo～</string>
+    <string name="leave">狠心离开</string>
+
+    <string name="settings">设置</string>
+    <string name="newmessage">新消息提醒</string>
+    <string name="visit">访问通讯录</string>
+    <string name="wifi">Wi-Fi环境下自动播放视频</string>
+    <string name="account">账号与安全</string>
+    <string name="version">当前版本</string>
+    <string name="versionnumber">V1.0</string>
+    <string name="empty">清空缓存</string>
+    <string name="emptyNumber">8M</string>
+    <string-array name="array_name">
+        <item>鸣人</item>
+        <item>佐助</item>
+        <item>小樱</item>
+        <item>鹿丸</item>
+        <item>丁次</item>
+        <item>井野</item>
+        <item>雏田</item>
+        <item>牙</item>
+        <item>志乃</item>
+        <item>#志乃</item>
+        <item>12志乃</item>
+        <item>卡卡西</item>
+        <item>凯</item>
+        <item>天天</item>
+        <item>宁次</item>
+        <item>小李</item>
+        <item>我爱罗</item>
+        <item>勘九郎</item>
+        <item>大蛇丸</item>
+    </string-array>
+    <string-array name="array_phone">
+        <item>100</item>
+        <item>110</item>
+        <item>120</item>
+        <item>130</item>
+        <item>140</item>
+        <item>150</item>
+        <item>160</item>
+        <item>170</item>
+        <item>180</item>
+        <item>190</item>
+        <item>200</item>
+        <item>210</item>
+        <item>220</item>
+        <item>230</item>
+        <item>我240</item>
+        <item>250</item>
+        <item>260</item>
+        <item>270</item>
+        <item>280</item>
+    </string-array>
+    <!-- //定位-->
     <string name="hi">Hi~</string>
     <string name="over">资料完善成功!</string>
     <string name="place">请你吃小鱼干yo~</string>
@@ -29,7 +115,6 @@
     <string name="quxiao">取消</string>
     <string name="pleaseinput">请输入在哪里yo~</string>
     <string name="photo">照片/图片位置信息</string>
-    <string name="app_name">yoyoGo</string>
     <string name="hello_world">Hello world!</string>
     <string name="binding_phone">绑定手机号</string>
     <string name="binding_phone_phone">请输入手机号</string>
@@ -68,7 +153,7 @@
     <string name="input_ver_code">请输入验证码</string>
     <string name="reg_desc"><![CDATA[我已阅读并接受]]></string>
     <string name="reg_at"><![CDATA[&]]></string>
-
+    <string name="logout">退出登录</string>
     <string name="login">登录</string>
     <string name="login_by_third">第三方账号快速登录</string>
     <string name="input_wrong_phone_num">手机号码输入错误</string>
@@ -86,7 +171,6 @@
     <string name="sina_weibo">新浪微博</string>
     <string name="str_weibo">微博</string>
     <string name="biaoyang">表扬一下</string>
-    <string name="phone">手机</string>
     <string name="black">黑名单</string>
 
     <string name="wechat">微信</string>
@@ -99,7 +183,6 @@
     <string name="about_us">关于我们</string>
     <string name="now_version">当前版本</string>
     <string name="clear_temp_cache">清空缓存</string>
-    <string name="logout">退出登录</string>
     <string name="setting">设置</string>
     <string name="feed_back">意见反馈</string>
     <string name="str_biaoyang">您的表扬</string>

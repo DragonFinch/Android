@@ -2,7 +2,6 @@ package com.iyoyogo.android.ui.common;
 
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -26,7 +25,6 @@ import java.lang.ref.WeakReference;
 import java.security.MessageDigest;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter> implements BindPhoneContract.View {
@@ -163,7 +161,7 @@ public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter>
 
     @Override
     public void sendMessageSuccess(SendMessageBean.DataBean data) {
-        Toast.makeText(this, "message", Toast.LENGTH_SHORT).show();
+
         String yzm = data.getYzm();
 //        editBindCode.setText(yzm);
         startTime1();
@@ -267,12 +265,12 @@ public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter>
                 }
                 break;
             case R.id.tv_bind_code:
-                if (editBindCode.getText().toString().length()>0){
+                if (editBind.getText().toString().length()>0){
 
                     sign = MD5(editBind.getText().toString().trim() + "" + dateTime + "yoyogo");
                     mPresenter.sendMessage(editBind.getText().toString().trim(), editBindCode.getText().toString().trim(), dateTime, sign);
                 }else {
-                    Toast.makeText(this, "验证码必须填", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "手机号必须填", Toast.LENGTH_SHORT).show();
                 }
 
                 break;

@@ -79,6 +79,12 @@ public class MainActivity extends BaseActivity {
         String user_id = SpUtils.getString(MainActivity.this, "user_id", null);
 
         String user_token = SpUtils.getString(MainActivity.this, "user_token", null);
+        if (user_id.equals("")||user_token.equals("")){
+            SpUtils.remove(MainActivity.this,"user_id");
+            SpUtils.remove(MainActivity.this,"user_token");
+            SpUtils.remove(MainActivity.this,"isTrue");
+            startActivity(new Intent(MainActivity.this,LoginActivity.class));
+        }
         Log.d("MainActivity", user_id);
         Log.d("MainActivity", user_token);
         test.setText(user_id+user_token);
@@ -163,6 +169,8 @@ public class MainActivity extends BaseActivity {
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.CALL_PHONE,
                     Manifest.permission.READ_LOGS,
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.RECORD_AUDIO,
                     Manifest.permission.READ_PHONE_STATE,
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.SET_DEBUG_APP,

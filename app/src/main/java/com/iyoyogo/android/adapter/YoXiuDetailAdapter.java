@@ -15,12 +15,20 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.comment.CommentBean;
+import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.utils.DensityUtil;
+import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.widget.CircleImageView;
 
 import java.util.List;
+
+import io.reactivex.functions.Consumer;
 
 public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.Holder> {
     private Context context;
@@ -30,11 +38,12 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
     private ImageView img_tip;
     private PopupWindow popup;
     private final Activity activity;
-    private List<String> mList;
-    public YoXiuDetailAdapter(Context context,List <String> mList) {
+    private List<CommentBean.DataBean.ListBean> mList;
+
+    public YoXiuDetailAdapter(Context context, List<CommentBean.DataBean.ListBean> mList) {
         this.context = context;
-        this.mList=mList;
-        activity = (Activity)context;
+        this.mList = mList;
+        activity = (Activity) context;
         initPopup();
     }
 
@@ -45,6 +54,7 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         Holder holder = new Holder(view);
         return holder;
     }
+
     public void loadMore() {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_more, null);
         PopupWindow popup_more = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
@@ -123,13 +133,13 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         //点击空白处时，隐藏掉pop窗口
 
 
-
         //添加pop窗口关闭事件
         popup.setOnDismissListener(new poponDismissListener());
     }
+
     public void backgroundAlpha(float bgAlpha) {
 
-        WindowManager.LayoutParams lp =activity.getWindow().getAttributes();
+        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
         lp.alpha = bgAlpha; // 0.0~1.0
         activity.getWindow().setAttributes(lp); //act 是上下文context
 
@@ -142,6 +152,7 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
             backgroundAlpha(1.0f);
         }
     }
+
     public void like() {
         tv_message.setTextColor(Color.parseColor("#FA800A"));
         tv_message_two.setTextColor(Color.parseColor("#FA800A"));
@@ -184,16 +195,109 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         popup.setOnDismissListener(new poponDismissListener());
         popup.showAtLocation(activity.findViewById(R.id.activity_yoxiu_detail), Gravity.CENTER, 0, 0);
     }
+
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
+        CommentBean.DataBean.ListBean listBean = mList.get(position);
+        holder.tv_content.setText(listBean.getContent());
+        holder.tv_comment_like_num.setText(listBean.getCount_praise() + "");
+        holder.tv_huifu_num.setText(listBean.getCount_comment() + "");
+        holder.tv_time.setText(listBean.getCreate_time());
+        holder.user_name.setText(listBean.getUser_nickname());
+        if (listBean.getUser_logo().equals("")) {
+            holder.img_user_icon.setImageResource(R.mipmap.default_touxiang);
+        } else {
+            Glide.with(context).load(listBean.getUser_logo()).into(holder.img_user_icon);
 
-        RoundedCorners roundedCorners= new RoundedCorners(6);
-//通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
-        RequestOptions options=RequestOptions.bitmapTransform(roundedCorners).override(300, 300);
+        }
+       /* if (mList.get(position).getIs_my_like()==0){
+            holder.img_comment_like.setImageResource(R.mipmap.ic_like);
+        }else {
+            holder.img_comment_like.setImageResource(R.mipmap.ic_liked);
+        }
+        holder.img_comment_like.setImageResource(mList.get(position).getIs_my_like() == 0 ? R.mipmap.ic_like : R.mipmap.ic_liked);
+
+
         holder.img_comment_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                like();
+                String user_id = SpUtils.getString(context, "user_id", null);
+                String user_token = SpUtils.getString(context, "user_token", null);
+                DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getId(), 0)
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                                int count_praise = mList.get(position).getCount_praise();
+                                mList.get(position).setIs_my_like(mList.get(position).getIs_my_like() == 1 ? 0 : 1);
+                                if (mList.get(position).getIs_my_like() == 1) {
+                                    count_praise += 1;
+                                } else if (count_praise > 0) {
+                                    count_praise -= 1;
+                                }
+                                mList.get(position).setCount_praise(count_praise);
+                                notifyDataSetChanged();
+                            }
+                        });
+            }
+        });*/
+        RoundedCorners roundedCorners = new RoundedCorners(6);
+//通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
+        RequestOptions options = RequestOptions.bitmapTransform(roundedCorners).override(300, 300);
+        if (mList.get(position).getIs_my_praise()==0){
+            holder.img_comment_like.setImageResource(R.mipmap.zan_select);
+        }else {
+            holder.img_comment_like.setImageResource(R.mipmap.zan_selected);
+        }
+        holder.img_comment_like.setImageResource(mList.get(position).getIs_my_praise() == 0 ? R.mipmap.zan_select : R.mipmap.zan_selected);
+
+
+        holder.img_huifu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                comment();
+           /*     String user_id = SpUtils.getString(context, "user_id", null);
+                String user_token = SpUtils.getString(context, "user_token", null);
+                DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getId(), 0)
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+
+                                int count_praise = mList.get(position).getCount_praise();
+                                mList.get(position).setIs_my_praise(mList.get(position).getIs_my_praise() == 1 ? 0 : 1);
+                                if (mList.get(position).getIs_my_praise() == 1) {
+                                    count_praise += 1;
+                                } else if (count_praise > 0) {
+                                    count_praise -= 1;
+                                }
+                                mList.get(position).setCount_praise(count_praise);
+                                notifyDataSetChanged();
+                            }
+                        });*/
+            }
+    });
+
+
+        holder.img_comment_like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String user_id = SpUtils.getString(context, "user_id", null);
+                String user_token = SpUtils.getString(context, "user_token", null);
+                DataManager.getFromRemote().praise(user_id, user_token,0, mList.get(position).getId())
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                                like();
+                                int count_praise = mList.get(position).getCount_praise();
+                                mList.get(position).setIs_my_praise(mList.get(position).getIs_my_praise() == 1 ? 0 : 1);
+                                if (mList.get(position).getIs_my_praise() == 1) {
+                                    count_praise += 1;
+                                } else if (count_praise > 0) {
+                                    count_praise -= 1;
+                                }
+                                mList.get(position).setCount_praise(count_praise);
+                                notifyDataSetChanged();
+                            }
+                        });
             }
         });
         holder.img_huifu.setOnClickListener(new View.OnClickListener() {
@@ -216,12 +320,21 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-        ImageView img_comment_like,img_huifu,img_function;
+        CircleImageView img_user_icon;
+        TextView tv_content, tv_time, user_name, tv_comment_like_num, tv_huifu_num;
+        ImageView img_comment_like, img_huifu, img_function;
+
         public Holder(@NonNull View itemView) {
             super(itemView);
-            img_comment_like=itemView.findViewById(R.id.img_comment_like);
-            img_huifu=itemView.findViewById(R.id.img_huifu);
-            img_function=itemView.findViewById(R.id.img_function);
+            tv_comment_like_num = itemView.findViewById(R.id.tv_comment_like_num);
+            tv_huifu_num = itemView.findViewById(R.id.tv_huifu_num);
+            img_user_icon = itemView.findViewById(R.id.img_user_icon);
+            tv_content = itemView.findViewById(R.id.tv_content);
+            tv_time = itemView.findViewById(R.id.tv_time);
+            user_name = itemView.findViewById(R.id.user_name);
+            img_comment_like = itemView.findViewById(R.id.img_comment_like);
+            img_huifu = itemView.findViewById(R.id.img_huifu);
+            img_function = itemView.findViewById(R.id.img_function);
         }
     }
 }

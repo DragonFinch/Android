@@ -239,7 +239,7 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
                     Log.d("formatAddress", aoiName);
                 }
                 tvCity.setVisibility(View.VISIBLE);
-                tvCity.setText(district  +","+city+ "," + province + "," + country);
+                tvCity.setText(country  +","+province+ "," + city + "," + district);
                 //城市
                 CreatePointActivity.this.city = place.substring(3, 6);
                 Log.e("formatAddress", CreatePointActivity.this.city);

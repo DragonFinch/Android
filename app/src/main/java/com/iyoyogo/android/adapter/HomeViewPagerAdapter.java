@@ -1,26 +1,22 @@
 package com.iyoyogo.android.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
-import com.iyoyogo.android.app.Constant;
 import com.iyoyogo.android.bean.home.HomeViewPagerBean;
-import com.iyoyogo.android.utils.GlideUtil;
-import com.iyoyogo.android.utils.NetWorkManager;
+import com.iyoyogo.android.ui.common.WebActivity;
 import com.iyoyogo.android.utils.RoundTransform;
-import com.iyoyogo.android.utils.ToastUtil;
 
 import java.util.List;
-
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class HomeViewPagerAdapter extends PagerAdapter {
     private List<HomeViewPagerBean.DataBean.BannerListBean> images;
@@ -68,8 +64,15 @@ public class HomeViewPagerAdapter extends PagerAdapter {
             @Override
             public void onClick(View view) {
 //                int user_id = Integer.parseInt(SPUtil.get(context, Constant.USER_ID, 0).toString());
+                String target_url = images.get(position).getTarget_url();
+                Intent intent = new Intent(context, WebActivity.class);
+                if (target_url.length()>0){
+                    intent.putExtra("url",target_url);
+                    context.startActivity(intent);
+                }else {
+                    Toast.makeText(context, "链接为空", Toast.LENGTH_SHORT).show();
+                }
 
-                String remark = images.get(position).getRemark();
               /*  if ("V".equals(remark)) {
                     ActivityUtils.goVideoActivity(context, images.get(position).getJumpAddr());
                     return;

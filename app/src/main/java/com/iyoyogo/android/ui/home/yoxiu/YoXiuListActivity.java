@@ -1,8 +1,12 @@
 package com.iyoyogo.android.ui.home.yoxiu;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -13,18 +17,25 @@ import com.iyoyogo.android.adapter.YoXiuListAdapter;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.yoxiu.YouXiuListBean;
 import com.iyoyogo.android.contract.YoXiuListContract;
-import com.iyoyogo.android.presenter.YoXiuListPresenter;
+import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.ui.home.recommend.YoXiuDetailActivity;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.StatusBarUtils;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
-public class YoXiuListActivity extends BaseActivity<YoXiuListContract.Presenter>implements YoXiuListContract.View {
-
-
+public class YoXiuListActivity extends BaseActivity {
+    int currentPage = 1;
     @BindView(R.id.back)
     ImageView back;
     @BindView(R.id.tv_message)
@@ -35,12 +46,23 @@ public class YoXiuListActivity extends BaseActivity<YoXiuListContract.Presenter>
     RelativeLayout bar;
     @BindView(R.id.recycler_yoxiu_list)
     RecyclerView recyclerYoxiuList;
+    @BindView(R.id.refresh_layout)
+    SmartRefreshLayout refreshLayout;
+    private YoXiuListAdapter yoXiuListAdapter;
+    private LinearLayoutManager mLayoutManager;
+    private int lastVisibleItem;
+    private String user_id;
+    private String user_token;
+    private List<YouXiuListBean.DataBean.ListBean> mList;
 
+    @SuppressLint("ResourceType")
     @Override
     protected void initView() {
         super.initView();
+        mLayoutManager = new LinearLayoutManager(YoXiuListActivity.this);
         shareImg.setVisibility(View.GONE);
-        tvMessage.setText("yo.秀");
+        StatusBarUtils.setWindowStatusBarColor(YoXiuListActivity.this, R.color.orange);
+        mList = new ArrayList<>();
     }
 
     @Override
@@ -50,22 +72,81 @@ public class YoXiuListActivity extends BaseActivity<YoXiuListContract.Presenter>
 
     @Override
     protected YoXiuListContract.Presenter createPresenter() {
-        return new YoXiuListPresenter(this);
+        return null;
     }
 
+    @SuppressLint("CheckResult")
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        String user_id = SpUtils.getString(YoXiuListActivity.this, "user_id", null);
-        String user_token = SpUtils.getString(YoXiuListActivity.this, "user_token", null);
-        mPresenter.getYoXiuList(user_id,user_token,1);
+        user_id = SpUtils.getString(YoXiuListActivity.this, "user_id", null);
+        user_token = SpUtils.getString(YoXiuListActivity.this, "user_token", null);
+        recyclerYoxiuList.setLayoutManager(new LinearLayoutManager(YoXiuListActivity.this));
+        refreshLayout.setEnableRefresh(false);
+        DataManager.getFromRemote().getYoXiuList(user_id, user_token, currentPage)
+                .subscribe(new Observer<YouXiuListBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(YouXiuListBean youXiuListBean) {
+                        List<YouXiuListBean.DataBean.ListBean> list = youXiuListBean.getData().getList();
+                        mList.addAll(list);
+                        yoXiuListAdapter = new YoXiuListAdapter(YoXiuListActivity.this, mList);
+                        recyclerYoxiuList.setAdapter(yoXiuListAdapter);
+                        yoXiuListAdapter.setOnItemClickListener(new YoXiuListAdapter.OnClickListener() {
+                            @Override
+                            public void setOnClickListener(View v, int position) {
+                                int id = mList.get(position).getId();
+                                Intent intent = new Intent(YoXiuListActivity.this, YoXiuDetailActivity.class);
+                                intent.putExtra("id", id);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("YoXiuListActivity", e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                currentPage++;
+                Log.d("currentPage", "currentPage:" + currentPage);
+                DataManager.getFromRemote().getYoXiuList(user_id, user_token, currentPage)
+                        .subscribe(new Consumer<YouXiuListBean>() {
+                            @Override
+                            public void accept(YouXiuListBean youXiuListBean) throws Exception {
+                                List<YouXiuListBean.DataBean.ListBean> list = youXiuListBean.getData().getList();
+                                mList.addAll(list);
+                            }
+                        });
+                yoXiuListAdapter.notifyDataSetChanged();
+                refreshLayout.finishLoadMore(300);
+
+            }
+        });
+
+
     }
+
 
     @OnClick({R.id.back, R.id.share_img})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back:
-finish();
+                finish();
                 break;
             case R.id.share_img:
 
@@ -73,14 +154,5 @@ finish();
         }
     }
 
-    @Override
-    public void getYoXiuListSuccess(YouXiuListBean.DataBean data) {
-        List<YouXiuListBean.DataBean.ListBean> mList=new ArrayList<>();
-        List<YouXiuListBean.DataBean.ListBean> list = data.getList();
-        mList.addAll(list);
-        recyclerYoxiuList.setLayoutManager(new LinearLayoutManager(YoXiuListActivity.this));
-        YoXiuListAdapter yoXiuListAdapter = new YoXiuListAdapter(YoXiuListActivity.this,mList);
 
-        recyclerYoxiuList.setAdapter(yoXiuListAdapter);
-    }
 }

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/activity_yoxiu_detail"
-    android:layout_height="match_parent"
-  >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <include
         android:id="@+id/bar"
@@ -19,6 +18,7 @@
         android:focusableInTouchMode="true">
 
         <EditText
+            android:imeOptions="actionDone"
             android:id="@+id/edit_comment"
             android:layout_width="@dimen/dp_230"
             android:layout_height="@dimen/dp_30"
@@ -58,25 +58,27 @@
                     android:src="@mipmap/ic_collected"
                     />-->
         <TextView
-
             android:id="@+id/tv_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_30"
             android:layout_toRightOf="@+id/img_brow"
-            android:drawableTop="@mipmap/yixihuan_2"
-            android:text="aaa" />
+            android:drawableTop="@mipmap/ic_like"
+            android:drawablePadding="@dimen/dp_6"
+            android:gravity="center_horizontal"
+            android:text="1" />
 
         <TextView
             android:id="@+id/tv_collection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_37"
             android:layout_marginRight="@dimen/dp_22"
-android:layout_centerVertical="true"
-            android:drawableTop="@mipmap/ic_collected"
+            android:drawableTop="@mipmap/ic_collect"
+            android:gravity="center_horizontal"
             android:text="aaa" />
     </RelativeLayout>
 
@@ -117,6 +119,7 @@ android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="106dp"
                 android:src="@mipmap/ic_video" />
+
             <TextView
                 android:id="@+id/tv_desc"
                 android:layout_width="wrap_content"
@@ -186,6 +189,11 @@ android:layout_centerVertical="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/img_user_icon"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_6"
+                android:lineHeight="@dimen/dp_8"
+                android:layout_marginRight="@dimen/dp_20"
+                android:singleLine="true"
                 android:text="@string/account_and_safe" />
 
             <TextView
@@ -218,10 +226,10 @@ android:layout_centerVertical="true"
                 android:text="时间" />
 
             <ImageView
+                android:id="@+id/img_water_mark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_time"
-                    android:id="@+id/img_water_mark"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/dp_15"
                 android:src="@mipmap/ic_meipai_logo" />
@@ -244,37 +252,40 @@ android:layout_centerVertical="true"
                 android:textColor="#333333" />
 
             <android.support.v7.widget.RecyclerView
-                android:visibility="gone"
                 android:id="@+id/recycler_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_comment"
+                android:visibility="visible"
 
                 />
+
             <ImageView
-                android:layout_marginTop="@dimen/dp_21"
-                android:layout_below="@+id/tv_comment"
+                android:visibility="gone"
+                android:id="@+id/img_comment_null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/blank_list"
-                android:id="@+id/img_comment_null"
-                />
+                android:layout_below="@+id/tv_comment"
+                android:layout_marginTop="@dimen/dp_21"
+                android:src="@mipmap/blank_list" />
+
             <TextView
-                android:layout_marginTop="@dimen/dp_11"
-                android:visibility="visible"
+
                 android:id="@+id/tv_comment_null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/img_comment_null"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dp_11"
+                android:drawablePadding="@dimen/dp_5"
+                android:gravity="center"
                 android:text="还没有人来抢沙发yo～"
                 android:textColor="#ff888888"
                 android:textSize="@dimen/sp_12"
-                android:drawablePadding="@dimen/dp_5"
-                android:gravity="center"
-               />
+                android:visibility="gone" />
+
             <TextView
-              android:visibility="gone"
+                android:layout_marginTop="@dimen/dp_21"
                 android:id="@+id/tv_more_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -284,8 +295,16 @@ android:layout_centerVertical="true"
                 android:drawablePadding="@dimen/dp_5"
                 android:gravity="center"
                 android:text="全部评论"
-                android:textColor="#333" />
 
+                android:textColor="#333"
+                android:visibility="visible" />
+<View
+    android:layout_marginTop="@dimen/dp_10"
+    android:layout_marginLeft="@dimen/dp_10"
+    android:background="#f1f1f1"
+    android:layout_below="@+id/tv_more_comment"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_1"/>
 
         </RelativeLayout>
     </ScrollView>

@@ -13,10 +13,10 @@ import com.iyoyogo.android.bean.yoxiu.YouXiuListBean;
 
 import java.util.List;
 
-public class YoXiuListItemAdapter extends RecyclerView.Adapter<YoXiuListItemAdapter.ViewHolder> {
+public class YoXiuListItemAdapter extends RecyclerView.Adapter<YoXiuListItemAdapter.ViewHolder> implements View.OnClickListener {
     private Context context;
     List<YouXiuListBean.DataBean.ListBean.CommentListBean> mList;
-
+    private OnClickListener onClickListener;
     public YoXiuListItemAdapter(Context context, List<YouXiuListBean.DataBean.ListBean.CommentListBean> comment_list) {
         this.context = context;
         this.mList = comment_list;
@@ -27,6 +27,7 @@ public class YoXiuListItemAdapter extends RecyclerView.Adapter<YoXiuListItemAdap
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context).inflate(R.layout.comment_layout, null);
         ViewHolder viewHolder = new ViewHolder(view);
+        view.setOnClickListener(this);
         return viewHolder;
     }
 
@@ -34,11 +35,21 @@ public class YoXiuListItemAdapter extends RecyclerView.Adapter<YoXiuListItemAdap
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         viewHolder.user_name.setText(mList.get(position).getUser_nickname());
         viewHolder.tv_content.setText(mList.get(position).getContent());
+        viewHolder.itemView.setTag(position);
     }
 
     @Override
     public int getItemCount() {
         return mList.size();
+    }
+    public interface OnClickListener{
+        void setOnClickListener(View v,int position);
+    }
+    @Override
+    public void onClick(View v) {
+        if (onClickListener!=null){
+            onClickListener.setOnClickListener(v, (Integer) v.getTag());
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

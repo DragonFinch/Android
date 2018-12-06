@@ -131,6 +131,7 @@ private boolean isTrue=false;
     private ImageView samePara;
     private LinearLayout mFuLayout;
     private TextView mOk;
+    private ImageView back;
     private RelativeLayout mMainLayout;
     private RelativeLayout mStartLayout;
     private CircleProgressBar mCapture;
@@ -192,6 +193,7 @@ private boolean isTrue=false;
     private SpUtil mSp;
     private ContentResolver mContentResolver;
     private int captureResolutionGrade;
+    private int type;
     //
 
 
@@ -248,6 +250,13 @@ private boolean isTrue=false;
         mContentResolver = getContentResolver();
         animator = ValueAnimator.ofInt(0, 100);
         checkAllPermission();
+        back=findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         captureResolutionGrade = ParameterSettingValues.instance().getCaptureResolutionGrade();
         List<String> mPhoto=new ArrayList<>();
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
@@ -1860,6 +1869,8 @@ private boolean isTrue=false;
     @Override
     protected void onResume() {
         super.onResume();
+        Intent intent = getIntent();
+        type = intent.getIntExtra("type", 1);
         mRecordTimeList = new ArrayList<Long>();
         mStreamingContext = NvsStreamingContext.getInstance();
         captures.setVisibility(View.VISIBLE);

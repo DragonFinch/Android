@@ -5,11 +5,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.home.yoxiu.YoXiuListActivity">
-    <include layout="@layout/share_bar" android:id="@+id/bar"/>
-<android.support.v7.widget.RecyclerView
-    android:layout_below="@+id/bar"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/recycler_yoxiu_list"
-    />
+    <RelativeLayout android:id="@+id/bar"
+        android:background="@color/orange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+        <ImageView
+            android:layout_marginBottom="@dimen/dp_17"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/back"
+            android:src="@mipmap/back_icon"
+            />
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_marginTop="@dimen/dp_14"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/sp_18"
+            android:textColor="@color/white"
+
+            android:text="yo.秀"
+            />
+        <ImageView
+            android:id="@+id/share_img"
+            android:layout_marginRight="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_17"
+            android:src="@mipmap/share"
+            android:layout_alignParentRight="true"
+
+            />
+    </RelativeLayout>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:layout_marginTop="@dimen/dp_15"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/bar"
+        android:id="@+id/refresh_layout"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/recycler_yoxiu_list"
+            />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 </RelativeLayout>

@@ -44,7 +44,7 @@ public class PublishYoXiuPresenter extends BasePresenter<PublishYoXiuContract.Vi
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
-
+                                mView.publishYoXiuSuccess();
                     }
 
                     @Override

@@ -34,4 +34,25 @@ public class YoXiuListPresenter extends BasePresenter<YoXiuListContract.View> im
                     }
                 });
     }
+
+    @Override
+    public void loadMoreYoXiuList(String user_id, String user_token, int page) {
+        DataManager.getFromRemote()
+                .getYoXiuList(user_id,user_token,page)
+                .subscribe(new ApiObserver<YouXiuListBean>(mView,this) {
+                    @Override
+                    protected void doOnSuccess(YouXiuListBean youXiuListBean) {
+                        YouXiuListBean.DataBean data = youXiuListBean.getData();
+                        if (data!=null){
+                            mView.loadMoreYoXiuListSuccess(data);
+                        }
+                    }
+
+                    @Override
+                    protected boolean doOnFailure(int code, String message) {
+                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+    }
 }

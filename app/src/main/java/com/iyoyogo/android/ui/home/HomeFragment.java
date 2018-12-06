@@ -2,15 +2,11 @@ package com.iyoyogo.android.ui.home;
 
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -35,13 +31,12 @@ import com.amap.api.location.AMapLocationListener;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseFragment;
 import com.iyoyogo.android.base.IBasePresenter;
-import com.iyoyogo.android.ui.common.LocationActivity;
-import com.iyoyogo.android.ui.common.SearchActivity;
 import com.iyoyogo.android.ui.home.attention.AttentionFragment;
 import com.iyoyogo.android.ui.home.recommend.RecommedFragment;
 import com.iyoyogo.android.ui.home.yoji.PublishYoJiActivity;
 import com.iyoyogo.android.ui.home.yoxiu.SourceChooseActivity;
 import com.iyoyogo.android.utils.DensityUtil;
+import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.view.YoyogoTopBarView;
 
@@ -83,7 +78,6 @@ public class HomeFragment extends BaseFragment {
     ImageView publish_home;
 
 
-
     public String sHA1(Context context) {
         try {
             PackageInfo info = context.getPackageManager().getPackageInfo(
@@ -117,11 +111,16 @@ public class HomeFragment extends BaseFragment {
             if (amapLocation != null) {
                 if (amapLocation.getErrorCode() == 0) {
 //可在其中解析amapLocation获取相应内容。
+                    mLocationOption.setNeedAddress(true);
                     amapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
                     amapLocation.getLatitude();//获取纬度
                     amapLocation.getLongitude();//获取经度
                     amapLocation.getAccuracy();//获取精度信息
-                    amapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
+                    String address = amapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
+                    SpUtils.putString(getContext(), "address", address);
+                    String systemVersion = Build.VERSION.RELEASE;
+                    SpUtils.putString(getContext(), "phone_type", android.os.Build.BRAND + "_" + android.os.Build.MODEL);
+                    SpUtils.putString(getContext(), "system_version", systemVersion);
                     amapLocation.getCountry();//国家信息
                     amapLocation.getProvince();//省信息
                     String city = amapLocation.getCity();//城市信息
@@ -234,7 +233,7 @@ public class HomeFragment extends BaseFragment {
     protected void initView() {
         super.initView();
         initLocation();
-        StatusBarUtils.setWindowStatusBarColor(getActivity(), R.color.color_orange);
+        StatusBarUtils.setWindowStatusBarColor(getActivity(), R.color.orange);
         //启动后台定位，第一个参数为通知栏ID，建议整个APP使用一个
 //        GdLocationUtil.getInstance().startContinueLocation(new AMapLocationListener() {
 //            @Override
@@ -288,12 +287,13 @@ public class HomeFragment extends BaseFragment {
         bar.setYoyotopBarClickCallback(new YoyogoTopBarView.YoyotopBarClickCallback() {
             @Override
             public void onSearchClick() {
-                startActivity(new Intent(getContext(), SearchActivity.class));
+                //
+                Toast.makeText(mActivity, "正在开发中", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onLocationClick() {
-                startActivity(new Intent(getContext(), LocationActivity.class));
+                Toast.makeText(mActivity, "正在开发中", Toast.LENGTH_SHORT).show();
             }
 
             @Override

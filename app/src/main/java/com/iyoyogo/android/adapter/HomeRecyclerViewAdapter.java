@@ -163,6 +163,8 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                     viewpager.setCurrentItem(0);
                     mHandler.sendEmptyMessageDelayed(0, 2000);
                 }
+
+
             }
 
             @Override
@@ -181,6 +183,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
         });
         isLoop = true;
+
 
     }
 

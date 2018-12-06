@@ -2,12 +2,12 @@
 <LinearLayout
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 <TextView
     android:id="@+id/tv_channel"
-    android:layout_margin="@dimen/dp_5"
+    android:layout_marginLeft="@dimen/dp_10"
     android:textColor="#fff"
-    android:text="百度山"
+    android:text="百度山a"
     android:gravity="center"
     android:background="@drawable/channel_item_bg"
     android:layout_width="wrap_content"

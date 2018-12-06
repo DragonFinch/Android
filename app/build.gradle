@@ -1,7 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        debug {
+            keyAlias 'yoyogo'
+            keyPassword 'Yoyogo618'
+            storeFile file('yoyogo.jks')
+            storePassword 'Yoyogo618'
+        }
 
+    }
     compileSdkVersion 28
     defaultConfig {
         multiDexEnabled true
@@ -20,10 +28,12 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled false
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
         }

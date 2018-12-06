@@ -122,7 +122,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginRight="25dp"
         android:text="@string/binding_phone_obtain_validation"
-        android:textColor="@color/colorFA800A" />
+        android:textColor="@color/orange" />
 
     <LinearLayout
         android:id="@+id/ll"

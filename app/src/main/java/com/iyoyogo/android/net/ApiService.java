@@ -2,11 +2,14 @@ package com.iyoyogo.android.net;
 
 
 import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.bean.home.HomeViewPagerBean;
 import com.iyoyogo.android.bean.login.SendMessageBean;
 import com.iyoyogo.android.bean.login.interest.InterestBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.bean.login.login.MarketBean;
+import com.iyoyogo.android.bean.mine.GetBindInfoBean;
+import com.iyoyogo.android.bean.mine.GetUserInfoBean;
 import com.iyoyogo.android.bean.mine.MineMessageBean;
 import com.iyoyogo.android.bean.yoxiu.TypeBean;
 import com.iyoyogo.android.bean.yoxiu.YoXiuDetailBean;
@@ -99,8 +102,6 @@ public interface ApiService {
     @POST("index.php/api/home/get_index_data")
     @FormUrlEncoded
     Observable<HomeViewPagerBean> homePager(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("type") String type);
-   /* @GET()
-    Observable<TestBean> test(@Url String url);*/
 
     /**
      * 选择类型
@@ -204,25 +205,97 @@ public interface ApiService {
                                        @Field("position_address") String position_address,
                                        @Field("filter_id") String filter_id
     );
+
     @POST("index.php/api/yox/get_details")
     @FormUrlEncoded
-    Observable<YoXiuDetailBean> getDetail(@Field("user_id")String user_id,
-                                          @Field("user_token")String user_token,
+    Observable<YoXiuDetailBean> getDetail(@Field("user_id") String user_id,
+                                          @Field("user_token") String user_token,
                                           @Field("id") int id);
+
     @POST("index.php/api/yox/get_list")
     @FormUrlEncoded
-    Observable<YouXiuListBean> getYoXiuList(@Field("user_id")String user_id,
-                                            @Field("user_token")String user_token,
+    Observable<YouXiuListBean> getYoXiuList(@Field("user_id") String user_id,
+                                            @Field("user_token") String user_token,
                                             @Field("page") int page);
+
     @POST("index.php/api/praise/click")
     @FormUrlEncoded
-    Observable<BaseBean> praise(@Field("user_id")String user_id,
-                                @Field("user_token")String user_token,
-                                @Field("yo_id") int yo_id ,
-                                @Field("comment") int comment);
+    Observable<BaseBean> praise(@Field("user_id") String user_id,
+                                @Field("user_token") String user_token,
+                                @Field("yo_id") int yo_id,
+                                @Field("comment_id") int comment_id);
+
     @POST("index.php/api/usercenter/get")
     @FormUrlEncoded
-    Observable<MineMessageBean> getUserInfo(@Field("user_id")String user_id,
-                                            @Field("user_token")String user_token);
+    Observable<MineMessageBean> getPersonInfo(@Field("user_id") String user_id,
+                                              @Field("user_token") String user_token);
+
+    /**
+     * user_id	是	string	用户id
+     * user_token	是	string	user_token
+     * page	是	int	第几页
+     * yo_id	是	int	yo_id
+     * comment_id	是	int	comment_id
+     *
+     * @return
+     */
+    @POST("index.php/api/comment/get_list")
+    @FormUrlEncoded
+    Observable<CommentBean> getComment(@Field("user_id") String user_id,
+                                       @Field("user_token") String user_token,
+                                       @Field("page") int page,
+                                       @Field("yo_id") int yo_id,
+                                       @Field("comment_id") int comment_id);
+
+    @POST("index.php/api/comment/add")
+    @FormUrlEncoded
+    Observable<BaseBean> addComment(@Field("user_id") String user_id,
+                                    @Field("user_token") String user_token,
+                                    @Field("comment_id") int comment_id,
+                                    @Field("yo_id") int yo_id,
+                                    @Field("content") String content);
+
+    @POST("index.php/api/userbase/get")
+    @FormUrlEncoded
+    Observable<GetUserInfoBean> getUserInfo(@Field("user_id") String user_id,
+                                            @Field("user_token") String user_token);
+
+    /**
+     * user_id	是	string	用户id
+     * user_token	是	string	user_token
+     * user_nickname	是	string	昵称
+     * user_logo	是	string	头像
+     * user_sex	是	string	性别
+     * user_birthday	是	string	生日
+     * user_city	是	string	城市
+     *
+     * @return
+     */
+    @POST("/index.php/api/userbase/set")
+    @FormUrlEncoded
+    Observable<BaseBean> setUserInfo(@Field("user_id") String user_id,
+                                     @Field("user_token") String user_token,
+                                     @Field("user_nickname") String user_nickname,
+                                     @Field("user_logo") String user_logo,
+                                     @Field("user_sex") String user_sex,
+                                     @Field("user_birthday") String user_birthday,
+                                     @Field("user_city") String user_city);
+
+    @POST("index.php/api/userbind/get")
+    //index.php/api/userbind/get
+    @FormUrlEncoded
+    Observable<GetBindInfoBean> getBindInfo(@Field("user_id") String user_id,
+                                            @Field("user_token") String user_token);
+
+    @POST("index.php/api/userphone/set")
+    @FormUrlEncoded
+    Observable<BaseBean> replacePhone(@Field("user_id") String user_id,
+                                      @Field("user_token") String user_token,
+                                      @Field("phone") String phone, @Field("yzm") String yzm);
+
+    @POST("index.php/api/logout/do_logout")
+    @FormUrlEncoded
+    Observable<BaseBean> logout(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("addr") String address, @Field("phone_info") String phone_info, @Field("app_version") String app_version);
+
 }
 

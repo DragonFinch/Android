@@ -52,6 +52,7 @@
             android:gravity="center">
 
             <ImageView
+                android:id="@+id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
@@ -281,7 +282,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
         android:layout_toRightOf="@+id/captures"
-        android:src="@mipmap/yoxiu"
+        android:src="@mipmap/zhaopianku_bai"
         android:visibility="visible" />
 
     <ImageView
@@ -320,7 +321,7 @@
         android:layout_marginBottom="4dp"
         android:layout_marginRight="30dp"
 
-        android:src="@drawable/lvjing_bai"
+        android:src="@mipmap/lvjing_bai"
         android:visibility="visible" />
 </RelativeLayout>
         </RelativeLayout>

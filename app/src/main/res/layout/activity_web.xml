@@ -15,13 +15,6 @@
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#33333333"></WebView>
+       />
 
-
-    <com.coolindicator.sdk.CoolIndicator
-        android:id="@+id/indicator"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:progressDrawable="@drawable/default_drawable_indicator" />
 </LinearLayout>

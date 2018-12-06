@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.iyoyogo.android.presenter.LoginPresenter;
 import com.iyoyogo.android.utils.SpUtils;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareConfig;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.security.MessageDigest;
@@ -93,7 +95,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     private String dateTime;
     private String sign;
     private boolean runningOne;
-    private boolean isAgree = true;
+    private boolean isAgree = false;
     //    Handler handler = new MyHandler(LoginActivity.this);
     private Map<String, String> para = new HashMap<>();
     private Intent intent;
@@ -110,7 +112,8 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
 
     private int status;
     private int have_interest;
-
+    private String user_id;
+    private String user_token;
 
 
     @Override
@@ -158,6 +161,8 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
             @Override
             public void onStart(SHARE_MEDIA share_media) {
                 Log.d("LoginActivity", "onStart " + "授权开始");
+
+
             }
 
             @Override
@@ -200,44 +205,12 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     }
 
     //删除授权
-    private void deleteauthorization(SHARE_MEDIA share_media) {
-        UMShareAPI.get(this).deleteOauth(this, share_media, new UMAuthListener() {
-            @Override
-            public void onStart(SHARE_MEDIA share_media) {
-                Log.d("LoginActivity", "onStart " + "授权开始");
-            }
 
-            @Override
-            public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-                Log.d("LoginActivity", "onComplete " + "授权完成");
-
-                //sdk是6.4.4的,但是获取值的时候用的是6.2以前的(access_token)才能获取到值,未知原因
-
-
-            }
-
-            @Override
-            public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
-                Log.d("LoginActivity", "onError " + "授权失败");
-            }
-
-            @Override
-            public void onCancel(SHARE_MEDIA share_media, int i) {
-                Log.d("LoginActivity", "onCancel " + "授权取消");
-            }
-        });
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        UMShareAPI.get(LoginActivity.this).onActivityResult(requestCode, resultCode, data);
-    }
 
     @Override
     protected void initView() {
         super.initView();
+        isAgree=true;
         boolean isLogin = SpUtils.getBoolean(LoginActivity.this, "isLogin", false);
         if (isLogin){
             if (status == 2) {
@@ -327,7 +300,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
                     tvCode.setEnabled(true);
                     tvCode.setText("重新获取验证码");
 
-                    time = 10;
+                    time = 60;
                     break;
             }
 
@@ -385,11 +358,11 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
             case R.id.img_btn:
 
                 if (!isAgree) {
-                    imgBtn.setImageResource(R.mipmap.log_unselect);
+                    imgBtn.setImageResource(R.mipmap.log_select);
                     isAgree = true;
                 } else {
                     isAgree = false;
-                    imgBtn.setImageResource(R.mipmap.log_select);
+                    imgBtn.setImageResource(R.mipmap.log_unselect);
                 }
                 break;
             case R.id.tv_code:
@@ -477,7 +450,6 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
 
     @Override
     public void sendMessageSuccess(SendMessageBean.DataBean data) {
-        Toast.makeText(this, "message", Toast.LENGTH_SHORT).show();
         String yzm = data.getYzm();
 //        etVerCode.setText(yzm);
         startTime1();
@@ -490,8 +462,8 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     @Override
     public void loginSuccess(LoginBean.DataBean data) {
         status = data.getStatus();
-        String user_id = data.getUser_id();
-        String user_token = data.getUser_token();
+        user_id = data.getUser_id();
+        user_token = data.getUser_token();
         SpUtils.putBoolean(LoginActivity.this,"isLogin",true);
         SpUtils.putString(LoginActivity.this, "user_id", user_id);
         SpUtils.putString(LoginActivity.this, "user_token", user_token);
@@ -509,8 +481,6 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
 
             } else {
                 intent = new Intent();
-                intent.putExtra("user_id", data.getUser_id());
-                intent.putExtra("user_token", data.getUser_token());
                 intent.setClass(LoginActivity.this, LikePrefencesActivity.class);
                 startActivity(intent);
 
@@ -533,8 +503,15 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        deleteauthorization(SHARE_MEDIA.WEIXIN);
-        deleteauthorization(SHARE_MEDIA.QQ);
-        deleteauthorization(SHARE_MEDIA.SINA);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareConfig config = new UMShareConfig();
+        config.isNeedAuthOnGetUserInfo(true);
+
+        UMShareAPI.get(this).setShareConfig(config);
+        UMShareAPI.get(this).onActivityResult(requestCode,resultCode,data);
     }
 }

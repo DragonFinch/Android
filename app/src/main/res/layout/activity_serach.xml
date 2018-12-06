@@ -84,7 +84,7 @@
         android:drawableLeft="@mipmap/location_icon_green"
         android:gravity="center"
         android:text="重新定位"
-        android:textColor="@color/colorFA800A"
+        android:textColor="@color/orange"
         android:textSize="12sp" />
 
     <TextView

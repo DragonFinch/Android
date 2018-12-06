@@ -1,16 +1,20 @@
 package com.iyoyogo.android.ui.home.recommend;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,21 +22,29 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.adapter.YoXiuDetailAdapter;
 import com.iyoyogo.android.base.BaseActivity;
+import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.bean.yoxiu.YoXiuDetailBean;
 import com.iyoyogo.android.contract.YoXiuDetailContract;
+import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.presenter.YoXiuDetailPresenter;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 import com.luck.picture.lib.entity.LocalMedia;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
 public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presenter> implements YoXiuDetailContract.View {
 
@@ -93,8 +105,19 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     ImageView imgVideo;
     @BindView(R.id.tv_time)
     TextView tvTime;
+    @BindView(R.id.img_water_mark)
+    ImageView imgWaterMark;
+    @BindView(R.id.img_comment_null)
+    ImageView imgCommentNull;
+    @BindView(R.id.tv_comment_null)
+    TextView tvCommentNull;
     private LocalMedia mMedia;
     private String mimeType;
+    private String user_id;
+    private String user_token;
+    private int id;
+    private List<YoXiuDetailBean.DataBean> dataBeans;
+    private YoXiuDetailAdapter yoXiuDetailAdapter;
 
     @Override
     protected void initView() {
@@ -112,15 +135,44 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
         Intent intent = getIntent();
-        int id = intent.getIntExtra("id", 0);
+        id = intent.getIntExtra("id", 0);
 
-        String user_id = SpUtils.getString(YoXiuDetailActivity.this, "user_id", null);
-        String user_token = SpUtils.getString(YoXiuDetailActivity.this, "user_token", null);
+        user_id = SpUtils.getString(YoXiuDetailActivity.this, "user_id", null);
+        user_token = SpUtils.getString(YoXiuDetailActivity.this, "user_token", null);
         Log.d("YoXiuDetailActivity", "id:" + id);
         Log.d("YoXiuDetailActivity", "user_id:" + user_id);
         Log.d("YoXiuDetailActivity", "user_token:" + user_token);
         mPresenter.getDetail(user_id, user_token, id);
+        mPresenter.getCommentList(user_id, user_token, 1, id, 0);
+        praise();
+        collections();
+    }
 
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        //这里注意要作判断处理，ActionDown、ActionUp都会回调到这里，不作处理的话就会调用两次
+        if (KeyEvent.KEYCODE_ENTER == event.getKeyCode() && KeyEvent.ACTION_DOWN == event.getAction()) {
+            if (editComment.getText().toString().length() > 0) {
+                mPresenter.addComment(user_id, user_token, 0, id, editComment.getText().toString().trim());
+                closeInputMethod();
+                yoXiuDetailAdapter.notifyDataSetChanged();
+                refresh();
+            } else {
+                Toast.makeText(this, "评论内容不能为空", Toast.LENGTH_SHORT).show();
+            }
+            //处理事件
+            return true;
+        }
+        return super.dispatchKeyEvent(event);
+    }
+
+    private void closeInputMethod() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        boolean isOpen = imm.isActive();
+        if (isOpen) {
+            // imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//没有显示则显示
+            imm.hideSoftInputFromWindow(editComment.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     @Override
@@ -207,11 +259,26 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
                 break;
             case R.id.tv_like:
-
+                DataManager.getFromRemote().praise(user_id, user_token, dataBeans.get(0).getId(), 0)
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                                int count_praise = dataBeans.get(0).getCount_praise();
+                                dataBeans.get(0).setIs_my_like(dataBeans.get(0).getIs_my_like() == 1 ? 0 : 1);
+                                if (dataBeans.get(0).getIs_my_like() == 1) {
+                                    count_praise += 1;
+                                } else if (count_praise > 0) {
+                                    count_praise -= 1;
+                                }
+                                dataBeans.get(0).setCount_praise(count_praise);
+                                refresh();
+                            }
+                        });
                 break;
             case R.id.tv_collection:
 //TODO
-                collection();
+//                collections();
+//                collection();
                 break;
             case R.id.img_logo:
 
@@ -223,7 +290,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
                 break;
             case R.id.collection:
-
+                attention();
                 break;
             case R.id.num_look:
 
@@ -295,6 +362,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
     @Override
     public void getDetailSuccess(YoXiuDetailBean.DataBean data) {
+        dataBeans = new ArrayList<>();
+        dataBeans.add(data);
         String create_time = data.getCreate_time();
         String time = create_time.replaceAll("-", ".");
         tvTime.setText(time);
@@ -325,12 +394,136 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    private void collections() {
+        Drawable collection = getResources().getDrawable(
+                R.mipmap.shoucang);
+        Drawable collectioned = getResources().getDrawable(
+                R.mipmap.yishoucang);
+        if (dataBeans.get(0).getIs_my_collect() == 0) {
+
+            tvCollection.setCompoundDrawablesWithIntrinsicBounds(null,
+                    collection, null, null);
+
+        } else {
+            tvCollection.setCompoundDrawablesWithIntrinsicBounds(null,
+                    collectioned, null, null);
+        }
+
+        tvCollection.setCompoundDrawablesWithIntrinsicBounds(null,
+                dataBeans.get(0).getIs_my_collect() == 0 ? collection : collectioned, null, null);
+
+
+        tvCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               /* DataManager.getFromRemote().praise(user_id, user_token, dataBeans.get(0).getId(), 0)
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                                int count_collect = dataBeans.get(0).getCount_collect();
+                                dataBeans.get(0).setIs_my_collect(dataBeans.get(0).getIs_my_like() == 1 ? 0 : 1);
+                                if (dataBeans.get(0).getIs_my_collect() == 1) {
+                                    count_collect += 1;
+                                } else if (count_collect > 0) {
+                                    count_collect -= 1;
+                                }
+                                dataBeans.get(0).setCount_collect(count_collect);
+                                refresh();
+                            }
+                        });*/
+            }
+        });
     }
+
+    private void attention() {
+
+        if (dataBeans.get(0).getIs_my_like() == 0) {
+
+            collection.setVisibility(View.VISIBLE);
+
+        } else {
+            collection.setVisibility(View.GONE);
+        }
+
+        collection.setVisibility(dataBeans.get(0).getIs_my_like() == 0 ? View.VISIBLE : View.GONE);
+
+
+        tvLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                collection.setVisibility(View.GONE);
+                refresh();
+            }
+        });
+    }
+
+    private void praise() {
+        Drawable like = getResources().getDrawable(
+                R.mipmap.datu_xihuan);
+        Drawable liked = getResources().getDrawable(
+                R.mipmap.yixihuan);
+        if (dataBeans.get(0).getIs_my_like() == 0) {
+
+            tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
+                    like, null, null);
+
+        } else {
+            tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
+                    liked, null, null);
+        }
+
+        tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
+                dataBeans.get(0).getIs_my_like() == 0 ? like : liked, null, null);
+
+
+        tvLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
+    }
+
+    public void refresh() {
+
+        getWindow().getDecorView().invalidate();
+
+    }
+
+    @Override
+    public void getCommentListSuccess(CommentBean.DataBean data) {
+
+        List<CommentBean.DataBean.ListBean> list = data.getList();
+        List<CommentBean.DataBean.ListBean> commentList = new ArrayList<>();
+        commentList.addAll(list);
+        if (commentList.size() > 0) {
+            tvMoreComment.setVisibility(View.VISIBLE);
+            recyclerComment.setVisibility(View.VISIBLE);
+            imgCommentNull.setVisibility(View.GONE);
+            tvCommentNull.setVisibility(View.GONE);
+        } else {
+            tvMoreComment.setVisibility(View.GONE);
+            recyclerComment.setVisibility(View.GONE);
+            imgCommentNull.setVisibility(View.VISIBLE);
+            tvCommentNull.setVisibility(View.VISIBLE);
+        }
+        recyclerComment.setLayoutManager(new LinearLayoutManager(YoXiuDetailActivity.this));
+        yoXiuDetailAdapter = new YoXiuDetailAdapter(YoXiuDetailActivity.this, commentList);
+        recyclerComment.setAdapter(yoXiuDetailAdapter);
+
+    }
+
+
+    @Override
+    public void addCommentSuccess(BaseBean baseBean) {
+        String msg = baseBean.getMsg();
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        yoXiuDetailAdapter.notifyDataSetChanged();
+    }
+
 
     //隐藏事件PopupWindow
     private class poponDismissListener implements PopupWindow.OnDismissListener {

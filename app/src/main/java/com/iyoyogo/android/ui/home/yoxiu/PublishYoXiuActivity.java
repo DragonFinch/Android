@@ -1,7 +1,10 @@
 package com.iyoyogo.android.ui.home.yoxiu;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -11,12 +14,16 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +54,7 @@ import com.iyoyogo.android.contract.PublishYoXiuContract;
 import com.iyoyogo.android.model.RObject;
 import com.iyoyogo.android.presenter.PublishYoXiuPresenter;
 import com.iyoyogo.android.ui.common.SearchActivity;
+import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.ImagePickAction;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.FlowGroupView;
@@ -62,7 +70,11 @@ import butterknife.OnClick;
 import cn.jzvd.JzvdStd;
 
 public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Presenter> implements PublishYoXiuContract.View {
-
+    private TextView tv_message;
+    private TextView tv_message_two;
+    private TextView tv_message_three;
+    private ImageView img_tip;
+    private PopupWindow popup;
     ArrayList<String> names = new ArrayList<String>();
     @BindView(R.id.edit_back_id)
     ImageView editBackId;
@@ -337,6 +349,7 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
     }
 
 
+    @SuppressLint("ResourceAsColor")
     @OnClick({R.id.edit_back_id, R.id.edit_publish_id, R.id.button_open, R.id.button_private, R.id.edit_start_id, R.id.publish_place, R.id.edit_replace_id, R.id.more_topic, R.id.edit_button_id, R.id.channel_next})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -377,10 +390,25 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
                 break;
             case R.id.button_open:
                 open_type = 1;
+                editButtonId.setText("公开");
+                Drawable drawableLeft = getResources().getDrawable(
+                        R.mipmap.gongkai_xz);
+
+                editButtonId.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
+                        null, null, null);
+
+                editButtonId.setTextColor(Color.parseColor("#FA800A"));
                 layoutOpen.setVisibility(View.GONE);
                 break;
             case R.id.button_private:
                 open_type = 2;
+                editButtonId.setText("私密");
+                Drawable drawableLeft1 = getResources().getDrawable(
+                        R.mipmap.simi_wxz);
+
+                editButtonId.setCompoundDrawablesWithIntrinsicBounds(drawableLeft1,
+                        null, null, null);
+                editButtonId.setTextColor(R.color.black);
                 layoutOpen.setVisibility(View.GONE);
                 break;
             case R.id.edit_start_id:
@@ -395,6 +423,11 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
                 startActivityForResult(intent, 1);
                 break;
             case R.id.edit_replace_id:
+                Intent intent1 = new Intent(PublishYoXiuActivity.this, SourceChooseActivity.class);
+                intent1.putExtra("positionName",publishPlace.getText().toString().trim());
+                intent1.putExtra("desc",editEdittextId.getText().toString().trim());
+                intent1.putExtra("type",1);
+                startActivityForResult(intent1,1);
 
                 break;
             case R.id.more_topic:
@@ -409,7 +442,55 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
                 break;
         }
     }
+    public void initPopup() {
+        View view = LayoutInflater.from(PublishYoXiuActivity.this).inflate(R.layout.like_layout, null);
+        popup = new PopupWindow(view, DensityUtil.dp2px(PublishYoXiuActivity.this, 300), DensityUtil.dp2px(PublishYoXiuActivity.this, 145), true);
+        popup.setOutsideTouchable(true);
+        popup.setBackgroundDrawable(new ColorDrawable());
+        tv_message = view.findViewById(R.id.tv_message);
+        tv_message_two = view.findViewById(R.id.tv_message_two);
 
+        tv_message_three = view.findViewById(R.id.tv_message_three);
+        img_tip = view.findViewById(R.id.tip_img);
+
+
+        popup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        //点击空白处时，隐藏掉pop窗口
+
+
+
+        //添加pop窗口关闭事件
+        popup.setOnDismissListener(new poponDismissListener());
+        popup.showAtLocation(findViewById(R.id.edit_rlayout_id),Gravity.CENTER,0,0);
+    }
+    public void backgroundAlpha(float bgAlpha) {
+
+        WindowManager.LayoutParams lp =getWindow().getAttributes();
+        lp.alpha = bgAlpha; // 0.0~1.0
+        getWindow().setAttributes(lp); //act 是上下文context
+
+    }
+
+    //隐藏事件PopupWindow
+    private class poponDismissListener implements PopupWindow.OnDismissListener {
+        @Override
+        public void onDismiss() {
+            backgroundAlpha(1.0f);
+        }
+    }
+    public void like() {
+        tv_message.setTextColor(Color.parseColor("#FA800A"));
+        tv_message_two.setTextColor(Color.parseColor("#FA800A"));
+        tv_message_three.setTextColor(Color.parseColor("#FA800A"));
+        backgroundAlpha(0.6f);
+        tv_message.setText("Hi~");
+        img_tip.setImageResource(R.mipmap.stamp_fenxiang);
+        tv_message_two.setText("yo秀发布成功！");
+        tv_message_two.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+        tv_message_three.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+        tv_message_three.setText("棒棒嗒~");
+    }
     private String uploadYoXiuImage() {
 
         final String endpoint = "oss-cn-beijing.aliyuncs.com";
@@ -480,6 +561,7 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 1) {
             channelRecycler.setVisibility(View.VISIBLE);
+            line2.setVisibility(View.VISIBLE);
             tvChannel.setVisibility(View.GONE);
             channel_arrays = data.getIntArrayExtra("channel_array");
             ArrayList<String> channel_list = data.getStringArrayListExtra("channel_list");
@@ -508,6 +590,30 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
             type_list.add(type_id);
             topic.setObjectText(topicName);
             editEdittextId.setObject(topic);// 设置话题
+        }else if (requestCode==1&&resultCode==88){
+            String latitude = data.getStringExtra("latitude");
+            String longitude = data.getStringExtra("longitude");
+            String desc = data.getStringExtra("desc");
+            String positionName = data.getStringExtra("positionName");
+            String path = data.getStringExtra("path");
+            latLonPoint=new LatLonPoint(Double.valueOf(latitude),Double.valueOf(longitude));
+            editEdittextId.setText(desc);
+            publishPlace.setText(positionName);
+            setCurrentLocationDetails(latLonPoint);
+            Glide.with(this).load(path).into(editVideoId);
+            mMedia = new LocalMedia();
+            mMedia.setPath(path);
+            String fileExtension = MimeTypeMap.getFileExtensionFromUrl(path);
+            mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileExtension);
+            if (mimeType != null && mimeType.contains("video")) {
+
+                mMedia.setPictureType(Constant.PARAM_VIDEO_MP4);
+                Glide.with(this).load(ImagePickAction.getVideoThumb(mMedia.getPath(), 1)).into(editVideoId);
+
+            } else {
+                editStartId.setVisibility(View.GONE);
+                Glide.with(this).load(path).into(editVideoId);
+            }
         }
     }
 
@@ -545,7 +651,8 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
 
     @Override
     public void publishYoXiuSuccess() {
-        Toast.makeText(this, "发布成功耶耶耶", Toast.LENGTH_SHORT).show();
+        initPopup();
+        like();
     }
 
     @Override

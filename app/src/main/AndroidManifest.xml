@@ -301,7 +301,7 @@
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5bea3cb0f1f5565cc1000170" />
+            android:value="5b290dbbb27b0a0f300000fb" />
 
         <activity
             android:name="com.tencent.tauth.AuthActivity"
@@ -344,18 +344,16 @@
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            tools:ignore="DuplicateActivity" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".ui.common.BindPhoneActivity" />
         <activity android:name=".ui.common.SearchActivity" />
         <activity android:name=".ui.common.LocationActivity" />
         <activity android:name=".ui.home.yoxiu.PublishYoXiuActivity" />
         <activity android:name=".ui.home.yoji.PublishYoJiActivity" />
-        <!--  06f98328627f4f3559c8e8352062fee4 -->
+        <!-- 06f98328627f4f3559c8e8352062fee4 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="f18716c6c88c9baac5f5b898f3f3621c" />
+            android:value="06f98328627f4f3559c8e8352062fee4" />
 
         <activity android:name=".ui.home.yoxiu.SourceChooseActivity" />
         <activity android:name=".ui.common.CreatePointActivity" />
@@ -364,7 +362,14 @@
         <activity android:name=".ui.home.yoxiu.ChannelActivity" />
         <activity android:name=".ui.home.recommend.YoXiuDetailActivity" />
         <activity android:name=".ui.home.yoxiu.YoXiuListActivity" />
-        <activity android:name=".ui.mine.EditPersonalMessageActivity"></activity>
+        <activity android:name=".ui.mine.EditPersonalMessageActivity" />
+        <activity android:name=".ui.mine.CitySelectorActivity" />
+        <activity android:name=".ui.mine.MineSettingActivity" />
+        <activity android:name=".ui.mine.UserAndSecurityActivity" />
+        <activity android:name=".ui.mine.ReplacePhoneActivity" />
+        <activity android:name=".ui.mine.AboutMeActivity" />
+        <activity android:name=".ui.mine.FeedBackActivity" />
+        <activity android:name=".ui.home.yoxiu.AllCommentActivity"></activity>
     </application>
 
 </manifest>

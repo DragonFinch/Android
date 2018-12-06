@@ -27,6 +27,7 @@
         android:background="#888888" />
 
     <TextView
+        android:layout_marginLeft="@dimen/dp_14"
         android:id="@+id/tv_message"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dp_27"
@@ -48,7 +49,7 @@
         android:background="#888888" />
 
     <TextView
-
+        android:layout_marginLeft="@dimen/dp_14"
         android:id="@+id/tv_message_two"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dp_27"
@@ -77,6 +78,7 @@
         android:layout_marginRight="@dimen/dp_16"
         android:src="@mipmap/ic_meipai_logo" />
 <TextView
+    android:layout_marginLeft="@dimen/dp_14"
     android:id="@+id/tv_message_three"
     android:text="1个「yo秀」哦～"
     android:textColor="@color/color_orange"
@@ -86,10 +88,10 @@
     android:layout_above="@+id/line3"
     />
     <ImageView
-        android:layout_below="@+id/line3"
+
         android:id="@+id/border_bottom"
-        android:layout_width="@dimen/dp_300"
-        android:layout_height="@dimen/dp_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:src="@mipmap/border_yoxiu"
 

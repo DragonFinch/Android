@@ -26,7 +26,7 @@ public class SpUtils {
 
     //存String
     public static void putString(Context context, String key, String value) {
-        getSp(context).edit().putString(key, value).apply();
+        getSp(context).edit().putString(key, value).commit();
     }
 
     //取String

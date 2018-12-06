@@ -1,10 +1,7 @@
 package com.iyoyogo.android.ui.mine;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -21,7 +18,6 @@ import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
@@ -76,6 +72,8 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     @BindView(R.id.my_option_set_id)
     LinearLayout myOptionSetId;
     Unbinder unbinder;
+    private String user_id;
+    private String user_token;
 
     @Override
     protected int getLayoutId() {
@@ -91,11 +89,16 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     protected void initData() {
         super.initData();
         StatusBarUtils.setWindowStatusBarColor(getActivity(), R.color.white);
-        String user_id = SpUtils.getString(getContext(), "user_id", null);
-        String user_token = SpUtils.getString(getContext(), "user_token", null);
+        user_id = SpUtils.getString(getContext(), "user_id", null);
+        user_token = SpUtils.getString(getContext(), "user_token", null);
         mPresenter.getUserInfo(user_id, user_token);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.getUserInfo(user_id, user_token);
+    }
 
     @OnClick({R.id.my_basic_name_iv_id, R.id.my_messge_im_id, R.id.my_addfriend_im_id, R.id.my_clock_but_id, R.id.my_option_home_id, R.id.my_option_draft_id, R.id.my_option_like_id, R.id.my_option_col_id, R.id.my_option_set_id})
     public void onViewClicked(View view) {
@@ -122,7 +125,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
 
                 break;
             case R.id.my_option_set_id:
-
+                startActivity(new Intent(getContext(), MineSettingActivity.class));
                 break;
             case R.id.my_basic_name_iv_id:
                 startActivity(new Intent(getContext(), EditPersonalMessageActivity.class));
@@ -135,7 +138,12 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         String user_nickname = data.getUser_nickname();
         myBasicNameTvId.setText(user_nickname);
         String user_logo = data.getUser_logo();
+        if (user_logo.equals("")){
+            myBasicHeadimgIvId.setImageResource(R.mipmap.default_touxiang);
+        }else {
+
         Glide.with(getContext()).load(user_logo).into(myBasicHeadimgIvId);
+        }
         int count_fans = data.getCount_fans();
         myBasicFansnumberTvId.setText(count_fans + "");
         int count_attention = data.getCount_attention();

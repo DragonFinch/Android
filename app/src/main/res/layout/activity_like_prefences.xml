@@ -57,21 +57,25 @@
       />
 
 
-
+<RelativeLayout
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_60"
+    android:background="@mipmap/jianbian"
+    android:layout_alignParentBottom="true"
+    >
     <Button
         android:layout_alignParentBottom="true"
         android:id="@+id/confirm_btn"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginBottom="27dp"
-        android:layout_marginLeft="83dp"
-        android:layout_marginRight="83dp"
-        android:layout_marginTop="@dimen/dp_25"
+        android:layout_height="wrap_content"
         android:background="@drawable/login_btn_bg"
         android:gravity="center"
-        android:text="@string/str_confirm"
+        android:text="确定"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/sp_15" />
+</RelativeLayout>
+
 
 
 </RelativeLayout>

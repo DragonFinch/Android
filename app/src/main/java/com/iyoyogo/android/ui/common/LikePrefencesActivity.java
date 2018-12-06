@@ -44,11 +44,13 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
     private int[] ids = new int[]{};
     private boolean isVisible = false;
     private List<Integer> idList;
+    private ArrayList<String> interestList;
     private Integer[] array;
     private int size;
     private List<InterestBean.DataBean.ListBean> data;
     private String user_token;
     private String user_id;
+    private int type;
 
 
     @Override
@@ -60,6 +62,10 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
         idList = new ArrayList<>();
+        interestList = new ArrayList<>();
+        Intent intent = getIntent();
+        type = intent.getIntExtra("type", 0);
+
         user_id = SpUtils.getString(LikePrefencesActivity.this, "user_id", null);
         user_token = SpUtils.getString(LikePrefencesActivity.this, "user_token", null);
         Log.d("LikePrefencesActivity", user_id);
@@ -80,7 +86,7 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
         data = new ArrayList<>();
         data.addAll(list);
 //        recyclerInterest.setLayoutManager(new GridLayoutManager(this, 4));
-        InterestsAdapter interestAdapter = new InterestsAdapter(LikePrefencesActivity.this,data);
+        InterestsAdapter interestAdapter = new InterestsAdapter(LikePrefencesActivity.this, data);
         gv_interest.setAdapter(interestAdapter);
         gv_interest.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
         gv_interest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -91,6 +97,7 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
                 boolean isChecked = checkedItemPositions.get(position);
                 Toast.makeText(LikePrefencesActivity.this, "item " + position + " isChecked=" + isChecked, Toast.LENGTH_SHORT).show();
                 idList.add(data.get(position).getId());
+                interestList.add(data.get(position).getInterest());
                 size = idList.size();
                 array = idList.toArray(new Integer[size]);
 
@@ -99,58 +106,27 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
                 }
             }
         });
-//        interestAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-//
-//            private boolean check;
-//
-//            @Override
-//            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//                ImageView img = view.findViewById(R.id.choice_icon);
-//                for (int i = 0; i <data.size() ; i++) {
-////                    data.get(position).isFlag()
-//                    if (i==position){
-//                        data.get(i).setFlag(true);
-//                    }else {
-//                        data.get(i).setFlag(false);
-//                    }
-//                    adapter.notifyDataSetChanged();
-//                }
-//
-//
-//                size = idList.size();
-//                array = idList.toArray(new Integer[size]);
-//
-//                for (int i = 0; i < array.length; i++) {
-//                    Log.d("LikePrefencesActivity", "array[i]:" + array[i]);
-//                }
-//
-//                if (img.getVisibility()==View.VISIBLE){
-//                    idList.add(data.get(position).getId());
-//                }
-//
-//
-//            }
-//        });
     }
-    public  Integer[] ifRepeat(Integer[] arr){
+
+    public Integer[] ifRepeat(Integer[] arr) {
         //用来记录去除重复之后的数组长度和给临时数组作为下标索引
         int t = 0;
         //临时数组
         Object[] tempArr = new Object[arr.length];
         //遍历原数组
-        for(int i = 0; i < arr.length; i++){
+        for (int i = 0; i < arr.length; i++) {
             //声明一个标记，并每次重置
             boolean isTrue = true;
             //内层循环将原数组的元素逐个对比
-            for(int j=i+1;j<arr.length;j++){
+            for (int j = i + 1; j < arr.length; j++) {
                 //如果发现有重复元素，改变标记状态并结束当次内层循环
-                if(arr[i]==arr[j]){
+                if (arr[i] == arr[j]) {
                     isTrue = false;
                     break;
                 }
             }
             //判断标记是否被改变，如果没被改变就是没有重复元素
-            if(isTrue){
+            if (isTrue) {
                 //没有元素就将原数组的元素赋给临时数组
                 tempArr[t] = arr[i];
                 //走到这里证明当前元素没有重复，那么记录自增
@@ -158,11 +134,12 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
             }
         }
         //声明需要返回的数组，这个才是去重后的数组
-        Integer[]  newArr = new Integer[t];
+        Integer[] newArr = new Integer[t];
         //用arraycopy方法将刚才去重的数组拷贝到新数组并返回
-        System.arraycopy(tempArr,0,newArr,0,t);
+        System.arraycopy(tempArr, 0, newArr, 0, t);
         return newArr;
     }
+
     @Override
     public void addInterestSuccess() {
         startActivity(new Intent(LikePrefencesActivity.this, MainActivity.class));
@@ -178,19 +155,36 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
                 break;
 
             case R.id.confirm_btn:
+                if (type == 6) {
+                    for (int i = 0; i < interestList.size(); i++) {
+                        //外循环是循环的次数
+                        for (int j = interestList.size() - 1; j > i; j--) {
+                            //内循环是 外循环一次比较的次数
+                            if (interestList.get(i) == interestList.get(j)) {
+                                interestList.remove(j);
+                            }
 
-                if (array.length < 3 && array == null) {
-                    Toast.makeText(this, "亲，兴趣少于三条哦", Toast.LENGTH_SHORT).show();
-                } else {
-                    Log.d("LikePrefencesActivity", "array.length:" + array.length);
-                    Integer[] objects = (Integer[]) ifRepeat(array);
-                    for (int i = 0; i < objects.length; i++) {
-                        Log.d("LikePrefencesActivity", "objects[i]:" + objects[i]);
+                        }
                     }
-                    mPresenter.addInterest(objects, user_id, user_token);
+                    Intent intent = new Intent();
+                    intent.putStringArrayListExtra("interestList", interestList);
+                    for (int i = 0; i < interestList.size(); i++) {
+                        Log.d("LikePrefencesActivity", "interestList" + interestList.get(i));
+                    }
+                    setResult(4, intent);
+                    finish();
+                } else {
+                    if (array.length < 3 && array == null) {
+                        Toast.makeText(this, "亲，兴趣少于三条哦", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.d("LikePrefencesActivity", "array.length:" + array.length);
+                        Integer[] objects = (Integer[]) ifRepeat(array);
+                        for (int i = 0; i < objects.length; i++) {
+                            Log.d("LikePrefencesActivity", "objects[i]:" + objects[i]);
+                        }
+                        mPresenter.addInterest(objects, user_id, user_token);
+                    }
                 }
-
-
                 break;
         }
     }

@@ -18,7 +18,7 @@ public class MineMessagePresenter extends BasePresenter<MineContract.View> imple
     @Override
     public void getUserInfo(String user_id, String user_token) {
         DataManager.getFromRemote()
-        .getUserInfo(user_id,user_token)
+        .getPersonInfo(user_id,user_token)
         .subscribe(new ApiObserver<MineMessageBean>(mView,this) {
             @Override
             protected void doOnSuccess(MineMessageBean mineMessageBean) {

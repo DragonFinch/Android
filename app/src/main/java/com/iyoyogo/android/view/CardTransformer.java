@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 public class CardTransformer implements ViewPager.PageTransformer {
-    private static final float MAX_SCALE = 1.2f;
+    private static final float MAX_SCALE = 1.1f;
     private static final float MIN_SCALE = 1.0f;//0.85f
 
     @Override

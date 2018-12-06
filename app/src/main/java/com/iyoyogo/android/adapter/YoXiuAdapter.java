@@ -60,22 +60,41 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
                 .apply(requestOptions)
                 .into(holder.imageView);
 
-        if (mList.get(position).getFile_path().endsWith("jpg")) {
-            holder.img_video.setVisibility(View.GONE);
-        }
-        if (position == 0) {
+       /* if (position == 0) {
             holder.typeImageView.setImageResource(R.mipmap.jingxuan);
         } else if (position == 1) {
             holder.typeImageView.setImageResource(R.mipmap.youzhi);
         } else {
             holder.typeImageView.setVisibility(View.INVISIBLE);
+        }*/
+        int is_highquality = mList.get(position).getIs_highquality();
+        if (is_highquality==1){
+            holder.typeImageView.setVisibility(View.VISIBLE);
+            holder.typeImageView.setImageResource(R.mipmap.youzhi);
         }
+        int is_selected = mList.get(position).getIs_selected();
+
+        if (is_selected==1){
+            holder.typeImageView.setVisibility(View.VISIBLE);
+            holder.typeImageView.setImageResource(R.mipmap.jingxuan);
+        }
+
+        int file_type = mList.get(position).getFile_type();
+        if (file_type==1){
+            holder.img_video.setVisibility(View.GONE);
+        }
+
         Glide.with(context).load(mList.get(position).getUser_logo()).into(holder.user_icon);
         holder.user_name.setText(mList.get(position).getUser_nickname());
         holder.num_like.setText(mList.get(position).getCount_praise() + "");
         holder.num_see.setText(mList.get(position).getCount_view() + "");
         holder.itemView.setTag(position);
-        holder.iv_like.setImageResource(mList.get(position).getIs_my_like() == 0 ? R.mipmap.ic_like : R.mipmap.ic_liked);
+        if (mList.get(position).getIs_my_like()==0){
+            holder.iv_like.setImageResource(R.mipmap.datu_xihuan);
+        }else {
+            holder.iv_like.setImageResource(R.mipmap.yixihuan);
+        }
+        holder.iv_like.setImageResource(mList.get(position).getIs_my_like() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan);
 
 
         holder.iv_like.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +114,6 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
                                     count_praise -= 1;
                                 }
                                 mList.get(position).setCount_praise(count_praise);
-                                notifyDataSetChanged();
                             }
                         });
             }
