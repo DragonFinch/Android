@@ -144,8 +144,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         Log.d("YoXiuDetailActivity", "user_token:" + user_token);
         mPresenter.getDetail(user_id, user_token, id);
         mPresenter.getCommentList(user_id, user_token, 1, id, 0);
-        praise();
-        collections();
+
     }
 
     @Override
@@ -391,7 +390,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         tvDesc.setText(position_name);
         String user_nickname = data.getUser_nickname();
         userName.setText(user_nickname);
-
+        praise();
+        collections();
     }
 
     private void collections() {

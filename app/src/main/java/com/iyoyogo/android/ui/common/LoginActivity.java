@@ -211,12 +211,14 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     protected void initView() {
         super.initView();
         isAgree=true;
+
         boolean isLogin = SpUtils.getBoolean(LoginActivity.this, "isLogin", false);
         if (isLogin){
             if (status == 2) {
                 Intent intent = new Intent(LoginActivity.this, BindPhoneActivity.class);
                 intent.putExtra("type", type);
                 startActivity(intent);
+                finish();
 
             } else {
 
@@ -224,11 +226,13 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
                     intent = new Intent();
                     intent.setClass(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
+                    finish();
 
                 } else {
                     intent = new Intent();
                     intent.setClass(LoginActivity.this, LikePrefencesActivity.class);
                     startActivity(intent);
+                    finish();
 
                 }
 
@@ -471,6 +475,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
             Intent intent = new Intent(LoginActivity.this, BindPhoneActivity.class);
             intent.putExtra("type", type);
             startActivity(intent);
+            finish();
 
         } else {
             have_interest = data.getHave_interest();
@@ -478,12 +483,13 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
                 intent = new Intent();
                 intent.setClass(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
+                finish();
 
             } else {
                 intent = new Intent();
                 intent.setClass(LoginActivity.this, LikePrefencesActivity.class);
                 startActivity(intent);
-
+                finish();
             }
 
         }

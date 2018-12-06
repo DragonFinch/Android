@@ -11,7 +11,6 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.PopupWindow;
@@ -79,15 +78,12 @@ public class MainActivity extends BaseActivity {
         String user_id = SpUtils.getString(MainActivity.this, "user_id", null);
 
         String user_token = SpUtils.getString(MainActivity.this, "user_token", null);
-        if (user_id.equals("")||user_token.equals("")){
+        if (user_id==null||user_token==null){
             SpUtils.remove(MainActivity.this,"user_id");
             SpUtils.remove(MainActivity.this,"user_token");
-            SpUtils.remove(MainActivity.this,"isTrue");
+            SpUtils.remove(MainActivity.this,"isLogin");
             startActivity(new Intent(MainActivity.this,LoginActivity.class));
         }
-        Log.d("MainActivity", user_id);
-        Log.d("MainActivity", user_token);
-        test.setText(user_id+user_token);
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
