@@ -68,7 +68,6 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
             @Override
             public void onClick(View v) {
                 report();
-                backgroundAlpha(0.6f);
                 popup_more.dismiss();
             }
         });
@@ -78,7 +77,6 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
             @Override
             public void onClick(View v) {
                 report();
-                backgroundAlpha(0.6f);
                 popup_more.dismiss();
             }
         });
@@ -88,7 +86,6 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
             @Override
             public void onClick(View v) {
                 report();
-                backgroundAlpha(0.6f);
                 popup_more.dismiss();
             }
         });
@@ -98,7 +95,6 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
             @Override
             public void onClick(View v) {
                 report();
-                backgroundAlpha(0.6f);
                 popup_more.dismiss();
             }
         });

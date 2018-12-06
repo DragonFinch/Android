@@ -83,6 +83,7 @@ public class MainActivity extends BaseActivity {
             SpUtils.remove(MainActivity.this,"user_token");
             SpUtils.remove(MainActivity.this,"isLogin");
             startActivity(new Intent(MainActivity.this,LoginActivity.class));
+            finish();
         }
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

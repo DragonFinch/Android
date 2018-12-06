@@ -99,6 +99,10 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
     TextView tvInterest;
     @BindView(R.id.recycler_interest)
     RecyclerView recyclerInterest;
+    @BindView(R.id.tv_phone)
+    TextView tvPhone;
+    @BindView(R.id.user_id)
+    TextView tvUserId;
     private RelativeLayout relativeLayout;
     private TextView textView;
     private RelativeLayout cityLayout;
@@ -381,7 +385,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
                 cityTvId.setTextColor(R.color.color333333);
             }
         }
-        if (requestCode == 1 && resultCode ==4) {
+        if (requestCode == 1 && resultCode == 4) {
             ArrayList<String> interestList = data.getStringArrayListExtra("interestList");
             if (interestList != null) {
                 tvInterest.setVisibility(View.GONE);
@@ -614,6 +618,13 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             cityTvId.setText(user_city);
             cityTvId.setTextColor(R.color.colorF1F1F1);
         }
+        if (data.getUser_phone().equals("")){
+            tvPhone.setText("");
+        }else {
+        tvPhone.setText(data.getUser_phone());
+
+        }
+        tvUserId.setText(data.getUser_id());
 
     }
 
@@ -622,6 +633,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
     public void setUserInfoSuccess(BaseBean baseBean) {
         initPopuptWindow();
     }
+
 
 
 }

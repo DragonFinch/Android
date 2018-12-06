@@ -100,6 +100,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
                                     count_praise -= 1;
                                 }
                                 mList.get(position).setCount_praise(count_praise);
+                                notifyItemChanged(position);
                             }
                         });
             }

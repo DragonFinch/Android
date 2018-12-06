@@ -195,10 +195,11 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 context.startActivity(new Intent(context, YoXiuListActivity.class));
             }
         });
-        YoXiuAdapter yoXiuAdapter = new YoXiuAdapter(yox_list, context);
-        yoXiuAdapter.setHasStableIds(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        String type = mList.get(0).getType();
+        YoXiuAdapter yoXiuAdapter = new YoXiuAdapter(yox_list, context,type);
+        yoXiuAdapter.setHasStableIds(true);
         youXiuHolder.recycler_youxiu.setLayoutManager(linearLayoutManager);
         youXiuHolder.recycler_youxiu.setAdapter(yoXiuAdapter);
         yoXiuAdapter.setOnItemClickListener(new YoXiuAdapter.OnClickListener() {

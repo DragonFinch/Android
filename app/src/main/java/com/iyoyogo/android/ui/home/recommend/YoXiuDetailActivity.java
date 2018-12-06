@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -14,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.YoXiuDetailAdapter;
 import com.iyoyogo.android.base.BaseActivity;
@@ -34,6 +38,7 @@ import com.iyoyogo.android.bean.yoxiu.YoXiuDetailBean;
 import com.iyoyogo.android.contract.YoXiuDetailContract;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.presenter.YoXiuDetailPresenter;
+import com.iyoyogo.android.ui.home.yoxiu.MoreTopicActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
@@ -123,7 +128,41 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     protected void initView() {
         super.initView();
 
+        editComment.setImeOptions(EditorInfo.IME_ACTION_SEND);
+        editComment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().equals("#")) {
+                    startActivity(new Intent(YoXiuDetailActivity.this, MoreTopicActivity.class));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        editComment.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                    if (editComment.getText().toString().length() > 0) {
+                        mPresenter.addComment(user_id, user_token, 0, id, editComment.getText().toString().trim());
+                        closeInputMethod();
+                        mPresenter.getCommentList(user_id, user_token, 1, id, 0);
+                    } else {
+                        Toast.makeText(YoXiuDetailActivity.this, "评论内容不能为空", Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
+                }
+                return false;
+
+            }
+        });
     }
 
     @Override
@@ -145,24 +184,6 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         mPresenter.getDetail(user_id, user_token, id);
         mPresenter.getCommentList(user_id, user_token, 1, id, 0);
 
-    }
-
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        //这里注意要作判断处理，ActionDown、ActionUp都会回调到这里，不作处理的话就会调用两次
-        if (KeyEvent.KEYCODE_ENTER == event.getKeyCode() && KeyEvent.ACTION_DOWN == event.getAction()) {
-            if (editComment.getText().toString().length() > 0) {
-                mPresenter.addComment(user_id, user_token, 0, id, editComment.getText().toString().trim());
-                closeInputMethod();
-                yoXiuDetailAdapter.notifyDataSetChanged();
-                refresh();
-            } else {
-                Toast.makeText(this, "评论内容不能为空", Toast.LENGTH_SHORT).show();
-            }
-            //处理事件
-            return true;
-        }
-        return super.dispatchKeyEvent(event);
     }
 
     private void closeInputMethod() {
@@ -289,7 +310,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
                 break;
             case R.id.collection:
-                attention();
+//                attention();
+                Toast.makeText(this, "正在研发中...", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.num_look:
 
@@ -377,7 +399,21 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         String file_desc = data.getFile_desc();
         textDesc.setText(file_desc);
         String path = data.getFile_path();
-        Glide.with(this).load(path).into(imgLogo);
+        RequestOptions requestOptions = new RequestOptions();
+        if (editComment.getText().toString().length() > 0) {
+            mPresenter.addComment(user_id, user_token, 0, id, editComment.getText().toString().trim());
+            closeInputMethod();
+            yoXiuDetailAdapter.notifyDataSetChanged();
+            refresh();
+        } else {
+            Toast.makeText(this, "评论内容不能为空", Toast.LENGTH_SHORT).show();
+        }
+        ViewGroup.LayoutParams layoutParams = imgLogo.getLayoutParams();
+        int width = layoutParams.width;
+        requestOptions.placeholder(R.mipmap.default_ic).override(DensityUtil.dp2px(YoXiuDetailActivity.this, width));
+        Glide.with(this).load(path)
+                .apply(requestOptions)
+                .into(imgLogo);
         int file_type = data.getFile_type();
         if (file_type == 2) {
             imgVideo.setVisibility(View.VISIBLE);
@@ -477,14 +513,6 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
                 dataBeans.get(0).getIs_my_like() == 0 ? like : liked, null, null);
 
-
-        tvLike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-            }
-        });
     }
 
     public void refresh() {

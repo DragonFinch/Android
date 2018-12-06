@@ -18,7 +18,8 @@
         android:focusableInTouchMode="true">
 
         <EditText
-            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:imeOptions="actionSend"
             android:id="@+id/edit_comment"
             android:layout_width="@dimen/dp_230"
             android:layout_height="@dimen/dp_30"
@@ -197,6 +198,7 @@
                 android:text="@string/account_and_safe" />
 
             <TextView
+                android:textSize="@dimen/sp_12"
                 android:id="@+id/num_look"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -222,6 +224,7 @@
                 android:layout_below="@+id/text_desc"
                 android:layout_marginLeft="@dimen/dp_80"
                 android:layout_marginTop="@dimen/dp_20"
+                android:textSize="@dimen/sp_12"
                 android:layout_toRightOf="@+id/num_look_tv"
                 android:text="时间" />
 

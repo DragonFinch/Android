@@ -1,12 +1,16 @@
 package com.iyoyogo.android.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -15,6 +19,7 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.home.HomeViewPagerBean;
 import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
 import com.iyoyogo.android.utils.SpUtils;
 
@@ -26,10 +31,13 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
     private List<HomeViewPagerBean.DataBean.YoxListBean> mList;
     private Context context;
     private boolean isPraise;
-
-    public YoXiuAdapter(List<HomeViewPagerBean.DataBean.YoxListBean> mList, Context context) {
+    private String type;
+    private Activity activity;
+    public YoXiuAdapter(List<HomeViewPagerBean.DataBean.YoxListBean> mList, Context context, String type) {
         this.mList = mList;
         this.context = context;
+        this.type=type;
+        activity= (Activity) context;
     }
 
     @Override
@@ -49,9 +57,6 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         holder.tv_addr_cover.setText(mList.get(position).getPosition_name());
-
-
-//通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
         RequestOptions requestOptions = new RequestOptions().centerCrop()
                 .transform(new GlideRoundTransform(context, 8));
         requestOptions.placeholder(R.mipmap.default_ic);
@@ -59,25 +64,31 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
         Glide.with(context).load(mList.get(position).getFile_path())
                 .apply(requestOptions)
                 .into(holder.imageView);
+        if (type.equals("attention")){
+            holder.view_like.setVisibility(View.GONE);
+            holder.typeImageView.setVisibility(View.GONE);
+        }else {
+            holder.medal.setVisibility(View.GONE);
+            int is_highquality = mList.get(position).getIs_highquality();
+            if (is_highquality==1){
+                holder.typeImageView.setVisibility(View.VISIBLE);
+                holder.typeImageView.setImageResource(R.mipmap.youzhi);
+            }
+            int is_selected = mList.get(position).getIs_selected();
 
-       /* if (position == 0) {
-            holder.typeImageView.setImageResource(R.mipmap.jingxuan);
-        } else if (position == 1) {
-            holder.typeImageView.setImageResource(R.mipmap.youzhi);
-        } else {
-            holder.typeImageView.setVisibility(View.INVISIBLE);
-        }*/
-        int is_highquality = mList.get(position).getIs_highquality();
-        if (is_highquality==1){
-            holder.typeImageView.setVisibility(View.VISIBLE);
-            holder.typeImageView.setImageResource(R.mipmap.youzhi);
+            if (is_selected==1){
+                holder.typeImageView.setVisibility(View.VISIBLE);
+                holder.typeImageView.setImageResource(R.mipmap.jingxuan);
+            }
         }
-        int is_selected = mList.get(position).getIs_selected();
 
-        if (is_selected==1){
-            holder.typeImageView.setVisibility(View.VISIBLE);
-            holder.typeImageView.setImageResource(R.mipmap.jingxuan);
-        }
+        holder.view_like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initPopup(holder);
+            }
+        });
+
 
         int file_type = mList.get(position).getFile_type();
         if (file_type==1){
@@ -89,14 +100,6 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
         holder.num_like.setText(mList.get(position).getCount_praise() + "");
         holder.num_see.setText(mList.get(position).getCount_view() + "");
         holder.itemView.setTag(position);
-        if (mList.get(position).getIs_my_like()==0){
-            holder.iv_like.setImageResource(R.mipmap.datu_xihuan);
-        }else {
-            holder.iv_like.setImageResource(R.mipmap.yixihuan);
-        }
-        holder.iv_like.setImageResource(mList.get(position).getIs_my_like() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan);
-
-
         holder.iv_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,6 +109,7 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
+
                                 int count_praise = mList.get(position).getCount_praise();
                                 mList.get(position).setIs_my_like(mList.get(position).getIs_my_like() == 1 ? 0 : 1);
                                 if (mList.get(position).getIs_my_like() == 1) {
@@ -114,11 +118,57 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
                                     count_praise -= 1;
                                 }
                                 mList.get(position).setCount_praise(count_praise);
+                                notifyItemChanged(position);
                             }
                         });
             }
         });
+        if (mList.get(position).getIs_my_like()==0){
+            holder.iv_like.setImageResource(R.mipmap.datu_xihuan);
+        }else {
+            holder.iv_like.setImageResource(R.mipmap.yixihuan);
+        }
+        holder.iv_like.setImageResource(mList.get(position).getIs_my_like() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan);
+
     }
+    private void initPopup(Holder holder){
+        View view = LayoutInflater.from(context).inflate(R.layout.popwindow_like, null);
+        PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 130), DensityUtil.dp2px(context, 110), true);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+        popupWindow.setOutsideTouchable(true);
+        TextView tv_dislike = view.findViewById(R.id.tv_dislike);
+        TextView tv_report = view.findViewById(R.id.tv_report);
+        tv_dislike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        tv_report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow.showAsDropDown(holder.view_like,DensityUtil.dp2px(context,30),DensityUtil.dp2px(context,10));
+    }
+/*
+    @Override
+    public void onBindViewHolder(@NonNull Holder holder, int position, @NonNull List<Object> payloads) {
+        super.onBindViewHolder(holder, position, payloads);
+        if (payloads.isEmpty()){
+
+        }else {
+
+
+
+
+
+        }
+    }*/
+
+
 
     @Override
     public int getItemCount() {
@@ -145,7 +195,8 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
 
     public class Holder extends RecyclerView.ViewHolder {
         TextView tv_addr_cover, user_name, num_like, num_see;
-        ImageView img_video, imageView, typeImageView, user_icon, iv_like;
+        RelativeLayout view_like;
+        ImageView img_video, imageView, typeImageView, user_icon, iv_like,more_img,medal;
 
         public Holder(@NonNull View itemView) {
             super(itemView);
@@ -158,6 +209,8 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
             imageView = itemView.findViewById(R.id.imageView);
             typeImageView = itemView.findViewById(R.id.img_type);
             user_icon = itemView.findViewById(R.id.user_icon);
+            view_like = itemView.findViewById(R.id.view_like);
+            medal = itemView.findViewById(R.id.medal);
         }
     }
 }

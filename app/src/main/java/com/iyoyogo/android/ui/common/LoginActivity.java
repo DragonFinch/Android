@@ -2,6 +2,8 @@ package com.iyoyogo.android.ui.common;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,6 +12,8 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -206,39 +210,34 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
 
     //删除授权
 
-
     @Override
     protected void initView() {
         super.initView();
         isAgree=true;
-
-        boolean isLogin = SpUtils.getBoolean(LoginActivity.this, "isLogin", false);
-        if (isLogin){
-            if (status == 2) {
-                Intent intent = new Intent(LoginActivity.this, BindPhoneActivity.class);
-                intent.putExtra("type", type);
-                startActivity(intent);
-                finish();
-
-            } else {
-
-                if (have_interest == 1) {
-                    intent = new Intent();
-                    intent.setClass(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-
-                } else {
-                    intent = new Intent();
-                    intent.setClass(LoginActivity.this, LikePrefencesActivity.class);
-                    startActivity(intent);
-                    finish();
-
-                }
-
-            }
-            finish();
+        //透明状态栏
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            //5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色
+            Window window = getWindow();
+            View decorView = window.getDecorView();
+            //两个 flag 要结合使用，表示让应用的主体内容占用系统状态栏的空间
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+            //导航栏颜色也可以正常设置
+            //window.setNavigationBarColor(Color.TRANSPARENT);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = getWindow();
+            WindowManager.LayoutParams attributes = window.getAttributes();
+            int flagTranslucentStatus = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+            attributes.flags |= flagTranslucentStatus;
+            //int flagTranslucentNavigation = WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
+            //attributes.flags |= flagTranslucentNavigation;
+            window.setAttributes(attributes);
         }
+        boolean isLogin = SpUtils.getBoolean(LoginActivity.this, "isLogin", false);
+
 
 
 
@@ -246,7 +245,11 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
         mShareAPI = UMShareAPI.get(this);
         long l = System.currentTimeMillis();
         dateTime = String.valueOf(l);
-
+        if (isLogin){
+            intent = new Intent();
+            intent.setClass(LoginActivity.this, MainActivity.class);
+            finish();
+        }
     }
 
     @Override
@@ -328,30 +331,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     }
 
 
-//    private void sendCode() {
-//        final Runnable r = new Runnable() {
-//
-//
-//            public void run() {
-//                runningOne = true;
-//
-//                while (count > 0) {
-//                    count = count - 1;
-//                    handler.sendEmptyMessage(1);
-//                    try {
-//                        Thread.sleep(1000);
-//                    } catch (InterruptedException e) {
-//                        // TODO Auto-generated catch block
-//                        e.printStackTrace();
-//                    }
-//                }
-//                runningOne = false;
-//                handler.sendEmptyMessage(0);
-//            }
-//        };
-//        Thread s = new Thread(r);
-//        s.start();
-//    }
+
 
     @OnClick({R.id.tv_code, R.id.login_btn, R.id.login_wechat, R.id.login_weibo, R.id.login_qq, R.id.img_btn, R.id.ll_reg_content})
     public void onViewClicked(View view) {

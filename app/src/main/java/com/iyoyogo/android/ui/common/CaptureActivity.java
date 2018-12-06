@@ -28,7 +28,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -78,6 +77,8 @@ import com.iyoyogo.android.camera.utils.dataInfo.ClipInfo;
 import com.iyoyogo.android.camera.utils.dataInfo.TimelineData;
 import com.iyoyogo.android.camera.utils.permission.PermissionsActivity;
 import com.iyoyogo.android.camera.utils.permission.PermissionsChecker;
+import com.iyoyogo.android.ui.home.yoxiu.PublishYoXiuActivity;
+import com.iyoyogo.android.ui.home.yoxiu.SourceChooseActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.FileManager;
 import com.iyoyogo.android.view.CircleProgressBar;
@@ -286,7 +287,7 @@ private boolean isTrue=false;
         album.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CaptureActivity.this,PictureEditActivity.class));
+                startActivity(new Intent(CaptureActivity.this,SourceChooseActivity.class));
             }
         });
         photoLayout = findViewById(R.id.photo_layout);
@@ -401,7 +402,7 @@ private boolean isTrue=false;
         int[] resImags = {
                 R.mipmap.sage, R.mipmap.maid, R.mipmap.mace,
                 R.mipmap.lace, R.mipmap.mall, R.mipmap.sap, R.mipmap.sara,
-                R.mipmap.pinky, R.mipmap.sweet, R.mipmap.fresh, R.mipmap.package1
+                R.mipmap.pinky, R.mipmap.sweet, R.mipmap.fresh
         };
 
         mFilterItemArrayList.clear();
@@ -413,6 +414,26 @@ private boolean isTrue=false;
         ArrayList<NvAsset> filterList = getLocalData(NvAsset.ASSET_FILTER);
         String bundlePath = "filter/info.txt";
 
+        getFilter(filterList, bundlePath);
+
+       List<String> builtinFilterList = mStreamingContext.getAllBuiltinCaptureVideoFxNames();
+        //明快、精致、清晰、蕾丝、质感、元气、薄荷、草莓、粉嫩、清凉
+        for (int i = 0; i < builtinFilterList.size(); i++) {
+            String filterName = builtinFilterList.get(i);
+            Log.d("filterName", "   filterName==" + filterName);
+            FilterItem newFilterItem = new FilterItem();
+            newFilterItem.setFilterName(filterName);
+            if (i < resImags.length) {
+                int imageId = resImags[i];
+                newFilterItem.setImageId(imageId);
+
+            }
+            newFilterItem.setFilterMode(FilterItem.FILTERMODE_BUILTIN);
+            mFilterItemArrayList.add(newFilterItem);
+        }
+    }
+
+    private void getFilter(ArrayList<NvAsset> filterList, String bundlePath) {
         Util.getBundleFilterInfo(this, filterList, bundlePath);
         for (NvAsset asset : filterList) {
             FilterItem newFilterItem = new FilterItem();
@@ -426,36 +447,17 @@ private boolean isTrue=false;
             newFilterItem.setImageUrl(asset.coverUrl);
             mFilterItemArrayList.add(newFilterItem);
 
-        }
 
-        List<String> builtinFilterList = mStreamingContext.getAllBuiltinCaptureVideoFxNames();
-//        builtinFilterList.clear();
-//        builtinFilterList.add("圣人");
-//        builtinFilterList.add("少女");
-//        builtinFilterList.add("豆蔻");
-//        builtinFilterList.add("花边");
-//        builtinFilterList.add("商业");
-//        builtinFilterList.add("元气");
-//        builtinFilterList.add("萨拉");
-//        builtinFilterList.add("粉红");
-//        builtinFilterList.add("糖系");
-//        builtinFilterList.add("新鲜");
-        for (int i = 0; i < builtinFilterList.size(); i++) {
-            String filterName = builtinFilterList.get(i);
-            Log.d("filterName", "   filterName==" + filterName);
-            FilterItem newFilterItem = new FilterItem();
-            newFilterItem.setFilterName(filterName);
-            if (i < resImags.length) {
-                int imageId = resImags[i];
-                newFilterItem.setImageId(imageId);
-            }
-            newFilterItem.setFilterMode(FilterItem.FILTERMODE_BUILTIN);
-            mFilterItemArrayList.add(newFilterItem);
         }
     }
 
     private void initFilterRecyclerView() {
         mFilterAdapter = new FilterAdapter(this);
+        for (int i = 0; i < mFilterItemArrayList.size(); i++) {
+            String filterName = mFilterItemArrayList.get(i).getFilterName();
+            Log.d("TAG", filterName);
+        }
+        //明快、精致、清晰、蕾丝、质感、元气、薄荷、草莓、粉嫩、清凉
         mFilterAdapter.setFilterDataList(mFilterItemArrayList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mFilterRecyclerView.setLayoutManager(linearLayoutManager);
@@ -478,15 +480,16 @@ private boolean isTrue=false;
                     int filterMode = filterItem.getFilterMode();
                     if (filterMode == FilterItem.FILTERMODE_BUILTIN) {
                         String filterName = filterItem.getFilterName();
-                        if (!TextUtils.isEmpty(filterName)) {
+                        Log.d("aaa", filterName);
                             mCurCaptureVideoFx = mStreamingContext.appendBuiltinCaptureVideoFx(filterName);
-                        }
+
                     } else {
                         String filterPackageId = filterItem.getPackageId();
-                        if (!TextUtils.isEmpty(filterPackageId)) {
+
                             mCurCaptureVideoFx = mStreamingContext.appendPackagedCaptureVideoFx(filterPackageId);
-                        }
+
                     }
+                    //
                     mCurCaptureVideoFx.setFilterIntensity(1.0f);
                     mFilterIntensitySeekBar.setProgress(100);
                 }
@@ -1210,237 +1213,6 @@ private boolean isTrue=false;
         }
     }
 
-    /* 美颜dialog 动作监听*/
-    private void beautyClickListener() {
-        /*美颜*/
-    /*    mBeauty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!mIsBeautyType) {
-                    mIsBeautyType = true;
-                    mBeauty.setSelected(true);
-                    mBeauty_shape.setSelected(false);
-                    mBeautySelect.setVisibility(View.VISIBLE);
-                    mBeautyShapeSelect.setVisibility(View.GONE);
-                }
-            }
-        });*/
-        /*美型*/
-       /* mBeauty_shape.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mIsBeautyType) {
-                    mIsBeautyType = false;
-                    mBeauty.setSelected(false);
-                    mBeauty_shape.setSelected(true);
-                    mBeautySelect.setVisibility(View.GONE);
-                    mBeautyShapeSelect.setVisibility(View.VISIBLE);
-                }
-            }
-        });*/
-
-        /*美颜*/
-       /* mBeauty_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    NvsCaptureVideoFx fx = mStreamingContext.appendBeautyCaptureVideoFx();   //添加美颜采集特效
-                    fx.setFloatVal("Strength", mStrengthValue);//设置美颜强度值
-                    fx.setFloatVal("Whitening", mWhiteningValue);
-                    fx.setFloatVal("Reddening", mReddeningValue);
-                    mBeauty_switch_text.setText("关闭美颜");
-                } else {
-                    mBeauty_switch_text.setText("开启美颜");
-                    removeFilterFxByName("Beauty");
-                }
-                mBeauty_switch.setChecked(isChecked);
-                beautySeekEnabled(isChecked);
-            }
-        });*/
-        /*磨皮*/
-     /*   mStrength.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mStrengthValue = progress * 0.01;
-                mStrength_text.setText(String.format(Locale.getDefault(), "%.2f", mStrengthValue));
-
-                for (int i = 0; i < mStreamingContext.getCaptureVideoFxCount(); i++) {
-                    NvsCaptureVideoFx fx = mStreamingContext.getCaptureVideoFxByIndex(i);
-                    String name = fx.getBuiltinCaptureVideoFxName();
-                    if (name.equals("Beauty")) {
-                        //设置美颜强度值
-                        fx.setFloatVal("Strength", mStrengthValue);
-                        break;
-                    }
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });*/
-        /*美白*/
-      /*  mWhitening.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mWhiteningValue = progress * 0.01;
-                mWhitening_text.setText(String.format(Locale.getDefault(), "%.2f", mWhiteningValue));
-
-                for (int i = 0; i < mStreamingContext.getCaptureVideoFxCount(); i++) {
-                    NvsCaptureVideoFx fx = mStreamingContext.getCaptureVideoFxByIndex(i);
-                    String name = fx.getBuiltinCaptureVideoFxName();
-                    if (name.equals("Beauty")) {
-                        //设置美颜强度值
-                        fx.setFloatVal("Whitening", mWhiteningValue);
-                        break;
-                    }
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });*/
-        /*红润*/
-       /* mReddening.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mReddeningValue = progress * 0.01;
-                mReddening_text.setText(String.format(Locale.getDefault(), "%.2f", mReddeningValue));
-
-                for (int i = 0; i < mStreamingContext.getCaptureVideoFxCount(); i++) {
-                    NvsCaptureVideoFx fx = mStreamingContext.getCaptureVideoFxByIndex(i);
-                    String name = fx.getBuiltinCaptureVideoFxName();
-                    if (name.equals("Beauty")) {
-                        //设置美颜强度值
-                        fx.setFloatVal("Reddening", mReddeningValue);
-                        break;
-                    }
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });*/
-
-        // 美型开关
-     /*   mBeauty_shape_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!m_canUseARFace) {
-                    mBeauty_shape_switch.setChecked(false);
-                    Util.showDialog(CaptureActivity.this, "提示", "请移步官网，联系商务人员索要有人脸识别授权的版本");
-                } else {
-                    if (isChecked) {
-                        mARFace.setMenuVal("Face Type", "Default");
-                        mARFace.setFloatVal("Face Shape Level", mLevelValue);
-                        mARFace.setFloatVal("Eye Enlarging", mBigeyeValue);
-                        mARFace.setFloatVal("Cheek Thinning", mShapeFaceValue);
-                        mBeauty_shape_switch_text.setText("关闭美型");
-                    } else {
-                        mARFace.setMenuVal("Face Type", "");
-                        mARFace.setFloatVal("Face Shape Level", 0);
-                        mARFace.setFloatVal("Eye Enlarging", 0);
-                        mARFace.setFloatVal("Cheek Thinning", 0);
-                        mBeauty_shape_switch_text.setText("开启美型");
-                    }
-                    mBeauty_shape_switch.setChecked(isChecked);
-                    beautyShapeSeekEnabled(isChecked);
-                }
-            }
-        });*/
-
-        /*程度*/
-        /*mLevel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (mARFace == null) {
-                    return;
-                }
-                mLevelValue = ((float) progress) / ((float) 100);
-                Log.e("===>", "level: " + mLevelValue);
-                mARFace.setFloatVal("Face Shape Level", mLevelValue);
-                mLevel_text.setText(String.format(Locale.getDefault(), "%.2f", mLevelValue));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });*/
-        /*大眼*/
-        /*mBigeye.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (mARFace == null) {
-                    return;
-                }
-                mBigeyeValue = (float) progress / 100;
-                Log.e("===>", "da yan: " + mBigeyeValue);
-                mARFace.setFloatVal("Eye Enlarging", mBigeyeValue);
-                mBigeye_text.setText(String.format(Locale.getDefault(), "%.2f", mBigeyeValue));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });*/
-        /*瘦脸*/
-      /*  mShape_face.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser) {
-                    if (mARFace == null) {
-                        return;
-                    }
-                    mShapeFaceValue = ((float) progress) / ((float) 100);
-                    mARFace.setFloatVal("Cheek Thinning", mShapeFaceValue);
-                    mShape_face_text.setText(String.format(Locale.getDefault(), "%.2f", mShapeFaceValue));
-                }
-
-
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });*/
-    }
 
     private void stopRecording() {
         mStreamingContext.stopRecording();
@@ -1987,7 +1759,7 @@ private boolean isTrue=false;
                             file.delete();
                         }
                     }
-                    Intent intent = new Intent(CaptureActivity.this, PictureEditActivity.class);
+                    Intent intent = new Intent(CaptureActivity.this, PublishYoXiuActivity.class);
                     intent.putExtra("path", jpgPath);
                     startActivity(intent);
 //                    showPictureLayout(true);

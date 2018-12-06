@@ -34,16 +34,21 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
     private List<FilterItem> mFilterDataList = new ArrayList<>();
 
     private int mSelectPos = 0;
+
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
+
         void onSameItemClick();
     }
+
     public FilterAdapter(Context context) {
         mContext = context;
     }
+
     public void setOnItemClickListener(OnItemClickListener listener) {
         mClickListener = listener;
     }
+
     public void setFilterDataList(List<FilterItem> filterDataList) {
         this.mFilterDataList = filterDataList;
         notifyDataSetChanged();
@@ -57,6 +62,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
         private RelativeLayout item_assetLayout;
         private ImageView item_assetImage;
         private TextView item_assetName;
+
         public ViewHolder(View view) {
             super(view);
             item_assetLayout = (RelativeLayout) view.findViewById(R.id.layoutAsset);
@@ -71,7 +77,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fx, parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fx, parent, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
@@ -81,12 +87,34 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
         FilterItem itemData = mFilterDataList.get(position);
         if (itemData == null)
             return;
-
+//明快、精致、清晰、蕾丝、质感、元气、薄荷、草莓、粉嫩、清凉
         String name = itemData.getFilterName();
         if (name != null && !mIsArface) {
+            if (name.equals("Sage")) {
+                name = "明快";
+            } else if (name.equals("Maid")) {
+                name = "精致";
+            } else if (name.equals("Mace")) {
+                name = "清晰";
+            } else if (name.equals("Lace")) {
+                name = "蕾丝";
+            } else if (name.equals("Mall")) {
+                name = "质感";
+            } else if (name.equals("Sap")) {
+                name = "元气";
+            } else if (name.equals("Sara")) {
+                name = "薄荷";
+            } else if (name.equals("Pinky")) {
+                name = "草莓";
+            } else if (name.equals("Sweet")) {
+                name = "粉嫩";
+            } else if (name.equals("Fresh")) {
+                name = "清凉";
+            }
+
             holder.item_assetName.setText(name);
         }
-        if(mIsArface){
+        if (mIsArface) {
             holder.item_assetName.setText("");
         }
 
@@ -119,7 +147,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
                 }
             }
         }
-        if(mSelectPos == position) {
+        if (mSelectPos == position) {
             holder.item_assetLayout.setBackground(ContextCompat.getDrawable(mContext, R.drawable.fx_item_radius_shape_select));
             holder.item_assetName.setTextColor(Color.parseColor("#4a90e2"));
         } else {
@@ -130,8 +158,8 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mSelectPos == position) {
-                    if(mClickListener != null) {
+                if (mSelectPos == position) {
+                    if (mClickListener != null) {
                         mClickListener.onSameItemClick();
                     }
                     return;
@@ -139,7 +167,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
 
                 mSelectPos = position;
                 notifyDataSetChanged();
-                if(mClickListener != null) {
+                if (mClickListener != null) {
                     mClickListener.onItemClick(view, position);
                 }
             }

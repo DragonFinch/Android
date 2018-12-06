@@ -292,7 +292,7 @@
         <activity android:name=".ui.common.ResultActivity" />
         <activity
             android:name=".ui.common.LoginActivity"
-            android:theme="@style/LuncherActivityTheme" />
+           />
         <activity android:name=".ui.common.LikePrefencesActivity" />
         <activity
             android:name="com.umeng.socialize.editorpage.ShareActivity"

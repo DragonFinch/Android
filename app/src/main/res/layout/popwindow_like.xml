@@ -4,19 +4,42 @@
                     xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/rl_like"
                     android:background="@mipmap/xiala_bg_"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="@dimen/dp_130"
+            android:layout_height="@dimen/dp_110">
 
-        <com.iyoyogo.android.view.DrawableTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:drawablePadding="@dimen/dp_10"
-                android:text="@string/str_unlike"
-                android:textColor="@color/common_color"
-                android:textSize="@dimen/sp_15"
-                android:id="@+id/dt_like"
-                app:leftDrawable="@mipmap/buxihuan"
-                app:leftDrawableHeight="@dimen/dp_20"
-                app:leftDrawableWidth="@dimen/dp_20" />
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="不喜欢"
+           android:drawablePadding="@dimen/dp_5"
+           android:textSize="@dimen/sp_15"
+           android:layout_centerHorizontal="true"
+           android:textColor="#333"
+           android:id="@+id/tv_dislike"
+           android:layout_marginTop="@dimen/dp_24"
+           android:drawableLeft="@mipmap/buxihuan"
+           />
+    <View
+        android:id="@+id/line"
+        android:layout_marginTop="@dimen/dp_18"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_below="@+id/tv_dislike"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="#f1f1f1"
+        />
+    <TextView
+        android:layout_below="@+id/line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="举报"
+        android:layout_alignLeft="@+id/tv_dislike"
+        android:drawablePadding="@dimen/dp_5"
+        android:textSize="@dimen/sp_15"
+        android:layout_centerHorizontal="true"
+        android:textColor="#333"
+        android:id="@+id/tv_report"
+        android:layout_marginTop="@dimen/dp_16"
+        android:drawableLeft="@mipmap/jubao" />
     </RelativeLayout>

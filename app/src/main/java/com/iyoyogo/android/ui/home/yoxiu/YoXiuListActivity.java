@@ -21,9 +21,13 @@ import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.recommend.YoXiuDetailActivity;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtils;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,10 +83,20 @@ public class YoXiuListActivity extends BaseActivity {
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
+        refreshLayout.setRefreshHeader(new MaterialHeader(this).setShowBezierWave(true));
+        refreshLayout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
+        //下拉刷新
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                refreshLayout.finishRefresh(2000);
+            }
+        });
         user_id = SpUtils.getString(YoXiuListActivity.this, "user_id", null);
         user_token = SpUtils.getString(YoXiuListActivity.this, "user_token", null);
         recyclerYoxiuList.setLayoutManager(new LinearLayoutManager(YoXiuListActivity.this));
-        refreshLayout.setEnableRefresh(false);
+        refreshLayout.setEnableRefresh(true);
+        refreshLayout.setFooterHeight(0.0f);
         DataManager.getFromRemote().getYoXiuList(user_id, user_token, currentPage)
                 .subscribe(new Observer<YouXiuListBean>() {
                     @Override

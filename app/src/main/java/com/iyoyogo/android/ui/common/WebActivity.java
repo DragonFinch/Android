@@ -2,6 +2,8 @@ package com.iyoyogo.android.ui.common;
 
 
 import android.content.Intent;
+import android.net.http.SslError;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -26,12 +28,19 @@ public class WebActivity extends BaseActivity {
         mWebView = findViewById(R.id.webview);
         WebSettings mWebSettings = mWebView.getSettings();
         mWebSettings.setJavaScriptEnabled(true);
+        mWebSettings.setDefaultTextEncodingName("UTF-8");
         mWebView.loadUrl(url);
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return super.shouldOverrideUrlLoading(view, url);
+            }
+        });
+        mWebView.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error){
+                handler.proceed();
             }
         });
 
