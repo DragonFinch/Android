@@ -513,4 +513,27 @@
     <string name="batch_upload">batch</string>
     <string name="trigger_callback">callback</string>
     <string name="image_persist">image persist</string>
+
+    //我的收藏
+    <string name="collection">我的收藏</string>
+    <string name="guanli">管理</string>
+    <string name="chuangjian">创建收藏夹</string>
+    <string name="bianjishouchangjia">编辑收藏夹</string>
+    <string name="shanchu">删除</string>
+    <string name="baocun">保存</string>
+    <string name="biaoti">标题</string>
+    <string name="jinzijikejian">仅自己可见</string>
+    <string name="qingshuru">请输入10个字以内</string>
+    <string name="kaiqi">开启你的收藏之旅吧～</string>
+
+    <string name="mazi">码字不易</string>
+    <string name="shifoubaocun">是否保存当前收藏夹？</string>
+    <string name="fangqi">放弃</string>
+    <string name="zhunle">准了</string>
+    <string name="shurubiaoti">输入标题</string>
+    <string name="shouchangcaikeyiyong">收藏夹才可用哦～</string>
+    <string name="wozhidaole">我知道了</string>
+    <string name="xuanzemubiaoshoucangjia">选择目标收藏夹</string>
+
+    <string name="morenshoucang">默认收藏·30</string>
 </resources>

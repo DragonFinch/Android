@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/default_collection_rl_id"
+    android:layout_height="match_parent"
+    tools:context=".ui.mine.MyCollection.DefaultCollectionActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/default_back_iv_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:src="@mipmap/fanhui_hei" />
+
+            <TextView
+                android:id="@+id/default_title_tv_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/morenshoucang"
+                android:textColor="@color/c333333" />
+
+            <ImageView
+                android:id="@+id/default_spot_iv_id"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="@dimen/dp_20"
+                android:src="@mipmap/index_more" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true">
+
+        <CheckBox
+            android:id="@+id/default_checkbox_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_20" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/default_checkbox_id"
+            android:text="@string/str_select_all"
+            android:textColor="@color/color333333" />
+
+        <TextView
+            android:id="@+id/default_move_but_id"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/default_delete_but_id"
+            android:background="@color/blue_color"
+            android:gravity="center"
+            android:text="@string/str_move_to"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_15" />
+
+        <TextView
+            android:id="@+id/default_delete_but_id"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/FA800A"
+            android:gravity="center"
+            android:text="@string/shanchu"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_15" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
