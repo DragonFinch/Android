@@ -1,20 +1,14 @@
-package com.iyoyogo.android.ui.mine.MyCollection;
+package com.iyoyogo.android.ui.mine.collection;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.iyoyogo.android.R;
 

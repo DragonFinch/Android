@@ -370,7 +370,7 @@
         <activity android:name=".ui.mine.AboutMeActivity" />
         <activity android:name=".ui.mine.FeedBackActivity" />
         <activity android:name=".ui.home.yoxiu.AllCommentActivity" />
-        <activity android:name=".ui.mine.MyCollection.DefaultCollectionActivity"></activity>
+        <activity android:name=".ui.mine.collection.DefaultCollectionActivity"></activity>
     </application>
 
 </manifest>

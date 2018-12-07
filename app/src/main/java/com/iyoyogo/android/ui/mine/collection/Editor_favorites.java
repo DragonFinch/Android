@@ -1,4 +1,4 @@
-package com.iyoyogo.android.ui.mine.MyCollection;
+package com.iyoyogo.android.ui.mine.collection;
 
 
 import android.annotation.SuppressLint;

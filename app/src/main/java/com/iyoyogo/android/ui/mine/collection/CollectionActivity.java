@@ -1,4 +1,4 @@
-package com.iyoyogo.android.ui.mine.MyCollection;
+package com.iyoyogo.android.ui.mine.collection;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
