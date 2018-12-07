@@ -77,5 +77,15 @@ public class YoXiuDetailPresenter extends BasePresenter<YoXiuDetailContract.View
 
     }
 
+    @Override
+    public void addAttention(String user_id, String user_token, String target_id) {
+
+    }
+
+    @Override
+    public void deleteAttention(String user_id, String user_token, String id) {
+
+    }
+
 
 }

@@ -296,6 +296,11 @@ public interface ApiService {
     @POST("index.php/api/logout/do_logout")
     @FormUrlEncoded
     Observable<BaseBean> logout(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("addr") String address, @Field("phone_info") String phone_info, @Field("app_version") String app_version);
-
+    @POST("index.php/api/attention/add")
+    @FormUrlEncoded
+    Observable<BaseBean> addAttention(@Field("user_id") String user_id, @Field("user_token") String user_token,@Field("target_id")String target_id);
+    @POST("index.php/api/attention/delete")
+    @FormUrlEncoded
+    Observable<BaseBean> deleteAttention(@Field("user_id") String user_id, @Field("user_token") String user_token,@Field("target_id")String target_id);
 }
 

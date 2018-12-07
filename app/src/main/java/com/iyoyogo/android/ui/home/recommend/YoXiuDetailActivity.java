@@ -552,6 +552,16 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         yoXiuDetailAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void addAttentionSuccess() {
+
+    }
+
+    @Override
+    public void deleteAttentionSuccess() {
+
+    }
+
 
     //隐藏事件PopupWindow
     private class poponDismissListener implements PopupWindow.OnDismissListener {
