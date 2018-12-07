@@ -66,6 +66,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContract.Presenter> implements EditPersonalContract.View {
     private static String path = "/sdcard/myHead/";//sd路径
@@ -74,7 +75,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
     @BindView(R.id.preservation_tv_id)
     TextView preservationTvId;
     @BindView(R.id.head_im_id)
-    ImageView headImId;
+    CircleImageView headImId;
     @BindView(R.id.nick_name)
     EditText nickName;
     @BindView(R.id.girl)
@@ -89,20 +90,21 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
     RelativeLayout brithRlId;
     @BindView(R.id.tv_start_seat)
     TextView tvStartSeat;
-    @BindView(R.id.city_tv_id)
-    TextView cityTvId;
-    @BindView(R.id.city_rl_id)
-    RelativeLayout cityRlId;
-    @BindView(R.id.main_llayout_id)
-    LinearLayout mainLlayoutId;
     @BindView(R.id.tv_interest)
     TextView tvInterest;
     @BindView(R.id.recycler_interest)
     RecyclerView recyclerInterest;
     @BindView(R.id.tv_phone)
     TextView tvPhone;
+    @BindView(R.id.city_tv_id)
+    TextView cityTvId;
+    @BindView(R.id.city_rl_id)
+    RelativeLayout cityRlId;
     @BindView(R.id.user_id)
-    TextView tvUserId;
+    TextView userId;
+    @BindView(R.id.main_llayout_id)
+    LinearLayout mainLlayoutId;
+
     private RelativeLayout relativeLayout;
     private TextView textView;
     private RelativeLayout cityLayout;
@@ -618,13 +620,13 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             cityTvId.setText(user_city);
             cityTvId.setTextColor(R.color.colorF1F1F1);
         }
-        if (data.getUser_phone().equals("")){
+        if (data.getUser_phone().equals("")) {
             tvPhone.setText("");
-        }else {
-        tvPhone.setText(data.getUser_phone());
+        } else {
+            tvPhone.setText(data.getUser_phone());
 
         }
-        tvUserId.setText(data.getUser_id());
+        userId.setText(data.getUser_id()+"");
 
     }
 
@@ -635,5 +637,10 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
     }
 
 
-
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

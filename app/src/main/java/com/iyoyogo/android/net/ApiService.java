@@ -2,6 +2,7 @@ package com.iyoyogo.android.net;
 
 
 import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.bean.home.HomeViewPagerBean;
 import com.iyoyogo.android.bean.login.SendMessageBean;
@@ -298,9 +299,9 @@ public interface ApiService {
     Observable<BaseBean> logout(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("addr") String address, @Field("phone_info") String phone_info, @Field("app_version") String app_version);
     @POST("index.php/api/attention/add")
     @FormUrlEncoded
-    Observable<BaseBean> addAttention(@Field("user_id") String user_id, @Field("user_token") String user_token,@Field("target_id")String target_id);
+    Observable<AttentionBean> addAttention(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("target_id")int target_id);
     @POST("index.php/api/attention/delete")
     @FormUrlEncoded
-    Observable<BaseBean> deleteAttention(@Field("user_id") String user_id, @Field("user_token") String user_token,@Field("target_id")String target_id);
+    Observable<BaseBean> deleteAttention(@Field("user_id") String user_id, @Field("user_token") String user_token,@Field("id")int id);
 }
 

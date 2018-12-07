@@ -13,13 +13,17 @@ import android.widget.TextView;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
-import com.iyoyogo.android.base.IBasePresenter;
+import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.contract.MineSettingContract;
+import com.iyoyogo.android.presenter.MineSettingPresenter;
+import com.iyoyogo.android.ui.common.LoginActivity;
 import com.iyoyogo.android.utils.DataCleanManager;
+import com.iyoyogo.android.utils.SpUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MineSettingActivity extends BaseActivity {
+public class MineSettingActivity extends BaseActivity<MineSettingContract.Presenter> implements MineSettingContract.View {
 
     @BindView(R.id.back_iv_id)
     ImageView backIvId;
@@ -47,12 +51,21 @@ public class MineSettingActivity extends BaseActivity {
     RelativeLayout clearCache;
     @BindView(R.id.btn_logout)
     Button btnLogout;
+    private String user_id;
+    private String user_token;
+    private String address;
+    private String phone_type;
+    private String localVersion;
 
     @Override
     protected void initView() {
         super.initView();
-        String localVersion = packageName(MineSettingActivity.this);
-        tvVersionName.setText(localVersion+"");
+        user_id = SpUtils.getString(MineSettingActivity.this, "user_id", null);
+        user_token = SpUtils.getString(MineSettingActivity.this, "user_token", null);
+        address = SpUtils.getString(MineSettingActivity.this, "address", null);
+        phone_type = SpUtils.getString(MineSettingActivity.this, "phone_type", null);
+        localVersion = packageName(MineSettingActivity.this);
+        tvVersionName.setText(localVersion + "");
         try {
             String totalCacheSize = DataCleanManager.getInstance().getTotalCacheSize(MineSettingActivity.this);
             tvClearCache.setText(totalCacheSize);
@@ -60,7 +73,8 @@ public class MineSettingActivity extends BaseActivity {
             e.printStackTrace();
         }
     }
-    public  String packageName(Context context) {
+
+    public String packageName(Context context) {
         PackageManager manager = context.getPackageManager();
         String name = null;
         try {
@@ -104,11 +118,12 @@ public class MineSettingActivity extends BaseActivity {
 
                 break;
             case R.id.btn_logout:
-
+                mPresenter.logout(user_id, user_token, address, phone_type, localVersion);
                 break;
         }
     }
-    public  int getLocalVersion(Context ctx) {
+
+    public int getLocalVersion(Context ctx) {
         int localVersion = 0;
         try {
             PackageInfo packageInfo = ctx.getApplicationContext()
@@ -128,7 +143,16 @@ public class MineSettingActivity extends BaseActivity {
     }
 
     @Override
-    protected IBasePresenter createPresenter() {
-        return null;
+    protected MineSettingContract.Presenter createPresenter() {
+        return new MineSettingPresenter(this);
+    }
+
+    @Override
+    public void logoutSuccess(BaseBean baseBean) {
+        SpUtils.remove(MineSettingActivity.this, "user_id");
+        SpUtils.remove(MineSettingActivity.this, "user_token");
+        SpUtils.remove(MineSettingActivity.this, "isLogin");
+        startActivity(new Intent(MineSettingActivity.this, LoginActivity.class));
+        finish();
     }
 }

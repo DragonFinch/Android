@@ -7,7 +7,7 @@ import java.util.List;
 public class YoXiuDetailBean extends BaseBean {
 
     /**
-     * data : {"id":1,"file_type":1,"file_path":"https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/st/st_1000013028.jpg?x-oss-process=image/resize,w_1242","file_desc":"3787","position_name":"铁道博物馆","create_time":"2018-02-19 14:35:26","count_view":1170,"count_comment":3,"count_praise":585,"count_collect":0,"user_nickname":"jason","user_logo":"https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/user/Pr_200000074.jpg?x-oss-process=image/resize,w_50","is_my_like":0,"is_my_attention":0,"is_my_collect":1,"topic_list":[{"id":1,"topic":"话题1"},{"id":3,"topic":"话题3"}]}
+     * data : {"id":1,"user_id":60622,"file_type":1,"file_path":"https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/st/st_1000013028.jpg?x-oss-process=image/resize,w_1242","file_desc":"3787","position_name":"铁道博物馆","create_time":"2018-02-19 14:35:26","count_view":1339,"count_comment":3,"count_praise":595,"count_collect":0,"user_nickname":"jason","user_logo":"https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/user/Pr_200000074.jpg?x-oss-process=image/resize,w_50","is_my_like":77365,"is_my_attention":0,"is_my_collect":0,"topic_list":[{"id":1,"topic":"话题1"},{"id":3,"topic":"话题3"}]}
      */
 
     private DataBean data;
@@ -23,24 +23,26 @@ public class YoXiuDetailBean extends BaseBean {
     public static class DataBean {
         /**
          * id : 1
+         * user_id : 60622
          * file_type : 1
          * file_path : https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/st/st_1000013028.jpg?x-oss-process=image/resize,w_1242
          * file_desc : 3787
          * position_name : 铁道博物馆
          * create_time : 2018-02-19 14:35:26
-         * count_view : 1170
+         * count_view : 1339
          * count_comment : 3
-         * count_praise : 585
+         * count_praise : 595
          * count_collect : 0
          * user_nickname : jason
          * user_logo : https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/user/Pr_200000074.jpg?x-oss-process=image/resize,w_50
-         * is_my_like : 0
+         * is_my_like : 77365
          * is_my_attention : 0
-         * is_my_collect : 1
+         * is_my_collect : 0
          * topic_list : [{"id":1,"topic":"话题1"},{"id":3,"topic":"话题3"}]
          */
 
         private int id;
+        private int user_id;
         private int file_type;
         private String file_path;
         private String file_desc;
@@ -63,6 +65,14 @@ public class YoXiuDetailBean extends BaseBean {
 
         public void setId(int id) {
             this.id = id;
+        }
+
+        public int getUser_id() {
+            return user_id;
+        }
+
+        public void setUser_id(int user_id) {
+            this.user_id = user_id;
         }
 
         public int getFile_type() {

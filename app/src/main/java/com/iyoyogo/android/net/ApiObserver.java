@@ -89,10 +89,10 @@ public abstract class ApiObserver<T extends BaseBean> implements Observer<T> {
                 mView.setLoadFailedView(false);
             }
         }
-        if (Constant.RESULT_OK==t.getCode()) {
+        if (Constant.RESULT_OK == t.getCode()) {
             doOnSuccess(t);
         } else {
-//            handleFailureResult(t.getSuccess(), t.getErrormsg());
+            handleFailureResult(t.getCode(), t.getMsg());
         }
 
     }
@@ -102,25 +102,26 @@ public abstract class ApiObserver<T extends BaseBean> implements Observer<T> {
     /**
      * 根据状态码分别处理各自逻辑
      */
-//    private void handleFailureResult(String code, String message) {
-//        //处理统一状态码逻辑 如：用户已在其他客户端登录
-//        if (mView == null) return;
-//        switch (code) {
-//            case Constant.USER_TOKEN_ERROR:
-//                mView.onUserTokenError();
-//                break;
-//
-//
-//            default_ic:
-//                if (!doOnFailure(code, message)) {
-//                    if (isShowLoadFailedView) {
-//
-//                        mView.setLoadFailedView(true);
-//                    }
-//
-//                }
-//        }
-//    }
+    private void handleFailureResult(int code, String message) {
+        //处理统一状态码逻辑 如：用户已在其他客户端登录
+        if (mView == null) return;
+        switch (code) {
+            case Constant.USER_TOKEN_ERROR:
+                mView.onUserTokenError();
+                break;
+
+            case Constant.ERROR:
+                doOnFailure(code, message);
+            default:
+                if (!doOnFailure(code, message)) {
+                    if (isShowLoadFailedView) {
+
+                        mView.setLoadFailedView(true);
+                    }
+
+                }
+        }
+    }
 
     /**
      * 处理对应业务状态码
@@ -128,7 +129,7 @@ public abstract class ApiObserver<T extends BaseBean> implements Observer<T> {
      * @return 返回值代表是否交由此方法处理
      */
     protected boolean doOnFailure(int code, String message) {
-        return false;
+        return true;
     }
 
     @Override

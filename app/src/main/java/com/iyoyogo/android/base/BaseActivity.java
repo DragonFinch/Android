@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.app.App;
+import com.iyoyogo.android.ui.common.LoginActivity;
 import com.iyoyogo.android.utils.DisplayAdapter;
 import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.widget.IStatusView;
@@ -295,6 +296,9 @@ public abstract class BaseActivity<T extends IBasePresenter> extends AppCompatAc
      */
     @Override
     public void onUserTokenError() {
+        shortToast("登录令牌失效");
+        startActivity(new Intent(BaseActivity.this,LoginActivity.class));
+        finish();
     }
 
     /**

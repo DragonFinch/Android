@@ -2,6 +2,7 @@ package com.iyoyogo.android.model;
 
 
 import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.bean.home.HomeViewPagerBean;
 import com.iyoyogo.android.bean.login.SendMessageBean;
@@ -263,6 +264,18 @@ public class Model {
     }
     public Observable<BaseBean> replacePhone(String user_id,String user_token,String phone,String yzm){
         return HttpClient.getApiService().replacePhone(user_id,user_token,phone,yzm)
+                .compose(this.switchThread());
+    }
+    public  Observable<BaseBean> logout(String user_id,String user_token,String addr, String phone_type,String app_version){
+        return HttpClient.getApiService().logout(user_id,user_token,addr,phone_type,app_version)
+                .compose(this.switchThread());
+    }
+    public Observable<AttentionBean> addAttention(String user_id,String user_token,int target_id){
+        return HttpClient.getApiService().addAttention(user_id,user_token,target_id)
+                .compose(this.switchThread());
+    }
+    public Observable<BaseBean> deleteAttention(String user_id,String user_token,int id){
+        return HttpClient.getApiService().deleteAttention(user_id,user_token,id)
                 .compose(this.switchThread());
     }
 }

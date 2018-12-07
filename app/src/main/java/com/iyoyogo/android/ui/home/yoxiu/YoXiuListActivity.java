@@ -21,12 +21,13 @@ import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.recommend.YoXiuDetailActivity;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtils;
-import com.scwang.smartrefresh.header.MaterialHeader;
+import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
@@ -59,6 +60,20 @@ public class YoXiuListActivity extends BaseActivity {
     private String user_token;
     private List<YouXiuListBean.DataBean.ListBean> mList;
 
+    MyRefreshAnimHeader mRefreshAnimHeader;
+
+    /**
+     * 设置刷新header风格
+     *
+     * @param header
+     */
+    private void setHeader(RefreshHeader header) {
+        if (refreshLayout.isRefreshing()) {
+            refreshLayout.finishRefresh();
+        }
+        refreshLayout.setRefreshHeader(header);
+    }
+
     @SuppressLint("ResourceType")
     @Override
     protected void initView() {
@@ -67,6 +82,27 @@ public class YoXiuListActivity extends BaseActivity {
         shareImg.setVisibility(View.GONE);
         StatusBarUtils.setWindowStatusBarColor(YoXiuListActivity.this, R.color.orange);
         mList = new ArrayList<>();
+        //初始化header
+
+        mRefreshAnimHeader = new MyRefreshAnimHeader(this);
+        setHeader(mRefreshAnimHeader);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mList.clear();
+                DataManager.getFromRemote().getYoXiuList(user_id, user_token, currentPage)
+                        .subscribe(new Consumer<YouXiuListBean>() {
+                            @Override
+                            public void accept(YouXiuListBean youXiuListBean) throws Exception {
+
+                                List<YouXiuListBean.DataBean.ListBean> list = youXiuListBean.getData().getList();
+                                mList.addAll(list);
+                            }
+                        });
+            }
+
+        });
+
     }
 
     @Override
@@ -83,20 +119,17 @@ public class YoXiuListActivity extends BaseActivity {
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        refreshLayout.setRefreshHeader(new MaterialHeader(this).setShowBezierWave(true));
+
+
         refreshLayout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
         //下拉刷新
-        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
-                refreshLayout.finishRefresh(2000);
-            }
-        });
+
         user_id = SpUtils.getString(YoXiuListActivity.this, "user_id", null);
         user_token = SpUtils.getString(YoXiuListActivity.this, "user_token", null);
         recyclerYoxiuList.setLayoutManager(new LinearLayoutManager(YoXiuListActivity.this));
         refreshLayout.setEnableRefresh(true);
-        refreshLayout.setFooterHeight(0.0f);
+        refreshLayout.setFooterHeight(1.0f);
+        refreshLayout.setEnableFooterFollowWhenLoadFinished(false);
         DataManager.getFromRemote().getYoXiuList(user_id, user_token, currentPage)
                 .subscribe(new Observer<YouXiuListBean>() {
                     @Override
@@ -108,6 +141,7 @@ public class YoXiuListActivity extends BaseActivity {
                     public void onNext(YouXiuListBean youXiuListBean) {
                         List<YouXiuListBean.DataBean.ListBean> list = youXiuListBean.getData().getList();
                         mList.addAll(list);
+
                         yoXiuListAdapter = new YoXiuListAdapter(YoXiuListActivity.this, mList);
                         recyclerYoxiuList.setAdapter(yoXiuListAdapter);
                         yoXiuListAdapter.setOnItemClickListener(new YoXiuListAdapter.OnClickListener() {
@@ -131,11 +165,50 @@ public class YoXiuListActivity extends BaseActivity {
 
                     }
                 });
-
-
-        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+            public void onRefresh(RefreshLayout refreshlayout) {
+                DataManager.getFromRemote().getYoXiuList(user_id, user_token, 1)
+                        .subscribe(new Observer<YouXiuListBean>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+
+                            }
+
+                            @Override
+                            public void onNext(YouXiuListBean youXiuListBean) {
+                                List<YouXiuListBean.DataBean.ListBean> list = youXiuListBean.getData().getList();
+                                mList.addAll(list);
+
+                                yoXiuListAdapter = new YoXiuListAdapter(YoXiuListActivity.this, mList);
+                                recyclerYoxiuList.setAdapter(yoXiuListAdapter);
+                                yoXiuListAdapter.setOnItemClickListener(new YoXiuListAdapter.OnClickListener() {
+                                    @Override
+                                    public void setOnClickListener(View v, int position) {
+                                        int id = mList.get(position).getId();
+                                        Intent intent = new Intent(YoXiuListActivity.this, YoXiuDetailActivity.class);
+                                        intent.putExtra("id", id);
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.d("YoXiuListActivity", e.getMessage());
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
+            }
+        });
+        refreshLayout.finishRefresh();
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
                 currentPage++;
                 Log.d("currentPage", "currentPage:" + currentPage);
                 DataManager.getFromRemote().getYoXiuList(user_id, user_token, currentPage)
@@ -146,9 +219,9 @@ public class YoXiuListActivity extends BaseActivity {
                                 mList.addAll(list);
                             }
                         });
-                yoXiuListAdapter.notifyDataSetChanged();
-                refreshLayout.finishLoadMore(300);
-
+                yoXiuListAdapter.notifyItemInserted(mList.size());
+//                yoXiuListAdapter.notifyItemInserted(mList.size());
+                refreshLayout.finishLoadmore();
             }
         });
 
@@ -167,6 +240,4 @@ public class YoXiuListActivity extends BaseActivity {
                 break;
         }
     }
-
-
 }

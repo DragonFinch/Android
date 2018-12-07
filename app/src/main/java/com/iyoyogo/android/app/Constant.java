@@ -100,7 +100,8 @@ public class Constant {
     public static final String BASE_URL = "http://47.105.four_three.207:8081/()/business/";
     public static final int RESULT_OK = 200;
     public static final String REGISTER_EXISTS = "0003";
-    public static final int USER_TOKEN_ERROR = 201;
+    public static final int USER_TOKEN_ERROR = 202;
+    public static final int ERROR = 201;
     public static final String INIT_WEDDING_ALREADY = "0001";
     public static String TOKEN="";
 }

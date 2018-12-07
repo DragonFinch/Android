@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_117">
+    android:layout_height="@dimen/dp_220">
 
 
     <ImageView
@@ -15,10 +15,10 @@
 
 
     <RelativeLayout
-
+android:layout_above="@+id/cancel"
         android:id="@+id/share_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/close_img"
         android:background="@drawable/bg_corn">
 
@@ -31,33 +31,39 @@
             />
 
         <LinearLayout
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:weightSum="4">
 
             <LinearLayout
+                android:layout_gravity="center"
                 android:id="@+id/wechat_layout"
+                android:gravity="center_horizontal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_10"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
+
                 android:orientation="vertical">
 
                 <ImageView
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_wechat_select" />
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_50"
+                    android:src="@mipmap/share_wechat" />
 
                 <TextView
+                    android:textColor="#ff333333"
+                    android:textSize="@dimen/sp_12"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_2"
                     android:text="微信" />
             </LinearLayout>
 
             <LinearLayout
+                android:layout_gravity="center"
                 android:id="@+id/comment_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -68,40 +74,21 @@
 
                 <ImageView
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_moment_select" />
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_50"
+                    android:src="@mipmap/share_circle" />
 
                 <TextView
+                    android:textColor="#ff333333"
+                    android:textSize="@dimen/sp_12"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_2"
+
                     android:text="朋友圈" />
             </LinearLayout>
-
             <LinearLayout
-                android:id="@+id/sina_layout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_sina_select" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_2"
-                    android:text="微博" />
-            </LinearLayout>
-
-            <LinearLayout
+                android:layout_gravity="center"
                 android:id="@+id/qq_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -112,27 +99,58 @@
 
                 <ImageView
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_qq_select" />
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_50"
+                    android:src="@mipmap/share_qq" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_2"
+                    android:textColor="#ff333333"
+                    android:textSize="@dimen/sp_12"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:text="QQ" />
             </LinearLayout>
+            <LinearLayout
+                android:layout_gravity="center"
+                android:id="@+id/sina_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_50"
+                    android:src="@mipmap/share_weibo" />
+
+                <TextView
+                    android:textColor="#ff333333"
+                    android:textSize="@dimen/sp_12"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="微博" />
+            </LinearLayout>
+
+
         </LinearLayout>
 
 
     </RelativeLayout>
 
     <TextView
+        android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:id="@+id/cancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/share_layout"
+        android:textColor="#ff333333"
+       android:layout_marginBottom="@dimen/dp_16"
         android:gravity="center_horizontal"
         android:text="取消"
         android:textSize="@dimen/sp_15" />

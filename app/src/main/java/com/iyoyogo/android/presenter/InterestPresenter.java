@@ -39,7 +39,7 @@ public class InterestPresenter extends BasePresenter<InterestContract.View> impl
 
                     @Override
                     protected boolean doOnFailure(int code, String message) {
-                        Toast.makeText(App.getmContext(), message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
                         return true;
 
                     }

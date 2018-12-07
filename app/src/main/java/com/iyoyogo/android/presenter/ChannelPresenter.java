@@ -1,5 +1,8 @@
 package com.iyoyogo.android.presenter;
 
+import android.widget.Toast;
+
+import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BasePresenter;
 import com.iyoyogo.android.bean.yoxiu.channel.ChannelBean;
 import com.iyoyogo.android.contract.ChannelContract;
@@ -28,6 +31,7 @@ public class ChannelPresenter extends BasePresenter<ChannelContract.View> implem
 
                     @Override
                     protected boolean doOnFailure(int code, String message) {
+                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
                         return true;
                     }
                 });

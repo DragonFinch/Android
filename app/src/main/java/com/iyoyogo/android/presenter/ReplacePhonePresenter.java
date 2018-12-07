@@ -26,7 +26,7 @@ public class ReplacePhonePresenter extends BasePresenter<ReplacePhoneContract.Vi
 
             @Override
             protected boolean doOnFailure(int code, String message) {
-                Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(App.getmContext(), message, Toast.LENGTH_SHORT).show();
                 return true;
             }
         });

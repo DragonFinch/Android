@@ -30,6 +30,7 @@
             android:textSize="@dimen/sp_15" />
 
         <ImageView
+            android:layout_marginLeft="@dimen/dp_15"
             android:id="@+id/img_brow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -63,14 +64,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_30"
+            android:layout_marginLeft="@dimen/dp_20"
             android:layout_toRightOf="@+id/img_brow"
-            android:drawableTop="@mipmap/ic_like"
+            android:drawableTop="@mipmap/xihuan_xiangqing"
             android:drawablePadding="@dimen/dp_6"
             android:gravity="center_horizontal"
             android:text="1" />
 
         <TextView
+            android:drawablePadding="@dimen/dp_6"
             android:id="@+id/tv_collection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,9 +80,20 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_37"
             android:layout_marginRight="@dimen/dp_22"
-            android:drawableTop="@mipmap/ic_collect"
+            android:drawableTop="@mipmap/shoucang_xiangqing"
             android:gravity="center_horizontal"
-            android:text="aaa" />
+            android:text="1" />
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/send_emoji"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/input_biaoqing"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_10"
+            />
     </RelativeLayout>
 
     <ScrollView
@@ -107,7 +120,7 @@
             <ImageView
                 android:id="@+id/img_logo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dp_220"
                 android:layout_below="@+id/img_top"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/sea" />
@@ -192,9 +205,8 @@
                 android:layout_below="@+id/img_user_icon"
                 android:layout_marginLeft="@dimen/dp_20"
                 android:layout_marginTop="@dimen/dp_6"
-                android:lineHeight="@dimen/dp_8"
                 android:layout_marginRight="@dimen/dp_20"
-                android:singleLine="true"
+
                 android:text="@string/account_and_safe" />
 
             <TextView
@@ -288,6 +300,7 @@
                 android:visibility="gone" />
 
             <TextView
+
                 android:layout_marginTop="@dimen/dp_21"
                 android:id="@+id/tv_more_comment"
                 android:layout_width="wrap_content"
@@ -299,7 +312,7 @@
                 android:gravity="center"
                 android:text="全部评论"
 
-                android:textColor="#333"
+                android:textColor="#888888"
                 android:visibility="visible" />
 <View
     android:layout_marginTop="@dimen/dp_10"

@@ -2,6 +2,8 @@ package com.iyoyogo.android.ui.home.recommend;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -33,6 +35,7 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.YoXiuDetailAdapter;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.bean.yoxiu.YoXiuDetailBean;
 import com.iyoyogo.android.contract.YoXiuDetailContract;
@@ -116,6 +119,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     ImageView imgCommentNull;
     @BindView(R.id.tv_comment_null)
     TextView tvCommentNull;
+    @BindView(R.id.send_emoji)
+    ImageView sendEmoji;
     private LocalMedia mMedia;
     private String mimeType;
     private String user_id;
@@ -123,6 +128,9 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     private int id;
     private List<YoXiuDetailBean.DataBean> dataBeans;
     private YoXiuDetailAdapter yoXiuDetailAdapter;
+    private String target_id;
+    private int yo_user_id;
+    private int is_my_attention;
 
     @Override
     protected void initView() {
@@ -154,6 +162,9 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                         mPresenter.addComment(user_id, user_token, 0, id, editComment.getText().toString().trim());
                         closeInputMethod();
                         mPresenter.getCommentList(user_id, user_token, 1, id, 0);
+                        editComment.clearFocus();
+                        editComment.setFocusable(false);
+//                        yoXiuDetailAdapter.notifyItemInserted(dataBeans.size());
                     } else {
                         Toast.makeText(YoXiuDetailActivity.this, "评论内容不能为空", Toast.LENGTH_SHORT).show();
                     }
@@ -172,6 +183,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
         super.initData(savedInstanceState);
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
@@ -183,7 +195,40 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         Log.d("YoXiuDetailActivity", "user_token:" + user_token);
         mPresenter.getDetail(user_id, user_token, id);
         mPresenter.getCommentList(user_id, user_token, 1, id, 0);
+        editComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    //获得焦点
+                    tvCollection.setVisibility(View.GONE);
+                    tvLike.setVisibility(View.GONE);
+                    editComment.setHint("码字不容易，留个评论鼓励下嘛~");
+                    editComment.setHintTextColor(Color.parseColor("#888888"));
+                    sendEmoji.setVisibility(View.VISIBLE);
+//                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+////                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//
+//                    layoutParams.alignWithParent=true;
+
+                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    layoutParams.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);
+                    editComment.setLayoutParams(layoutParams);
+
+                } else {
+                    //失去焦点
+                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(DensityUtil.dp2px(YoXiuDetailActivity.this, 230), ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParams.setMargins(0, DensityUtil.dp2px(YoXiuDetailActivity.this, 20), 0, 0);
+                    editComment.setLayoutParams(layoutParams);
+                    tvCollection.setVisibility(View.VISIBLE);
+                    tvLike.setVisibility(View.VISIBLE);
+                    editComment.setHint("再不评论 , 你会被抓去写作业的~");
+                    editComment.setHintTextColor(Color.parseColor("#888888"));
+                    sendEmoji.setVisibility(View.GONE);
+
+                }
+            }
+        });
     }
 
     private void closeInputMethod() {
@@ -202,7 +247,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
     public void share() {
         View view = getLayoutInflater().inflate(R.layout.popup_share, null);
-        PopupWindow popup_share = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        PopupWindow popup_share = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,DensityUtil.dp2px(YoXiuDetailActivity.this,220), true);
         popup_share.setBackgroundDrawable(new ColorDrawable());
         popup_share.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         popup_share.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -279,18 +324,40 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
                 break;
             case R.id.tv_like:
+                int count_praise = dataBeans.get(0).getCount_praise();
+                dataBeans.get(0).setIs_my_like(dataBeans.get(0).getIs_my_like() == 1 ? 0 : 1);
+                if (dataBeans.get(0).getIs_my_like() == 1) {
+                    count_praise += 1;
+                } else if (count_praise > 0) {
+                    count_praise -= 1;
+                }
+                dataBeans.get(0).setCount_praise(count_praise);
+
+
+                Drawable like = getResources().getDrawable(
+                        R.mipmap.xihuan_xiangqing);
+                Drawable liked = getResources().getDrawable(
+                        R.mipmap.yixihuan_xiangqing);
+                if (dataBeans.get(0).getIs_my_like() == 0) {
+
+                    tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
+                            like, null, null);
+                    tvLike.setText(count_praise + "");
+                } else {
+                    tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
+                            liked, null, null);
+                    tvLike.setText(count_praise + "");
+                }
+
+                tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
+                        dataBeans.get(0).getIs_my_like() == 0 ? like : liked, null, null);
+
+
                 DataManager.getFromRemote().praise(user_id, user_token, dataBeans.get(0).getId(), 0)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
-                                int count_praise = dataBeans.get(0).getCount_praise();
-                                dataBeans.get(0).setIs_my_like(dataBeans.get(0).getIs_my_like() == 1 ? 0 : 1);
-                                if (dataBeans.get(0).getIs_my_like() == 1) {
-                                    count_praise += 1;
-                                } else if (count_praise > 0) {
-                                    count_praise -= 1;
-                                }
-                                dataBeans.get(0).setCount_praise(count_praise);
+
                                 refresh();
                             }
                         });
@@ -310,8 +377,22 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
                 break;
             case R.id.collection:
+                if (collection.getText().toString().trim().equals("已关注")) {
+
+                    if (is_my_attention == 0) {
+                        int target = Integer.parseInt(target_id);
+                        mPresenter.deleteAttention(user_id, user_token, target);
+
+                    } else {
+                        mPresenter.deleteAttention(user_id, user_token, is_my_attention);
+                    }
+                    collection.setText("+ 关注");
+                } else {
+                    mPresenter.addAttention(user_id, user_token, yo_user_id);
+                    collection.setText("已关注");
+                }
 //                attention();
-                Toast.makeText(this, "正在研发中...", Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.num_look:
 
@@ -383,8 +464,16 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
     @Override
     public void getDetailSuccess(YoXiuDetailBean.DataBean data) {
+        yo_user_id = data.getUser_id();
         dataBeans = new ArrayList<>();
         dataBeans.add(data);
+        is_my_attention = data.getIs_my_attention();
+        if (is_my_attention == 0) {
+            collection.setText("+ 关注");
+
+        } else {
+            collection.setText("已关注");
+        }
         String create_time = data.getCreate_time();
         String time = create_time.replaceAll("-", ".");
         tvTime.setText(time);
@@ -397,11 +486,12 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         int count_view = data.getCount_view();
         numLook.setText(count_view + "");
         String file_desc = data.getFile_desc();
-        textDesc.setText(file_desc);
+        textDesc.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
+
         String path = data.getFile_path();
         RequestOptions requestOptions = new RequestOptions();
         if (editComment.getText().toString().length() > 0) {
-            mPresenter.addComment(user_id, user_token, 0, id, editComment.getText().toString().trim());
+            mPresenter.addComment(user_id, user_token, 0, this.id, editComment.getText().toString().trim());
             closeInputMethod();
             yoXiuDetailAdapter.notifyDataSetChanged();
             refresh();
@@ -410,7 +500,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         }
         ViewGroup.LayoutParams layoutParams = imgLogo.getLayoutParams();
         int width = layoutParams.width;
-        requestOptions.placeholder(R.mipmap.default_ic).override(DensityUtil.dp2px(YoXiuDetailActivity.this, width));
+        requestOptions.placeholder(R.mipmap.default_ic).override(DensityUtil.dp2px(YoXiuDetailActivity.this, ViewGroup.LayoutParams.MATCH_PARENT), DensityUtil.dp2px(YoXiuDetailActivity.this, ViewGroup.LayoutParams.MATCH_PARENT));
         Glide.with(this).load(path)
                 .apply(requestOptions)
                 .into(imgLogo);
@@ -432,9 +522,9 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
     private void collections() {
         Drawable collection = getResources().getDrawable(
-                R.mipmap.shoucang);
+                R.mipmap.shoucang_xiangqing);
         Drawable collectioned = getResources().getDrawable(
-                R.mipmap.yishoucang);
+                R.mipmap.yishoucang_xiangqing);
         if (dataBeans.get(0).getIs_my_collect() == 0) {
 
             tvCollection.setCompoundDrawablesWithIntrinsicBounds(null,
@@ -497,9 +587,9 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
     private void praise() {
         Drawable like = getResources().getDrawable(
-                R.mipmap.datu_xihuan);
+                R.mipmap.xihuan_xiangqing);
         Drawable liked = getResources().getDrawable(
-                R.mipmap.yixihuan);
+                R.mipmap.yixihuan_xiangqing);
         if (dataBeans.get(0).getIs_my_like() == 0) {
 
             tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
@@ -538,7 +628,13 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
             imgCommentNull.setVisibility(View.VISIBLE);
             tvCommentNull.setVisibility(View.VISIBLE);
         }
-        recyclerComment.setLayoutManager(new LinearLayoutManager(YoXiuDetailActivity.this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(YoXiuDetailActivity.this) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        recyclerComment.setLayoutManager(linearLayoutManager);
         yoXiuDetailAdapter = new YoXiuDetailAdapter(YoXiuDetailActivity.this, commentList);
         recyclerComment.setAdapter(yoXiuDetailAdapter);
 
@@ -549,17 +645,19 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     public void addCommentSuccess(BaseBean baseBean) {
         String msg = baseBean.getMsg();
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        editComment.setText("");
         yoXiuDetailAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void addAttentionSuccess() {
-
+    public void addAttentionSuccess(AttentionBean.DataBean data) {
+        target_id = data.getId();
+        Toast.makeText(this, "关注成功", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void deleteAttentionSuccess() {
-
+    public void deleteAttentionSuccess(BaseBean baseBean) {
+        Toast.makeText(this, "取消关注", Toast.LENGTH_SHORT).show();
     }
 
 

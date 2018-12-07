@@ -114,7 +114,7 @@ public class SourceChooseActivity extends AppCompatActivity {
                         popup.setOutsideTouchable(true);
                         popup.setBackgroundDrawable(new ColorDrawable());
                         ImageView img_delete = view1.findViewById(R.id.close_img);
-                        ImageView know_me = view1.findViewById(R.id.know_me);
+                        TextView know_me = view1.findViewById(R.id.know_me);
                         know_me.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

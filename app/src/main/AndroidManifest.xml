@@ -143,8 +143,7 @@
             android:name=".camera.utils.permission.PermissionsActivity"
             android:theme="@style/TranslucentFullScreenTheme" />
         <activity
-            android:name=".ui.common.SplashActivity"
-            android:theme="@style/LuncherActivityTheme">
+            android:name=".ui.common.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -278,22 +278,29 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
             public void onClick(View v) {
                 String user_id = SpUtils.getString(context, "user_id", null);
                 String user_token = SpUtils.getString(context, "user_token", null);
-                DataManager.getFromRemote().praise(user_id, user_token,0, mList.get(position).getId())
-                        .subscribe(new Consumer<BaseBean>() {
-                            @Override
-                            public void accept(BaseBean baseBean) throws Exception {
-                                like();
-                                int count_praise = mList.get(position).getCount_praise();
-                                mList.get(position).setIs_my_praise(mList.get(position).getIs_my_praise() == 1 ? 0 : 1);
-                                if (mList.get(position).getIs_my_praise() == 1) {
-                                    count_praise += 1;
-                                } else if (count_praise > 0) {
-                                    count_praise -= 1;
-                                }
-                                mList.get(position).setCount_praise(count_praise);
-                                notifyDataSetChanged();
-                            }
-                        });
+
+                int count_praise = mList.get(position).getCount_praise();
+                mList.get(position).setIs_my_praise(mList.get(position).getIs_my_praise() == 1 ? 0 : 1);
+                if (mList.get(position).getIs_my_praise() == 1) {
+                    count_praise += 1;
+                } else if (count_praise > 0) {
+                    count_praise -= 1;
+                }
+                mList.get(position).setCount_praise(count_praise);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        DataManager.getFromRemote().praise(user_id, user_token,0, mList.get(position).getId())
+                                .subscribe(new Consumer<BaseBean>() {
+                                    @Override
+                                    public void accept(BaseBean baseBean) throws Exception {
+                                        like();
+                                        notifyDataSetChanged();
+                                    }
+                                });
+                    }
+                }).start();
+
             }
         });
         holder.img_huifu.setOnClickListener(new View.OnClickListener() {
