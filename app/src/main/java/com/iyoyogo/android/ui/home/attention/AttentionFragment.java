@@ -13,11 +13,17 @@ import com.iyoyogo.android.bean.home.HomeViewPagerBean;
 import com.iyoyogo.android.contract.HomeContract;
 import com.iyoyogo.android.presenter.HomePresenter;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,23 +31,28 @@ import butterknife.BindView;
 public class AttentionFragment extends BaseFragment<HomeContract.Presenter> implements HomeContract.View {
     @BindView(R.id.recycler_recommend)
     RecyclerView recyclerHome;
+    @BindView(R.id.refresh_layout)
+    SmartRefreshLayout refreshLayout;
+    Unbinder unbinder;
+    private String user_id;
+    private String user_token;
+
 
     @Override
     protected void initView() {
         super.initView();
-
+        MyRefreshAnimHeader mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
+        setHeader(mRefreshAnimHeader);
+        refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
+        //下拉刷新
+        refreshLayout.setEnableRefresh(true);
+        refreshLayout.setFooterHeight(1.0f);
+        refreshLayout.autoRefresh();
     }
 
-    @Override
-    protected void initData() {
-        super.initData();
-        String user_id = SpUtils.getString(getContext(), "user_id", null);
-        String user_token = SpUtils.getString(getContext(), "user_token", null);
-
-        mPresenter.banner(user_id, user_token, "attention");
-
+    private void setHeader(RefreshHeader header) {
+        refreshLayout.setRefreshHeader(header);
     }
-
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_attention;
@@ -52,6 +63,13 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
         return new HomePresenter(this);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        user_id = SpUtils.getString(getContext(), "user_id", null);
+        user_token = SpUtils.getString(getContext(), "user_token", null);
+        mPresenter.banner(user_id, user_token, "attention");
+    }
 
     @Override
     public void bannerSuccess(HomeViewPagerBean.DataBean data) {
@@ -63,4 +81,5 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
         recyclerHome.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerHome.setAdapter(homeRecyclerViewAdapter);
     }
+
 }

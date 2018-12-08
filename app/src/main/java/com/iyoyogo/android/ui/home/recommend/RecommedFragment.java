@@ -13,11 +13,17 @@ import com.iyoyogo.android.bean.home.HomeViewPagerBean;
 import com.iyoyogo.android.contract.HomeContract;
 import com.iyoyogo.android.presenter.HomePresenter;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,11 +31,24 @@ import butterknife.BindView;
 public class RecommedFragment extends BaseFragment<HomeContract.Presenter> implements HomeContract.View {
     @BindView(R.id.recycler_recommend)
     RecyclerView recyclerHome;
+    @BindView(R.id.refresh_layout)
+    SmartRefreshLayout refreshLayout;
+    Unbinder unbinder;
 
     @Override
     protected void initView() {
         super.initView();
+        MyRefreshAnimHeader mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
+        setHeader(mRefreshAnimHeader);
+        refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
+        //下拉刷新
+        refreshLayout.setEnableRefresh(true);
+        refreshLayout.setFooterHeight(1.0f);
+        refreshLayout.autoRefresh();
+    }
 
+    private void setHeader(RefreshHeader header) {
+        refreshLayout.setRefreshHeader(header);
     }
 
     @Override
@@ -44,7 +63,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_recommed;
+        return R.layout.fragment_attention;
     }
 
     @Override
@@ -63,7 +82,6 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
         recyclerHome.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerHome.setAdapter(homeRecyclerViewAdapter);
     }
-
 
 
 }

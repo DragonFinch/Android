@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.home.HomeViewPagerBean;
 import com.iyoyogo.android.ui.home.recommend.YoXiuDetailActivity;
+import com.iyoyogo.android.ui.home.yoji.YoJiListActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuListActivity;
 import com.iyoyogo.android.view.CardTransformer;
 import com.iyoyogo.android.view.MyViewPager;
@@ -200,8 +201,11 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         String type = mList.get(0).getType();
         YoXiuAdapter yoXiuAdapter = new YoXiuAdapter(yox_list, context,type);
         yoXiuAdapter.setHasStableIds(true);
+
+
         youXiuHolder.recycler_youxiu.setLayoutManager(linearLayoutManager);
         youXiuHolder.recycler_youxiu.setAdapter(yoXiuAdapter);
+//        ((SimpleItemAnimator) youXiuHolder.recycler_youxiu.getItemAnimator()).setSupportsChangeAnimations(false);
         yoXiuAdapter.setOnItemClickListener(new YoXiuAdapter.OnClickListener() {
             @Override
             public void onClick(View v, int position) {
@@ -210,43 +214,19 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 context.startActivity(intent);
             }
         });
+
+
+
     }
 
     private void setYouJiHolder(Holder_YouJi youJiHolder, int position) {
-      /*  Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://v.juhe.cn/")
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create()).build();
-        ApiService apiService = retrofit.create(ApiService.class);
-        apiService.test("toutiao/index?type=top&key=8838c5c10b0613d95fbfc4dfc47eaa93")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<TestBean>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(TestBean testBean) {
-                        List<TestBean.ResultBean.DataBean> data = testBean.getResult().getData();
-                        Log.d("HomeRecyclerViewAdapter", "data.size():" + data.size());
-                        YoJiAdapter yoJiAdapter = new YoJiAdapter(data, context);
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-                        youJiHolder.recycler_youji.setLayoutManager(linearLayoutManager);
-                        youJiHolder.recycler_youji.setAdapter(yoJiAdapter);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("HomeRecyclerViewAdapter", e.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });*/
+      youJiHolder.youji_all.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              Intent intent = new Intent(context, YoJiListActivity.class);
+              context.startActivity(intent);
+          }
+      });
         youJiHolder.recycler_youji.setVisibility(View.GONE);
     }
 

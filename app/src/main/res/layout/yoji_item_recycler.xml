@@ -212,11 +212,7 @@
         android:id="@+id/ll_like_list"
         android:orientation="horizontal">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView_zuji_item"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_20"
-            android:layout_gravity="center" />
+
 
         <TextView
             android:layout_width="wrap_content"

@@ -27,6 +27,7 @@ public class MyRefreshAnimHeader extends LinearLayout implements RefreshHeader {
         initView(context);
     }
 
+
     /**注意不能为null*/
     @NonNull
     @Override
@@ -50,7 +51,15 @@ public class MyRefreshAnimHeader extends LinearLayout implements RefreshHeader {
 
     }
 
+    @Override
+    public void onMoving(boolean isDragging, float percent, int offset, int height, int maxDragHeight) {
 
+    }
+
+    @Override
+    public void onReleased(@NonNull RefreshLayout refreshLayout, int height, int maxDragHeight) {
+
+    }
 
     @Override
     public void onHorizontalDrag(float percentX, int offsetX, int offsetMax) {
@@ -99,20 +108,5 @@ public class MyRefreshAnimHeader extends LinearLayout implements RefreshHeader {
         if (mAnimationDrawable != null && mAnimationDrawable.isRunning()) {
             mAnimationDrawable.stop();
         }
-    }
-
-    @Override
-    public void onPullingDown(float percent, int offset, int headerHeight, int extendHeight) {
-
-    }
-
-    @Override
-    public void onReleasing(float percent, int offset, int headerHeight, int extendHeight) {
-
-    }
-
-    @Override
-    public void onRefreshReleased(RefreshLayout layout, int headerHeight, int extendHeight) {
-
     }
 }

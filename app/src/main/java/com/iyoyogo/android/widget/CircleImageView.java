@@ -74,7 +74,9 @@ public class CircleImageView extends ImageView {
     private float mBorderRadius;
 
     private ColorFilter mColorFilter;
-
+    private int type;
+    public static final int TYPE_CIRCLE = 0;
+    public static final int TYPE_ROUND = 1;
     private boolean mReady;
     private boolean mSetupPending;
     private boolean mBorderOverlay;
@@ -112,7 +114,16 @@ public class CircleImageView extends ImageView {
 
         init();
     }
+    public void setType(int type) {
+        if (this.type != type) {
+            this.type = type;
+            if (this.type != TYPE_ROUND && this.type != TYPE_CIRCLE) {
+                this.type = TYPE_CIRCLE;
+            }
+            requestLayout();
+        }
 
+    }
     private void init() {
         super.setScaleType(SCALE_TYPE);
         mReady = true;

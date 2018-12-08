@@ -27,8 +27,7 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
-import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,9 +67,6 @@ public class YoXiuListActivity extends BaseActivity {
      * @param header
      */
     private void setHeader(RefreshHeader header) {
-        if (refreshLayout.isRefreshing()) {
-            refreshLayout.finishRefresh();
-        }
         refreshLayout.setRefreshHeader(header);
     }
 
@@ -83,25 +79,8 @@ public class YoXiuListActivity extends BaseActivity {
         StatusBarUtils.setWindowStatusBarColor(YoXiuListActivity.this, R.color.orange);
         mList = new ArrayList<>();
         //初始化header
-
         mRefreshAnimHeader = new MyRefreshAnimHeader(this);
         setHeader(mRefreshAnimHeader);
-        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mList.clear();
-                DataManager.getFromRemote().getYoXiuList(user_id, user_token, currentPage)
-                        .subscribe(new Consumer<YouXiuListBean>() {
-                            @Override
-                            public void accept(YouXiuListBean youXiuListBean) throws Exception {
-
-                                List<YouXiuListBean.DataBean.ListBean> list = youXiuListBean.getData().getList();
-                                mList.addAll(list);
-                            }
-                        });
-            }
-
-        });
 
     }
 
@@ -123,13 +102,13 @@ public class YoXiuListActivity extends BaseActivity {
 
         refreshLayout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
         //下拉刷新
-
         user_id = SpUtils.getString(YoXiuListActivity.this, "user_id", null);
         user_token = SpUtils.getString(YoXiuListActivity.this, "user_token", null);
         recyclerYoxiuList.setLayoutManager(new LinearLayoutManager(YoXiuListActivity.this));
         refreshLayout.setEnableRefresh(true);
         refreshLayout.setFooterHeight(1.0f);
-        refreshLayout.setEnableFooterFollowWhenLoadFinished(false);
+//        refreshLayout.setFooterHeight(1.0f);
+//        refreshLayout.setEnableFooterFollowWhenLoadFinished(false);
         DataManager.getFromRemote().getYoXiuList(user_id, user_token, currentPage)
                 .subscribe(new Observer<YouXiuListBean>() {
                     @Override
@@ -165,9 +144,29 @@ public class YoXiuListActivity extends BaseActivity {
 
                     }
                 });
-        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+
+        refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                currentPage++;
+                Log.d("currentPage", "currentPage:" + currentPage);
+                DataManager.getFromRemote().getYoXiuList(user_id, user_token, currentPage)
+                        .subscribe(new Consumer<YouXiuListBean>() {
+                            @Override
+                            public void accept(YouXiuListBean youXiuListBean) throws Exception {
+                                List<YouXiuListBean.DataBean.ListBean> list = youXiuListBean.getData().getList();
+                                mList.addAll(list);
+                                yoXiuListAdapter.notifyItemInserted(mList.size());
+                            }
+                        });
+
+//                yoXiuListAdapter.notifyItemInserted(mList.size());
+                refreshLayout.finishLoadMore(2000);
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mList.clear();
                 DataManager.getFromRemote().getYoXiuList(user_id, user_token, 1)
                         .subscribe(new Observer<YouXiuListBean>() {
                             @Override
@@ -182,6 +181,7 @@ public class YoXiuListActivity extends BaseActivity {
 
                                 yoXiuListAdapter = new YoXiuListAdapter(YoXiuListActivity.this, mList);
                                 recyclerYoxiuList.setAdapter(yoXiuListAdapter);
+
                                 yoXiuListAdapter.setOnItemClickListener(new YoXiuListAdapter.OnClickListener() {
                                     @Override
                                     public void setOnClickListener(View v, int position) {
@@ -203,25 +203,7 @@ public class YoXiuListActivity extends BaseActivity {
 
                             }
                         });
-            }
-        });
-        refreshLayout.finishRefresh();
-        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
-            @Override
-            public void onLoadmore(RefreshLayout refreshlayout) {
-                currentPage++;
-                Log.d("currentPage", "currentPage:" + currentPage);
-                DataManager.getFromRemote().getYoXiuList(user_id, user_token, currentPage)
-                        .subscribe(new Consumer<YouXiuListBean>() {
-                            @Override
-                            public void accept(YouXiuListBean youXiuListBean) throws Exception {
-                                List<YouXiuListBean.DataBean.ListBean> list = youXiuListBean.getData().getList();
-                                mList.addAll(list);
-                            }
-                        });
-                yoXiuListAdapter.notifyItemInserted(mList.size());
-//                yoXiuListAdapter.notifyItemInserted(mList.size());
-                refreshLayout.finishLoadmore();
+                refreshLayout.finishRefresh();
             }
         });
 

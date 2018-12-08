@@ -142,8 +142,7 @@
         <activity
             android:name=".camera.utils.permission.PermissionsActivity"
             android:theme="@style/TranslucentFullScreenTheme" />
-        <activity
-            android:name=".ui.common.SplashActivity">
+        <activity android:name=".ui.common.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -289,9 +288,7 @@
         <activity android:name=".ui.common.YouXiuActivity" />
         <activity android:name=".ui.common.WebActivity" />
         <activity android:name=".ui.common.ResultActivity" />
-        <activity
-            android:name=".ui.common.LoginActivity"
-           />
+        <activity android:name=".ui.common.LoginActivity" />
         <activity android:name=".ui.common.LikePrefencesActivity" />
         <activity
             android:name="com.umeng.socialize.editorpage.ShareActivity"
@@ -369,7 +366,8 @@
         <activity android:name=".ui.mine.AboutMeActivity" />
         <activity android:name=".ui.mine.FeedBackActivity" />
         <activity android:name=".ui.home.yoxiu.AllCommentActivity" />
-        <activity android:name=".ui.mine.collection.DefaultCollectionActivity"></activity>
+        <activity android:name=".ui.mine.collection.DefaultCollectionActivity" />
+        <activity android:name=".ui.home.yoji.YoJiListActivity"></activity>
     </application>
 
 </manifest>

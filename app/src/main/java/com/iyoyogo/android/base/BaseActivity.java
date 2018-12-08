@@ -21,6 +21,7 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.ui.common.LoginActivity;
 import com.iyoyogo.android.utils.DisplayAdapter;
+import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.widget.IStatusView;
 import com.iyoyogo.android.widget.LoadStatusViewHolder;
@@ -47,7 +48,6 @@ public abstract class BaseActivity<T extends IBasePresenter> extends AppCompatAc
     public static final int REQUEST_PERMISSION_CODE = 101;
 
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +56,7 @@ public abstract class BaseActivity<T extends IBasePresenter> extends AppCompatAc
         setDefaultDisplayAdaptOrientation();
         setStatusBar();
         setContentView(getLayoutId());
-        App.context=this;
+        App.context = this;
         unbinder = ButterKnife.bind(this);//绑定ButterKnife
         initPermission();
         addStatusView();
@@ -297,7 +297,10 @@ public abstract class BaseActivity<T extends IBasePresenter> extends AppCompatAc
     @Override
     public void onUserTokenError() {
         shortToast("登录令牌失效");
-        startActivity(new Intent(BaseActivity.this,LoginActivity.class));
+        SpUtils.remove(BaseActivity.this,"user_id");
+        SpUtils.remove(BaseActivity.this,"user_token");
+        SpUtils.remove(BaseActivity.this,"isLogin");
+        startActivity(new Intent(App.context, LoginActivity.class));
         finish();
     }
 

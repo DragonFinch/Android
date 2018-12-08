@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.camera.data.FilterItem;
-import com.iyoyogo.android.widget.RoundImageView;
+import com.iyoyogo.android.view.RoundImageView;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -49,9 +49,11 @@ public class ThumbAdapter extends RecyclerView.Adapter<ThumbAdapter.ViewHolder> 
         private ImageView item_transitionImage;
         public ViewHolder(View view) {
             super(view);
+
             item_assetLayout = (LinearLayout) view.findViewById(R.id.layoutAsset);
             item_thumbView = (RoundImageView) view.findViewById(R.id.imageThumbView);
             item_transitionImage = (ImageView) view.findViewById(R.id.imageTransition);
+
         }
     }
 
@@ -80,7 +82,7 @@ public class ThumbAdapter extends RecyclerView.Adapter<ThumbAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         String filePath = fileData.get(position);
-        Glide.with(mContext).asBitmap().load(filePath).into(holder.item_thumbView);
+//        Glide.with(mContext).asBitmap().load(filePath).into(holder.item_thumbView);
 
         if (mFilterItem != null) {
             int filterMode = mFilterItem.getFilterMode();

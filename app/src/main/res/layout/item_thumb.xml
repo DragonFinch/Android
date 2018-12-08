@@ -19,8 +19,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/fx_item_radius_shape_unselect"
             android:scaleType="centerCrop"
-            app:x_radius="3dp"
-            app:y_radius="3dp"/>
+          />
 
         <ImageView
             android:id="@+id/imageTransition"
