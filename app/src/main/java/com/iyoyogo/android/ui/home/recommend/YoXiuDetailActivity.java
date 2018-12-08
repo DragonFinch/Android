@@ -166,7 +166,6 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                         editComment.setFocusable(false);
 //                        yoXiuDetailAdapter.notifyItemInserted(dataBeans.size());
                     } else {
-                        Toast.makeText(YoXiuDetailActivity.this, "评论内容不能为空", Toast.LENGTH_SHORT).show();
                     }
                     return true;
                 }
@@ -496,7 +495,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
             yoXiuDetailAdapter.notifyDataSetChanged();
             refresh();
         } else {
-            Toast.makeText(this, "评论内容不能为空", Toast.LENGTH_SHORT).show();
+
         }
         ViewGroup.LayoutParams layoutParams = imgLogo.getLayoutParams();
         int width = layoutParams.width;
@@ -562,28 +561,6 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         });
     }
 
-    private void attention() {
-
-        if (dataBeans.get(0).getIs_my_like() == 0) {
-
-            collection.setVisibility(View.VISIBLE);
-
-        } else {
-            collection.setVisibility(View.GONE);
-        }
-
-        collection.setVisibility(dataBeans.get(0).getIs_my_like() == 0 ? View.VISIBLE : View.GONE);
-
-
-        tvLike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                collection.setVisibility(View.GONE);
-                refresh();
-            }
-        });
-    }
 
     private void praise() {
         Drawable like = getResources().getDrawable(
