@@ -61,8 +61,7 @@ public class DefaultCollectionActivity extends AppCompatActivity {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    popupWindow.dismiss();
-
+                    popupWindow.dismiss(); 
                     return true;
                 }
                 return false;

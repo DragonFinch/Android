@@ -536,4 +536,10 @@
     <string name="xuanzemubiaoshoucangjia">选择目标收藏夹</string>
 
     <string name="morenshoucang">默认收藏·30</string>
+    <string name="nihaimeiyoushouchang">你还木有收藏yo～</string>
+    <string name="biedexiaopenyoudouyouchangchangneirongle">别的小朋友都有收藏的内容了</string>
+    <string name="nishengmeshihoucaishouchangya">你什么时候才收藏呀?</string>
+    <string name="mashangqu">马上去</string>
+    <string name="shouye">首页</string>
+    <string name="zhaoxihuandeneirong">找喜欢的内容！</string>
 </resources>
