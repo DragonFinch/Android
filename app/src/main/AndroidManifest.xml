@@ -150,7 +150,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.common.WelcomeActivity" />
-        <activity android:name=".ui.common.CapturesActivity" />
         <activity android:name=".ui.common.MainActivity" />
         <activity android:name=".ui.common.CaptureActivity" />
         <activity android:name=".camera.edit.clipEdit.trim.TrimActivity" />

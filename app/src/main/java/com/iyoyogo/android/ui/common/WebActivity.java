@@ -25,7 +25,7 @@ public class WebActivity extends BaseActivity {
 
         String url = intent.getStringExtra("url");
 
-        mWebView = findViewById(R.id.webview);
+        mWebView = (WebView) findViewById(R.id.webview);
         WebSettings mWebSettings = mWebView.getSettings();
         mWebSettings.setJavaScriptEnabled(true);
         mWebSettings.setDefaultTextEncodingName("UTF-8");

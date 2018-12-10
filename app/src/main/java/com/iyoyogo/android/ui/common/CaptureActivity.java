@@ -251,7 +251,7 @@ private boolean isTrue=false;
         mContentResolver = getContentResolver();
         animator = ValueAnimator.ofInt(0, 100);
         checkAllPermission();
-        back=findViewById(R.id.back);
+        back= (ImageView) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -275,23 +275,23 @@ private boolean isTrue=false;
         }
 
 
-        samePara=findViewById(R.id.same_para);
-        intensity_layout=findViewById(R.id.intensity_layout);
+        samePara= (ImageView) findViewById(R.id.same_para);
+        intensity_layout= (RelativeLayout) findViewById(R.id.intensity_layout);
         /*滤镜dialog*/
-        bili_one=findViewById(R.id.bili_one);
-        bili_four=findViewById(R.id.bili_four);
-        bili_sixteen=findViewById(R.id.bili_sixteen);
-        bili_three=findViewById(R.id.bili_three);
-        bili_full=findViewById(R.id.bili_full);
-        album=findViewById(R.id.album);
+        bili_one= (ImageView) findViewById(R.id.bili_one);
+        bili_four= (ImageView) findViewById(R.id.bili_four);
+        bili_sixteen= (ImageView) findViewById(R.id.bili_sixteen);
+        bili_three= (ImageView) findViewById(R.id.bili_three);
+        bili_full= (ImageView) findViewById(R.id.bili_full);
+        album= (ImageView) findViewById(R.id.album);
         album.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(CaptureActivity.this,SourceChooseActivity.class));
             }
         });
-        photoLayout = findViewById(R.id.photo_layout);
-        filterLayout=findViewById(R.id.filter_layout);
+        photoLayout = (RelativeLayout) findViewById(R.id.photo_layout);
+        filterLayout= (RelativeLayout) findViewById(R.id.filter_layout);
 //        LayoutInflater filterInflater = LayoutInflater.from(this);
 //        mFilterView = filterInflater.inflate(R.layout.filter_view, null);
         mFilterRecyclerView = (RecyclerView) findViewById(R.id.filterBar);
@@ -302,8 +302,8 @@ private boolean isTrue=false;
         mFilterIntensitySeekBar.setEnabled(false);
         mFilterIntensitySeekBar.setMax(100);
         mFilterIntensitySeekBar.setProgress(100);
-        filter = findViewById(R.id.filter);
-        captures = findViewById(R.id.captures);
+        filter = (ImageView) findViewById(R.id.filter);
+        captures = (ImageView) findViewById(R.id.captures);
         /*道具dialog*/
         LayoutInflater propInflater = LayoutInflater.from(this);
 //        mPropView = propInflater.inflate(R.layout.prop_view, null);

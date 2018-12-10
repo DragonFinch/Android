@@ -3,7 +3,6 @@ package com.iyoyogo.android.ui.home.recommend;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -31,11 +30,15 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.adapter.CollectionFolderAdapter;
 import com.iyoyogo.android.adapter.YoXiuDetailAdapter;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.attention.AttentionBean;
+import com.iyoyogo.android.bean.collection.AddCollectionBean;
+import com.iyoyogo.android.bean.collection.CollectionFolderBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.bean.yoxiu.YoXiuDetailBean;
 import com.iyoyogo.android.contract.YoXiuDetailContract;
@@ -55,8 +58,8 @@ import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
 public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presenter> implements YoXiuDetailContract.View {
-
-
+    private int open = 2;
+    private boolean isOpen;
     @BindView(R.id.back)
     ImageView back;
     @BindView(R.id.tv_message)
@@ -131,6 +134,12 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     private String target_id;
     private int yo_user_id;
     private int is_my_attention;
+    private RecyclerView recycler_collection;
+    private List<YoXiuDetailBean.DataBean> collection_list;
+    private String collection_id;
+    private int yo_id;
+    private PopupWindow popup;
+    private int count_collect;
 
     @Override
     protected void initView() {
@@ -184,6 +193,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     protected void initData(Bundle savedInstanceState) {
 
         super.initData(savedInstanceState);
+        dataBeans = new ArrayList<>();
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
 
@@ -228,6 +238,12 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                 }
             }
         });
+        tvCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                collection();
+            }
+        });
     }
 
     private void closeInputMethod() {
@@ -244,9 +260,10 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         return new YoXiuDetailPresenter(this);
     }
 
+    //
     public void share() {
         View view = getLayoutInflater().inflate(R.layout.popup_share, null);
-        PopupWindow popup_share = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,DensityUtil.dp2px(YoXiuDetailActivity.this,220), true);
+        PopupWindow popup_share = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(YoXiuDetailActivity.this, 220), true);
         popup_share.setBackgroundDrawable(new ColorDrawable());
         popup_share.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         popup_share.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -363,8 +380,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                 break;
             case R.id.tv_collection:
 //TODO
-//                collections();
-//                collection();
+
+                collection();
                 break;
             case R.id.img_logo:
 
@@ -376,21 +393,24 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
                 break;
             case R.id.collection:
-                if (collection.getText().toString().trim().equals("已关注")) {
 
-                    if (is_my_attention == 0) {
-                        int target = Integer.parseInt(target_id);
-                        mPresenter.deleteAttention(user_id, user_token, target);
 
-                    } else {
-                        mPresenter.deleteAttention(user_id, user_token, is_my_attention);
-                    }
-                    collection.setText("+ 关注");
-                } else {
+                if (is_my_attention == 0) {
                     mPresenter.addAttention(user_id, user_token, yo_user_id);
-                    collection.setText("已关注");
+
+                } else {
+                    if (target_id == null) {
+                        Log.d("AA", "is_my_attention:" + is_my_attention);
+                        mPresenter.deleteAttention(user_id, user_token, is_my_attention);
+                        is_my_attention = 0;
+                    } else {
+                        int target = Integer.parseInt(target_id);
+                        Log.d("AA", "target:" + target);
+                        mPresenter.deleteAttention(user_id, user_token, target);
+                        is_my_attention = 0;
+
+                    }
                 }
-//                attention();
 
                 break;
             case R.id.num_look:
@@ -409,6 +429,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     }
 
     private void createCollectionFolder() {
+        backgroundAlpha(0.6f);
         View view = LayoutInflater.from(YoXiuDetailActivity.this).inflate(R.layout.popup_collection, null);
         PopupWindow popup = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(YoXiuDetailActivity.this, 300), true);
         popup.setOutsideTouchable(true);
@@ -416,19 +437,66 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         EditText edit_title_collection = view.findViewById(R.id.edit_title_collection);
         TextView tv_sure = view.findViewById(R.id.sure);
         ImageView clear = view.findViewById(R.id.clear);
-        tv_sure.setClickable(false);
-        if (edit_title_collection.getText().length() < 0) {
-            clear.setVisibility(View.GONE);
-            tv_sure.setBackgroundResource(R.color.cut_off_line);
-        } else {
-            tv_sure.setClickable(false);
-            clear.setVisibility(View.VISIBLE);
-            tv_sure.setBackgroundResource(R.color.color_orange);
-        }
+        ImageView close_img = view.findViewById(R.id.close_img);
+        close_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup.dismiss();
+            }
+        });
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edit_title_collection.setText("");
+                clear.setVisibility(View.GONE);
+            }
+        });
+        ImageView img_btn = view.findViewById(R.id.img_btn);
+        img_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isOpen) {
+                    img_btn.setImageResource(R.mipmap.on);
+                    open = 1;
+                    isOpen = true;
+                } else {
+                    img_btn.setImageResource(R.mipmap.off);
+                    open = 2;
+                    isOpen = false;
+                }
+            }
+        });
+
+        edit_title_collection.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().length() == 0) {
+                    clear.setVisibility(View.GONE);
+                    tv_sure.setClickable(false);
+                    tv_sure.setBackgroundResource(R.color.cut_off_line);
+                } else {
+                    tv_sure.setClickable(true);
+                    tv_sure.setClickable(true);
+                    clear.setVisibility(View.VISIBLE);
+                    tv_sure.setBackgroundResource(R.color.color_orange);
+                }
+            }
+        });
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popup.dismiss();
+                mPresenter.createCollectionFolder(user_id, user_token, edit_title_collection.getText().toString().trim(), open, "");
             }
         });
         backgroundAlpha(0.6f);
@@ -438,7 +506,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
     private void collection() {
         View view = LayoutInflater.from(YoXiuDetailActivity.this).inflate(R.layout.item_collection_list, null);
-        PopupWindow popup = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(YoXiuDetailActivity.this, 300), true);
+        popup = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(YoXiuDetailActivity.this, 300), true);
         popup.setOutsideTouchable(true);
         popup.setBackgroundDrawable(new ColorDrawable());
 
@@ -446,11 +514,15 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         create_folder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                popup.dismiss();
+                backgroundAlpha(0.6f);
                 createCollectionFolder();
             }
         });
-        RecyclerView recycler_collection = view.findViewById(R.id.recycler_collection);
-        recycler_collection.setLayoutManager(new LinearLayoutManager(YoXiuDetailActivity.this));
+        recycler_collection = view.findViewById(R.id.recycler_collection);
+        mPresenter.getCollectionFolder(user_id, user_token);
+
+
         popup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         popup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         //点击空白处时，隐藏掉pop窗口
@@ -458,35 +530,37 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
         //添加pop窗口关闭事件
         backgroundAlpha(0.6f);
+        popup.setOnDismissListener(new poponDismissListener());
         popup.showAtLocation(findViewById(R.id.activity_yoxiu_detail), Gravity.BOTTOM, 0, 0);
     }
 
     @Override
     public void getDetailSuccess(YoXiuDetailBean.DataBean data) {
+
+        yo_id = data.getId();
+        collection_list = new ArrayList<>();
+        collection_list.add(data);
         yo_user_id = data.getUser_id();
-        dataBeans = new ArrayList<>();
+
         dataBeans.add(data);
+        collections();
         is_my_attention = data.getIs_my_attention();
         if (is_my_attention == 0) {
             collection.setText("+ 关注");
-
         } else {
             collection.setText("已关注");
         }
         String create_time = data.getCreate_time();
         String time = create_time.replaceAll("-", ".");
         tvTime.setText(time);
-        int count_collect = data.getCount_collect();
+        count_collect = data.getCount_collect();
         tvCollection.setText(count_collect + "");
         int count_praise = data.getCount_praise();
         tvLike.setText(count_praise + "");
-        int count_comment = data.getCount_comment();
-        tvCollection.setText(count_comment + "");
         int count_view = data.getCount_view();
         numLook.setText(count_view + "");
         String file_desc = data.getFile_desc();
-        textDesc.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
-
+        textDesc.setText(file_desc);
         String path = data.getFile_path();
         RequestOptions requestOptions = new RequestOptions();
         if (editComment.getText().toString().length() > 0) {
@@ -516,7 +590,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         String user_nickname = data.getUser_nickname();
         userName.setText(user_nickname);
         praise();
-        collections();
+
     }
 
     private void collections() {
@@ -537,28 +611,6 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         tvCollection.setCompoundDrawablesWithIntrinsicBounds(null,
                 dataBeans.get(0).getIs_my_collect() == 0 ? collection : collectioned, null, null);
 
-
-        tvCollection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-               /* DataManager.getFromRemote().praise(user_id, user_token, dataBeans.get(0).getId(), 0)
-                        .subscribe(new Consumer<BaseBean>() {
-                            @Override
-                            public void accept(BaseBean baseBean) throws Exception {
-                                int count_collect = dataBeans.get(0).getCount_collect();
-                                dataBeans.get(0).setIs_my_collect(dataBeans.get(0).getIs_my_like() == 1 ? 0 : 1);
-                                if (dataBeans.get(0).getIs_my_collect() == 1) {
-                                    count_collect += 1;
-                                } else if (count_collect > 0) {
-                                    count_collect -= 1;
-                                }
-                                dataBeans.get(0).setCount_collect(count_collect);
-                                refresh();
-                            }
-                        });*/
-            }
-        });
     }
 
 
@@ -629,12 +681,84 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     @Override
     public void addAttentionSuccess(AttentionBean.DataBean data) {
         target_id = data.getId();
+        Log.d("YoXiuDetailActivity", target_id);
+        collection.setText("已关注");
         Toast.makeText(this, "关注成功", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void deleteAttentionSuccess(BaseBean baseBean) {
+        collection.setText("+ 关注");
         Toast.makeText(this, "取消关注", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void getCollectionFolderSuccess(CollectionFolderBean.DataBean collectionFolderBean) {
+        List<CollectionFolderBean.DataBean.ListBean> mList = new ArrayList<>();
+        List<CollectionFolderBean.DataBean.ListBean> list = collectionFolderBean.getList();
+        CollectionFolderBean.DataBean.ListBean listBean = new CollectionFolderBean.DataBean.ListBean();
+        listBean.setId(0);
+        listBean.setName("默认收藏");
+        listBean.setOpen(1);
+//        mList.add(listBean);
+        mList.addAll(list);
+        CollectionFolderAdapter collectionFolderAdapter = new CollectionFolderAdapter(mList);
+        recycler_collection.setLayoutManager(new LinearLayoutManager(YoXiuDetailActivity.this));
+        recycler_collection.setAdapter(collectionFolderAdapter);
+        collectionFolderAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                int is_my_collect = collection_list.get(0).getIs_my_collect();
+                int id = mList.get(position).getId();
+                if (is_my_collect == 0) {
+                    mPresenter.addCollection(user_id, user_token, id, yo_id);
+                } else {
+                    if (collection_id == null) {
+                        mPresenter.deleteCollection(user_id, user_token, is_my_collect);
+                    } else {
+
+                        int i = Integer.parseInt(collection_id);
+                        mPresenter.deleteCollection(user_id, user_token, i);
+                    }
+                }
+                popup.dismiss();
+
+            }
+        });
+    }
+
+    @Override
+    public void createFolderSuccess(BaseBean baseBean) {
+        Toast.makeText(this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void addCollectionSuccess(AddCollectionBean.DataBean data) {
+        collection_id = data.getId();
+        count_collect += 1;
+        Drawable collection = getResources().getDrawable(
+                R.mipmap.shoucang_xiangqing);
+        Drawable collectioned = getResources().getDrawable(
+                R.mipmap.yishoucang_xiangqing);
+        dataBeans.get(0).setIs_my_collect(Integer.parseInt(collection_id));
+        tvCollection.setCompoundDrawablesWithIntrinsicBounds(null,
+                dataBeans.get(0).getIs_my_collect() == 0 ? collection : collectioned, null, null);
+
+        tvCollection.setText(count_collect + "");
+    }
+
+    @Override
+    public void deleteCollectionSuccess(BaseBean baseBean) {
+        Toast.makeText(this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+        count_collect -= 1;
+        Drawable collection = getResources().getDrawable(
+                R.mipmap.shoucang_xiangqing);
+        Drawable collectioned = getResources().getDrawable(
+                R.mipmap.yishoucang_xiangqing);
+        dataBeans.get(0).setIs_my_collect(0);
+        tvCollection.setCompoundDrawablesWithIntrinsicBounds(null,
+                dataBeans.get(0).getIs_my_collect() == 0 ? collection : collectioned, null, null);
+        tvCollection.setText(count_collect + "");
     }
 
 

@@ -1,13 +1,14 @@
 package com.iyoyogo.android.ui.home.yoji;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.base.BaseActivity;
+import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.view.CircleImageView;
 import com.iyoyogo.android.widget.PileLayout;
 
@@ -15,9 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class YoJiListActivity extends AppCompatActivity implements View.OnClickListener {
+public class YoJiListActivity extends BaseActivity implements View.OnClickListener {
 
 
     @BindView(R.id.pile_layout)
@@ -25,11 +25,8 @@ public class YoJiListActivity extends AppCompatActivity implements View.OnClickL
     private List<String> imageData;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_yo_ji_list);
-        ButterKnife.bind(this);
-
+    protected void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
         imageData = new ArrayList<>();
         imageData.add("http://t2.hddhhn.com/uploads/tu/201702/132/st5.png");
         imageData.add("http://t2.hddhhn.com/uploads/tu/201701/323/st1.png");
@@ -56,6 +53,17 @@ public class YoJiListActivity extends AppCompatActivity implements View.OnClickL
         imageData.add("http://t2.hddhhn.com/uploads/tu/201707/84/c3.jpg");
         initPraises();
     }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_yo_ji_list;
+    }
+
+    @Override
+    protected IBasePresenter createPresenter() {
+        return null;
+    }
+
     public void initPraises() {
         LayoutInflater inflater = LayoutInflater.from(this);
         for (int i = 0; i < imageData.size(); i++) {

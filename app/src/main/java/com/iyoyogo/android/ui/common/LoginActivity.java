@@ -241,7 +241,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
 
 
 
-        tvCode = findViewById(R.id.tv_code);
+        tvCode = (TextView) findViewById(R.id.tv_code);
         mShareAPI = UMShareAPI.get(this);
         long l = System.currentTimeMillis();
         dateTime = String.valueOf(l);

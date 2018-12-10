@@ -3,6 +3,8 @@ package com.iyoyogo.android.net;
 
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.attention.AttentionBean;
+import com.iyoyogo.android.bean.collection.AddCollectionBean;
+import com.iyoyogo.android.bean.collection.CollectionFolderBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.bean.home.HomeViewPagerBean;
 import com.iyoyogo.android.bean.login.SendMessageBean;
@@ -303,5 +305,37 @@ public interface ApiService {
     @POST("index.php/api/attention/delete")
     @FormUrlEncoded
     Observable<BaseBean> deleteAttention(@Field("user_id") String user_id, @Field("user_token") String user_token,@Field("id")int id);
+    @POST("index.php/api/collect/folder_get_my_list")
+    @FormUrlEncoded
+    Observable<CollectionFolderBean> getCollectionFolder(@Field("user_id") String user_id, @Field("user_token") String user_token);
+
+    /**
+     * user_id	是	string	用户id
+     * user_token	是	string	user_token
+     * name	是	string（1-255）	收藏夹名称
+     * open	是	int(1或2)	1公开 2私密
+     * id	是	string	空字符串为创建 非空字符串为编辑
+     * @return
+     */
+    @POST("index.php/api/collect/folder_save")
+    @FormUrlEncoded
+    Observable<BaseBean> createFolder(@Field("user_id") String user_id, @Field("user_token") String user_token,@Field("name")String name,@Field("open") int open,@Field("id")String id);
+    @POST("index.php/api/collect/collect_add")
+    @FormUrlEncoded
+    Observable<AddCollectionBean> addCollection(@Field("user_id") String user_id, @Field("user_token") String user_token,@Field("folder_id")int folder_id,@Field("yo_id") int yo_id);
+    @POST("index.php/api/collect/collect_delete")
+    @FormUrlEncoded
+    Observable<BaseBean> deleteCollection(@Field("user_id") String user_id, @Field("user_token") String user_token,@Field("id")int id);
+    @POST("index.php/api/dislike/add")
+    @FormUrlEncoded
+    Observable<BaseBean> dislike(@Field("user_id") String user_id, @Field("user_token") String user_token,@Field("yo_id")int yo_id);
+    @POST("index.php/api/report/do_report")
+    /**
+     * comment_id	是	int	举报对象 comment_id 可以为0
+     * content	是	string	原因
+     */
+    @FormUrlEncoded
+    Observable<BaseBean> report(@Field("user_id") String user_id, @Field("user_token") String user_token,@Field("yo_id")int yo_id,@Field("comment_id")int comment_id,@Field("content")String content);
+
 }
 

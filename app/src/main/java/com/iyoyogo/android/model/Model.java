@@ -3,6 +3,8 @@ package com.iyoyogo.android.model;
 
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.attention.AttentionBean;
+import com.iyoyogo.android.bean.collection.AddCollectionBean;
+import com.iyoyogo.android.bean.collection.CollectionFolderBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.bean.home.HomeViewPagerBean;
 import com.iyoyogo.android.bean.login.SendMessageBean;
@@ -254,28 +256,62 @@ public class Model {
                                             String user_sex,
                                             String user_birthday,
                                             String user_city) {
-        return HttpClient.getApiService().setUserInfo(user_id,user_token,user_nickname,user_logo,user_sex,user_birthday,user_city)
+        return HttpClient.getApiService().setUserInfo(user_id, user_token, user_nickname, user_logo, user_sex, user_birthday, user_city)
                 .compose(this.switchThread());
 
     }
-    public Observable<GetBindInfoBean> getBindInfo(String user_id,String user_token){
-        return HttpClient.getApiService().getBindInfo(user_id,user_token)
+
+    public Observable<GetBindInfoBean> getBindInfo(String user_id, String user_token) {
+        return HttpClient.getApiService().getBindInfo(user_id, user_token)
                 .compose(this.switchThread());
     }
-    public Observable<BaseBean> replacePhone(String user_id,String user_token,String phone,String yzm){
-        return HttpClient.getApiService().replacePhone(user_id,user_token,phone,yzm)
+
+    public Observable<BaseBean> replacePhone(String user_id, String user_token, String phone, String yzm) {
+        return HttpClient.getApiService().replacePhone(user_id, user_token, phone, yzm)
                 .compose(this.switchThread());
     }
-    public  Observable<BaseBean> logout(String user_id,String user_token,String addr, String phone_type,String app_version){
-        return HttpClient.getApiService().logout(user_id,user_token,addr,phone_type,app_version)
+
+    public Observable<BaseBean> logout(String user_id, String user_token, String addr, String phone_type, String app_version) {
+        return HttpClient.getApiService().logout(user_id, user_token, addr, phone_type, app_version)
                 .compose(this.switchThread());
     }
-    public Observable<AttentionBean> addAttention(String user_id,String user_token,int target_id){
-        return HttpClient.getApiService().addAttention(user_id,user_token,target_id)
+
+    public Observable<AttentionBean> addAttention(String user_id, String user_token, int target_id) {
+        return HttpClient.getApiService().addAttention(user_id, user_token, target_id)
                 .compose(this.switchThread());
     }
-    public Observable<BaseBean> deleteAttention(String user_id,String user_token,int id){
-        return HttpClient.getApiService().deleteAttention(user_id,user_token,id)
+
+    public Observable<BaseBean> deleteAttention(String user_id, String user_token, int id) {
+        return HttpClient.getApiService().deleteAttention(user_id, user_token, id)
+                .compose(this.switchThread());
+    }
+
+    public Observable<CollectionFolderBean> getCollectionFolder(String user_id, String user_token) {
+        return HttpClient.getApiService().getCollectionFolder(user_id, user_token)
+                .compose(this.switchThread());
+    }
+
+    public Observable<BaseBean> create_folder(String user_id, String user_token, String name, int open, String id) {
+        return HttpClient.getApiService().createFolder(user_id, user_token, name, open, id)
+                .compose(this.switchThread());
+
+    }
+
+    public Observable<AddCollectionBean> addCollection(String user_id, String user_token, int folder_id, int yo_id) {
+        return HttpClient.getApiService().addCollection(user_id, user_token, folder_id, yo_id)
+                .compose(this.switchThread());
+    }
+
+    public Observable<BaseBean> deleteCollection(String user_id, String user_token, int id) {
+        return HttpClient.getApiService().deleteCollection(user_id, user_token, id)
+                .compose(this.switchThread());
+    }
+    public Observable<BaseBean> dislike(String user_id, String user_token, int yo_id) {
+        return HttpClient.getApiService().dislike(user_id, user_token, yo_id)
+                .compose(this.switchThread());
+    }
+    public Observable<BaseBean> report(String user_id, String user_token, int yo_id,int comment_id,String content) {
+        return HttpClient.getApiService().report(user_id, user_token,yo_id, comment_id,content)
                 .compose(this.switchThread());
     }
 }

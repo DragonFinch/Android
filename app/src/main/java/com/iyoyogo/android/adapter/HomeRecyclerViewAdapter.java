@@ -1,7 +1,9 @@
 package com.iyoyogo.android.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -10,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -190,22 +193,36 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     //友秀
     private void setYouXiuHolder(Holder_YouXiu youXiuHolder, List<HomeViewPagerBean.DataBean.YoxListBean> yox_list) {
+        youXiuHolder.youxiu_all.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                 final float[] BT_SELECTED_DARK = new float[] { 1, 0, 0, 0, -50, 0, 1,
+                        0, 0, -50, 0, 0, 1, 0, -50, 0, 0, 0, 1, 0 };
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    ImageView iv = (ImageView) v;
+                    iv.setColorFilter(new ColorMatrixColorFilter(BT_SELECTED_DARK));
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    ImageView iv = (ImageView) v;
+                    iv.clearColorFilter();
+                }
+                return false;
+
+            }
+        });
         youXiuHolder.youxiu_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 context.startActivity(new Intent(context, YoXiuListActivity.class));
             }
         });
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         String type = mList.get(0).getType();
         YoXiuAdapter yoXiuAdapter = new YoXiuAdapter(yox_list, context,type);
-        yoXiuAdapter.setHasStableIds(true);
-
-
         youXiuHolder.recycler_youxiu.setLayoutManager(linearLayoutManager);
         youXiuHolder.recycler_youxiu.setAdapter(yoXiuAdapter);
-//        ((SimpleItemAnimator) youXiuHolder.recycler_youxiu.getItemAnimator()).setSupportsChangeAnimations(false);
         yoXiuAdapter.setOnItemClickListener(new YoXiuAdapter.OnClickListener() {
             @Override
             public void onClick(View v, int position) {
@@ -229,13 +246,11 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
       });
         youJiHolder.recycler_youji.setVisibility(View.GONE);
     }
-
     public void disVisible() {
         if (isLoop) {
             stopLoop();
         }
     }
-
     /**
      * 可见
      */

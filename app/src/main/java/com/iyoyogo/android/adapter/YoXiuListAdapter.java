@@ -53,13 +53,24 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
         viewHolder.num_like.setText(mList.get(position).getCount_praise() + "");
         viewHolder.user_name.setText(mList.get(position).getUser_nickname());
         viewHolder.comment_all.setText("全部评论(" + mList.get(position).getCount_view() + ")");
+        int file_type = mList.get(position).getFile_type();
+        if (file_type == 2) {
+            Glide.with(context).load(mList.get(position).getUser_logo()).into(viewHolder.user_icon);
+            RequestOptions myOptions = new RequestOptions()
+                    .centerCrop()
+                    .transform(new GlideRoundTransform(context, 8));
+            Glide.with(context).load(mList.get(position).getFile_path())
+                    .apply(myOptions).into(viewHolder.img_yoxiu);
+            viewHolder.img_video.setVisibility(View.VISIBLE);
+        } else {
+            Glide.with(context).load(mList.get(position).getUser_logo()).into(viewHolder.user_icon);
+            RequestOptions myOptions = new RequestOptions()
+                    .centerCrop()
+                    .transform(new GlideRoundTransform(context, 8));
+            Glide.with(context).load(mList.get(position).getFile_path())
+                    .apply(myOptions).into(viewHolder.img_yoxiu);
+        }
 
-        Glide.with(context).load(mList.get(position).getUser_logo()).into(viewHolder.user_icon);
-        RequestOptions myOptions = new RequestOptions()
-                .centerCrop()
-                .transform(new GlideRoundTransform(context, 8));
-        Glide.with(context).load(mList.get(position).getFile_path())
-                .apply(myOptions).into(viewHolder.img_yoxiu);
         viewHolder.recycler_comment.setLayoutManager(new LinearLayoutManager(context));
         List<YouXiuListBean.DataBean.ListBean.CommentListBean> comment_list = mList.get(position).getComment_list();
         YoXiuListItemAdapter adapter = new YoXiuListItemAdapter(context, comment_list);
@@ -78,9 +89,9 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
         if (mList.get(position).getIs_my_like()==0){
             viewHolder.img_like.setImageResource(R.mipmap.datu_xihuan);
         }else {
-            viewHolder.img_like.setImageResource(R.mipmap.yixihuan);
+            viewHolder.img_like.setImageResource(R.mipmap.yixihuan_xiangqing);
         }
-        viewHolder.img_like.setImageResource(mList.get(position).getIs_my_like() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan);
+        viewHolder.img_like.setImageResource(mList.get(position).getIs_my_like() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
 
 
         viewHolder.img_like.setOnClickListener(new View.OnClickListener() {
@@ -88,21 +99,30 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
             public void onClick(View v) {
                 String user_id = SpUtils.getString(context, "user_id", null);
                 String user_token = SpUtils.getString(context, "user_token", null);
-                DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getId(), 0)
-                        .subscribe(new Consumer<BaseBean>() {
-                            @Override
-                            public void accept(BaseBean baseBean) throws Exception {
-                                int count_praise = mList.get(position).getCount_praise();
-                                mList.get(position).setIs_my_like(mList.get(position).getIs_my_like() == 1 ? 0 : 1);
-                                if (mList.get(position).getIs_my_like() == 1) {
-                                    count_praise += 1;
-                                } else if (count_praise > 0) {
-                                    count_praise -= 1;
-                                }
-                                mList.get(position).setCount_praise(count_praise);
-                                notifyItemChanged(position);
-                            }
-                        });
+
+                int count_praise = mList.get(position).getCount_praise();
+                mList.get(position).setIs_my_like(mList.get(position).getIs_my_like() == 1 ? 0 : 1);
+                if (mList.get(position).getIs_my_like() == 1) {
+                    count_praise += 1;
+                    mList.get(position).setCount_praise(count_praise);
+                } else if (count_praise > 0) {
+                    count_praise -= 1;
+                    mList.get(position).setCount_praise(count_praise);
+
+                }
+                viewHolder.num_like.setText(count_praise+"");
+                viewHolder.img_like.setImageResource(mList.get(position).getIs_my_like() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        DataManager.getFromRemote().praise(user_id, user_token,0, mList.get(position).getId())
+                                .subscribe(new Consumer<BaseBean>() {
+                                    @Override
+                                    public void accept(BaseBean baseBean) throws Exception {
+                                    }
+                                });
+                    }
+                }).start();
             }
         });
     }
@@ -130,7 +150,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_yoxiu_desc, num_like, user_name, comment_all;
-        ImageView img_yoxiu, img_like, img_more;
+        ImageView img_yoxiu, img_like, img_more,img_video;
         CircleImageView user_icon;
         RecyclerView recycler_comment;
 
@@ -145,6 +165,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
             img_like = itemView.findViewById(R.id.img_like);
             recycler_comment = itemView.findViewById(R.id.recycler_comment);
             img_yoxiu = itemView.findViewById(R.id.img_yoxiu);
+            img_video = itemView.findViewById(R.id.img_video);
         }
     }
 }

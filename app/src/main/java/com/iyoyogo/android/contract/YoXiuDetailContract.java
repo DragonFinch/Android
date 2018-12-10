@@ -4,6 +4,8 @@ import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.attention.AttentionBean;
+import com.iyoyogo.android.bean.collection.AddCollectionBean;
+import com.iyoyogo.android.bean.collection.CollectionFolderBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.bean.yoxiu.YoXiuDetailBean;
 
@@ -14,6 +16,10 @@ public interface YoXiuDetailContract {
         void addCommentSuccess(BaseBean baseBean);
         void addAttentionSuccess(AttentionBean.DataBean data);
         void deleteAttentionSuccess(BaseBean baseBean);
+        void getCollectionFolderSuccess(CollectionFolderBean.DataBean collectionFolderBean);
+        void createFolderSuccess(BaseBean baseBean);
+        void addCollectionSuccess(AddCollectionBean.DataBean data);
+        void deleteCollectionSuccess(BaseBean baseBean);
     }
     interface Presenter extends IBasePresenter{
         void getDetail(String user_id,String user_token,int id);
@@ -21,5 +27,9 @@ public interface YoXiuDetailContract {
         void addComment(String user_id,String user_token, int comment_id,int yo_id, String content);
         void addAttention(String user_id,String user_token,int target_id);
         void deleteAttention(String user_id,String user_token,int id);
+        void getCollectionFolder(String user_id,String user_token);
+        void createCollectionFolder(String user_id, String user_token,String name, int open, String id);
+        void addCollection(String user_id, String user_token, int folder_id, int yo_id);
+        void deleteCollection(String user_id, String user_token, int id);
     }
 }

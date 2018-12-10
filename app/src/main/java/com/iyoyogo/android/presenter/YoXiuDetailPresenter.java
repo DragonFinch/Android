@@ -6,6 +6,8 @@ import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BasePresenter;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.attention.AttentionBean;
+import com.iyoyogo.android.bean.collection.AddCollectionBean;
+import com.iyoyogo.android.bean.collection.CollectionFolderBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.bean.yoxiu.YoXiuDetailBean;
 import com.iyoyogo.android.contract.YoXiuDetailContract;
@@ -109,6 +111,90 @@ public class YoXiuDetailPresenter extends BasePresenter<YoXiuDetailContract.View
                         mView.deleteAttentionSuccess(baseBean);
 
                     }
+
+                    @Override
+                    protected boolean doOnFailure(int code, String message) {
+                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+    }
+
+    @Override
+    public void getCollectionFolder(String user_id, String user_token) {
+        DataManager.getFromRemote().getCollectionFolder(user_id, user_token)
+                .subscribe(new ApiObserver<CollectionFolderBean>(mView, this) {
+                    @Override
+                    protected void doOnSuccess(CollectionFolderBean collectionFolderBean) {
+                        CollectionFolderBean.DataBean data = collectionFolderBean.getData();
+                        if (data != null) {
+                            mView.getCollectionFolderSuccess(data);
+
+                        }
+
+                    }
+
+                    @Override
+                    protected boolean doOnFailure(int code, String message) {
+                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+    }
+
+    @Override
+    public void createCollectionFolder(String user_id, String user_token, String name, int open, String id) {
+        DataManager.getFromRemote().create_folder(user_id, user_token, name, open, id)
+                .subscribe(new ApiObserver<BaseBean>(mView, this) {
+                    @Override
+                    protected void doOnSuccess(BaseBean baseBean) {
+
+                        mView.createFolderSuccess(baseBean);
+
+
+                    }
+
+                    @Override
+                    protected boolean doOnFailure(int code, String message) {
+                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+    }
+
+    @Override
+    public void addCollection(String user_id, String user_token, int folder_id, int yo_id) {
+        DataManager.getFromRemote()
+                .addCollection(user_id, user_token, folder_id, yo_id)
+                .subscribe(new ApiObserver<AddCollectionBean>(mView, this) {
+                    @Override
+                    protected void doOnSuccess(AddCollectionBean addCollectionBean) {
+                        AddCollectionBean.DataBean data = addCollectionBean.getData();
+                        if (data != null) {
+                            mView.addCollectionSuccess(data);
+                        }
+                    }
+
+                    @Override
+                    protected boolean doOnFailure(int code, String message) {
+                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+    }
+
+    @Override
+    public void deleteCollection(String user_id, String user_token, int id) {
+        DataManager.getFromRemote().deleteCollection(user_id, user_token, id)
+                .subscribe(new ApiObserver<BaseBean>(mView, this) {
+                    @Override
+                    protected void doOnSuccess(BaseBean baseBean) {
+
+                        mView.deleteCollectionSuccess(baseBean);
+
+
+                    }
+
                     @Override
                     protected boolean doOnFailure(int code, String message) {
                         Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();

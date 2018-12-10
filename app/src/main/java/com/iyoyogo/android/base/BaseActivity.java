@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -36,7 +35,7 @@ import butterknife.Unbinder;
  * Created by Stephen on 2018/9/10 16:50
  * Email: 895745843@qq.com
  */
-public abstract class BaseActivity<T extends IBasePresenter> extends AppCompatActivity implements IBaseView {
+public abstract class BaseActivity<T extends IBasePresenter> extends SwipeBackActivity implements IBaseView {
     protected T mPresenter;
     private LoadStatusViewHolder mHolder;
     private Unbinder unbinder;
@@ -125,7 +124,7 @@ public abstract class BaseActivity<T extends IBasePresenter> extends AppCompatAc
      * 添加loading视图
      */
     private void addStatusView() {
-        FrameLayout contentRoot = findViewById(android.R.id.content);
+        FrameLayout contentRoot = (FrameLayout) findViewById(android.R.id.content);
         mHolder = new LoadStatusViewHolder(this);
         IStatusView iPlaceView = getCustomLoadStatusView();
         if (iPlaceView != null) {

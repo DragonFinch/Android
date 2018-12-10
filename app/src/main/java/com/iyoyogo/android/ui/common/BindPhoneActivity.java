@@ -110,7 +110,7 @@ public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter>
     @Override
     protected void initView() {
         super.initView();
-        tvBindCode=findViewById(R.id.tv_bind_code);
+        tvBindCode= (TextView) findViewById(R.id.tv_bind_code);
         long l = System.currentTimeMillis();
         dateTime = String.valueOf(l);
         Intent intent = getIntent();

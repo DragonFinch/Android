@@ -1,6 +1,7 @@
 package com.iyoyogo.android.ui.common;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,18 +34,10 @@ import com.iyoyogo.android.bean.LocationBean;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SearchActivity extends BaseActivity {
-    @BindView(R.id.no_address)
-    ImageView noAddress;
-    @BindView(R.id.address)
-    TextView address;
-    @BindView(R.id.address_info)
-    TextView addressInfo;
-    @BindView(R.id.go_create_point)
-    RelativeLayout goCreatePoint;
-    private ArrayList<String> list;
     @BindView(R.id.locationET_id)
     EditText locationETId;
     @BindView(R.id.location_cancelTV_id)
@@ -63,8 +56,18 @@ public class SearchActivity extends BaseActivity {
     TextView locationAgainGPSTVId;
     @BindView(R.id.location_recommendTV_id)
     TextView locationRecommendTVId;
+    @BindView(R.id.no_address)
+    ImageView noAddress;
+    @BindView(R.id.address)
+    TextView address;
+    @BindView(R.id.address_info)
+    TextView addressInfo;
+    @BindView(R.id.go_create_point)
+    RelativeLayout goCreatePoint;
     @BindView(R.id.location_RV_id)
     RecyclerView locationRVId;
+    private ArrayList<String> list;
+
     private PoiSearch.Query query;
     private PoiSearch poiSearch;
     private ArrayList<LocationBean> datas;
@@ -91,7 +94,7 @@ public class SearchActivity extends BaseActivity {
             locationPlaceTVId.setVisibility(View.GONE);
             locationGpsplaceTVId.setVisibility(View.GONE);
             goCreatePoint.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             locationLl.setVisibility(View.VISIBLE);
             locationPlaceTVId.setText(place);
             LatLonPoint latLonPoint = new LatLonPoint(Double.valueOf(latitude), Double.valueOf(longitude));
@@ -119,6 +122,7 @@ public class SearchActivity extends BaseActivity {
             }
         });
     }
+
     private void setCurrentLocationDetails(LatLonPoint latLonPoint) {
 // 地址逆解析
         geocoderSearch = new GeocodeSearch(getApplicationContext());
@@ -152,6 +156,7 @@ public class SearchActivity extends BaseActivity {
         RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 25, GeocodeSearch.AMAP);
         geocoderSearch.getFromLocationAsyn(query);
     }
+
     private void searchLocationPoi(CharSequence s) {
         //关闭键盘
 //        KeyBoardUtils.closeKeybord(poiSearchInMaps, BaseApplication.mContext);
@@ -192,8 +197,8 @@ public class SearchActivity extends BaseActivity {
                         }
                         Log.d("SearchActivity", "datas.size():" + datas.size());
 
-                        if (pois.size()==0){
-                           goCreatePoint.setVisibility(View.VISIBLE);
+                        if (pois.size() == 0) {
+                            goCreatePoint.setVisibility(View.VISIBLE);
                             locationRVId.setVisibility(View.GONE);
 
                         }
@@ -292,11 +297,11 @@ public class SearchActivity extends BaseActivity {
             case R.id.location_rl:
                 break;
             case R.id.go_create_point:
-                if (locationETId.getText().length()!=0){
+                if (locationETId.getText().length() != 0) {
                     Intent intent = new Intent(SearchActivity.this, CreatePointActivity.class);
-                    intent.putExtra("address",addressInfo.getText().toString());
+                    intent.putExtra("address", addressInfo.getText().toString());
                     startActivityForResult(intent, 1);
-                }else {
+                } else {
                     Toast.makeText(this, "输入框需要填写东西yo！", Toast.LENGTH_SHORT).show();
                 }
 
@@ -314,11 +319,18 @@ public class SearchActivity extends BaseActivity {
             double longitude = data.getDoubleExtra("longitude", 0.0);
             Intent intent = new Intent();
             intent.putExtra("type", type);
-            intent.putExtra("latitude",latitude);
-            intent.putExtra("longitude",longitude);
+            intent.putExtra("latitude", latitude);
+            intent.putExtra("longitude", longitude);
             intent.putExtra("place", place);
             setResult(2, intent);
             finish();
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

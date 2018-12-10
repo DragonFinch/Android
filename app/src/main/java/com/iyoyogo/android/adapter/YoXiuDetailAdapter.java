@@ -67,8 +67,8 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         tv_advert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                report();
                 popup_more.dismiss();
+                report();
             }
         });
         //有害信息
@@ -76,8 +76,8 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         tv_harm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                report();
                 popup_more.dismiss();
+                report();
             }
         });
         //违法违规
@@ -85,8 +85,8 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         tv_violate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                report();
                 popup_more.dismiss();
+                report();
             }
         });
         //其他
@@ -94,8 +94,8 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         tv_else.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                report();
                 popup_more.dismiss();
+                report();
             }
         });
         //取消
@@ -107,31 +107,11 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
             }
         });
         backgroundAlpha(0.6f);
-
+            popup_more.setOnDismissListener(new poponDismissListener());
         //添加pop窗口关闭事件
         popup_more.showAtLocation(activity.findViewById(R.id.activity_yoxiu_detail), Gravity.BOTTOM, 0, 0);
     }
 
-    public void initPopup() {
-        View view = LayoutInflater.from(context).inflate(R.layout.like_layout, null);
-        popup = new PopupWindow(view, DensityUtil.dp2px(context, 300), DensityUtil.dp2px(context, 145), true);
-        popup.setOutsideTouchable(true);
-        popup.setBackgroundDrawable(new ColorDrawable());
-        tv_message = view.findViewById(R.id.tv_message);
-        tv_message_two = view.findViewById(R.id.tv_message_two);
-
-        tv_message_three = view.findViewById(R.id.tv_message_three);
-        img_tip = view.findViewById(R.id.tip_img);
-
-
-        popup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
-        popup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        //点击空白处时，隐藏掉pop窗口
-
-
-        //添加pop窗口关闭事件
-        popup.setOnDismissListener(new poponDismissListener());
-    }
 
     public void backgroundAlpha(float bgAlpha) {
 
@@ -191,7 +171,25 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         popup.setOnDismissListener(new poponDismissListener());
         popup.showAtLocation(activity.findViewById(R.id.activity_yoxiu_detail), Gravity.CENTER, 0, 0);
     }
+    public void initPopup() {
+        View view = LayoutInflater.from(context).inflate(R.layout.like_layout, null);
+        popup = new PopupWindow(view, DensityUtil.dp2px(context, 300), DensityUtil.dp2px(context, 145), true);
+        popup.setOutsideTouchable(true);
+        popup.setBackgroundDrawable(new ColorDrawable());
+        tv_message = view.findViewById(R.id.tv_message);
+        tv_message_two = view.findViewById(R.id.tv_message_two);
 
+        tv_message_three = view.findViewById(R.id.tv_message_three);
+        img_tip = view.findViewById(R.id.tip_img);
+
+        popup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        //点击空白处时，隐藏掉pop窗口
+
+
+        //添加pop窗口关闭事件
+        popup.setOnDismissListener(new poponDismissListener());
+    }
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         CommentBean.DataBean.ListBean listBean = mList.get(position);
@@ -239,14 +237,6 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         RoundedCorners roundedCorners = new RoundedCorners(6);
 //通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
         RequestOptions options = RequestOptions.bitmapTransform(roundedCorners).override(300, 300);
-        if (mList.get(position).getIs_my_praise()==0){
-            holder.img_comment_like.setImageResource(R.mipmap.zan_select);
-        }else {
-            holder.img_comment_like.setImageResource(R.mipmap.zan_selected);
-        }
-        holder.img_comment_like.setImageResource(mList.get(position).getIs_my_praise() == 0 ? R.mipmap.zan_select : R.mipmap.zan_selected);
-
-
         holder.img_huifu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -270,7 +260,16 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
                             }
                         });*/
             }
-    });
+        });
+        if (mList.get(position).getIs_my_praise()==0){
+            holder.img_comment_like.setImageResource(R.mipmap.zan_select);
+        }else {
+            holder.img_comment_like.setImageResource(R.mipmap.zan_selected);
+        }
+        holder.img_comment_like.setImageResource(mList.get(position).getIs_my_praise() == 0 ? R.mipmap.zan_select : R.mipmap.zan_selected);
+
+
+
 
 
         holder.img_comment_like.setOnClickListener(new View.OnClickListener() {

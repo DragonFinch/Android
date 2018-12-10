@@ -50,10 +50,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class CreatePointActivity extends BaseActivity<CreatePointContract.Presenter> implements CreatePointContract.View {
-
 
     @BindView(R.id.back)
     ImageView back;
@@ -61,8 +61,6 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
     TextView tvTitle;
     @BindView(R.id.create_complete)
     TextView createComplete;
-    @BindView(R.id.bar)
-    RelativeLayout bar;
     @BindView(R.id.tv_location)
     TextView tvLocation;
     @BindView(R.id.edit_create_point)
@@ -81,10 +79,12 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
     TextView tvType;
     @BindView(R.id.tv_choose_type)
     TextView tvChooseType;
-    @BindView(R.id.relative_map)
-    RelativeLayout relativeMap;
     @BindView(R.id.relative_line)
     View relativeLine;
+    @BindView(R.id.relative_map)
+    RelativeLayout relativeMap;
+    @BindView(R.id.activity_create_point)
+    RelativeLayout activityCreatePoint;
     private List<Marker> markerList;
     private double longitude;
     private double latitude;
@@ -180,14 +180,14 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 2) {
 
-             latitude = data.getDoubleExtra("latitude", 0.0);
-             longitude = data.getDoubleExtra("longitude", 0.0);
+            latitude = data.getDoubleExtra("latitude", 0.0);
+            longitude = data.getDoubleExtra("longitude", 0.0);
             Log.d("CreatePointActivity", "latitude:" + latitude);
             Log.d("CreatePointActivity", "longitude:" + longitude);
             latLonPoint = new LatLonPoint(latitude, longitude);
             setCurrentLocationDetails(latLonPoint);
             aMap.clear();
-            CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(latitude,longitude),10,30,0));
+            CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(latitude, longitude), 10, 30, 0));
             aMap.moveCamera(mCameraUpdate);
             MarkerOptions markerOption = new MarkerOptions();
             LatLng latLng = new LatLng(latitude, longitude);
@@ -239,7 +239,7 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
                     Log.d("formatAddress", aoiName);
                 }
                 tvCity.setVisibility(View.VISIBLE);
-                tvCity.setText(country  +","+province+ "," + city + "," + district);
+                tvCity.setText(country + "," + province + "," + city + "," + district);
                 //城市
                 CreatePointActivity.this.city = place.substring(3, 6);
                 Log.e("formatAddress", CreatePointActivity.this.city);
@@ -266,10 +266,10 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
                 String user_id = SpUtils.getString(CreatePointActivity.this, "user_id", null);
                 Log.d("CreatePointActivity", "longitude:" + longitude);
                 Log.d("CreatePointActivity", "latitude:" + latitude);
-                if ( editCreatePoint.getText().toString().length()!=0){
+                if (editCreatePoint.getText().toString().length() != 0) {
 
-                mPresenter.createPoint(user_id, user_token, editCreatePoint.getText().toString().trim(), "", tvCity.getText().toString(), place, String.valueOf(longitude), String.valueOf(latitude), String.valueOf(id));
-                }else {
+                    mPresenter.createPoint(user_id, user_token, editCreatePoint.getText().toString().trim(), "", tvCity.getText().toString(), place, String.valueOf(longitude), String.valueOf(latitude), String.valueOf(id));
+                } else {
                     Toast.makeText(this, "创建点的位置不能为空", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -324,8 +324,8 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
         Intent intent = new Intent();
         intent.putExtra("type", name);
         intent.putExtra("place", place);
-        intent.putExtra("latitude",latitude);
-        intent.putExtra("longitude",longitude);
+        intent.putExtra("latitude", latitude);
+        intent.putExtra("longitude", longitude);
         Log.d("longitude", "latitude:" + latitude);
         Log.d("longitude", "longitude:" + longitude);
         setResult(2, intent);
@@ -338,6 +338,13 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
         lp.alpha = bgAlpha; // 0.0~1.0
         getWindow().setAttributes(lp); //act 是上下文context
 
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 
     //隐藏事件PopupWindow

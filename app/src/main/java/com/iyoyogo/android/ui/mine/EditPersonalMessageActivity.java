@@ -291,13 +291,13 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
     }
 
     private void init() {
-        preser = findViewById(R.id.preservation_tv_id);
-        relativeLayout = findViewById(R.id.brith_rl_id);
-        textView = findViewById(R.id.brith_tv_id);
-        cityLayout = findViewById(R.id.city_rl_id);
-        citytextView = findViewById(R.id.city_tv_id);
-        headimage = findViewById(R.id.head_im_id);
-        back = findViewById(R.id.back_iv_id);
+        preser = (TextView) findViewById(R.id.preservation_tv_id);
+        relativeLayout = (RelativeLayout) findViewById(R.id.brith_rl_id);
+        textView = (TextView) findViewById(R.id.brith_tv_id);
+        cityLayout = (RelativeLayout) findViewById(R.id.city_rl_id);
+        citytextView = (TextView) findViewById(R.id.city_tv_id);
+        headimage = (CircleImageView) findViewById(R.id.head_im_id);
+        back = (ImageView) findViewById(R.id.back_iv_id);
 
         //返回
 
