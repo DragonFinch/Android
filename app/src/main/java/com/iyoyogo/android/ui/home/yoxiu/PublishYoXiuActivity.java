@@ -201,7 +201,6 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
                     Log.e("formatAddress", "aoiName:" + aoiName);
                 }
                 Log.e("formatAddress", "neighborhood:" + neighborhood);
-                publishPlace.setText(place);
             }
 
             @Override

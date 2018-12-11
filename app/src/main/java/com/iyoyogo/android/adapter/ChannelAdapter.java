@@ -40,14 +40,14 @@ public class ChannelAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        InterestsAdapter.ViewHolder vh = null;
+        ChannelAdapter.ViewHolder vh = null;
         if (vh == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_classify, null);
-            vh = new InterestsAdapter.ViewHolder(convertView);
+            vh = new ChannelAdapter.ViewHolder(convertView);
             convertView.setTag(vh);
 
         } else {
-            vh = (InterestsAdapter.ViewHolder) convertView.getTag();
+            vh = (ChannelAdapter.ViewHolder) convertView.getTag();
         }
         Glide.with(context).load(mList.get(position).getLogo()).into(vh.img);
         vh.tag_name.setText(mList.get(position).getChannel());

@@ -129,17 +129,7 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         }
     }
 
-    public void like() {
-        tv_message.setTextColor(Color.parseColor("#FA800A"));
-        tv_message_two.setTextColor(Color.parseColor("#FA800A"));
-        tv_message_three.setTextColor(Color.parseColor("#FA800A"));
-        backgroundAlpha(0.6f);
-        tv_message.setText("Hi~");
-        img_tip.setImageResource(R.mipmap.stamo_heart);
-        tv_message_two.setText("谢谢喜欢~");
-        tv_message_three.setText("给你小心心");
-        popup.showAtLocation(activity.findViewById(R.id.activity_yoxiu_detail), Gravity.CENTER, 0, 0);
-    }
+
 
     public void comment() {
         backgroundAlpha(0.6f);
@@ -293,7 +283,6 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
                                 .subscribe(new Consumer<BaseBean>() {
                                     @Override
                                     public void accept(BaseBean baseBean) throws Exception {
-                                        like();
                                         notifyDataSetChanged();
                                     }
                                 });

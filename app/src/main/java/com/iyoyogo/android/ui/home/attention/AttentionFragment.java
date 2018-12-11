@@ -1,6 +1,7 @@
 package com.iyoyogo.android.ui.home.attention;
 
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,8 +17,10 @@ import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +51,13 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
         refreshLayout.setEnableRefresh(true);
         refreshLayout.setFooterHeight(1.0f);
         refreshLayout.autoRefresh();
+        refreshLayout.finishRefresh(1050);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                refreshLayout.finishRefresh(1050);
+            }
+        });
     }
 
     private void setHeader(RefreshHeader header) {

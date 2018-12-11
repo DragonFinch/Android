@@ -20,8 +20,8 @@ import android.widget.ImageView;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.home.HomeViewPagerBean;
 import com.iyoyogo.android.ui.home.recommend.YoXiuDetailActivity;
-import com.iyoyogo.android.ui.home.yoji.YoJiListActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuListActivity;
+import com.iyoyogo.android.utils.select.SelectPhotoActivity;
 import com.iyoyogo.android.view.CardTransformer;
 import com.iyoyogo.android.view.MyViewPager;
 
@@ -197,8 +197,8 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             @SuppressLint("ResourceAsColor")
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                 final float[] BT_SELECTED_DARK = new float[] { 1, 0, 0, 0, -50, 0, 1,
-                        0, 0, -50, 0, 0, 1, 0, -50, 0, 0, 0, 1, 0 };
+                final float[] BT_SELECTED_DARK = new float[]{1, 0, 0, 0, -50, 0, 1,
+                        0, 0, -50, 0, 0, 1, 0, -50, 0, 0, 0, 1, 0};
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     ImageView iv = (ImageView) v;
                     iv.setColorFilter(new ColorMatrixColorFilter(BT_SELECTED_DARK));
@@ -220,37 +220,38 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         String type = mList.get(0).getType();
-        YoXiuAdapter yoXiuAdapter = new YoXiuAdapter(yox_list, context,type);
+        YoXiuAdapter yoXiuAdapter = new YoXiuAdapter(yox_list, context, type);
         youXiuHolder.recycler_youxiu.setLayoutManager(linearLayoutManager);
         youXiuHolder.recycler_youxiu.setAdapter(yoXiuAdapter);
         yoXiuAdapter.setOnItemClickListener(new YoXiuAdapter.OnClickListener() {
             @Override
             public void onClick(View v, int position) {
                 Intent intent = new Intent(context, YoXiuDetailActivity.class);
-                intent.putExtra("id",yox_list.get(position).getId());
+                intent.putExtra("id", yox_list.get(position).getId());
                 context.startActivity(intent);
             }
         });
 
 
-
     }
 
     private void setYouJiHolder(Holder_YouJi youJiHolder, int position) {
-      youJiHolder.youji_all.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              Intent intent = new Intent(context, YoJiListActivity.class);
-              context.startActivity(intent);
-          }
-      });
+        youJiHolder.youji_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, SelectPhotoActivity.class);
+                context.startActivity(intent);
+            }
+        });
         youJiHolder.recycler_youji.setVisibility(View.GONE);
     }
+
     public void disVisible() {
         if (isLoop) {
             stopLoop();
         }
     }
+
     /**
      * 可见
      */
@@ -294,6 +295,13 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
+    public class Holder_Recommend extends RecyclerView.ViewHolder {
+
+        public Holder_Recommend(@NonNull View itemView) {
+            super(itemView);
+        }
+    }
+
     public class Holder_YouJi extends RecyclerView.ViewHolder {
         ImageView img_youji, youji_all;
         RecyclerView recycler_youji;
@@ -303,6 +311,13 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             img_youji = itemView.findViewById(R.id.img_yoji);
             youji_all = itemView.findViewById(R.id.yoji_all);
             recycler_youji = itemView.findViewById(R.id.recycler_yoji);
+        }
+    }
+
+    public class Holder_Footer extends RecyclerView.ViewHolder {
+
+        public Holder_Footer(@NonNull View itemView) {
+            super(itemView);
         }
     }
 }

@@ -42,6 +42,15 @@ public class InterestBean extends BaseBean {
             private String interest;
             private String logo;
             private boolean isFlag;
+            private boolean isChoose = false;
+
+            public boolean isChoose() {
+                return isChoose;
+            }
+
+            public void setChoose(boolean choose) {
+                isChoose = choose;
+            }
 
             public boolean isFlag() {
                 return isFlag;

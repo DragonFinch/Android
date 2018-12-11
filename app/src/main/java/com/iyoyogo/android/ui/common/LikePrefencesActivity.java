@@ -3,10 +3,7 @@ package com.iyoyogo.android.ui.common;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -51,7 +48,8 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
     private String user_token;
     private String user_id;
     private int type;
-
+    private ArrayList<Integer> chosenList = new ArrayList<>();
+    private InterestsAdapter adapter;
 
     @Override
     protected int getLayoutId() {
@@ -85,8 +83,15 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
 
         data = new ArrayList<>();
         data.addAll(list);
+
+//        MyOnItemClickListener listener = new MyOnItemClickListener();
+        adapter = new InterestsAdapter(LikePrefencesActivity.this,data);
+
+
+
+        gv_interest.setAdapter(adapter);
 //        recyclerInterest.setLayoutManager(new GridLayoutManager(this, 4));
-        InterestsAdapter interestAdapter = new InterestsAdapter(LikePrefencesActivity.this, data);
+       /* InterestsAdapter interestAdapter = new InterestsAdapter(LikePrefencesActivity.this, data);
         gv_interest.setAdapter(interestAdapter);
         gv_interest.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
         gv_interest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -94,8 +99,6 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 SparseBooleanArray checkedItemPositions = gv_interest.getCheckedItemPositions();
-                boolean isChecked = checkedItemPositions.get(position);
-                Toast.makeText(LikePrefencesActivity.this, "item " + position + " isChecked=" + isChecked, Toast.LENGTH_SHORT).show();
                 idList.add(data.get(position).getId());
                 interestList.add(data.get(position).getInterest());
                 size = idList.size();
@@ -105,7 +108,7 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
                     Log.d("LikePrefencesActivity", "array[i]:" + array[i]);
                 }
             }
-        });
+        });*/
     }
 
     public Integer[] ifRepeat(Integer[] arr) {
@@ -156,21 +159,18 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
                 break;
 
             case R.id.confirm_btn:
+                List<Integer> integerList = adapter.selectPhoto();
+                int size = integerList.size();
+                Integer[] integers = integerList.toArray(new Integer[size]);
+                for (int i = 0; i < integers.length; i++) {
+                    Log.d("AAA", "integers[i]:" + integers[i]);
+                }
                 if (type == 6) {
-                    for (int i = 0; i < interestList.size(); i++) {
-                        //外循环是循环的次数
-                        for (int j = interestList.size() - 1; j > i; j--) {
-                            //内循环是 外循环一次比较的次数
-                            if (interestList.get(i) == interestList.get(j)) {
-                                interestList.remove(j);
-                            }
-
-                        }
-                    }
+                    ArrayList<String> strings = adapter.selectInterest();
                     Intent intent = new Intent();
-                    intent.putStringArrayListExtra("interestList", interestList);
-                    for (int i = 0; i < interestList.size(); i++) {
-                        Log.d("LikePrefencesActivity", "interestList" + interestList.get(i));
+                    intent.putStringArrayListExtra("interestList", strings);
+                    for (int i = 0; i < strings.size(); i++) {
+                        Log.d("LikePrefencesActivity", "interestList" + strings.get(i));
                     }
                     setResult(4, intent);
                     finish();
@@ -183,10 +183,13 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
                         for (int i = 0; i < objects.length; i++) {
                             Log.d("LikePrefencesActivity", "objects[i]:" + objects[i]);
                         }
-                        mPresenter.addInterest(objects, user_id, user_token);
+                        mPresenter.addInterest(integers, user_id, user_token);
                     }
                 }
                 break;
         }
     }
+    /**
+     * Item选则事件的监听类
+     */
 }

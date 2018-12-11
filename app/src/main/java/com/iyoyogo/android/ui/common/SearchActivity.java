@@ -93,9 +93,12 @@ public class SearchActivity extends BaseActivity {
 
             locationPlaceTVId.setVisibility(View.GONE);
             locationGpsplaceTVId.setVisibility(View.GONE);
-            goCreatePoint.setVisibility(View.VISIBLE);
+            goCreatePoint.setVisibility(View.GONE);
+            locationLl.setVisibility(View.GONE);
+            locationAgainGPSTVId.setVisibility(View.GONE);
         } else {
             locationLl.setVisibility(View.VISIBLE);
+            locationAgainGPSTVId.setVisibility(View.VISIBLE);
             locationPlaceTVId.setText(place);
             LatLonPoint latLonPoint = new LatLonPoint(Double.valueOf(latitude), Double.valueOf(longitude));
             setCurrentLocationDetails(latLonPoint);
@@ -162,6 +165,7 @@ public class SearchActivity extends BaseActivity {
 //        KeyBoardUtils.closeKeybord(poiSearchInMaps, BaseApplication.mContext);
         if (TextUtils.isEmpty(s.toString().trim())) {
             Toast.makeText(this, "内容为空!", Toast.LENGTH_SHORT).show();
+            goCreatePoint.setVisibility(View.GONE);
 //            mapAddAddress.setVisibility(View.VISIBLE);
 //            recyclerAddAddress.setVisibility(View.GONE);
 //            mapAddAddress.invalidate();

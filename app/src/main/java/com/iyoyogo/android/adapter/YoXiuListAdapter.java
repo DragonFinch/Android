@@ -1,14 +1,19 @@
 package com.iyoyogo.android.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -18,6 +23,7 @@ import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.yoxiu.YouXiuListBean;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.recommend.YoXiuDetailActivity;
+import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
@@ -30,14 +36,22 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
     private Context context;
     private List<YouXiuListBean.DataBean.ListBean> mList;
     private boolean fadeTips = false; // 变量，是否隐藏了底部的提示
+    private Activity activity;
+    private int yo_id;
+    private String user_id;
+    private String user_token;
+
     public YoXiuListAdapter(Context context, List<YouXiuListBean.DataBean.ListBean> mList) {
         this.context = context;
         this.mList = mList;
+        activity = (Activity) context;
     }
+
     // 暴露接口，改变fadeTips的方法
     public boolean isFadeTips() {
         return fadeTips;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
@@ -50,6 +64,12 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         viewHolder.tv_yoxiu_desc.setText(mList.get(position).getPosition_name());
+        viewHolder.img_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         viewHolder.num_like.setText(mList.get(position).getCount_praise() + "");
         viewHolder.user_name.setText(mList.get(position).getUser_nickname());
         viewHolder.comment_all.setText("全部评论(" + mList.get(position).getCount_view() + ")");
@@ -86,13 +106,13 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
                 context.startActivity(intent);
             }
         });
-        if (mList.get(position).getIs_my_like()==0){
+        if (mList.get(position).getIs_my_like() == 0) {
             viewHolder.img_like.setImageResource(R.mipmap.datu_xihuan);
-        }else {
+        } else {
             viewHolder.img_like.setImageResource(R.mipmap.yixihuan_xiangqing);
         }
         viewHolder.img_like.setImageResource(mList.get(position).getIs_my_like() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
-
+        yo_id = mList.get(position).getId();
 
         viewHolder.img_like.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,12 +130,12 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
                     mList.get(position).setCount_praise(count_praise);
 
                 }
-                viewHolder.num_like.setText(count_praise+"");
+                viewHolder.num_like.setText(count_praise + "");
                 viewHolder.img_like.setImageResource(mList.get(position).getIs_my_like() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        DataManager.getFromRemote().praise(user_id, user_token,0, mList.get(position).getId())
+                        DataManager.getFromRemote().praise(user_id, user_token, 0, mList.get(position).getId())
                                 .subscribe(new Consumer<BaseBean>() {
                                     @Override
                                     public void accept(BaseBean baseBean) throws Exception {
@@ -127,14 +147,147 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
         });
     }
 
+    private void initPopup(ViewHolder viewHolder) {
+        View view = LayoutInflater.from(context).inflate(R.layout.popwindow_like, null);
+        PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 130), DensityUtil.dp2px(context, 110), true);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+        popupWindow.setOutsideTouchable(true);
+        TextView tv_dislike = view.findViewById(R.id.tv_dislike);
+        tv_dislike.setVisibility(View.GONE);
+        TextView tv_report = view.findViewById(R.id.tv_report);
+        user_id = SpUtils.getString(context, "user_id", null);
+        user_token = SpUtils.getString(context, "user_token", null);
+        tv_dislike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                popupWindow.dismiss();
+            }
+        });
+        tv_report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                loadMore();
+            }
+        });
+        popupWindow.showAsDropDown(viewHolder.img_more, DensityUtil.dp2px(context, 30), DensityUtil.dp2px(context, 10));
+    }
+
+    public void loadMore() {
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_more, null);
+        PopupWindow popup_more = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popup_more.setBackgroundDrawable(new ColorDrawable());
+        popup_more.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popup_more.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        //点击空白处时，隐藏掉pop窗口
+        //广告信息
+        TextView tv_advert = view.findViewById(R.id.tv_advert);
+        tv_advert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_more.dismiss();
+                String s = tv_advert.getText().toString();
+                DataManager.getFromRemote()
+                        .report(user_id, user_token, yo_id, 0, s)
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+
+                            }
+                        });
+            }
+        });
+        //有害信息
+        TextView tv_harm = view.findViewById(R.id.tv_harm);
+        tv_harm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_more.dismiss();
+                String s = tv_harm.getText().toString();
+                DataManager.getFromRemote()
+                        .report(user_id, user_token, yo_id, 0, s)
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+
+                            }
+                        });
+            }
+        });
+        //违法违规
+        TextView tv_violate = view.findViewById(R.id.tv_violate);
+        tv_violate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_more.dismiss();
+                String s = tv_violate.getText().toString();
+                DataManager.getFromRemote()
+                        .report(user_id, user_token, yo_id, 0, s)
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+
+                            }
+                        });
+            }
+        });
+        //其他
+        TextView tv_else = view.findViewById(R.id.tv_else);
+        tv_else.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_more.dismiss();
+                String s = tv_else.getText().toString();
+                DataManager.getFromRemote()
+                        .report(user_id, user_token, yo_id, 0, s)
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+
+                            }
+                        });
+            }
+        });
+        //取消
+        TextView tv_cancel = view.findViewById(R.id.tv_cancel);
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_more.dismiss();
+            }
+        });
+        backgroundAlpha(0.6f);
+        popup_more.setOnDismissListener(new poponDismissListener());
+        //添加pop窗口关闭事件
+        popup_more.showAtLocation(activity.findViewById(R.id.activity_main), Gravity.BOTTOM, 0, 0);
+    }
+
     @Override
     public int getItemCount() {
         return mList.size();
     }
 
+    public void backgroundAlpha(float bgAlpha) {
+
+        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+        lp.alpha = bgAlpha; // 0.0~1.0
+        activity.getWindow().setAttributes(lp); //act 是上下文context
+
+    }
+
+    //隐藏事件PopupWindow
+    private class poponDismissListener implements PopupWindow.OnDismissListener {
+        @Override
+        public void onDismiss() {
+            backgroundAlpha(1.0f);
+        }
+    }
+
     @Override
     public void onClick(View v) {
-        if (onClickListener!=null){
+        if (onClickListener != null) {
             onClickListener.setOnClickListener(v, (Integer) v.getTag());
         }
     }
@@ -142,15 +295,16 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
     public interface OnClickListener {
         void setOnClickListener(View v, int position);
     }
+
     private OnClickListener onClickListener;
 
-    public void setOnItemClickListener(OnClickListener onItemClickListener){
-        this.onClickListener=onItemClickListener;
+    public void setOnItemClickListener(OnClickListener onItemClickListener) {
+        this.onClickListener = onItemClickListener;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_yoxiu_desc, num_like, user_name, comment_all;
-        ImageView img_yoxiu, img_like, img_more,img_video;
+        ImageView img_yoxiu, img_like, img_more, img_video;
         CircleImageView user_icon;
         RecyclerView recycler_comment;
 

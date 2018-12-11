@@ -52,7 +52,7 @@ public abstract class BaseActivity<T extends IBasePresenter> extends SwipeBackAc
         super.onCreate(savedInstanceState);
 
         setScreenOrientation();
-        setDefaultDisplayAdaptOrientation();
+//        setDefaultDisplayAdaptOrientation();
         setStatusBar();
         setContentView(getLayoutId());
         App.context = this;

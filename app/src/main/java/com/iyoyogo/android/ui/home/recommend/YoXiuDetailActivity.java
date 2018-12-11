@@ -140,6 +140,10 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     private int yo_id;
     private PopupWindow popup;
     private int count_collect;
+    TextView tv_message;
+    ImageView img_tip;
+    TextView tv_message_two;
+    TextView tv_message_three;
 
     @Override
     protected void initView() {
@@ -340,41 +344,38 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
                 break;
             case R.id.tv_like:
-                int count_praise = dataBeans.get(0).getCount_praise();
-                dataBeans.get(0).setIs_my_like(dataBeans.get(0).getIs_my_like() == 1 ? 0 : 1);
-                if (dataBeans.get(0).getIs_my_like() == 1) {
-                    count_praise += 1;
-                } else if (count_praise > 0) {
-                    count_praise -= 1;
-                }
-                dataBeans.get(0).setCount_praise(count_praise);
-
 
                 Drawable like = getResources().getDrawable(
                         R.mipmap.xihuan_xiangqing);
                 Drawable liked = getResources().getDrawable(
                         R.mipmap.yixihuan_xiangqing);
-                if (dataBeans.get(0).getIs_my_like() == 0) {
+                tvLike.setCompoundDrawablesWithIntrinsicBounds(null, dataBeans.get(0).getIs_my_like()> 0 ? liked : like, null, null);
+                int count_praise = dataBeans.get(0).getCount_praise();
 
+                Log.d("Test", "dataBeans.get(0).getIs_my_like():" + dataBeans.get(0).getIs_my_like());
+                if (dataBeans.get(0).getIs_my_like()>0) {
+                    //由喜欢变为不喜欢，亮变暗
                     tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
                             like, null, null);
+                    count_praise -= 1;
+                    //设置点赞的数量
                     tvLike.setText(count_praise + "");
-                } else {
+                    dataBeans.get(0).setIs_my_like(0);
+                    dataBeans.get(0).setCount_praise(count_praise);
+                } else  {
+                    //由不喜欢变为喜欢，暗变亮
                     tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
                             liked, null, null);
+                    count_praise += 1;
+                    //设置点赞的数量
                     tvLike.setText(count_praise + "");
+                    dataBeans.get(0).setIs_my_like(1);
+                    dataBeans.get(0).setCount_praise(count_praise);
                 }
-
-                tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
-                        dataBeans.get(0).getIs_my_like() == 0 ? like : liked, null, null);
-
-
                 DataManager.getFromRemote().praise(user_id, user_token, dataBeans.get(0).getId(), 0)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
-
-                                refresh();
                             }
                         });
                 break;
@@ -591,6 +592,39 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         userName.setText(user_nickname);
         praise();
 
+    }
+
+    public void like() {
+
+        tv_message.setTextColor(Color.parseColor("#FA800A"));
+        tv_message_two.setTextColor(Color.parseColor("#FA800A"));
+        tv_message_three.setTextColor(Color.parseColor("#FA800A"));
+        backgroundAlpha(0.6f);
+        tv_message.setText("Hi~");
+        img_tip.setImageResource(R.mipmap.stamo_heart);
+        tv_message_two.setText("谢谢喜欢~");
+        tv_message_three.setText("给你小心心");
+        popup.showAtLocation(findViewById(R.id.activity_yoxiu_detail), Gravity.CENTER, 0, 0);
+    }
+
+    public void initPopup() {
+        View view = LayoutInflater.from(YoXiuDetailActivity.this).inflate(R.layout.like_layout, null);
+        popup = new PopupWindow(view, DensityUtil.dp2px(YoXiuDetailActivity.this, 300), DensityUtil.dp2px(YoXiuDetailActivity.this, 145), true);
+        popup.setOutsideTouchable(true);
+        popup.setBackgroundDrawable(new ColorDrawable());
+        tv_message = view.findViewById(R.id.tv_message);
+        tv_message_two = view.findViewById(R.id.tv_message_two);
+
+        tv_message_three = view.findViewById(R.id.tv_message_three);
+        img_tip = view.findViewById(R.id.tip_img);
+
+        popup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        //点击空白处时，隐藏掉pop窗口
+
+
+        //添加pop窗口关闭事件
+        popup.setOnDismissListener(new poponDismissListener());
     }
 
     private void collections() {

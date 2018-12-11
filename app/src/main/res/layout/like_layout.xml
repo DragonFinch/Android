@@ -17,7 +17,7 @@
         />
 
     <View
-
+        android:layout_marginLeft="@dimen/dp_14"
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -38,7 +38,7 @@
         android:textSize="15sp" />
     <!--#FA800A-->
     <View
-
+        android:layout_marginLeft="@dimen/dp_14"
         android:id="@+id/line2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -98,7 +98,7 @@
         />
 
     <View
-
+        android:layout_marginLeft="@dimen/dp_14"
         android:id="@+id/line3"
 
         android:layout_width="match_parent"

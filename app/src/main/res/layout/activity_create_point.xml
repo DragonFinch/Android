@@ -8,6 +8,8 @@
     tools:context=".ui.common.CreatePointActivity">
 <include layout="@layout/common_bar"/>
     <RelativeLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:id="@+id/relative_map"
         android:layout_marginTop="@dimen/dp_10"
         android:layout_below="@+id/bar"
@@ -25,7 +27,7 @@
             android:textSize="@dimen/sp_15"
             android:text="位置名称"
             />
-        <TextView
+        <EditText
             android:id="@+id/edit_create_point"
             android:layout_marginTop="@dimen/dp_20"
           android:background="@color/transparent"
@@ -34,7 +36,7 @@
             android:layout_toRightOf="@+id/tv_location"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_20"
-            android:text="十二使徒岩"
+            android:hint=""
             android:textColor="#ff333333"
             android:textSize="15sp" />
         <View

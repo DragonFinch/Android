@@ -18,7 +18,7 @@ public class DisplayAdapter {
 
     public static final String ADAPT_ORIENTATION_WIDTH = "width";//宽度适配策略
     public static final String ADAPT_ORIENTATION_HEIGHT = "height";//高度适配策略
-    private static final float DESIGN_WIDTH = 360f;//设计宽度
+    private static final float DESIGN_WIDTH = 375f;//设计宽度
     private static final float DESIGN_HEIGHT = 640f;//设计高度(不含状态栏)
 
     private static float appDensity;

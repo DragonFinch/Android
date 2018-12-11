@@ -24,16 +24,15 @@
          />
 
         <ImageButton
+
+            android:layout_marginRight="@dimen/dp_20"
             android:id="@+id/close_btn"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="35dp"
+            android:layout_width="@dimen/dp_11"
+            android:layout_height="@dimen/dp_11"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@color/transparent"
-            android:padding="@dimen/dp_10"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:src="@mipmap/quxiao" />
     </RelativeLayout>
 
@@ -50,14 +49,18 @@
 
     <GridView
         android:numColumns="4"
+        android:layout_marginTop="@dimen/dp_20"
+
         android:id="@+id/gv_interest"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/tv_least"
+        android:layout_above="@+id/sure_layout"
       />
 
 
 <RelativeLayout
+    android:id="@+id/sure_layout"
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_60"
@@ -67,8 +70,8 @@
     <Button
         android:layout_alignParentBottom="true"
         android:id="@+id/confirm_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="210dp"
+        android:layout_height="35dp"
         android:background="@drawable/login_btn_bg"
         android:gravity="center"
         android:text="确定"

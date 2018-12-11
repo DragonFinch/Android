@@ -98,6 +98,7 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
     private String city;
     private int id;
     private LatLonPoint latLonPoint;
+    private String s;
 
     @Override
     protected int getLayoutId() {
@@ -115,6 +116,7 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
         editCreatePoint.setText(address);
         map.onCreate(savedInstanceState);
         createComplete.setClickable(false);
+        s = editCreatePoint.getText().toString();
         createComplete.setTextColor(Color.parseColor("#888888"));
         aMap = map.getMap();
         map.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -287,8 +289,8 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
         if (createComplete.isClickable()) {
             Intent intent = new Intent();
             intent.putExtra("type", name);
-            intent.putExtra("place", place);
 
+            intent.putExtra("place", s);
             setResult(2, intent);
             finish();
         } else {
@@ -323,7 +325,7 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
     public void createPointSuccess() {
         Intent intent = new Intent();
         intent.putExtra("type", name);
-        intent.putExtra("place", place);
+        intent.putExtra("place", s);
         intent.putExtra("latitude", latitude);
         intent.putExtra("longitude", longitude);
         Log.d("longitude", "latitude:" + latitude);

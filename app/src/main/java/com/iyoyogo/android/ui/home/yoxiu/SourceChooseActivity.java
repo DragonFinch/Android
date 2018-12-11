@@ -224,6 +224,15 @@ public class SourceChooseActivity extends AppCompatActivity {
             backgroundAlpha(1.0f);
         }
     }
+
+
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; // 0.0~1.0
+        getWindow().setAttributes(lp); //act 是上下文context
+
+    }
+    private boolean isSelect;
     public void getImage() {
 
         String[] projection = {MediaStore.Images.Media._ID,
@@ -235,14 +244,6 @@ public class SourceChooseActivity extends AppCompatActivity {
         Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         getContentProvider(uri, projection, orderBy);
     }
-
-    public void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = bgAlpha; // 0.0~1.0
-        getWindow().setAttributes(lp); //act 是上下文context
-
-    }
-    private boolean isSelect;
     /**
      * 获取视频列表
      */

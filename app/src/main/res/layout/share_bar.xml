@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <ImageView
-        android:layout_marginBottom="@dimen/dp_17"
+        android:padding="@dimen/dp_10"
+
         android:layout_marginLeft="@dimen/dp_20"
         android:layout_marginTop="@dimen/dp_14"
         android:layout_width="wrap_content"

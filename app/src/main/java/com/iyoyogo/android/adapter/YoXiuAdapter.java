@@ -198,12 +198,15 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
 
     private void initPopup(Holder holder) {
         View view = LayoutInflater.from(context).inflate(R.layout.popwindow_like, null);
-        PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 130), DensityUtil.dp2px(context, 110), true);
+        PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 125), DensityUtil.dp2px(context, 50), true);
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(new ColorDrawable());
         popupWindow.setOutsideTouchable(true);
         TextView tv_dislike = view.findViewById(R.id.tv_dislike);
+        View line = view.findViewById(R.id.line);
+        line.setVisibility(View.GONE);
         TextView tv_report = view.findViewById(R.id.tv_report);
+        tv_report.setVisibility(View.GONE);
         user_id = SpUtils.getString(context, "user_id", null);
         user_token = SpUtils.getString(context, "user_token", null);
         tv_dislike.setOnClickListener(new View.OnClickListener() {

@@ -5,10 +5,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 <TextView
-    android:text="aaa"
+    android:text="aaaaaaa"
     android:id="@+id/tv_interest"
-    android:layout_width="@dimen/dp_50"
-    android:layout_height="@dimen/dp_20"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:textColor="#ffffffff"
     android:textSize="@dimen/sp_12"

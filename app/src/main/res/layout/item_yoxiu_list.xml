@@ -43,7 +43,7 @@
         android:layout_alignRight="@+id/img_yoxiu"
         android:layout_alignBottom="@id/img_yoxiu"
 
-        android:src="@mipmap/ic_like"
+        android:src="@mipmap/datu_xihuan"
         />
     <TextView
         android:id="@+id/num_like"

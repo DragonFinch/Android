@@ -1,15 +1,15 @@
 package com.iyoyogo.android.base;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.iyoyogo.android.screen.CustomAdaptActivity;
 import com.iyoyogo.android.swipe.SwipeBackActivityBase;
 import com.iyoyogo.android.swipe.SwipeBackActivityHelper;
 import com.iyoyogo.android.swipe.SwipeBackLayout;
 import com.iyoyogo.android.utils.Utils;
 
-public class SwipeBackActivity extends AppCompatActivity implements SwipeBackActivityBase {
+public class SwipeBackActivity extends CustomAdaptActivity implements SwipeBackActivityBase {
     private SwipeBackActivityHelper mHelper;
 
     @Override
