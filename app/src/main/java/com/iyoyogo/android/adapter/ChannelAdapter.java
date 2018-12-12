@@ -1,10 +1,13 @@
 package com.iyoyogo.android.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,62 +15,109 @@ import com.bumptech.glide.Glide;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.yoxiu.channel.ChannelBean;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
-public class ChannelAdapter extends BaseAdapter {
-    private Context context;
-    private List<ChannelBean.DataBean.ListBean> mList;
-
-    public ChannelAdapter(Context context, List<ChannelBean.DataBean.ListBean> list) {
-        this.context = context;
-        this.mList = list;
-    }
-
-    @Override
-    public int getCount() {
-        return mList.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ChannelAdapter.ViewHolder vh = null;
-        if (vh == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_classify, null);
-            vh = new ChannelAdapter.ViewHolder(convertView);
-            convertView.setTag(vh);
-
-        } else {
-            vh = (ChannelAdapter.ViewHolder) convertView.getTag();
-        }
-        Glide.with(context).load(mList.get(position).getLogo()).into(vh.img);
-        vh.tag_name.setText(mList.get(position).getChannel());
-        return convertView;
-    }
-
-
-    public static class ViewHolder {
-        public View rootView;
-        public ImageView img;
-        public ImageView choice_icon;
-        public TextView tag_name;
-
-        public ViewHolder(View rootView) {
-            this.rootView = rootView;
-            this.img = (ImageView) rootView.findViewById(R.id.img);
-            this.choice_icon = (ImageView) rootView.findViewById(R.id.choice_icon);
-            this.tag_name = (TextView) rootView.findViewById(R.id.tag_name);
+public class ChannelAdapter   extends BaseAdapter{
+        private Context context;
+        private List<ChannelBean.DataBean.ListBean> mList;
+        private LayoutInflater mInflater;
+        private static List<Integer> mSelectImg=new LinkedList<>();
+        private static ArrayList<String> titleList=new ArrayList<>();
+        public ChannelAdapter(Context context, List<ChannelBean.DataBean.ListBean> mDatas) {
+            this.context=context;
+            this.mList=mDatas;
+            mInflater=LayoutInflater.from(context);
         }
 
+        @Override
+        public int getCount() {
+            return mList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            ViewHolder vh=null;
+            if (convertView==null){
+                convertView=  mInflater.inflate(R.layout.item_classify,parent,false);
+                vh=new ViewHolder();
+                vh.mImg=convertView.findViewById(R.id.img);
+                vh.tag_name=convertView.findViewById(R.id.tag_name);
+                vh.mSelect=convertView.findViewById(R.id.choice_icon);
+                convertView.setTag(vh);
+            }else {
+                vh = (ViewHolder) convertView.getTag();
+            }
+            vh.tag_name.setText(mList.get(position).getChannel());
+     /*   vh.mImg.setImageResource(R.mipmap.default_error);
+        vh.mSelect.setImageResource(R.mipmap.btn_unselected);*/
+            vh.mImg.setColorFilter(null);
+//        final String filePath=mDirPath+"/"+mImgPaths.get(position);
+            //   new  ImageLoader(3, ImageLoader.Type.LIFO).loadImage(mDirPath + "/" + mImgPaths.get(position),vh.mImg);
+//        ImageLoader.getInStance(3, ImageLoader.Type.LIFO).loadImage(mDirPath+"/"+mImgPaths.get(position),vh.mImg);
+            String filePath = mList.get(position).getLogo();
+            Integer id = mList.get(position).getId();
+            String interest = mList.get(position).getChannel();
+            Glide.with(context).load(filePath).into(vh.mImg);
+            final ViewHolder finalVh = vh;
+            vh.mImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //已经被选择
+
+                    if (mSelectImg.contains(id)){
+                        String s = String.valueOf(id);
+                        mSelectImg.remove(s);
+                        titleList.remove(interest);
+                        finalVh.mImg.setColorFilter(null);
+                        finalVh.mSelect.setImageResource(R.color.transparent);
+                    }else{
+                        //未被选中
+                        mSelectImg.add(id);
+                        titleList.add(interest);
+                        finalVh.mImg.setColorFilter(Color.parseColor("#77000000"));
+                        finalVh.mSelect.setImageResource(R.mipmap.xz);
+                        for (int i = 0; i < mSelectImg.size(); i++) {
+                            Log.d("AAAA", "mSelectImg.get(i):" + mSelectImg.get(i));
+                        }
+                    }
+
+                }
+            });
+            if (mSelectImg.contains(id)){
+                vh.mImg.setColorFilter(Color.parseColor("#77000000"));
+                vh.mSelect.setImageResource(R.mipmap.xz);
+            }
+            return convertView;
+        }
+
+
+
+        public List<Integer> selectPhoto(){
+            if (!mSelectImg.isEmpty()){
+                return mSelectImg;
+            }
+            return null;
+        } public ArrayList<String> selectInterest(){
+    if (!mSelectImg.isEmpty()){
+        return titleList;
     }
+    return null;
 }
-
+private  class  ViewHolder{
+    ImageView mImg;
+    TextView tag_name;
+    ImageButton mSelect;
+}
+}

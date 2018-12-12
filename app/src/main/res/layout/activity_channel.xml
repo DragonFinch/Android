@@ -7,6 +7,7 @@
     tools:context=".ui.home.yoxiu.ChannelActivity">
 <include layout="@layout/common_bar" android:id="@+id/bar"/>
     <GridView
+        android:background="@color/white"
         android:layout_below="@+id/bar"
         android:numColumns="4"
         android:layout_width="match_parent"

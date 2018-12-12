@@ -8,19 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
-import com.iyoyogo.android.bean.TestBean;
 import com.iyoyogo.android.utils.RoundTransform;
 
 import java.util.List;
 
 public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> {
-    private List<TestBean.ResultBean.DataBean> mList;
+    private List<String> mList;
     private Context context;
 
-    public YoJiAdapter(List<TestBean.ResultBean.DataBean> data, Context context) {
+    public YoJiAdapter(Context context,List<String> data ) {
         this.mList = data;
         this.context = context;
     }
@@ -37,7 +35,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> {
     public void onBindViewHolder(@NonNull Holder holder, int i) {
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.transform(new RoundTransform(context, 8));
-        Glide.with(context).load(mList.get(i).getThumbnail_pic_s()).apply(requestOptions).into(holder.zuji_image);
+//        Glide.with(context).load(mList.get(i).getThumbnail_pic_s()).apply(requestOptions).into(holder.zuji_image);
     }
 
     @Override

@@ -144,6 +144,9 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     ImageView img_tip;
     TextView tv_message_two;
     TextView tv_message_three;
+    private int add_attention_id;
+    private int is_my_collect;
+    private int add_collection_id;
 
     @Override
     protected void initView() {
@@ -349,11 +352,11 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                         R.mipmap.xihuan_xiangqing);
                 Drawable liked = getResources().getDrawable(
                         R.mipmap.yixihuan_xiangqing);
-                tvLike.setCompoundDrawablesWithIntrinsicBounds(null, dataBeans.get(0).getIs_my_like()> 0 ? liked : like, null, null);
+                tvLike.setCompoundDrawablesWithIntrinsicBounds(null, dataBeans.get(0).getIs_my_like() > 0 ? liked : like, null, null);
                 int count_praise = dataBeans.get(0).getCount_praise();
 
                 Log.d("Test", "dataBeans.get(0).getIs_my_like():" + dataBeans.get(0).getIs_my_like());
-                if (dataBeans.get(0).getIs_my_like()>0) {
+                if (dataBeans.get(0).getIs_my_like() > 0) {
                     //由喜欢变为不喜欢，亮变暗
                     tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
                             like, null, null);
@@ -362,7 +365,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                     tvLike.setText(count_praise + "");
                     dataBeans.get(0).setIs_my_like(0);
                     dataBeans.get(0).setCount_praise(count_praise);
-                } else  {
+                } else {
                     //由不喜欢变为喜欢，暗变亮
                     tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
                             liked, null, null);
@@ -394,22 +397,39 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
                 break;
             case R.id.collection:
+                /*
+                 * 先判断 标示 是否为0 为0 的话调用添加关注 否则 取消关注
+                 * */
 
-
-                if (is_my_attention == 0) {
+                /*if (is_my_attention == 0) {
                     mPresenter.addAttention(user_id, user_token, yo_user_id);
 
                 } else {
                     if (target_id == null) {
                         Log.d("AA", "is_my_attention:" + is_my_attention);
                         mPresenter.deleteAttention(user_id, user_token, is_my_attention);
-                        is_my_attention = 0;
+                        mPresenter.getDetail(user_id, user_token, id);
+                        is_my_attention=0;
+
                     } else {
                         int target = Integer.parseInt(target_id);
                         Log.d("AA", "target:" + target);
                         mPresenter.deleteAttention(user_id, user_token, target);
-                        is_my_attention = 0;
+                        mPresenter.getDetail(user_id, user_token, id);
+                        is_my_attention=0;
+                    }
+                }*/
+                mPresenter.getDetail(user_id,user_token,id);
+                if (is_my_attention==0){
+                    mPresenter.addAttention(user_id, user_token, yo_user_id);
+//                    Log.d("YoXiuDetailActivity", target_id);
 
+                }else {
+
+                    if (add_attention_id==0){
+                        mPresenter.deleteAttention(user_id,user_token,is_my_attention);
+                    }else{
+                        mPresenter.deleteAttention(user_id,user_token,add_attention_id);
                     }
                 }
 
@@ -545,12 +565,14 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
         dataBeans.add(data);
         collections();
+        is_my_collect = data.getIs_my_collect();
         is_my_attention = data.getIs_my_attention();
         if (is_my_attention == 0) {
             collection.setText("+ 关注");
         } else {
             collection.setText("已关注");
         }
+        Log.d("is_my_attention", "is_my_attention:" + is_my_attention);
         String create_time = data.getCreate_time();
         String time = create_time.replaceAll("-", ".");
         tvTime.setText(time);
@@ -714,7 +736,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
     @Override
     public void addAttentionSuccess(AttentionBean.DataBean data) {
-        target_id = data.getId();
+        String target_id = data.getId();
+        add_attention_id = Integer.parseInt(target_id);
         Log.d("YoXiuDetailActivity", target_id);
         collection.setText("已关注");
         Toast.makeText(this, "关注成功", Toast.LENGTH_SHORT).show();
@@ -742,8 +765,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         collectionFolderAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                int is_my_collect = collection_list.get(0).getIs_my_collect();
-                int id = mList.get(position).getId();
+               /* int is_my_collect = collection_list.get(0).getIs_my_collect();
+
                 if (is_my_collect == 0) {
                     mPresenter.addCollection(user_id, user_token, id, yo_id);
                 } else {
@@ -753,6 +776,20 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
                         int i = Integer.parseInt(collection_id);
                         mPresenter.deleteCollection(user_id, user_token, i);
+                    }
+                }*/
+                int folder_id = mList.get(position).getId();
+                mPresenter.getDetail(user_id,user_token,id);
+                if (is_my_collect==0){
+                    mPresenter.addCollection(user_id, user_token, folder_id,yo_user_id);
+//                    Log.d("YoXiuDetailActivity", target_id);
+
+                }else {
+
+                    if (add_collection_id==0){
+                        mPresenter.deleteCollection(user_id,user_token,is_my_collect);
+                    }else{
+                        mPresenter.deleteCollection(user_id,user_token,add_collection_id);
                     }
                 }
                 popup.dismiss();
@@ -768,7 +805,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
     @Override
     public void addCollectionSuccess(AddCollectionBean.DataBean data) {
-        collection_id = data.getId();
+       String collection_id = data.getId();
+        add_collection_id = Integer.parseInt(collection_id);
         count_collect += 1;
         Drawable collection = getResources().getDrawable(
                 R.mipmap.shoucang_xiangqing);

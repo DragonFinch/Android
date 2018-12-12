@@ -1,32 +1,51 @@
 package com.iyoyogo.android.ui.home.yoji;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.adapter.YoJiAdapter;
+import com.iyoyogo.android.adapter.YoJiListAdapter;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
-import com.iyoyogo.android.view.CircleImageView;
-import com.iyoyogo.android.widget.PileLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class YoJiListActivity extends BaseActivity implements View.OnClickListener {
+public class YoJiListActivity extends BaseActivity {
 
-
-    @BindView(R.id.pile_layout)
-    PileLayout pileLayout;
+    @BindView(R.id.recycler_yoji_list_two)
+    RecyclerView recyclerYojiListTwo;
+    private boolean isVertical = true;
+    @BindView(R.id.back)
+    ImageView back;
+    @BindView(R.id.tv_message)
+    TextView tvMessage;
+    @BindView(R.id.img_replace)
+    ImageView imgReplace;
+    @BindView(R.id.bar)
+    RelativeLayout bar;
+    @BindView(R.id.recycler_yoji_list)
+    RecyclerView recyclerYojiList;
     private List<String> imageData;
+    private YoJiListAdapter yoJiListAdapter;
+    private YoJiAdapter yoJiAdapter;
 
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
+
+
         imageData = new ArrayList<>();
         imageData.add("http://t2.hddhhn.com/uploads/tu/201702/132/st5.png");
         imageData.add("http://t2.hddhhn.com/uploads/tu/201701/323/st1.png");
@@ -60,12 +79,41 @@ public class YoJiListActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        List<String> mList = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            mList.add("");
+        }
+        if (isVertical){
+            recyclerYojiListTwo.setVisibility(View.GONE);
+            recyclerYojiList.setVisibility(View.VISIBLE);
+        }else {
+            recyclerYojiListTwo.setVisibility(View.VISIBLE);
+            recyclerYojiList.setVisibility(View.GONE);
+        }
+        yoJiAdapter = new YoJiAdapter(YoJiListActivity.this, mList);
+        yoJiListAdapter = new YoJiListAdapter(YoJiListActivity.this, mList);
+        recyclerYojiList.setLayoutManager(new LinearLayoutManager(YoJiListActivity.this));
+        recyclerYojiList.setAdapter(yoJiAdapter);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        recyclerYojiListTwo.setLayoutManager(staggeredGridLayoutManager);
+        recyclerYojiListTwo.setAdapter(yoJiListAdapter);
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
+        statusbar();
+    }
+
+    @Override
     protected IBasePresenter createPresenter() {
         return null;
     }
 
     public void initPraises() {
-        LayoutInflater inflater = LayoutInflater.from(this);
+       /* LayoutInflater inflater = LayoutInflater.from(this);
         for (int i = 0; i < imageData.size(); i++) {
             CircleImageView imageView = (CircleImageView) inflater.inflate(R.layout.item_head_image, pileLayout, false);
             Glide.with(this).load(imageData.get(i)).into(imageView);
@@ -74,20 +122,38 @@ public class YoJiListActivity extends BaseActivity implements View.OnClickListen
             imageView.setTag(imageData.get(i));
             // 为item设置点击事件
             imageView.setOnClickListener(this);
-            pileLayout.addView(imageView);
-        }
+            pileLayout.addView(imageView);*/
+
 
     }
 
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        // 获取item绑定的数据
-        String content = (String) v.getTag();
-        for (int i = 0; i < imageData.size(); i++) {
-            if (i == id) {
-                Toast.makeText(this, content, Toast.LENGTH_LONG).show();
-            }
+
+    @OnClick({R.id.back, R.id.img_replace})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.back:
+                finish();
+                break;
+            case R.id.img_replace:
+                if (isVertical){
+                    imgReplace.setImageResource(R.mipmap.view1);
+                    recyclerYojiListTwo.setVisibility(View.GONE);
+                    recyclerYojiList.setVisibility(View.VISIBLE);
+                    isVertical=false;
+                }else {
+                    imgReplace.setImageResource(R.mipmap.view2);
+                    recyclerYojiListTwo.setVisibility(View.VISIBLE);
+                    recyclerYojiList.setVisibility(View.GONE);
+                    isVertical=true;
+                }
+                break;
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

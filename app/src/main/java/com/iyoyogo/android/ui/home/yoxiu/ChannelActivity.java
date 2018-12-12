@@ -3,10 +3,8 @@ package com.iyoyogo.android.ui.home.yoxiu;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -46,6 +44,7 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
     private Integer[] array;
     private List<Integer> idList;
     private ArrayList<String> channelList;
+    private ChannelAdapter adapter;
 
     @Override
     protected void initData(Bundle savedInstanceState) {
@@ -71,30 +70,9 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
 
     @Override
     public void getChannelSuccess(List<ChannelBean.DataBean.ListBean> list) {
-        ChannelAdapter adapter = new ChannelAdapter(ChannelActivity.this, list);
+        adapter = new ChannelAdapter(ChannelActivity.this, list);
         gv_channel.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
         gv_channel.setAdapter(adapter);
-        gv_channel.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SparseBooleanArray checkedItemPositions = gv_channel.getCheckedItemPositions();
-                boolean isChecked = checkedItemPositions.get(position);
-                Toast.makeText(ChannelActivity.this, "item " + position + " isChecked=" + isChecked, Toast.LENGTH_SHORT).show();
-                        if (isChecked==true&&!idList.contains(list.get(position).getId())&&!channelList.contains(list.get(position).getChannel())){
-                            idList.add(list.get(position).getId());
-                            channelList.add(list.get(position).getChannel());
-                        }else {
-                            idList.remove(list.get(position).getId());
-                            channelList.remove(list.get(position).getChannel());
-                        }
-                        size = idList.size();
-                        array = idList.toArray(new Integer[size]);
-                        for (int i = 0; i < array.length; i++) {
-                            Log.d("LikePrefencesActivity", "array[i]:" + array[i]);
-                        }
-
-            }
-        });
     }
 
 
@@ -140,21 +118,23 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
                 break;
             case R.id.create_complete:
                 Intent intent = new Intent();
-                Integer[] objects = (Integer[]) ifRepeat(array);
-                int[] channel_array = new int[objects.length];
-                for (int i = 0; i < objects.length; i++) {
-                    channel_array[i] = objects[i];
+                ArrayList<String> strings = adapter.selectInterest();
+                List<Integer> integerList = adapter.selectPhoto();
+                int size = integerList.size();
+                Integer[] integers = integerList.toArray(new Integer[size]);
+                int[] channel_array = new int[integers.length];
+                for (int i = 0; i < integers.length; i++) {
+                    channel_array[i] = integers[i];
                 }
                 for (int i = 0; i < channel_array.length; i++) {
                     Log.d("ChannelActivity", "channel_array[i]:" + channel_array[i]);
                 }
-
                 intent.putExtra("channel_array", channel_array);
-                ArrayList list = removeDuplicate(channelList);
-                Log.d("ChannelActivity", "list.size():" + list.size());
-                intent.putStringArrayListExtra("channel_list", list);
-                Log.d("Test", listToString(list));
-                if (list.size() > 0 && list.size() <= 5) {
+                ArrayList list = removeDuplicate(strings);
+                Log.d("ChannelActivity", "list.size():" + strings.size());
+                intent.putStringArrayListExtra("channel_list", strings);
+                Log.d("Test", listToString(strings));
+                if (strings.size() > 0 && strings.size() <= 5) {
                     setResult(1, intent);
                     finish();
                 } else {

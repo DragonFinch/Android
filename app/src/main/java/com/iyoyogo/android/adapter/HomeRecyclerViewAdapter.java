@@ -16,12 +16,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.home.HomeViewPagerBean;
 import com.iyoyogo.android.ui.home.recommend.YoXiuDetailActivity;
+import com.iyoyogo.android.ui.home.yoji.YoJiListActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuListActivity;
-import com.iyoyogo.android.utils.select.SelectPhotoActivity;
 import com.iyoyogo.android.view.CardTransformer;
 import com.iyoyogo.android.view.MyViewPager;
 
@@ -32,6 +33,8 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     public static final int VIEWPAGER = 0;
     public static final int YOUXIU = 1;
     public static final int YOUJI = 2;
+    public static final int FOOT = 3;
+    public static final int RECOMMEND = 4;
     private Context context;
     private List<HomeViewPagerBean.DataBean> mList;
     private boolean isLoop;
@@ -51,7 +54,6 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         @Override
         public void run() {
             try {
-                Log.i("mzh", "task is run.");
                 int currentItem = viewpager.getCurrentItem();
                 if (currentItem == mCount - 1) {
                     currentItem = 0;
@@ -101,11 +103,14 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             view = LayoutInflater.from(context).inflate(R.layout.youxiu_item, viewGroup, false);
 
             return new Holder_YouXiu(view);
-        } else {
+        } else if (viewType == 2) {
             view = LayoutInflater.from(context).inflate(R.layout.youji_item, viewGroup, false);
             return new Holder_YouJi(view);
+        } else if (viewType == 3) {
+            view = LayoutInflater.from(context).inflate(R.layout.layout_foot, viewGroup, false);
+            return new Holder_Footer(view);
         }
-
+        return null;
 
     }
 
@@ -121,14 +126,21 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             setYouXiuHolder((Holder_YouXiu) viewHolder, yox_list);
         } else if (viewHolder instanceof Holder_YouJi) {
             setYouJiHolder((Holder_YouJi) viewHolder, position);
+        }else if (viewHolder instanceof Holder_Footer){
+            setFootHolder((Holder_Footer) viewHolder);
         }
     }
 
+
+
     @Override
     public int getItemCount() {
-        return 3;
+        return 4;
     }
+    //底部
+    private void setFootHolder(Holder_Footer viewHolder) {
 
+    }
     //轮播图
     private void setViewPagerHolder(Holder_ViewPager viewHolder, int position) {
         List<HomeViewPagerBean.DataBean.BannerListBean> banner_list = mList.get(position).getBanner_list();
@@ -239,11 +251,17 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         youJiHolder.youji_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, SelectPhotoActivity.class);
+                Intent intent = new Intent(context, YoJiListActivity.class);
                 context.startActivity(intent);
             }
         });
-        youJiHolder.recycler_youji.setVisibility(View.GONE);
+        List<String> list=new ArrayList();
+        for (int i = 0; i < 3; i++) {
+            list.add("aaa");
+        }
+       youJiHolder.recycler_youji.setLayoutManager(new LinearLayoutManager(context));
+        YoJiAdapter yoJiAdapter = new YoJiAdapter(context, list);
+        youJiHolder.recycler_youji.setAdapter(yoJiAdapter);
     }
 
     public void disVisible() {
@@ -269,6 +287,8 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             return YOUXIU;
         } else if (position == 2) {
             return YOUJI;
+        }else if (position==3){
+            return FOOT;
         }
         return super.getItemViewType(position);
 
@@ -315,9 +335,10 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public class Holder_Footer extends RecyclerView.ViewHolder {
-
+        TextView look_more;
         public Holder_Footer(@NonNull View itemView) {
             super(itemView);
+            look_more=itemView.findViewById(R.id.look_more);
         }
     }
 }

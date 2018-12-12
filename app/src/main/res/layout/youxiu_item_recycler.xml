@@ -35,7 +35,7 @@ android:id="@+id/relative"
 
 
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/fengjing" />
+                    android:src="@mipmap/default_ic" />
 </LinearLayout>
                 <ImageView
                     android:visibility="gone"
@@ -115,7 +115,7 @@ android:id="@+id/relative"
                 android:layout_alignParentBottom="true"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginBottom="@dimen/dp_10"
-                android:src="@mipmap/touxiang"
+                android:src="@mipmap/default_touxiang"
                 app:civ_border_color="#ffffff"
                 app:civ_border_width="@dimen/dp_1"
 
