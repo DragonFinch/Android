@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -26,7 +27,7 @@ public class YoJiListActivity extends BaseActivity {
 
     @BindView(R.id.recycler_yoji_list_two)
     RecyclerView recyclerYojiListTwo;
-    private boolean isVertical = true;
+    private int num=1;
     @BindView(R.id.back)
     ImageView back;
     @BindView(R.id.tv_message)
@@ -37,16 +38,15 @@ public class YoJiListActivity extends BaseActivity {
     RelativeLayout bar;
     @BindView(R.id.recycler_yoji_list)
     RecyclerView recyclerYojiList;
-    private List<String> imageData;
     private YoJiListAdapter yoJiListAdapter;
     private YoJiAdapter yoJiAdapter;
-
+    boolean isVertical ;
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
 
 
-        imageData = new ArrayList<>();
+      /*  imageData = new ArrayList<>();
         imageData.add("http://t2.hddhhn.com/uploads/tu/201702/132/st5.png");
         imageData.add("http://t2.hddhhn.com/uploads/tu/201701/323/st1.png");
         imageData.add("http://t2.hddhhn.com/uploads/tu/201701/91/st3.png");
@@ -70,7 +70,7 @@ public class YoJiListActivity extends BaseActivity {
         imageData.add("http://t2.hddhhn.com/uploads/tu/201707/84/c3.jpg");
         imageData.add("http://t2.hddhhn.com/uploads/tu/201707/84/c3.jpg");
         imageData.add("http://t2.hddhhn.com/uploads/tu/201707/84/c3.jpg");
-        initPraises();
+        initPraises();*/
     }
 
     @Override
@@ -85,20 +85,18 @@ public class YoJiListActivity extends BaseActivity {
         for (int i = 0; i < 20; i++) {
             mList.add("");
         }
-        if (isVertical){
-            recyclerYojiListTwo.setVisibility(View.GONE);
-            recyclerYojiList.setVisibility(View.VISIBLE);
-        }else {
-            recyclerYojiListTwo.setVisibility(View.VISIBLE);
-            recyclerYojiList.setVisibility(View.GONE);
-        }
         yoJiAdapter = new YoJiAdapter(YoJiListActivity.this, mList);
         yoJiListAdapter = new YoJiListAdapter(YoJiListActivity.this, mList);
-        recyclerYojiList.setLayoutManager(new LinearLayoutManager(YoJiListActivity.this));
-        recyclerYojiList.setAdapter(yoJiAdapter);
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        recyclerYojiListTwo.setLayoutManager(staggeredGridLayoutManager);
-        recyclerYojiListTwo.setAdapter(yoJiListAdapter);
+        //横向
+            Log.e("123", "recyclerYojiList"+"isVertical:" + isVertical);
+            recyclerYojiList.setVisibility(View.VISIBLE);
+            recyclerYojiList.setLayoutManager(new LinearLayoutManager(YoJiListActivity.this));
+            recyclerYojiList.setAdapter(yoJiAdapter);
+            StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            recyclerYojiListTwo.setLayoutManager(staggeredGridLayoutManager);
+            recyclerYojiListTwo.setAdapter(yoJiListAdapter);
+        //瀑布流
+
     }
 
     @Override
@@ -135,17 +133,18 @@ public class YoJiListActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.img_replace:
-                if (isVertical){
-                    imgReplace.setImageResource(R.mipmap.view1);
-                    recyclerYojiListTwo.setVisibility(View.GONE);
-                    recyclerYojiList.setVisibility(View.VISIBLE);
-                    isVertical=false;
-                }else {
-                    imgReplace.setImageResource(R.mipmap.view2);
-                    recyclerYojiListTwo.setVisibility(View.VISIBLE);
-                    recyclerYojiList.setVisibility(View.GONE);
-                    isVertical=true;
-                }
+                 num++;
+                 if (num%2==0){
+                     imgReplace.setImageResource(R.mipmap.view2);
+                     recyclerYojiList.setVisibility(View.GONE);
+                     recyclerYojiListTwo.setVisibility(View.VISIBLE);
+                 }else if (num%2==1){
+                     imgReplace.setImageResource(R.mipmap.view1);
+                     recyclerYojiList.setVisibility(View.VISIBLE);
+                     recyclerYojiListTwo.setVisibility(View.GONE);
+                 }
+
+
                 break;
         }
     }

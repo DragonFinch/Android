@@ -375,7 +375,8 @@
         <activity android:name=".ui.mine.collection.DefaultCollectionActivity" />
         <activity android:name=".ui.home.yoji.YoJiListActivity" />
         <activity android:name=".utils.select.SelectPhotoActivity" />
-        <activity android:name=".ui.common.CropImageActivity"></activity>
+        <activity android:name=".ui.common.CropImageActivity" />
+        <activity android:name=".ui.home.yoji.YoJiDetailActivity"></activity>
     </application>
 
 </manifest>
