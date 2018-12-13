@@ -161,4 +161,9 @@
     <color name="C1C1C1">#C1C1C1</color>
     <color name="BFBFBF">#BFBFBF</color>
     <color name="FFFAED">#FFFAED</color>
+
+    <color name="FF00FF">#FF00FF</color>
+    <color name="FFEDB6">#FFEDB6</color>
+    <color name="FFFFFF">#FFFFFF</color>
+    <color name="E1E1E1">#E1E1E1</color>
 </resources>

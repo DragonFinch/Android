@@ -95,7 +95,7 @@
         <item>270</item>
         <item>280</item>
     </string-array>
-    <!-- //定位-->
+    <!-- 定位-->
     <string name="hi">Hi~</string>
     <string name="over">资料完善成功!</string>
     <string name="place">请你吃小鱼干yo~</string>
@@ -514,7 +514,7 @@
     <string name="trigger_callback">callback</string>
     <string name="image_persist">image persist</string>
 
-    //我的收藏
+    <!--我的收藏-->
     <string name="collection">我的收藏</string>
     <string name="guanli">管理</string>
     <string name="chuangjian">创建收藏夹</string>
@@ -542,4 +542,55 @@
     <string name="mashangqu">马上去</string>
     <string name="shouye">首页</string>
     <string name="zhaoxihuandeneirong">找喜欢的内容！</string>
+
+    <!--会员中心和个人主页相关-->
+
+    <string name="huiyuanzhongxin">会员中心</string>
+    <string name="user_name">Anne</string>
+    <string name="dengji">当前等级:</string>
+    <string name="julishengji">· 距离Lv4还差</string>
+    <string name="xxdian">150点</string>
+    <string name="huoyuezhi">活跃值哦 ·</string>
+    <string name="huiyuantequan">会员特权</string>
+    <string name="ruhetishenghuiyuandengji">如何快速提升会员等级？</string>
+
+    <string name="kuaisutishangxiaomiji">快速提升小秘笈</string>
+    <string name="youzideneirong">优质的内容是快速提升等级的基础</string>
+    <string name="yufensihudong">与粉丝互动，获得更多小知识～</string>
+    <string name="hezheerniyiqichengzhangba">快和折耳妮一起成长吧</string>
+    <string name="gongxinichengwei">恭喜升级为</string>
+    <string name="level">LV3!</string>
+    <string name="uplevel">升级了yo～棒棒哒！</string>
+    <string name="qushouyekankan">去首页看看</string>
+
+    <string name="xiaoxizhongxin">消息中心</string>
+    <string name="xitongxiaoxi">系统消息</string>
+    <string name="xihuanwode">喜欢我的</string>
+    <string name="pinglunxiaoxi">评论消息</string>
+    <string name="guanzhuxiaoxi">关注消息</string>
+
+    <string name="nihaimeiyoushoudaoxiaoxi">你还木有收到消息yo～</string>
+    <string name="fabuyouji">发布yo·记</string>
+    <string name="huo">或</string>
+    <string name="fabuyouxiu">发布yo·秀</string>
+    <string name="geiwomenyigexihuannidejihui">给我们一个喜欢你的机会！</string>
+
+    <string name="huifu">回复</string>
+    <string name="ghuanzhule">关注了  我</string>
+
+    <string name="guanzhu">关注</string>
+    <string name="shoucang">收藏</string>
+    <string name="fensi">粉丝</string>
+
+    <string name="anne">Anne</string>
+    <string name="sui25">25岁</string>
+    <string name="shuangzizuo">双子座</string>
+    <string name="beijing">北京</string>
+
+    <string name="tanfangaozhou">探访澳洲的文化之旅</string>
+    <string name="tangrenjie">唐人街-尤利卡88层观景台</string>
+    <string name="daynumber">6天</string>
+    <string name="money_everyone">¥3000/人</string>
+
+
 </resources>
