@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.home.HomeViewPagerBean;
 import com.iyoyogo.android.ui.home.recommend.YoXiuDetailActivity;
+import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiListActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuListActivity;
 import com.iyoyogo.android.view.CardTransformer;
@@ -262,6 +263,12 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
        youJiHolder.recycler_youji.setLayoutManager(new LinearLayoutManager(context));
         YoJiAdapter yoJiAdapter = new YoJiAdapter(context, list);
         youJiHolder.recycler_youji.setAdapter(yoJiAdapter);
+        yoJiAdapter.setOnItemClickListener(new YoJiAdapter.OnClickListener() {
+            @Override
+            public void onClick(View v, int position) {
+                context.startActivity(new Intent(context,YoJiDetailActivity.class));
+            }
+        });
     }
 
     public void disVisible() {

@@ -144,7 +144,9 @@
         <meta-data
             android:name="design_height_in_dp"
             android:value="667" />
-
+        <activity android:name=".ui.mine.homepage.Message_center_Activity"></activity>
+        <activity android:name=".ui.mine.homepage.Like_me_Activity" />
+        <activity android:name=".ui.mine.homepage.Personal_homepage_Activity"></activity>
         <activity android:name=".ui.common.DingWei" />
         <activity
             android:name=".camera.utils.permission.PermissionsActivity"

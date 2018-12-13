@@ -14,7 +14,7 @@ import com.iyoyogo.android.utils.RoundTransform;
 
 import java.util.List;
 
-public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> {
+public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implements View.OnClickListener {
     private List<String> mList;
     private Context context;
 
@@ -28,19 +28,38 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> {
     public Holder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context).inflate(R.layout.yoji_item_recycler, viewGroup, false);
         Holder holder = new Holder(view);
+        view.setOnClickListener(this);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Holder holder, int i) {
+    public void onBindViewHolder(@NonNull Holder holder, int position) {
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.transform(new RoundTransform(context, 8));
 //        Glide.with(context).load(mList.get(i).getThumbnail_pic_s()).apply(requestOptions).into(holder.zuji_image);
+        holder.itemView.setTag(position);
     }
 
     @Override
     public int getItemCount() {
         return mList.size();
+    }
+
+    public interface OnClickListener {
+        void onClick(View v, int position);
+    }
+
+    private OnClickListener onClickListener;
+
+    public void setOnItemClickListener(OnClickListener onItemClickListener) {
+        this.onClickListener = onItemClickListener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (onClickListener != null) {
+            onClickListener.onClick(v, (Integer) v.getTag());
+        }
     }
 
     public class Holder extends RecyclerView.ViewHolder {
