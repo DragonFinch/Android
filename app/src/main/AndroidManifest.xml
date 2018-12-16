@@ -154,7 +154,6 @@
         <activity android:name=".ui.common.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -378,7 +377,9 @@
         <activity android:name=".ui.home.yoji.YoJiListActivity" />
         <activity android:name=".utils.select.SelectPhotoActivity" />
         <activity android:name=".ui.common.CropImageActivity" />
-        <activity android:name=".ui.home.yoji.YoJiDetailActivity"></activity>
+        <activity android:name=".ui.home.yoji.YoJiDetailActivity">
+
+        </activity>
     </application>
 
 </manifest>
