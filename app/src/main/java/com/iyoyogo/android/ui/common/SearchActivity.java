@@ -86,8 +86,7 @@ public class SearchActivity extends BaseActivity {
         String longitude = intent.getStringExtra("longitude");
         locationAgainGPSTVId.setVisibility(View.GONE);
         goCreatePoint.setVisibility(View.GONE);
-        Log.d("PublishYoXiuActivity", latitude);
-        Log.d("PublishYoXiuActivity", longitude);
+
         if (latitude.equals("0") && longitude.equals("0")) {
             shortToast("经纬度为空");
 
@@ -97,6 +96,8 @@ public class SearchActivity extends BaseActivity {
             locationLl.setVisibility(View.GONE);
             locationAgainGPSTVId.setVisibility(View.GONE);
         } else {
+            Log.d("PublishYoXiuActivity", latitude);
+            Log.d("PublishYoXiuActivity", longitude);
             locationLl.setVisibility(View.VISIBLE);
             locationAgainGPSTVId.setVisibility(View.VISIBLE);
             locationPlaceTVId.setText(place);
@@ -327,6 +328,7 @@ public class SearchActivity extends BaseActivity {
             intent.putExtra("longitude", longitude);
             intent.putExtra("place", place);
             setResult(2, intent);
+            setResult(3, intent);
             finish();
         }
     }

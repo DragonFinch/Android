@@ -35,10 +35,10 @@ import com.iyoyogo.android.base.BaseFragment;
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.ui.home.attention.AttentionFragment;
 import com.iyoyogo.android.ui.home.recommend.RecommedFragment;
-import com.iyoyogo.android.ui.home.yoji.PublishYoJiActivity;
 import com.iyoyogo.android.ui.home.yoxiu.SourceChooseActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.imagepicker.activities.ImagesPickActivity;
 import com.iyoyogo.android.view.YoyogoTopBarView;
 
 import java.security.MessageDigest;
@@ -198,7 +198,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "发布yo.记", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getContext(), PublishYoJiActivity.class));
+                startActivity(new Intent(getContext(), ImagesPickActivity.class));
                 popup.dismiss();
             }
         });

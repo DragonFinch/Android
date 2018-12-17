@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/relative"
     android:layout_height="match_parent"
    >
 
@@ -22,6 +23,6 @@
         android:layout_marginTop="3dp"
         android:background="@null"
         android:layout_marginRight="3dp"
-        android:src="@mipmap/log_unselect"/>
+        android:src="@mipmap/pic_wxz"/>
 
 </RelativeLayout>

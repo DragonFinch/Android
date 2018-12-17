@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="34dp">
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_width="@dimen/dp_10"
+            android:layout_height="@dimen/dp_17"
+            android:id="@+id/back"
+            android:src="@mipmap/back_black"
+            />
+        <TextView
+            android:id="@+id/tv_title"
+            android:textColor="#000"
+            android:textSize="@dimen/sp_15"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_20"
+            android:text="创建地址"
+            android:layout_centerInParent="true"
+            />
+        <TextView
+            android:clickable="true"
+            android:id="@+id/create_complete"
+            android:layout_marginTop="@dimen/dp_6"
+
+
+            android:textSize="@dimen/sp_15"
+            android:layout_width="@dimen/dp_35"
+            android:layout_height="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_21"
+            android:layout_alignParentRight="true"
+            android:textColor="#333333"
+            android:text="完成"
+
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dp_20"
+        android:paddingRight="@dimen/dp_20">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_53">
+
+            <View
+                android:id="@+id/view_one"
+                android:layout_width="@dimen/dp_5"
+                android:layout_height="@dimen/dp_15"
+                android:layout_centerVertical="true"
+                android:background="@color/orgeen_color" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_toRightOf="@id/view_one"
+                android:text="@string/str_what_deserve_to_do"
+                android:textColor="@color/orgeen_color" />
+
+            <LinearLayout
+                android:id="@+id/ll_indicate_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal" />
+        </RelativeLayout>
+
+        <com.iyoyogo.android.widget.FlowGroupView
+            android:id="@+id/flow_one"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <View style="@style/CommonLine_Style" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dp_20"
+        android:paddingRight="@dimen/dp_20">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_53">
+
+            <View
+                android:id="@+id/view_two"
+                android:layout_width="@dimen/dp_5"
+                android:layout_height="@dimen/dp_15"
+                android:layout_centerVertical="true"
+                android:background="@color/blue_color" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_toRightOf="@id/view_two"
+                android:text="@string/str_fang_keng_zhi_nan"
+                android:textColor="@color/blue_color" />
+
+            <LinearLayout
+                android:id="@+id/ll_indicate_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal" />
+        </RelativeLayout>
+
+        <com.iyoyogo.android.widget.FlowGroupView
+            android:id="@+id/flow_two"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <View style="@style/CommonLine_Style" />
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/dp_40"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dp_20"
+        android:paddingRight="@dimen/dp_20">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_53">
+
+            <View
+                android:id="@+id/view_third"
+                android:layout_width="@dimen/dp_5"
+                android:layout_height="@dimen/dp_15"
+                android:layout_centerVertical="true"
+                android:background="@color/black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_toRightOf="@id/view_third"
+                android:text="@string/str_wo_de_zhuanshu"
+                android:textColor="@color/black" />
+
+            <LinearLayout
+                android:id="@+id/ll_indicate_third"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal" />
+        </RelativeLayout>
+
+        <com.iyoyogo.android.widget.FlowGroupView
+            android:id="@+id/flow_third"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <!--<EditText-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/dp_40"-->
+        <!--android:background="@drawable/wo_de_zhuan_shu_shape"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:hint="记录我的专有名词"-->
+        <!--android:padding="@dimen/dp_5"-->
+        <!--android:textColorHint="@color/desc_color_888888"-->
+        <!--android:textSize="@dimen/sp_15" />-->
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_confirm"
+        android:layout_marginBottom="@dimen/dp_30"
+        android:layout_width="@dimen/dp_200"
+        android:layout_height="@dimen/dp_35"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@drawable/login_btn_bg"
+        android:text="@string/str_confirm"
+        android:textColor="@color/colorWhite" />
+</LinearLayout>

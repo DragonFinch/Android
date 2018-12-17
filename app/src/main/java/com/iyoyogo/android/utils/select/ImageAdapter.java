@@ -25,16 +25,17 @@ import java.util.List;
  * @author 姜文莒
  * @version : 1.0
  */
-public  class ImageAdapter extends BaseAdapter {
-
+public class ImageAdapter extends BaseAdapter {
+    private int count;
     private Context context;
     private List<HashMap<String, String>> mImgPaths;
-    private LayoutInflater mInflater;
-    private static List<String> mSelectImg=new LinkedList<>();
+
+    private static List<String> mSelectImg = new LinkedList<>();
+
     public ImageAdapter(Context context, List<HashMap<String, String>> mDatas) {
-        this.context=context;
-        this.mImgPaths=mDatas;
-        mInflater=LayoutInflater.from(context);
+        this.context = context;
+        this.mImgPaths = mDatas;
+
     }
 
     @Override
@@ -54,14 +55,13 @@ public  class ImageAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder vh=null;
-        if (convertView==null){
-            convertView=  mInflater.inflate(R.layout.item_check,parent,false);
-            vh=new ViewHolder();
-            vh.mImg=convertView.findViewById(R.id.iv_item);
-            vh.mSelect=convertView.findViewById(R.id.ib_select);
+        ViewHolder vh = null;
+        if (convertView == null) {
+            ;
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_check, parent, false);
+            vh = new ViewHolder(convertView);
             convertView.setTag(vh);
-        }else {
+        } else {
             vh = (ViewHolder) convertView.getTag();
         }
      /*   vh.mImg.setImageResource(R.mipmap.default_error);
@@ -77,36 +77,45 @@ public  class ImageAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //已经被选择
-                if (mSelectImg.contains(filePath)){
+                if (mSelectImg.contains(filePath)) {
                     mSelectImg.remove(filePath);
                     finalVh.mImg.setColorFilter(null);
-                    finalVh.mSelect.setImageResource(R.mipmap.log_unselect);
-                }else{
+                    finalVh.mSelect.setImageResource(R.mipmap.pic_wxz);
+                    count--;
+                } else {
                     //未被选中
                     mSelectImg.add(filePath);
                     finalVh.mImg.setColorFilter(Color.parseColor("#77000000"));
                     finalVh.mSelect.setImageResource(R.mipmap.xz);
+                    count++;
                 }
 
             }
         });
-        if (mSelectImg.contains(filePath)){
-            vh.mImg.setColorFilter(Color.parseColor("#77000000"));
-            vh.mSelect.setImageResource(R.mipmap.xz);
-        }
         return convertView;
     }
 
+    public int setCount() {
+        return count;
+    }
 
-
-    public List<String> selectPhoto(){
-        if (!mSelectImg.isEmpty()){
+    public List<String> selectPhoto() {
+        if (!mSelectImg.isEmpty()) {
             return mSelectImg;
         }
         return null;
     }
-    private  class  ViewHolder{
-        ImageView mImg;
-        ImageButton mSelect;
+
+    public static class ViewHolder {
+        public View rootView;
+        public ImageView mImg;
+        public ImageButton mSelect;
+
+        public ViewHolder(View rootView) {
+            this.rootView = rootView;
+            this.mImg = (ImageView) rootView.findViewById(R.id.iv_item);
+            this.mSelect = (ImageButton) rootView.findViewById(R.id.ib_select);
+        }
+
     }
 }

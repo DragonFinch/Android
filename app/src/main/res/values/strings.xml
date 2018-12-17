@@ -379,6 +379,7 @@
     <string name="movement">运动</string>
     <string name="videoEdit">视频编辑</string>
     <string name="compile">生成</string>
+    <string name="complete">完成</string>
     <string name="selectMedia">选中内容</string>
     <string name="setSelectMedia">已选%1$d项</string>
     <string name="play_error">播放异常</string>

@@ -8,22 +8,29 @@
 <RelativeLayout
     android:id="@+id/rl_back"
     android:layout_width="match_parent"
-    android:background="#e4d3d3"
+    android:background="#fff"
     android:layout_height="50dp">
     <ImageView
+        android:padding="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_20"
         android:id="@+id/iv_back"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:src="@mipmap/fanhui_black"/>
-    <Button
-        android:id="@+id/btn_sure"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
+    <TextView
+        android:layout_centerVertical="true"
+        android:id="@+id/tv_title"
+
+       android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/iv_back"
         android:background="@null"
-        android:text="选择"/>
+        android:textColor="#000"
+        android:text="所有图片"/>
 </RelativeLayout>
   <GridView
+      android:layout_above="@+id/ly_top_bar"
       android:layout_below="@+id/rl_back"
       android:id="@+id/id_gridView"
       android:layout_width="match_parent"
@@ -34,35 +41,61 @@
       android:listSelector="@android:color/transparent"
       android:horizontalSpacing="3dp"
       android:verticalSpacing="3dp"
-      ></GridView>
+      />
     <RelativeLayout
-        android:visibility="gone"
-        android:id="@+id/rl_bottom_layout"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/ly_top_bar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:background="#ee000000"
-        android:clipChildren="true"
+        android:background="#FFFFFF"
         >
-        <TextView
-            android:id="@+id/tv_dir_name"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical ="true"
-            android:paddingLeft="10dp"
-            android:text="所有图片"
-            android:gravity="center"
-            android:textColor="@android:color/white"/>
-        <TextView
-            android:id="@+id/tv_dir_count"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
+        <RelativeLayout
+            android:id="@+id/rela_before_img"
             android:layout_centerVertical="true"
-            android:paddingRight="10dp"
-            android:gravity="center"
-            android:textColor="@android:color/white"/>
-    </RelativeLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView android:layout_width="@dimen/dp_15"
+                android:layout_height="@dimen/dp_15"
+                android:id="@+id/img_yuantu"
 
+                android:src="@mipmap/log_unselect"
+                android:layout_marginLeft="16dp"
+                android:layout_centerVertical="true"
+                />
+            <TextView
+                android:id="@+id/tv_yuantu"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/img_yuantu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="原图"
+                />
+            <TextView
+                android:id="@+id/tv_kb"
+                android:layout_toRightOf="@+id/tv_yuantu"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                />
+        </RelativeLayout>
+
+
+
+
+
+        <TextView
+            android:id="@+id/btn_continue"
+            android:layout_width="60dp"
+            android:layout_height="25dp"
+            android:text="继续"
+            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginRight="@dimen/dp_20"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/bg_continue"
+
+            />
+    </RelativeLayout>
 </RelativeLayout>

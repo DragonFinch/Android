@@ -15,6 +15,7 @@ import com.iyoyogo.android.utils.imagepicker.component.OnItemChooseCallback;
 import com.iyoyogo.android.utils.imagepicker.component.OnRecyclerViewItemClickListener;
 import com.iyoyogo.android.utils.imagepicker.component.OnRecyclerViewItemLongClickListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,7 +28,7 @@ public class ImagesListAdapter extends BaseRecyclerAdapter {
     private int maxNum = 1;
     private Context context;
     private List<ImageBean> list;
-
+    private static ArrayList<String> mSelectImg = new ArrayList<>();
     public ImagesListAdapter(Context context, List<ImageBean> list){
         this.context = context;
         this.list = list;
@@ -49,7 +50,12 @@ public class ImagesListAdapter extends BaseRecyclerAdapter {
         if (maxNum < 1) return;
         this.maxNum = maxNum;
     }
-
+    public ArrayList<String> selectPhoto() {
+        if (!mSelectImg.isEmpty()) {
+            return mSelectImg;
+        }
+        return null;
+    }
     private class MyViewHolder extends BaseViewHolder {
         private ImageView mImageSrc;
         private ImageView mImageChoose;
@@ -60,17 +66,20 @@ public class ImagesListAdapter extends BaseRecyclerAdapter {
 
         @Override
         public void intOnItemChooseCallback(final OnItemChooseCallback chooseCallback, final int position) {
-           mImageChoose.setOnClickListener(new View.OnClickListener() {
+            String filePath = list.get(position).getImagePath();
+            mImageChoose.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View view) {
                    if (count < maxNum){
-                       if (!list.get(position).isChoose()){
+                       if (!list.get(position).isChoose()&&!mSelectImg.contains(filePath)){
                            mImageChoose.setImageResource(R.mipmap.zp_xz);
+                           mSelectImg.add(filePath);
                            list.get(position).setChoose(true);
                            chooseCallback.chooseState(position,true);
                            count ++;
                        } else {
-                           mImageChoose.setImageResource(R.mipmap.log_unselect);
+                           mSelectImg.remove(filePath);
+                           mImageChoose.setImageResource(R.mipmap.pic_wxz);
                            list.get(position).setChoose(false);
                            chooseCallback.chooseState(position,false);
                            count--;
@@ -80,10 +89,9 @@ public class ImagesListAdapter extends BaseRecyclerAdapter {
                        if (!list.get(position).isChoose()){
                            chooseCallback.countWarning(count);
                        } else {
-                           mImageChoose.setImageResource(R.mipmap.log_unselect);
+                           mImageChoose.setImageResource(R.mipmap.pic_wxz);
                            list.get(position).setChoose(false);
                            chooseCallback.chooseState(position,false);
-                           count--;
                        }
                    }
                    chooseCallback.countNow(count);
@@ -118,7 +126,7 @@ public class ImagesListAdapter extends BaseRecyclerAdapter {
             if (list.get(position).isChoose()){
                 mImageChoose.setImageResource(R.mipmap.zp_xz);
             } else {
-                mImageChoose.setImageResource(R.mipmap.log_unselect);
+                mImageChoose.setImageResource(R.mipmap.pic_wxz);
             }
             Glide.with(context)
                     .load(list.get(position).getImagePath())
