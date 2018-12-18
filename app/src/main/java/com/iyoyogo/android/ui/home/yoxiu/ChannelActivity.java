@@ -136,6 +136,7 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
                 Log.d("Test", listToString(strings));
                 if (strings.size() > 0 && strings.size() <= 5) {
                     setResult(1, intent);
+                    setResult(66,intent);
                     finish();
                 } else {
                     Toast.makeText(this, "请选择1~5个频道", Toast.LENGTH_SHORT).show();

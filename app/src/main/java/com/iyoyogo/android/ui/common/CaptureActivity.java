@@ -1760,8 +1760,11 @@ private boolean isTrue=false;
                         }
                     }
                     Intent intent = new Intent(CaptureActivity.this, PublishYoXiuActivity.class);
+                    intent.putExtra("latitude", "0");
+                    intent.putExtra("longitude", "0");
                     intent.putExtra("path", jpgPath);
-                    startActivity(intent);
+                  setResult(66);
+                  finish();
 //                    showPictureLayout(true);
                 }
             }

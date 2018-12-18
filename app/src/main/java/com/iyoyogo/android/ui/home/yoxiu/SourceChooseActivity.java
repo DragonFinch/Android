@@ -106,7 +106,8 @@ public class SourceChooseActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 if (position == 0) {
-                    startActivity(new Intent(SourceChooseActivity.this, CaptureActivity.class));
+                    startActivityForResult(new Intent(SourceChooseActivity.this, CaptureActivity.class),1);
+
                 } else {
                     if (num >= 1) {
                         View view1 = getLayoutInflater().inflate(R.layout.common_yodialog, null);
@@ -366,6 +367,14 @@ public class SourceChooseActivity extends AppCompatActivity {
             case R.id.back:
                 finish();
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==1&&resultCode==66){
+            mediaAdapter.notifyDataSetChanged();
         }
     }
 }

@@ -2,7 +2,6 @@ package com.iyoyogo.android.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -93,12 +92,11 @@ public class FlowGroupView extends ViewGroup {
                 // 换行的时候把该 view 放进 集合里
                 lineViews.add(child);// 这个  view(child) 是下一行的第一个view
                 height += cheight; //每个View高度是一样的，直接累加
-                Log.e("需要换行", "hight--" + height);
-                Log.e("onMeasure", "AllViews.size()  --  > " + mAllViews.size());
+
             } else {
                 // 不需要换行
                 lineWidth += cWidth;//
-                Log.e("不需要换行", "hight--" + height);
+
                 // 不需要换行时 把子View add 进集合
                 lineViews.add(child);
             }
@@ -107,7 +105,6 @@ public class FlowGroupView extends ViewGroup {
                 // 如果是最后一个view
                 width = Math.max(lineWidth, cWidth);
                 height += cheight;
-                Log.e("最后一个view", "hight--" + height);
             }
         }
         // 循环结束后 把最后一行内容add进集合中
@@ -119,7 +116,6 @@ public class FlowGroupView extends ViewGroup {
                 specWidthMode == MeasureSpec.EXACTLY ? specWidthSize : width,
                 specHeighMode == MeasureSpec.EXACTLY ? specHeighSize : height
         );
-        Log.e("onMeasure", "mAllViews.size() -- > " + mAllViews.size() + "   mLineHeight.size() -- > " + mLineHeight.size() + "Height -- > " + height);
     }
 
     /**
@@ -141,7 +137,7 @@ public class FlowGroupView extends ViewGroup {
             // 当前行的最大高度
             lineHeight = mLineHeight.get(i);
 
-            Log.e("onLayout", "第" + i + "行 ：" + lineViews.size() + "-------lineHeight" + lineHeight);
+
 
             // 遍历当前行所有的View
             for (int j = 0; j < lineViews.size(); j++) {
@@ -164,7 +160,7 @@ public class FlowGroupView extends ViewGroup {
             left = 0;
             top += lineHeight;
         }
-        Log.v("onLayout", "onLayout   mAllViews.size() -- > " + mAllViews.size() + "   mLineHeight.size() -- > " + mLineHeight.size());
+
     }
 
 

@@ -14,6 +14,9 @@ import com.iyoyogo.android.bean.login.login.MarketBean;
 import com.iyoyogo.android.bean.mine.GetBindInfoBean;
 import com.iyoyogo.android.bean.mine.GetUserInfoBean;
 import com.iyoyogo.android.bean.mine.MineMessageBean;
+import com.iyoyogo.android.bean.yoji.label.AddLabelBean;
+import com.iyoyogo.android.bean.yoji.label.LabelListBean;
+import com.iyoyogo.android.bean.yoji.publish.MessageBean;
 import com.iyoyogo.android.bean.yoxiu.TypeBean;
 import com.iyoyogo.android.bean.yoxiu.YoXiuDetailBean;
 import com.iyoyogo.android.bean.yoxiu.YouXiuListBean;
@@ -23,6 +26,8 @@ import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
 import com.iyoyogo.android.model.en.SendMessageRequest;
 import com.iyoyogo.android.net.AddInterestRequest;
 import com.iyoyogo.android.net.HttpClient;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
@@ -306,12 +311,33 @@ public class Model {
         return HttpClient.getApiService().deleteCollection(user_id, user_token, id)
                 .compose(this.switchThread());
     }
+
     public Observable<BaseBean> dislike(String user_id, String user_token, int yo_id) {
         return HttpClient.getApiService().dislike(user_id, user_token, yo_id)
                 .compose(this.switchThread());
     }
-    public Observable<BaseBean> report(String user_id, String user_token, int yo_id,int comment_id,String content) {
-        return HttpClient.getApiService().report(user_id, user_token,yo_id, comment_id,content)
+
+    public Observable<BaseBean> report(String user_id, String user_token, int yo_id, int comment_id, String content) {
+        return HttpClient.getApiService().report(user_id, user_token, yo_id, comment_id, content)
+                .compose(this.switchThread());
+    }
+
+    public Observable<LabelListBean> getLabelList(String user_id,String user_token) {
+        return HttpClient.getApiService().getLabelList(user_id, user_token)
+                .compose(this.switchThread());
+    }
+
+    public Observable<AddLabelBean> addLabel(String user_id, String user_token, int label_id, int type, String label) {
+        return HttpClient.getApiService().addLabel(user_id, user_token,label_id,type,label)
+                .compose(this.switchThread());
+    }
+
+    public Observable<BaseBean> deleteLabel(String user_id, String user_token, int label_id) {
+        return HttpClient.getApiService().deleteLabel(user_id, user_token,label_id)
+                .compose(this.switchThread());
+    }
+    public Observable<BaseBean> publishYoJi( String user_id, String user_token, int yo_id, String logo, String title, String desc, int cost, int open, int valid, List<Integer> topic_ids, List<Integer> channel_ids, List<MessageBean> list){
+        return HttpClient.getApiService().publish_yoji(user_id, user_token,yo_id,logo,title,desc,cost,open,valid,topic_ids,channel_ids,list)
                 .compose(this.switchThread());
     }
 }

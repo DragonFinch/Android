@@ -165,12 +165,11 @@
                 android:layout_marginRight="@dimen/dp_10"
                 android:text="添加标签"
                 />
-        <com.iyoyogo.android.widget.FlowGroupView
-                android:id="@+id/tag_flowLayout"
-                android:visibility="visible"
+        <com.iyoyogo.android.widget.flow.TagFlowLayout
+                android:id="@+id/flow_group"
+
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dp_30"
                 android:layout_marginTop="@dimen/dp_0" />
 
         <ImageView

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.bigkoo.pickerview.TimePickerView;
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.bean.yoji.publish.MessageBean;
 import com.iyoyogo.android.view.DrawableTextView;
 
 import java.text.SimpleDateFormat;
@@ -24,10 +25,10 @@ import java.util.List;
 
 public class PublishYoJiAdapter extends RecyclerView.Adapter<PublishYoJiAdapter.ViewHolder> implements View.OnClickListener {
     private Context context;
-    private List<String> mList;
+    private List<MessageBean> mList;
     private ArrayList<String> path_list;
 
-    public PublishYoJiAdapter(Context context, List<String> mList, ArrayList<String> path_list) {
+    public PublishYoJiAdapter(Context context, List<MessageBean> mList, ArrayList<String> path_list) {
         this.context = context;
         this.mList = mList;
         this.path_list=path_list;
@@ -152,14 +153,16 @@ public class PublishYoJiAdapter extends RecyclerView.Adapter<PublishYoJiAdapter.
             @Override
             public void onClick(View v) {
                 if (null!=onLocationClickListener){
-                    onLocationClickListener.onTagClick(position);
+                    onLocationClickListener.onTagClick(position,holder);
                 }
             }
         });
         holder.tv_insert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mList.add("");
+                MessageBean messageBean = new MessageBean();
+                messageBean.setImage_list(null);
+                mList.add(messageBean);
                 notifyDataSetChanged();
             }
         });
@@ -203,7 +206,7 @@ public class PublishYoJiAdapter extends RecyclerView.Adapter<PublishYoJiAdapter.
     }
     public interface OnLocationClickListener {
         public void onAddAddressClick(int position,ViewHolder holder);
-        public void onTagClick(int position);
+        public void onTagClick(int position,ViewHolder holder);
        /* public void onImageAddClick(int position);
         public void onImageReomveClick(int position, int index);
         public void onLocationClick(int position);

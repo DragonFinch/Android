@@ -314,6 +314,7 @@
     <string name="str_seconds">秒</string>
     <string name="str_network_error">您的网络可能断开了</string>
     <string name="str_commit">提交</string>
+    <string name="commit">保存</string>
     <string name="str_input_feedback_content">请输入反馈内容哦</string>
     <string name="str_attention_each_other">互相关注</string>
     <string name="str_like">喜欢</string>
@@ -350,6 +351,7 @@
 
 
     <string name="regiest">注册</string>
+    <string name="add">+</string>
     <string name="choose">请选择你的身份</string>
     <string name="boos">我是老板</string>
     <string name="yuan">我是员工</string>

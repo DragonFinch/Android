@@ -10,8 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:background="@drawable/label_bg_fkzn"
-        android:textColor="@color/blue" />
+        android:background="@drawable/label_bg_exclusive"
+        android:textColor="@color/color_exclusive" />
 
     <ImageView
         android:id="@+id/img_delete"

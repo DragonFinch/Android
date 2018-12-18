@@ -80,6 +80,7 @@ public abstract class BaseActivity<T extends IBasePresenter> extends SwipeBackAc
         setScreenOrientation();
 //        setDefaultDisplayAdaptOrientation();
         setStatusBar();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(getLayoutId());
         App.context = this;
         unbinder = ButterKnife.bind(this);//绑定ButterKnife

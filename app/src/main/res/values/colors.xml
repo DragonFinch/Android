@@ -116,6 +116,7 @@
     <color name="__picker_item_photo_border_n">#33ffffff</color>
 
     <color name="blue_color">#5bcbf5</color>
+    <color name="color_exclusive">#ff8484</color>
     <color name="blue_color_30">#4C5BCBF5</color>
 
     <color name="text_color">#333333</color>
@@ -152,7 +153,7 @@
     <color name="ms_gray">#4D4F51</color>
     <color name="ms_red">#D0021B</color>
     <color name="color_fx_select">#B352D3FF</color>
-    <color name="blue">#CC3DB5FE</color>
+    <color name="blue">#5BCBF5</color>
     <color name="white_half" >#999999</color>
     <color name="colorBFBFBF">#BFBFBF</color>
     <color name="colorF1F1F1">#F1F1F1</color>
