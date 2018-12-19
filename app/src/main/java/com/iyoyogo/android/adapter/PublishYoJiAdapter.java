@@ -28,10 +28,9 @@ public class PublishYoJiAdapter extends RecyclerView.Adapter<PublishYoJiAdapter.
     private List<MessageBean> mList;
     private ArrayList<String> path_list;
 
-    public PublishYoJiAdapter(Context context, List<MessageBean> mList, ArrayList<String> path_list) {
+    public PublishYoJiAdapter(Context context, List<MessageBean> mList) {
         this.context = context;
         this.mList = mList;
-        this.path_list=path_list;
     }
 
     @NonNull
@@ -42,7 +41,8 @@ public class PublishYoJiAdapter extends RecyclerView.Adapter<PublishYoJiAdapter.
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
-    private void startTime( ViewHolder holder) {
+
+    private void startTime(ViewHolder holder) {
         TimePickerView pvTime = new TimePickerView.Builder(context, new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -77,7 +77,8 @@ public class PublishYoJiAdapter extends RecyclerView.Adapter<PublishYoJiAdapter.
         pvTime.show();
 
     }
-    private void endTime( ViewHolder holder) {
+
+    private void endTime(ViewHolder holder) {
         TimePickerView pvTime = new TimePickerView.Builder(context, new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -119,6 +120,7 @@ public class PublishYoJiAdapter extends RecyclerView.Adapter<PublishYoJiAdapter.
         format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(date);
     }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
@@ -144,32 +146,32 @@ public class PublishYoJiAdapter extends RecyclerView.Adapter<PublishYoJiAdapter.
         holder.view_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              if (null!=onLocationClickListener){
-                  onLocationClickListener.onAddAddressClick(position,holder);
-              }
+                if (null != onLocationClickListener) {
+                    onLocationClickListener.onAddAddressClick(position, holder);
+                }
             }
         });
         holder.view_sign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null!=onLocationClickListener){
-                    onLocationClickListener.onTagClick(position,holder);
+                if (null != onLocationClickListener) {
+                    onLocationClickListener.onTagClick(position, holder);
                 }
             }
         });
         holder.tv_insert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MessageBean messageBean = new MessageBean();
-                messageBean.setImage_list(null);
-                mList.add(messageBean);
-                notifyDataSetChanged();
+
+                if (null != onLocationClickListener) {
+                    onLocationClickListener.onImageAddClick(position, holder);
+                }
             }
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         holder.recycler_inner.setLayoutManager(linearLayoutManager);
-        YoJiInnerAdapter yoJiInnerAdapter = new YoJiInnerAdapter(context, path_list);
+        YoJiInnerAdapter yoJiInnerAdapter = new YoJiInnerAdapter(context, mList.get(position).getLogos());
         holder.recycler_inner.setAdapter(yoJiInnerAdapter);
     }
 
@@ -184,7 +186,7 @@ public class PublishYoJiAdapter extends RecyclerView.Adapter<PublishYoJiAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        DrawableTextView tv_time_start, tv_time_end,location_tv;
+        DrawableTextView tv_time_start, tv_time_end, location_tv;
         RelativeLayout view_location;
         LinearLayout view_sign;
         TextView tv_insert, tv_delete;
@@ -204,10 +206,14 @@ public class PublishYoJiAdapter extends RecyclerView.Adapter<PublishYoJiAdapter.
             view_sign = itemView.findViewById(R.id.view_sign);
         }
     }
+
     public interface OnLocationClickListener {
-        public void onAddAddressClick(int position,ViewHolder holder);
-        public void onTagClick(int position,ViewHolder holder);
-       /* public void onImageAddClick(int position);
+        public void onAddAddressClick(int position, ViewHolder holder);
+
+        public void onTagClick(int position, ViewHolder holder);
+
+        public void onImageAddClick(int position, ViewHolder holder);
+       /*
         public void onImageReomveClick(int position, int index);
         public void onLocationClick(int position);
 

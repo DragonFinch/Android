@@ -8,8 +8,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="查看更多"
-        android:layout_marginTop="@dimen/dp_20"
-        android:layout_marginBottom="@dimen/dp_20"
+        
+
         android:drawablePadding="@dimen/dp_6"
         android:drawableRight="@mipmap/chakangengduo"
         android:textColor="#ff888888"

@@ -88,6 +88,18 @@ public class SourceChooseActivity extends AppCompatActivity {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
+
+
+//        getAudio();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        positionName = intent.getStringExtra("positionName");
+        desc = intent.getStringExtra("desc");
+        type = intent.getIntExtra("type", 0);
+        Log.d("SourceChooseActivity", "type:" + type);
         listImage = new ArrayList<HashMap<String, String>>();
         FileSizeUtil fileSizeUtil = new FileSizeUtil();
         new Thread(new Runnable() {
@@ -154,17 +166,6 @@ public class SourceChooseActivity extends AppCompatActivity {
 
             }
         });
-
-//        getAudio();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        positionName = intent.getStringExtra("positionName");
-        desc = intent.getStringExtra("desc");
-        type = intent.getIntExtra("type", 0);
-        Log.d("SourceChooseActivity", "type:" + type);
     }
 
     private void checkAllPermission() {

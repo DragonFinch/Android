@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,6 +15,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,12 +25,19 @@ import com.alibaba.sdk.android.oss.ClientConfiguration;
 import com.alibaba.sdk.android.oss.ClientException;
 import com.alibaba.sdk.android.oss.OSSClient;
 import com.alibaba.sdk.android.oss.ServiceException;
+import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
+import com.alibaba.sdk.android.oss.callback.OSSProgressCallback;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
+import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.ObjectMetadata;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeQuery;
+import com.amap.api.services.geocoder.RegeocodeResult;
 import com.bumptech.glide.Glide;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.Bean;
@@ -41,16 +51,19 @@ import com.iyoyogo.android.presenter.PublishYoJiPresenter;
 import com.iyoyogo.android.ui.common.SearchActivity;
 import com.iyoyogo.android.ui.home.yoxiu.ChannelActivity;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.imagepicker.activities.ImagesPickActivity;
 import com.iyoyogo.android.view.DrawableTextView;
 import com.iyoyogo.android.widget.FlowGroupView;
 import com.iyoyogo.android.widget.flow.FlowLayout;
 import com.iyoyogo.android.widget.flow.TagAdapter;
 import com.iyoyogo.android.widget.flow.TagFlowLayout;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presenter> implements PublishYoJiContract.View {
@@ -70,51 +83,45 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     EditText etTitle;
     @BindView(R.id.text_title_length)
     TextView textTitleLength;
-    @BindView(R.id.title_layout)
-    LinearLayout titleLayout;
     @BindView(R.id.et_content)
     EditText etContent;
     @BindView(R.id.text_content_length)
     TextView textContentLength;
-    @BindView(R.id.layout_describe)
-    LinearLayout layoutDescribe;
+    @BindView(R.id.tv_recommend)
+    TextView tvRecommend;
     @BindView(R.id.more_topic)
     TextView moreTopic;
-    @BindView(R.id.edit_middleToobar_id)
-    LinearLayout editMiddleToobarId;
     @BindView(R.id.edit_flowgroupview_id)
     FlowGroupView editFlowgroupviewId;
-    @BindView(R.id.layout)
-    LinearLayout layout;
+    @BindView(R.id.tv_pay)
+    TextView tvPay;
     @BindView(R.id.et_cost)
     EditText etCost;
-    @BindView(R.id.layout_pay)
-    LinearLayout layoutPay;
-    @BindView(R.id.rb_moment)
-    AppCompatCheckBox rbMoment;
-    @BindView(R.id.rb_wechat)
-    AppCompatCheckBox rbWechat;
-    @BindView(R.id.rb_sina)
-    AppCompatCheckBox rbSina;
-    @BindView(R.id.rb_qq)
-    AppCompatCheckBox rbQq;
-    @BindView(R.id.radioGroup_share)
-    LinearLayout radioGroupShare;
-    @BindView(R.id.dt_privite)
-    DrawableTextView dtPrivite;
-    @BindView(R.id.ll_bottom)
-    LinearLayout llBottom;
+    @BindView(R.id.recycler_publish_yoji)
+    RecyclerView recyclerPublishYoji;
+    @BindView(R.id.img_channel)
+    ImageView imgChannel;
     @BindView(R.id.dt_gochennel)
     DrawableTextView dtGochennel;
     @BindView(R.id.tag_flowLayout)
     FlowGroupView tagFlowLayout;
     @BindView(R.id.next)
     ImageView next;
+    @BindView(R.id.tv_async)
+    TextView tvAsync;
+    @BindView(R.id.rb_moment)
+    RadioButton rbMoment;
+    @BindView(R.id.rb_wechat)
+    RadioButton rbWechat;
+    @BindView(R.id.rb_sina)
+    RadioButton rbSina;
+    @BindView(R.id.rb_qq)
+    RadioButton rbQq;
+    @BindView(R.id.radioGroup_share)
+    RadioGroup radioGroupShare;
+    @BindView(R.id.scroll)
+    ScrollView scroll;
     private List<Integer> type_list = new ArrayList<>();
-    @BindView(R.id.ll_channel)
-    LinearLayout llChannel;
-    @BindView(R.id.recycler_publish_yoji)
-    RecyclerView recyclerPublishYoji;
     private ArrayList<String> path_list;
     private DrawableTextView location_tv;
     private TagFlowLayout flow_group;
@@ -127,6 +134,12 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     String url;
     private ArrayList<String> channel_list;
     private List<Integer> channel_ids;
+    private List<MessageBean> mList;
+    private RecyclerView recycler_inner;
+    private PublishYoJiAdapter publishYoJiAdapter;
+    private int index;
+    ArrayList<String> uris = new ArrayList<>();
+    private List<Integer> label_ids=new ArrayList<>();
 
     @Override
     protected int getLayoutId() {
@@ -145,6 +158,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         path_list = intent.getStringArrayListExtra("path_list");
         path = path_list.get(0);
         Glide.with(this).load(path).into(imgYoji);
+        ossUpload(path_list);
     }
 
     @Override
@@ -153,21 +167,120 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
     }
 
-    @Override
+    private void ossUpload(final ArrayList<String> urls) {
+
+        if (urls.size() <= 0) {
+            // 文件全部上传完毕，这里编写上传结束的逻辑，如果要在主线程操作，最好用Handler或runOnUiThead做对应逻辑
+            return;// 这个return必须有，否则下面报越界异常，原因自己思考下哈
+        }
+        final String url = urls.get(0);
+        if (TextUtils.isEmpty(url)) {
+            urls.remove(0);
+            // url为空就没必要上传了，这里做的是跳过它继续上传的逻辑。
+            ossUpload(urls);
+            return;
+        }
+
+        File file = new File(url);
+        if (null == file || !file.exists()) {
+            urls.remove(0);
+            // 文件为空或不存在就没必要上传了，这里做的是跳过它继续上传的逻辑。
+            ossUpload(urls);
+            return;
+        }
+        // 文件后缀
+        String fileSuffix = "";
+        if (file.isFile()) {
+            // 获取文件后缀名
+            fileSuffix = file.getName().substring(file.getName().lastIndexOf("."));
+            Log.d("PublishYoJiActivity", "fileSuffix" + fileSuffix);
+        }
+        // 文件标识符objectKey
+        /*
+         *
+
+
+         * */
+        String name = "yoyogo/yoji/image" + System.currentTimeMillis() + ".jpg";
+        final String bucketName = "xzdtest";
+        final String accessKeyId = "LTAInRzzjv0TZcA5";
+        final String accessKeySecret = "jQZXJDYzAU7Ki0DfZvfIoU3PxazsLy";
+        final String endpoint = "oss-cn-beijing.aliyuncs.com";
+        final String objectKey = "alioss_" + System.currentTimeMillis() + fileSuffix;
+
+        // 下面3个参数依次为bucket名，ObjectKey名，上传文件路径
+        PutObjectRequest put = new PutObjectRequest("xzdtest", name, url);
+
+        // 设置进度回调
+        put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
+            @Override
+            public void onProgress(PutObjectRequest request, long currentSize, long totalSize) {
+                // 进度逻辑
+            }
+        });
+        OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(accessKeyId, accessKeySecret);
+        // 异步上传
+        ClientConfiguration conf = new ClientConfiguration();
+        conf.setConnectionTimeout(15 * 1000);
+        conf.setSocketTimeout(15 * 1000);
+        conf.setMaxConcurrentRequest(8);
+        conf.setMaxErrorRetry(2);
+        OSSClient ossClient = new OSSClient(PublishYoJiActivity.this, endpoint, credentialProvider, conf);
+        OSSAsyncTask task = ossClient.asyncPutObject(put,
+                new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
+                    @Override
+                    public void onSuccess(PutObjectRequest request, PutObjectResult result) { // 上传成功
+                        urls.remove(0);
+                        ossUpload(urls);// 递归同步效果
+                        String uri = "https://" + bucketName + "." + endpoint + "/" + name;
+
+                        uris.add(uri);
+                        Log.d("PublishYoJiActivity", "urls.size():" + urls.size());
+                        for (int i = 0; i < uris.size(); i++) {
+                            Log.d("PublishYoJiActivity", uris.get(i));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(PutObjectRequest request, ClientException clientExcepion,
+                                          ServiceException serviceException) { // 上传失败
+
+                        // 请求异常
+                        if (clientExcepion != null) {
+                            // 本地异常如网络异常等
+                            clientExcepion.printStackTrace();
+                        }
+                        if (serviceException != null) {
+                            // 服务异常
+                            Log.e("ErrorCode", serviceException.getErrorCode());
+                            Log.e("RequestId", serviceException.getRequestId());
+                            Log.e("HostId", serviceException.getHostId());
+                            Log.e("RawMessage", serviceException.getRawMessage());
+                        }
+                    }
+                });
+        // task.cancel(); // 可以取消任务
+        // task.waitUntilFinished(); // 可以等待直到任务完成
+    }
+
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
         user_id = SpUtils.getString(PublishYoJiActivity.this, "user_id", null);
         user_token = SpUtils.getString(PublishYoJiActivity.this, "user_token", null);
         mPresenter.getRecommendTopic(user_id, user_token);
         MessageBean messageBean = new MessageBean();
-        messageBean.setStart_time("");
-        messageBean.setEnd_time("");
-        messageBean.setPosition_name("");
-        messageBean.setImage_list(path_list);
-        List<MessageBean> mList = new ArrayList<>();
+        messageBean.setStart_date("开始日期");
+        messageBean.setEnd_date("结束日期");
+        messageBean.setPosition_name("添加位置");
+label_ids.add(0);
+        messageBean.setLabel_ids(label_ids);
+        messageBean.setPosition_address("2");
+        messageBean.setPosition_areas("1");
+        mList = new ArrayList<>();
+        messageBean.setLogos(uris);
         mList.add(messageBean);
         recyclerPublishYoji.setLayoutManager(new LinearLayoutManager(PublishYoJiActivity.this));
-        PublishYoJiAdapter publishYoJiAdapter = new PublishYoJiAdapter(PublishYoJiActivity.this, mList, path_list);
+        publishYoJiAdapter = new PublishYoJiAdapter(PublishYoJiActivity.this, mList);
         recyclerPublishYoji.setAdapter(publishYoJiAdapter);
 
         publishYoJiAdapter.setOnPlayClickListener(new PublishYoJiAdapter.OnLocationClickListener() {
@@ -189,7 +302,62 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                 flow_group = holder.itemView.findViewById(R.id.flow_group);
                 label_tv = holder.itemView.findViewById(R.id.label_tv);
             }
+
+            @Override
+            public void onImageAddClick(int position, PublishYoJiAdapter.ViewHolder holder) {
+                Intent intent = new Intent(PublishYoJiActivity.this, ImagesPickActivity.class);
+                intent.putExtra("type", 1);
+                index = position;
+                startActivityForResult(intent, 1);
+                recycler_inner = holder.itemView.findViewById(R.id.recycler_inner);
+
+               /* MessageBean messageBean = new MessageBean();
+                messageBean.setImage_list(null);
+                mList.add(messageBean);
+
+                */
+            }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    private void setCurrentLocationDetails(LatLonPoint latLonPoint) {
+// 地址逆解析
+        GeocodeSearch geocoderSearch = new GeocodeSearch(getApplicationContext());
+        geocoderSearch.setOnGeocodeSearchListener(new GeocodeSearch.OnGeocodeSearchListener() {
+            @Override
+            public void onRegeocodeSearched(RegeocodeResult result, int rCode) {
+                String place = result.getRegeocodeAddress().getFormatAddress();
+                String country = result.getRegeocodeAddress().getCountry();
+                String province = result.getRegeocodeAddress().getProvince();
+                String neighborhood = result.getRegeocodeAddress().getNeighborhood();
+                String district = result.getRegeocodeAddress().getDistrict();
+                String towncode = result.getRegeocodeAddress().getTowncode();
+                String city = result.getRegeocodeAddress().getCity();
+                Log.e("formatAddress", "formatAddress:" + place);
+                Log.e("formatAddress", "rCode:" + rCode);
+
+                for (int i = 0; i < result.getRegeocodeAddress().getAois().size(); i++) {
+                    String aoiName = result.getRegeocodeAddress().getAois().get(i).getAoiName();
+                    Log.e("formatAddress", "aoiName:" + aoiName);
+                }
+                Log.e("formatAddress", "neighborhood:" + neighborhood);
+
+            }
+
+            @Override
+            public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+
+            }
+        });
+        // 第一个参数表示一个Latlng(经纬度)，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
+        RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 25, GeocodeSearch.AMAP);
+        geocoderSearch.getFromLocationAsyn(query);
     }
 
     @Override
@@ -202,6 +370,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
             double latitude = data.getDoubleExtra("latitude", 0.0);
             double longitude = data.getDoubleExtra("longitude", 0.0);
             LatLonPoint latLonPoint = new LatLonPoint(latitude, longitude);
+            setCurrentLocationDetails(latLonPoint);
             location_tv.setText(place);
         }
         if (requestCode == 1 && resultCode == 55) {
@@ -239,6 +408,12 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
             } else {
                 tagAdapter.notifyDataChanged();
             }
+            label_ids = new ArrayList<>();
+            for (int i = 0; i < sign_list.size(); i++) {
+                int label_id = sign_list.get(i).getLabel_id();
+                label_ids.add(label_id);
+            }
+
         }
 
         if (requestCode == 1 && resultCode == 66) {
@@ -253,6 +428,17 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
             for (int i = 0; i < channel_list.size(); i++) {
                 addTextView(channel_list.get(i), tagFlowLayout);
             }
+        }
+        if (requestCode == 1 && resultCode == 4) {
+            index += 1;
+            ArrayList<String> path_list = data.getStringArrayListExtra("path_list");
+            ArrayList<String> strings = uploadAllYoJiImage(path_list);
+            MessageBean messageBean = new MessageBean();
+            messageBean.setLogos(strings);
+            mList.add(messageBean);
+         /*   YoJiInnerAdapter yoJiInnerAdapter = new YoJiInnerAdapter(PublishYoJiActivity.this, path_list);
+            recycler_inner.setAdapter(yoJiInnerAdapter);*/
+            publishYoJiAdapter.notifyItemInserted(index);
         }
     }
 
@@ -308,7 +494,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         return url;
     }
 
-    private List<String> uploadAllYoJiImage(List<String> list) {
+    private ArrayList<String> uploadAllYoJiImage(List<String> list) {
 
         final String endpoint = "oss-cn-beijing.aliyuncs.com";
         final String bucketName = "xzdtest";
@@ -323,7 +509,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         OSSClient ossClient = new OSSClient(PublishYoJiActivity.this, endpoint, credentialProvider, conf);
         ObjectMetadata objectMeta = new ObjectMetadata();
         objectMeta.setContentType("image/jpeg");
-        List<String> urls = new ArrayList<>();
+        ArrayList<String> urls = new ArrayList<>();
         String name = "yoyogo/yoji/image" + System.currentTimeMillis() + ".jpg";
         for (int i = 0; i < list.size(); i++) {
             PutObjectRequest put = new PutObjectRequest(bucketName, name, list.get(i));
@@ -346,7 +532,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         return urls;
     }
 
-    @OnClick({R.id.back_img, R.id.tv_add_cover, R.id.more_topic, R.id.ll_bottom, R.id.ll_channel, R.id.tv_publish})
+    @OnClick({R.id.back_img, R.id.tv_add_cover, R.id.more_topic,  R.id.next, R.id.tv_publish})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_img:
@@ -358,21 +544,18 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
             case R.id.more_topic:
 
                 break;
-            case R.id.ll_bottom:
-
-                break;
-            case R.id.ll_channel:
+            case R.id.next:
                 Intent intent = new Intent(PublishYoJiActivity.this, ChannelActivity.class);
                 startActivityForResult(intent, 1);
                 break;
             case R.id.tv_publish:
                 String url_cover = uploadYoJiImage();
-                List<String> urls = uploadAllYoJiImage(path_list);
-                MessageBean messageBean = new MessageBean();
-                messageBean.setImage_list(urls);
-                List<MessageBean> mList=new ArrayList<>();
-                mList.add(messageBean);
-                mPresenter.publishYoJi(user_id, user_token, 0, url_cover,etTitle.getText().toString().trim(),etContent.getText().toString().trim(),Integer.parseInt(etCost.getText().toString().trim()),1,1,type_list,channel_ids,mList);
+                ArrayList<String> urls = uploadAllYoJiImage(path_list);
+                for (int i = 0; i < urls.size(); i++) {
+                    Log.d("PublishYoJiActivity", urls.get(i));
+                }
+                Log.d("PublishYoJiActivity", mList.toString());
+                mPresenter.publishYoJi(user_id, user_token, 0, url_cover, etTitle.getText().toString().trim(), etContent.getText().toString().trim(), Integer.parseInt(etCost.getText().toString().trim()), 1, 1, type_list, channel_ids, uris,"2018-09-07","2018-09-10","我","中国，北京，北京市","北京市大兴区金星路",label_ids,"0","0");
                 break;
         }
     }
@@ -389,5 +572,12 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
             addTextView(list.get(i).getTopic(), editFlowgroupviewId);
             type_list.add(list.get(i).getId());
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

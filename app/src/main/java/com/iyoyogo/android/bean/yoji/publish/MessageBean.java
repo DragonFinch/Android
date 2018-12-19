@@ -1,36 +1,40 @@
 package com.iyoyogo.android.bean.yoji.publish;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class MessageBean {
-    private String start_time;
-    private String end_time;
-    private List<String> image_list;
+public class MessageBean implements Serializable {
+    private ArrayList<String> logos;
+    private String start_date;
+    private String end_date;
     private String position_name;
-    private List<String> sign_list;
+    private String position_areas;
+    private String position_address;
+    private List<Integer> label_ids;
 
-    public String getStart_time() {
-        return start_time;
+    public ArrayList<String> getLogos() {
+        return logos;
     }
 
-    public void setStart_time(String start_time) {
-        this.start_time = start_time;
+    public void setLogos(ArrayList<String> logos) {
+        this.logos = logos;
     }
 
-    public String getEnd_time() {
-        return end_time;
+    public String getStart_date() {
+        return start_date;
     }
 
-    public void setEnd_time(String end_time) {
-        this.end_time = end_time;
+    public void setStart_date(String start_date) {
+        this.start_date = start_date;
     }
 
-    public List<String> getImage_list() {
-        return image_list;
+    public String getEnd_date() {
+        return end_date;
     }
 
-    public void setImage_list(List<String> image_list) {
-        this.image_list = image_list;
+    public void setEnd_date(String end_date) {
+        this.end_date = end_date;
     }
 
     public String getPosition_name() {
@@ -41,11 +45,40 @@ public class MessageBean {
         this.position_name = position_name;
     }
 
-    public List<String> getSign_list() {
-        return sign_list;
+    public String getPosition_areas() {
+        return position_areas;
     }
 
-    public void setSign_list(List<String> sign_list) {
-        this.sign_list = sign_list;
+    public void setPosition_areas(String position_areas) {
+        this.position_areas = position_areas;
+    }
+
+    public String getPosition_address() {
+        return position_address;
+    }
+
+    public void setPosition_address(String position_address) {
+        this.position_address = position_address;
+    }
+
+    public List<Integer> getLabel_ids() {
+        return label_ids;
+    }
+
+    public void setLabel_ids(List<Integer> label_ids) {
+        this.label_ids = label_ids;
+    }
+
+    @Override
+    public String toString() {
+        return "MessageBean{" +
+                "logos=" + logos +
+                ", start_date='" + start_date + '\'' +
+                ", end_date='" + end_date + '\'' +
+                ", position_name='" + position_name + '\'' +
+                ", position_areas='" + position_areas + '\'' +
+                ", position_address='" + position_address + '\'' +
+                ", label_ids=" + label_ids +
+                '}';
     }
 }

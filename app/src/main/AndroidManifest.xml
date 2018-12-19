@@ -137,8 +137,9 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:name">
         <service android:name="com.amap.api.location.APSService" />
-        <activity android:name=".utils.imagepicker.activities.ImagesPickActivity"/>
-        <activity android:name=".utils.imagepicker.activities.ImagesPreviewActivity"/>
+
+        <activity android:name=".utils.imagepicker.activities.ImagesPickActivity" />
+        <activity android:name=".utils.imagepicker.activities.ImagesPreviewActivity" />
         <!-- 如果您项目中的所有页面都只需要以高或宽中的一个作为基准进行适配的话, 那就只需要填写高或宽中的一个设计图尺寸即可 -->
         <meta-data
             android:name="design_width_in_dp"
@@ -381,8 +382,9 @@
         <activity android:name=".ui.home.yoji.YoJiListActivity" />
         <activity android:name=".utils.select.SelectPhotoActivity" />
         <activity android:name=".ui.common.CropImageActivity" />
-        <activity android:name=".ui.home.yoji.YoJiDetailActivity"></activity>
-        <activity android:name=".ui.home.yoji.ChooseSignActivity"></activity>
+        <activity android:name=".ui.home.yoji.YoJiDetailActivity" />
+        <activity android:name=".ui.home.yoji.ChooseSignActivity" />
+        <activity android:name=".ui.mine.draft.DraftActivity"></activity>
     </application>
 
 </manifest>

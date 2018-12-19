@@ -21,6 +21,7 @@
             android:src="@mipmap/touxiang" />
 
         <ImageView
+            android:visibility="gone"
             android:id="@+id/medal"
             android:layout_width="@dimen/dp_11"
             android:layout_height="@dimen/dp_11"
@@ -234,8 +235,8 @@
 
         <com.iyoyogo.android.widget.PileLayout
             android:id="@+id/pile_layout"
-            android:layout_width="129dp"
-            android:layout_height="25dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_20" />
 
         <TextView
             android:id="@+id/tv_num_like"
@@ -289,10 +290,9 @@
         android:background="#f1f1f1"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_15"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="@dimen/dp_1"
 
         />
 </LinearLayout>

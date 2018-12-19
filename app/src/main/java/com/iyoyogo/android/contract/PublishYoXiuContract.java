@@ -16,9 +16,11 @@ public interface PublishYoXiuContract {
 
     interface Presenter extends IBasePresenter {
 
-        void getRecommendTopic(String user_id,String user_token);
+        void getRecommendTopic(String user_id, String user_token);
+
         void publishYoXiu(String user_id,
                           String user_token,
+                          int yo_id,
                           String file_path,
                           int file_type,
                           String file_desc,

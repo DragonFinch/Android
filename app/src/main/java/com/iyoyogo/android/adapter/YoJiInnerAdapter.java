@@ -12,10 +12,11 @@ import com.bumptech.glide.Glide;
 import com.iyoyogo.android.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class YoJiInnerAdapter extends RecyclerView.Adapter<YoJiInnerAdapter.ViewHolder> {
     Context context;
-    ArrayList<String> path_list;
+   List<String> path_list;
     public YoJiInnerAdapter(Context context, ArrayList<String> path_list) {
         this.context=context;
         this.path_list=path_list;

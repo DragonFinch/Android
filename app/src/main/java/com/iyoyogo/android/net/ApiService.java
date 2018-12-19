@@ -11,12 +11,12 @@ import com.iyoyogo.android.bean.login.SendMessageBean;
 import com.iyoyogo.android.bean.login.interest.InterestBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.bean.login.login.MarketBean;
+import com.iyoyogo.android.bean.mine.DraftBean;
 import com.iyoyogo.android.bean.mine.GetBindInfoBean;
 import com.iyoyogo.android.bean.mine.GetUserInfoBean;
 import com.iyoyogo.android.bean.mine.MineMessageBean;
 import com.iyoyogo.android.bean.yoji.label.AddLabelBean;
 import com.iyoyogo.android.bean.yoji.label.LabelListBean;
-import com.iyoyogo.android.bean.yoji.publish.MessageBean;
 import com.iyoyogo.android.bean.yoxiu.TypeBean;
 import com.iyoyogo.android.bean.yoxiu.YoXiuDetailBean;
 import com.iyoyogo.android.bean.yoxiu.YouXiuListBean;
@@ -197,10 +197,11 @@ public interface ApiService {
                                         */
                                        @Field("user_token") String user_token);
 
-    @POST("index.php/api/yox/add")
+    @POST("index.php/api/yox/save")
     @FormUrlEncoded
     Observable<BaseBean> publish_yoXiu(@Field("user_id") String user_id,
                                        @Field("user_token") String user_token,
+                                       @Field("yo_id")int yo_id,
                                        @Field("file_path") String file_path,
                                        @Field("file_type") int file_type,
                                        @Field("file_desc") String file_desc,
@@ -387,17 +388,9 @@ public interface ApiService {
      */
     @POST("index.php/api/yoj/save")
     @FormUrlEncoded
-    Observable<BaseBean> publish_yoji(@Field("user_id") String user_id, @Field("user_token") String user_token,
-                                      @Field("yo_id") int yo_id,
-                                      @Field("logo") String logo,
-                                      @Field("title") String title,
-                                      @Field("desc") String desc,
-                                      @Field("cost") int cost,
-                                      @Field("open") int open,
-                                      @Field("valid") int valid,
-                                      @Field("topic_ids") List<Integer> topic_ids,
-                                      @Field("channel_ids") List<Integer> channel_ids,
-                                      @Field("list") List<MessageBean> list
-    );
+    Observable<BaseBean> publish_yoji(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id, @Field("logo") String logo, @Field("title") String title, @Field("desc") String desc, @Field("cost") int cost, @Field("open") int open, @Field("valid") int valid, @Field("topic_ids") List<Integer> topic_ids, @Field("channel_ids") List<Integer> channel_ids, @Field("list") String list);
+    @POST("index.php/api/draft/get_list")
+    @FormUrlEncoded
+    Observable<DraftBean> getDraft(@Field("user_id") String user_id, @Field("user_token") String user_token,@Field("page")int page,@Field("page_size")int page_size);
 }
 

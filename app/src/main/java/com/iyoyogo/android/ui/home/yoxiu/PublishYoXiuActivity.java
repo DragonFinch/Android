@@ -365,23 +365,23 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
 
                     if (mimeType != null && mimeType.contains("video")) {
                         String uploadVideo = uploadYoXiuVideo();
-                        mPresenter.publishYoXiu(user_id, user_token, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, topic_arrays, 1, 1, "", country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), "");
+                        mPresenter.publishYoXiu(user_id, user_token,0, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, topic_arrays, 1, 1, "", country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), "");
 
 
                     } else {
                         String uploadImage = uploadYoXiuImage();
-                        mPresenter.publishYoXiu(user_id, user_token, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, topic_arrays, 1, 1, "", country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), "");
+                        mPresenter.publishYoXiu(user_id, user_token,0, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, topic_arrays, 1, 1, "", country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), "");
                     }
                 } else {
 
                     if (mimeType != null && mimeType.contains("video")) {
                         String uploadVideo = uploadYoXiuVideo();
-                        mPresenter.publishYoXiu(user_id, user_token, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, topic_arrays, 1, 1, aoiName, country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), "");
+                        mPresenter.publishYoXiu(user_id, user_token, 0,uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, topic_arrays, 1, 1, aoiName, country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), "");
 
 
                     } else {
                         String uploadImage = uploadYoXiuImage();
-                        mPresenter.publishYoXiu(user_id, user_token, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, topic_arrays, 1, 1, aoiName, country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), "");
+                        mPresenter.publishYoXiu(user_id, user_token,0, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, topic_arrays, 1, 1, aoiName, country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), "");
                     }
                 }
 
@@ -437,7 +437,9 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
 
                 break;
             case R.id.channel_next:
-                startActivityForResult(new Intent(PublishYoXiuActivity.this, ChannelActivity.class), 1);
+                Intent intent2 = new Intent(PublishYoXiuActivity.this, ChannelActivity.class);
+                intent2.putExtra("type",1);
+                startActivityForResult(intent2, 1);
                 break;
         }
     }
@@ -564,6 +566,9 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
             tvChannel.setVisibility(View.GONE);
             channel_arrays = data.getIntArrayExtra("channel_array");
             ArrayList<String> channel_list = data.getStringArrayListExtra("channel_list");
+            for (int i = 0; i < channel_list.size(); i++) {
+                Log.d("PublishYoXiuActivity", channel_list.get(i));
+            }
             ChannelMessageAdapter adapter = new ChannelMessageAdapter(channel_list);
             channelRecycler.setLayoutManager(new GridLayoutManager(PublishYoXiuActivity.this, 3));
             channelRecycler.setAdapter(adapter);

@@ -9,7 +9,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.ChannelAdapter;
@@ -45,11 +44,14 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
     private List<Integer> idList;
     private ArrayList<String> channelList;
     private ChannelAdapter adapter;
+    private int type;
 
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
         idList = new ArrayList<>();
+        Intent intent = getIntent();
+        type = intent.getIntExtra("type", 0);
         channelList = new ArrayList<>();
         createComplete.setText("确定");
         tvTitle.setText("选择频道");
@@ -74,8 +76,6 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
         gv_channel.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
         gv_channel.setAdapter(adapter);
     }
-
-
 
 
     public Integer[] ifRepeat(Integer[] arr) {
@@ -126,25 +126,26 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
                 for (int i = 0; i < integers.length; i++) {
                     channel_array[i] = integers[i];
                 }
-                for (int i = 0; i < channel_array.length; i++) {
-                    Log.d("ChannelActivity", "channel_array[i]:" + channel_array[i]);
+                for (int i = 0; i < strings.size(); i++) {
+                    Log.d("ChannelActivity", "channel_array[i]:" + strings.get(i));
                 }
                 intent.putExtra("channel_array", channel_array);
-                ArrayList list = removeDuplicate(strings);
                 Log.d("ChannelActivity", "list.size():" + strings.size());
                 intent.putStringArrayListExtra("channel_list", strings);
                 Log.d("Test", listToString(strings));
-                if (strings.size() > 0 && strings.size() <= 5) {
+                if (type == 1) {
                     setResult(1, intent);
-                    setResult(66,intent);
-                    finish();
                 } else {
-                    Toast.makeText(this, "请选择1~5个频道", Toast.LENGTH_SHORT).show();
+                    setResult(66, intent);
                 }
+
+
+                finish();
                 break;
         }
     }
-    public  String listToString(ArrayList<String> mList) {
+
+    public String listToString(ArrayList<String> mList) {
         String convertedListStr = "";
         if (null != mList && mList.size() > 0) {
             String[] mListArray = mList.toArray(new String[mList.size()]);
@@ -158,6 +159,7 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
             return convertedListStr;
         } else return "List is null!!!";
     }
+
     public ArrayList removeDuplicate(ArrayList list) {
         for (int i = 0; i < list.size() - 1; i++) {
             for (int j = list.size() - 1; j > i; j--) {
@@ -169,7 +171,7 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
         return list;
     }
 
-    public  <T> List<T> removeNull(List<? extends T> oldList) {
+    public <T> List<T> removeNull(List<? extends T> oldList) {
         // 临时集合
         List<T> listTemp = new ArrayList();
         for (int i = 0; i < oldList.size(); i++) {

@@ -1,6 +1,9 @@
 package com.iyoyogo.android.model;
 
 
+import android.util.Log;
+
+import com.google.gson.Gson;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.collection.AddCollectionBean;
@@ -11,18 +14,19 @@ import com.iyoyogo.android.bean.login.SendMessageBean;
 import com.iyoyogo.android.bean.login.interest.InterestBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.bean.login.login.MarketBean;
+import com.iyoyogo.android.bean.mine.DraftBean;
 import com.iyoyogo.android.bean.mine.GetBindInfoBean;
 import com.iyoyogo.android.bean.mine.GetUserInfoBean;
 import com.iyoyogo.android.bean.mine.MineMessageBean;
 import com.iyoyogo.android.bean.yoji.label.AddLabelBean;
 import com.iyoyogo.android.bean.yoji.label.LabelListBean;
-import com.iyoyogo.android.bean.yoji.publish.MessageBean;
 import com.iyoyogo.android.bean.yoxiu.TypeBean;
 import com.iyoyogo.android.bean.yoxiu.YoXiuDetailBean;
 import com.iyoyogo.android.bean.yoxiu.YouXiuListBean;
 import com.iyoyogo.android.bean.yoxiu.channel.ChannelBean;
 import com.iyoyogo.android.bean.yoxiu.topic.CreateTopicBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
+import com.iyoyogo.android.model.en.PublishYoJiRequest;
 import com.iyoyogo.android.model.en.SendMessageRequest;
 import com.iyoyogo.android.net.AddInterestRequest;
 import com.iyoyogo.android.net.HttpClient;
@@ -203,6 +207,7 @@ public class Model {
 
     public Observable<BaseBean> publish_yoXiu(String user_id,
                                               String user_token,
+                                              int yo_id,
                                               String file_path,
                                               int file_type,
                                               String file_desc,
@@ -214,7 +219,7 @@ public class Model {
                                               String position_areas,
                                               String position_address,
                                               String filter_id) {
-        return HttpClient.getApiService().publish_yoXiu(user_id, user_token, file_path, file_type, file_desc, channel_ids, topic_ids, open, valid, position_name, position_areas, position_address, filter_id)
+        return HttpClient.getApiService().publish_yoXiu(user_id, user_token,yo_id, file_path, file_type, file_desc, channel_ids, topic_ids, open, valid, position_name, position_areas, position_address, filter_id)
                 .compose(this.switchThread());
     }
 
@@ -336,8 +341,34 @@ public class Model {
         return HttpClient.getApiService().deleteLabel(user_id, user_token,label_id)
                 .compose(this.switchThread());
     }
-    public Observable<BaseBean> publishYoJi( String user_id, String user_token, int yo_id, String logo, String title, String desc, int cost, int open, int valid, List<Integer> topic_ids, List<Integer> channel_ids, List<MessageBean> list){
-        return HttpClient.getApiService().publish_yoji(user_id, user_token,yo_id,logo,title,desc,cost,open,valid,topic_ids,channel_ids,list)
+    public Observable<BaseBean> publishYoJi( String user_id, String user_token, int yo_id, String logo, String title, String desc, int cost, int open, int valid, List<Integer> topic_ids, List<Integer> channel_ids,  List<String> logos,
+                                             String start_date,
+                                             String end_date,
+                                             String position_name,
+                                             String position_areas,
+                                             String position_address,
+                                             List<Integer> label_ids,
+                                             String lng,
+                                             String lat){
+        PublishYoJiRequest publishYoJiRequest = new PublishYoJiRequest();
+        PublishYoJiRequest.DataBean data = new PublishYoJiRequest.DataBean();
+        publishYoJiRequest.setData(data);
+        data.setLogos(logos);
+        data.setPosition_address(position_address);
+        data.setStart_date(start_date);
+        data.setEnd_date(end_date);
+        data.setPosition_name(position_name);
+        data.setPosition_areas(position_areas);
+        data.setLabel_ids(label_ids);
+        data.setLat(lat);
+        data.setLng(lng);
+        String json = new Gson().toJson(publishYoJiRequest);
+        Log.e("Gson", json);
+        return HttpClient.getApiService().publish_yoji(user_id, user_token,yo_id,logo,title,desc,cost,open,valid,topic_ids,channel_ids,json)
+                .compose(this.switchThread());
+    }
+    public Observable<DraftBean> getDraft( String user_id, String user_token, int page, int page_size){
+        return HttpClient.getApiService().getDraft(user_id,user_token,page,page_size)
                 .compose(this.switchThread());
     }
 }

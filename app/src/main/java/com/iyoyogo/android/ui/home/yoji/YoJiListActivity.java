@@ -85,13 +85,13 @@ public class YoJiListActivity extends BaseActivity {
         for (int i = 0; i < 20; i++) {
             mList.add("");
         }
-        yoJiAdapter = new YoJiAdapter(YoJiListActivity.this, mList);
+//        yoJiAdapter = new YoJiAdapter(YoJiListActivity.this, mList);
         yoJiListAdapter = new YoJiListAdapter(YoJiListActivity.this, mList);
         //横向
             Log.e("123", "recyclerYojiList"+"isVertical:" + isVertical);
             recyclerYojiList.setVisibility(View.VISIBLE);
             recyclerYojiList.setLayoutManager(new LinearLayoutManager(YoJiListActivity.this));
-            recyclerYojiList.setAdapter(yoJiAdapter);
+//            recyclerYojiList.setAdapter(yoJiAdapter);
             StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             recyclerYojiListTwo.setLayoutManager(staggeredGridLayoutManager);
             recyclerYojiListTwo.setAdapter(yoJiListAdapter);

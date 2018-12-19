@@ -288,6 +288,13 @@ public class ImagesPickActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.btn_continue:
                 ArrayList<String> strings = adapter.selectPhoto();
+                Intent intent1 = getIntent();
+                int type =intent1.getIntExtra("type", 0);
+                if (type==1){
+                    intent1.putStringArrayListExtra("path_list",strings);
+                    setResult(4,intent1);
+                    finish();
+                }
                 Intent intent = new Intent(ImagesPickActivity.this, PublishYoJiActivity.class);
                 intent.putStringArrayListExtra("path_list", strings);
                 startActivity(intent);

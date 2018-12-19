@@ -5,7 +5,6 @@ import android.widget.Toast;
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BasePresenter;
 import com.iyoyogo.android.bean.BaseBean;
-import com.iyoyogo.android.bean.yoji.publish.MessageBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
 import com.iyoyogo.android.contract.PublishYoJiContract;
 import com.iyoyogo.android.model.DataManager;
@@ -40,9 +39,9 @@ public class PublishYoJiPresenter extends BasePresenter<PublishYoJiContract.View
     }
 
     @Override
-    public void publishYoJi(String user_id, String user_token, int yo_id, String logo, String title, String desc, int cost, int open, int valid, List<Integer> topic_ids, List<Integer> channel_ids, List<MessageBean> list) {
+    public void publishYoJi(String user_id, String user_token, int yo_id, String logo, String title, String desc, int cost, int open, int valid, List<Integer> topic_ids, List<Integer> channel_ids, List<String> logos, String start_date, String end_date, String position_name, String position_areas,String position_address, List<Integer> label_ids, String lng, String lat) {
         DataManager.getFromRemote()
-                .publishYoJi(user_id, user_token, yo_id, logo, title, desc, cost, open, valid, topic_ids, channel_ids, list)
+                .publishYoJi(user_id, user_token, yo_id, logo, title, desc, cost, open, valid, topic_ids, channel_ids, logos,start_date,end_date,position_name,position_areas,position_address,label_ids,lng,lat)
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
@@ -56,4 +55,6 @@ public class PublishYoJiPresenter extends BasePresenter<PublishYoJiContract.View
                     }
                 });
     }
+
+
 }
