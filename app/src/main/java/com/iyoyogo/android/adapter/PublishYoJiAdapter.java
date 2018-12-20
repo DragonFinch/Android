@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -42,12 +43,15 @@ public class PublishYoJiAdapter extends RecyclerView.Adapter<PublishYoJiAdapter.
         return viewHolder;
     }
 
-    private void startTime(ViewHolder holder) {
+    private void startTime(ViewHolder holder,int position) {
         TimePickerView pvTime = new TimePickerView.Builder(context, new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
 
                 holder.tv_time_start.setText(getTime(date));
+                if (null != onLocationClickListener) {
+                    onLocationClickListener.onStartTimeClick(position,getTime(date) );
+                }
                 int month = date.getMonth();
                 int day = date.getDay();
 
@@ -78,11 +82,13 @@ public class PublishYoJiAdapter extends RecyclerView.Adapter<PublishYoJiAdapter.
 
     }
 
-    private void endTime(ViewHolder holder) {
+    private void endTime(ViewHolder holder,int position) {
         TimePickerView pvTime = new TimePickerView.Builder(context, new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-
+                if (null != onLocationClickListener) {
+                    onLocationClickListener.onEndTimeClick(position,getTime(date) );
+                }
                 holder.tv_time_end.setText(getTime(date));
                 int month = date.getMonth();
                 int day = date.getDay();
@@ -134,13 +140,15 @@ public class PublishYoJiAdapter extends RecyclerView.Adapter<PublishYoJiAdapter.
         holder.tv_time_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startTime(holder);
+                startTime(holder,position);
             }
         });
         holder.tv_time_end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                endTime(holder);
+                endTime(holder,position);
+
+
             }
         });
         holder.view_location.setOnClickListener(new View.OnClickListener() {
@@ -173,6 +181,20 @@ public class PublishYoJiAdapter extends RecyclerView.Adapter<PublishYoJiAdapter.
         holder.recycler_inner.setLayoutManager(linearLayoutManager);
         YoJiInnerAdapter yoJiInnerAdapter = new YoJiInnerAdapter(context, mList.get(position).getLogos());
         holder.recycler_inner.setAdapter(yoJiInnerAdapter);
+    }
+    public void addData(int position,MessageBean messageBean) {
+//      在list中添加数据，并通知条目加入一条
+
+        mList.add(position, messageBean);
+        //添加动画
+        notifyItemInserted(position);
+    }
+    //  删除数据
+    public void removeData(int position) {
+        mList.remove(position);
+        //删除动画
+        notifyItemRemoved(position);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -208,24 +230,25 @@ public class PublishYoJiAdapter extends RecyclerView.Adapter<PublishYoJiAdapter.
     }
 
     public interface OnLocationClickListener {
-        public void onAddAddressClick(int position, ViewHolder holder);
-
-        public void onTagClick(int position, ViewHolder holder);
-
-        public void onImageAddClick(int position, ViewHolder holder);
-       /*
-        public void onImageReomveClick(int position, int index);
         public void onLocationClick(int position);
 
+        public void onStartTimeClick(int postion, String startTime);
+
+        public void onEndTimeClick(int postion, String endTime);
+
+        public void onTagClick(int position,ViewHolder holder);
 
         public void onTagReomveClick(int position, int index);
 
+        public void onImageReomveClick(int position, int index);
 
+        public void onImageAddClick(int position,ViewHolder holder);
 
+        public void onAddAddressClick(int position,ViewHolder holder);
 
         public void onTitleEdit(EditText title, EditText content, EditText cost);
 
-        public void onCoverClick(int position);*/
+        public void onCoverClick(int position);
 
     }
 

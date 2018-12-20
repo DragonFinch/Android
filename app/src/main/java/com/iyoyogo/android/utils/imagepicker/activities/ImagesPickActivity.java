@@ -87,6 +87,8 @@ public class ImagesPickActivity extends BaseActivity implements View.OnClickList
     private int maxCount = 9;
     private ArrayList<Integer> chosenList = new ArrayList<>();
     private ImagesListAdapter adapter;
+    private MyOnItemClickListener listener;
+    private MyChooseCallback callback;
 
     /**
      * 提供启动活动的方法
@@ -142,8 +144,8 @@ public class ImagesPickActivity extends BaseActivity implements View.OnClickList
      */
     private void initRecyclerView() {
         list = ImageFinder.getImages(this, ImageFinder.TYPE_GIF);
-        MyChooseCallback callback = new MyChooseCallback();
-        MyOnItemClickListener listener = new MyOnItemClickListener();
+        callback = new MyChooseCallback();
+        listener = new MyOnItemClickListener();
         adapter = new ImagesListAdapter(this, list);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 3);
         adapter.setMaxNum(maxCount);
@@ -151,6 +153,13 @@ public class ImagesPickActivity extends BaseActivity implements View.OnClickList
         adapter.setOnRecyclerViewItemClickListener(listener);
         mRecyclerViewPickActivity.setLayoutManager(layoutManager);
         mRecyclerViewPickActivity.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        listener=null;
+        callback=null;
     }
 
     /**

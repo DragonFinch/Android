@@ -12,6 +12,24 @@ public class MessageBean implements Serializable {
     private String position_areas;
     private String position_address;
     private List<Integer> label_ids;
+    private String lat;
+    private String lng;
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
 
     public ArrayList<String> getLogos() {
         return logos;

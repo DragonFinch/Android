@@ -11,23 +11,28 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.YoJiListHorizontalAdapter;
 import com.iyoyogo.android.adapter.YoJiAdapter;
 import com.iyoyogo.android.adapter.YoJiListAdapter;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
+import com.iyoyogo.android.bean.yoji.list.YoJiListBean;
+import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.utils.SpUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 public class YoJiListActivity extends BaseActivity {
 
     @BindView(R.id.recycler_yoji_list_two)
     RecyclerView recyclerYojiListTwo;
-    private int num=1;
+    private int num = 1;
     @BindView(R.id.back)
     ImageView back;
     @BindView(R.id.tv_message)
@@ -40,37 +45,48 @@ public class YoJiListActivity extends BaseActivity {
     RecyclerView recyclerYojiList;
     private YoJiListAdapter yoJiListAdapter;
     private YoJiAdapter yoJiAdapter;
-    boolean isVertical ;
+    boolean isVertical;
+    private YoJiListHorizontalAdapter yoJiListHorizontalAdapter;
+
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
+        String user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
+        String user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
+        DataManager.getFromRemote()
+                .getYoJiList(user_id, user_token, 1, 20)
+                .subscribe(new Observer<YoJiListBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
+                    }
 
-      /*  imageData = new ArrayList<>();
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201702/132/st5.png");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201701/323/st1.png");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201701/91/st3.png");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201612/429/st1.png");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201610/141/st6.jpg");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201708/760/18a21a92591.jpg");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201707/84/c3.jpg");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201707/84/c3.jpg");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201707/84/c3.jpg");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201707/84/c3.jpg");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201707/84/c3.jpg");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201707/84/c3.jpg");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201707/84/c3.jpg");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201707/84/c3.jpg");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201707/84/c3.jpg");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201707/84/c3.jpg");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201707/84/c3.jpg");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201707/84/c3.jpg");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201707/84/c3.jpg");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201707/84/c3.jpg");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201707/84/c3.jpg");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201707/84/c3.jpg");
-        imageData.add("http://t2.hddhhn.com/uploads/tu/201707/84/c3.jpg");
-        initPraises();*/
+                    @Override
+                    public void onNext(YoJiListBean yoJiListBean) {
+                        List<YoJiListBean.DataBean.ListBean> mList = yoJiListBean.getData().getList();
+                        yoJiListHorizontalAdapter = new YoJiListHorizontalAdapter(YoJiListActivity.this, mList);
+                        yoJiListAdapter = new YoJiListAdapter(YoJiListActivity.this, mList);
+                        //横向
+                        Log.e("123", "recyclerYojiList" + "isVertical:" + isVertical);
+                        recyclerYojiList.setVisibility(View.VISIBLE);
+                        recyclerYojiList.setLayoutManager(new LinearLayoutManager(YoJiListActivity.this));
+            recyclerYojiList.setAdapter(yoJiListHorizontalAdapter);
+                        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                        recyclerYojiListTwo.setLayoutManager(staggeredGridLayoutManager);
+                        recyclerYojiListTwo.setAdapter(yoJiListAdapter);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        shortToast(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
     }
 
     @Override
@@ -81,21 +97,6 @@ public class YoJiListActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        List<String> mList = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            mList.add("");
-        }
-//        yoJiAdapter = new YoJiAdapter(YoJiListActivity.this, mList);
-        yoJiListAdapter = new YoJiListAdapter(YoJiListActivity.this, mList);
-        //横向
-            Log.e("123", "recyclerYojiList"+"isVertical:" + isVertical);
-            recyclerYojiList.setVisibility(View.VISIBLE);
-            recyclerYojiList.setLayoutManager(new LinearLayoutManager(YoJiListActivity.this));
-//            recyclerYojiList.setAdapter(yoJiAdapter);
-            StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-            recyclerYojiListTwo.setLayoutManager(staggeredGridLayoutManager);
-            recyclerYojiListTwo.setAdapter(yoJiListAdapter);
-        //瀑布流
 
     }
 
@@ -133,16 +134,16 @@ public class YoJiListActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.img_replace:
-                 num++;
-                 if (num%2==0){
-                     imgReplace.setImageResource(R.mipmap.view2);
-                     recyclerYojiList.setVisibility(View.GONE);
-                     recyclerYojiListTwo.setVisibility(View.VISIBLE);
-                 }else if (num%2==1){
-                     imgReplace.setImageResource(R.mipmap.view1);
-                     recyclerYojiList.setVisibility(View.VISIBLE);
-                     recyclerYojiListTwo.setVisibility(View.GONE);
-                 }
+                num++;
+                if (num % 2 == 0) {
+                    imgReplace.setImageResource(R.mipmap.view2);
+                    recyclerYojiList.setVisibility(View.GONE);
+                    recyclerYojiListTwo.setVisibility(View.VISIBLE);
+                } else if (num % 2 == 1) {
+                    imgReplace.setImageResource(R.mipmap.view1);
+                    recyclerYojiList.setVisibility(View.VISIBLE);
+                    recyclerYojiListTwo.setVisibility(View.GONE);
+                }
 
 
                 break;

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -39,6 +38,7 @@ import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.Bean;
 import com.iyoyogo.android.adapter.PublishYoJiAdapter;
@@ -54,6 +54,7 @@ import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.imagepicker.activities.ImagesPickActivity;
 import com.iyoyogo.android.view.DrawableTextView;
 import com.iyoyogo.android.widget.FlowGroupView;
+import com.iyoyogo.android.widget.ScrollLinearLayoutManager;
 import com.iyoyogo.android.widget.flow.FlowLayout;
 import com.iyoyogo.android.widget.flow.TagAdapter;
 import com.iyoyogo.android.widget.flow.TagFlowLayout;
@@ -63,12 +64,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presenter> implements PublishYoJiContract.View {
 
-
+    List<MessageBean> list = new ArrayList<>();
     @BindView(R.id.back_img)
     ImageView backImg;
     @BindView(R.id.tv_publish)
@@ -139,7 +139,20 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     private PublishYoJiAdapter publishYoJiAdapter;
     private int index;
     ArrayList<String> uris = new ArrayList<>();
-    private List<Integer> label_ids=new ArrayList<>();
+    private List<Integer> label_ids = new ArrayList<>();
+    private String place;
+    private String province;
+    private String neighborhood;
+    private String city;
+    private String end_time;
+    private String start_time;
+    private String place1;
+    private String country;
+    private String district;
+    private double latitude;
+    private double longitude;
+    private MessageBean messageBean1;
+    private MessageBean messageBean11;
 
     @Override
     protected int getLayoutId() {
@@ -272,14 +285,16 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         messageBean.setStart_date("开始日期");
         messageBean.setEnd_date("结束日期");
         messageBean.setPosition_name("添加位置");
-label_ids.add(0);
+        label_ids.add(0);
         messageBean.setLabel_ids(label_ids);
         messageBean.setPosition_address("2");
         messageBean.setPosition_areas("1");
         mList = new ArrayList<>();
         messageBean.setLogos(uris);
         mList.add(messageBean);
-        recyclerPublishYoji.setLayoutManager(new LinearLayoutManager(PublishYoJiActivity.this));
+        ScrollLinearLayoutManager scrollLinearLayoutManager = new ScrollLinearLayoutManager(PublishYoJiActivity.this);
+        scrollLinearLayoutManager.setScrollEnabled(false);
+        recyclerPublishYoji.setLayoutManager(scrollLinearLayoutManager);
         publishYoJiAdapter = new PublishYoJiAdapter(PublishYoJiActivity.this, mList);
         recyclerPublishYoji.setAdapter(publishYoJiAdapter);
 
@@ -294,6 +309,31 @@ label_ids.add(0);
                 location_tv = holder.itemView.findViewById(R.id.location_tv);
             }
 
+            @Override
+            public void onTitleEdit(EditText title, EditText content, EditText cost) {
+
+            }
+
+            @Override
+            public void onCoverClick(int position) {
+
+            }
+
+
+            @Override
+            public void onLocationClick(int position) {
+
+            }
+
+            @Override
+            public void onStartTimeClick(int postion, String startTime) {
+                start_time = startTime.trim();
+            }
+
+            @Override
+            public void onEndTimeClick(int postion, String endTime) {
+                end_time = endTime.trim();
+            }
 
             @Override
             public void onTagClick(int position, PublishYoJiAdapter.ViewHolder holder) {
@@ -304,18 +344,22 @@ label_ids.add(0);
             }
 
             @Override
+            public void onTagReomveClick(int position, int index) {
+
+            }
+
+            @Override
+            public void onImageReomveClick(int position, int index) {
+
+            }
+
+            @Override
             public void onImageAddClick(int position, PublishYoJiAdapter.ViewHolder holder) {
                 Intent intent = new Intent(PublishYoJiActivity.this, ImagesPickActivity.class);
                 intent.putExtra("type", 1);
                 index = position;
                 startActivityForResult(intent, 1);
-                recycler_inner = holder.itemView.findViewById(R.id.recycler_inner);
-
-               /* MessageBean messageBean = new MessageBean();
-                messageBean.setImage_list(null);
-                mList.add(messageBean);
-
-                */
+                index += 1;
             }
         });
     }
@@ -330,15 +374,18 @@ label_ids.add(0);
 // 地址逆解析
         GeocodeSearch geocoderSearch = new GeocodeSearch(getApplicationContext());
         geocoderSearch.setOnGeocodeSearchListener(new GeocodeSearch.OnGeocodeSearchListener() {
+
+
             @Override
             public void onRegeocodeSearched(RegeocodeResult result, int rCode) {
-                String place = result.getRegeocodeAddress().getFormatAddress();
-                String country = result.getRegeocodeAddress().getCountry();
-                String province = result.getRegeocodeAddress().getProvince();
-                String neighborhood = result.getRegeocodeAddress().getNeighborhood();
-                String district = result.getRegeocodeAddress().getDistrict();
+                place = result.getRegeocodeAddress().getFormatAddress();
+                country = result.getRegeocodeAddress().getCountry();
+                province = result.getRegeocodeAddress().getProvince();
+                neighborhood = result.getRegeocodeAddress().getNeighborhood();
+                district = result.getRegeocodeAddress().getDistrict();
                 String towncode = result.getRegeocodeAddress().getTowncode();
-                String city = result.getRegeocodeAddress().getCity();
+
+                city = result.getRegeocodeAddress().getCity();
                 Log.e("formatAddress", "formatAddress:" + place);
                 Log.e("formatAddress", "rCode:" + rCode);
 
@@ -364,14 +411,14 @@ label_ids.add(0);
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 3) {
-            String place = data.getStringExtra("place");
-            Log.d("PublishYoJiActivity", place);
+            place1 = data.getStringExtra("place");
+            Log.d("PublishYoJiActivity", place1);
             String type = data.getStringExtra("type");
-            double latitude = data.getDoubleExtra("latitude", 0.0);
-            double longitude = data.getDoubleExtra("longitude", 0.0);
+            latitude = data.getDoubleExtra("latitude", 0.0);
+            longitude = data.getDoubleExtra("longitude", 0.0);
             LatLonPoint latLonPoint = new LatLonPoint(latitude, longitude);
             setCurrentLocationDetails(latLonPoint);
-            location_tv.setText(place);
+            location_tv.setText(place1);
         }
         if (requestCode == 1 && resultCode == 55) {
             label_tv.setVisibility(View.GONE);
@@ -430,15 +477,14 @@ label_ids.add(0);
             }
         }
         if (requestCode == 1 && resultCode == 4) {
-            index += 1;
             ArrayList<String> path_list = data.getStringArrayListExtra("path_list");
-            ArrayList<String> strings = uploadAllYoJiImage(path_list);
-            MessageBean messageBean = new MessageBean();
-            messageBean.setLogos(strings);
-            mList.add(messageBean);
-         /*   YoJiInnerAdapter yoJiInnerAdapter = new YoJiInnerAdapter(PublishYoJiActivity.this, path_list);
-            recycler_inner.setAdapter(yoJiInnerAdapter);*/
-            publishYoJiAdapter.notifyItemInserted(index);
+            for (int i = 0; i < path_list.size(); i++) {
+                Log.d("PublishYoJiActivity", path_list.get(i));
+            }
+            messageBean1 = new MessageBean();
+            messageBean1.setLogos(path_list);
+            list.add(messageBean1);
+            publishYoJiAdapter.addData(index, messageBean1);
         }
     }
 
@@ -532,7 +578,7 @@ label_ids.add(0);
         return urls;
     }
 
-    @OnClick({R.id.back_img, R.id.tv_add_cover, R.id.more_topic,  R.id.next, R.id.tv_publish})
+    @OnClick({R.id.back_img, R.id.tv_add_cover, R.id.more_topic, R.id.next, R.id.tv_publish})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_img:
@@ -555,7 +601,27 @@ label_ids.add(0);
                     Log.d("PublishYoJiActivity", urls.get(i));
                 }
                 Log.d("PublishYoJiActivity", mList.toString());
-                mPresenter.publishYoJi(user_id, user_token, 0, url_cover, etTitle.getText().toString().trim(), etContent.getText().toString().trim(), Integer.parseInt(etCost.getText().toString().trim()), 1, 1, type_list, channel_ids, uris,"2018-09-07","2018-09-10","我","中国，北京，北京市","北京市大兴区金星路",label_ids,"0","0");
+
+                MessageBean publishYoJiRequest = new MessageBean();
+
+
+                publishYoJiRequest.setLogos(uris);
+                publishYoJiRequest.setPosition_address("aaa");
+                publishYoJiRequest.setStart_date(start_time);
+                publishYoJiRequest.setEnd_date(end_time);
+                publishYoJiRequest.setPosition_name(place1);
+                publishYoJiRequest.setPosition_areas(country + "," + province + "," + city + "," + district);
+                publishYoJiRequest.setLabel_ids(label_ids);
+                publishYoJiRequest.setLat(String.valueOf(latitude));
+                publishYoJiRequest.setLng(String.valueOf(longitude));
+                list.add(publishYoJiRequest);
+                String json = new Gson().toJson(list);
+                Log.i("数据", "----->  " + json);
+
+
+//                String json = new Gson().toJson(mList);
+
+                mPresenter.publishYoJi(user_id, user_token, 0, url_cover, etTitle.getText().toString().trim(), etContent.getText().toString().trim(), Integer.parseInt(etCost.getText().toString().trim()), 1, 1, type_list, channel_ids, json);
                 break;
         }
     }
@@ -574,10 +640,5 @@ label_ids.add(0);
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 }

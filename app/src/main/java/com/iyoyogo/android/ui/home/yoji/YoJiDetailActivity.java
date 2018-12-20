@@ -1,5 +1,6 @@
 package com.iyoyogo.android.ui.home.yoji;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -17,11 +18,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.YoJiDetailCommentAdapter;
 import com.iyoyogo.android.adapter.YoJiDetailAdapter;
 import com.iyoyogo.android.base.BaseActivity;
-import com.iyoyogo.android.base.IBasePresenter;
+import com.iyoyogo.android.bean.yoji.detail.YoJiDetailBean;
+import com.iyoyogo.android.contract.YoJiDetailContract;
+import com.iyoyogo.android.presenter.YoJiDetailPresenter;
+import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 
 import java.lang.reflect.Field;
@@ -33,9 +38,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class YoJiDetailActivity extends BaseActivity {
+public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presenter> implements YoJiDetailContract.View {
 
 
+    public static int expendedtag = 2;
+    List<String> mList = new ArrayList<>();
     @BindView(R.id.bg)
     ImageView bg;
     @BindView(R.id.img_back)
@@ -54,8 +61,6 @@ public class YoJiDetailActivity extends BaseActivity {
     CollapsingToolbarLayout coll;
     @BindView(R.id.appbar)
     AppBarLayout appbar;
-    public static int expendedtag = 2;
-    List<String> mList = new ArrayList<>();
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.tv_time_create)
@@ -98,7 +103,8 @@ public class YoJiDetailActivity extends BaseActivity {
     TextView tvMoneyPayFold;
     @BindView(R.id.message_trip)
     RelativeLayout messageTrip;
-
+    @BindView(R.id.user_layouts)
+    RelativeLayout userLayouts;
     @BindView(R.id.line)
     View line;
     @BindView(R.id.describe_relative)
@@ -129,6 +135,12 @@ public class YoJiDetailActivity extends BaseActivity {
     ImageView sendEmoji;
     @BindView(R.id.comment_layout)
     RelativeLayout commentLayout;
+    @BindView(R.id.tv_user_nickname)
+    TextView tvUserNickname;
+
+
+    private String user_token;
+    private String user_id;
 
     @Override
     protected int getLayoutId() {
@@ -189,8 +201,8 @@ public class YoJiDetailActivity extends BaseActivity {
     }
 
     @Override
-    protected IBasePresenter createPresenter() {
-        return null;
+    protected YoJiDetailContract.Presenter createPresenter() {
+        return new YoJiDetailPresenter(this);
     }
 
     public static boolean MIUISetStatusBarLightMode(Window window, boolean dark) {
@@ -219,12 +231,13 @@ public class YoJiDetailActivity extends BaseActivity {
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        YoJiDetailAdapter yoJiDetailAdapter = new YoJiDetailAdapter(YoJiDetailActivity.this, mList);
-        YoJiDetailCommentAdapter yoJiDetailCommentAdapter = new YoJiDetailCommentAdapter(YoJiDetailActivity.this, mList);
-        recyclerYoji.setAdapter(yoJiDetailAdapter);
-        recyclerYoji.setLayoutManager(new LinearLayoutManager(YoJiDetailActivity.this));
-        recyclerComment.setLayoutManager(new LinearLayoutManager(YoJiDetailActivity.this));
-        recyclerComment.setAdapter(yoJiDetailCommentAdapter);
+        Intent intent = getIntent();
+        int yo_id = intent.getIntExtra("yo_id", 0);
+        user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
+        user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
+        mPresenter.getYoJiDetail(user_id, user_token, yo_id);
+
+
     }
 
     @OnClick({R.id.img_back, R.id.img_share, R.id.tv_attention, R.id.tv_load_more, R.id.tv_comment, R.id.tv_like, R.id.tv_collection})
@@ -252,5 +265,48 @@ public class YoJiDetailActivity extends BaseActivity {
 
                 break;
         }
+    }
+
+    @Override
+    public void getYoJiDetailSuccess(YoJiDetailBean.DataBean data) {
+        String logo = data.getLogo();
+        Glide.with(this).load(data.getUser_logo()).into(userIcon);
+        Glide.with(this).load(data.getUser_logo()).into(imgHead);
+        Glide.with(this).load(logo).into(bg);
+        tvUserName.setText(data.getUser_nickname());
+        tvUserNickname.setText(data.getUser_nickname());
+        tvTitle.setText(data.getTitle());
+        tvYojiCount.setText(data.getCount_yoj() + "");
+        tvYoxiuCount.setText(data.getCount_yox() + "");
+        tvTimeCreate.setText(data.getCreate_time());
+        tvCountSee.setText(data.getCount_view() + "人");
+
+//        Glide.with(this).load(data.get)
+
+        List<YoJiDetailBean.DataBean.ListBean> list = data.getList();
+        YoJiDetailAdapter yoJiDetailAdapter = new YoJiDetailAdapter(YoJiDetailActivity.this, list);
+        YoJiDetailCommentAdapter yoJiDetailCommentAdapter = new YoJiDetailCommentAdapter(YoJiDetailActivity.this, mList);
+        recyclerYoji.setAdapter(yoJiDetailAdapter);
+        recyclerYoji.setLayoutManager(new LinearLayoutManager(YoJiDetailActivity.this));
+        recyclerComment.setLayoutManager(new LinearLayoutManager(YoJiDetailActivity.this));
+        recyclerComment.setAdapter(yoJiDetailCommentAdapter);
+        yoJiDetailAdapter.setOnItemClickListener(new YoJiDetailAdapter.OnClickListener() {
+            @Override
+            public void onClick(View v, int position) {
+
+            }
+        });
+        yoJiDetailAdapter.setOnItemDataListener(new YoJiDetailAdapter.OnPlayListener() {
+            @Override
+            public void getData(YoJiDetailAdapter.Holder holder, int position) {
+            }
+        });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

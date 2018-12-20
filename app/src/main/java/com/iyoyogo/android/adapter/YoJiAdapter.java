@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -33,8 +32,8 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
     private List<HomeViewPagerBean.DataBean.YojListBean> mList;
     private Context context;
 
-    public YoJiAdapter(Context context, List<HomeViewPagerBean.DataBean.YojListBean> data) {
-        this.mList = data;
+    public YoJiAdapter(Context context, List<HomeViewPagerBean.DataBean.YojListBean> mList) {
+        this.mList = mList;
         this.context = context;
     }
 
@@ -65,23 +64,35 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
                 .error(R.mipmap.default_ic)
                 .override(DensityUtil.dp2px(context, ViewGroup.LayoutParams.MATCH_PARENT), DensityUtil.dp2px(context, 200))
                 .transform(new GlideRoundTransform(context, 8));
-        Glide.with(context).load(mList.get(position).getUser_info().getUser_logo()).apply(myOptions).into(holder.zuji_image);
+        Glide.with(context).load(mList.get(position).getFile_path()).apply(myOptions).into(holder.zuji_image);
         holder.location.setText(mList.get(position).getP_start());
         holder.num_look.setText(mList.get(position).getCount_view() + "");
+        Log.d("YoJiAdapter", "mList.get(position).getUsers_praise():" + mList.get(position).getUsers_praise());
         LayoutInflater inflater = LayoutInflater.from(context);
-        for (int i = 0; i < mList.get(position).getUsers_praise().size(); i++) {
-            com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
-            Glide.with(context).load(mList.get(position).getUsers_praise().get(i).getUser_logo()).into(imageView);
-            holder.pile_layout.addView(imageView);
-            int finalI = i;
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, "mList.get(position).getUsers_praise().get(i).getUser_id():" + mList.get(position).getUsers_praise().get(finalI).getUser_id(), Toast.LENGTH_SHORT).show();
-                }
-            });
+       /* if (mList.get(position).getUsers_praise().size()==0){
+            holder.pile_layout.setVisibility(View.GONE);
+        }else {
+            for (int i = 0; i < mList.get(position).getUsers_praise().size(); i++) {
+                com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
+                Glide.with(context).load(mList.get(position).getUsers_praise().get(i).getUser_logo()).into(imageView);
+                holder.pile_layout.addView(imageView);
+                int finalI = i;
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(context, "mList.get(position).getUsers_praise().get(i).getUser_id():" + mList.get(position).getUsers_praise().get(finalI).getUser_id(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }*/
+        String user_logo = mList.get(position).getUser_info().getUser_logo();
+        if (user_logo.isEmpty()) {
+            Glide.with(context).load(R.mipmap.default_ic).into(holder.user_icon);
+        } else {
+            Log.d("YoJiAdapter", user_logo);
+            Glide.with(context).load(mList.get(position).getUser_info().getUser_logo()).into(holder.user_icon);
+
         }
-        Glide.with(context).load(mList.get(position).getUser_info().getUser_logo()).into(holder.user_icon);
         holder.user_name.setText(mList.get(position).getUser_info().getUser_nickname());
         holder.title.setText(mList.get(position).getTitle());
         holder.tv_cost.setText(" ￥" + mList.get(position).getCost() + "/人");

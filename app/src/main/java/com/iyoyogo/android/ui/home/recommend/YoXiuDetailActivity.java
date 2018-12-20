@@ -365,6 +365,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                     tvLike.setText(count_praise + "");
                     dataBeans.get(0).setIs_my_like(0);
                     dataBeans.get(0).setCount_praise(count_praise);
+                    like();
                 } else {
                     //由不喜欢变为喜欢，暗变亮
                     tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
@@ -419,17 +420,17 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                         is_my_attention=0;
                     }
                 }*/
-                mPresenter.getDetail(user_id,user_token,id);
-                if (is_my_attention==0){
+                mPresenter.getDetail(user_id, user_token, id);
+                if (is_my_attention == 0) {
                     mPresenter.addAttention(user_id, user_token, yo_user_id);
 //                    Log.d("YoXiuDetailActivity", target_id);
 
-                }else {
+                } else {
 
-                    if (add_attention_id==0){
-                        mPresenter.deleteAttention(user_id,user_token,is_my_attention);
-                    }else{
-                        mPresenter.deleteAttention(user_id,user_token,add_attention_id);
+                    if (add_attention_id == 0) {
+                        mPresenter.deleteAttention(user_id, user_token, is_my_attention);
+                    } else {
+                        mPresenter.deleteAttention(user_id, user_token, add_attention_id);
                     }
                 }
 
@@ -779,17 +780,17 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                     }
                 }*/
                 int folder_id = mList.get(position).getId();
-                mPresenter.getDetail(user_id,user_token,id);
-                if (is_my_collect==0){
-                    mPresenter.addCollection(user_id, user_token, folder_id,yo_user_id);
+                mPresenter.getDetail(user_id, user_token, id);
+                if (is_my_collect == 0) {
+                    mPresenter.addCollection(user_id, user_token, folder_id, yo_user_id);
 //                    Log.d("YoXiuDetailActivity", target_id);
 
-                }else {
+                } else {
 
-                    if (add_collection_id==0){
-                        mPresenter.deleteCollection(user_id,user_token,is_my_collect);
-                    }else{
-                        mPresenter.deleteCollection(user_id,user_token,add_collection_id);
+                    if (add_collection_id == 0) {
+                        mPresenter.deleteCollection(user_id, user_token, is_my_collect);
+                    } else {
+                        mPresenter.deleteCollection(user_id, user_token, add_collection_id);
                     }
                 }
                 popup.dismiss();
@@ -805,7 +806,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
     @Override
     public void addCollectionSuccess(AddCollectionBean.DataBean data) {
-       String collection_id = data.getId();
+        String collection_id = data.getId();
         add_collection_id = Integer.parseInt(collection_id);
         count_collect += 1;
         Drawable collection = getResources().getDrawable(

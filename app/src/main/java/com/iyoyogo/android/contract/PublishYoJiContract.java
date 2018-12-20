@@ -29,14 +29,6 @@ public interface PublishYoJiContract {
                          int valid,
                          List<Integer> topic_ids,
                          List<Integer> channel_ids,
-                         List<String> logos,
-                         String start_date,
-                         String end_date,
-                         String position_name,
-                         String position_areas,
-                         String position_address,
-                         List<Integer> label_ids,
-                         String lng,
-                         String lat);
+                       String json);
     }
 }

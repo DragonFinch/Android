@@ -128,6 +128,8 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         } else if (viewHolder instanceof Holder_YouJi) {
             List<HomeViewPagerBean.DataBean.YojListBean> yoj_list = mList.get(0).getYoj_list();
             setYouJiHolder((Holder_YouJi) viewHolder, yoj_list);
+
+
         }else if (viewHolder instanceof Holder_Footer){
             setFootHolder((Holder_Footer) viewHolder);
         }
@@ -253,6 +255,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         youJiHolder.youji_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(context, YoJiListActivity.class);
                 context.startActivity(intent);
             }
@@ -260,12 +263,17 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
 
        youJiHolder.recycler_youji.setLayoutManager(new LinearLayoutManager(context));
+       Log.d("Size", "yoj_list.size():" + yoj_list.size());
         YoJiAdapter yoJiAdapter = new YoJiAdapter(context, yoj_list);
+        Log.d("Size", "yoj_list.size():" + yoj_list.size());
         youJiHolder.recycler_youji.setAdapter(yoJiAdapter);
         yoJiAdapter.setOnItemClickListener(new YoJiAdapter.OnClickListener() {
             @Override
             public void onClick(View v, int position) {
-                context.startActivity(new Intent(context,YoJiDetailActivity.class));
+                int yo_id = yoj_list.get(position).getYo_id();
+                Intent intent = new Intent(context, YoJiDetailActivity.class);
+                intent.putExtra("yo_id",yo_id);
+                context.startActivity(intent);
             }
         });
     }

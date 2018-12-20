@@ -39,9 +39,9 @@ public class PublishYoJiPresenter extends BasePresenter<PublishYoJiContract.View
     }
 
     @Override
-    public void publishYoJi(String user_id, String user_token, int yo_id, String logo, String title, String desc, int cost, int open, int valid, List<Integer> topic_ids, List<Integer> channel_ids, List<String> logos, String start_date, String end_date, String position_name, String position_areas,String position_address, List<Integer> label_ids, String lng, String lat) {
+    public void publishYoJi(String user_id, String user_token, int yo_id, String logo, String title, String desc, int cost, int open, int valid, List<Integer> topic_ids, List<Integer> channel_ids, String json) {
         DataManager.getFromRemote()
-                .publishYoJi(user_id, user_token, yo_id, logo, title, desc, cost, open, valid, topic_ids, channel_ids, logos,start_date,end_date,position_name,position_areas,position_address,label_ids,lng,lat)
+                .publishYoJi(user_id, user_token, yo_id, logo, title, desc, cost, open, valid, topic_ids, channel_ids, json)
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
