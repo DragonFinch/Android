@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.home.HomeBean;
-import com.iyoyogo.android.ui.home.recommend.YoXiuDetailActivity;
+import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiListActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuListActivity;
@@ -279,6 +279,15 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                    context.startActivity(intent);
                }
            });
+           yoJiAttentionAdapter.onItemRetryOnClickListener(new YoJiAttentionAdapter.OnRetryConnection() {
+               @Override
+               public void on_retry() {
+                    if (retryConnection!=null){
+                        retryConnection.on_retry();
+                        notifyDataSetChanged();
+                    }
+               }
+           });
        }else {
            Log.d("Size", "yoj_list.size():" + yoj_list.size());
            YoJiAdapter yoJiAdapter = new YoJiAdapter(context, yoj_list);
@@ -373,5 +382,12 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             super(itemView);
             look_more=itemView.findViewById(R.id.look_more);
         }
+    }
+   public interface OnRetryConnection {
+        void on_retry();
+    }
+    OnRetryConnection retryConnection;
+    public  void onItemRetryOnClickListener(OnRetryConnection retryConnection){
+        this.retryConnection=retryConnection;
     }
 }

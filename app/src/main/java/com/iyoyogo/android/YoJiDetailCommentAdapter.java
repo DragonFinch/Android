@@ -15,10 +15,19 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
+import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.comment.CommentBean;
+import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.utils.DensityUtil;
+import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 
 import java.util.List;
+
+import io.reactivex.functions.Consumer;
 
 public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCommentAdapter.Holder> {
     private Context context;
@@ -28,9 +37,9 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
     private ImageView img_tip;
     private PopupWindow popup;
     private final Activity activity;
-    private List<String> mList;
+    private List<CommentBean.DataBean.ListBean> mList;
 
-    public YoJiDetailCommentAdapter(Context context, List<String> mList) {
+    public YoJiDetailCommentAdapter(Context context, List<CommentBean.DataBean.ListBean> mList) {
         this.context = context;
         this.mList = mList;
         activity = (Activity) context;
@@ -172,7 +181,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
     }
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-       /* CommentBean.DataBean.ListBean listBean = mList.get(position);
+        CommentBean.DataBean.ListBean listBean = mList.get(position);
         holder.tv_content.setText(listBean.getContent());
         holder.tv_comment_like_num.setText(listBean.getCount_praise() + "");
         holder.tv_huifu_num.setText(listBean.getCount_comment() + "");
@@ -184,7 +193,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
             Glide.with(context).load(listBean.getUser_logo()).into(holder.img_user_icon);
 
         }
-       *//* if (mList.get(position).getIs_my_like()==0){
+       /* if (mList.get(position).getIs_my_like()==0){
             holder.img_comment_like.setImageResource(R.mipmap.ic_like);
         }else {
             holder.img_comment_like.setImageResource(R.mipmap.ic_liked);
@@ -213,7 +222,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
                             }
                         });
             }
-        });*//*
+        });*/
         RoundedCorners roundedCorners = new RoundedCorners(6);
 //通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
         RequestOptions options = RequestOptions.bitmapTransform(roundedCorners).override(300, 300);
@@ -221,7 +230,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
             @Override
             public void onClick(View v) {
                 comment();
-           *//*     String user_id = SpUtils.getString(context, "user_id", null);
+           /*     String user_id = SpUtils.getString(context, "user_id", null);
                 String user_token = SpUtils.getString(context, "user_token", null);
                 DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getId(), 0)
                         .subscribe(new Consumer<BaseBean>() {
@@ -238,7 +247,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
                                 mList.get(position).setCount_praise(count_praise);
                                 notifyDataSetChanged();
                             }
-                        });*//*
+                        });*/
             }
         });
         if (mList.get(position).getIs_my_praise()==0){
@@ -292,7 +301,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
             public void onClick(View v) {
                 loadMore();
             }
-        });*/
+        });
     }
 
     @Override

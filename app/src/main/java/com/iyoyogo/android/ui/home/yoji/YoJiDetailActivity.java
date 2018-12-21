@@ -1,6 +1,7 @@
 package com.iyoyogo.android.ui.home.yoji;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -23,9 +25,12 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.YoJiDetailCommentAdapter;
 import com.iyoyogo.android.adapter.YoJiDetailAdapter;
 import com.iyoyogo.android.base.BaseActivity;
+import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.bean.yoji.detail.YoJiDetailBean;
 import com.iyoyogo.android.contract.YoJiDetailContract;
 import com.iyoyogo.android.presenter.YoJiDetailPresenter;
+import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 import com.iyoyogo.android.widget.MyNestedScrollView;
@@ -144,6 +149,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     private String user_token;
     private String user_id;
+    private int is_my_attention;
+    private int is_my_praise;
 
     @Override
     protected int getLayoutId() {
@@ -153,9 +160,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     protected void initView() {
         super.initView();
-        for (int i = 0; i < 10; i++) {
-            mList.add("aaa");
-        }
+
         setSupportActionBar(toolbar);
         appbar.setExpanded(true);
         appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -198,7 +203,40 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 }
             }
         });
+        editComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    //获得焦点
+                    tvCollection.setVisibility(View.GONE);
+                    tvLike.setVisibility(View.GONE);
+                    editComment.setHint("码字不容易，留个评论鼓励下嘛~");
+                    editComment.setHintTextColor(Color.parseColor("#888888"));
+                    sendEmoji.setVisibility(View.VISIBLE);
+//                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+////                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//
+//                    layoutParams.alignWithParent=true;
+
+                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    layoutParams.setMargins(0, 0, DensityUtil.dp2px(YoJiDetailActivity.this, 40), 0);
+                    editComment.setLayoutParams(layoutParams);
+
+                } else {
+                    //失去焦点
+                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(DensityUtil.dp2px(YoJiDetailActivity.this, 230), ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParams.setMargins(0, DensityUtil.dp2px(YoJiDetailActivity.this, 20), 0, 0);
+                    editComment.setLayoutParams(layoutParams);
+                    tvCollection.setVisibility(View.VISIBLE);
+                    tvLike.setVisibility(View.VISIBLE);
+                    editComment.setHint("再不评论 , 你会被抓去写作业的~");
+                    editComment.setHintTextColor(Color.parseColor("#888888"));
+                    sendEmoji.setVisibility(View.GONE);
+
+                }
+            }
+        });
 
     }
 
@@ -238,8 +276,13 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
         user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
         mPresenter.getYoJiDetail(user_id, user_token, yo_id);
-
-
+        mPresenter.getCommentList(user_id,user_token,1,yo_id,0);
+        tvCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                collection();
+            }
+        });
     }
 
     @OnClick({R.id.img_back, R.id.img_share, R.id.tv_attention, R.id.tv_load_more, R.id.tv_comment, R.id.tv_like, R.id.tv_collection})
@@ -271,6 +314,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     @Override
     public void getYoJiDetailSuccess(YoJiDetailBean.DataBean data) {
+        is_my_attention = data.getIs_my_attention();
+        is_my_praise = data.getIs_my_praise();
         String logo = data.getLogo();
         Glide.with(this).load(data.getUser_logo()).into(userIcon);
         Glide.with(this).load(data.getUser_logo()).into(imgHead);
@@ -293,16 +338,12 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         tvAddressEnd.setText(data.getP_end());
         tvAddressEndFold.setText(data.getP_end());
 
-
-//        Glide.with(this).load(data.get)
-
         List<YoJiDetailBean.DataBean.ListBean> list = data.getList();
         YoJiDetailAdapter yoJiDetailAdapter = new YoJiDetailAdapter(YoJiDetailActivity.this, list);
-        YoJiDetailCommentAdapter yoJiDetailCommentAdapter = new YoJiDetailCommentAdapter(YoJiDetailActivity.this, mList);
+
         recyclerYoji.setAdapter(yoJiDetailAdapter);
         recyclerYoji.setLayoutManager(new LinearLayoutManager(YoJiDetailActivity.this));
-        recyclerComment.setLayoutManager(new LinearLayoutManager(YoJiDetailActivity.this));
-        recyclerComment.setAdapter(yoJiDetailCommentAdapter);
+
         yoJiDetailAdapter.setOnItemClickListener(new YoJiDetailAdapter.OnClickListener() {
             @Override
             public void onClick(View v, int position) {
@@ -314,6 +355,18 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
             public void getData(YoJiDetailAdapter.Holder holder, int position) {
             }
         });
+    }
+
+    @Override
+    public void getCommentListSuccess(CommentBean.DataBean data) {
+        YoJiDetailCommentAdapter yoJiDetailCommentAdapter = new YoJiDetailCommentAdapter(YoJiDetailActivity.this, data.getList());
+        recyclerComment.setLayoutManager(new LinearLayoutManager(YoJiDetailActivity.this));
+        recyclerComment.setAdapter(yoJiDetailCommentAdapter);
+    }
+
+    @Override
+    public void addCommentSuccess(BaseBean baseBean) {
+
     }
 
     @Override

@@ -18,7 +18,6 @@ import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.yoxiu.YouXiuListBean;
 import com.iyoyogo.android.contract.YoXiuListContract;
 import com.iyoyogo.android.model.DataManager;
-import com.iyoyogo.android.ui.home.recommend.YoXiuDetailActivity;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimHeader;

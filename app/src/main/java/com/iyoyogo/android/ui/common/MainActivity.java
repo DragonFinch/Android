@@ -17,7 +17,6 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
@@ -33,8 +32,7 @@ import butterknife.BindView;
 
 public class MainActivity extends BaseActivity {
 
-    @BindView(R.id.test)
-    TextView test;
+
     @BindView(R.id.activity_main)
     RelativeLayout activityMain;
     private PopupWindow popup;

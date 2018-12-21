@@ -368,7 +368,7 @@
         <activity android:name=".ui.home.yoxiu.AddAddressActivity" />
         <activity android:name=".ui.home.yoxiu.MoreTopicActivity" />
         <activity android:name=".ui.home.yoxiu.ChannelActivity" />
-        <activity android:name=".ui.home.recommend.YoXiuDetailActivity" />
+        <activity android:name=".ui.home.yoxiu.YoXiuDetailActivity" />
         <activity android:name=".ui.home.yoxiu.YoXiuListActivity" />
         <activity android:name=".ui.mine.EditPersonalMessageActivity" />
         <activity android:name=".ui.mine.CitySelectorActivity" />

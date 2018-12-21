@@ -87,6 +87,8 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
             Glide.with(context).load(logos.get(3)).into(holder.img_count_five_three);
             Glide.with(context).load(logos.get(4)).into(holder.img_count_five_four);
             Glide.with(context).load(logos.get(5)).into(holder.img_count_five_five);
+            holder.tv_pic_count.setVisibility(View.VISIBLE);
+            holder.tv_pic_count.setText(size + "");
         }
         if (OnPlayListener != null) {
             OnPlayListener.getData(holder, position);
@@ -137,11 +139,12 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 img_count_two_two, img_count_three_two, img_count_four_two, img_count_five_two,
                 img_count_three_three, img_count_four_three, img_count_five_three,
                 img_count_four_four, img_count_five_four, img_count_five_five;
-        TextView tv_position_name, tv_time, create_time;
+        TextView tv_position_name, tv_time, create_time, tv_pic_count;
         RelativeLayout picture_count_one, picture_count_two, picture_count_three, picture_count_four, picture_count_five;
 
         public Holder(@NonNull View itemView) {
             super(itemView);
+            tv_pic_count = itemView.findViewById(R.id.tv_pic_count);
             tv_time = itemView.findViewById(R.id.tv_time);
             create_time = itemView.findViewById(R.id.create_time);
             img_count_one_one = itemView.findViewById(R.id.img_count_one_one);

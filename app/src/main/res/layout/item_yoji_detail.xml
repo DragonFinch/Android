@@ -290,6 +290,7 @@ android:layout_toRightOf="@+id/img_count_four_three"
                 android:layout_width="@dimen/dp_23"
                 android:layout_height="@dimen/dp_14"
                 android:text="6"
+                android:textColor="@color/white"
                 />
 
         </RelativeLayout>

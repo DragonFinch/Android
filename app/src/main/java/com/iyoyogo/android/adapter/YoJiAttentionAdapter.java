@@ -1,6 +1,5 @@
 package com.iyoyogo.android.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -20,9 +19,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.home.HomeBean;
 import com.iyoyogo.android.model.DataManager;
-import com.iyoyogo.android.ui.home.recommend.YoXiuDetailActivity;
+import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
 import com.iyoyogo.android.utils.SpUtils;
@@ -38,7 +38,8 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
     private Context context;
     private String user_id;
     private String user_token;
-    Activity activity;
+    private RecyclerView recyclerView;
+
     public YoJiAttentionAdapter(Context context, List<HomeBean.DataBean.YojListBean> mList) {
         this.mList = mList;
         this.context = context;
@@ -73,7 +74,6 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
             holder.layout_comment.setVisibility(View.GONE);
             holder.layout_attention.setVisibility(View.VISIBLE);
             List<HomeBean.DataBean.YojListBean.List4Bean> list_4 = mList.get(position).getList_4();
-            Log.d("YoJiAttentionAdapter", "list_4.size():" + list_4.size());
             holder.attention_user_name.setText(mList.get(position).getUser_nickname());
             holder.attention_ji_count.setText(mList.get(position).getCount_yoj() + "");
             holder.attention_xiu_count.setText(mList.get(position).getCount_yox() + "");
@@ -81,155 +81,163 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
             holder.tv_attention.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    holder.tv_attention.setText("已关注");
-                    DataManager.getFromRemote().homePager(user_id,user_token,"attention")
-                            .subscribe(new Consumer<HomeBean>() {
+                    if (retryConnection!=null){
+                        retryConnection.on_retry();
+                        holder.tv_attention.setText("已关注");
+                    }
+                    DataManager.getFromRemote().addAttention(user_id,user_token,mList.get(position).getUser_id()).subscribe(new Consumer<AttentionBean>() {
                                 @Override
-                                public void accept(HomeBean homeBean) throws Exception {
-                                    HomeBean.DataBean data = homeBean.getData();
+                                public void accept(AttentionBean attentionBean) throws Exception {
 
+                                    notifyDataSetChanged();
                                 }
                             });
 
                 }
             });
             Glide.with(context).load(mList.get(position).getUser_logo()).apply(myOptions).into(holder.attention_user_icon);
-            if (list_4.size() == 1) {
-                Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_two);
-                Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_three);
-                Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_four);
-                Glide.with(context).load(list_4.get(0).getFile_path()).apply(myOptions).into(holder.img_attention_one);
-                holder.img_attention_one.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int yo_type = mList.get(position).getList_4().get(0).getYo_type();
-                        if (yo_type == 1) {
-                            context.startActivity(new Intent(context, YoXiuDetailActivity.class));
-                        } else {
-                            context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+            if (list_4==null){
+
+            }else {
+                if (list_4.size() == 1) {
+                    Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_two);
+                    Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_three);
+                    Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_four);
+                    Glide.with(context).load(list_4.get(0).getFile_path()).apply(myOptions).into(holder.img_attention_one);
+                    holder.img_attention_one.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int yo_type = mList.get(position).getList_4().get(0).getYo_type();
+                            if (yo_type == 1) {
+                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                            } else {
+                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                            }
                         }
-                    }
-                });
-            } else if (list_4.size() == 2) {
-                holder.img_attention_one.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int yo_type = mList.get(position).getList_4().get(0).getYo_type();
-                        if (yo_type == 1) {
-                            context.startActivity(new Intent(context, YoXiuDetailActivity.class));
-                        } else {
-                            context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                    });
+                } else if (list_4.size() == 2) {
+                    holder.img_attention_one.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int yo_type = mList.get(position).getList_4().get(0).getYo_type();
+                            if (yo_type == 1) {
+                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                            } else {
+                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                            }
                         }
-                    }
-                });
-                holder.img_attention_two.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int yo_type = mList.get(position).getList_4().get(0).getYo_type();
-                        if (yo_type == 1) {
-                            context.startActivity(new Intent(context, YoXiuDetailActivity.class));
-                        } else {
-                            context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                    });
+                    holder.img_attention_two.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int yo_type = mList.get(position).getList_4().get(0).getYo_type();
+                            if (yo_type == 1) {
+                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                            } else {
+                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                            }
                         }
-                    }
-                });
-                Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_three);
-                Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_four);
-                Glide.with(context).load(list_4.get(0).getFile_path()).apply(myOptions).into(holder.img_attention_one);
-                Glide.with(context).load(list_4.get(1).getFile_path()).apply(myOptions).into(holder.img_attention_two);
-            } else if (list_4.size() == 3) {
-                holder.img_attention_three.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int yo_type = mList.get(position).getList_4().get(0).getYo_type();
-                        if (yo_type == 1) {
-                            context.startActivity(new Intent(context, YoXiuDetailActivity.class));
-                        } else {
-                            context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                    });
+                    Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_three);
+                    Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_four);
+                    Glide.with(context).load(list_4.get(0).getFile_path()).apply(myOptions).into(holder.img_attention_one);
+                    Glide.with(context).load(list_4.get(1).getFile_path()).apply(myOptions).into(holder.img_attention_two);
+                } else if (list_4.size() == 3) {
+                    holder.img_attention_three.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int yo_type = mList.get(position).getList_4().get(0).getYo_type();
+                            if (yo_type == 1) {
+                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                            } else {
+                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                            }
                         }
-                    }
-                });
-                holder.img_attention_one.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int yo_type = mList.get(position).getList_4().get(0).getYo_type();
-                        if (yo_type == 1) {
-                            context.startActivity(new Intent(context, YoXiuDetailActivity.class));
-                        } else {
-                            context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                    });
+                    holder.img_attention_one.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int yo_type = mList.get(position).getList_4().get(0).getYo_type();
+                            if (yo_type == 1) {
+                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                            } else {
+                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                            }
                         }
-                    }
-                });
-                holder.img_attention_two.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int yo_type = mList.get(position).getList_4().get(0).getYo_type();
-                        if (yo_type == 1) {
-                            context.startActivity(new Intent(context, YoXiuDetailActivity.class));
-                        } else {
-                            context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                    });
+                    holder.img_attention_two.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int yo_type = mList.get(position).getList_4().get(0).getYo_type();
+                            if (yo_type == 1) {
+                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                            } else {
+                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                            }
                         }
-                    }
-                });
-                Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_four);
-                Glide.with(context).load(list_4.get(0).getFile_path()).apply(myOptions).into(holder.img_attention_one);
-                Glide.with(context).load(list_4.get(1).getFile_path()).apply(myOptions).into(holder.img_attention_two);
-                Glide.with(context).load(list_4.get(2).getFile_path()).apply(myOptions).into(holder.img_attention_three);
-            } else if (list_4.size() == 4) {
-                holder.img_attention_one.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int yo_type = mList.get(position).getList_4().get(0).getYo_type();
-                        if (yo_type == 1) {
-                            context.startActivity(new Intent(context, YoXiuDetailActivity.class));
-                        } else {
-                            context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                    });
+                    Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_four);
+                    Glide.with(context).load(list_4.get(0).getFile_path()).apply(myOptions).into(holder.img_attention_one);
+                    Glide.with(context).load(list_4.get(1).getFile_path()).apply(myOptions).into(holder.img_attention_two);
+                    Glide.with(context).load(list_4.get(2).getFile_path()).apply(myOptions).into(holder.img_attention_three);
+                } else if (list_4.size() == 4) {
+                    holder.img_attention_one.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int yo_type = mList.get(position).getList_4().get(0).getYo_type();
+                            if (yo_type == 1) {
+                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                            } else {
+                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                            }
                         }
-                    }
-                });
-                holder.img_attention_two.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int yo_type = mList.get(position).getList_4().get(0).getYo_type();
-                        if (yo_type == 1) {
-                            context.startActivity(new Intent(context, YoXiuDetailActivity.class));
-                        } else {
-                            context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                    });
+                    holder.img_attention_two.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int yo_type = mList.get(position).getList_4().get(0).getYo_type();
+                            if (yo_type == 1) {
+                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                            } else {
+                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                            }
                         }
-                    }
-                });
-                holder.img_attention_three.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int yo_type = mList.get(position).getList_4().get(0).getYo_type();
-                        if (yo_type == 1) {
-                            context.startActivity(new Intent(context, YoXiuDetailActivity.class));
-                        } else {
-                            context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                    });
+                    holder.img_attention_three.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int yo_type = mList.get(position).getList_4().get(0).getYo_type();
+                            if (yo_type == 1) {
+                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                            } else {
+                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                            }
                         }
-                    }
-                });
-                holder.img_attention_four.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int yo_type = mList.get(position).getList_4().get(0).getYo_type();
-                        if (yo_type == 1) {
-                            context.startActivity(new Intent(context, YoXiuDetailActivity.class));
-                        } else {
-                            context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                    });
+                    holder.img_attention_four.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int yo_type = mList.get(position).getList_4().get(0).getYo_type();
+                            if (yo_type == 1) {
+                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                            } else {
+                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                            }
                         }
-                    }
-                });
-                Glide.with(context).load(list_4.get(0).getFile_path()).apply(myOptions).into(holder.img_attention_one);
-                Glide.with(context).load(list_4.get(1).getFile_path()).apply(myOptions).into(holder.img_attention_two);
-                Glide.with(context).load(list_4.get(2).getFile_path()).apply(myOptions).into(holder.img_attention_three);
-                Glide.with(context).load(list_4.get(3).getFile_path()).apply(myOptions).into(holder.img_attention_four);
-            } else if (list_4.size() == 0) {
-                Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_one);
-                Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_two);
-                Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_three);
-                Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_four);
+                    });
+                    Glide.with(context).load(list_4.get(0).getFile_path()).apply(myOptions).into(holder.img_attention_one);
+                    Glide.with(context).load(list_4.get(1).getFile_path()).apply(myOptions).into(holder.img_attention_two);
+                    Glide.with(context).load(list_4.get(2).getFile_path()).apply(myOptions).into(holder.img_attention_three);
+                    Glide.with(context).load(list_4.get(3).getFile_path()).apply(myOptions).into(holder.img_attention_four);
+                } else if (list_4.size() == 0) {
+                    Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_one);
+                    Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_two);
+                    Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_three);
+                    Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_four);
+                }
             }
+
+
 
         } else {
             holder.rl_top_content.setVisibility(View.VISIBLE);
@@ -392,5 +400,12 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
             user_icon = itemView.findViewById(R.id.user_icon);
             dt_like = itemView.findViewById(R.id.dt_like);
         }
+    }
+    interface OnRetryConnection {
+            void on_retry();
+    }
+    OnRetryConnection retryConnection;
+    public  void onItemRetryOnClickListener(OnRetryConnection retryConnection){
+        this.retryConnection=retryConnection;
     }
 }

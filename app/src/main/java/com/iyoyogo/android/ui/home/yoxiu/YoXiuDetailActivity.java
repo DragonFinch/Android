@@ -1,4 +1,4 @@
-package com.iyoyogo.android.ui.home.recommend;
+package com.iyoyogo.android.ui.home.yoxiu;
 
 import android.content.Context;
 import android.content.Intent;
@@ -44,7 +44,6 @@ import com.iyoyogo.android.bean.yoxiu.YoXiuDetailBean;
 import com.iyoyogo.android.contract.YoXiuDetailContract;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.presenter.YoXiuDetailPresenter;
-import com.iyoyogo.android.ui.home.yoxiu.MoreTopicActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
