@@ -28,6 +28,7 @@ import com.iyoyogo.android.contract.YoJiDetailContract;
 import com.iyoyogo.android.presenter.YoJiDetailPresenter;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
+import com.iyoyogo.android.widget.MyNestedScrollView;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -137,6 +138,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     RelativeLayout commentLayout;
     @BindView(R.id.tv_user_nickname)
     TextView tvUserNickname;
+    @BindView(R.id.nested)
+    MyNestedScrollView nested;
 
 
     private String user_token;
@@ -153,7 +156,6 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         for (int i = 0; i < 10; i++) {
             mList.add("aaa");
         }
-
         setSupportActionBar(toolbar);
         appbar.setExpanded(true);
         appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -244,7 +246,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_back:
-
+                finish();
                 break;
             case R.id.img_share:
 
@@ -280,6 +282,17 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         tvYoxiuCount.setText(data.getCount_yox() + "");
         tvTimeCreate.setText(data.getCreate_time());
         tvCountSee.setText(data.getCount_view() + "人");
+        tvMoneyPay.setText(data.getCost() + "人/天");
+        tvMoneyPayFold.setText(data.getCost() + "人/天");
+        tvSpotTime.setText(data.getCount_dates() + "天");
+        tvSpotTimeFold.setText(data.getCount_dates() + "天");
+        tvAddressStart.setText(data.getP_start());
+        tvAddressStartFold.setText(data.getP_start());
+        tvAddressSpot.setText(data.getList().size() + "个地点");
+        tvAddressSpotFold.setText(data.getList().size() + "个地点");
+        tvAddressEnd.setText(data.getP_end());
+        tvAddressEndFold.setText(data.getP_end());
+
 
 //        Glide.with(this).load(data.get)
 

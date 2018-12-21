@@ -4,6 +4,7 @@ import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BasePresenter;
+import com.iyoyogo.android.bean.home.HomeBean;
 import com.iyoyogo.android.bean.home.HomeViewPagerBean;
 import com.iyoyogo.android.contract.HomeContract;
 import com.iyoyogo.android.model.DataManager;
@@ -19,10 +20,10 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
     public void banner(String user_id,String user_token,String type) {
         DataManager.getFromRemote()
                 .homePager(user_id,user_token,type)
-                .subscribe(new ApiObserver<HomeViewPagerBean>(mView,this) {
+                .subscribe(new ApiObserver<HomeBean>(mView,this) {
                     @Override
-                    protected void doOnSuccess(HomeViewPagerBean homeViewPagerBean) {
-                        HomeViewPagerBean.DataBean data = homeViewPagerBean.getData();
+                    protected void doOnSuccess(HomeBean homeViewPagerBean) {
+                        HomeBean.DataBean data = homeViewPagerBean.getData();
                         if(data!=null){
                             mView.bannerSuccess(data);
                         }

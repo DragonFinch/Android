@@ -92,7 +92,9 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <com.iyoyogo.android.widget.MyNestedScrollView
+
+        android:id="@+id/nested"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -101,7 +103,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+          >
 <RelativeLayout
     android:id="@+id/user_layouts"
     android:layout_width="match_parent"
@@ -111,7 +113,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_yoji_list"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_title"
@@ -435,6 +437,7 @@
                     android:textSize="@dimen/sp_15" />
             </RelativeLayout>
 <android.support.v7.widget.RecyclerView
+    android:nestedScrollingEnabled="false"
     android:layout_below="@+id/describe_relative"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -615,5 +618,5 @@
                     />
             </RelativeLayout>
         </RelativeLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </com.iyoyogo.android.widget.MyNestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

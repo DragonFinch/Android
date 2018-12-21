@@ -12,17 +12,17 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
-import com.iyoyogo.android.bean.home.HomeViewPagerBean;
+import com.iyoyogo.android.bean.home.HomeBean;
 import com.iyoyogo.android.ui.common.WebActivity;
 import com.iyoyogo.android.utils.RoundTransform;
 
 import java.util.List;
 
 public class HomeViewPagerAdapter extends PagerAdapter {
-    private List<HomeViewPagerBean.DataBean.BannerListBean> images;
+    private List<HomeBean.DataBean.BannerListBean> images;
     private Context context;
 
-    public HomeViewPagerAdapter(Context context, List<HomeViewPagerBean.DataBean.BannerListBean> images) {
+    public HomeViewPagerAdapter(Context context, List<HomeBean.DataBean.BannerListBean> images) {
         this.context = context;
         this.images = images;
     }

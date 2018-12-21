@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iyoyogo.android.R;
-import com.iyoyogo.android.bean.home.HomeViewPagerBean;
+import com.iyoyogo.android.bean.home.HomeBean;
 import com.iyoyogo.android.ui.home.recommend.YoXiuDetailActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiListActivity;
@@ -37,7 +37,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     public static final int FOOT = 3;
     public static final int RECOMMEND = 4;
     private Context context;
-    private List<HomeViewPagerBean.DataBean> mList;
+    private List<HomeBean.DataBean> mList;
     private boolean isLoop;
     private static final int TIME = 2000;
     private MyViewPager viewpager;
@@ -71,6 +71,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     private ImageView img_yoji;
     private ImageView yoji_all;
     private RecyclerView recycler_yoji;
+    private String type;
 
     public void startLoop() {
         if (viewpager != null && !isLoop) {
@@ -86,7 +87,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    public HomeRecyclerViewAdapter(Context context, List<HomeViewPagerBean.DataBean> mList) {
+    public HomeRecyclerViewAdapter(Context context, List<HomeBean.DataBean> mList) {
         this.context = context;
         this.mList = mList;
     }
@@ -117,16 +118,17 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        type = mList.get(0).getType();
         Log.d("HomeRecyclerViewAdapter", "mList.size():" + mList.size());
         Log.d("HomeRecyclerViewAdapter", "mList.get(position).getYox_list().size():" + mList.get(0).getYox_list().size());
         if (viewHolder instanceof Holder_ViewPager) {
             setViewPagerHolder((Holder_ViewPager) viewHolder, position);
 
         } else if (viewHolder instanceof Holder_YouXiu) {
-            List<HomeViewPagerBean.DataBean.YoxListBean> yox_list = mList.get(0).getYox_list();
+            List<HomeBean.DataBean.YoxListBean> yox_list = mList.get(0).getYox_list();
             setYouXiuHolder((Holder_YouXiu) viewHolder, yox_list);
         } else if (viewHolder instanceof Holder_YouJi) {
-            List<HomeViewPagerBean.DataBean.YojListBean> yoj_list = mList.get(0).getYoj_list();
+            List<HomeBean.DataBean.YojListBean> yoj_list = mList.get(0).getYoj_list();
             setYouJiHolder((Holder_YouJi) viewHolder, yoj_list);
 
 
@@ -147,12 +149,12 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
     //轮播图
     private void setViewPagerHolder(Holder_ViewPager viewHolder, int position) {
-        List<HomeViewPagerBean.DataBean.BannerListBean> banner_list = mList.get(position).getBanner_list();
+        List<HomeBean.DataBean.BannerListBean> banner_list = mList.get(position).getBanner_list();
 
 
-        List<HomeViewPagerBean.DataBean.BannerListBean> list = new ArrayList<>();
+        List<HomeBean.DataBean.BannerListBean> list = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
-            List<HomeViewPagerBean.DataBean.BannerListBean> adList = mList.get(position).getBanner_list();
+            List<HomeBean.DataBean.BannerListBean> adList = mList.get(position).getBanner_list();
 
             list.addAll(adList);
         }
@@ -208,7 +210,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     //友秀
-    private void setYouXiuHolder(Holder_YouXiu youXiuHolder, List<HomeViewPagerBean.DataBean.YoxListBean> yox_list) {
+    private void setYouXiuHolder(Holder_YouXiu youXiuHolder, List<HomeBean.DataBean.YoxListBean> yox_list) {
         youXiuHolder.youxiu_all.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ResourceAsColor")
             @Override
@@ -251,7 +253,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     }
 
-    private void setYouJiHolder(Holder_YouJi youJiHolder, List<HomeViewPagerBean.DataBean.YojListBean> yoj_list) {
+    private void setYouJiHolder(Holder_YouJi youJiHolder, List<HomeBean.DataBean.YojListBean> yoj_list) {
         youJiHolder.youji_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -263,19 +265,36 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
 
        youJiHolder.recycler_youji.setLayoutManager(new LinearLayoutManager(context));
-       Log.d("Size", "yoj_list.size():" + yoj_list.size());
-        YoJiAdapter yoJiAdapter = new YoJiAdapter(context, yoj_list);
-        Log.d("Size", "yoj_list.size():" + yoj_list.size());
-        youJiHolder.recycler_youji.setAdapter(yoJiAdapter);
-        yoJiAdapter.setOnItemClickListener(new YoJiAdapter.OnClickListener() {
-            @Override
-            public void onClick(View v, int position) {
-                int yo_id = yoj_list.get(position).getYo_id();
-                Intent intent = new Intent(context, YoJiDetailActivity.class);
-                intent.putExtra("yo_id",yo_id);
-                context.startActivity(intent);
-            }
-        });
+       if (type.equals("attention")){
+           Log.e("attention", "yoj_list.size():" + yoj_list.size());
+           YoJiAttentionAdapter yoJiAttentionAdapter = new YoJiAttentionAdapter(context, yoj_list);
+           youJiHolder.recycler_youji.setLayoutManager(new LinearLayoutManager(context));
+           youJiHolder.recycler_youji.setAdapter(yoJiAttentionAdapter);
+           yoJiAttentionAdapter.setOnItemClickListener(new YoJiAttentionAdapter.OnClickListener() {
+               @Override
+               public void onClick(View v, int position) {
+                   int yo_id = yoj_list.get(position).getYo_id();
+                   Intent intent = new Intent(context, YoJiDetailActivity.class);
+                   intent.putExtra("yo_id",yo_id);
+                   context.startActivity(intent);
+               }
+           });
+       }else {
+           Log.d("Size", "yoj_list.size():" + yoj_list.size());
+           YoJiAdapter yoJiAdapter = new YoJiAdapter(context, yoj_list);
+           Log.d("Size", "yoj_list.size():" + yoj_list.size());
+           youJiHolder.recycler_youji.setAdapter(yoJiAdapter);
+           yoJiAdapter.setOnItemClickListener(new YoJiAdapter.OnClickListener() {
+               @Override
+               public void onClick(View v, int position) {
+                   int yo_id = yoj_list.get(position).getYo_id();
+                   Intent intent = new Intent(context, YoJiDetailActivity.class);
+                   intent.putExtra("yo_id",yo_id);
+                   context.startActivity(intent);
+               }
+           });
+       }
+
     }
 
     public void disVisible() {

@@ -6,7 +6,7 @@ import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.collection.AddCollectionBean;
 import com.iyoyogo.android.bean.collection.CollectionFolderBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
-import com.iyoyogo.android.bean.home.HomeViewPagerBean;
+import com.iyoyogo.android.bean.home.HomeBean;
 import com.iyoyogo.android.bean.login.SendMessageBean;
 import com.iyoyogo.android.bean.login.interest.InterestBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
@@ -111,7 +111,7 @@ public interface ApiService {
      */
     @POST("index.php/api/home/get_index_data")
     @FormUrlEncoded
-    Observable<HomeViewPagerBean> homePager(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("type") String type);
+    Observable<HomeBean> homePager(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("type") String type);
 
     /**
      * 选择类型

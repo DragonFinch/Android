@@ -8,7 +8,7 @@ import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.collection.AddCollectionBean;
 import com.iyoyogo.android.bean.collection.CollectionFolderBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
-import com.iyoyogo.android.bean.home.HomeViewPagerBean;
+import com.iyoyogo.android.bean.home.HomeBean;
 import com.iyoyogo.android.bean.login.SendMessageBean;
 import com.iyoyogo.android.bean.login.interest.InterestBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
@@ -146,7 +146,7 @@ public class Model {
      * @param type
      * @return
      */
-    public Observable<HomeViewPagerBean> homePager(String user_id, String user_token, String type) {
+    public Observable<HomeBean> homePager(String user_id, String user_token, String type) {
         return HttpClient.getApiService().homePager(user_id, user_token, type)
                 .compose(this.switchThread());
     }

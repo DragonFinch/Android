@@ -10,7 +10,7 @@ import android.util.Log;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.HomeRecyclerViewAdapter;
 import com.iyoyogo.android.base.BaseFragment;
-import com.iyoyogo.android.bean.home.HomeViewPagerBean;
+import com.iyoyogo.android.bean.home.HomeBean;
 import com.iyoyogo.android.contract.HomeContract;
 import com.iyoyogo.android.presenter.HomePresenter;
 import com.iyoyogo.android.utils.SpUtils;
@@ -82,8 +82,8 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
     }
 
     @Override
-    public void bannerSuccess(HomeViewPagerBean.DataBean data) {
-        List<HomeViewPagerBean.DataBean> mList = new ArrayList<>();
+    public void bannerSuccess(HomeBean.DataBean data) {
+        List<HomeBean.DataBean> mList = new ArrayList<>();
         mList.add(data);
         Log.d("HomeFragment", "mList.size():" + mList.size());
         HomeRecyclerViewAdapter homeRecyclerViewAdapter = new HomeRecyclerViewAdapter(getContext(), mList);

@@ -20,7 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.BaseBean;
-import com.iyoyogo.android.bean.home.HomeViewPagerBean;
+import com.iyoyogo.android.bean.home.HomeBean;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
@@ -31,7 +31,7 @@ import java.util.List;
 import io.reactivex.functions.Consumer;
 
 public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> implements View.OnClickListener {
-    private List<HomeViewPagerBean.DataBean.YoxListBean> mList;
+    private List<HomeBean.DataBean.YoxListBean> mList;
     private Context context;
     private boolean isPraise;
     private String type;
@@ -40,7 +40,7 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
     private String user_token;
     private int yo_id;
 
-    public YoXiuAdapter(List<HomeViewPagerBean.DataBean.YoxListBean> mList, Context context, String type) {
+    public YoXiuAdapter(List<HomeBean.DataBean.YoxListBean> mList, Context context, String type) {
         this.mList = mList;
         this.context = context;
         this.type = type;
@@ -137,7 +137,7 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
 
         int file_type = mList.get(position).getFile_type();
         if (file_type == 2) {
-            Glide.with(context).load(mList.get(position).getFile_path_first())
+            Glide.with(context).load(mList.get(position).getFile_type())
                     .apply(requestOptions)
                     .into(holder.imageView);
             holder.img_video.setVisibility(View.VISIBLE);

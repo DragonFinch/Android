@@ -9,15 +9,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.iyoyogo.android.R;
-import com.iyoyogo.android.bean.home.HomeViewPagerBean;
+import com.iyoyogo.android.bean.home.HomeBean;
 
 import java.util.List;
 
 public class YoJiListItemAdapter extends RecyclerView.Adapter<YoJiListItemAdapter.ViewHolder> implements View.OnClickListener {
     private Context context;
-    List<HomeViewPagerBean.DataBean.YojListBean.CommentBean> mList;
+    List<HomeBean.DataBean.YojListBean.CommentListBean> mList;
     private OnClickListener onClickListener;
-    public YoJiListItemAdapter(Context context, List<HomeViewPagerBean.DataBean.YojListBean.CommentBean> comment_list) {
+    public YoJiListItemAdapter(Context context, List<HomeBean.DataBean.YojListBean.CommentListBean> comment_list) {
         this.context = context;
         this.mList = comment_list;
     }

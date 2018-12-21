@@ -4,6 +4,7 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
+        android:visibility="visible"
         android:id="@+id/relative"
         android:layout_marginRight="@dimen/dp_20"
         android:layout_width="match_parent"
@@ -41,6 +42,7 @@
             android:textSize="@dimen/sp_12"
             />
         <TextView
+            android:id="@+id/create_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2018.9.4"
@@ -295,6 +297,7 @@ android:layout_toRightOf="@+id/img_count_four_three"
 
     </RelativeLayout>
     <ImageView
+        android:visibility="visible"
         android:id="@+id/plane"
         android:layout_marginLeft="@dimen/dp_20"
         android:layout_below="@+id/relative"
@@ -303,9 +306,12 @@ android:layout_toRightOf="@+id/img_count_four_three"
         android:src="@mipmap/feiji"
         />
     <ImageView
+        android:id="@+id/img_water_mark"
+        android:visibility="visible"
         android:layout_width="@dimen/dp_65"
         android:layout_height="@dimen/dp_42"
         android:src="@mipmap/tangchuan_zhang"
         android:layout_alignParentRight="true"
         />
+
 </RelativeLayout>

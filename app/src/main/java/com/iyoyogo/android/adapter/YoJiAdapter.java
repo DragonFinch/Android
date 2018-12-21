@@ -11,12 +11,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.BaseBean;
-import com.iyoyogo.android.bean.home.HomeViewPagerBean;
+import com.iyoyogo.android.bean.home.HomeBean;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
@@ -29,10 +30,10 @@ import java.util.List;
 import io.reactivex.functions.Consumer;
 
 public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implements View.OnClickListener {
-    private List<HomeViewPagerBean.DataBean.YojListBean> mList;
+    private List<HomeBean.DataBean.YojListBean> mList;
     private Context context;
 
-    public YoJiAdapter(Context context, List<HomeViewPagerBean.DataBean.YojListBean> mList) {
+    public YoJiAdapter(Context context, List<HomeBean.DataBean.YojListBean> mList) {
         this.mList = mList;
         this.context = context;
     }
@@ -64,14 +65,15 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
                 .error(R.mipmap.default_ic)
                 .override(DensityUtil.dp2px(context, ViewGroup.LayoutParams.MATCH_PARENT), DensityUtil.dp2px(context, 200))
                 .transform(new GlideRoundTransform(context, 8));
+        Log.d("YoJiAdapter", mList.get(position).getFile_path());
         Glide.with(context).load(mList.get(position).getFile_path()).apply(myOptions).into(holder.zuji_image);
         holder.location.setText(mList.get(position).getP_start());
         holder.num_look.setText(mList.get(position).getCount_view() + "");
         Log.d("YoJiAdapter", "mList.get(position).getUsers_praise():" + mList.get(position).getUsers_praise());
         LayoutInflater inflater = LayoutInflater.from(context);
-       /* if (mList.get(position).getUsers_praise().size()==0){
+        if (mList.get(position).getUsers_praise().size() == 0) {
             holder.pile_layout.setVisibility(View.GONE);
-        }else {
+        } else {
             for (int i = 0; i < mList.get(position).getUsers_praise().size(); i++) {
                 com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
                 Glide.with(context).load(mList.get(position).getUsers_praise().get(i).getUser_logo()).into(imageView);
@@ -84,7 +86,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
                     }
                 });
             }
-        }*/
+        }
         String user_logo = mList.get(position).getUser_info().getUser_logo();
         if (user_logo.isEmpty()) {
             Glide.with(context).load(R.mipmap.default_ic).into(holder.user_icon);
@@ -99,7 +101,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
         holder.tv_day.setText(mList.get(position).getCount_dates() + "天");
         holder.tv_num_comment.setText("全部评论(" + mList.get(position).getCount_comment() + ")");
         holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
-        List<HomeViewPagerBean.DataBean.YojListBean.CommentBean> comment_list = mList.get(position).getComment_list();
+        List<HomeBean.DataBean.YojListBean.CommentListBean> comment_list = mList.get(position).getComment_list();
         YoJiListItemAdapter adapter = new YoJiListItemAdapter(context, comment_list);
         Log.d("YoJiAdapter", "comment_list:" + comment_list.size());
         holder.recycler_comment.setLayoutManager(new LinearLayoutManager(context));
@@ -113,7 +115,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
                 Log.d("Test", "dataBeans.get(0).getIs_my_like():" + mList.get(position).getIs_my_praise());
                 if (mList.get(position).getIs_my_praise() > 0) {
                     //由喜欢变为不喜欢，亮变暗
-                    holder.dt_like.setImageResource(R.mipmap.yixihuan_xiangqing);
+                    holder.dt_like.setImageResource(R.mipmap.datu_xihuan);
                     count_praise -= 1;
                     //设置点赞的数量
                     holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
@@ -121,7 +123,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
                     mList.get(position).setCount_praise(count_praise);
                 } else {
                     //由不喜欢变为喜欢，暗变亮
-                    holder.dt_like.setImageResource(R.mipmap.datu_xihuan);
+                    holder.dt_like.setImageResource(R.mipmap.yixihuan_xiangqing);
                     count_praise += 1;
                     //设置点赞的数量
                     holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
