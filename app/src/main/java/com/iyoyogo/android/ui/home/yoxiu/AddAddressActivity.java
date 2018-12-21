@@ -2,6 +2,7 @@ package com.iyoyogo.android.ui.home.yoxiu;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -131,6 +132,7 @@ public class AddAddressActivity extends AppCompatActivity {
             }
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -186,17 +188,15 @@ public class AddAddressActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-               if (editAddAddress.getText().toString().length() != 0) {
+                if (editAddAddress.getText().toString().length() != 0) {
                     searchClear.setVisibility(View.VISIBLE);
                 }
-             searchLocationPoi(s);
-
+                searchLocationPoi(s);
 
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
 
 
             }
@@ -212,7 +212,6 @@ public class AddAddressActivity extends AppCompatActivity {
                 markerOption.position(latLng);
                 latitude = latLng.latitude;
                 longitude = latLng.longitude;
-
 
 
                 markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
@@ -251,6 +250,7 @@ public class AddAddressActivity extends AppCompatActivity {
         });//设置输入提示查询的监听，实现输入提示的监听方法onGetInputtips()
         inputtips.requestInputtipsAsyn();//输入查询提示的异步接口实现
     }
+
     private void doChangeColor(String text) {
         //clear是必须的 不然只要改变edittext数据，list会一直add数据进来
         list.clear();
@@ -274,6 +274,7 @@ public class AddAddressActivity extends AppCompatActivity {
             refreshUI();
         }
     }
+
     private void refreshUI() {
         if (adapter == null) {
 
@@ -281,6 +282,7 @@ public class AddAddressActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         }
     }
+
     private void searchLocationPoi(CharSequence s) {
         //关闭键盘
 //        KeyBoardUtils.closeKeybord(poiSearchInMaps, BaseApplication.mContext);
@@ -337,9 +339,9 @@ public class AddAddressActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View view, int pos) {
 
-                               latitude = datas.get(pos).getLatitude();
-                                 longitude = datas.get(pos).getLongitude();
-                                 editAddAddress.setText("");
+                                latitude = datas.get(pos).getLatitude();
+                                longitude = datas.get(pos).getLongitude();
+                                editAddAddress.setText("");
                               /*  aMap.clear();
 
                                 MarkerOptions markerOption = new MarkerOptions();
@@ -353,8 +355,8 @@ public class AddAddressActivity extends AppCompatActivity {
                                         .decodeResource(getResources(), R.mipmap.location)));
                                 // 将Marker设置为贴地显示，可以双指下拉地图查看效果
                                 Marker marker = aMap.addMarker(markerOption);*/
-                                CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(latitude,longitude),10,30,0));
-                              aMap.moveCamera(mCameraUpdate);
+                                CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(latitude, longitude), 10, 30, 0));
+                                aMap.moveCamera(mCameraUpdate);
                                 recyclerAddAddress.setVisibility(View.GONE);
                                 mapAddAddress.setVisibility(View.VISIBLE);
                                 mapAddAddress.invalidate();
@@ -363,7 +365,7 @@ public class AddAddressActivity extends AppCompatActivity {
                         });
 
 //                        searchCarAdapter.setNewData(datas);
-                    }else {
+                    } else {
                         Log.d("error", "errcode:" + errcode);
                     }
                 }
@@ -415,15 +417,15 @@ public class AddAddressActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.create_complete:
-                if (latitude!=0.0&&longitude!=0.0){
+                if (latitude != 0.0 && longitude != 0.0) {
                     Intent intent = new Intent();
-                    intent.putExtra("latitude",latitude);
-                    intent.putExtra("longitude",longitude);
+                    intent.putExtra("latitude", latitude);
+                    intent.putExtra("longitude", longitude);
                     Log.d("AddAddressActivity", "latitude:" + latitude);
                     Log.d("AddAddressActivity", "longitude:" + longitude);
-                    setResult(2,intent);
+                    setResult(2, intent);
                     finish();
-                }else {
+                } else {
                     Toast.makeText(this, "您还没有画标记呢", Toast.LENGTH_SHORT).show();
                 }
 
@@ -451,4 +453,30 @@ public class AddAddressActivity extends AppCompatActivity {
     }
 
 
+    @OnClick(R.id.img_location)
+    public void onViewClicked() {
+
+        myLocationStyle = new MyLocationStyle();
+        //初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);
+        //连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
+        myLocationStyle.strokeColor(Color.argb(0, 0, 0, 0));
+        myLocationStyle.radiusFillColor(Color.argb(0, 0, 0, 0));
+
+        Toast.makeText(this, "已定位当前位置", Toast.LENGTH_SHORT).show();
+        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE);
+        //定位一次，且将视角移动到地图中心点。
+        myLocationStyle.interval(2000);
+        //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
+        aMap.moveCamera(CameraUpdateFactory.zoomTo(17));
+
+        myLocationStyle.myLocationIcon(BitmapDescriptorFactory
+                .fromResource(R.drawable.icon_oval_select));// 设置小蓝点的图标
+        aMap.setMyLocationStyle(myLocationStyle);
+//        aMap.setMyLocationStyle(myLocationStyle);
+        //设置定位蓝点的Style
+        //aMap.getUiSettings().setMyLocationButtonEnabled(true);设置默认定位按钮是否显示，非必需设置。
+        aMap.setMyLocationEnabled(true);
+        // 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
+
+    }
 }
