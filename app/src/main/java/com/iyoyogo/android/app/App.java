@@ -9,6 +9,7 @@ import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.iyoyogo.android.bean.yoji.publish.MessageBean;
 import com.iyoyogo.android.camera.utils.CrashHandler;
 import com.iyoyogo.android.utils.GdLocationUtil;
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -18,6 +19,9 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.unit.Subunits;
@@ -34,7 +38,7 @@ public class App extends Application {
     public static Context context;
     public static boolean isLogin;
     public static UserInfo userInfo;
-
+ public  static    List<MessageBean> list = new ArrayList<>();
 
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);

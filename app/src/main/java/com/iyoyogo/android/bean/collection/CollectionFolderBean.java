@@ -40,17 +40,17 @@ public class CollectionFolderBean  extends BaseBean {
              * open : 2
              */
 
-            private int id;
+            private int folder_id;
             private int user_id;
             private String name;
             private int open;
 
             public int getId() {
-                return id;
+                return folder_id;
             }
 
             public void setId(int id) {
-                this.id = id;
+                this.folder_id = id;
             }
 
             public int getUser_id() {

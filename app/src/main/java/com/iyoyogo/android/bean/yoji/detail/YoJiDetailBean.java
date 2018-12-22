@@ -7,7 +7,7 @@ import java.util.List;
 public class YoJiDetailBean  extends BaseBean {
 
     /**
-     * data : {"user_nickname":"随心","user_logo":"https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/user/Pr_200010075.jpg","user_level":1,"partner_type":0,"user_id":61017,"yo_id":4251,"logo":"https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000000202.jpg","title":"阳朔山山水水","desc":"桂林山水从不让人失望，这里没有漓江的繁忙，非常幽静，竹筏也是完全人力的，筏工师傅沿途会兼职导游，下着小雨的景色更加的迷人！","cost":"3400","open":1,"valid":1,"topics":[],"channels":[{"channel_id":1,"channel":"假期畅游"}],"list":[{"id":1161,"yo_id":4251,"logos":["https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007129.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007130.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007131.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007132.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007133.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007134.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007135.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007136.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007137.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007138.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007139.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007140.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007141.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007142.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007143.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007144.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007145.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007146.jpg"],"start_date":"2016-06-24","end_date":"2016-06-24","position_name":"遇龙河","position_areas":"中国,广西,阳朔","position_address":"","lng":"","lat":"","labels":[]},{"id":1162,"yo_id":4251,"logos":["https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007147.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007148.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007149.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007150.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007151.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007152.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007153.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007154.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007155.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007156.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007157.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007158.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007159.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007160.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007161.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007162.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007163.jpg"],"start_date":"2016-06-25","end_date":"2016-06-25","position_name":"西街","position_areas":"中国,广西,阳朔","position_address":"","lng":"","lat":"","labels":[]},{"id":1163,"yo_id":4251,"logos":["https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007164.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007165.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007166.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007167.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007168.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007169.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007170.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007171.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007172.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007173.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007174.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007175.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007176.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007177.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007178.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007179.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007180.jpg"],"start_date":"2016-06-25","end_date":"2016-06-25","position_name":"世外桃源","position_areas":"中国,广西,阳朔","position_address":"","lng":"","lat":"","labels":[]},{"id":1164,"yo_id":4251,"logos":["https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007181.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007182.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007183.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007184.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007185.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007186.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007187.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007188.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007189.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007190.jpg"],"start_date":"2016-06-26","end_date":"2016-06-26","position_name":"十里画廊","position_areas":"中国,广西,阳朔","position_address":"","lng":"","lat":"","labels":[]}],"p_start":"","p_end":"","count_dates":0,"count_view":892,"count_praise":42,"count_comment":3,"count_collect":42,"create_time":"2016-06-24 10:42","is_my_praise":0,"is_my_attention":0,"is_my_collect":0,"count_yox":10,"count_yoj":5}
+     * data : {"user_id":67765,"user_nickname":"nrgy","user_logo":"https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/user/Pr_200007236.jpg?x-oss-process=image/resize,w_50","user_level":1,"partner_type":0,"yo_id":4319,"logo":"http://iyoyogo.oss-cn-beijing.aliyuncs.com/iyoyogo/2018/12/20/6xZcwwNkGi.jpg?x-oss-process=image/resize,w_1200","title":"1","desc":"哈哈哈","cost":"1","open":1,"valid":1,"topics":[],"channels":[],"list":[{"id":2054,"yo_id":4319,"logos":["http://iyoyogo.oss-cn-beijing.aliyuncs.com/iyoyogo/2018/12/20/tSKfJN8CxJ.png?x-oss-process=image/resize,w_400"],"start_date":"2018-12-06","end_date":"2018-12-07","position_name":"T3","position_areas":"中国,北京,朝阳","position_address":"望京soho","lng":"116.454723","lat":"39.877593","labels":[{"id":2,"user_id":1,"type":1,"label":"测试1111","logo":"http://fengchaominsu.oss-cn-beijing.aliyuncs.com/fengchaominsu/2018/10/30/chKyisYBZD.jpg","sort":0,"del":0,"create_time":"2018-10-30 15:00:26","update_time":"2018-10-30 15:17:57"},{"id":9,"user_id":2,"type":1,"label":"旅游胜地1","logo":"http://iyoyogo.oss-cn-beijing.aliyuncs.com/iyoyogo/2018/12/8/2ikQfYjpsW.jpg","sort":0,"del":0,"create_time":"2018-12-08 10:15:41","update_time":"2018-12-08 10:15:59"},{"id":22,"user_id":80003,"type":1,"label":"专属","logo":"","sort":0,"del":0,"create_time":"2018-12-17 21:57:47","update_time":"0000-00-00 00:00:00"}],"count_dates":2},{"id":2051,"yo_id":4319,"logos":["http://iyoyogo.oss-cn-beijing.aliyuncs.com/iyoyogo/2018/12/20/e75wzTF5Ad.jpg?x-oss-process=image/resize,w_400","http://iyoyogo.oss-cn-beijing.aliyuncs.com/iyoyogo/2018/12/20/6nGZKQysFG.jpg?x-oss-process=image/resize,w_400"],"start_date":"2018-12-27","end_date":"2018-12-28","position_name":"天安门","position_areas":"中国,北京,大兴","position_address":"金星西路","lng":"116.454723","lat":"39.877593","labels":[{"id":2,"user_id":1,"type":1,"label":"测试1111","logo":"http://fengchaominsu.oss-cn-beijing.aliyuncs.com/fengchaominsu/2018/10/30/chKyisYBZD.jpg","sort":0,"del":0,"create_time":"2018-10-30 15:00:26","update_time":"2018-10-30 15:17:57"},{"id":3,"user_id":1,"type":1,"label":"cehsi1","logo":"http://fengchaominsu.oss-cn-beijing.aliyuncs.com/fengchaominsu/2018/10/30/Q6QGs3FWGX.jpg","sort":0,"del":0,"create_time":"2018-10-30 15:17:49","update_time":"0000-00-00 00:00:00"},{"id":4,"user_id":1,"type":1,"label":"123aaa111","logo":"http://fengchaominsu.oss-cn-beijing.aliyuncs.com/fengchaominsu/2018/10/30/6C7Q22FFmi.jpg","sort":0,"del":0,"create_time":"2018-10-30 18:04:36","update_time":"2018-10-30 18:04:43"}],"count_dates":2},{"id":2052,"yo_id":4319,"logos":["http://iyoyogo.oss-cn-beijing.aliyuncs.com/iyoyogo/2018/12/20/sJEh2kWstD.png?x-oss-process=image/resize,w_400","http://iyoyogo.oss-cn-beijing.aliyuncs.com/iyoyogo/2018/12/20/TmQeYTMcBN.png?x-oss-process=image/resize,w_400"],"start_date":"2018-12-27","end_date":"2018-12-28","position_name":"天安门","position_areas":"中国,北京,大兴","position_address":"金星西路","lng":"116.454723","lat":"39.877593","labels":[{"id":2,"user_id":1,"type":1,"label":"测试1111","logo":"http://fengchaominsu.oss-cn-beijing.aliyuncs.com/fengchaominsu/2018/10/30/chKyisYBZD.jpg","sort":0,"del":0,"create_time":"2018-10-30 15:00:26","update_time":"2018-10-30 15:17:57"},{"id":3,"user_id":1,"type":1,"label":"cehsi1","logo":"http://fengchaominsu.oss-cn-beijing.aliyuncs.com/fengchaominsu/2018/10/30/Q6QGs3FWGX.jpg","sort":0,"del":0,"create_time":"2018-10-30 15:17:49","update_time":"0000-00-00 00:00:00"},{"id":4,"user_id":1,"type":1,"label":"123aaa111","logo":"http://fengchaominsu.oss-cn-beijing.aliyuncs.com/fengchaominsu/2018/10/30/6C7Q22FFmi.jpg","sort":0,"del":0,"create_time":"2018-10-30 18:04:36","update_time":"2018-10-30 18:04:43"}],"count_dates":2}],"p_start":"T3","p_end":"天安门","count_dates":4,"count_view":7,"count_praise":1,"count_comment":1,"count_collect":1,"create_time":"昨天17:04","is_my_praise":0,"is_my_attention":0,"is_my_collect":0,"count_yox":10,"count_yoj":7}
      */
 
     private DataBean data;
@@ -22,41 +22,41 @@ public class YoJiDetailBean  extends BaseBean {
 
     public static class DataBean {
         /**
-         * user_nickname : 随心
-         * user_logo : https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/user/Pr_200010075.jpg
+         * user_id : 67765
+         * user_nickname : nrgy
+         * user_logo : https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/user/Pr_200007236.jpg?x-oss-process=image/resize,w_50
          * user_level : 1
          * partner_type : 0
-         * user_id : 61017
-         * yo_id : 4251
-         * logo : https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000000202.jpg
-         * title : 阳朔山山水水
-         * desc : 桂林山水从不让人失望，这里没有漓江的繁忙，非常幽静，竹筏也是完全人力的，筏工师傅沿途会兼职导游，下着小雨的景色更加的迷人！
-         * cost : 3400
+         * yo_id : 4319
+         * logo : http://iyoyogo.oss-cn-beijing.aliyuncs.com/iyoyogo/2018/12/20/6xZcwwNkGi.jpg?x-oss-process=image/resize,w_1200
+         * title : 1
+         * desc : 哈哈哈
+         * cost : 1
          * open : 1
          * valid : 1
          * topics : []
-         * channels : [{"channel_id":1,"channel":"假期畅游"}]
-         * list : [{"id":1161,"yo_id":4251,"logos":["https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007129.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007130.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007131.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007132.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007133.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007134.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007135.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007136.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007137.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007138.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007139.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007140.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007141.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007142.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007143.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007144.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007145.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007146.jpg"],"start_date":"2016-06-24","end_date":"2016-06-24","position_name":"遇龙河","position_areas":"中国,广西,阳朔","position_address":"","lng":"","lat":"","labels":[]},{"id":1162,"yo_id":4251,"logos":["https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007147.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007148.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007149.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007150.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007151.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007152.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007153.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007154.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007155.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007156.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007157.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007158.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007159.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007160.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007161.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007162.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007163.jpg"],"start_date":"2016-06-25","end_date":"2016-06-25","position_name":"西街","position_areas":"中国,广西,阳朔","position_address":"","lng":"","lat":"","labels":[]},{"id":1163,"yo_id":4251,"logos":["https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007164.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007165.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007166.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007167.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007168.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007169.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007170.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007171.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007172.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007173.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007174.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007175.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007176.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007177.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007178.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007179.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007180.jpg"],"start_date":"2016-06-25","end_date":"2016-06-25","position_name":"世外桃源","position_areas":"中国,广西,阳朔","position_address":"","lng":"","lat":"","labels":[]},{"id":1164,"yo_id":4251,"logos":["https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007181.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007182.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007183.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007184.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007185.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007186.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007187.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007188.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007189.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007190.jpg"],"start_date":"2016-06-26","end_date":"2016-06-26","position_name":"十里画廊","position_areas":"中国,广西,阳朔","position_address":"","lng":"","lat":"","labels":[]}]
-         * p_start :
-         * p_end :
-         * count_dates : 0
-         * count_view : 892
-         * count_praise : 42
-         * count_comment : 3
-         * count_collect : 42
-         * create_time : 2016-06-24 10:42
+         * channels : []
+         * list : [{"id":2054,"yo_id":4319,"logos":["http://iyoyogo.oss-cn-beijing.aliyuncs.com/iyoyogo/2018/12/20/tSKfJN8CxJ.png?x-oss-process=image/resize,w_400"],"start_date":"2018-12-06","end_date":"2018-12-07","position_name":"T3","position_areas":"中国,北京,朝阳","position_address":"望京soho","lng":"116.454723","lat":"39.877593","labels":[{"id":2,"user_id":1,"type":1,"label":"测试1111","logo":"http://fengchaominsu.oss-cn-beijing.aliyuncs.com/fengchaominsu/2018/10/30/chKyisYBZD.jpg","sort":0,"del":0,"create_time":"2018-10-30 15:00:26","update_time":"2018-10-30 15:17:57"},{"id":9,"user_id":2,"type":1,"label":"旅游胜地1","logo":"http://iyoyogo.oss-cn-beijing.aliyuncs.com/iyoyogo/2018/12/8/2ikQfYjpsW.jpg","sort":0,"del":0,"create_time":"2018-12-08 10:15:41","update_time":"2018-12-08 10:15:59"},{"id":22,"user_id":80003,"type":1,"label":"专属","logo":"","sort":0,"del":0,"create_time":"2018-12-17 21:57:47","update_time":"0000-00-00 00:00:00"}],"count_dates":2},{"id":2051,"yo_id":4319,"logos":["http://iyoyogo.oss-cn-beijing.aliyuncs.com/iyoyogo/2018/12/20/e75wzTF5Ad.jpg?x-oss-process=image/resize,w_400","http://iyoyogo.oss-cn-beijing.aliyuncs.com/iyoyogo/2018/12/20/6nGZKQysFG.jpg?x-oss-process=image/resize,w_400"],"start_date":"2018-12-27","end_date":"2018-12-28","position_name":"天安门","position_areas":"中国,北京,大兴","position_address":"金星西路","lng":"116.454723","lat":"39.877593","labels":[{"id":2,"user_id":1,"type":1,"label":"测试1111","logo":"http://fengchaominsu.oss-cn-beijing.aliyuncs.com/fengchaominsu/2018/10/30/chKyisYBZD.jpg","sort":0,"del":0,"create_time":"2018-10-30 15:00:26","update_time":"2018-10-30 15:17:57"},{"id":3,"user_id":1,"type":1,"label":"cehsi1","logo":"http://fengchaominsu.oss-cn-beijing.aliyuncs.com/fengchaominsu/2018/10/30/Q6QGs3FWGX.jpg","sort":0,"del":0,"create_time":"2018-10-30 15:17:49","update_time":"0000-00-00 00:00:00"},{"id":4,"user_id":1,"type":1,"label":"123aaa111","logo":"http://fengchaominsu.oss-cn-beijing.aliyuncs.com/fengchaominsu/2018/10/30/6C7Q22FFmi.jpg","sort":0,"del":0,"create_time":"2018-10-30 18:04:36","update_time":"2018-10-30 18:04:43"}],"count_dates":2},{"id":2052,"yo_id":4319,"logos":["http://iyoyogo.oss-cn-beijing.aliyuncs.com/iyoyogo/2018/12/20/sJEh2kWstD.png?x-oss-process=image/resize,w_400","http://iyoyogo.oss-cn-beijing.aliyuncs.com/iyoyogo/2018/12/20/TmQeYTMcBN.png?x-oss-process=image/resize,w_400"],"start_date":"2018-12-27","end_date":"2018-12-28","position_name":"天安门","position_areas":"中国,北京,大兴","position_address":"金星西路","lng":"116.454723","lat":"39.877593","labels":[{"id":2,"user_id":1,"type":1,"label":"测试1111","logo":"http://fengchaominsu.oss-cn-beijing.aliyuncs.com/fengchaominsu/2018/10/30/chKyisYBZD.jpg","sort":0,"del":0,"create_time":"2018-10-30 15:00:26","update_time":"2018-10-30 15:17:57"},{"id":3,"user_id":1,"type":1,"label":"cehsi1","logo":"http://fengchaominsu.oss-cn-beijing.aliyuncs.com/fengchaominsu/2018/10/30/Q6QGs3FWGX.jpg","sort":0,"del":0,"create_time":"2018-10-30 15:17:49","update_time":"0000-00-00 00:00:00"},{"id":4,"user_id":1,"type":1,"label":"123aaa111","logo":"http://fengchaominsu.oss-cn-beijing.aliyuncs.com/fengchaominsu/2018/10/30/6C7Q22FFmi.jpg","sort":0,"del":0,"create_time":"2018-10-30 18:04:36","update_time":"2018-10-30 18:04:43"}],"count_dates":2}]
+         * p_start : T3
+         * p_end : 天安门
+         * count_dates : 4
+         * count_view : 7
+         * count_praise : 1
+         * count_comment : 1
+         * count_collect : 1
+         * create_time : 昨天17:04
          * is_my_praise : 0
          * is_my_attention : 0
          * is_my_collect : 0
          * count_yox : 10
-         * count_yoj : 5
+         * count_yoj : 7
          */
 
+        private int user_id;
         private String user_nickname;
         private String user_logo;
         private int user_level;
         private int partner_type;
-        private int user_id;
         private int yo_id;
         private String logo;
         private String title;
@@ -78,8 +78,16 @@ public class YoJiDetailBean  extends BaseBean {
         private int count_yox;
         private int count_yoj;
         private List<?> topics;
-        private List<ChannelsBean> channels;
+        private List<?> channels;
         private List<ListBean> list;
+
+        public int getUser_id() {
+            return user_id;
+        }
+
+        public void setUser_id(int user_id) {
+            this.user_id = user_id;
+        }
 
         public String getUser_nickname() {
             return user_nickname;
@@ -111,14 +119,6 @@ public class YoJiDetailBean  extends BaseBean {
 
         public void setPartner_type(int partner_type) {
             this.partner_type = partner_type;
-        }
-
-        public int getUser_id() {
-            return user_id;
-        }
-
-        public void setUser_id(int user_id) {
-            this.user_id = user_id;
         }
 
         public int getYo_id() {
@@ -289,11 +289,11 @@ public class YoJiDetailBean  extends BaseBean {
             this.topics = topics;
         }
 
-        public List<ChannelsBean> getChannels() {
+        public List<?> getChannels() {
             return channels;
         }
 
-        public void setChannels(List<ChannelsBean> channels) {
+        public void setChannels(List<?> channels) {
             this.channels = channels;
         }
 
@@ -305,45 +305,20 @@ public class YoJiDetailBean  extends BaseBean {
             this.list = list;
         }
 
-        public static class ChannelsBean {
-            /**
-             * channel_id : 1
-             * channel : 假期畅游
-             */
-
-            private int channel_id;
-            private String channel;
-
-            public int getChannel_id() {
-                return channel_id;
-            }
-
-            public void setChannel_id(int channel_id) {
-                this.channel_id = channel_id;
-            }
-
-            public String getChannel() {
-                return channel;
-            }
-
-            public void setChannel(String channel) {
-                this.channel = channel;
-            }
-        }
-
         public static class ListBean {
             /**
-             * id : 1161
-             * yo_id : 4251
-             * logos : ["https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007129.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007130.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007131.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007132.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007133.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007134.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007135.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007136.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007137.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007138.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007139.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007140.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007141.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007142.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007143.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007144.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007145.jpg","https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/fm/fm_1000007146.jpg"]
-             * start_date : 2016-06-24
-             * end_date : 2016-06-24
-             * position_name : 遇龙河
-             * position_areas : 中国,广西,阳朔
-             * position_address :
-             * lng :
-             * lat :
-             * labels : []
+             * id : 2054
+             * yo_id : 4319
+             * logos : ["http://iyoyogo.oss-cn-beijing.aliyuncs.com/iyoyogo/2018/12/20/tSKfJN8CxJ.png?x-oss-process=image/resize,w_400"]
+             * start_date : 2018-12-06
+             * end_date : 2018-12-07
+             * position_name : T3
+             * position_areas : 中国,北京,朝阳
+             * position_address : 望京soho
+             * lng : 116.454723
+             * lat : 39.877593
+             * labels : [{"id":2,"user_id":1,"type":1,"label":"测试1111","logo":"http://fengchaominsu.oss-cn-beijing.aliyuncs.com/fengchaominsu/2018/10/30/chKyisYBZD.jpg","sort":0,"del":0,"create_time":"2018-10-30 15:00:26","update_time":"2018-10-30 15:17:57"},{"id":9,"user_id":2,"type":1,"label":"旅游胜地1","logo":"http://iyoyogo.oss-cn-beijing.aliyuncs.com/iyoyogo/2018/12/8/2ikQfYjpsW.jpg","sort":0,"del":0,"create_time":"2018-12-08 10:15:41","update_time":"2018-12-08 10:15:59"},{"id":22,"user_id":80003,"type":1,"label":"专属","logo":"","sort":0,"del":0,"create_time":"2018-12-17 21:57:47","update_time":"0000-00-00 00:00:00"}]
+             * count_dates : 2
              */
 
             private int id;
@@ -355,8 +330,9 @@ public class YoJiDetailBean  extends BaseBean {
             private String position_address;
             private String lng;
             private String lat;
+            private int count_dates;
             private List<String> logos;
-            private List<?> labels;
+            private List<LabelsBean> labels;
 
             public int getId() {
                 return id;
@@ -430,6 +406,14 @@ public class YoJiDetailBean  extends BaseBean {
                 this.lat = lat;
             }
 
+            public int getCount_dates() {
+                return count_dates;
+            }
+
+            public void setCount_dates(int count_dates) {
+                this.count_dates = count_dates;
+            }
+
             public List<String> getLogos() {
                 return logos;
             }
@@ -438,12 +422,108 @@ public class YoJiDetailBean  extends BaseBean {
                 this.logos = logos;
             }
 
-            public List<?> getLabels() {
+            public List<LabelsBean> getLabels() {
                 return labels;
             }
 
-            public void setLabels(List<?> labels) {
+            public void setLabels(List<LabelsBean> labels) {
                 this.labels = labels;
+            }
+
+            public static class LabelsBean {
+                /**
+                 * id : 2
+                 * user_id : 1
+                 * type : 1
+                 * label : 测试1111
+                 * logo : http://fengchaominsu.oss-cn-beijing.aliyuncs.com/fengchaominsu/2018/10/30/chKyisYBZD.jpg
+                 * sort : 0
+                 * del : 0
+                 * create_time : 2018-10-30 15:00:26
+                 * update_time : 2018-10-30 15:17:57
+                 */
+
+                private int id;
+                private int user_id;
+                private int type;
+                private String label;
+                private String logo;
+                private int sort;
+                private int del;
+                private String create_time;
+                private String update_time;
+
+                public int getId() {
+                    return id;
+                }
+
+                public void setId(int id) {
+                    this.id = id;
+                }
+
+                public int getUser_id() {
+                    return user_id;
+                }
+
+                public void setUser_id(int user_id) {
+                    this.user_id = user_id;
+                }
+
+                public int getType() {
+                    return type;
+                }
+
+                public void setType(int type) {
+                    this.type = type;
+                }
+
+                public String getLabel() {
+                    return label;
+                }
+
+                public void setLabel(String label) {
+                    this.label = label;
+                }
+
+                public String getLogo() {
+                    return logo;
+                }
+
+                public void setLogo(String logo) {
+                    this.logo = logo;
+                }
+
+                public int getSort() {
+                    return sort;
+                }
+
+                public void setSort(int sort) {
+                    this.sort = sort;
+                }
+
+                public int getDel() {
+                    return del;
+                }
+
+                public void setDel(int del) {
+                    this.del = del;
+                }
+
+                public String getCreate_time() {
+                    return create_time;
+                }
+
+                public void setCreate_time(String create_time) {
+                    this.create_time = create_time;
+                }
+
+                public String getUpdate_time() {
+                    return update_time;
+                }
+
+                public void setUpdate_time(String update_time) {
+                    this.update_time = update_time;
+                }
             }
         }
     }

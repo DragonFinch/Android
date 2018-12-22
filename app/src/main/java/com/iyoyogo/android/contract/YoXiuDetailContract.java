@@ -16,8 +16,8 @@ public interface YoXiuDetailContract {
         void addCommentSuccess(BaseBean baseBean);
         void addAttentionSuccess(AttentionBean.DataBean data);
         void deleteAttentionSuccess(BaseBean baseBean);
-        void getCollectionFolderSuccess(CollectionFolderBean.DataBean collectionFolderBean);
         void createFolderSuccess(BaseBean baseBean);
+        void getCollectionFolderSuccess(CollectionFolderBean.DataBean collectionFolderBean);
         void addCollectionSuccess(AddCollectionBean.DataBean data);
         void deleteCollectionSuccess(BaseBean baseBean);
     }

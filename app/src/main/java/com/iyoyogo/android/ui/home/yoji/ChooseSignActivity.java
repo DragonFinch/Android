@@ -220,36 +220,150 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
                 ArrayList<LabelListBean.DataBean.List2Bean> strings1 = labelTwoAdapter.selectSign();
                 ArrayList<LabelListBean.DataBean.List3Bean> strings2 = labelThreeAdapter.selectSign();
                 ArrayList<Bean> list = new ArrayList<>();
-                for (int i = 0; i < strings.size(); i++) {
-                    Bean bean = new Bean();
-                    bean.setLabel(strings.get(i).getLabel());
-                    bean.setLabel_id((strings.get(i).getLabel_id()));
-                    bean.setLogo(strings.get(i).getLogo());
-                    bean.setType(strings.get(i).getType());
-                    bean.setUser_id(strings.get(i).getUser_id());
-                    bean.setSelect(strings.get(i).isSelect());
-                    list.add(bean);
+
+               if (strings!=null&&strings1!=null&&strings2!=null){
+                    for (int i = 0; i < strings1.size(); i++) {
+                        Bean bean = new Bean();
+                        bean.setLabel(strings1.get(i).getLabel());
+                        bean.setLabel_id((strings1.get(i).getLabel_id()));
+                        bean.setLogo(strings1.get(i).getLogo());
+                        bean.setType(strings1.get(i).getType());
+                        bean.setUser_id(strings1.get(i).getUser_id());
+                        bean.setSelect(strings1.get(i).isSelect());
+                        list.add(bean);
+                    }
+                    for (int i = 0; i < strings2.size(); i++) {
+                        Bean bean = new Bean();
+                        bean.setLabel(strings2.get(i).getLabel());
+                        bean.setLabel_id((strings2.get(i).getLabel_id()));
+                        bean.setLogo(strings2.get(i).getLogo());
+                        bean.setType(strings2.get(i).getType());
+                        bean.setUser_id(strings2.get(i).getUser_id());
+                        bean.setSelect(strings2.get(i).isSelect());
+                        list.add(bean);
+                    }
+                    for (int i = 0; i < strings.size(); i++) {
+                        Bean bean = new Bean();
+                        bean.setLabel(strings.get(i).getLabel());
+                        bean.setLabel_id((strings.get(i).getLabel_id()));
+                        bean.setLogo(strings.get(i).getLogo());
+                        bean.setType(strings.get(i).getType());
+                        bean.setUser_id(strings.get(i).getUser_id());
+                        bean.setSelect(strings.get(i).isSelect());
+                        list.add(bean);
+                    }
+                }else {
+                       //判断1和2是空的就添加3
+                    if (strings==null&&strings1==null){
+                        for (int i = 0; i < strings2.size(); i++) {
+                            Bean bean = new Bean();
+                            bean.setLabel(strings2.get(i).getLabel());
+                            bean.setLabel_id((strings2.get(i).getLabel_id()));
+                            bean.setLogo(strings2.get(i).getLogo());
+                            bean.setType(strings2.get(i).getType());
+                            bean.setUser_id(strings2.get(i).getUser_id());
+                            bean.setSelect(strings2.get(i).isSelect());
+                            list.add(bean);
+                        }
+
+                    }else
+                    // //判断1和3是空的就添加2
+                    if (strings==null&&strings2==null){
+                        for (int i = 0; i < strings1.size(); i++) {
+                            Bean bean = new Bean();
+                            bean.setLabel(strings1.get(i).getLabel());
+                            bean.setLabel_id((strings1.get(i).getLabel_id()));
+                            bean.setLogo(strings1.get(i).getLogo());
+                            bean.setType(strings1.get(i).getType());
+                            bean.setUser_id(strings1.get(i).getUser_id());
+                            bean.setSelect(strings1.get(i).isSelect());
+                            list.add(bean);
+                        }
+                    }else
+                    if (strings1==null&&strings2==null){
+                    //判断2和3是空的，就添加1
+                        for (int i = 0; i < strings.size(); i++) {
+                            Bean bean = new Bean();
+                            bean.setLabel(strings.get(i).getLabel());
+                            bean.setLabel_id((strings.get(i).getLabel_id()));
+                            bean.setLogo(strings.get(i).getLogo());
+                            bean.setType(strings.get(i).getType());
+                            bean.setUser_id(strings.get(i).getUser_id());
+                            bean.setSelect(strings.get(i).isSelect());
+                            list.add(bean);
+                        }
+                    }else
+                    //判断1是空的
+                    if (strings==null){
+                        for (int i = 0; i < strings1.size(); i++) {
+                            Bean bean = new Bean();
+                            bean.setLabel(strings1.get(i).getLabel());
+                            bean.setLabel_id((strings1.get(i).getLabel_id()));
+                            bean.setLogo(strings1.get(i).getLogo());
+                            bean.setType(strings1.get(i).getType());
+                            bean.setUser_id(strings1.get(i).getUser_id());
+                            bean.setSelect(strings1.get(i).isSelect());
+                            list.add(bean);
+                        }
+                        for (int i = 0; i < strings2.size(); i++) {
+                            Bean bean = new Bean();
+                            bean.setLabel(strings2.get(i).getLabel());
+                            bean.setLabel_id((strings2.get(i).getLabel_id()));
+                            bean.setLogo(strings2.get(i).getLogo());
+                            bean.setType(strings2.get(i).getType());
+                            bean.setUser_id(strings2.get(i).getUser_id());
+                            bean.setSelect(strings2.get(i).isSelect());
+                            list.add(bean);
+                        }
+                    }else
+                    // 判断2是空的
+                    if (strings1==null){
+                        for (int i = 0; i < strings.size(); i++) {
+                            Bean bean = new Bean();
+                            bean.setLabel(strings.get(i).getLabel());
+                            bean.setLabel_id((strings.get(i).getLabel_id()));
+                            bean.setLogo(strings.get(i).getLogo());
+                            bean.setType(strings.get(i).getType());
+                            bean.setUser_id(strings.get(i).getUser_id());
+                            bean.setSelect(strings.get(i).isSelect());
+                            list.add(bean);
+                        }
+                        for (int i = 0; i < strings2.size(); i++) {
+                            Bean bean = new Bean();
+                            bean.setLabel(strings2.get(i).getLabel());
+                            bean.setLabel_id((strings2.get(i).getLabel_id()));
+                            bean.setLogo(strings2.get(i).getLogo());
+                            bean.setType(strings2.get(i).getType());
+                            bean.setUser_id(strings2.get(i).getUser_id());
+                            bean.setSelect(strings2.get(i).isSelect());
+                            list.add(bean);
+                        }
+                    }else
+                    // 判断3是空的
+                    if (strings2==null){
+                        for (int i = 0; i < strings.size(); i++) {
+                            Bean bean = new Bean();
+                            bean.setLabel(strings.get(i).getLabel());
+                            bean.setLabel_id((strings.get(i).getLabel_id()));
+                            bean.setLogo(strings.get(i).getLogo());
+                            bean.setType(strings.get(i).getType());
+                            bean.setUser_id(strings.get(i).getUser_id());
+                            bean.setSelect(strings.get(i).isSelect());
+                            list.add(bean);
+                        }
+                        for (int i = 0; i < strings1.size(); i++) {
+                            Bean bean = new Bean();
+                            bean.setLabel(strings1.get(i).getLabel());
+                            bean.setLabel_id((strings1.get(i).getLabel_id()));
+                            bean.setLogo(strings1.get(i).getLogo());
+                            bean.setType(strings1.get(i).getType());
+                            bean.setUser_id(strings1.get(i).getUser_id());
+                            bean.setSelect(strings1.get(i).isSelect());
+                            list.add(bean);
+                        }
+                    }
                 }
-                for (int i = 0; i < strings1.size(); i++) {
-                    Bean bean = new Bean();
-                    bean.setLabel(strings1.get(i).getLabel());
-                    bean.setLabel_id((strings1.get(i).getLabel_id()));
-                    bean.setLogo(strings1.get(i).getLogo());
-                    bean.setType(strings1.get(i).getType());
-                    bean.setUser_id(strings1.get(i).getUser_id());
-                    bean.setSelect(strings1.get(i).isSelect());
-                    list.add(bean);
-                }
-                for (int i = 0; i < strings2.size(); i++) {
-                    Bean bean = new Bean();
-                    bean.setLabel(strings2.get(i).getLabel());
-                    bean.setLabel_id((strings2.get(i).getLabel_id()));
-                    bean.setLogo(strings2.get(i).getLogo());
-                    bean.setType(strings2.get(i).getType());
-                    bean.setUser_id(strings2.get(i).getUser_id());
-                    bean.setSelect(strings2.get(i).isSelect());
-                    list.add(bean);
-                }
+
                 Intent intent = new Intent();
 
                 for (int i = 0; i < list.size(); i++) {
@@ -263,7 +377,7 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
                 bundle.putSerializable("sign_list", list);
                 intent.putExtras(bundle);
                 Log.d("ChooseSignActivity", "list.size():" + list.size());
-                setResult(55,intent);
+                setResult(55, intent);
                 finish();
                 break;
             case R.id.add_make_worth:

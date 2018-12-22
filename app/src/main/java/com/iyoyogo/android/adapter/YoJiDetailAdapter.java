@@ -1,6 +1,7 @@
 package com.iyoyogo.android.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,12 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.yoji.detail.YoJiDetailBean;
 import com.iyoyogo.android.utils.RoundTransform;
+import com.iyoyogo.android.widget.FlowGroupView;
 
 import java.util.List;
 
@@ -37,6 +40,51 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
         return holder;
     }
 
+    private void addTextView(FlowGroupView flowGroupView, String str, int type) {
+        TextView child = new TextView(context);
+
+        child.setCompoundDrawablePadding(4);
+
+
+        ViewGroup.MarginLayoutParams params =
+                new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT,
+                        ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+        params.setMargins(15, 15, 15, 15);
+        child.setLayoutParams(params);
+        if (type == 1) {
+            child.setBackgroundResource(R.drawable.label_bg_deserve_to_do);
+            child.setText(str);
+            child.setTextColor(Color.parseColor("#E0FF6100"));
+        } else if (type == 2) {
+            child.setBackgroundResource(R.drawable.label_bg_fkzn);
+            child.setText(str);
+            child.setTextColor(Color.parseColor("#5BCBF5"));
+        } else if (type == 3) {
+            child.setBackgroundResource(R.drawable.label_bg_exclusive);
+            child.setText(str);
+            child.setTextColor(Color.parseColor("#ff8484"));
+        }
+
+//        initEvents(child);//监听
+        flowGroupView.addView(child);
+
+    }
+
+    private void initEvents(TextView child) {
+        child.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+
+
+                //话题内容
+
+                Toast.makeText(context, child.getText().toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         RequestOptions requestOptions = new RequestOptions();
@@ -52,7 +100,10 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
         int time_date = end_time - start_time;
         holder.tv_time.setText(time_date + "天");
         holder.create_time.setText(start_date);
-
+        List<YoJiDetailBean.DataBean.ListBean.LabelsBean> labels = mList.get(position).getLabels();
+        for (int i = 0; i < labels.size(); i++) {
+            addTextView(holder.flow, labels.get(i).getLabel(), labels.get(i).getType());
+        }
         List<String> logos = mList.get(position).getLogos();
         int size = logos.size();
         if (size == 1) {
@@ -134,6 +185,8 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
     }
 
     public class Holder extends RecyclerView.ViewHolder {
+        FlowGroupView flow;
+
         ImageView zuji_image, plane,
                 img_count_one_one, img_count_two_one, img_count_three_one, img_count_four_one, img_count_five_one,
                 img_count_two_two, img_count_three_two, img_count_four_two, img_count_five_two,
@@ -144,6 +197,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
 
         public Holder(@NonNull View itemView) {
             super(itemView);
+            flow = itemView.findViewById(R.id.flow);
             tv_pic_count = itemView.findViewById(R.id.tv_pic_count);
             tv_time = itemView.findViewById(R.id.tv_time);
             create_time = itemView.findViewById(R.id.create_time);

@@ -42,6 +42,7 @@ import com.google.gson.Gson;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.Bean;
 import com.iyoyogo.android.adapter.PublishYoJiAdapter;
+import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.yoji.publish.MessageBean;
@@ -152,7 +153,6 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     private double latitude;
     private double longitude;
     private MessageBean messageBean1;
-    private MessageBean messageBean11;
 
     @Override
     protected int getLayoutId() {
@@ -281,93 +281,99 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         user_id = SpUtils.getString(PublishYoJiActivity.this, "user_id", null);
         user_token = SpUtils.getString(PublishYoJiActivity.this, "user_token", null);
         mPresenter.getRecommendTopic(user_id, user_token);
-        MessageBean messageBean = new MessageBean();
-        messageBean.setStart_date("开始日期");
-        messageBean.setEnd_date("结束日期");
-        messageBean.setPosition_name("添加位置");
-        label_ids.add(0);
-        messageBean.setLabel_ids(label_ids);
-        messageBean.setPosition_address("2");
-        messageBean.setPosition_areas("1");
-        mList = new ArrayList<>();
-        messageBean.setLogos(uris);
-        mList.add(messageBean);
-        ScrollLinearLayoutManager scrollLinearLayoutManager = new ScrollLinearLayoutManager(PublishYoJiActivity.this);
-        scrollLinearLayoutManager.setScrollEnabled(false);
-        recyclerPublishYoji.setLayoutManager(scrollLinearLayoutManager);
-        publishYoJiAdapter = new PublishYoJiAdapter(PublishYoJiActivity.this, mList);
-        recyclerPublishYoji.setAdapter(publishYoJiAdapter);
 
-        publishYoJiAdapter.setOnPlayClickListener(new PublishYoJiAdapter.OnLocationClickListener() {
-            @Override
-            public void onAddAddressClick(int position, PublishYoJiAdapter.ViewHolder holder) {
-                Intent intent = new Intent(PublishYoJiActivity.this, SearchActivity.class);
-                intent.putExtra("latitude", "0");
-                intent.putExtra("longitude", "0");
-                intent.putExtra("place", "添加位置");
-                startActivityForResult(intent, 1);
-                location_tv = holder.itemView.findViewById(R.id.location_tv);
-            }
-
-            @Override
-            public void onTitleEdit(EditText title, EditText content, EditText cost) {
-
-            }
-
-            @Override
-            public void onCoverClick(int position) {
-
-            }
-
-
-            @Override
-            public void onLocationClick(int position) {
-
-            }
-
-            @Override
-            public void onStartTimeClick(int postion, String startTime) {
-                start_time = startTime.trim();
-            }
-
-            @Override
-            public void onEndTimeClick(int postion, String endTime) {
-                end_time = endTime.trim();
-            }
-
-            @Override
-            public void onTagClick(int position, PublishYoJiAdapter.ViewHolder holder) {
-                Intent intent = new Intent(PublishYoJiActivity.this, ChooseSignActivity.class);
-                startActivityForResult(intent, 1);
-                flow_group = holder.itemView.findViewById(R.id.flow_group);
-                label_tv = holder.itemView.findViewById(R.id.label_tv);
-            }
-
-            @Override
-            public void onTagReomveClick(int position, int index) {
-
-            }
-
-            @Override
-            public void onImageReomveClick(int position, int index) {
-
-            }
-
-            @Override
-            public void onImageAddClick(int position, PublishYoJiAdapter.ViewHolder holder) {
-                Intent intent = new Intent(PublishYoJiActivity.this, ImagesPickActivity.class);
-                intent.putExtra("type", 1);
-                index = position;
-                startActivityForResult(intent, 1);
-                index += 1;
-            }
-        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        List<MessageBean> list = App.list;
+        if (list.size()==0){
+            MessageBean messageBean = new MessageBean();
+            messageBean.setStart_date("开始日期");
+            messageBean.setEnd_date("结束日期");
+            messageBean.setPosition_name("添加位置");
+            label_ids.add(0);
+            messageBean.setLabel_ids(label_ids);
+            messageBean.setPosition_address("2");
+            messageBean.setPosition_areas("1");
+            mList = new ArrayList<>();
+            messageBean.setLogos(uris);
+            mList.add(messageBean);
+            ScrollLinearLayoutManager scrollLinearLayoutManager = new ScrollLinearLayoutManager(PublishYoJiActivity.this);
+            scrollLinearLayoutManager.setScrollEnabled(false);
+            recyclerPublishYoji.setLayoutManager(scrollLinearLayoutManager);
+            publishYoJiAdapter = new PublishYoJiAdapter(PublishYoJiActivity.this, mList);
+            recyclerPublishYoji.setAdapter(publishYoJiAdapter);
 
+            publishYoJiAdapter.setOnPlayClickListener(new PublishYoJiAdapter.OnLocationClickListener() {
+                @Override
+                public void onAddAddressClick(int position, PublishYoJiAdapter.ViewHolder holder) {
+                    Intent intent = new Intent(PublishYoJiActivity.this, SearchActivity.class);
+                    intent.putExtra("latitude", "0");
+                    intent.putExtra("longitude", "0");
+                    intent.putExtra("place", "添加位置");
+                    startActivityForResult(intent, 1);
+                    location_tv = holder.itemView.findViewById(R.id.location_tv);
+                }
+
+                @Override
+                public void onTitleEdit(EditText title, EditText content, EditText cost) {
+
+                }
+
+                @Override
+                public void onCoverClick(int position) {
+
+                }
+
+
+                @Override
+                public void onLocationClick(int position) {
+
+                }
+
+                @Override
+                public void onStartTimeClick(int postion, String startTime) {
+                    start_time = startTime.trim();
+                }
+
+                @Override
+                public void onEndTimeClick(int postion, String endTime) {
+                    end_time = endTime.trim();
+                }
+
+                @Override
+                public void onTagClick(int position, PublishYoJiAdapter.ViewHolder holder) {
+                    Intent intent = new Intent(PublishYoJiActivity.this, ChooseSignActivity.class);
+                    startActivityForResult(intent, 1);
+                    flow_group = holder.itemView.findViewById(R.id.flow_group);
+                    label_tv = holder.itemView.findViewById(R.id.label_tv);
+                }
+
+                @Override
+                public void onTagReomveClick(int position, int index) {
+
+                }
+
+                @Override
+                public void onImageReomveClick(int position, int index) {
+
+                }
+
+                @Override
+                public void onImageAddClick(int position, PublishYoJiAdapter.ViewHolder holder) {
+                    Intent intent = new Intent(PublishYoJiActivity.this, ImagesPickActivity.class);
+                    intent.putExtra("type", 1);
+                    index = position;
+                    App.list.add(messageBean);
+                    startActivityForResult(intent, 1);
+                    index += 1;
+                }
+            });
+        }else {
+
+        }
     }
 
     private void setCurrentLocationDetails(LatLonPoint latLonPoint) {
@@ -491,8 +497,6 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     private void addTextView(String str, FlowGroupView flowGroupView) {
         child = new TextView(this);
         child.setCompoundDrawablePadding(4);
-
-
         ViewGroup.MarginLayoutParams params =
                 new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT,
                         ViewGroup.MarginLayoutParams.WRAP_CONTENT);
@@ -620,8 +624,16 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
 
 //                String json = new Gson().toJson(mList);
+                if (tvPay.getText().toString().trim().length()>0){
+                    if (etTitle.getText().toString().trim().length()>0){
+                        mPresenter.publishYoJi(user_id, user_token, 0, url_cover, etTitle.getText().toString().trim(), etContent.getText().toString().trim(), Integer.parseInt(etCost.getText().toString().trim()), 1, 1, type_list, channel_ids, json);
+                    }else {
+                        Toast.makeText(this, "标题不能为空", Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Toast.makeText(this, "请输入价格", Toast.LENGTH_SHORT).show();
+                }
 
-                mPresenter.publishYoJi(user_id, user_token, 0, url_cover, etTitle.getText().toString().trim(), etContent.getText().toString().trim(), Integer.parseInt(etCost.getText().toString().trim()), 1, 1, type_list, channel_ids, json);
                 break;
         }
     }

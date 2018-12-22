@@ -158,8 +158,22 @@ public class ImagesPickActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void onPause() {
         super.onPause();
+
         listener=null;
         callback=null;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ArrayList<String> strings = adapter.selectPhoto();
+        strings.clear();
     }
 
     /**

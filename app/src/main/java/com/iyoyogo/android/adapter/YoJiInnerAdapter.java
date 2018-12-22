@@ -16,10 +16,11 @@ import java.util.List;
 
 public class YoJiInnerAdapter extends RecyclerView.Adapter<YoJiInnerAdapter.ViewHolder> {
     Context context;
-   List<String> path_list;
+    List<String> path_list;
+
     public YoJiInnerAdapter(Context context, ArrayList<String> path_list) {
-        this.context=context;
-        this.path_list=path_list;
+        this.context = context;
+        this.path_list = path_list;
     }
 
     @NonNull
@@ -30,8 +31,15 @@ public class YoJiInnerAdapter extends RecyclerView.Adapter<YoJiInnerAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        Glide.with(context).load(path_list.get(position)).into(viewHolder.iv_image);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Glide.with(context).load(path_list.get(position)).into(holder.iv_image);
+        holder.iv_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                path_list.remove(position);
+                notifyItemRemoved(position);
+            }
+        });
     }
 
     @Override
@@ -40,10 +48,12 @@ public class YoJiInnerAdapter extends RecyclerView.Adapter<YoJiInnerAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView iv_image;
+        ImageView iv_image, iv_delete;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            iv_image=itemView.findViewById(R.id.iv_image);
+            iv_delete = itemView.findViewById(R.id.iv_image_delete);
+            iv_image = itemView.findViewById(R.id.iv_image);
         }
     }
 }
