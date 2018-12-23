@@ -4,8 +4,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.ScrollView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +46,7 @@ import com.google.gson.Gson;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.Bean;
 import com.iyoyogo.android.adapter.PublishYoJiAdapter;
-import com.iyoyogo.android.app.App;
+import com.iyoyogo.android.app.AeDITEXT;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.yoji.publish.MessageBean;
@@ -55,7 +59,6 @@ import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.imagepicker.activities.ImagesPickActivity;
 import com.iyoyogo.android.view.DrawableTextView;
 import com.iyoyogo.android.widget.FlowGroupView;
-import com.iyoyogo.android.widget.ScrollLinearLayoutManager;
 import com.iyoyogo.android.widget.flow.FlowLayout;
 import com.iyoyogo.android.widget.flow.TagAdapter;
 import com.iyoyogo.android.widget.flow.TagFlowLayout;
@@ -65,6 +68,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presenter> implements PublishYoJiContract.View {
@@ -81,11 +85,11 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     @BindView(R.id.tv_add_cover)
     TextView tvAddCover;
     @BindView(R.id.et_title)
-    EditText etTitle;
+    AeDITEXT etTitle;
     @BindView(R.id.text_title_length)
     TextView textTitleLength;
     @BindView(R.id.et_content)
-    EditText etContent;
+    AeDITEXT etContent;
     @BindView(R.id.text_content_length)
     TextView textContentLength;
     @BindView(R.id.tv_recommend)
@@ -97,7 +101,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     @BindView(R.id.tv_pay)
     TextView tvPay;
     @BindView(R.id.et_cost)
-    EditText etCost;
+    AeDITEXT etCost;
     @BindView(R.id.recycler_publish_yoji)
     RecyclerView recyclerPublishYoji;
     @BindView(R.id.img_channel)
@@ -121,7 +125,9 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     @BindView(R.id.radioGroup_share)
     RadioGroup radioGroupShare;
     @BindView(R.id.scroll)
-    ScrollView scroll;
+    NestedScrollView scroll;
+    @BindView(R.id.relative_recycler)
+    RelativeLayout relativeRecycler;
     private List<Integer> type_list = new ArrayList<>();
     private ArrayList<String> path_list;
     private DrawableTextView location_tv;
@@ -152,7 +158,8 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     private String district;
     private double latitude;
     private double longitude;
-    private MessageBean messageBean1;
+    private MessageBean messageBean1=new MessageBean();
+    private MessageBean publishYoJiRequest=new MessageBean();
 
     @Override
     protected int getLayoutId() {
@@ -164,19 +171,236 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         return new PublishYoJiPresenter(this);
     }
 
-    @Override
-    protected void initBeforeView() {
-        super.initBeforeView();
-        Intent intent = getIntent();
-        path_list = intent.getStringArrayListExtra("path_list");
-        path = path_list.get(0);
-        Glide.with(this).load(path).into(imgYoji);
-        ossUpload(path_list);
-    }
 
     @Override
     protected void initView() {
         super.initView();
+        Intent intent = getIntent();
+        path_list = intent.getStringArrayListExtra("path_list");
+        path = path_list.get(0);
+        Glide.with(this).load(path).into(imgYoji);
+      new Thread(new Runnable() {
+          @Override
+          public void run() {
+              ossUpload(path_list);
+          }
+      }).start();
+        MessageBean messageBean = new MessageBean();
+        messageBean.setStart_date("开始日期");
+        messageBean.setEnd_date("结束日期");
+        messageBean.setPosition_name("添加位置");
+        label_ids.add(0);
+        messageBean.setLabel_ids(label_ids);
+        messageBean.setPosition_address("2");
+        messageBean.setPosition_areas("1");
+        mList = new ArrayList<>();
+        messageBean.setLogos(uris);
+        mList.add(messageBean);
+        etTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+//                etCost.clearFocus();
+//                etCost.setFocusable(false);
+//                etContent.clearFocus();
+//                etContent.setFocusable(false);
+                etTitle.clearFocus();
+                etTitle.setFocusable(false);
+            }
+        });
+        etCost.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                etCost.clearFocus();
+                etCost.setFocusable(false);
+                /*etContent.clearFocus();
+                etContent.setFocusable(false);
+                etTitle.clearFocus();
+                etTitle.setFocusable(false);*/
+            }
+        });
+        etContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+              /*  etCost.clearFocus();
+                etCost.setFocusable(false);
+
+                etTitle.clearFocus();
+                etTitle.setFocusable(false);*/
+                etContent.clearFocus();
+                etContent.setFocusable(false);
+            }
+        });
+        etContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+//        ScrollLinearLayoutManager scrollLinearLayoutManager = new LinearLayoutMananger(PublishYoJiActivity.this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(PublishYoJiActivity.this) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        recyclerPublishYoji.setLayoutManager(linearLayoutManager);
+        publishYoJiAdapter = new PublishYoJiAdapter(PublishYoJiActivity.this, mList);
+        recyclerPublishYoji.setAdapter(publishYoJiAdapter);
+
+        publishYoJiAdapter.setOnPlayClickListener(new PublishYoJiAdapter.OnLocationClickListener() {
+            @Override
+            public void onAddAddressClick(int position, PublishYoJiAdapter.ViewHolder holder) {
+                Intent intent = new Intent(PublishYoJiActivity.this, SearchActivity.class);
+                intent.putExtra("latitude", "0");
+                intent.putExtra("longitude", "0");
+                intent.putExtra("place", "添加位置");
+                startActivityForResult(intent, 1);
+                location_tv = holder.itemView.findViewById(R.id.location_tv);
+            }
+
+            @Override
+            public void onTitleEdit(EditText title, EditText content, EditText cost) {
+
+            }
+
+            @Override
+            public void onCoverClick(int position) {
+
+            }
+
+
+            @Override
+            public void onLocationClick(int position) {
+
+            }
+
+            @Override
+            public void onStartTimeClick(int postion, String startTime) {
+                start_time = startTime.trim();
+                publishYoJiRequest.setStart_date(start_time);
+                messageBean1.setStart_date(start_time);
+
+            }
+
+            @Override
+            public void onEndTimeClick(int postion, String endTime) {
+                end_time = endTime.trim();
+                publishYoJiRequest.setEnd_date(end_time);
+                messageBean1.setEnd_date(end_time);
+            }
+
+            @Override
+            public void onTagClick(int position, PublishYoJiAdapter.ViewHolder holder) {
+                Intent intent = new Intent(PublishYoJiActivity.this, ChooseSignActivity.class);
+                startActivityForResult(intent, 1);
+                flow_group = holder.itemView.findViewById(R.id.flow_group);
+                label_tv = holder.itemView.findViewById(R.id.label_tv);
+            }
+
+            @Override
+            public void onTagReomveClick(int position, int index) {
+
+            }
+
+            @Override
+            public void onImageReomveClick(int position, int index) {
+
+            }
+
+            @Override
+            public void onImageAddClick(int position, PublishYoJiAdapter.ViewHolder holder) {
+                Intent intent = new Intent(PublishYoJiActivity.this, ImagesPickActivity.class);
+                intent.putExtra("type", 1);
+                index = position;
+                startActivityForResult(intent, 1);
+            }
+        });
+       /* etContent.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (v.getId()) {
+                    case R.id.et_content:
+                    case R.id.et_title:
+                        // 解决scrollView中嵌套EditText导致不能上下滑动的问题
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                            case MotionEvent.ACTION_UP:
+                                v.getParent().requestDisallowInterceptTouchEvent(false);
+                                break;
+                        }
+                }
+
+                return false;
+            }
+        });
+        etTitle.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (v.getId()) {
+                    case R.id.et_content:
+                    case R.id.et_title:
+                        // 解决scrollView中嵌套EditText导致不能上下滑动的问题
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                            case MotionEvent.ACTION_UP:
+                                v.getParent().requestDisallowInterceptTouchEvent(false);
+                                break;
+                        }
+                }
+
+                return false;
+            }
+        });
+        etCost.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (v.getId()) {
+                    case R.id.et_content:
+                    case R.id.et_title:
+                        // 解决scrollView中嵌套EditText导致不能上下滑动的问题
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                            case MotionEvent.ACTION_UP:
+                                v.getParent().requestDisallowInterceptTouchEvent(false);
+                                break;
+                        }
+                }
+
+                return false;
+            }
+        });*/
+        //
+
 
     }
 
@@ -287,93 +511,6 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     @Override
     protected void onResume() {
         super.onResume();
-        List<MessageBean> list = App.list;
-        if (list.size()==0){
-            MessageBean messageBean = new MessageBean();
-            messageBean.setStart_date("开始日期");
-            messageBean.setEnd_date("结束日期");
-            messageBean.setPosition_name("添加位置");
-            label_ids.add(0);
-            messageBean.setLabel_ids(label_ids);
-            messageBean.setPosition_address("2");
-            messageBean.setPosition_areas("1");
-            mList = new ArrayList<>();
-            messageBean.setLogos(uris);
-            mList.add(messageBean);
-            ScrollLinearLayoutManager scrollLinearLayoutManager = new ScrollLinearLayoutManager(PublishYoJiActivity.this);
-            scrollLinearLayoutManager.setScrollEnabled(false);
-            recyclerPublishYoji.setLayoutManager(scrollLinearLayoutManager);
-            publishYoJiAdapter = new PublishYoJiAdapter(PublishYoJiActivity.this, mList);
-            recyclerPublishYoji.setAdapter(publishYoJiAdapter);
-
-            publishYoJiAdapter.setOnPlayClickListener(new PublishYoJiAdapter.OnLocationClickListener() {
-                @Override
-                public void onAddAddressClick(int position, PublishYoJiAdapter.ViewHolder holder) {
-                    Intent intent = new Intent(PublishYoJiActivity.this, SearchActivity.class);
-                    intent.putExtra("latitude", "0");
-                    intent.putExtra("longitude", "0");
-                    intent.putExtra("place", "添加位置");
-                    startActivityForResult(intent, 1);
-                    location_tv = holder.itemView.findViewById(R.id.location_tv);
-                }
-
-                @Override
-                public void onTitleEdit(EditText title, EditText content, EditText cost) {
-
-                }
-
-                @Override
-                public void onCoverClick(int position) {
-
-                }
-
-
-                @Override
-                public void onLocationClick(int position) {
-
-                }
-
-                @Override
-                public void onStartTimeClick(int postion, String startTime) {
-                    start_time = startTime.trim();
-                }
-
-                @Override
-                public void onEndTimeClick(int postion, String endTime) {
-                    end_time = endTime.trim();
-                }
-
-                @Override
-                public void onTagClick(int position, PublishYoJiAdapter.ViewHolder holder) {
-                    Intent intent = new Intent(PublishYoJiActivity.this, ChooseSignActivity.class);
-                    startActivityForResult(intent, 1);
-                    flow_group = holder.itemView.findViewById(R.id.flow_group);
-                    label_tv = holder.itemView.findViewById(R.id.label_tv);
-                }
-
-                @Override
-                public void onTagReomveClick(int position, int index) {
-
-                }
-
-                @Override
-                public void onImageReomveClick(int position, int index) {
-
-                }
-
-                @Override
-                public void onImageAddClick(int position, PublishYoJiAdapter.ViewHolder holder) {
-                    Intent intent = new Intent(PublishYoJiActivity.this, ImagesPickActivity.class);
-                    intent.putExtra("type", 1);
-                    index = position;
-                    App.list.add(messageBean);
-                    startActivityForResult(intent, 1);
-                    index += 1;
-                }
-            });
-        }else {
-
-        }
     }
 
     private void setCurrentLocationDetails(LatLonPoint latLonPoint) {
@@ -423,6 +560,22 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
             latitude = data.getDoubleExtra("latitude", 0.0);
             longitude = data.getDoubleExtra("longitude", 0.0);
             LatLonPoint latLonPoint = new LatLonPoint(latitude, longitude);
+            publishYoJiRequest.setLogos(uris);
+            publishYoJiRequest.setPosition_name(place1);
+            publishYoJiRequest.setPosition_areas(country + "," + province + "," + city + "," + district);
+            publishYoJiRequest.setLat(String.valueOf(latitude));
+            publishYoJiRequest.setLng(String.valueOf(longitude));
+            publishYoJiRequest.setPosition_address(place);
+            messageBean1.setPosition_name(place1);
+            messageBean1.setPosition_areas(country + "," + province + "," + city + "," + district);
+            messageBean1.setLat(String.valueOf(latitude));
+            messageBean1.setLng(String.valueOf(longitude));
+            messageBean1.setPosition_address(place);
+
+
+
+
+
             setCurrentLocationDetails(latLonPoint);
             location_tv.setText(place1);
         }
@@ -433,6 +586,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                 String label = sign_list.get(i).getLabel();
                 Log.d("PublishYoJiActivity", label);
             }
+            publishYoJiRequest.setLabel_ids(label_ids);
             if (tagAdapter == null) {
                 tagAdapter = new TagAdapter<Bean>(sign_list) {
 
@@ -466,6 +620,8 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                 int label_id = sign_list.get(i).getLabel_id();
                 label_ids.add(label_id);
             }
+                publishYoJiRequest.setLabel_ids(label_ids);
+                messageBean1.setLabel_ids(label_ids);
 
         }
 
@@ -487,8 +643,16 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
             for (int i = 0; i < path_list.size(); i++) {
                 Log.d("PublishYoJiActivity", path_list.get(i));
             }
-            messageBean1 = new MessageBean();
-            messageBean1.setLogos(path_list);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ossUpload(path_list);
+                }
+            }).start();
+
+            messageBean1.setLogos(uris);
+
+
             list.add(messageBean1);
             publishYoJiAdapter.addData(index, messageBean1);
         }
@@ -582,9 +746,19 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         return urls;
     }
 
-    @OnClick({R.id.back_img, R.id.tv_add_cover, R.id.more_topic, R.id.next, R.id.tv_publish})
+    @OnClick({R.id.back_img, R.id.tv_add_cover, R.id.more_topic, R.id.next, R.id.tv_publish,R.id.relative_recycler})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.relative_recycler:
+                shortToast("aaa");
+                etCost.clearFocus();
+                etCost.setFocusable(false);
+                etContent.clearFocus();
+                etContent.setFocusable(false);
+                etTitle.clearFocus();
+                etTitle.setFocusable(false);
+                shortToast("vvv");
+                break;
             case R.id.back_img:
 
                 break;
@@ -606,31 +780,20 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                 }
                 Log.d("PublishYoJiActivity", mList.toString());
 
-                MessageBean publishYoJiRequest = new MessageBean();
 
-
-                publishYoJiRequest.setLogos(uris);
-                publishYoJiRequest.setPosition_address("aaa");
-                publishYoJiRequest.setStart_date(start_time);
-                publishYoJiRequest.setEnd_date(end_time);
-                publishYoJiRequest.setPosition_name(place1);
-                publishYoJiRequest.setPosition_areas(country + "," + province + "," + city + "," + district);
-                publishYoJiRequest.setLabel_ids(label_ids);
-                publishYoJiRequest.setLat(String.valueOf(latitude));
-                publishYoJiRequest.setLng(String.valueOf(longitude));
                 list.add(publishYoJiRequest);
                 String json = new Gson().toJson(list);
                 Log.i("数据", "----->  " + json);
 
 
 //                String json = new Gson().toJson(mList);
-                if (tvPay.getText().toString().trim().length()>0){
-                    if (etTitle.getText().toString().trim().length()>0){
+                if (tvPay.getText().toString().trim().length() > 0) {
+                    if (etTitle.getText().toString().trim().length() > 0) {
                         mPresenter.publishYoJi(user_id, user_token, 0, url_cover, etTitle.getText().toString().trim(), etContent.getText().toString().trim(), Integer.parseInt(etCost.getText().toString().trim()), 1, 1, type_list, channel_ids, json);
-                    }else {
+                    } else {
                         Toast.makeText(this, "标题不能为空", Toast.LENGTH_SHORT).show();
                     }
-                }else {
+                } else {
                     Toast.makeText(this, "请输入价格", Toast.LENGTH_SHORT).show();
                 }
 
@@ -653,4 +816,10 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     }
 
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

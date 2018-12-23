@@ -40,7 +40,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class ImagesPickActivity extends BaseActivity implements View.OnClickListener {
+public class ImagesPickActivity extends BaseActivity  {
     public final static String RESULT_IMAGES_LIST = "imagesPath";
     private final static int REQUEST_CAMERA = 200;
     private final static String EXTRA_COUNT = "max";
@@ -125,8 +125,7 @@ public class ImagesPickActivity extends BaseActivity implements View.OnClickList
         mRecyclerViewPickActivity = (RecyclerView) findViewById(R.id.recyclerView_pick_activity);
 
         mTvCount.setText(0 + "/" + maxCount);
-        mImageBtnPickerBack.setOnClickListener(this);
-        mBtnSure.setOnClickListener(this);
+
     }
 
     /**
@@ -261,22 +260,7 @@ public class ImagesPickActivity extends BaseActivity implements View.OnClickList
      *
      * @param v view
      */
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.imageBtn_picker_back:
-                finish();
-                break;
-            case R.id.btn_sure:
-                onPickedDone();
-                break;
-            case R.id.btn_continue:
 
-                break;
-            default:
-                break;
-        }
-    }
 
     /**
      * 返回一组图片path
@@ -298,9 +282,15 @@ public class ImagesPickActivity extends BaseActivity implements View.OnClickList
      */
     private void onResult(ArrayList<String> images) {
         Intent intent = new Intent();
-        intent.putStringArrayListExtra(RESULT_IMAGES_LIST, images);
-        setResult(RESULT_OK, intent);
-        finish();
+        int type = intent.getIntExtra("type", 0);
+        if (type==1){
+            setResult(12, intent);
+            finish();
+        }else {
+            intent.putStringArrayListExtra(RESULT_IMAGES_LIST, images);
+            finish();
+        }
+
     }
 
     @OnClick({R.id.iv_back, R.id.btn_continue})
@@ -317,11 +307,13 @@ public class ImagesPickActivity extends BaseActivity implements View.OnClickList
                     intent1.putStringArrayListExtra("path_list",strings);
                     setResult(4,intent1);
                     finish();
+                }else {
+                    Intent intent = new Intent(ImagesPickActivity.this, PublishYoJiActivity.class);
+                    intent.putStringArrayListExtra("path_list", strings);
+                    startActivity(intent);
+                    finish();
                 }
-                Intent intent = new Intent(ImagesPickActivity.this, PublishYoJiActivity.class);
-                intent.putStringArrayListExtra("path_list", strings);
-                startActivity(intent);
-                finish();
+
                 break;
         }
     }

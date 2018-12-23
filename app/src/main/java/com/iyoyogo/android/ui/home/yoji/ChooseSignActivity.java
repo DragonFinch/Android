@@ -127,9 +127,9 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
                 mPresenter.addLabel(user_id, user_token, 0, type, edit_label.getText().toString().trim());
               /*  labelThreeAdapter.tagAdapter.notifyDataChanged();
                 labelTwoAdapter.tagAdapter.notifyDataChanged();*/
-                labelAdapter.refresh();
-                labelTwoAdapter.refresh();
-                labelThreeAdapter.refresh();
+//                labelAdapter.refresh();
+//                labelTwoAdapter.refresh();
+//                labelThreeAdapter.refresh();
                 popup.dismiss();
             }
         });
@@ -376,6 +376,7 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("sign_list", list);
                 intent.putExtras(bundle);
+                intent.putExtra("type",1);
                 Log.d("ChooseSignActivity", "list.size():" + list.size());
                 setResult(55, intent);
                 finish();
@@ -422,7 +423,7 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
         } else {
             labelThreeAdapter.setLabels(list3);
         }
-        labelAdapter.refresh();
+//        labelAdapter.refreshrefresh();
     }
 
     @Override

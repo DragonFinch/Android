@@ -15,7 +15,6 @@ import com.iyoyogo.android.R;
  * 创建时间：2018/6/1
  * 描述：
  */
-@SuppressLint("AppCompatCustomView")
 public class DrawableTextView extends TextView {
     private Drawable drawableLeft;
     private Drawable drawableRight;
