@@ -6,6 +6,8 @@
     android:layout_width="@dimen/dp_130"
     android:layout_height="@dimen/dp_130">
 <ImageView
+    android:layout_marginTop="@dimen/dp_5"
+    android:layout_marginRight="@dimen/dp_5"
     android:layout_centerInParent="true"
     android:scaleType="centerCrop"
     android:id="@+id/img_picture"
@@ -25,6 +27,7 @@
 
 
     <ImageView
+        android:visibility="visible"
         android:layout_centerInParent="true"
         android:src="@mipmap/ic_video"
         android:layout_width="wrap_content"

@@ -5,6 +5,7 @@ import android.widget.Toast;
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BasePresenter;
 import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.collection.AddCollectionBean;
 import com.iyoyogo.android.bean.collection.CollectionFolderBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
@@ -28,6 +29,46 @@ public class YoJiDetailPresenter extends BasePresenter<YoJiDetailContract.View> 
                         if (data != null) {
                             mView.getYoJiDetailSuccess(data);
                         }
+                    }
+
+                    @Override
+                    protected boolean doOnFailure(int code, String message) {
+                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+    }
+
+    @Override
+    public void addAttention(String user_id, String user_token, int target_id) {
+        DataManager.getFromRemote().addAttention(user_id, user_token, target_id)
+                .subscribe(new ApiObserver<AttentionBean>(mView, this) {
+                    @Override
+                    protected void doOnSuccess(AttentionBean attentionBean) {
+                        AttentionBean.DataBean data = attentionBean.getData();
+                        if (data != null) {
+                            mView.addAttentionSuccess(data);
+                        }
+                    }
+
+                    @Override
+                    protected boolean doOnFailure(int code, String message) {
+                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+    }
+
+    @Override
+    public void deleteAttention(String user_id, String user_token, int id) {
+        DataManager.getFromRemote().deleteAttention(user_id, user_token, id)
+                .subscribe(new ApiObserver<BaseBean>(mView, this) {
+                    @Override
+                    protected void doOnSuccess(BaseBean baseBean) {
+
+
+                        mView.deleteAttentionSuccess(baseBean);
+
                     }
 
                     @Override

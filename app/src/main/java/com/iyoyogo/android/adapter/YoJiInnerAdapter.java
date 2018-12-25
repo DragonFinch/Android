@@ -40,6 +40,16 @@ public class YoJiInnerAdapter extends RecyclerView.Adapter<YoJiInnerAdapter.View
                 notifyItemRemoved(position);
             }
         });
+        holder.iv_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onImageClickListener != null) {
+                    onImageClickListener.setOnClick(v, (Integer) v.getTag());
+                }
+            }
+        });
+        holder.itemView.setTag(position);
+
     }
 
     @Override
@@ -55,5 +65,15 @@ public class YoJiInnerAdapter extends RecyclerView.Adapter<YoJiInnerAdapter.View
             iv_delete = itemView.findViewById(R.id.iv_image_delete);
             iv_image = itemView.findViewById(R.id.iv_image);
         }
+    }
+
+    interface OnImageClickListener {
+        void setOnClick(View v, int position);
+    }
+
+    private OnImageClickListener onImageClickListener;
+
+    public void setOnImageClickListener(OnImageClickListener onImageClickListener) {
+        this.onImageClickListener = onImageClickListener;
     }
 }

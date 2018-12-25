@@ -1,5 +1,7 @@
 <resources>
     <string name="bianji">编辑yo·秀</string>
+    <string name="yoxiu">yo·秀</string>
+    <string name="yoji">yo·记</string>
     <string name="bianji_yoji">编辑yo·记</string>
     <string name="shier">十二使徒岩</string>
     <string name="genghuan">更换</string>
@@ -569,7 +571,7 @@
 
     <string name="xiaoxizhongxin">消息中心</string>
     <string name="xitongxiaoxi">系统消息</string>
-    <string name="xihuanwode">喜欢我的</string>
+    <string name="xihuanwode">我喜欢过</string>
     <string name="pinglunxiaoxi">评论消息</string>
     <string name="guanzhuxiaoxi">关注消息</string>
 

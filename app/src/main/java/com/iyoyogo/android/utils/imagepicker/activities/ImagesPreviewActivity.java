@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -17,7 +15,6 @@ public class ImagesPreviewActivity extends AppCompatActivity {
 
     private ImageView mImagePreviewShow;
     private String imagePath;
-    private ImageButton mImgBtnPreviewBack;
     public static void startPreView(Activity activity, String imagePath){
         Intent intent = new Intent(activity,ImagesPreviewActivity.class);
         intent.putExtra(EXTRA_PREVIEW,imagePath);
@@ -30,13 +27,6 @@ public class ImagesPreviewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         imagePath = intent.getStringExtra(EXTRA_PREVIEW);
         mImagePreviewShow = (ImageView) findViewById(R.id.image_preview_show);
-        mImgBtnPreviewBack = (ImageButton) findViewById(R.id.imgBtn_preview_back);
-        mImgBtnPreviewBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
         Glide.with(this)
                 .load(imagePath)
                 .into(mImagePreviewShow);

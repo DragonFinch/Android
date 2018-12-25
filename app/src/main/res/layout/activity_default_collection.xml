@@ -7,6 +7,7 @@
     tools:context=".ui.mine.collection.DefaultCollectionActivity">
 
     <LinearLayout
+        android:layout_above="@+id/function_bottom"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -43,11 +44,16 @@
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
+            android:numColumns="3"
+            android:id="@+id/recycler_collection_folder_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+
+            />
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/function_bottom"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true">

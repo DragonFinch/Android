@@ -25,6 +25,7 @@
             android:textColor="@color/c333333" />
 
         <TextView
+            android:id="@+id/manager_collection_folder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -40,7 +41,9 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
         <LinearLayout
+            android:id="@+id/layout_create_collection"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_40"
             android:layout_marginTop="@dimen/dp_10"
@@ -64,11 +67,12 @@
 
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_collection_folder"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
 
-    <include layout="@layout/include_collection_is_empty" />
+    <include android:id="@+id/layout_collection_null" android:visibility="gone" layout="@layout/include_collection_is_empty" />
 
 
 </LinearLayout>

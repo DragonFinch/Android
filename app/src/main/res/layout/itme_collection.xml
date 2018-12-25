@@ -2,21 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/FAEBD7"
-    android:layout_marginTop="@dimen/dp_15"
-    android:orientation="vertical">
 
+
+    android:orientation="vertical">
+<LinearLayout
+    android:layout_marginTop="@dimen/dp_10"
+    android:background="@color/FAEBD7"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_5"
         android:background="@mipmap/xinfengbian" />
 
     <RelativeLayout
+        android:id="@+id/next"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
         android:gravity="center_vertical">
 
         <TextView
+            android:id="@+id/tv_collection_folder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_20"
@@ -41,29 +48,37 @@
         android:paddingRight="@dimen/dp_20">
 
         <ImageView
+            android:id="@+id/img_one"
             android:layout_width="@dimen/dp_80"
             android:layout_height="@dimen/dp_80"
-            android:layout_weight="1"
             android:src="@mipmap/ic_launcher" />
 
         <ImageView
+            android:layout_marginLeft="@dimen/dp_5"
+            android:id="@+id/img_two"
             android:layout_width="@dimen/dp_80"
             android:layout_height="@dimen/dp_80"
-            android:layout_weight="1"
+
             android:src="@mipmap/ic_launcher" />
 
         <ImageView
+            android:layout_marginLeft="@dimen/dp_5"
+            android:id="@+id/img_three"
             android:layout_width="@dimen/dp_80"
             android:layout_height="@dimen/dp_80"
-            android:layout_weight="1"
+
             android:src="@mipmap/ic_launcher" />
 
         <ImageView
+            android:layout_marginLeft="@dimen/dp_5"
+            android:id="@+id/img_four"
             android:layout_width="@dimen/dp_80"
             android:layout_height="@dimen/dp_80"
-            android:layout_weight="1"
+
             android:src="@mipmap/ic_launcher" />
     </LinearLayout>
+
+</LinearLayout>
 
 
 </LinearLayout>

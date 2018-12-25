@@ -146,6 +146,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     private int add_attention_id;
     private int is_my_collect;
     private int add_collection_id;
+    private List<CollectionFolderBean.DataBean.ListBean> mList;
 
     @Override
     protected void initView() {
@@ -365,7 +366,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                     dataBeans.get(0).setIs_my_like(0);
                     dataBeans.get(0).setCount_praise(count_praise);
                     like();
-                    popup.showAtLocation(findViewById(R.id.activity_yoxiu_detail),Gravity.CENTER,0,0);
+                    popup.showAtLocation(findViewById(R.id.activity_yoxiu_detail), Gravity.CENTER, 0, 0);
                 } else {
                     //由不喜欢变为喜欢，暗变亮
                     tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
@@ -558,11 +559,11 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
     @Override
     public void getDetailSuccess(YoXiuDetailBean.DataBean data) {
-initPopup();
+        initPopup();
         yo_id = data.getId();
         collection_list = new ArrayList<>();
         collection_list.add(data);
-        yo_user_id = data.getUser_id();
+        yo_user_id = data.getId();
 
         dataBeans.add(data);
         collections();
@@ -752,10 +753,10 @@ initPopup();
 
     @Override
     public void getCollectionFolderSuccess(CollectionFolderBean.DataBean collectionFolderBean) {
-        List<CollectionFolderBean.DataBean.ListBean> mList = new ArrayList<>();
+        mList = new ArrayList<>();
         List<CollectionFolderBean.DataBean.ListBean> list = collectionFolderBean.getList();
         CollectionFolderBean.DataBean.ListBean listBean = new CollectionFolderBean.DataBean.ListBean();
-        listBean.setId(0);
+        listBean.setFolder_id(0);
         listBean.setName("默认收藏");
         listBean.setOpen(1);
 //        mList.add(listBean);
@@ -779,9 +780,11 @@ initPopup();
                         mPresenter.deleteCollection(user_id, user_token, i);
                     }
                 }*/
-                int folder_id = mList.get(position).getId();
+                int folder_id = mList.get(position).getFolder_id();
                 mPresenter.getDetail(user_id, user_token, id);
                 if (is_my_collect == 0) {
+                    Log.d("YoXiuDetailActivity", "folder_id:" + folder_id);
+                    Log.d("YoXiuDetailActivity", "yo_user_id:" + yo_user_id);
                     mPresenter.addCollection(user_id, user_token, folder_id, yo_user_id);
 //                    Log.d("YoXiuDetailActivity", target_id);
 

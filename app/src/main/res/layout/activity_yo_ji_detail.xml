@@ -68,6 +68,7 @@
                             android:textSize="@dimen/sp_15" />
 
                         <TextView
+                            android:id="@+id/add_attention"
                             android:layout_width="@dimen/dp_20"
                             android:layout_height="@dimen/dp_20"
                             android:layout_centerVertical="true"
@@ -427,6 +428,7 @@
                 android:layout_marginTop="@dimen/dp_16">
 
                 <TextView
+                    android:id="@+id/tv_desc"
                     android:background="@drawable/yoji_detail_discribe"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -9,10 +9,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -40,6 +42,7 @@ import com.iyoyogo.android.adapter.CollectionFolderAdapter;
 import com.iyoyogo.android.adapter.YoJiDetailAdapter;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.collection.AddCollectionBean;
 import com.iyoyogo.android.bean.collection.CollectionFolderBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
@@ -59,11 +62,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
 public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presenter> implements YoJiDetailContract.View {
 
+    @BindView(R.id.tv_desc)
+    TextView tvDesc;
+    @BindView(R.id.activity_yoji_detail)
+    CoordinatorLayout activityYojiDetail;
+    @BindView(R.id.add_attention)
+    TextView addAttention;
     private int open = 2;
     private boolean isOpen;
     public static int expendedtag = 2;
@@ -183,6 +193,9 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     private TextView tv_message_three;
     private TextView tv_message_two;
     private TextView tv_message;
+    private int index;
+    private List<CollectionFolderBean.DataBean.ListBean> mList1;
+    private int add_attention_id;
 
     @Override
     protected int getLayoutId() {
@@ -357,17 +370,42 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     }
 
-    @OnClick({R.id.img_back, R.id.img_share, R.id.tv_attention, R.id.tv_load_more, R.id.tv_comment, R.id.tv_like, R.id.tv_collection})
+    @OnClick({R.id.add_attention,R.id.img_back, R.id.img_share, R.id.tv_attention, R.id.tv_load_more, R.id.tv_comment, R.id.tv_like, R.id.tv_collection})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_back:
                 finish();
                 break;
+            case R.id.add_attention:
+                if (is_my_attention == 0) {
+                    mPresenter.addAttention(user_id, user_token, yo_user_id);
+//                    Log.d("YoXiuDetailActivity", target_id);
+
+                } else {
+
+                    if (add_attention_id == 0) {
+                        mPresenter.deleteAttention(user_id, user_token, is_my_attention);
+                    } else {
+                        mPresenter.deleteAttention(user_id, user_token, add_attention_id);
+                    }
+                }
+                break;
             case R.id.img_share:
 
                 break;
             case R.id.tv_attention:
+                if (is_my_attention == 0) {
+                    mPresenter.addAttention(user_id, user_token, yo_user_id);
+//                    Log.d("YoXiuDetailActivity", target_id);
 
+                } else {
+
+                    if (add_attention_id == 0) {
+                        mPresenter.deleteAttention(user_id, user_token, is_my_attention);
+                    } else {
+                        mPresenter.deleteAttention(user_id, user_token, add_attention_id);
+                    }
+                }
                 break;
             case R.id.tv_load_more:
 
@@ -393,8 +431,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                     tvLike.setText(count_praise + "");
                     dataBeans.get(0).setIs_my_praise(0);
                     dataBeans.get(0).setCount_praise(count_praise);
-                    like();
-                    popup.showAtLocation(findViewById(R.id.activity_yoxiu_detail), Gravity.CENTER, 0, 0);
+
                 } else {
                     //由不喜欢变为喜欢，暗变亮
                     tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
@@ -404,6 +441,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                     tvLike.setText(count_praise + "");
                     dataBeans.get(0).setIs_my_praise(1);
                     dataBeans.get(0).setCount_praise(count_praise);
+                    like();
+                    popup.showAtLocation(findViewById(R.id.activity_yoji_detail), Gravity.CENTER, 0, 0);
                 }
                 DataManager.getFromRemote().praise(user_id, user_token, dataBeans.get(0).getYo_id(), 0)
                         .subscribe(new Consumer<BaseBean>() {
@@ -448,7 +487,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         img_tip.setImageResource(R.mipmap.stamo_heart);
         tv_message_two.setText("谢谢喜欢~");
         tv_message_three.setText("给你小心心");
-        popup.showAtLocation(findViewById(R.id.activity_yoxiu_detail), Gravity.CENTER, 0, 0);
+        popup.showAtLocation(findViewById(R.id.activity_yoji_detail), Gravity.CENTER, 0, 0);
     }
 
     private void collections() {
@@ -494,9 +533,17 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     public void getYoJiDetailSuccess(YoJiDetailBean.DataBean data) {
         initPopup();
+        tvLike.setText(data.getCount_praise() + "");
+        tvCollection.setText(data.getCount_collect() + "");
         dataBeans = new ArrayList<>();
         dataBeans.add(data);
-        yo_user_id = data.getUser_id();
+        String desc = data.getDesc();
+        if (TextUtils.isEmpty(desc)) {
+            tvDesc.setVisibility(View.GONE);
+        } else {
+            tvDesc.setText(desc);
+        }
+        yo_user_id = data.getYo_id();
         count_collect = data.getCount_collect();
         is_my_collect = data.getIs_my_collect();
         is_my_attention = data.getIs_my_attention();
@@ -506,8 +553,10 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         is_my_attention = data.getIs_my_attention();
         if (is_my_attention == 0) {
             tvAttention.setText("+ 关注");
+            addAttention.setVisibility(View.VISIBLE);
         } else {
             tvAttention.setText("已关注");
+            addAttention.setVisibility(View.GONE);
         }
         String logo = data.getLogo();
         Glide.with(this).load(data.getUser_logo()).into(userIcon);
@@ -546,8 +595,66 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         yoJiDetailAdapter.setOnItemDataListener(new YoJiDetailAdapter.OnPlayListener() {
             @Override
             public void getData(YoJiDetailAdapter.Holder holder, int position) {
+                index = position;
+                RelativeLayout picture_count_one = holder.itemView.findViewById(R.id.picture_count_one);
+                RelativeLayout picture_count_two = holder.itemView.findViewById(R.id.picture_count_two);
+                RelativeLayout picture_count_three = holder.itemView.findViewById(R.id.picture_count_three);
+                RelativeLayout picture_count_four = holder.itemView.findViewById(R.id.picture_count_four);
+                RelativeLayout picture_count_five = holder.itemView.findViewById(R.id.picture_count_five);
+                List<String> logos = data.getList().get(position).getLogos();
+                if (position > 0) {
+                    picture_count_one.setVisibility(View.GONE);
+                    picture_count_two.setVisibility(View.GONE);
+                    picture_count_three.setVisibility(View.GONE);
+                    picture_count_four.setVisibility(View.GONE);
+                    picture_count_five.setVisibility(View.GONE);
+                }
+                if (logos.size() == 1) {
+                    picture_count_one.setVisibility(View.VISIBLE);
+
+//                    visible(position, picture_count_one, picture_count_two, picture_count_three, picture_count_four, picture_count_five);
+                } else if (logos.size() == 2) {
+                    picture_count_two.setVisibility(View.VISIBLE);
+//                    visible(position, picture_count_one, picture_count_two, picture_count_three, picture_count_four, picture_count_five);
+                } else if (logos.size() == 3) {
+                    picture_count_three.setVisibility(View.VISIBLE);
+//                    visible(position, picture_count_one, picture_count_two, picture_count_three, picture_count_four, picture_count_five);
+                } else if (logos.size() == 4) {
+                    picture_count_four.setVisibility(View.VISIBLE);
+//                    visible(position, picture_count_one, picture_count_two, picture_count_three, picture_count_four, picture_count_five);
+                } else if (logos.size() == 5) {
+                    picture_count_five.setVisibility(View.VISIBLE);
+//                    visible(position, picture_count_one, picture_count_two, picture_count_three, picture_count_four, picture_count_five);
+                } else if (logos.size() > 5) {
+                    picture_count_five.setVisibility(View.VISIBLE);
+//                    visible(position, picture_count_one, picture_count_two, picture_count_three, picture_count_four, picture_count_five);
+                }
+
             }
         });
+    }
+
+    private void visible(int position, RelativeLayout picture_count_one, RelativeLayout picture_count_two, RelativeLayout picture_count_three, RelativeLayout picture_count_four, RelativeLayout picture_count_five) {
+        if (position == 0) {
+            picture_count_one.setVisibility(View.VISIBLE);
+            picture_count_two.setVisibility(View.VISIBLE);
+            picture_count_three.setVisibility(View.VISIBLE);
+            picture_count_four.setVisibility(View.VISIBLE);
+            picture_count_five.setVisibility(View.VISIBLE);
+        } else {
+            picture_count_one.setVisibility(View.GONE);
+            picture_count_two.setVisibility(View.GONE);
+            picture_count_three.setVisibility(View.GONE);
+            picture_count_four.setVisibility(View.GONE);
+            picture_count_five.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 
     //隐藏事件PopupWindow
@@ -683,21 +790,33 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     public void addCommentSuccess(BaseBean baseBean) {
         editComment.setText("");
         yoJiDetailCommentAdapter.notifyDataSetChanged();
+        comment();
 
+    }
+
+    public void comment() {
+        backgroundAlpha(0.6f);
+        tv_message.setText("Hi~");
+        tv_message.setTextColor(Color.parseColor("#FA800A"));
+        tv_message_two.setTextColor(Color.parseColor("#FA800A"));
+        tv_message_three.setTextColor(Color.parseColor("#FA800A"));
+        img_tip.setImageResource(R.mipmap.stamo_heart);
+        tv_message_two.setText("谢谢评论~");
+        tv_message_three.setText("给你小心心");
+        popup.showAtLocation(findViewById(R.id.activity_yoji_detail), Gravity.CENTER, 0, 0);
     }
 
     @Override
     public void getCollectionFolderSuccess(CollectionFolderBean.DataBean collectionFolderBean) {
 
-        List<CollectionFolderBean.DataBean.ListBean> mList = new ArrayList<>();
+        mList1 = new ArrayList<>();
         List<CollectionFolderBean.DataBean.ListBean> list = collectionFolderBean.getList();
         CollectionFolderBean.DataBean.ListBean listBean = new CollectionFolderBean.DataBean.ListBean();
-        listBean.setId(0);
         listBean.setName("默认收藏");
         listBean.setOpen(1);
 //        mList.add(listBean);
-        mList.addAll(list);
-        CollectionFolderAdapter collectionFolderAdapter = new CollectionFolderAdapter(mList);
+        mList1.addAll(list);
+        CollectionFolderAdapter collectionFolderAdapter = new CollectionFolderAdapter(mList1);
         recycler_collection.setLayoutManager(new LinearLayoutManager(YoJiDetailActivity.this));
         recycler_collection.setAdapter(collectionFolderAdapter);
         collectionFolderAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -716,19 +835,15 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                         mPresenter.deleteCollection(user_id, user_token, i);
                     }
                 }*/
-                int folder_id = mList.get(position).getId();
+                int folder_id = mList1.get(position).getFolder_id();
                 mPresenter.getYoJiDetail(user_id, user_token, yo_id);
                 if (is_my_attention == 0) {
                     mPresenter.addCollection(user_id, user_token, folder_id, yo_user_id);
+                    popup.dismiss();
 //                    Log.d("YoXiuDetailActivity", target_id);
 
                 } else {
 
-                    if (add_collection_id == 0) {
-                        mPresenter.deleteCollection(user_id, user_token, is_my_collect);
-                    } else {
-                        mPresenter.deleteCollection(user_id, user_token, add_collection_id);
-                    }
                 }
                 popup.dismiss();
 
@@ -760,6 +875,20 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     public void deleteCollectionSuccess(BaseBean baseBean) {
 
+    }
+
+    @Override
+    public void addAttentionSuccess(AttentionBean.DataBean data) {
+        String target_id = data.getId();
+        add_attention_id = Integer.parseInt(target_id);
+        Log.d("YoXiuDetailActivity", target_id);
+        tvAttention.setText("已关注");
+
+    }
+
+    @Override
+    public void deleteAttentionSuccess(BaseBean baseBean) {
+        tvAttention.setText("+ 关注");
     }
 
 

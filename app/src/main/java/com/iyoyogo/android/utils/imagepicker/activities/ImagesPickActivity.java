@@ -172,7 +172,10 @@ public class ImagesPickActivity extends BaseActivity  {
     protected void onDestroy() {
         super.onDestroy();
         ArrayList<String> strings = adapter.selectPhoto();
+        if (strings!=null){
         strings.clear();
+
+        }
     }
 
     /**

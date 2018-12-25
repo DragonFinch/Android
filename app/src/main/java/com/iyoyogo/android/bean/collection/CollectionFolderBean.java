@@ -6,9 +6,8 @@ import java.util.List;
 
 public class CollectionFolderBean  extends BaseBean {
 
-
     /**
-     * data : {"list":[{"id":2,"user_id":2,"name":"b","open":2},{"id":1,"user_id":2,"name":"a","open":1}]}
+     * data : {"list":[{"folder_id":55,"user_id":80002,"name":"我","open":1},{"folder_id":15,"user_id":80002,"name":"我","open":1},{"folder_id":14,"user_id":80002,"name":"默认收藏","open":1},{"folder_id":13,"user_id":80002,"name":"我喜欢","open":1},{"folder_id":12,"user_id":80002,"name":"啦啦","open":1},{"folder_id":11,"user_id":80002,"name":"啦啦啦","open":2},{"folder_id":10,"user_id":80002,"name":"啦啦啦","open":1},{"folder_id":9,"user_id":80002,"name":"金雪晗","open":1},{"folder_id":8,"user_id":80002,"name":"龙雀","open":1}]}
      */
 
     private DataBean data;
@@ -34,10 +33,10 @@ public class CollectionFolderBean  extends BaseBean {
 
         public static class ListBean {
             /**
-             * id : 2
-             * user_id : 2
-             * name : b
-             * open : 2
+             * folder_id : 55
+             * user_id : 80002
+             * name : 我
+             * open : 1
              */
 
             private int folder_id;
@@ -45,12 +44,12 @@ public class CollectionFolderBean  extends BaseBean {
             private String name;
             private int open;
 
-            public int getId() {
+            public int getFolder_id() {
                 return folder_id;
             }
 
-            public void setId(int id) {
-                this.folder_id = id;
+            public void setFolder_id(int folder_id) {
+                this.folder_id = folder_id;
             }
 
             public int getUser_id() {

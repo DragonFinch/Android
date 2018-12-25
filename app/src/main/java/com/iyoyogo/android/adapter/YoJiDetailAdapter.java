@@ -106,6 +106,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
         }
         List<String> logos = mList.get(position).getLogos();
         int size = logos.size();
+
         if (size == 1) {
             holder.picture_count_one.setVisibility(View.VISIBLE);
             Glide.with(context).load(logos.get(0)).into(holder.img_count_one_one);

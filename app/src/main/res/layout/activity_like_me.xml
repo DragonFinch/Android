@@ -35,7 +35,13 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_5"
         android:background="@color/F1F1F1" />
-
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_212"
+    android:src="@mipmap/sea"
+    android:scaleType="centerCrop"
+    android:id="@+id/img"
+    />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/like_me_rv_id"
         android:layout_width="match_parent"

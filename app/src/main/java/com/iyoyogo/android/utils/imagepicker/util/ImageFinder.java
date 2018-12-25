@@ -35,5 +35,17 @@ public class ImageFinder {
             list.add(0,new ImageBean(path,name));
         }
         return list;
+    } public static List<ImageBean> getVideo(Context context){
+        List<ImageBean> list = new ArrayList<>();
+        Cursor cursor = context.getContentResolver().query(
+                MediaStore.Video.Media.EXTERNAL_CONTENT_URI, null, null, null, null);
+        while (cursor.moveToNext()){
+            String name = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
+            String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            String type = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.MIME_TYPE));
+            long duration = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION));
+            list.add(0,new ImageBean(path,name,duration));
+        }
+        return list;
     }
 }

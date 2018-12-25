@@ -7,9 +7,7 @@
     android:background="@color/F1F1F1"
     >
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,12 +26,14 @@
                     android:layout_height="@dimen/dp_130">
 
                     <ImageView
+                        android:id="@+id/img_bg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="fitXY"
                         android:src="@mipmap/sea" />
 
                     <ImageView
+                        android:id="@+id/img_back"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dp_20"
@@ -41,6 +41,7 @@
                         android:src="@mipmap/fanhuishouye" />
 
                     <ImageView
+                        android:id="@+id/img_share"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -69,6 +70,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/tv_attention_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="158"
@@ -97,6 +99,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/tv_collection_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="47"
@@ -125,6 +128,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/tv_fans_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="197"
@@ -154,6 +158,7 @@
                     <com.iyoyogo.android.widget.CircleImageView
                         android:layout_width="@dimen/dp_70"
                         android:layout_height="@dimen/dp_70"
+                        android:id="@+id/img_user_icon"
                         android:background="@drawable/head_image_bg"
                         android:padding="@dimen/dp_4"
                         android:src="@mipmap/headimage" />
@@ -165,6 +170,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_nick_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableRight="@mipmap/lie3"
@@ -180,6 +186,7 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/tv_age"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:drawableLeft="@mipmap/nv_xz"
@@ -189,6 +196,7 @@
                                 android:textSize="@dimen/sp_12" />
 
                             <TextView
+                                android:id="@+id/tv_star"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/dp_10"
@@ -197,6 +205,7 @@
                                 android:textSize="@dimen/sp_12" />
 
                             <TextView
+                                android:id="@+id/tv_city"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/dp_10"
@@ -218,49 +227,12 @@
                 android:layout_marginTop="@dimen/dp_5"
                 android:orientation="vertical">
 
-                <LinearLayout
+
+                <android.support.design.widget.TabLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_50"
-                        android:layout_weight="1"
-                        android:background="@color/FFFFFF"
-                        android:gravity="center"
-                        android:text="yo·记  6"
-                        android:textColor="@color/color333333" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_50"
-                        android:layout_weight="1"
-                        android:background="@color/FFFFFF"
-                        android:gravity="center"
-                        android:text="yo·秀  8"
-                        android:textColor="@color/color333333" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="@dimen/dp_30"
-                        android:layout_height="@dimen/dp_2"
-                        android:layout_weight="1"
-                        android:src="@mipmap/tabxian" />
-
-                    <ImageView
-                        android:layout_width="@dimen/dp_30"
-                        android:layout_height="@dimen/dp_2"
-                        android:layout_weight="1"
-                        android:src="@mipmap/tabxian" />
-
-                </LinearLayout>
+                    android:id="@+id/tab"
+                    />
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/personal_vp_id"
@@ -273,6 +245,5 @@
 
         </LinearLayout>
 
-    </ScrollView>
 
 </RelativeLayout>

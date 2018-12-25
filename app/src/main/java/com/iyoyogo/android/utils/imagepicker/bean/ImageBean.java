@@ -8,11 +8,25 @@ public class ImageBean {
     private String imagePath;
     private String imageName;
     private boolean isChoose = false;
+    private long duration;
+
+    public ImageBean(String imagePath, String imageName, long duration) {
+        this.imagePath = imagePath;
+        this.imageName = imageName;
+        this.duration = duration;
+    }
+
     public ImageBean(String path, String name){
         this.imagePath = path;
         this.imageName = name;
     }
+    public long getDuration() {
+        return duration;
+    }
 
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
     public String getImagePath() {
         return imagePath;
     }

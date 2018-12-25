@@ -86,14 +86,13 @@
             />
 
     </RelativeLayout>
-    <GridView
+    <android.support.v7.widget.RecyclerView
 android:layout_above="@+id/ly_top_bar"
         android:layout_below="@+id/bar"
         android:id="@+id/gv_photos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="3"
         android:visibility="visible">
-    </GridView>
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

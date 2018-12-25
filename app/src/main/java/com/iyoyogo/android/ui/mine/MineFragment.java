@@ -17,6 +17,10 @@ import com.iyoyogo.android.base.BaseFragment;
 import com.iyoyogo.android.bean.mine.MineMessageBean;
 import com.iyoyogo.android.contract.MineContract;
 import com.iyoyogo.android.presenter.MineMessagePresenter;
+import com.iyoyogo.android.ui.mine.collection.CollectionActivity;
+import com.iyoyogo.android.ui.mine.draft.DraftActivity;
+import com.iyoyogo.android.ui.mine.homepage.Like_me_Activity;
+import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 
@@ -141,16 +145,16 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
 
                 break;
             case R.id.my_option_home_id:
-
+                startActivity(new Intent(getContext(),Personal_homepage_Activity.class));
                 break;
             case R.id.my_option_draft_id:
-
+                startActivity(new Intent(getContext(),DraftActivity.class));
                 break;
             case R.id.my_option_like_id:
-
+                startActivity(new Intent(getContext(),Like_me_Activity.class));
                 break;
             case R.id.my_option_col_id:
-
+                startActivity(new Intent(getContext(),CollectionActivity.class));
                 break;
             case R.id.my_option_set_id:
                 startActivity(new Intent(getContext(), MineSettingActivity.class));

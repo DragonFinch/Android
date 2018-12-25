@@ -57,6 +57,7 @@ import com.iyoyogo.android.ui.common.SearchActivity;
 import com.iyoyogo.android.ui.home.yoxiu.ChannelActivity;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.imagepicker.activities.ImagesPickActivity;
+import com.iyoyogo.android.utils.imagepicker.activities.ImagesPreviewActivity;
 import com.iyoyogo.android.view.DrawableTextView;
 import com.iyoyogo.android.widget.FlowGroupView;
 import com.iyoyogo.android.widget.flow.FlowLayout;
@@ -179,12 +180,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         path_list = intent.getStringArrayListExtra("path_list");
         path = path_list.get(0);
         Glide.with(this).load(path).into(imgYoji);
-      new Thread(new Runnable() {
-          @Override
-          public void run() {
-              ossUpload(path_list);
-          }
-      }).start();
+        ArrayList<String> strings = ossUpload(path_list);
         MessageBean messageBean = new MessageBean();
         messageBean.setStart_date("开始日期");
         messageBean.setEnd_date("结束日期");
@@ -194,8 +190,10 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         messageBean.setPosition_address("2");
         messageBean.setPosition_areas("1");
         mList = new ArrayList<>();
-        messageBean.setLogos(uris);
+        messageBean.setLogos(strings);
         mList.add(messageBean);
+
+
         etTitle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -263,7 +261,25 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         etContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                etContent.setFocusable(true);
+                etContent.setFocusableInTouchMode(true);
+                etContent.requestFocus();
+            }
+        });
+        etTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etTitle.setFocusable(true);
+                etTitle.setFocusableInTouchMode(true);
+                etTitle.requestFocus();
+            }
+        });
+        etCost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etCost.setFocusable(true);
+                etCost.setFocusableInTouchMode(true);
+                etCost.requestFocus();
             }
         });
 //        ScrollLinearLayoutManager scrollLinearLayoutManager = new LinearLayoutMananger(PublishYoJiActivity.this);
@@ -344,6 +360,18 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                 index = position;
                 startActivityForResult(intent, 1);
             }
+
+            @Override
+            public void onImageAddClickListener(int position, PublishYoJiAdapter.ViewHolder holder) {
+
+            }
+
+            @Override
+            public void onImageEditClickListener(int position, PublishYoJiAdapter.ViewHolder holder) {
+                Intent intent1 = new Intent(getApplicationContext(),ImagesPreviewActivity.class);
+
+                startActivityForResult(intent1,1);
+            }
         });
        /* etContent.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -404,18 +432,18 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
     }
 
-    private void ossUpload(final ArrayList<String> urls) {
+    private ArrayList<String>  ossUpload(final ArrayList<String> urls) {
 
         if (urls.size() <= 0) {
             // 文件全部上传完毕，这里编写上传结束的逻辑，如果要在主线程操作，最好用Handler或runOnUiThead做对应逻辑
-            return;// 这个return必须有，否则下面报越界异常，原因自己思考下哈
+            return null;// 这个return必须有，否则下面报越界异常，原因自己思考下哈
         }
         final String url = urls.get(0);
         if (TextUtils.isEmpty(url)) {
             urls.remove(0);
             // url为空就没必要上传了，这里做的是跳过它继续上传的逻辑。
             ossUpload(urls);
-            return;
+            return null;
         }
 
         File file = new File(url);
@@ -423,7 +451,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
             urls.remove(0);
             // 文件为空或不存在就没必要上传了，这里做的是跳过它继续上传的逻辑。
             ossUpload(urls);
-            return;
+            return null;
         }
         // 文件后缀
         String fileSuffix = "";
@@ -498,6 +526,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                 });
         // task.cancel(); // 可以取消任务
         // task.waitUntilFinished(); // 可以等待直到任务完成
+        return uris;
     }
 
     protected void initData(Bundle savedInstanceState) {
@@ -511,6 +540,8 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     @Override
     protected void onResume() {
         super.onResume();
+        list.clear();
+        list.add(publishYoJiRequest);
     }
 
     private void setCurrentLocationDetails(LatLonPoint latLonPoint) {
@@ -560,6 +591,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
             latitude = data.getDoubleExtra("latitude", 0.0);
             longitude = data.getDoubleExtra("longitude", 0.0);
             LatLonPoint latLonPoint = new LatLonPoint(latitude, longitude);
+            setCurrentLocationDetails(latLonPoint);
             publishYoJiRequest.setLogos(uris);
             publishYoJiRequest.setPosition_name(place1);
             publishYoJiRequest.setPosition_areas(country + "," + province + "," + city + "," + district);
@@ -576,7 +608,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
 
 
-            setCurrentLocationDetails(latLonPoint);
+
             location_tv.setText(place1);
         }
         if (requestCode == 1 && resultCode == 55) {
@@ -595,6 +627,20 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
                         View contentView = LayoutInflater.from(PublishYoJiActivity.this).inflate(R.layout.item_label, tagFlowLayout, false);
                         TextView tv = contentView.findViewById(R.id.lable_name_tv);
+                        int type = sign_list.get(position).getType();
+                        if (type == 1) {
+                            tv.setBackgroundResource(R.drawable.label_bg_deserve_to_do);
+                            tv.setText(sign_list.get(position).getLabel());
+                            tv.setTextColor(Color.parseColor("#E0FF6100"));
+                        } else if (type == 2) {
+                            tv.setBackgroundResource(R.drawable.label_bg_fkzn);
+                            tv.setText(sign_list.get(position).getLabel());
+                            tv.setTextColor(Color.parseColor("#5BCBF5"));
+                        } else if (type == 3) {
+                            tv.setBackgroundResource(R.drawable.label_bg_exclusive);
+                            tv.setText(sign_list.get(position).getLabel());
+                            tv.setTextColor(Color.parseColor("#ff8484"));
+                        }
                    /* if (labels.get(position).getType().equals("A")) {
                         tv.setBackgroundResource(R.drawable.label_bg_deserve_to_do);
                         tv.setTextColor(mContext.getResources().getColor(R.color.orgeen_color));
@@ -606,7 +652,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                         tv.setBackgroundResource(R.drawable.label_bg_deserve_to_do);
                         tv.setTextColor(mContext.getResources().getColor(R.color.black));
                     }*/
-                        tv.setText(bean.getLabel());
+
 
                         return contentView;
                     }
@@ -643,17 +689,10 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
             for (int i = 0; i < path_list.size(); i++) {
                 Log.d("PublishYoJiActivity", path_list.get(i));
             }
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    ossUpload(path_list);
-                }
-            }).start();
 
-            messageBean1.setLogos(uris);
-
-
-            list.add(messageBean1);
+                    ArrayList<String> strings = ossUpload(path_list);
+                    messageBean1.setLogos(strings);
+                    list.add(messageBean1);
             publishYoJiAdapter.addData(index, messageBean1);
         }
     }
@@ -781,7 +820,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                 Log.d("PublishYoJiActivity", mList.toString());
 
 
-                list.add(publishYoJiRequest);
+
                 String json = new Gson().toJson(list);
                 Log.i("数据", "----->  " + json);
 

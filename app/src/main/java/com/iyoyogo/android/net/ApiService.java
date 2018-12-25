@@ -5,6 +5,8 @@ import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.collection.AddCollectionBean;
 import com.iyoyogo.android.bean.collection.CollectionFolderBean;
+import com.iyoyogo.android.bean.collection.CollectionFolderContentBean;
+import com.iyoyogo.android.bean.collection.MineCollectionBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.bean.home.HomeBean;
 import com.iyoyogo.android.bean.login.SendMessageBean;
@@ -15,6 +17,9 @@ import com.iyoyogo.android.bean.mine.DraftBean;
 import com.iyoyogo.android.bean.mine.GetBindInfoBean;
 import com.iyoyogo.android.bean.mine.GetUserInfoBean;
 import com.iyoyogo.android.bean.mine.MineMessageBean;
+import com.iyoyogo.android.bean.mine.PraiseBean;
+import com.iyoyogo.android.bean.mine.center.UserCenterBean;
+import com.iyoyogo.android.bean.mine.center.YoJiContentBean;
 import com.iyoyogo.android.bean.yoji.detail.YoJiDetailBean;
 import com.iyoyogo.android.bean.yoji.label.AddLabelBean;
 import com.iyoyogo.android.bean.yoji.label.LabelListBean;
@@ -399,8 +404,34 @@ public interface ApiService {
     @POST("index.php/api/yoj/get_list")
     @FormUrlEncoded
     Observable<YoJiListBean> getYoJiList(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("page") int page, @Field("page_size") int page_size);
+
     @POST("index.php/api/yoj/details")
     @FormUrlEncoded
-    Observable<YoJiDetailBean> getYoJiDetail(@Field("user_id") String user_id, @Field("user_token") String user_token,@Field("yo_id")int yo_id);
+    Observable<YoJiDetailBean> getYoJiDetail(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id);
+
+    @POST("index.php/api/collect/folder_get_my_tree")
+    @FormUrlEncoded
+    Observable<MineCollectionBean> getMineCollection(@Field("user_id") String user_id, @Field("user_token") String user_token);
+
+    @POST("index.php/api/collect/folder_delete")
+    @FormUrlEncoded
+    Observable<BaseBean> deleteCollectionFolder(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("folder_ids") Integer[] folder_ids);
+
+    @POST("index.php/api/userhome/get")
+    @FormUrlEncoded
+    Observable<UserCenterBean> getUserCenter(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("his_id") String his_id);
+
+    @POST("index.php/api/userhome/get_his_yoj_list")
+    @FormUrlEncoded
+    Observable<YoJiContentBean> getYoJiContent(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("his_id") String his_id, @Field("page") String page, @Field("page_size") String page_size);
+
+    @POST("index.php/api/praise/get_list")
+    @FormUrlEncoded
+    Observable<PraiseBean> getPraise(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("page") int page, @Field("page_size") int page_size);
+
+    @POST("index.php/api/collect/collect_get_list_by_folder_id")
+    @FormUrlEncoded
+    Observable<CollectionFolderContentBean> getContent(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("folder_id") int folder_id, @Field("page") int page);
+
 }
 
