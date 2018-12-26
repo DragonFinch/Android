@@ -10,25 +10,24 @@
         android:id="@+id/layoutAsset"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:paddingRight="5dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingRight="5dp">
 
         <com.iyoyogo.android.widget.RoundImageView
             android:id="@+id/imageThumbView"
             android:layout_width="87dp"
             android:layout_height="match_parent"
             android:background="@drawable/fx_item_radius_shape_unselect"
-            android:scaleType="centerCrop"
-          />
+            android:scaleType="centerCrop" />
 
         <ImageView
             android:id="@+id/imageTransition"
             android:layout_width="19dp"
             android:layout_height="19dp"
-            android:background="@drawable/fx_item_radius_shape_unselect2"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
-            android:padding="2dp"/>
+            android:background="@drawable/fx_item_radius_shape_unselect2"
+            android:padding="2dp" />
     </LinearLayout>
 
 </LinearLayout>

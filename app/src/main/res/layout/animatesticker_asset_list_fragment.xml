@@ -2,21 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <ImageView
         android:id="@+id/customStickerAddButton"
         android:layout_width="64dp"
         android:layout_height="64dp"
+        android:layout_gravity="center_vertical"
         android:layout_marginLeft="13dp"
         android:layout_marginRight="11dp"
-        android:layout_gravity="center_vertical"
         android:background="@mipmap/custom_add_btn"
-        android:visibility="gone"/>
+        android:visibility="gone" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/assetRecycleView"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_marginLeft="13dp">
+        android:layout_marginLeft="13dp"
+        android:layout_weight="1">
 
     </android.support.v7.widget.RecyclerView>
 </LinearLayout>

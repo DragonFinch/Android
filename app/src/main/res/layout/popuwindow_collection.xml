@@ -4,14 +4,14 @@
     android:layout_width="wrap_content"
     android:layout_height="@dimen/dp_50"
     android:background="@mipmap/xiala_bg_"
-              android:gravity="center"
+    android:gravity="center"
     android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rl_share"
         android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:visibility="gone">
 
         <com.iyoyogo.android.view.DrawableTextView
             android:layout_width="wrap_content"

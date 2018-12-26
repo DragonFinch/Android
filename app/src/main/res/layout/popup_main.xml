@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
-    >
+    android:background="#ffffff">
 
-  <ListView
-      android:id="@+id/lv_dir"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:divider="#eee3d9"
-      android:dividerHeight="1px"/>
+    <ListView
+        android:id="@+id/lv_dir"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#eee3d9"
+        android:dividerHeight="1px" />
 
 </RelativeLayout>

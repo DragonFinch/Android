@@ -18,23 +18,23 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="5dp"
+        android:drawableStart="@mipmap/videocam_material"
+        android:drawableLeft="@mipmap/videocam_material"
+        android:drawablePadding="3dp"
         android:gravity="center_vertical"
         android:shadowColor="@color/ff000000"
-        android:drawableLeft="@mipmap/videocam_material"
         android:shadowDx="2"
         android:shadowDy="2"
         android:shadowRadius="1"
         android:textColor="@color/white"
-        android:textSize="9sp"
-        android:drawablePadding="3dp"
-        android:drawableStart="@mipmap/videocam_material" />
+        android:textSize="9sp" />
 
     <RelativeLayout
         android:id="@+id/item_media_hideLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:background="@color/ms994a90e2">
+        android:background="@color/ms994a90e2"
+        android:visibility="gone">
 
         <!--中间选中的数字-->
         <TextView

@@ -1,46 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-
-    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dp_130"
-    android:layout_height="@dimen/dp_130">
-<ImageView
-    android:layout_marginTop="@dimen/dp_5"
-    android:layout_marginRight="@dimen/dp_5"
-    android:layout_centerInParent="true"
-    android:scaleType="centerCrop"
-    android:id="@+id/img_picture"
-    android:layout_width="@dimen/dp_123"
-    android:layout_height="@dimen/dp_123"
-    android:src="@mipmap/sea"
-    />
-
-        <ImageView
-            android:id="@+id/iv"
-            android:src="@drawable/checkbox_selector"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:layout_alignRight="@+id/img_picture"
-            />
-
+    android:layout_height="@dimen/dp_130"
+    android:orientation="vertical">
 
     <ImageView
-        android:visibility="visible"
+        android:id="@+id/img_picture"
+        android:layout_width="@dimen/dp_123"
+        android:layout_height="@dimen/dp_123"
         android:layout_centerInParent="true"
-        android:src="@mipmap/ic_video"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/video_play"
-        />
-    <TextView
-        android:visibility="invisible"
-        android:id="@+id/video_duration"
-        android:layout_alignBottom="@+id/img_picture"
-        android:text="aaa"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginRight="@dimen/dp_5"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/sea" />
+
+    <ImageView
+        android:id="@+id/iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/img_picture"
-        />
+        android:checked="false"
+        android:src="@drawable/checkbox_selector" />
+
+    <ImageView
+        android:id="@+id/video_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/ic_video"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/video_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/img_picture"
+        android:layout_alignBottom="@+id/img_picture"
+        android:text="aaa"
+        android:visibility="invisible" />
 </RelativeLayout>

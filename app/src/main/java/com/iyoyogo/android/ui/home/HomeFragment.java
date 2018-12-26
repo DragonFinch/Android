@@ -15,6 +15,7 @@ import android.os.StrictMode;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -51,7 +52,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -78,6 +78,8 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.publish_home)
     ImageView publish_home;
 
+
+    private Fragment currentFragment = new Fragment();
 
     public String sHA1(Context context) {
         try {
@@ -257,15 +259,16 @@ public class HomeFragment extends BaseFragment {
         }
 
 
-
         /**
          * 设置定位场景，目前支持三种场景（签到、出行、运动，默认无场景）
          */
 
+
         recommedFragment = new RecommedFragment();
         attentionFragment = new AttentionFragment();
+
         getFragmentManager().beginTransaction()
-                .replace(R.id.frame_container_home, recommedFragment)
+                .add(R.id.frame_container_home, recommedFragment)
                 .commitAllowingStateLoss();
 
         bar.setYoyotopBarClickCallback(new YoyogoTopBarView.YoyotopBarClickCallback() {
@@ -282,19 +285,43 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void onRecommendClick() {
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.frame_container_home, recommedFragment)
-                        .commitAllowingStateLoss();
+//                getFragmentManager().beginTransaction()
+//                        .add(R.id.frame_container_home, recommedFragment)
+//                        .commitAllowingStateLoss();
+
+
+                switchFragment(recommedFragment).commit();
+
             }
 
             @Override
             public void onAttentionClick() {
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.frame_container_home, attentionFragment)
-                        .commitAllowingStateLoss();
+//                getFragmentManager().beginTransaction()
+//                        .add(R.id.frame_container_home, attentionFragment)
+//                        .commitAllowingStateLoss();
+                switchFragment(attentionFragment).commit();
             }
         });
     }
+
+
+    private FragmentTransaction switchFragment(Fragment targetFragment) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        if (!targetFragment.isAdded()) {
+            //第一次使用switchFragment()时currentFragment为null，所以要判断一下    
+            if (currentFragment != null) {
+                transaction.hide(currentFragment);
+            }
+            transaction.add(R.id.frame_container_home, targetFragment, targetFragment.getClass().getName());
+        } else {
+            transaction
+                    .hide(currentFragment)
+                    .show(targetFragment);
+        }
+        currentFragment = targetFragment;
+        return transaction;
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     private void initLocation() {

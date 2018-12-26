@@ -3,35 +3,36 @@
     android:id="@+id/assetItem"
     android:layout_width="49dp"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:layout_marginRight="12dp"
-    android:background="@color/nv_colorTranslucent">
+    android:background="@color/nv_colorTranslucent"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/layoutAsset"
         android:layout_width="match_parent"
         android:layout_height="49dp"
-        android:padding="5dp"
-        android:background="@drawable/fx_item_radius_shape_unselect">
+        android:background="@drawable/fx_item_radius_shape_unselect"
+        android:padding="5dp">
 
         <ImageView
             android:id="@+id/imageAsset"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
-            android:src="@mipmap/default_theme"
             android:adjustViewBounds="true"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            android:src="@mipmap/default_theme" />
     </RelativeLayout>
+
     <TextView
         android:id="@+id/nameAsset"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_gravity="center_horizontal"
-        android:textColor="#ffffff"
-        android:textAlignment="center"
+        android:layout_marginTop="8dp"
         android:ellipsize="end"
         android:maxLines="1"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
         android:textSize="15sp" />
 </LinearLayout>

@@ -1,82 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:visibility="gone"
-
         android:id="@+id/relative_one"
-        android:layout_marginLeft="@dimen/dp_20"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48">
+        android:layout_height="@dimen/dp_48"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:visibility="gone">
+
         <ImageView
-            android:layout_marginTop="@dimen/dp_20"
+            android:id="@+id/img_one"
             android:layout_width="@dimen/dp_9"
             android:layout_height="@dimen/dp_12"
-            android:id="@+id/img_one"
-
+            android:layout_marginTop="@dimen/dp_20"
             />
+
         <TextView
             android:id="@+id/tv_message_one"
-            android:drawablePadding="@dimen/dp_6"
-            android:paddingLeft="@dimen/dp_6"
-            android:drawableLeft="@mipmap/xuanzehuati"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_16"
             android:layout_marginLeft="@dimen/dp_2"
             android:layout_marginTop="@dimen/dp_20"
             android:layout_toRightOf="@+id/img_one"
-            android:layout_width="@dimen/dp_100"
-            android:layout_height="@dimen/dp_16"
-            android:text="热门话题"
-
-            android:textColor="#ff333333"
-
-
-            />
-        <View
-            android:background="#e7e3e3"
-            android:layout_below="@+id/tv_message_one"
-            android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/dp_6"
-            android:layout_height="@dimen/dp_1"/>
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_below="@+id/relative_one"
-        android:id="@+id/relative_normal"
-        android:layout_marginLeft="@dimen/dp_20"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48">
-        <TextView
-
-            android:layout_marginTop="@dimen/dp_20"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_20"
-            android:id="@+id/tv_normal"
-           android:text="10"
-
-            />
-        <TextView
-            android:id="@+id/tv_normal_message"
+            android:drawableLeft="@mipmap/xuanzehuati"
             android:drawablePadding="@dimen/dp_6"
             android:paddingLeft="@dimen/dp_6"
-            android:drawableLeft="@mipmap/xuanzehuati"
+            android:text="热门话题"
+            android:textColor="#ff333333"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_below="@+id/tv_message_one"
+            android:layout_marginTop="@dimen/dp_6"
+            android:background="#e7e3e3" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_normal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:layout_below="@+id/relative_one"
+        android:layout_marginLeft="@dimen/dp_20">
+
+        <TextView
+            android:id="@+id/tv_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_20"
+            android:text="10"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_normal_message"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_16"
             android:layout_marginLeft="@dimen/dp_2"
             android:layout_marginTop="@dimen/dp_20"
             android:layout_toRightOf="@+id/tv_normal"
-            android:layout_width="@dimen/dp_100"
-            android:layout_height="@dimen/dp_16"
+            android:drawableLeft="@mipmap/xuanzehuati"
+            android:drawablePadding="@dimen/dp_6"
+            android:paddingLeft="@dimen/dp_6"
             android:text="热门话题"
-
             android:textColor="#ff333333"
-
-
             />
-<View
-    android:background="#e7e3e3"
-    android:layout_below="@+id/tv_normal_message"
-    android:layout_width="match_parent"
-    android:layout_marginTop="@dimen/dp_6"
-    android:layout_height="@dimen/dp_1"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_below="@+id/tv_normal_message"
+            android:layout_marginTop="@dimen/dp_6"
+            android:background="#e7e3e3" />
     </RelativeLayout>
 </RelativeLayout>

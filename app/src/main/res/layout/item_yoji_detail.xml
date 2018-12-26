@@ -1,318 +1,320 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <RelativeLayout
-        android:visibility="visible"
         android:id="@+id/relative"
-        android:layout_marginRight="@dimen/dp_20"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dp_20"
+        android:visibility="visible">
+
         <ImageView
             android:id="@+id/img_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@mipmap/border_yoxiu"
-            />
+            android:src="@mipmap/border_yoxiu" />
+
         <TextView
-            android:padding="@dimen/dp_6"
-            android:layout_marginTop="@dimen/dp_14"
             android:id="@+id/tv_position_name"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:paddingLeft="@dimen/dp_10"
-            android:drawablePadding="@dimen/dp_5"
-            android:drawableLeft="@mipmap/lubiao"
-            android:background="@drawable/fillet_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_14"
+            android:background="@drawable/fillet_style"
+            android:drawableLeft="@mipmap/lubiao"
+            android:drawablePadding="@dimen/dp_5"
+            android:padding="@dimen/dp_6"
+            android:paddingLeft="@dimen/dp_10"
             android:text="阿德莱德大学"
             android:textColor="#ff333333"
-            android:textSize="@dimen/sp_12"
-            />
+            android:textSize="@dimen/sp_12" />
+
         <TextView
-            android:layout_marginTop="@dimen/dp_20"
-            android:layout_toRightOf="@+id/tv_position_name"
-            android:layout_marginLeft="@dimen/dp_10"
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_toRightOf="@+id/tv_position_name"
             android:text=" 2天"
             android:textColor="#ff333333"
-            android:textSize="@dimen/sp_12"
-            />
+            android:textSize="@dimen/sp_12" />
+
         <TextView
             android:id="@+id/create_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
             android:text="2018.9.4"
             android:textColor="#ff333333"
-            android:textSize="@dimen/sp_12"
-            android:layout_marginRight="@dimen/dp_20"
-            android:layout_marginTop="@dimen/dp_20"
-            android:layout_alignParentRight="true"
-            />
+            android:textSize="@dimen/sp_12" />
+
         <com.iyoyogo.android.widget.FlowGroupView
-            android:layout_below="@+id/tv_position_name"
-            android:layout_width="match_parent"
             android:id="@+id/flow"
-            android:layout_height="wrap_content"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_position_name" />
+
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/picture_count_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/flow"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_15"
             android:layout_marginRight="@dimen/dp_25"
             android:layout_marginBottom="@dimen/dp_12"
-            android:layout_marginTop="@dimen/dp_15"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:visibility="gone">
+
             <ImageView
                 android:id="@+id/img_count_one_one"
                 android:layout_width="match_parent"
-                android:src="@mipmap/sea"
-
-                android:scaleType="centerCrop"
                 android:layout_height="@dimen/dp_233"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/sea"
 
                 />
         </RelativeLayout>
+
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/picture_count_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/flow"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_15"
             android:layout_marginRight="@dimen/dp_25"
             android:layout_marginBottom="@dimen/dp_12"
-            android:layout_marginTop="@dimen/dp_15"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:visibility="gone">
+
             <ImageView
                 android:id="@+id/img_count_two_one"
                 android:layout_width="@dimen/dp_204"
-                android:src="@mipmap/sea"
-
-                android:scaleType="centerCrop"
                 android:layout_height="@dimen/dp_131"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/sea"
 
                 />
+
             <ImageView
-                android:layout_marginLeft="@dimen/dp_2"
-                android:layout_toRightOf="@+id/img_count_two_one"
                 android:id="@+id/img_count_two_two"
                 android:layout_width="@dimen/dp_104"
-                android:src="@mipmap/sea"
-
-                android:scaleType="centerCrop"
                 android:layout_height="@dimen/dp_131"
+                android:layout_marginLeft="@dimen/dp_2"
+                android:layout_toRightOf="@+id/img_count_two_one"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/sea"
 
                 />
         </RelativeLayout>
+
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/picture_count_three"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/flow"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_15"
             android:layout_marginRight="@dimen/dp_25"
             android:layout_marginBottom="@dimen/dp_12"
-            android:layout_marginTop="@dimen/dp_15"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/img_count_three_one"
                 android:layout_width="@dimen/dp_204"
-                android:src="@mipmap/sea"
-
-                android:scaleType="centerCrop"
                 android:layout_height="@dimen/dp_160"
-
-                />
-            <ImageView
-                android:layout_marginLeft="@dimen/dp_2"
-                android:id="@+id/img_count_three_two"
-                android:layout_toRightOf="@+id/img_count_three_one"
-                android:layout_width="@dimen/dp_105"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/sea"
 
-                android:scaleType="centerCrop"
+                />
+
+            <ImageView
+                android:id="@+id/img_count_three_two"
+                android:layout_width="@dimen/dp_105"
                 android:layout_height="@dimen/dp_79"
+                android:layout_marginLeft="@dimen/dp_2"
+                android:layout_toRightOf="@+id/img_count_three_one"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/sea"
 
                 />
+
             <ImageView
-                android:layout_marginTop="@dimen/dp_2"
+                android:id="@+id/img_count_three_three"
+                android:layout_width="@dimen/dp_105"
+                android:layout_height="@dimen/dp_79"
                 android:layout_below="@+id/img_count_three_two"
                 android:layout_marginLeft="@dimen/dp_2"
-                android:id="@+id/img_count_three_three"
+                android:layout_marginTop="@dimen/dp_2"
                 android:layout_toRightOf="@+id/img_count_three_one"
-                android:layout_width="@dimen/dp_105"
-                android:src="@mipmap/sea"
-
                 android:scaleType="centerCrop"
-                android:layout_height="@dimen/dp_79"
+                android:src="@mipmap/sea"
 
                 />
         </RelativeLayout>
+
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/picture_count_four"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/flow"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_15"
             android:layout_marginRight="@dimen/dp_25"
             android:layout_marginBottom="@dimen/dp_12"
-            android:layout_marginTop="@dimen/dp_15"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:visibility="gone">
+
             <ImageView
                 android:id="@+id/img_count_four_one"
                 android:layout_width="@dimen/dp_204"
+                android:layout_height="@dimen/dp_131"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/sea"
 
-                android:scaleType="centerCrop"
-                android:layout_height="@dimen/dp_131"
-
                 />
+
             <ImageView
-                android:layout_marginLeft="@dimen/dp_2"
-                android:layout_toRightOf="@+id/img_count_four_one"
                 android:id="@+id/img_count_four_two"
                 android:layout_width="@dimen/dp_104"
+                android:layout_height="@dimen/dp_131"
+                android:layout_marginLeft="@dimen/dp_2"
+                android:layout_toRightOf="@+id/img_count_four_one"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/sea"
 
-                android:scaleType="centerCrop"
-                android:layout_height="@dimen/dp_131"
-
                 />
+
             <ImageView
-                android:layout_marginTop="@dimen/dp_2"
-                android:layout_below="@+id/img_count_four_one"
                 android:id="@+id/img_count_four_three"
                 android:layout_width="@dimen/dp_154"
-                android:src="@mipmap/sea"
-
-                android:scaleType="centerCrop"
                 android:layout_height="@dimen/dp_115"
+                android:layout_below="@+id/img_count_four_one"
+                android:layout_marginTop="@dimen/dp_2"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/sea"
 
                 />
+
             <ImageView
-                android:layout_marginTop="@dimen/dp_2"
-                android:layout_marginLeft="@dimen/dp_2"
-                android:layout_below="@+id/img_count_four_two"
                 android:id="@+id/img_count_four_four"
                 android:layout_width="@dimen/dp_154"
-                android:src="@mipmap/sea"
-android:layout_toRightOf="@+id/img_count_four_three"
-                android:scaleType="centerCrop"
                 android:layout_height="@dimen/dp_115"
+                android:layout_below="@+id/img_count_four_two"
+                android:layout_marginLeft="@dimen/dp_2"
+                android:layout_marginTop="@dimen/dp_2"
+                android:layout_toRightOf="@+id/img_count_four_three"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/sea"
 
                 />
 
         </RelativeLayout>
+
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/picture_count_five"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/flow"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_15"
             android:layout_marginRight="@dimen/dp_25"
             android:layout_marginBottom="@dimen/dp_12"
-            android:layout_marginTop="@dimen/dp_15"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:visibility="gone">
+
             <ImageView
                 android:id="@+id/img_count_five_one"
                 android:layout_width="@dimen/dp_204"
+                android:layout_height="@dimen/dp_131"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/sea"
 
-                android:scaleType="centerCrop"
-                android:layout_height="@dimen/dp_131"
-
                 />
+
             <ImageView
-                android:layout_toRightOf="@+id/img_count_five_one"
-                android:layout_marginLeft="@dimen/dp_2"
                 android:id="@+id/img_count_five_two"
                 android:layout_width="@dimen/dp_105"
+                android:layout_height="@dimen/dp_131"
+                android:layout_marginLeft="@dimen/dp_2"
+                android:layout_toRightOf="@+id/img_count_five_one"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/sea"
 
-                android:scaleType="centerCrop"
-                android:layout_height="@dimen/dp_131"
-
                 />
+
             <ImageView
-                android:layout_below="@+id/img_count_five_one"
                 android:id="@+id/img_count_five_three"
                 android:layout_width="@dimen/dp_102"
                 android:layout_height="@dimen/dp_75"
+                android:layout_below="@+id/img_count_five_one"
                 android:layout_marginTop="@dimen/dp_2"
-
-
-
+                android:scaleType="centerCrop"
                 android:src="@mipmap/sea"
 
-                android:scaleType="centerCrop"
-
                 />
+
             <ImageView
-                android:layout_toRightOf="@+id/img_count_five_three"
-                android:layout_below="@+id/img_count_five_one"
-                android:layout_width="@dimen/dp_102"
-                android:layout_height="@dimen/dp_75"
-                android:layout_marginTop="@dimen/dp_2"
-                android:layout_marginLeft="@dimen/dp_2"
                 android:id="@+id/img_count_five_four"
-
-                android:src="@mipmap/sea"
-
-                android:scaleType="centerCrop"
-
-
-                />
-            <ImageView
-                android:layout_toRightOf="@+id/img_count_five_four"
-                android:layout_below="@+id/img_count_five_one"
-                android:id="@+id/img_count_five_five"
-                android:src="@mipmap/sea"
-
-                android:scaleType="centerCrop"
                 android:layout_width="@dimen/dp_102"
                 android:layout_height="@dimen/dp_75"
-                android:layout_marginTop="@dimen/dp_2"
+                android:layout_below="@+id/img_count_five_one"
                 android:layout_marginLeft="@dimen/dp_2"
+                android:layout_marginTop="@dimen/dp_2"
+                android:layout_toRightOf="@+id/img_count_five_three"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/sea"
+
 
                 />
+
+            <ImageView
+                android:id="@+id/img_count_five_five"
+                android:layout_width="@dimen/dp_102"
+                android:layout_height="@dimen/dp_75"
+                android:layout_below="@+id/img_count_five_one"
+                android:layout_marginLeft="@dimen/dp_2"
+                android:layout_marginTop="@dimen/dp_2"
+                android:layout_toRightOf="@+id/img_count_five_four"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/sea"
+
+                />
+
             <TextView
-                android:visibility="gone"
-                android:background="@mipmap/count_bg"
                 android:id="@+id/tv_pic_count"
-                android:layout_alignRight="@+id/img_count_five_five"
-                android:layout_alignBottom="@+id/img_count_five_five"
-                android:gravity="center"
                 android:layout_width="@dimen/dp_23"
                 android:layout_height="@dimen/dp_14"
+                android:layout_alignRight="@+id/img_count_five_five"
+                android:layout_alignBottom="@+id/img_count_five_five"
+                android:background="@mipmap/count_bg"
+                android:gravity="center"
                 android:text="6"
                 android:textColor="@color/white"
-                />
+                android:visibility="gone" />
 
         </RelativeLayout>
 
 
     </RelativeLayout>
+
     <ImageView
-        android:visibility="visible"
         android:id="@+id/plane"
-        android:layout_marginLeft="@dimen/dp_20"
-        android:layout_below="@+id/relative"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/relative"
+        android:layout_marginLeft="@dimen/dp_20"
         android:src="@mipmap/feiji"
-        />
+        android:visibility="visible" />
+
     <ImageView
         android:id="@+id/img_water_mark"
-        android:visibility="visible"
         android:layout_width="@dimen/dp_65"
         android:layout_height="@dimen/dp_42"
-        android:src="@mipmap/tangchuan_zhang"
         android:layout_alignParentRight="true"
-        />
+        android:src="@mipmap/tangchuan_zhang"
+        android:visibility="visible" />
 
 </RelativeLayout>

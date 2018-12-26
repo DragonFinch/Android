@@ -521,7 +521,6 @@ public interface ApiService {
     @POST("index.php/api/message/read_message")
     @FormUrlEncoded
     Observable<ReadMessage> readMessage(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("message_id") String message_id);
-    Observable<BaseBean> setMineSetting(@Field("user_id")String user_id,@Field("user_token")String user_token, @Field("wifi_auto_play_video")int wifi_auto_play_video, @Field("notice") int notice, @Field("address_list") int address_list);
 
     //获取我粉丝中 我没关注的 (是我的粉丝，我却不是他的粉丝)
     @POST("index.php/api/userattention/get_my_fans_only")

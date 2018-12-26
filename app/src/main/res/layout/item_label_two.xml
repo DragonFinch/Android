@@ -4,13 +4,12 @@
     android:layout_height="wrap_content">
 
     <TextView
-
-        android:text="aaa"
         android:id="@+id/lable_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:background="@drawable/label_bg_deserve_to_do"
+        android:text="aaa"
         android:textColor="@color/color_orange" />
 
     <ImageView
@@ -25,7 +24,6 @@
         android:visibility="gone" />
 
     <ImageView
-
         android:id="@+id/img_choice"
         android:layout_width="@dimen/dp_15"
         android:layout_height="@dimen/dp_15"

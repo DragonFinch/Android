@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-
-    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:clipChildren="false"
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:orientation="vertical">
+
     <com.iyoyogo.android.view.MyViewPager
         android:id="@+id/viewPager"
-        android:layout_marginTop="@dimen/dp_10"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_160"
         android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_10"
         android:layout_marginRight="@dimen/dp_20"
         android:clipChildren="false" />
 
@@ -18,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_5"
         android:layout_marginLeft="@dimen/dp_20"
-        android:layout_marginRight="@dimen/dp_20"
         android:layout_marginTop="@dimen/dp_10"
-        android:background="#F1F1F1"/>
+        android:layout_marginRight="@dimen/dp_20"
+        android:background="#F1F1F1" />
 </LinearLayout>

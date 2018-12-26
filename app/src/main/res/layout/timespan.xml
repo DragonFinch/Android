@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-        <View
-            android:id="@+id/timeSpanShadow"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#805db5ff"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true">
-        </View>
-        <ImageView
-            android:id="@+id/leftHandle"
-            android:layout_width="12dp"
-            android:layout_height="match_parent"
-            android:background="@mipmap/trimline"
-            android:layout_alignParentLeft="true"/>
-        <ImageView
-            android:id="@+id/rightHandle"
-            android:layout_width="12dp"
-            android:layout_height="match_parent"
-            android:background="@mipmap/trimline"
-            android:layout_alignParentRight="true"/>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/timeSpanShadow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:background="#805db5ff"></View>
+
+    <ImageView
+        android:id="@+id/leftHandle"
+        android:layout_width="12dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:background="@mipmap/trimline" />
+
+    <ImageView
+        android:id="@+id/rightHandle"
+        android:layout_width="12dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="@mipmap/trimline" />
 </RelativeLayout>

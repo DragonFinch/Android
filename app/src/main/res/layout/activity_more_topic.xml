@@ -6,41 +6,39 @@
     android:layout_height="match_parent"
     android:background="@color/line_gray_e5e5e5"
     tools:context=".ui.home.yoxiu.MoreTopicActivity">
-    <RelativeLayout
-        android:visibility="gone"
-        android:background="#fff"
-        android:id="@+id/rela_create"
-        android:layout_below="@+id/location_rl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
 
+    <RelativeLayout
+        android:id="@+id/rela_create"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/location_rl"
+        android:background="#fff"
+        android:visibility="gone">
+
+        <TextView
             android:id="@+id/tv_create_message"
-            android:drawablePadding="@dimen/dp_6"
-            android:paddingLeft="@dimen/dp_6"
-            android:drawableLeft="@mipmap/xuanzehuati"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_16"
             android:layout_marginLeft="@dimen/dp_2"
             android:layout_marginTop="@dimen/dp_20"
             android:layout_toRightOf="@+id/img_one"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_16"
+            android:drawableLeft="@mipmap/xuanzehuati"
+            android:drawablePadding="@dimen/dp_6"
+            android:paddingLeft="@dimen/dp_6"
             android:text="热门话题"
+            android:textColor="#ff333333" />
 
-            android:textColor="#ff333333"
-
-
-            />
         <TextView
             android:id="@+id/tv_create"
-            android:layout_marginTop="@dimen/dp_20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+创建"
-            android:textColor="#ffff8800"
             android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/dp_20"
             android:layout_marginRight="@dimen/dp_15"
-            />
+            android:text="+创建"
+            android:textColor="#ffff8800" />
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/location_rl"
         android:layout_width="match_parent"
@@ -48,131 +46,131 @@
         android:background="@color/colorFFFFFF">
 
         <EditText
-            android:layout_centerHorizontal="true"
             android:id="@+id/location_edit"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_toLeftOf="@+id/location_cancelTV_id"
+            android:layout_centerHorizontal="true"
             android:layout_marginLeft="15dp"
+            android:layout_toLeftOf="@+id/location_cancelTV_id"
             android:drawableLeft="@mipmap/sousuo_grey"
             android:hint="请输入喜欢的话题yo~"
             android:textSize="15sp" />
-<ImageView
-    android:id="@+id/clear_search"
-    android:visibility="gone"
-    android:layout_centerInParent="true"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@mipmap/search_clear"
-    android:layout_toLeftOf="@+id/location_cancelTV_id"
-    />
+
+        <ImageView
+            android:id="@+id/clear_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@+id/location_cancelTV_id"
+            android:src="@mipmap/search_clear"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/location_cancelTV_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
-            android:layout_alignParentRight="true"
             android:text="取消" />
     </RelativeLayout>
+
     <RelativeLayout
+        android:id="@+id/relative_more"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:layout_below="@+id/rela_create"
         android:layout_marginTop="@dimen/dp_8"
         android:background="@color/white"
-        android:layout_below="@+id/rela_create"
-        android:visibility="visible"
-        android:id="@+id/relative_more"
         android:paddingLeft="@dimen/dp_20"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48">
+        android:visibility="visible">
+
         <ImageView
-            android:layout_marginTop="@dimen/dp_20"
+            android:id="@+id/img_hot"
             android:layout_width="@dimen/dp_26"
             android:layout_height="@dimen/dp_12"
-            android:id="@+id/img_hot"
-            android:src="@mipmap/hot"
+            android:layout_marginTop="@dimen/dp_20"
             android:scaleType="centerCrop"
-            />
+            android:src="@mipmap/hot" />
+
         <TextView
             android:id="@+id/tv_message_more"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_30"
             android:layout_marginLeft="@dimen/dp_8"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_toRightOf="@+id/img_hot"
-            android:layout_width="@dimen/dp_100"
-            android:layout_height="@dimen/dp_30"
             android:text="热门话题"
-
             android:textColor="#ff333333"
             android:textSize="@dimen/sp_20"
-
             />
+
         <View
-            android:background="#e7e3e3"
-            android:layout_below="@+id/tv_message_more"
             android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_below="@+id/tv_message_more"
             android:layout_marginTop="@dimen/dp_6"
-            android:layout_height="@dimen/dp_1"/>
+            android:background="#e7e3e3" />
     </RelativeLayout>
+
     <android.support.v7.widget.RecyclerView
-
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/relative_more"
-        android:layout_height="wrap_content"
         android:id="@+id/recycler_topic_more"
-        />
-    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relative_more"
+        android:background="@color/white" />
 
+    <RelativeLayout
+        android:id="@+id/relative_near"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:layout_below="@+id/recycler_topic_more"
         android:layout_marginTop="@dimen/dp_8"
         android:background="@color/white"
-        android:layout_below="@+id/recycler_topic_more"
-        android:visibility="visible"
-        android:id="@+id/relative_near"
         android:paddingLeft="@dimen/dp_20"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48">
+        android:visibility="visible">
+
         <ImageView
-            android:layout_marginTop="@dimen/dp_20"
+            android:id="@+id/img_near"
             android:layout_width="@dimen/dp_26"
             android:layout_height="@dimen/dp_12"
-            android:id="@+id/img_near"
-            android:src="@mipmap/his"
+            android:layout_marginTop="@dimen/dp_20"
             android:scaleType="centerCrop"
-            />
+            android:src="@mipmap/his" />
+
         <TextView
             android:id="@+id/tv_message_near"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_30"
             android:layout_marginLeft="@dimen/dp_8"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_toRightOf="@+id/img_near"
-            android:layout_width="@dimen/dp_100"
-            android:layout_height="@dimen/dp_30"
             android:text="最近使用"
-
             android:textColor="#ff333333"
             android:textSize="@dimen/sp_20"
-
             />
+
         <TextView
-            android:layout_marginTop="@dimen/dp_20"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/dp_20"
+            android:id="@+id/clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/clear"
-            android:text="清空"
-            />
-        <View
-            android:background="#e7e3e3"
-            android:layout_below="@+id/tv_message_near"
-            android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/dp_6"
-            android:layout_height="@dimen/dp_1"/>
-    </RelativeLayout>
-    <android.support.v7.widget.RecyclerView
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:text="清空" />
 
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/relative_near"
-        android:layout_height="wrap_content"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_below="@+id/tv_message_near"
+            android:layout_marginTop="@dimen/dp_6"
+            android:background="#e7e3e3" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_topic_near"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relative_near"
+        android:background="@color/white" />
 </RelativeLayout>

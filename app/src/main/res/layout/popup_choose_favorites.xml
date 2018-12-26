@@ -4,6 +4,9 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical">
+
+
+    android:orientation="vertical">
     <!--选择所要移动到的收藏夹的popup-->
     <ImageView
         android:id="@+id/popup_favorites_prompt_iv_id"

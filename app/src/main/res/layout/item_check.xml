@@ -2,27 +2,27 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/relative"
-    android:layout_height="match_parent"
-   >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-  <ImageView
-      android:id="@+id/iv_item"
-      android:background="@mipmap/sea"
-      android:layout_width="match_parent"
-      android:layout_height="100dp"
-      android:scaleType="centerCrop"/>
+    <ImageView
+        android:id="@+id/iv_item"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@mipmap/sea"
+        android:scaleType="centerCrop" />
+
     <ImageButton
         android:id="@+id/ib_select"
-        android:clickable="false"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
         android:layout_marginTop="3dp"
-        android:background="@null"
         android:layout_marginRight="3dp"
-        android:src="@mipmap/pic_wxz"/>
+        android:background="@null"
+        android:clickable="false"
+        android:src="@mipmap/pic_wxz" />
 
 </RelativeLayout>

@@ -5,13 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.home.yoxiu.ChannelActivity">
-<include layout="@layout/common_bar" android:id="@+id/bar"/>
+
+    <include
+        android:id="@+id/bar"
+        layout="@layout/common_bar" />
+
     <GridView
-        android:background="@color/white"
-        android:layout_below="@+id/bar"
-        android:numColumns="4"
+        android:id="@+id/gv_channel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/gv_channel"
-        />
+        android:layout_below="@+id/bar"
+        android:background="@color/white"
+        android:numColumns="4" />
 </RelativeLayout>

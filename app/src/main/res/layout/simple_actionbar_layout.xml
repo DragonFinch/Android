@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.iyoyogo.android.view.SimpleActionBar
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.iyoyogo.android.view.SimpleActionBar xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/actionbar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/actionbar_height"
@@ -39,13 +38,13 @@
         android:paddingRight="3dp">
 
         <ImageView
+            android:id="@+id/menu_cancel"
+            android:layout_width="36dp"
+            android:layout_height="24dp"
             android:padding="10dp"
             android:scaleType="centerInside"
             android:src="@mipmap/more"
-            android:id="@+id/menu_cancel"
-            android:visibility="gone"
-            android:layout_width="36dp"
-            android:layout_height="24dp" />
+            android:visibility="gone" />
     </LinearLayout>
 
     <View

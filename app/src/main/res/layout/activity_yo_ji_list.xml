@@ -5,65 +5,64 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.home.yoji.YoJiListActivity">
-   <RelativeLayout android:id="@+id/bar"
-       android:background="@color/orange"
-       android:layout_width="match_parent"
-       android:layout_height="76dp"
-       xmlns:android="http://schemas.android.com/apk/res/android">
-      <ImageView
-          android:padding="@dimen/dp_8"
-          android:layout_centerVertical="true"
-          android:layout_marginBottom="@dimen/dp_17"
-          android:layout_marginLeft="@dimen/dp_20"
-          android:layout_marginTop="@dimen/dp_14"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:id="@+id/back"
-          android:src="@mipmap/back_icon"
-          />
-      <TextView
-          android:layout_centerVertical="true"
-          android:id="@+id/tv_message"
-          android:layout_marginTop="@dimen/dp_14"
-          android:padding="@dimen/dp_8"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_centerHorizontal="true"
-          android:textSize="@dimen/sp_18"
-          android:textColor="@color/white"
 
-          android:text="yo·记"
-          />
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/bar"
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:background="@color/orange">
 
-      <ImageView
-          android:padding="@dimen/dp_8"
-          android:layout_centerVertical="true"
-          android:id="@+id/img_replace"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-          android:layout_marginRight="20dp"
-          android:src="@mipmap/view2"
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_14"
+            android:layout_marginBottom="@dimen/dp_17"
+            android:padding="@dimen/dp_8"
+            android:src="@mipmap/back_icon" />
 
-          />
-   </RelativeLayout>
-   <android.support.v7.widget.RecyclerView
-       android:layout_marginTop="@dimen/dp_15"
-       android:layout_marginRight="@dimen/dp_20"
-       android:layout_marginLeft="@dimen/dp_20"
-       android:layout_below="@+id/bar"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:id="@+id/recycler_yoji_list"
-       />
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/dp_14"
+            android:padding="@dimen/dp_8"
+            android:text="yo·记"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_18" />
+
+        <ImageView
+            android:id="@+id/img_replace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:padding="@dimen/dp_8"
+            android:src="@mipmap/view2"
+            />
+    </RelativeLayout>
+
     <android.support.v7.widget.RecyclerView
-        android:visibility="gone"
-        android:layout_marginTop="@dimen/dp_15"
-        android:layout_marginRight="@dimen/dp_20"
-        android:layout_marginLeft="@dimen/dp_20"
-        android:layout_below="@+id/bar"
+        android:id="@+id/recycler_yoji_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/bar"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_15"
+        android:layout_marginRight="@dimen/dp_20" />
+
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_yoji_list_two"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/bar"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_15"
+        android:layout_marginRight="@dimen/dp_20"
+        android:visibility="gone" />
 </RelativeLayout>

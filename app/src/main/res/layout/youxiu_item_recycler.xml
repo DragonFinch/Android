@@ -3,77 +3,71 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/dp_150"
     android:layout_height="@dimen/dp_208"
-    android:background="@drawable/bg_yoxiu"
     android:layout_marginRight="@dimen/dp_10"
-    >
+    android:background="@drawable/bg_yoxiu">
 
     <LinearLayout
         android:layout_width="@dimen/dp_150"
         android:layout_height="@dimen/dp_208"
-
         android:orientation="vertical">
 
         <RelativeLayout
-android:id="@+id/relative"
-            android:layout_marginLeft="@dimen/dp_2"
+            android:id="@+id/relative"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_180">
+            android:layout_height="@dimen/dp_180"
+            android:layout_marginLeft="@dimen/dp_2">
 
             <RelativeLayout
                 android:id="@+id/rela_img"
                 android:layout_width="@dimen/dp_150"
                 android:layout_height="@dimen/dp_150">
 
-<LinearLayout
-    android:background="@drawable/shape_corner_bottom"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="@dimen/dp_150"
-                    android:layout_height="@dimen/dp_150"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_corner_bottom">
 
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="@dimen/dp_150"
+                        android:layout_height="@dimen/dp_150"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/default_ic" />
+                </LinearLayout>
 
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/default_ic" />
-</LinearLayout>
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/iv_video"
                     android:layout_width="@dimen/dp_42"
                     android:layout_height="@dimen/dp_42"
                     android:layout_centerInParent="true"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/bofang" />
+                    android:src="@mipmap/bofang"
+                    android:visibility="gone" />
 
                 <ImageView
-
-                    android:visibility="visible"
                     android:id="@+id/img_type"
                     android:layout_width="@dimen/dp_35"
                     android:layout_height="@dimen/dp_17"
-                    android:layout_marginRight="@dimen/dp_8"
                     android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_8"
                     android:src="@mipmap/jingxuan"
-
+                    android:visibility="visible"
                     />
 
                 <TextView
-                    android:layout_marginTop="@dimen/dp_25"
                     android:id="@+id/tv_addr_cover"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:layout_marginLeft="@dimen/dp_15"
+                    android:layout_marginTop="@dimen/dp_25"
                     android:alpha="0.8"
+                    android:drawableLeft="@mipmap/weizhi_yoxiu"
                     android:background="@drawable/label_bg"
                     android:ellipsize="end"
-
                     android:gravity="center"
                     android:maxLines="1"
                     android:text="13456456"
                     android:textColor="@color/colorWhite"
-
                     android:textSize="@dimen/sp_12"
                     android:visibility="visible" />
 
@@ -102,13 +96,11 @@ android:id="@+id/relative"
                         android:text="100"
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/sp_10" />
-
                 </LinearLayout>
 
             </RelativeLayout>
 
             <com.iyoyogo.android.widget.CircleImageView
-
                 android:id="@+id/user_icon"
                 android:layout_width="@dimen/dp_30"
                 android:layout_height="@dimen/dp_30"
@@ -120,15 +112,15 @@ android:id="@+id/relative"
                 app:civ_border_width="@dimen/dp_1"
 
                 />
+
             <ImageView
-                android:visibility="gone"
                 android:id="@+id/medal"
-                android:src="@mipmap/hong"
-                android:layout_alignBottom="@+id/user_icon"
-                android:layout_alignRight="@+id/user_icon"
                 android:layout_width="@dimen/dp_11"
                 android:layout_height="@dimen/dp_11"
-                />
+                android:layout_alignRight="@+id/user_icon"
+                android:layout_alignBottom="@+id/user_icon"
+                android:src="@mipmap/hong"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/user_name"
@@ -143,25 +135,23 @@ android:id="@+id/relative"
                 android:textSize="@dimen/sp_12" />
 
             <ImageView
-                android:visibility="gone"
-                android:layout_alignBottom="@+id/user_name"
                 android:id="@+id/img_level"
                 android:layout_width="@dimen/dp_26"
                 android:layout_height="@dimen/dp_122"
                 android:layout_below="@+id/rela_img"
+                android:layout_alignBottom="@+id/user_name"
                 android:layout_marginLeft="@dimen/dp_8"
                 android:layout_marginTop="@dimen/dp_6"
                 android:layout_toRightOf="@+id/user_name"
-                android:src="@mipmap/lv3" />
+                android:src="@mipmap/lv3"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/dp_10"
-
-            android:layout_marginBottom="12dp"
-            >
+            android:layout_marginBottom="12dp">
 
             <ImageView
                 android:id="@+id/index_look_icon"
@@ -183,13 +173,13 @@ android:id="@+id/relative"
                 android:textSize="@dimen/sp_10" />
 
             <RelativeLayout
-                android:layout_marginRight="@dimen/dp_m_10"
-                android:paddingRight="@dimen/dp_11"
                 android:id="@+id/view_like"
                 android:layout_width="@dimen/dp_50"
                 android:layout_height="@dimen/dp_30"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true">
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_m_10"
+                android:paddingRight="@dimen/dp_11">
 
                 <ImageView
                     android:id="@+id/more_img"

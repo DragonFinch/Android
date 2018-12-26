@@ -163,7 +163,6 @@
         android:layout_below="@+id/ll"
         android:layout_marginLeft="10dp"
         android:background="@drawable/bind_phone_bg"
-
         android:text="@string/binding_phone_binding"
         android:textColor="@color/colorFFFFFF" />
 

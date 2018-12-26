@@ -185,7 +185,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
                 String gender = map.get("gender");
                 iconurl = map.get("iconurl");
                 Log.d("LoginActivity", "uid=" + uid + "name=" + name + ",gender=" + gender + "iconurl=" + iconurl);
-                Toast.makeText(getApplicationContext(), "uid=" + uid + "name=" + name + ",gender=" + gender, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "uid=" + uid + "name=" + name + ",gender=" + gender, Toast.LENGTH_SHORT).show();
 
                 SpUtils.putString(LoginActivity.this, "openid", uid);
                 SpUtils.putString(LoginActivity.this, "nickname", name);

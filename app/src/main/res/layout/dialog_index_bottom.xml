@@ -6,10 +6,10 @@
     android:background="@mipmap/fb_bg">
 
     <LinearLayout
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dp_37"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_37"
         android:orientation="horizontal">
 
         <com.iyoyogo.android.view.DrawableTextView
@@ -39,6 +39,7 @@
             app:topDrawableHeight="@dimen/dp_80"
             app:topDrawableWidth="@dimen/dp_80" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/ll_close"
         android:layout_width="50dp"
@@ -48,10 +49,10 @@
         android:layout_marginBottom="15dp"
         android:gravity="center">
 
-    <ImageView
-        android:layout_width="14dp"
-        android:layout_height="14dp"
-        android:scaleType="fitXY"
-        android:src="@mipmap/index_close" />
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/index_close" />
     </LinearLayout>
 </RelativeLayout>

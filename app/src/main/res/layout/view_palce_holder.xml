@@ -3,9 +3,6 @@
     android:id="@+id/view_stub"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-
-
     <!--加载视图-->
     <ViewStub
         android:id="@+id/vs_loading_view"

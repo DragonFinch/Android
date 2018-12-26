@@ -29,10 +29,10 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
             android:background="@null"
-            android:paddingBottom="15dp"
             android:paddingLeft="19dp"
-            android:paddingRight="19dp"
             android:paddingTop="15dp"
+            android:paddingRight="19dp"
+            android:paddingBottom="15dp"
             android:scaleType="centerInside"
             android:src="@mipmap/back_black" />
     </LinearLayout>
@@ -52,10 +52,10 @@
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
             android:background="@null"
-            android:paddingBottom="@dimen/dp_10"
             android:paddingLeft="12dp"
-            android:paddingRight="12dp"
             android:paddingTop="@dimen/dp_10"
+            android:paddingRight="12dp"
+            android:paddingBottom="@dimen/dp_10"
             android:scaleType="centerInside"
             android:src="@mipmap/pic_see" />
     </LinearLayout>

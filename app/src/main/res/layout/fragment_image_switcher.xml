@@ -2,10 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="1dp"
     android:paddingLeft="1dp"
+    android:paddingTop="1dp"
     android:paddingRight="1dp"
-    android:paddingTop="1dp" >
+    android:paddingBottom="1dp">
 
     <TextView
         android:id="@+id/tv_currentPage"
@@ -15,8 +15,6 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager_image_switcher"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-    </android.support.v4.view.ViewPager>
+        android:layout_height="wrap_content"></android.support.v4.view.ViewPager>
 
 </RelativeLayout>

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
@@ -21,24 +20,26 @@ import com.iyoyogo.android.bean.mine.setting.MineSettingBean;
 import com.iyoyogo.android.contract.MineSettingContract;
 import com.iyoyogo.android.presenter.MineSettingPresenter;
 import com.iyoyogo.android.ui.common.LoginActivity;
+import com.iyoyogo.android.utils.CleanDataUtils;
 import com.iyoyogo.android.utils.DataCleanManager;
 import com.iyoyogo.android.utils.SpUtils;
 
 import java.io.File;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MineSettingActivity extends BaseActivity<MineSettingContract.Presenter> implements MineSettingContract.View {
 
     @BindView(R.id.back_iv_id)
     ImageView backIvId;
-    @BindView(R.id.switch1)
-    Switch aSwitch;
-    @BindView(R.id.switch2)
-    Switch bSwitch;
-    @BindView(R.id.switch3)
-    Switch cSwitch;
+    @BindView(R.id.new_message_remind)
+    ImageView newMessageRemind;
+    @BindView(R.id.mail_list)
+    ImageView mailList;
+    @BindView(R.id.imgg_auto_play)
+    ImageView imggAutoPlay;
     @BindView(R.id.auto_play)
     RelativeLayout autoPlay;
     @BindView(R.id.user_security)
@@ -57,6 +58,12 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
     RelativeLayout clearCache;
     @BindView(R.id.btn_logout)
     Button btnLogout;
+    @BindView(R.id.switch1)
+    Switch switch1;
+    @BindView(R.id.switch2)
+    Switch switch2;
+    @BindView(R.id.switch3)
+    Switch switch3;
     private String user_id;
     private String user_token;
     private String address;
@@ -68,11 +75,12 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
     private int is_notice = 0;
     private int is_autoPlay = 0;
     private int is_mail = 0;
+    private String totalCacheSize;
 
     @Override
     protected void initView() {
         super.initView();
-        File file =new File(this.getCacheDir().getPath());
+        File file = new File(this.getCacheDir().getPath());
         try {
             Log.d("MineSettingActivity", DataCleanManager.getCacheSize(file));
             tvClearCache.setText(DataCleanManager.getCacheSize(file));
@@ -85,7 +93,14 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
         address = SpUtils.getString(MineSettingActivity.this, "address", null);
         phone_type = SpUtils.getString(MineSettingActivity.this, "phone_type", null);
         localVersion = packageName(MineSettingActivity.this);
-        tvVersionName.setText("v."+localVersion + "");
+        tvVersionName.setText(localVersion + "");
+        try {
+            totalCacheSize = CleanDataUtils.getTotalCacheSize(this);
+            tvClearCache.setText(totalCacheSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        tvVersionName.setText("v." + localVersion + "");
     }
 
     @Override
@@ -161,8 +176,15 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
 
                 break;
             case R.id.clear_cache:
-                DataCleanManager.cleanInternalCache(getApplicationContext());
-                tvClearCache.setText("0.0KB");
+
+                try {
+                    CleanDataUtils.clearAllCache(this);
+                    String size = CleanDataUtils.getTotalCacheSize(this);
+                    tvClearCache.setText(size);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 break;
             case R.id.btn_logout:
                 mPresenter.logout(user_id, user_token, address, phone_type, localVersion);
@@ -212,25 +234,32 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
         is_notice = notice;
         is_mail = address_list;
         if (notice == 1) {
-            aSwitch.setChecked(true);
+            switch1.setChecked(true);
         } else {
-            aSwitch.setChecked(false);
+            switch1.setChecked(false);
         }
         if (address_list == 1) {
-            bSwitch.setChecked(true);
+            switch2.setChecked(true);
         } else {
-            bSwitch.setChecked(false);
+            switch2.setChecked(false);
         }
 
         if (wifi_auto_play_video == 1) {
-            cSwitch.setChecked(true);
+            switch3.setChecked(true);
         } else {
-            cSwitch.setChecked(false);
+            switch3.setChecked(false);
         }
     }
 
     @Override
     public void setMineSettingSuccess(BaseBean baseBean) {
 
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

@@ -9,27 +9,30 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:orientation="vertical">
+
         <ProgressBar
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:id="@+id/compileProgressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:progressDrawable="@drawable/compile_progressbar"/>
+            android:progressDrawable="@drawable/compile_progressbar" />
+
         <TextView
             android:id="@+id/compileProgressVal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
             android:text="0%"
             android:textColor="#ff4a90e2"
-            android:textSize="18sp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"/>
+            android:textSize="18sp" />
+
         <ImageView
             android:id="@+id/compileCancel"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:background="@mipmap/icon_edit_export_cancel"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"/>
+            android:layout_marginTop="30dp"
+            android:background="@mipmap/icon_edit_export_cancel" />
     </LinearLayout>
 </RelativeLayout>

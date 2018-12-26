@@ -9,8 +9,8 @@
         android:id="@+id/iv_directory_pic"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:scaleType="centerCrop"
-        android:layout_margin="8dp"/>
+        android:layout_margin="8dp"
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -28,8 +28,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:textColor="#111111"
-            android:textSize="16sp"
-            />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_directory_nums"
@@ -37,16 +36,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
             android:textColor="#111111"
-            android:textSize="14sp"
-            />
+            android:textSize="14sp" />
     </LinearLayout>
+
     <ImageView
         android:id="@+id/headerLeftButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="12dp"
-        android:paddingTop="12dp"
         android:layout_gravity="center_vertical"
         android:layout_marginRight="15dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
         android:src="@drawable/story_suggestion_right" />
 </LinearLayout>

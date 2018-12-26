@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dp_103"
-    android:layout_height="@dimen/dp_103"
-  >
+    android:layout_height="@dimen/dp_103">
 
     <ImageView
-        android:layout_marginTop="@dimen/dp_3"
         android:id="@+id/image_src"
         android:layout_width="@dimen/dp_100"
         android:layout_height="@dimen/dp_100"
+        android:layout_marginTop="@dimen/dp_3"
         android:layout_marginRight="@dimen/dp_3"
-        android:src="@mipmap/ic_launcher"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_launcher" />
 
     <ImageView
-        android:layout_alignTop="@+id/image_src"
-        android:layout_alignRight="@+id/image_src"
         android:id="@+id/image_choose"
         android:layout_width="@dimen/dp_20"
         android:layout_height="@dimen/dp_20"
+        android:layout_alignTop="@+id/image_src"
+        android:layout_alignRight="@+id/image_src"
         android:layout_gravity="end"
         android:scaleType="centerCrop"
         android:src="@drawable/checkbox_selector" />

@@ -68,7 +68,7 @@ public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter>
     private boolean isAgree;
     private boolean runningOne;
     private int type;
-    private int time=60;
+    private int time = 60;
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -110,7 +110,7 @@ public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter>
     @Override
     protected void initView() {
         super.initView();
-        tvBindCode= (TextView) findViewById(R.id.tv_bind_code);
+        tvBindCode = (TextView) findViewById(R.id.tv_bind_code);
         long l = System.currentTimeMillis();
         dateTime = String.valueOf(l);
         Intent intent = getIntent();
@@ -170,6 +170,7 @@ public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter>
 //            sendCode();
 //        }
     }
+
     private int count = 60;
 
     private static class MyHandler extends Handler {
@@ -182,7 +183,7 @@ public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter>
         @Override
         public void handleMessage(Message msg) {
 
-           final BindPhoneActivity mf = mActivity.get();
+            final BindPhoneActivity mf = mActivity.get();
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
@@ -199,7 +200,7 @@ public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter>
 
     }
 
-//    private void sendCode() {
+    //    private void sendCode() {
 //        final Runnable r = new Runnable() {
 //
 //
@@ -227,21 +228,21 @@ public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter>
     public void loginSuccess(LoginBean.DataBean data) {
         Toast.makeText(this, "绑定完成", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(BindPhoneActivity.this, MainActivity.class);
-        SpUtils.putString(BindPhoneActivity.this,"user_token",data.getUser_token());
-        SpUtils.putString(BindPhoneActivity.this,"user_id",data.getUser_id());
-        if ( data.getStatus() == 2) {
-            startActivity(new Intent(BindPhoneActivity.this,BindPhoneActivity.class));
-        } else if (data.getStatus()==1){
+        SpUtils.putString(BindPhoneActivity.this, "user_token", data.getUser_token());
+        SpUtils.putString(BindPhoneActivity.this, "user_id", data.getUser_id());
+        if (data.getStatus() == 2) {
+            startActivity(new Intent(BindPhoneActivity.this, BindPhoneActivity.class));
+        } else if (data.getStatus() == 1) {
             int have_interest = data.getHave_interest();
-            if (have_interest==1){
+            if (have_interest == 1) {
                 intent = new Intent();
                 intent.setClass(BindPhoneActivity.this, MainActivity.class);
                 finish();
                 startActivity(intent);
-            }else {
+            } else {
                 intent = new Intent();
-                intent.putExtra("user_id",data.getUser_id());
-                intent.putExtra("user_token",data.getUser_token());
+                intent.putExtra("user_id", data.getUser_id());
+                intent.putExtra("user_token", data.getUser_token());
                 intent.setClass(BindPhoneActivity.this, LikePrefencesActivity.class);
                 startActivity(intent);
                 finish();
@@ -256,30 +257,39 @@ public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter>
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.radio_check_img:
-                if (!isAgree){
+                if (!isAgree) {
                     radioCheckImg.setImageResource(R.mipmap.log_select);
-                    isAgree=false;
-                }else {
+                    isAgree = false;
+                } else {
                     radioCheckImg.setImageResource(R.mipmap.log_unselect);
-                    isAgree=false;
+                    isAgree = false;
                 }
                 break;
             case R.id.tv_bind_code:
-                if (editBind.getText().toString().length()>0){
+                if (editBind.getText().toString().length() > 0) {
 
                     sign = MD5(editBind.getText().toString().trim() + "" + dateTime + "yoyogo");
                     mPresenter.sendMessage(editBind.getText().toString().trim(), editBindCode.getText().toString().trim(), dateTime, sign);
-                }else {
+                } else {
                     Toast.makeText(this, "手机号必须填", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
             case R.id.btn_bind:
-                if (type==0){
-                mPresenter.login("", "", "", 4, editBind.getText().toString(), editBindCode.getText().toString(), openid, nickname, logo);
+                if (type == 0) {
+                    mPresenter.login(
+                            "",
+                            "",
+                            "",
+                            4,
+                            editBind.getText().toString(),
+                            editBindCode.getText().toString(),
+                            openid,
+                            nickname,
+                            logo);
 
-                }else {
-                mPresenter.login("", "", "", type, editBind.getText().toString(), editBindCode.getText().toString(), openid, nickname, logo);
+                } else {
+                    mPresenter.login("", "", "", type, editBind.getText().toString(), editBindCode.getText().toString(), openid, nickname, logo);
 
                 }
                 break;

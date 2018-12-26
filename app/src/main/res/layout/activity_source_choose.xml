@@ -1,98 +1,91 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_choose"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/activity_choose"
     android:paddingTop="2dp"
-    android:paddingBottom="2dp" >
+    android:paddingBottom="2dp">
 
     <RelativeLayout
-        android:layout_alignParentBottom="true"
         android:id="@+id/ly_top_bar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#FFFFFF"
-        >
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF">
+
         <RelativeLayout
             android:id="@+id/rela_before_img"
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView android:layout_width="@dimen/dp_15"
-                android:layout_height="@dimen/dp_15"
-                android:id="@+id/img_yuantu"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
 
-                android:src="@mipmap/log_unselect"
-                android:layout_marginLeft="16dp"
+            <ImageView
+                android:id="@+id/img_yuantu"
+                android:layout_width="@dimen/dp_15"
+                android:layout_height="@dimen/dp_15"
                 android:layout_centerVertical="true"
-                />
+                android:layout_marginLeft="16dp"
+                android:src="@mipmap/log_unselect" />
+
             <TextView
                 android:id="@+id/tv_yuantu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/img_yuantu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="原图"
-                />
+                android:text="原图" />
+
             <TextView
                 android:id="@+id/tv_kb"
-                android:layout_toRightOf="@+id/tv_yuantu"
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv_yuantu"
                 />
         </RelativeLayout>
-
-
-
-
 
         <TextView
             android:id="@+id/btn_continue"
             android:layout_width="60dp"
             android:layout_height="25dp"
-            android:text="继续"
+            android:layout_alignParentRight="true"
             android:layout_marginTop="@dimen/dp_12"
             android:layout_marginRight="@dimen/dp_20"
-            android:gravity="center"
-            android:textColor="#fff"
-            android:layout_alignParentRight="true"
             android:background="@drawable/bg_continue"
-
+            android:gravity="center"
+            android:text="继续"
+            android:textColor="#fff"
             />
     </RelativeLayout>
-    <RelativeLayout
 
+    <RelativeLayout
         android:id="@+id/bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40">
+
         <ImageView
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_centerVertical="true"
+            android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/back_black"
-            android:id="@+id/back"
-            />
-        <TextView
-            android:textColor="#000"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/back"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:src="@mipmap/back_black" />
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="所有图片"
+            android:layout_centerVertical="true"
             android:gravity="center_horizontal"
-            />
-
+            android:text="所有图片"
+            android:textColor="#000" />
     </RelativeLayout>
+
     <android.support.v7.widget.RecyclerView
-android:layout_above="@+id/ly_top_bar"
-        android:layout_below="@+id/bar"
         android:id="@+id/gv_photos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_above="@+id/ly_top_bar"
+        android:layout_below="@+id/bar"
+        android:visibility="visible"/>
 
 </RelativeLayout>
