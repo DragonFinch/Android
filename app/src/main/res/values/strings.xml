@@ -599,5 +599,17 @@
     <string name="money_everyone">¥3000/人</string>
     <string name="zhelishikongde">这个人很yo秀哦～</string>
 
+    <string name="addconcern">添加关注</string>
+    <string name="invitation">邀请</string>
+    <string name="vxgoodfriend">微信好友</string>
+    <string name="vbgoodfriend">微博好友</string>
+    <string name="qqgoodfriend">QQ好友</string>
+    <string name="txlgoodfriend">通讯录好友</string>
+    <string name="guanzhuwoderen">关注我的</string>
+
+    <string name="tongxunluhaoyou">通讯录好友</string>
+    <string name="addbookusername">张小白的小黑</string>
+    <!--<string name="tongxunlu">通讯录：</string>-->
+    <string name="baisuzhen">白素珍</string>
 
 </resources>

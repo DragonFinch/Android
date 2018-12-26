@@ -64,6 +64,7 @@
                         android:orientation="horizontal">
 
                         <LinearLayout
+                            android:id="@+id/my_collection"
                             android:layout_width="@dimen/dp_94"
                             android:layout_height="match_parent"
                             android:gravity="center"

@@ -4,6 +4,8 @@ package com.iyoyogo.android.net;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.collection.AddCollectionBean;
+import com.iyoyogo.android.bean.collection.AddCollectionBean1;
+import com.iyoyogo.android.bean.collection.AddressBookBean;
 import com.iyoyogo.android.bean.collection.CollectionFolderBean;
 import com.iyoyogo.android.bean.collection.CollectionFolderContentBean;
 import com.iyoyogo.android.bean.collection.MineCollectionBean;
@@ -455,6 +457,22 @@ public interface ApiService {
     @POST("index.php/api/userconfig/set")
     @FormUrlEncoded
     Observable<BaseBean> setMineSetting(@Field("user_id")String user_id,@Field("user_token")String user_token, @Field("wifi_auto_play_video")int wifi_auto_play_video, @Field("notice") int notice, @Field("address_list") int address_list);
+
+    //获取我粉丝中 我没关注的 (是我的粉丝，我却不是他的粉丝)
+    @POST("index.php/api/userattention/get_my_fans_only")
+    @FormUrlEncoded
+    Observable<AddCollectionBean1> setAddCollection(@Field("user_id")String user_id,
+                                                    @Field("user_token")String user_token,
+                                                    @Field("page")String page,
+                                                    @Field("page_size") String page_size);
+
+    //获取通讯录中 关注情况
+    @POST("index.php/api/userattention/address_list")
+    @FormUrlEncoded
+    Observable<AddressBookBean> setAddressBook(@Field("user_id")String user_id,
+                                               @Field("user_token")String user_token,
+                                               @Field("search")String search,
+                                               @Field("list") String list);
 
 }
 

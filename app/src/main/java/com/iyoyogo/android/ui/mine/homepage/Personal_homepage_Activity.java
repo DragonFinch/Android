@@ -1,5 +1,6 @@
 package com.iyoyogo.android.ui.mine.homepage;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -17,6 +18,7 @@ import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.mine.center.UserCenterBean;
 import com.iyoyogo.android.contract.PersonalCenterContract;
 import com.iyoyogo.android.presenter.PersonalCenterPresenter;
+import com.iyoyogo.android.ui.mine.AddCollectionActivity;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 
@@ -128,13 +130,16 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
     }
 
 
-    @OnClick({R.id.img_back, R.id.img_share})
+    @OnClick({R.id.img_back, R.id.img_share,R.id.my_collection})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_back:
                 finish();
                 break;
             case R.id.img_share:
+                break;
+            case R.id.my_collection:
+                startActivity(new Intent(this,AddCollectionActivity.class));
                 break;
         }
     }

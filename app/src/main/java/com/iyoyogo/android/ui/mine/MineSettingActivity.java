@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.iyoyogo.android.R;
@@ -29,12 +31,12 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
 
     @BindView(R.id.back_iv_id)
     ImageView backIvId;
-    @BindView(R.id.new_message_remind)
-    ImageView newMessageRemind;
-    @BindView(R.id.mail_list)
-    ImageView mailList;
-    @BindView(R.id.imgg_auto_play)
-    ImageView imggAutoPlay;
+    @BindView(R.id.switch1)
+    Switch aSwitch;
+    @BindView(R.id.switch2)
+    Switch bSwitch;
+    @BindView(R.id.switch3)
+    Switch cSwitch;
     @BindView(R.id.auto_play)
     RelativeLayout autoPlay;
     @BindView(R.id.user_security)
@@ -101,13 +103,13 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
         return name;
     }
 
-    @OnClick({R.id.back_iv_id, R.id.new_message_remind, R.id.mail_list, R.id.imgg_auto_play, R.id.user_security, R.id.feed_back, R.id.about_me, R.id.version_name, R.id.clear_cache, R.id.btn_logout})
+    @OnClick({R.id.switch1, R.id.switch2, R.id.switch3, R.id.back_iv_id, R.id.user_security, R.id.feed_back, R.id.about_me, R.id.version_name, R.id.clear_cache, R.id.btn_logout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_iv_id:
                 finish();
                 break;
-            case R.id.new_message_remind:
+            case R.id.switch1:
                /* if (notice==1){
                     mPresenter.setMineSetting(user_id,user_token,is_autoPlay,is_notice,is_mail);
                     mPresenter.getMineSetting(user_id,user_token);
@@ -115,15 +117,16 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
                     mPresenter.setMineSetting(user_id,user_token,wifi_auto_play_video,notice,address_list);
                     mPresenter.getMineSetting(user_id,user_token);
                 }*/
+
                 if (is_notice == 1) {
-                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, is_notice, 0);
+                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, 0, is_mail);
                     mPresenter.getMineSetting(user_id, user_token);
                 } else {
-                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, is_notice, 1);
+                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, 1, is_mail);
                     mPresenter.getMineSetting(user_id, user_token);
                 }
                 break;
-            case R.id.mail_list:
+            case R.id.switch2:
                 if (is_mail == 1) {
                     mPresenter.setMineSetting(user_id, user_token, is_autoPlay, is_notice, 0);
                     mPresenter.getMineSetting(user_id, user_token);
@@ -132,7 +135,7 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
                     mPresenter.getMineSetting(user_id, user_token);
                 }
                 break;
-            case R.id.imgg_auto_play:
+            case R.id.switch3:
                 if (is_autoPlay == 1) {
                     mPresenter.setMineSetting(user_id, user_token, 0, is_notice, is_mail);
                     mPresenter.getMineSetting(user_id, user_token);
@@ -140,7 +143,6 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
                     mPresenter.setMineSetting(user_id, user_token, 1, is_notice, is_mail);
                     mPresenter.getMineSetting(user_id, user_token);
                 }
-
                 break;
             case R.id.user_security:
                 startActivity(new Intent(MineSettingActivity.this, UserAndSecurityActivity.class));
@@ -205,20 +207,20 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
         is_notice = notice;
         is_mail = address_list;
         if (notice == 1) {
-            newMessageRemind.setImageResource(R.mipmap.on);
+            aSwitch.setChecked(true);
         } else {
-            newMessageRemind.setImageResource(R.mipmap.off);
+            aSwitch.setChecked(false);
         }
         if (address_list == 1) {
-            mailList.setImageResource(R.mipmap.on);
+            bSwitch.setChecked(true);
         } else {
-            mailList.setImageResource(R.mipmap.off);
+            bSwitch.setChecked(false);
         }
 
         if (wifi_auto_play_video == 1) {
-            imggAutoPlay.setImageResource(R.mipmap.on);
+            cSwitch.setChecked(true);
         } else {
-            imggAutoPlay.setImageResource(R.mipmap.off);
+            cSwitch.setChecked(false);
         }
     }
 

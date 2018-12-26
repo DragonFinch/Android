@@ -6,6 +6,8 @@ import android.util.Log;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.collection.AddCollectionBean;
+import com.iyoyogo.android.bean.collection.AddCollectionBean1;
+import com.iyoyogo.android.bean.collection.AddressBookBean;
 import com.iyoyogo.android.bean.collection.CollectionFolderBean;
 import com.iyoyogo.android.bean.collection.CollectionFolderContentBean;
 import com.iyoyogo.android.bean.collection.MineCollectionBean;
@@ -369,44 +371,65 @@ public class Model {
         return HttpClient.getApiService().getYoJiDetail(user_id, user_token, yo_id)
                 .compose(this.switchThread());
     }
-    public Observable<MineCollectionBean> getMineCollection(String user_id,String user_token){
-        return HttpClient.getApiService().getMineCollection(user_id,user_token)
+
+    public Observable<MineCollectionBean> getMineCollection(String user_id, String user_token) {
+        return HttpClient.getApiService().getMineCollection(user_id, user_token)
                 .compose(this.switchThread());
     }
-    public Observable<BaseBean>deleteCollectionFolder(String user_id,String user_token,Integer[] folder_ids){
-        return HttpClient.getApiService().deleteCollectionFolder(user_id,user_token,folder_ids)
+
+    public Observable<BaseBean> deleteCollectionFolder(String user_id, String user_token, Integer[] folder_ids) {
+        return HttpClient.getApiService().deleteCollectionFolder(user_id, user_token, folder_ids)
                 .compose(this.switchThread());
     }
-    public Observable<UserCenterBean> getUserCenter(String user_id,String user_token,String his_id){
-        return HttpClient.getApiService().getUserCenter(user_id,user_token,his_id)
+
+    public Observable<UserCenterBean> getUserCenter(String user_id, String user_token, String his_id) {
+        return HttpClient.getApiService().getUserCenter(user_id, user_token, his_id)
                 .compose(this.switchThread());
     }
-    public Observable<YoJiContentBean> getYoJiContent(String user_id,String user_token,String his_id,String page,String page_size){
-        return HttpClient.getApiService().getYoJiContent(user_id,user_token,his_id,page,page_size)
+
+    public Observable<YoJiContentBean> getYoJiContent(String user_id, String user_token, String his_id, String page, String page_size) {
+        return HttpClient.getApiService().getYoJiContent(user_id, user_token, his_id, page, page_size)
                 .compose(this.switchThread());
     }
-    public Observable<PraiseBean> getPraise(String user_id, String user_token, int page, int page_size){
-        return HttpClient.getApiService().getPraise(user_id,user_token,page,page_size)
+
+    public Observable<PraiseBean> getPraise(String user_id, String user_token, int page, int page_size) {
+        return HttpClient.getApiService().getPraise(user_id, user_token, page, page_size)
                 .compose(this.switchThread());
     }
-    public Observable<CollectionFolderContentBean> getContent(String user_id, String user_token, int page, int page_size){
-        return HttpClient.getApiService().getContent(user_id,user_token,page,page_size)
+
+    public Observable<CollectionFolderContentBean> getContent(String user_id, String user_token, int page, int page_size) {
+        return HttpClient.getApiService().getContent(user_id, user_token, page, page_size)
                 .compose(this.switchThread());
     }
-    public Observable<BaseBean> deleteCollection(String user_id, String user_token, Integer[] record_ids){
-        return HttpClient.getApiService().deleteCollection(user_id,user_token,record_ids)
+
+    public Observable<BaseBean> deleteCollection(String user_id, String user_token, Integer[] record_ids) {
+        return HttpClient.getApiService().deleteCollection(user_id, user_token, record_ids)
                 .compose(this.switchThread());
     }
-    public Observable<BaseBean> moveCollectionFolder(String user_id, String user_token, Integer[] record_ids,int folder_id){
-        return HttpClient.getApiService().moveCollectionFolder(user_id,user_token,record_ids,folder_id)
+
+    public Observable<BaseBean> moveCollectionFolder(String user_id, String user_token, Integer[] record_ids, int folder_id) {
+        return HttpClient.getApiService().moveCollectionFolder(user_id, user_token, record_ids, folder_id)
                 .compose(this.switchThread());
     }
-    public Observable<MineSettingBean> getMineSetting(String user_id,String user_token){
-        return HttpClient.getApiService().getMineSetting(user_id,user_token)
+
+    public Observable<MineSettingBean> getMineSetting(String user_id, String user_token) {
+        return HttpClient.getApiService().getMineSetting(user_id, user_token)
                 .compose(this.switchThread());
     }
-    public Observable<BaseBean> setMineSetting(String user_id, String user_token, int wifi_auto_play_video, int notice, int address_list){
-        return HttpClient.getApiService().setMineSetting(user_id,user_token,wifi_auto_play_video,notice,address_list)
+
+    public Observable<BaseBean> setMineSetting(String user_id, String user_token, int wifi_auto_play_video, int notice, int address_list) {
+        return HttpClient.getApiService().setMineSetting(user_id, user_token, wifi_auto_play_video, notice, address_list)
                 .compose(this.switchThread());
     }
+
+    public Observable<AddCollectionBean1> setAddCollection(String user_id, String user_token, String page, String page_size) {
+        return HttpClient.getApiService().setAddCollection(user_id, user_token, page, page_size)
+                .compose(this.switchThread());
+    }
+
+    public Observable<AddressBookBean> setAddressBook(String user_id, String user_token, String search, String list) {
+        return HttpClient.getApiService().setAddressBook(user_id, user_token, search, list)
+                .compose(this.switchThread());
+    }
+
 }
