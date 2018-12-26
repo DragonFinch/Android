@@ -11,12 +11,14 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
@@ -76,11 +78,11 @@ public class MainActivity extends BaseActivity {
         String user_id = SpUtils.getString(MainActivity.this, "user_id", null);
 
         String user_token = SpUtils.getString(MainActivity.this, "user_token", null);
-        if (user_id==null||user_token==null){
-            SpUtils.remove(MainActivity.this,"user_id");
-            SpUtils.remove(MainActivity.this,"user_token");
-            SpUtils.remove(MainActivity.this,"isLogin");
-            startActivity(new Intent(MainActivity.this,LoginActivity.class));
+        if (user_id == null || user_token == null) {
+            SpUtils.remove(MainActivity.this, "user_id");
+            SpUtils.remove(MainActivity.this, "user_token");
+            SpUtils.remove(MainActivity.this, "isLogin");
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
         }
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -116,6 +118,7 @@ public class MainActivity extends BaseActivity {
         getWindow().setAttributes(lp); //act 是上下文context
 
     }
+
     private class poponDismissListener implements PopupWindow.OnDismissListener {
         @Override
         public void onDismiss() {
@@ -154,9 +157,6 @@ public class MainActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= 23) {
 
 
-
-
-
             String[] mPermissionList = new String[]{
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_FINE_LOCATION,
@@ -179,14 +179,14 @@ public class MainActivity extends BaseActivity {
                 if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)) {
                     if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                         if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                            if (PackageManager.PERMISSION_GRANTED==ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)){
-                                if (PackageManager.PERMISSION_GRANTED==ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)){
+                            if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                                if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
 
-                                }else {
-                                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},123);
+                                } else {
+                                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 123);
                                 }
-                            }else {
-                                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},123);
+                            } else {
+                                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 123);
                             }
                         } else {
                             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_READ_EXTERNAL_STORAGE_PERMISSION_CODE);
@@ -238,10 +238,30 @@ public class MainActivity extends BaseActivity {
     }
 
 
+    //退出时的时间
+    private long mExitTime;
 
+    //对返回键进行监听
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
 
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
 
+            exit();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
+    public void exit() {
+        if ((System.currentTimeMillis() - mExitTime) > 2000) {
+            Toast.makeText(MainActivity.this, "再按一次退出yoyogo", Toast.LENGTH_SHORT).show();
+            mExitTime = System.currentTimeMillis();
+        } else {
+            finish();
+            System.exit(0);
+        }
+    }
 
 
 }

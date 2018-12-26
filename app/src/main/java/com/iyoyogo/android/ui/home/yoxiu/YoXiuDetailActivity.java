@@ -147,6 +147,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     private int is_my_collect;
     private int add_collection_id;
     private List<CollectionFolderBean.DataBean.ListBean> mList;
+    private int yo_attention_id;
 
     @Override
     protected void initView() {
@@ -422,18 +423,9 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                     }
                 }*/
                 mPresenter.getDetail(user_id, user_token, id);
-                if (is_my_attention == 0) {
-                    mPresenter.addAttention(user_id, user_token, yo_user_id);
+
+                    mPresenter.addAttention(user_id, user_token, is_my_attention);
 //                    Log.d("YoXiuDetailActivity", target_id);
-
-                } else {
-
-                    if (add_attention_id == 0) {
-                        mPresenter.deleteAttention(user_id, user_token, is_my_attention);
-                    } else {
-                        mPresenter.deleteAttention(user_id, user_token, add_attention_id);
-                    }
-                }
 
                 break;
             case R.id.num_look:
@@ -564,7 +556,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         collection_list = new ArrayList<>();
         collection_list.add(data);
         yo_user_id = data.getId();
-
+        yo_attention_id = data.getUser_id();
         dataBeans.add(data);
         collections();
         is_my_collect = data.getIs_my_collect();
@@ -589,7 +581,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         String path = data.getFile_path();
         RequestOptions requestOptions = new RequestOptions();
         if (editComment.getText().toString().length() > 0) {
-            mPresenter.addComment(user_id, user_token, 0, this.id, editComment.getText().toString().trim());
+            mPresenter.addComment(this.user_id, user_token, 0, this.id, editComment.getText().toString().trim());
             closeInputMethod();
             yoXiuDetailAdapter.notifyDataSetChanged();
             refresh();
@@ -738,9 +730,9 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
     @Override
     public void addAttentionSuccess(AttentionBean.DataBean data) {
-        String target_id = data.getId();
+      /*  String target_id = data.getId();
         add_attention_id = Integer.parseInt(target_id);
-        Log.d("YoXiuDetailActivity", target_id);
+        Log.d("YoXiuDetailActivity", target_id);*/
         collection.setText("已关注");
         Toast.makeText(this, "关注成功", Toast.LENGTH_SHORT).show();
     }
@@ -782,20 +774,10 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                 }*/
                 int folder_id = mList.get(position).getFolder_id();
                 mPresenter.getDetail(user_id, user_token, id);
-                if (is_my_collect == 0) {
                     Log.d("YoXiuDetailActivity", "folder_id:" + folder_id);
                     Log.d("YoXiuDetailActivity", "yo_user_id:" + yo_user_id);
                     mPresenter.addCollection(user_id, user_token, folder_id, yo_user_id);
 //                    Log.d("YoXiuDetailActivity", target_id);
-
-                } else {
-
-                    if (add_collection_id == 0) {
-                        mPresenter.deleteCollection(user_id, user_token, is_my_collect);
-                    } else {
-                        mPresenter.deleteCollection(user_id, user_token, add_collection_id);
-                    }
-                }
                 popup.dismiss();
 
             }

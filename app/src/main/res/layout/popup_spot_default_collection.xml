@@ -7,6 +7,7 @@
     <!--默认收藏页title黑点,点击后展示的菜单-->
 
     <LinearLayout
+        android:background="@color/white"
         android:id="@+id/layout_edit"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
@@ -37,6 +38,7 @@
         android:background="@color/BFBFBF" />
 
     <LinearLayout
+        android:background="@color/white"
         android:id="@+id/layout_manager"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"

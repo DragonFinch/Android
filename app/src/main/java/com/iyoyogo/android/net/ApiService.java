@@ -20,6 +20,7 @@ import com.iyoyogo.android.bean.mine.MineMessageBean;
 import com.iyoyogo.android.bean.mine.PraiseBean;
 import com.iyoyogo.android.bean.mine.center.UserCenterBean;
 import com.iyoyogo.android.bean.mine.center.YoJiContentBean;
+import com.iyoyogo.android.bean.mine.setting.MineSettingBean;
 import com.iyoyogo.android.bean.yoji.detail.YoJiDetailBean;
 import com.iyoyogo.android.bean.yoji.label.AddLabelBean;
 import com.iyoyogo.android.bean.yoji.label.LabelListBean;
@@ -313,7 +314,7 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<BaseBean> logout(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("addr") String address, @Field("phone_info") String phone_info, @Field("app_version") String app_version);
 
-    @POST("index.php/api/attention/add")
+    @POST("index.php/api/attention/click")
     @FormUrlEncoded
     Observable<AttentionBean> addAttention(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("target_id") int target_id);
 
@@ -341,10 +342,8 @@ public interface ApiService {
     @POST("index.php/api/collect/collect_add")
     @FormUrlEncoded
     Observable<AddCollectionBean> addCollection(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("folder_id") int folder_id, @Field("yo_id") int yo_id);
+//index.php/api/collect/collect_delete
 
-    @POST("index.php/api/collect/collect_delete")
-    @FormUrlEncoded
-    Observable<BaseBean> deleteCollection(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("id") int id);
 
     @POST("index.php/api/dislike/add")
     @FormUrlEncoded
@@ -432,6 +431,30 @@ public interface ApiService {
     @POST("index.php/api/collect/collect_get_list_by_folder_id")
     @FormUrlEncoded
     Observable<CollectionFolderContentBean> getContent(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("folder_id") int folder_id, @Field("page") int page);
+    @POST("index.php/api/collect/collect_delete")
+    @FormUrlEncoded
+    Observable<BaseBean> deleteCollection(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("id") int id);
+    @POST("index.php/api/collect/collect_delete")
+    @FormUrlEncoded
+    Observable<BaseBean> deleteCollection(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("record_ids") Integer[] record_ids);
+    @POST("/index.php/api/collect/collect_move")
+    @FormUrlEncoded
+    Observable<BaseBean> moveCollectionFolder(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("record_ids") Integer[] record_ids,@Field("folder_id")int folder_id );
+    @POST("index.php/api/userconfig/get")
+    @FormUrlEncoded
+    Observable<MineSettingBean> getMineSetting(@Field("user_id") String user_id, @Field("user_token") String user_token );
+
+    /**
+     * user_id	是	string	用户id
+     * user_token	是	string	user_token
+     * wifi_auto_play_video	是	int（0否1是）	wifi下自动播放视频
+     * notice	是	int（0否1是）	消息提醒
+     * address_list	是	int（0否1是）	通讯录
+     * @return
+     */
+    @POST("index.php/api/userconfig/set")
+    @FormUrlEncoded
+    Observable<BaseBean> setMineSetting(@Field("user_id")String user_id,@Field("user_token")String user_token, @Field("wifi_auto_play_video")int wifi_auto_play_video, @Field("notice") int notice, @Field("address_list") int address_list);
 
 }
 

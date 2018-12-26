@@ -47,7 +47,15 @@ public class MineCollectionBean extends BaseBean {
             private int open;
             private int count_record;
             private List<RecordListBean> record_list;
+            public boolean isSelect;
 
+            public boolean isSelect() {
+                return isSelect;
+            }
+
+            public void setSelect(boolean isSelect) {
+                this.isSelect = isSelect;
+            }
             public int getFolder_id() {
                 return folder_id;
             }

@@ -136,6 +136,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:name">
+        <activity android:name=".ui.mine.homepage.Message_center_Activity"/>
+        <activity android:name=".ui.mine.homepage.VipCenterActivity"/>
         <service android:name="com.amap.api.location.APSService" />
         <activity android:name=".ui.mine.collection.CollectionActivity"/>
         <activity android:name=".utils.imagepicker.activities.ImagesPickActivity" />

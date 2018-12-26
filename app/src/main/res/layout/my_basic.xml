@@ -99,6 +99,7 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/vip_center_img"
         android:layout_width="@dimen/dp_35"
         android:layout_height="@dimen/dp_35"
         android:layout_alignParentRight="true"

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.mine.setting.MineSettingBean;
 import com.iyoyogo.android.contract.MineSettingContract;
 import com.iyoyogo.android.presenter.MineSettingPresenter;
 import com.iyoyogo.android.ui.common.LoginActivity;
@@ -56,6 +58,12 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
     private String address;
     private String phone_type;
     private String localVersion;
+    private int wifi_auto_play_video;
+    private int notice;
+    private int address_list;
+    private int is_notice = 0;
+    private int is_autoPlay = 0;
+    private int is_mail = 0;
 
     @Override
     protected void initView() {
@@ -72,6 +80,12 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
+        mPresenter.getMineSetting(user_id, user_token);
     }
 
     public String packageName(Context context) {
@@ -94,12 +108,38 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
                 finish();
                 break;
             case R.id.new_message_remind:
-
+               /* if (notice==1){
+                    mPresenter.setMineSetting(user_id,user_token,is_autoPlay,is_notice,is_mail);
+                    mPresenter.getMineSetting(user_id,user_token);
+                }else {
+                    mPresenter.setMineSetting(user_id,user_token,wifi_auto_play_video,notice,address_list);
+                    mPresenter.getMineSetting(user_id,user_token);
+                }*/
+                if (is_notice == 1) {
+                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, is_notice, 0);
+                    mPresenter.getMineSetting(user_id, user_token);
+                } else {
+                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, is_notice, 1);
+                    mPresenter.getMineSetting(user_id, user_token);
+                }
                 break;
             case R.id.mail_list:
-
+                if (is_mail == 1) {
+                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, is_notice, 0);
+                    mPresenter.getMineSetting(user_id, user_token);
+                } else {
+                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, is_notice, 1);
+                    mPresenter.getMineSetting(user_id, user_token);
+                }
                 break;
             case R.id.imgg_auto_play:
+                if (is_autoPlay == 1) {
+                    mPresenter.setMineSetting(user_id, user_token, 0, is_notice, is_mail);
+                    mPresenter.getMineSetting(user_id, user_token);
+                } else {
+                    mPresenter.setMineSetting(user_id, user_token, 1, is_notice, is_mail);
+                    mPresenter.getMineSetting(user_id, user_token);
+                }
 
                 break;
             case R.id.user_security:
@@ -154,5 +194,36 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
         SpUtils.remove(MineSettingActivity.this, "isLogin");
         startActivity(new Intent(MineSettingActivity.this, LoginActivity.class));
         finish();
+    }
+
+    @Override
+    public void getMineSettingSuccess(MineSettingBean.DataBean data) {
+        wifi_auto_play_video = data.getWifi_auto_play_video();
+        notice = data.getNotice();
+        address_list = data.getAddress_list();
+        is_autoPlay = wifi_auto_play_video;
+        is_notice = notice;
+        is_mail = address_list;
+        if (notice == 1) {
+            newMessageRemind.setImageResource(R.mipmap.on);
+        } else {
+            newMessageRemind.setImageResource(R.mipmap.off);
+        }
+        if (address_list == 1) {
+            mailList.setImageResource(R.mipmap.on);
+        } else {
+            mailList.setImageResource(R.mipmap.off);
+        }
+
+        if (wifi_auto_play_video == 1) {
+            imggAutoPlay.setImageResource(R.mipmap.on);
+        } else {
+            imggAutoPlay.setImageResource(R.mipmap.off);
+        }
+    }
+
+    @Override
+    public void setMineSettingSuccess(BaseBean baseBean) {
+
     }
 }

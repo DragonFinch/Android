@@ -15,15 +15,29 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.collection.MineCollectionBean;
 import com.iyoyogo.android.utils.DensityUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAdapter.ViewHolder> implements View.OnClickListener {
     private Context context;
     List<MineCollectionBean.DataBean.TreeBean> mList;
+    private static final int MYLIVE_MODE_CHECK = 0;
+    int mEditMode = MYLIVE_MODE_CHECK;
+    List<String> idList = new ArrayList<>();
+    private OnItemClickListener mOnItemClickListener;
 
     public MineCollectionAdapter(Context context, List<MineCollectionBean.DataBean.TreeBean> tree) {
         this.context = context;
         this.mList = tree;
+    }
+
+    public void notifyAdapter(List<MineCollectionBean.DataBean.TreeBean> myLiveList, boolean isAdd) {
+        if (!isAdd) {
+            this.mList = myLiveList;
+        } else {
+            this.mList.addAll(myLiveList);
+        }
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -44,10 +58,28 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
                 .error(R.mipmap.default_ic)
                 .centerCrop();
 
+        if (mEditMode == MYLIVE_MODE_CHECK) {
+            holder.checkBox.setVisibility(View.GONE);
+            holder.img_next.setVisibility(View.VISIBLE);
+
+        } else {
+            holder.checkBox.setVisibility(View.VISIBLE);
+            holder.img_next.setVisibility(View.GONE);
+            if (mList.get(position).isSelect() && !idList.contains(mList.get(position).getFolder_id())) {
+                holder.checkBox.setImageResource(R.mipmap.zp_xz);
+                idList.add(mList.get(position).getFolder_id() + "");
+                mList.get(position).setSelect(true);
+
+
+            } else {
+                idList.remove(mList.get(position).getFolder_id() + "");
+                holder.checkBox.setImageResource(R.mipmap.pic_wxz);
+                mList.get(position).setSelect(false);
+
+            }
+        }
 
         if (record_list.size() >= 4) {
-
-
             Glide.with(context).load(record_list.get(0).getFile_path()).apply(requestOptions).into(holder.img_one);
             Glide.with(context).load(record_list.get(1).getFile_path()).apply(requestOptions).into(holder.img_two);
             Glide.with(context).load(record_list.get(2).getFile_path()).apply(requestOptions).into(holder.img_three);
@@ -74,6 +106,12 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
             holder.img_four.setVisibility(View.INVISIBLE);
         }
         holder.itemView.setTag(position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListener.onItemClickListener(holder.getAdapterPosition(), mList);
+            }
+        });
     }
 
     @Override
@@ -90,7 +128,9 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
     public void setOnItemClickListener(OnClickListener onItemClickListener) {
         this.onClickListener = onItemClickListener;
     }
-
+    public List<String> getIdList() {
+        return idList;
+    }
     @Override
     public void onClick(View v) {
         if (onClickListener != null) {
@@ -100,15 +140,32 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_collection_folder;
-        ImageView img_one, img_two, img_three, img_four;
+        ImageView img_one, img_two, img_three, img_four, checkBox,img_next;
+
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            img_next = itemView.findViewById(R.id.img_next);
             tv_collection_folder = itemView.findViewById(R.id.tv_collection_folder);
             img_one = itemView.findViewById(R.id.img_one);
             img_two = itemView.findViewById(R.id.img_two);
             img_three = itemView.findViewById(R.id.img_three);
             img_four = itemView.findViewById(R.id.img_four);
+            checkBox = itemView.findViewById(R.id.cb);
         }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClickListener(int pos, List<MineCollectionBean.DataBean.TreeBean> myLiveList);
+    }
+
+    public void setEditMode(int editMode) {
+        mEditMode = editMode;
+        notifyDataSetChanged();
     }
 }

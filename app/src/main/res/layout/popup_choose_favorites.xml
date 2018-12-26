@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="vertical">x
-
-
+    android:orientation="vertical">
     <!--选择所要移动到的收藏夹的popup-->
-
-
     <ImageView
         android:id="@+id/popup_favorites_prompt_iv_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_100"
         android:src="@mipmap/guanbi" />
-
+<LinearLayout
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/popup_favorites_prompt_rv_id"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_120" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -79,6 +79,8 @@
             android:textColor="@color/white" />
 
     </LinearLayout>
+</LinearLayout>
+
 
 
 </LinearLayout>

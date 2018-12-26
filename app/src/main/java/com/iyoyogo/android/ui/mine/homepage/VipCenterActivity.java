@@ -10,6 +10,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.utils.StatusBarUtils;
 
 public class VipCenterActivity extends AppCompatActivity {
 //会员中心
@@ -21,7 +22,7 @@ public class VipCenterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vip_center);
-
+        StatusBarUtils.setWindowStatusBarColor(VipCenterActivity.this,R.color.white);
 
         init();
 

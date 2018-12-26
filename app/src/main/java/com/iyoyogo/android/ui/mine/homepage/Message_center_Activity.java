@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.utils.StatusBarUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,7 +43,7 @@ public class Message_center_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_center);
-
+        StatusBarUtils.setWindowStatusBarColor(Message_center_Activity.this, R.color.white);
         title = new Intent(this, Like_me_Activity.class);
 
         ButterKnife.bind(this);

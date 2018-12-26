@@ -20,7 +20,9 @@ import com.iyoyogo.android.presenter.MineMessagePresenter;
 import com.iyoyogo.android.ui.mine.collection.CollectionActivity;
 import com.iyoyogo.android.ui.mine.draft.DraftActivity;
 import com.iyoyogo.android.ui.mine.homepage.Like_me_Activity;
+import com.iyoyogo.android.ui.mine.homepage.Message_center_Activity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
+import com.iyoyogo.android.ui.mine.homepage.VipCenterActivity;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 
@@ -79,6 +81,9 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     @BindView(R.id.my_option_set_id)
     LinearLayout myOptionSetId;
     Unbinder unbinder;
+    @BindView(R.id.vip_center_img)
+    ImageView vipCenterImg;
+
     private String user_id;
     private String user_token;
 
@@ -132,11 +137,14 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         mPresenter.getUserInfo(user_id, user_token);
     }
 
-    @OnClick({R.id.my_basic_name_iv_id, R.id.my_messge_im_id, R.id.my_addfriend_im_id, R.id.my_clock_but_id, R.id.my_option_home_id, R.id.my_option_draft_id, R.id.my_option_like_id, R.id.my_option_col_id, R.id.my_option_set_id})
+    @OnClick({R.id.vip_center_img,R.id.my_basic_name_iv_id, R.id.my_messge_im_id, R.id.my_addfriend_im_id, R.id.my_clock_but_id, R.id.my_option_home_id, R.id.my_option_draft_id, R.id.my_option_like_id, R.id.my_option_col_id, R.id.my_option_set_id})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.vip_center_img:
+                startActivity(new Intent(getContext(),VipCenterActivity.class));
+                break;
             case R.id.my_messge_im_id:
-
+                startActivity(new Intent(getContext(), Message_center_Activity.class));
                 break;
             case R.id.my_addfriend_im_id:
 
@@ -145,16 +153,16 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
 
                 break;
             case R.id.my_option_home_id:
-                startActivity(new Intent(getContext(),Personal_homepage_Activity.class));
+                startActivity(new Intent(getContext(), Personal_homepage_Activity.class));
                 break;
             case R.id.my_option_draft_id:
-                startActivity(new Intent(getContext(),DraftActivity.class));
+                startActivity(new Intent(getContext(), DraftActivity.class));
                 break;
             case R.id.my_option_like_id:
-                startActivity(new Intent(getContext(),Like_me_Activity.class));
+                startActivity(new Intent(getContext(), Like_me_Activity.class));
                 break;
             case R.id.my_option_col_id:
-                startActivity(new Intent(getContext(),CollectionActivity.class));
+                startActivity(new Intent(getContext(), CollectionActivity.class));
                 break;
             case R.id.my_option_set_id:
                 startActivity(new Intent(getContext(), MineSettingActivity.class));
@@ -170,11 +178,11 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         String user_nickname = data.getUser_nickname();
         myBasicNameTvId.setText(user_nickname);
         String user_logo = data.getUser_logo();
-        if (user_logo.equals("")){
+        if (user_logo.equals("")) {
             myBasicHeadimgIvId.setImageResource(R.mipmap.default_touxiang);
-        }else {
+        } else {
 
-        Glide.with(getContext()).load(user_logo).into(myBasicHeadimgIvId);
+            Glide.with(getContext()).load(user_logo).into(myBasicHeadimgIvId);
         }
         int count_fans = data.getCount_fans();
         myBasicFansnumberTvId.setText(count_fans + "");
@@ -186,4 +194,8 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         myExceedTvId.setText("超过了全国" + clock_win + "的用户哦！");
         int count_noread = data.getCount_noread();
     }
+
+
+
+
 }

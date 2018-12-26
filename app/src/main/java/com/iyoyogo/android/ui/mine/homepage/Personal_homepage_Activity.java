@@ -179,7 +179,7 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
         tvNickName.setText(data.getUser_nickname());
         tvAttentionCount.setText(data.getCount_attention() + "");
         tvCollectionCount.setText(data.getCount_collect() + "");
-        tvFansCount.setText(data.getCount_fens() + "");
+        tvFansCount.setText(data.getCount_fans() + "");
         tvCity.setText(data.getUser_city());
         titles.add(getResources().getString(R.string.yoji) + "  " + data.getCount_yoj());
         titles.add(getResources().getString(R.string.yoxiu) + "  " + data.getCount_yox());

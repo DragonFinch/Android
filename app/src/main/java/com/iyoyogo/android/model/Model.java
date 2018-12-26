@@ -22,6 +22,7 @@ import com.iyoyogo.android.bean.mine.MineMessageBean;
 import com.iyoyogo.android.bean.mine.PraiseBean;
 import com.iyoyogo.android.bean.mine.center.UserCenterBean;
 import com.iyoyogo.android.bean.mine.center.YoJiContentBean;
+import com.iyoyogo.android.bean.mine.setting.MineSettingBean;
 import com.iyoyogo.android.bean.yoji.detail.YoJiDetailBean;
 import com.iyoyogo.android.bean.yoji.label.AddLabelBean;
 import com.iyoyogo.android.bean.yoji.label.LabelListBean;
@@ -390,6 +391,22 @@ public class Model {
     }
     public Observable<CollectionFolderContentBean> getContent(String user_id, String user_token, int page, int page_size){
         return HttpClient.getApiService().getContent(user_id,user_token,page,page_size)
+                .compose(this.switchThread());
+    }
+    public Observable<BaseBean> deleteCollection(String user_id, String user_token, Integer[] record_ids){
+        return HttpClient.getApiService().deleteCollection(user_id,user_token,record_ids)
+                .compose(this.switchThread());
+    }
+    public Observable<BaseBean> moveCollectionFolder(String user_id, String user_token, Integer[] record_ids,int folder_id){
+        return HttpClient.getApiService().moveCollectionFolder(user_id,user_token,record_ids,folder_id)
+                .compose(this.switchThread());
+    }
+    public Observable<MineSettingBean> getMineSetting(String user_id,String user_token){
+        return HttpClient.getApiService().getMineSetting(user_id,user_token)
+                .compose(this.switchThread());
+    }
+    public Observable<BaseBean> setMineSetting(String user_id, String user_token, int wifi_auto_play_video, int notice, int address_list){
+        return HttpClient.getApiService().setMineSetting(user_id,user_token,wifi_auto_play_video,notice,address_list)
                 .compose(this.switchThread());
     }
 }

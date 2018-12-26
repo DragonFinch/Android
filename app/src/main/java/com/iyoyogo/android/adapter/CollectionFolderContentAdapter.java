@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.collection.CollectionFolderContentBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CollectionFolderContentAdapter extends RecyclerView.Adapter<CollectionFolderContentAdapter.ViewHolder> {
@@ -25,9 +26,28 @@ public class CollectionFolderContentAdapter extends RecyclerView.Adapter<Collect
     private String title = "";
 
     private OnItemClickListener mOnItemClickListener;
+
     public CollectionFolderContentAdapter(Context context, List<CollectionFolderContentBean.DataBean.ListBean> list) {
         this.context = context;
         this.mList = list;
+    }
+
+    List<String> idList = new ArrayList<>();
+
+    public void notifyAdapter(List<CollectionFolderContentBean.DataBean.ListBean> myLiveList, boolean isAdd) {
+        if (!isAdd) {
+            this.mList = myLiveList;
+        } else {
+            this.mList.addAll(myLiveList);
+        }
+        notifyDataSetChanged();
+    }
+
+    public List<CollectionFolderContentBean.DataBean.ListBean> getMyLiveList() {
+        if (mList == null) {
+            mList = new ArrayList<>();
+        }
+        return mList;
     }
 
     @NonNull
@@ -44,15 +64,24 @@ public class CollectionFolderContentAdapter extends RecyclerView.Adapter<Collect
         Glide.with(context).load(mList.get(position).getFile_path()).into(holder.img);
         if (mEditMode == MYLIVE_MODE_CHECK) {
             holder.checkBox.setVisibility(View.GONE);
+
         } else {
             holder.checkBox.setVisibility(View.VISIBLE);
 
-            if (listBean.isSelect()) {
+            if (mList.get(position).isSelect()&&!idList.contains(mList.get(position).getRecord_id())) {
                 holder.checkBox.setImageResource(R.mipmap.zp_xz);
+                idList.add(mList.get(position).getRecord_id()+"");
+                mList.get(position).setSelect(true);
+
+
             } else {
+                idList.remove(mList.get(position).getRecord_id()+"");
                 holder.checkBox.setImageResource(R.mipmap.pic_wxz);
+                mList.get(position).setSelect(false);
+
             }
         }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,22 +95,29 @@ public class CollectionFolderContentAdapter extends RecyclerView.Adapter<Collect
         return mList.size();
     }
 
+    public List<String> getIdList() {
+        return idList;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView checkBox;
         ImageView img;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            checkBox=itemView.findViewById(R.id.checkBox);
-            img=itemView.findViewById(R.id.img);
+            checkBox = itemView.findViewById(R.id.checkBox);
+            img = itemView.findViewById(R.id.img);
         }
     }
+
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.mOnItemClickListener = onItemClickListener;
     }
+
     public interface OnItemClickListener {
-        void onItemClickListener(int pos,List<CollectionFolderContentBean.DataBean.ListBean> myLiveList);
+        void onItemClickListener(int pos, List<CollectionFolderContentBean.DataBean.ListBean> myLiveList);
     }
+
     public void setEditMode(int editMode) {
         mEditMode = editMode;
         notifyDataSetChanged();

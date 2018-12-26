@@ -1,21 +1,32 @@
 package com.iyoyogo.android.ui.mine.collection;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.CollectionFolderContentAdapter;
+import com.iyoyogo.android.adapter.DefaultCollectionAdapter;
+import com.iyoyogo.android.adapter.viewholder.OnItemClickLitener;
 import com.iyoyogo.android.base.BaseActivity;
+import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.collection.CollectionFolderBean;
 import com.iyoyogo.android.bean.collection.CollectionFolderContentBean;
 import com.iyoyogo.android.contract.CollectionFolderContentContract;
 import com.iyoyogo.android.presenter.CollectionFolderContentPresenter;
@@ -52,12 +63,20 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
     private String user_token;
     private String user_id;
     private int folder_id;
+    private static final int MYLIVE_MODE_CHECK = 0;
+    private static final int MYLIVE_MODE_EDIT = 1;
     private CollectionFolderContentAdapter collectionFolderContentAdapter;
     private List<String> mCheckedData = new ArrayList<>();//将选中数据放入里面
     List<CollectionFolderContentBean.DataBean.ListBean> mList = new ArrayList<>();
     private boolean isSelectedAll = true;//用来控制点击全选，全选和全不选相互切换
     private String name;
     int open;
+    private int mEditMode = MYLIVE_MODE_CHECK;
+    private boolean isSelectAll = false;
+    private boolean editorStatus = false;
+    private int index = 0;
+    private RecyclerView popup_favorites_prompt_rv_id;
+    private int folder_ids;
 
     @Override
     protected void initView() {
@@ -66,12 +85,11 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
         name = intent.getStringExtra("name");
         defaultTitleTvId.setText(name);
         folder_id = intent.getIntExtra("folder_id", 0);
-        open=intent.getIntExtra("open",0);
+        open = intent.getIntExtra("open", 0);
         user_id = SpUtils.getString(DefaultCollectionActivity.this, "user_id", null);
         user_token = SpUtils.getString(DefaultCollectionActivity.this, "user_token", null);
         functionBottom.setVisibility(View.GONE);
     }
-
 
 
     @Override
@@ -95,17 +113,59 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
                 initSearchPopupWindow();
                 break;
             case R.id.default_checkbox_id:
-
+                selectAllMain();
                 break;
             case R.id.default_move_but_id:
 
+//                mPresenter.moveCollectionFolder(user_id, user_token, objects1);
+                mPresenter.getCollectionFolder(user_id, user_token);
+                initPopup();
                 break;
             case R.id.default_delete_but_id:
-
+                deleteVideo();
                 break;
         }
     }
 
+    private void initPopup() {
+        View view = getLayoutInflater().from(DefaultCollectionActivity.this).inflate(R.layout.popup_choose_favorites, null);
+
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(DefaultCollectionActivity.this, 311), true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+        backgroundAlpha(0.6f);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1.0f);
+            }
+        });
+        ImageView popup_favorites_prompt_iv_id = view.findViewById(R.id.popup_favorites_prompt_iv_id);
+        popup_favorites_prompt_rv_id = view.findViewById(R.id.popup_favorites_prompt_rv_id);
+        Button popup_favorites_prompt_but_id = view.findViewById(R.id.popup_favorites_prompt_but_id);
+
+
+        popup_favorites_prompt_iv_id.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        popup_favorites_prompt_but_id.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<String> idList1 = collectionFolderContentAdapter.getIdList();
+                Integer[] like = new Integer[idList1.size()];
+                for (int i = 0; i < idList1.size(); i++) {
+                    like[i] = Integer.valueOf(idList1.get(i));
+                }
+
+                mPresenter.moveCollectionFolder(user_id, user_token, like, folder_ids);
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow.showAtLocation(findViewById(R.id.default_collection_rl_id), Gravity.BOTTOM, 0, 0);
+    }
 
 
     @Override
@@ -114,7 +174,6 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
 
         mPresenter.getCollectionFolderContent(user_id, user_token, folder_id, 1);
     }
-
 
 
     //初始化搜索popup (可以启动初始化)
@@ -136,10 +195,10 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DefaultCollectionActivity.this, CreateCollectionFolderActivity.class);
-                intent.putExtra("folder_id",folder_id);
-                intent.putExtra("type",2);
-
-                intent.putExtra("open",open);
+                intent.putExtra("folder_id", folder_id);
+                intent.putExtra("type", 2);
+                intent.putExtra("name", name);
+                intent.putExtra("open", open);
                 startActivity(intent);
                 popupWindow.dismiss();
             }
@@ -153,44 +212,46 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
         layout_manager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                updataEditMode();
                 popupWindow.dismiss();
             }
         });
 
     }
+
     /**
      * 全选和反选
      */
     private void selectAllMain() {
-       /* if (mRadioAdapter == null) return;
+        if (collectionFolderContentAdapter == null) return;
         if (!isSelectAll) {
-            for (int i = 0, j = mRadioAdapter.getMyLiveList().size(); i < j; i++) {
-                mRadioAdapter.getMyLiveList().get(i).setSelect(true);
+            for (int i = 0, j = collectionFolderContentAdapter.getMyLiveList().size(); i < j; i++) {
+                collectionFolderContentAdapter.getMyLiveList().get(i).setSelect(true);
             }
-            index = mRadioAdapter.getMyLiveList().size();
-            mBtnDelete.setEnabled(true);
-            mSelectAll.setText("取消全选");
+            index = collectionFolderContentAdapter.getMyLiveList().size();
+            defaultDeleteButId.setEnabled(true);
+//            mSelectAll.setText("取消全选");
             isSelectAll = true;
         } else {
-            for (int i = 0, j = mRadioAdapter.getMyLiveList().size(); i < j; i++) {
-                mRadioAdapter.getMyLiveList().get(i).setSelect(false);
+            for (int i = 0, j = collectionFolderContentAdapter.getMyLiveList().size(); i < j; i++) {
+                collectionFolderContentAdapter.getMyLiveList().get(i).setSelect(false);
             }
             index = 0;
-            mBtnDelete.setEnabled(false);
-            mSelectAll.setText("全选");
+            defaultDeleteButId.setEnabled(false);
+//            mSelectAll.setText("全选");
             isSelectAll = false;
         }
-        mRadioAdapter.notifyDataSetChanged();
-        setBtnBackground(index);
-        mTvSelectNum.setText(String.valueOf(index));*/
+        collectionFolderContentAdapter.notifyDataSetChanged();
+//        setBtnBackground(index);
+//        mTvSelectNum.setText(String.valueOf(index));
     }
 
     /**
      * 删除逻辑
      */
     private void deleteVideo() {
-       /* if (index == 0){
-            mBtnDelete.setEnabled(false);
+        if (index == 0) {
+            defaultDeleteButId.setEnabled(false);
             return;
         }
         final AlertDialog builder = new AlertDialog.Builder(this)
@@ -214,50 +275,61 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
                 builder.dismiss();
             }
         });
+        List<String> idList = collectionFolderContentAdapter.getIdList();
+        Integer[] like = new Integer[idList.size()];
+        for (int i = 0; i < idList.size(); i++) {
+            like[i] = Integer.valueOf(idList.get(i));
+        }
+
+
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = mRadioAdapter.getMyLiveList().size(), j =0 ; i > j; i--) {
-                    MyLiveList myLive = mRadioAdapter.getMyLiveList().get(i-1);
-                    if (myLive.isSelect()) {
+                mPresenter.removeCollectionContent(user_id, user_token, like);
+                for (int i = collectionFolderContentAdapter.getMyLiveList().size(), j = 0; i > j; i--) {
+                    CollectionFolderContentBean.DataBean.ListBean listBean = collectionFolderContentAdapter.getMyLiveList().get(i - 1);
+                    if (listBean.isSelect()) {
 
-                        mRadioAdapter.getMyLiveList().remove(myLive);
+                        collectionFolderContentAdapter.getMyLiveList().remove(listBean);
                         index--;
                     }
                 }
                 index = 0;
-                mTvSelectNum.setText(String.valueOf(0));
-                setBtnBackground(index);
-                if (mRadioAdapter.getMyLiveList().size() == 0){
-                    mLlMycollectionBottomDialog.setVisibility(View.GONE);
+//                mTvSelectNum.setText(String.valueOf(0));
+//                setBtnBackground(index);
+                if (collectionFolderContentAdapter.getMyLiveList().size() == 0) {
+                    functionBottom.setVisibility(View.GONE);
                 }
-                mRadioAdapter.notifyDataSetChanged();
+                collectionFolderContentAdapter.notifyDataSetChanged();
                 builder.dismiss();
+                Toast.makeText(DefaultCollectionActivity.this, "删除", Toast.LENGTH_SHORT).show();
             }
-        });*/
+        });
     }
+
     private void updataEditMode() {
-      /*  mEditMode = mEditMode == MYLIVE_MODE_CHECK ? MYLIVE_MODE_EDIT : MYLIVE_MODE_CHECK;
+        mEditMode = mEditMode == MYLIVE_MODE_CHECK ? MYLIVE_MODE_EDIT : MYLIVE_MODE_CHECK;
         if (mEditMode == MYLIVE_MODE_EDIT) {
-            mBtnEditor.setText("取消");
-            mLlMycollectionBottomDialog.setVisibility(View.VISIBLE);
+//            mBtnEditor.setText("取消");
+            functionBottom.setVisibility(View.VISIBLE);
             editorStatus = true;
         } else {
-            mBtnEditor.setText("编辑");
-            mLlMycollectionBottomDialog.setVisibility(View.GONE);
+//            mBtnEditor.setText("编辑");
+            functionBottom.setVisibility(View.GONE);
             editorStatus = false;
             clearAll();
         }
-        mRadioAdapter.setEditMode(mEditMode);*/
+        collectionFolderContentAdapter.setEditMode(mEditMode);
     }
 
 
     private void clearAll() {
 //        mTvSelectNum.setText(String.valueOf(0));
-//        isSelectAll = false;
+        isSelectAll = false;
 //        mSelectAll.setText("全选");
 //        setBtnBackground(0);
     }
+
     public void backgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = bgAlpha; // 0.0~1.0
@@ -266,16 +338,73 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
     }
 
 
-
     @Override
     public void getCollectionFolderContentSuccess(List<CollectionFolderContentBean.DataBean.ListBean> list) {
         mList.addAll(list);
-
+        recyclerCollectionFolderContent.setLayoutManager(new GridLayoutManager(DefaultCollectionActivity.this, 3));
         collectionFolderContentAdapter = new CollectionFolderContentAdapter(DefaultCollectionActivity.this, mList);
         recyclerCollectionFolderContent.setAdapter(collectionFolderContentAdapter);
+        collectionFolderContentAdapter.notifyAdapter(mList, false);
+        collectionFolderContentAdapter.setOnItemClickListener(new CollectionFolderContentAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(int pos, List<CollectionFolderContentBean.DataBean.ListBean> myLiveList) {
+                if (editorStatus) {
+                    CollectionFolderContentBean.DataBean.ListBean listBean = myLiveList.get(pos);
+                    boolean isSelect = listBean.isSelect();
+                    if (!isSelect) {
+                        index++;
+                        listBean.setSelect(true);
+                        if (index == myLiveList.size()) {
+                            isSelectAll = true;
+//                            mSelectAll.setText("取消全选");
+                        }
 
+                    } else {
+                        listBean.setSelect(false);
+                        index--;
+                        isSelectAll = false;
+//                        mSelectAll.setText("全选");
+                    }
+//                    setBtnBackground(index);
+//                    mTvSelectNum.setText(String.valueOf(index));
+                    collectionFolderContentAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
+    @Override
+    public void removeCollectionContentSuccess(BaseBean baseBean) {
+        finish();
+    }
+
+    @Override
+    public void moveCollectionFolderSuccess(BaseBean baseBean) {
+        Toast.makeText(this, "移动成功", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @Override
+    public void getCollectionFolderSuccess(CollectionFolderBean.DataBean collectionFolderBean) {
+        List<CollectionFolderBean.DataBean.ListBean> list = collectionFolderBean.getList();
+        popup_favorites_prompt_rv_id.setHasFixedSize(true);
+        popup_favorites_prompt_rv_id.setLayoutManager(new LinearLayoutManager(DefaultCollectionActivity.this));
+        DefaultCollectionAdapter defaultCollectionAdapter = new DefaultCollectionAdapter(DefaultCollectionActivity.this, list);
+        popup_favorites_prompt_rv_id.setAdapter(defaultCollectionAdapter);
+        defaultCollectionAdapter.setOnItemClickLitener(new OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                defaultCollectionAdapter.setSelection(position);
+                folder_ids = list.get(position).getFolder_id();
+
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+
+            }
+        });
+    }
 
 
 }
