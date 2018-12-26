@@ -17,18 +17,21 @@
         android:orientation="horizontal">
 
         <View
+            android:id="@+id/dot_read"
             android:layout_width="@dimen/dp_8"
             android:layout_height="@dimen/dp_8"
             android:layout_marginLeft="@dimen/dp_10"
             android:background="@drawable/red_dot" />
 
-        <ImageView
+        <com.iyoyogo.android.widget.CircleImageView
             android:layout_width="@dimen/dp_40"
+            android:id="@+id/user_icon"
             android:layout_height="@dimen/dp_40"
             android:layout_marginLeft="@dimen/dp_5"
             android:src="@mipmap/ic_launcher" />
 
         <TextView
+            android:id="@+id/user_nick_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_10"
@@ -37,6 +40,7 @@
             android:textSize="@dimen/sp_12" />
 
         <TextView
+            android:id="@+id/tv_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_10"
@@ -50,6 +54,7 @@
             android:gravity="center_vertical">
 
             <TextView
+                android:id="@+id/tv_reply"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -71,6 +76,7 @@
         android:layout_marginLeft="@dimen/dp_75">
 
         <TextView
+            android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/item_like_iv_id"
@@ -87,6 +93,7 @@
             android:src="@mipmap/ic_launcher" />
 
         <TextView
+            android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

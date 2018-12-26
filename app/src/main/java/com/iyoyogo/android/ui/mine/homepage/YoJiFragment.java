@@ -1,6 +1,7 @@
 package com.iyoyogo.android.ui.mine.homepage;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -31,9 +32,11 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
     @Override
     protected void initData() {
         super.initData();
+        Bundle bundle = getArguments();
+        String yo_user_id = bundle.getString("yo_user_id");
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
-        mPresenter.getYoJiContent(user_id, user_token, user_id, "1", "20");
+        mPresenter.getYoJiContent(user_id, user_token, yo_user_id, "1", "20");
     }
 
     @Override

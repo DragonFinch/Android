@@ -1,6 +1,7 @@
 package com.iyoyogo.android.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.home.HomeBean;
 import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
 import com.iyoyogo.android.utils.SpUtils;
@@ -59,6 +61,15 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
         } else {
             holder.typeImageView.setVisibility(View.INVISIBLE);
         }
+       holder.user_icon.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               int yo_user_id = mList.get(position).getUser_info().getUser_id();
+               Intent intent = new Intent(context, Personal_homepage_Activity.class);
+               intent.putExtra("yo_user_id", String.valueOf(yo_user_id));
+               context.startActivity(intent);
+           }
+       });
         RequestOptions myOptions = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.mipmap.default_ic)
@@ -79,9 +90,14 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
                 Glide.with(context).load(mList.get(position).getUsers_praise().get(i).getUser_logo()).into(imageView);
                 holder.pile_layout.addView(imageView);
                 int finalI = i;
+                int yo_user_id = mList.get(position).getUsers_praise().get(i).getUser_id();
+
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Intent intent = new Intent(context, Personal_homepage_Activity.class);
+                        intent.putExtra("yo_user_id", String.valueOf(yo_user_id));
+                        context.startActivity(intent);
                         Toast.makeText(context, "mList.get(position).getUsers_praise().get(i).getUser_id():" + mList.get(position).getUsers_praise().get(finalI).getUser_id(), Toast.LENGTH_SHORT).show();
                     }
                 });

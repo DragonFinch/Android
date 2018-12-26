@@ -6,41 +6,43 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="334dp"
-        android:scaleType="fitXY"
+        android:layout_height="@dimen/dp_334"
+        android:scaleType="centerCrop"
         android:src="@mipmap/login_bg" />
 
     <ImageView
         android:id="@+id/app_icon"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="@dimen/dp_75"
+        android:layout_height="@dimen/dp_75"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="151dp"
-        android:layout_marginTop="69dp"
+        android:layout_marginLeft="@dimen/dp_151"
+        android:layout_marginTop="@dimen/dp_69"
 
         android:background="@mipmap/login" />
 
     <LinearLayout
         android:id="@+id/ll_reg_content"
+        android:layout_width="@dimen/dp_300"
+        android:layout_height="@dimen/dp_270"
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_below="@id/app_icon"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="62dp"
+        android:layout_marginTop="@dimen/dp_62"
         android:background="@drawable/bg_white_conner_15dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="58dp"
+            android:layout_height="@dimen/dp_58"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="@dimen/dp_10">
 
             <ImageView
-                android:layout_width="16dp"
-                android:layout_height="19dp"
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_19"
                 android:layout_gravity="center"
                 android:scaleType="fitXY"
                 android:src="@mipmap/shoujihao" />
@@ -58,13 +60,13 @@
                 android:inputType="phone"
                 android:maxLength="11"
                 android:textColorHint="#888888"
-                android:textSize="15sp" />
+                android:textSize="@dimen/sp_15" />
         </LinearLayout>
 
         <View
             style="@style/BaseCommonLine"
             android:layout_height="0.5dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="@dimen/dp_10"
             android:layout_marginRight="10dp" />
 
         <LinearLayout

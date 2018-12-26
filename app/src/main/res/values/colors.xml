@@ -9,6 +9,7 @@
     <color name="theme_blue">#6690fa</color>
     <color name="chose">#2E83FF</color>
     <color name="c333333">#333333</color>
+    <color name="maskPressed">#33888888</color>
     <color name="F1F1F1">#F1F1F1</color>
     <color name="mainGray">#F2F6F7</color>
     <color name="main_40">#40ACD6</color>

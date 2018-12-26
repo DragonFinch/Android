@@ -68,6 +68,7 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
     private String user_id;
     private String user_token;
     private int age;
+    private String yo_user_id;
 
 
     protected void initView() {
@@ -116,7 +117,9 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
         super.initData(savedInstanceState);
         user_id = SpUtils.getString(Personal_homepage_Activity.this, "user_id", null);
         user_token = SpUtils.getString(Personal_homepage_Activity.this, "user_token", null);
-        mPresenter.getPersonalCenter(user_id, user_token, user_id);
+        Intent intent = getIntent();
+        yo_user_id = intent.getStringExtra("yo_user_id");
+        mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
     }
 
     @Override
@@ -150,6 +153,9 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
         List<Fragment> fragments = new ArrayList<>();
         YoXiuFragment yoXiuFragment = new YoXiuFragment();
         YoJiFragment yoJiFragment = new YoJiFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("yo_user_id",yo_user_id);
+        yoJiFragment.setArguments(bundle);
         fragments.add(yoJiFragment);
         fragments.add(yoXiuFragment);
         List<String> titles = new ArrayList<>();
@@ -161,13 +167,14 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
         try {
             Date date = df.parse(user_birthday);
             age = getAge(date);
+            tvAge.setText(age + "");
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (Exception e) {
 
 
         }
-        tvAge.setText(age + "");
+
         if (user_sex.equals("男")) {
             Drawable nan_xuanzhong = getResources().getDrawable(
                     R.mipmap.nan_xuanzhong);

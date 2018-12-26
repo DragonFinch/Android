@@ -24,6 +24,8 @@ import com.iyoyogo.android.ui.common.LoginActivity;
 import com.iyoyogo.android.utils.DataCleanManager;
 import com.iyoyogo.android.utils.SpUtils;
 
+import java.io.File;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -70,18 +72,20 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
     @Override
     protected void initView() {
         super.initView();
+        File file =new File(this.getCacheDir().getPath());
+        try {
+            Log.d("MineSettingActivity", DataCleanManager.getCacheSize(file));
+            tvClearCache.setText(DataCleanManager.getCacheSize(file));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         user_id = SpUtils.getString(MineSettingActivity.this, "user_id", null);
         user_token = SpUtils.getString(MineSettingActivity.this, "user_token", null);
         address = SpUtils.getString(MineSettingActivity.this, "address", null);
         phone_type = SpUtils.getString(MineSettingActivity.this, "phone_type", null);
         localVersion = packageName(MineSettingActivity.this);
-        tvVersionName.setText(localVersion + "");
-        try {
-            String totalCacheSize = DataCleanManager.getInstance().getTotalCacheSize(MineSettingActivity.this);
-            tvClearCache.setText(totalCacheSize);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        tvVersionName.setText("v."+localVersion + "");
     }
 
     @Override
@@ -157,7 +161,8 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
 
                 break;
             case R.id.clear_cache:
-
+                DataCleanManager.cleanInternalCache(getApplicationContext());
+                tvClearCache.setText("0.0KB");
                 break;
             case R.id.btn_logout:
                 mPresenter.logout(user_id, user_token, address, phone_type, localVersion);

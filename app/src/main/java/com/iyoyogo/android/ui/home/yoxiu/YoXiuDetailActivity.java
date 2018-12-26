@@ -424,7 +424,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                 }*/
                 mPresenter.getDetail(user_id, user_token, id);
 
-                    mPresenter.addAttention(user_id, user_token, is_my_attention);
+                    mPresenter.addAttention(user_id, user_token, yo_attention_id);
 //                    Log.d("YoXiuDetailActivity", target_id);
 
                 break;

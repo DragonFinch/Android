@@ -157,7 +157,7 @@ public class ReplacePhoneActivity extends BaseActivity<ReplacePhoneContract.Pres
             case R.id.replacer_phone:
                 user_id = SpUtils.getString(ReplacePhoneActivity.this, "user_id", null);
                 user_token = SpUtils.getString(ReplacePhoneActivity.this, "user_token", null);
-                mPresenter.replacePhone(user_id, user_token, editPhone.getEditableText().toString().trim(), editCode.getText().toString().trim());
+                mPresenter.replacePhone(user_id, user_token, editPhone.getText().toString().trim(), editCode.getText().toString().trim());
                 break;
         }
     }

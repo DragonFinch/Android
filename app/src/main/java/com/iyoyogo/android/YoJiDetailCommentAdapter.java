@@ -139,7 +139,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
         img_tip.setImageResource(R.mipmap.stamo_heart);
         tv_message_two.setText("谢谢评论~");
         tv_message_three.setText("给你小心心");
-        popup.showAtLocation(activity.findViewById(R.id.activity_yoxiu_detail), Gravity.CENTER, 0, 0);
+        popup.showAtLocation(activity.findViewById(R.id.activity_yoji_detail), Gravity.CENTER, 0, 0);
     }
 
     public void report() {
@@ -229,7 +229,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
         holder.img_huifu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                comment();
+//                comment();
            /*     String user_id = SpUtils.getString(context, "user_id", null);
                 String user_token = SpUtils.getString(context, "user_token", null);
                 DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getId(), 0)
@@ -293,7 +293,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
         holder.img_huifu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                comment();
+//                comment();
             }
         });
         holder.img_function.setOnClickListener(new View.OnClickListener() {

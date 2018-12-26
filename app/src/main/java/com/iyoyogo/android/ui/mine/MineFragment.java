@@ -137,9 +137,14 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         mPresenter.getUserInfo(user_id, user_token);
     }
 
-    @OnClick({R.id.vip_center_img,R.id.my_basic_name_iv_id, R.id.my_messge_im_id, R.id.my_addfriend_im_id, R.id.my_clock_but_id, R.id.my_option_home_id, R.id.my_option_draft_id, R.id.my_option_like_id, R.id.my_option_col_id, R.id.my_option_set_id})
+    @OnClick({R.id.my_basic_headimg_iv_id,R.id.vip_center_img,R.id.my_basic_name_iv_id, R.id.my_messge_im_id, R.id.my_addfriend_im_id, R.id.my_clock_but_id, R.id.my_option_home_id, R.id.my_option_draft_id, R.id.my_option_like_id, R.id.my_option_col_id, R.id.my_option_set_id})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.my_basic_headimg_iv_id:
+                Intent intent = new Intent(getContext(),Personal_homepage_Activity.class);
+                intent.putExtra("yo_user_id",user_id);
+                startActivity(intent);
+                break;
             case R.id.vip_center_img:
                 startActivity(new Intent(getContext(),VipCenterActivity.class));
                 break;
@@ -153,7 +158,9 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
 
                 break;
             case R.id.my_option_home_id:
-                startActivity(new Intent(getContext(), Personal_homepage_Activity.class));
+                Intent intent1 = new Intent(getContext(),Personal_homepage_Activity.class);
+                intent1.putExtra("yo_user_id",user_id);
+                startActivity(intent1);
                 break;
             case R.id.my_option_draft_id:
                 startActivity(new Intent(getContext(), DraftActivity.class));

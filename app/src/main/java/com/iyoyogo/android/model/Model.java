@@ -17,6 +17,7 @@ import com.iyoyogo.android.bean.login.SendMessageBean;
 import com.iyoyogo.android.bean.login.interest.InterestBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.bean.login.login.MarketBean;
+import com.iyoyogo.android.bean.mine.AboutMeBean;
 import com.iyoyogo.android.bean.mine.DraftBean;
 import com.iyoyogo.android.bean.mine.GetBindInfoBean;
 import com.iyoyogo.android.bean.mine.GetUserInfoBean;
@@ -24,6 +25,9 @@ import com.iyoyogo.android.bean.mine.MineMessageBean;
 import com.iyoyogo.android.bean.mine.PraiseBean;
 import com.iyoyogo.android.bean.mine.center.UserCenterBean;
 import com.iyoyogo.android.bean.mine.center.YoJiContentBean;
+import com.iyoyogo.android.bean.mine.message.MessageBean;
+import com.iyoyogo.android.bean.mine.message.MessageCenterBean;
+import com.iyoyogo.android.bean.mine.message.ReadMessage;
 import com.iyoyogo.android.bean.mine.setting.MineSettingBean;
 import com.iyoyogo.android.bean.yoji.detail.YoJiDetailBean;
 import com.iyoyogo.android.bean.yoji.label.AddLabelBean;
@@ -419,6 +423,26 @@ public class Model {
 
     public Observable<BaseBean> setMineSetting(String user_id, String user_token, int wifi_auto_play_video, int notice, int address_list) {
         return HttpClient.getApiService().setMineSetting(user_id, user_token, wifi_auto_play_video, notice, address_list)
+                .compose(this.switchThread());
+    }
+    public Observable<BaseBean> feedBack(String user_id, String user_token,String desc){
+        return HttpClient.getApiService().addFeedBack(user_id,user_token,desc)
+                .compose(this.switchThread());
+    }
+    public Observable<AboutMeBean> aboutme(){
+        return HttpClient.getApiService().aboutMe()
+                .compose(this.switchThread());
+    }
+    public Observable<MessageBean> getMessage(String user_id,String user_token,int type,int page){
+        return HttpClient.getApiService().getMessage(user_id,user_token,type,page)
+                .compose(this.switchThread());
+    }
+    public Observable<MessageCenterBean> messageCenter(String user_id,String user_token){
+        return HttpClient.getApiService().getMessageCenter(user_id,user_token)
+                .compose(this.switchThread());
+    }
+    public  Observable<ReadMessage> readMessage(String user_id,String user_token,String message_id){
+        return HttpClient.getApiService().readMessage(user_id, user_token, message_id)
                 .compose(this.switchThread());
     }
 

@@ -132,34 +132,6 @@ public class SourceChooseActivity extends AppCompatActivity {
         imagesListAdapter.setOnRecyclerViewItemClickListener(listener);
         gvPhotos.setLayoutManager(new GridLayoutManager(SourceChooseActivity.this, 3));
         gvPhotos.setAdapter(imagesListAdapter);
-      /*  gvPhotos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                if (position == 0) {
-                    startActivityForResult(new Intent(SourceChooseActivity.this, CaptureActivity.class),1);
-
-                } else {
-                    if (num >= 1) {
-
-                    } else {
-                        mediaAdapter.setSelectedPosition(position);
-                        path = listImage.get(position).get("_data");
-                        btnContinue.setText("继续" + "(1)");
-                        autoFileOrFilesSize = fileSizeUtil.getAutoFileOrFilesSize(path);
-                        latitude = listImage.get(position).get("latitude");
-                        longitude = listImage.get(position).get("longitude");
-                        Toast.makeText(SourceChooseActivity.this, path, Toast.LENGTH_SHORT).show();
-
-                        num++;
-                    }
-
-                }
-                mediaAdapter.notifyDataSetInvalidated();
-
-
-            }
-        });*/
     }
 
     private void checkAllPermission() {
@@ -208,6 +180,16 @@ public class SourceChooseActivity extends AppCompatActivity {
                 requestPermissions(new String[]{Manifest.permission.CAMERA}, 123);
             }
         } else {
+
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ArrayList<String> strings = imagesListAdapter.selectPhoto();
+        if (strings!=null){
+            strings.clear();
 
         }
     }

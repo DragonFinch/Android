@@ -15,6 +15,7 @@ import com.iyoyogo.android.bean.login.SendMessageBean;
 import com.iyoyogo.android.bean.login.interest.InterestBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.bean.login.login.MarketBean;
+import com.iyoyogo.android.bean.mine.AboutMeBean;
 import com.iyoyogo.android.bean.mine.DraftBean;
 import com.iyoyogo.android.bean.mine.GetBindInfoBean;
 import com.iyoyogo.android.bean.mine.GetUserInfoBean;
@@ -22,6 +23,9 @@ import com.iyoyogo.android.bean.mine.MineMessageBean;
 import com.iyoyogo.android.bean.mine.PraiseBean;
 import com.iyoyogo.android.bean.mine.center.UserCenterBean;
 import com.iyoyogo.android.bean.mine.center.YoJiContentBean;
+import com.iyoyogo.android.bean.mine.message.MessageBean;
+import com.iyoyogo.android.bean.mine.message.MessageCenterBean;
+import com.iyoyogo.android.bean.mine.message.ReadMessage;
 import com.iyoyogo.android.bean.mine.setting.MineSettingBean;
 import com.iyoyogo.android.bean.yoji.detail.YoJiDetailBean;
 import com.iyoyogo.android.bean.yoji.label.AddLabelBean;
@@ -165,28 +169,33 @@ public interface ApiService {
                                          @Field("search") String search
     );
 
+    //获取最近使用的话题
     @POST("index.php/api/topic/get_my_recent_list")
     @FormUrlEncoded
-        //
+    //
     Observable<HotTopicBean> getNearTopic(@Field("user_id") String user_id,
                                           @Field("user_token") String user_token);
 
+    //添加话题
     @POST("index.php/api/topic/add")
     @FormUrlEncoded
     Observable<CreateTopicBean> createTopic(@Field("user_id") String user_id,
                                             @Field("user_token") String user_token,
                                             @Field("topic") String topic);
 
+    //清空话题
     @POST("index.php/api/topic/clear_recent")
     @FormUrlEncoded
     Observable<BaseBean> clearTopic(@Field("user_id") String user_id,
                                     @Field("user_token") String user_token);
 
+    //获取话题
     @POST("index.php/api/topic/get_recommend_list")
     @FormUrlEncoded
     Observable<HotTopicBean> getRecommend(@Field("user_id") String user_id,
                                           @Field("user_token") String user_token);
 
+    //获取频道列表
     @POST("index.php/api/channel/get_list")
     @FormUrlEncoded
     Observable<ChannelBean> getChannel(@Field("user_id") String user_id,
@@ -207,6 +216,7 @@ public interface ApiService {
                                         */
                                        @Field("user_token") String user_token);
 
+    //发布优秀
     @POST("index.php/api/yox/save")
     @FormUrlEncoded
     Observable<BaseBean> publish_yoXiu(@Field("user_id") String user_id,
@@ -225,18 +235,21 @@ public interface ApiService {
                                        @Field("filter_id") String filter_id
     );
 
+    //获取yo秀详情
     @POST("index.php/api/yox/get_details")
     @FormUrlEncoded
     Observable<YoXiuDetailBean> getDetail(@Field("user_id") String user_id,
                                           @Field("user_token") String user_token,
                                           @Field("id") int id);
 
+    //获取yo秀列表
     @POST("index.php/api/yox/get_list")
     @FormUrlEncoded
     Observable<YouXiuListBean> getYoXiuList(@Field("user_id") String user_id,
                                             @Field("user_token") String user_token,
                                             @Field("page") int page);
 
+    //点赞
     @POST("index.php/api/praise/click")
     @FormUrlEncoded
     Observable<BaseBean> praise(@Field("user_id") String user_id,
@@ -244,6 +257,7 @@ public interface ApiService {
                                 @Field("yo_id") int yo_id,
                                 @Field("comment_id") int comment_id);
 
+    //用户信息
     @POST("index.php/api/usercenter/get")
     @FormUrlEncoded
     Observable<MineMessageBean> getPersonInfo(@Field("user_id") String user_id,
@@ -258,6 +272,7 @@ public interface ApiService {
      *
      * @return
      */
+    //获取评论列表
     @POST("index.php/api/comment/get_list")
     @FormUrlEncoded
     Observable<CommentBean> getComment(@Field("user_id") String user_id,
@@ -266,6 +281,7 @@ public interface ApiService {
                                        @Field("yo_id") int yo_id,
                                        @Field("comment_id") int comment_id);
 
+    //发布评论
     @POST("index.php/api/comment/add")
     @FormUrlEncoded
     Observable<BaseBean> addComment(@Field("user_id") String user_id,
@@ -274,6 +290,7 @@ public interface ApiService {
                                     @Field("yo_id") int yo_id,
                                     @Field("content") String content);
 
+    //获取用户信息
     @POST("index.php/api/userbase/get")
     @FormUrlEncoded
     Observable<GetUserInfoBean> getUserInfo(@Field("user_id") String user_id,
@@ -287,6 +304,8 @@ public interface ApiService {
      * user_sex	是	string	性别
      * user_birthday	是	string	生日
      * user_city	是	string	城市
+     * <p>
+     * 设置用户信息
      *
      * @return
      */
@@ -301,29 +320,34 @@ public interface ApiService {
                                      @Field("user_city") String user_city);
 
     @POST("index.php/api/userbind/get")
-    //index.php/api/userbind/get
+    //获取绑定信息
     @FormUrlEncoded
     Observable<GetBindInfoBean> getBindInfo(@Field("user_id") String user_id,
                                             @Field("user_token") String user_token);
 
     @POST("index.php/api/userphone/set")
     @FormUrlEncoded
+        //替换手机号
     Observable<BaseBean> replacePhone(@Field("user_id") String user_id,
                                       @Field("user_token") String user_token,
                                       @Field("phone") String phone, @Field("yzm") String yzm);
 
+    //退出登录
     @POST("index.php/api/logout/do_logout")
     @FormUrlEncoded
     Observable<BaseBean> logout(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("addr") String address, @Field("phone_info") String phone_info, @Field("app_version") String app_version);
 
+    //添加关注
     @POST("index.php/api/attention/click")
     @FormUrlEncoded
     Observable<AttentionBean> addAttention(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("target_id") int target_id);
 
+    //取消关注
     @POST("index.php/api/attention/delete")
     @FormUrlEncoded
     Observable<BaseBean> deleteAttention(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("id") int id);
 
+    //获取收藏夹列表
     @POST("index.php/api/collect/folder_get_my_list")
     @FormUrlEncoded
     Observable<CollectionFolderBean> getCollectionFolder(@Field("user_id") String user_id, @Field("user_token") String user_token);
@@ -337,20 +361,23 @@ public interface ApiService {
      *
      * @return
      */
+    //创建收藏夹
     @POST("index.php/api/collect/folder_save")
     @FormUrlEncoded
     Observable<BaseBean> createFolder(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("name") String name, @Field("open") int open, @Field("id") String id);
 
+    //添加收藏
     @POST("index.php/api/collect/collect_add")
     @FormUrlEncoded
     Observable<AddCollectionBean> addCollection(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("folder_id") int folder_id, @Field("yo_id") int yo_id);
 //index.php/api/collect/collect_delete
 
-
+    //不喜欢
     @POST("index.php/api/dislike/add")
     @FormUrlEncoded
     Observable<BaseBean> dislike(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id);
 
+    //举报
     @POST("index.php/api/report/do_report")
     /**
      * comment_id	是	int	举报对象 comment_id 可以为0
@@ -359,6 +386,7 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<BaseBean> report(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id, @Field("comment_id") int comment_id, @Field("content") String content);
 
+    //获取标签列表
     @POST("index.php/api/label/get_all_list")
     @FormUrlEncoded
     Observable<LabelListBean> getLabelList(@Field("user_id") String user_id, @Field("user_token") String user_token);
@@ -394,57 +422,75 @@ public interface ApiService {
      * channel_ids	是	list	频道
      * list	是	list	地点list
      */
+    //发布yo记
     @POST("index.php/api/yoj/save")
     @FormUrlEncoded
     Observable<BaseBean> publish_yoji(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id, @Field("logo") String logo, @Field("title") String title, @Field("desc") String desc, @Field("cost") int cost, @Field("open") int open, @Field("valid") int valid, @Field("topic_ids") List<Integer> topic_ids, @Field("channel_ids") List<Integer> channel_ids, @Field("list") String list);
 
+    //获取草稿列表
     @POST("index.php/api/draft/get_list")
     @FormUrlEncoded
     Observable<DraftBean> getDraft(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("page") int page, @Field("page_size") int page_size);
 
+    //获取yo记列表
     @POST("index.php/api/yoj/get_list")
     @FormUrlEncoded
     Observable<YoJiListBean> getYoJiList(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("page") int page, @Field("page_size") int page_size);
 
+    //获取草稿详情
     @POST("index.php/api/yoj/details")
     @FormUrlEncoded
     Observable<YoJiDetailBean> getYoJiDetail(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id);
 
+    //获取我的收藏
     @POST("index.php/api/collect/folder_get_my_tree")
     @FormUrlEncoded
     Observable<MineCollectionBean> getMineCollection(@Field("user_id") String user_id, @Field("user_token") String user_token);
 
+    //删除收藏夹
     @POST("index.php/api/collect/folder_delete")
     @FormUrlEncoded
     Observable<BaseBean> deleteCollectionFolder(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("folder_ids") Integer[] folder_ids);
 
+    //获取用户中心
     @POST("index.php/api/userhome/get")
     @FormUrlEncoded
     Observable<UserCenterBean> getUserCenter(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("his_id") String his_id);
 
+    //获取yo记内容
     @POST("index.php/api/userhome/get_his_yoj_list")
     @FormUrlEncoded
     Observable<YoJiContentBean> getYoJiContent(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("his_id") String his_id, @Field("page") String page, @Field("page_size") String page_size);
 
+    //获取我喜欢的
     @POST("index.php/api/praise/get_list")
     @FormUrlEncoded
     Observable<PraiseBean> getPraise(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("page") int page, @Field("page_size") int page_size);
 
+    //获取收藏夹内容
     @POST("index.php/api/collect/collect_get_list_by_folder_id")
     @FormUrlEncoded
     Observable<CollectionFolderContentBean> getContent(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("folder_id") int folder_id, @Field("page") int page);
+
+    //取消收藏
     @POST("index.php/api/collect/collect_delete")
     @FormUrlEncoded
     Observable<BaseBean> deleteCollection(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("id") int id);
+
+    //取消收藏
     @POST("index.php/api/collect/collect_delete")
     @FormUrlEncoded
     Observable<BaseBean> deleteCollection(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("record_ids") Integer[] record_ids);
+
+    //移动收藏夹内容
     @POST("/index.php/api/collect/collect_move")
     @FormUrlEncoded
-    Observable<BaseBean> moveCollectionFolder(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("record_ids") Integer[] record_ids,@Field("folder_id")int folder_id );
+    Observable<BaseBean> moveCollectionFolder(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("record_ids") Integer[] record_ids, @Field("folder_id") int folder_id);
+
+    //获取我的设置
     @POST("index.php/api/userconfig/get")
     @FormUrlEncoded
-    Observable<MineSettingBean> getMineSetting(@Field("user_id") String user_id, @Field("user_token") String user_token );
+    Observable<MineSettingBean> getMineSetting(@Field("user_id") String user_id, @Field("user_token") String user_token);
 
     /**
      * user_id	是	string	用户id
@@ -452,10 +498,29 @@ public interface ApiService {
      * wifi_auto_play_video	是	int（0否1是）	wifi下自动播放视频
      * notice	是	int（0否1是）	消息提醒
      * address_list	是	int（0否1是）	通讯录
+     *
      * @return
      */
+    //修改我的设置
     @POST("index.php/api/userconfig/set")
     @FormUrlEncoded
+    Observable<BaseBean> setMineSetting(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("wifi_auto_play_video") int wifi_auto_play_video, @Field("notice") int notice, @Field("address_list") int address_list);
+    //反馈
+    @POST("index.php/api/userfeedback/add")
+    @FormUrlEncoded
+    Observable<BaseBean> addFeedBack(@Field("user_id") String user_id, @Field("user_token") String user_token,@Field("desc")String desc);
+    //关于我们
+    @GET("api/Aboutus/get_list")
+    Observable<AboutMeBean> aboutMe();
+    @POST("index.php/api/message/get_message_view")
+    @FormUrlEncoded
+    Observable<MessageBean> getMessage(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("type")int type,@Field("page")int page);
+    @POST("index.php/api/message/center")
+    @FormUrlEncoded
+    Observable<MessageCenterBean> getMessageCenter(@Field("user_id")String user_id,@Field("user_token")String user_token);
+    @POST("index.php/api/message/read_message")
+    @FormUrlEncoded
+    Observable<ReadMessage> readMessage(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("message_id") String message_id);
     Observable<BaseBean> setMineSetting(@Field("user_id")String user_id,@Field("user_token")String user_token, @Field("wifi_auto_play_video")int wifi_auto_play_video, @Field("notice") int notice, @Field("address_list") int address_list);
 
     //获取我粉丝中 我没关注的 (是我的粉丝，我却不是他的粉丝)
