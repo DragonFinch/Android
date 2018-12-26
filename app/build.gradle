@@ -20,13 +20,13 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
-            abiFilters 'armeabi-v7a'
+            abiFilters   'armeabi-v7a'
             // 指定要ndk需要兼容的架构(这样其他依赖包里mips,x86,armeabi,arm-v8之类的so会被过滤掉)
         }
         signingConfig signingConfigs.debug
         manifestPlaceholders = [
                 JPUSH_PKGNAME : applicationId,
-                JPUSH_APPKEY : "'5f60a8566cf11ad5eb72b6a5", //JPush 上注册的包名对应的 Appkey.
+                JPUSH_APPKEY : "5f60a8566cf11ad5eb72b6a5", //JPush 上注册的包名对应的 Appkey.
                 JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
         ]
     }

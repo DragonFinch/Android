@@ -30,6 +30,7 @@ import com.iyoyogo.android.utils.SpUtils;
 import com.meicam.sdk.NvsStreamingContext;
 
 import butterknife.BindView;
+import cn.jpush.android.api.JPushInterface;
 
 
 public class MainActivity extends BaseActivity {
@@ -68,6 +69,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
+
         checkAllPermission();
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());

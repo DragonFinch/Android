@@ -39,7 +39,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_70">
         <com.iyoyogo.android.widget.BadgeButton
-            android:id="@+id/message_center_system_message_im_id"
+            app:btnBadgeVisible="false"
+            android:id="@+id/message_system"
             style="@style/BadgeButton.Normal"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_20"
@@ -54,8 +55,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginTop="@dimen/dp_15"
-            android:layout_alignTop="@+id/message_center_system_message_im_id"
-            android:layout_toRightOf="@+id/message_center_system_message_im_id"
+            android:layout_alignTop="@+id/message_system"
+            android:layout_toRightOf="@+id/message_system"
             android:layout_marginLeft="@dimen/dp_5"
             android:text="@string/xitongxiaoxi"
             android:textColor="@color/color333333"
@@ -83,10 +84,11 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_70">
         <com.iyoyogo.android.widget.BadgeButton
-            android:id="@+id/message_center_like_me_im_id"
+            android:id="@+id/like_message"
             style="@style/BadgeButton.Normal"
             android:layout_centerVertical="true"
            android:drawableTop="@mipmap/love"
+            app:btnBadgeVisible="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_20"
@@ -98,8 +100,9 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginTop="@dimen/dp_15"
-            android:layout_alignTop="@+id/message_center_like_me_im_id"
-            android:layout_toRightOf="@+id/message_center_like_me_im_id"
+
+            android:layout_alignTop="@+id/like_message"
+            android:layout_toRightOf="@+id/like_message"
             android:layout_marginLeft="@dimen/dp_5"
             android:text="@string/xihuanwode"
             android:textColor="@color/color333333"
@@ -128,12 +131,13 @@
         android:layout_height="@dimen/dp_70">
 
         <com.iyoyogo.android.widget.BadgeButton
-            android:id="@+id/message_center_commentary_message_iv_id"
+            android:id="@+id/discuss_message"
             style="@style/BadgeButton.Normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/dp_20"
+            app:btnBadgeVisible="false"
             android:layout_marginBottom="2dp"
             android:drawableTop="@mipmap/pinglun"
             android:gravity="center"
@@ -141,8 +145,8 @@
 
         <TextView
             android:layout_marginTop="@dimen/dp_15"
-            android:layout_alignTop="@+id/message_center_commentary_message_iv_id"
-            android:layout_toRightOf="@+id/message_center_commentary_message_iv_id"
+            android:layout_alignTop="@+id/discuss_message"
+            android:layout_toRightOf="@+id/discuss_message"
             android:layout_marginLeft="@dimen/dp_5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -173,7 +177,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_70">
         <com.iyoyogo.android.widget.BadgeButton
-            android:id="@+id/message_center_focus_on_news_im_id"
+            app:btnBadgeVisible="false"
+            android:id="@+id/attention_message"
             style="@style/BadgeButton.Normal"
             android:layout_centerVertical="true"
             android:drawableTop="@mipmap/guanzhu"
@@ -186,8 +191,8 @@
 
         <TextView
             android:layout_marginTop="@dimen/dp_15"
-            android:layout_alignTop="@+id/message_center_focus_on_news_im_id"
-            android:layout_toRightOf="@+id/message_center_focus_on_news_im_id"
+            android:layout_alignTop="@+id/attention_message"
+            android:layout_toRightOf="@+id/attention_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

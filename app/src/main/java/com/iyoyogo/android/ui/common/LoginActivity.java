@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
+import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.login.SendMessageBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.bean.login.login.MarketBean;
@@ -43,6 +44,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
 
 
 public class LoginActivity extends BaseActivity<LoginContract.Presenter> implements LoginContract.View {
@@ -118,6 +120,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     private int have_interest;
     private String user_id;
     private String user_token;
+    private String registrationID;
 
 
     @Override
@@ -127,8 +130,6 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
 
 
     }
-
-
 
 
     @Override
@@ -213,7 +214,8 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     @Override
     protected void initView() {
         super.initView();
-        isAgree=true;
+        isAgree = true;
+        registrationID = JPushInterface.getRegistrationID(this);
         //透明状态栏
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色
@@ -239,13 +241,11 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
         boolean isLogin = SpUtils.getBoolean(LoginActivity.this, "isLogin", false);
 
 
-
-
         tvCode = (TextView) findViewById(R.id.tv_code);
         mShareAPI = UMShareAPI.get(this);
         long l = System.currentTimeMillis();
         dateTime = String.valueOf(l);
-        if (isLogin){
+        if (isLogin) {
             intent = new Intent();
             intent.setClass(LoginActivity.this, MainActivity.class);
             finish();
@@ -331,8 +331,6 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     }
 
 
-
-
     @OnClick({R.id.tv_code, R.id.login_btn, R.id.login_wechat, R.id.login_weibo, R.id.login_qq, R.id.img_btn, R.id.ll_reg_content})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -357,7 +355,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
                 Log.d("LoginActivity", "时间戳" + dateTime);
                 if (etPhoneNum.getText().toString().length() == 11 && !TextUtils.isEmpty(etPhoneNum.getText().toString()) && etPhoneNum.getText().toString().startsWith("1")) {
 
-                        mPresenter.sendMessage(etPhoneNum.getText().toString(), "", dateTime, sign);
+                    mPresenter.sendMessage(etPhoneNum.getText().toString(), "", dateTime, sign);
 
                 } else {
                     Toast.makeText(this, "手机号不能为空", Toast.LENGTH_SHORT).show();
@@ -448,7 +446,8 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
         status = data.getStatus();
         user_id = data.getUser_id();
         user_token = data.getUser_token();
-        SpUtils.putBoolean(LoginActivity.this,"isLogin",true);
+        mPresenter.push(user_id, user_token, "and", registrationID);
+        SpUtils.putBoolean(LoginActivity.this, "isLogin", true);
         SpUtils.putString(LoginActivity.this, "user_id", user_id);
         SpUtils.putString(LoginActivity.this, "user_token", user_token);
         if (status == 2) {
@@ -485,6 +484,11 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
 
     }
 
+    @Override
+    public void pushSuccess(BaseBean baseBean) {
+        Toast.makeText(this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -498,6 +502,6 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
         config.isNeedAuthOnGetUserInfo(true);
 
         UMShareAPI.get(this).setShareConfig(config);
-        UMShareAPI.get(this).onActivityResult(requestCode,resultCode,data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 }

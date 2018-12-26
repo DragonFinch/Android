@@ -77,6 +77,7 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
     private int index = 0;
     private RecyclerView popup_favorites_prompt_rv_id;
     private int folder_ids;
+    private String title;
 
     @Override
     protected void initView() {
@@ -85,6 +86,7 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
         name = intent.getStringExtra("name");
         defaultTitleTvId.setText(name);
         folder_id = intent.getIntExtra("folder_id", 0);
+        title = intent.getStringExtra("title");
         open = intent.getIntExtra("open", 0);
         user_id = SpUtils.getString(DefaultCollectionActivity.this, "user_id", null);
         user_token = SpUtils.getString(DefaultCollectionActivity.this, "user_token", null);
@@ -389,7 +391,7 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
         List<CollectionFolderBean.DataBean.ListBean> list = collectionFolderBean.getList();
         popup_favorites_prompt_rv_id.setHasFixedSize(true);
         popup_favorites_prompt_rv_id.setLayoutManager(new LinearLayoutManager(DefaultCollectionActivity.this));
-        DefaultCollectionAdapter defaultCollectionAdapter = new DefaultCollectionAdapter(DefaultCollectionActivity.this, list);
+        DefaultCollectionAdapter defaultCollectionAdapter = new DefaultCollectionAdapter(DefaultCollectionActivity.this, list,title);
         popup_favorites_prompt_rv_id.setAdapter(defaultCollectionAdapter);
         defaultCollectionAdapter.setOnItemClickLitener(new OnItemClickLitener() {
             @Override

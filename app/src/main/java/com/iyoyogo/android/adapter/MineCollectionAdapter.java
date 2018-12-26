@@ -1,18 +1,21 @@
 package com.iyoyogo.android.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.collection.MineCollectionBean;
+import com.iyoyogo.android.ui.mine.collection.DefaultCollectionActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 
 import java.util.ArrayList;
@@ -112,6 +115,21 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
                 mOnItemClickListener.onItemClickListener(holder.getAdapterPosition(), mList);
             }
         });
+        holder.next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DefaultCollectionActivity.class);
+                intent.putExtra("type", 2);
+                String name = mList.get(position).getName();
+                int open = mList.get(position).getOpen();
+                int folder_id = mList.get(position).getFolder_id();
+                intent.putExtra("name", name + "·" + mList.get(position).getCount_record());
+                intent.putExtra("title", name);
+                intent.putExtra("folder_id", folder_id);
+                intent.putExtra("open", open);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -140,12 +158,14 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_collection_folder;
+        RelativeLayout next;
         ImageView img_one, img_two, img_three, img_four, checkBox,img_next;
 
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            next = itemView.findViewById(R.id.next);
             img_next = itemView.findViewById(R.id.img_next);
             tv_collection_folder = itemView.findViewById(R.id.tv_collection_folder);
             img_one = itemView.findViewById(R.id.img_one);

@@ -59,11 +59,11 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
     @BindView(R.id.btn_logout)
     Button btnLogout;
     @BindView(R.id.switch1)
-    Switch switch1;
+    Switch aSwitch;
     @BindView(R.id.switch2)
-    Switch switch2;
+    Switch bSwitch;
     @BindView(R.id.switch3)
-    Switch switch3;
+    Switch cSwitch;
     private String user_id;
     private String user_token;
     private String address;
@@ -76,6 +76,7 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
     private int is_autoPlay = 0;
     private int is_mail = 0;
     private String totalCacheSize;
+
 
     @Override
     protected void initView() {
@@ -163,6 +164,7 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
                     mPresenter.getMineSetting(user_id, user_token);
                 }
                 break;
+
             case R.id.user_security:
                 startActivity(new Intent(MineSettingActivity.this, UserAndSecurityActivity.class));
                 break;
@@ -234,22 +236,23 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
         is_notice = notice;
         is_mail = address_list;
         if (notice == 1) {
-            switch1.setChecked(true);
+            aSwitch.setChecked(true);
         } else {
-            switch1.setChecked(false);
+            aSwitch.setChecked(false);
         }
         if (address_list == 1) {
-            switch2.setChecked(true);
+            bSwitch.setChecked(true);
         } else {
-            switch2.setChecked(false);
+            bSwitch.setChecked(false);
         }
 
         if (wifi_auto_play_video == 1) {
-            switch3.setChecked(true);
+            cSwitch.setChecked(true);
         } else {
-            switch3.setChecked(false);
+            cSwitch.setChecked(false);
         }
     }
+
 
     @Override
     public void setMineSettingSuccess(BaseBean baseBean) {

@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BasePresenter;
+import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.login.SendMessageBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.bean.login.login.MarketBean;
@@ -80,6 +81,23 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                     @Override
                     protected boolean doOnFailure(int code, String message) {
                         Log.d("LoginPresenter", message);
+                        return true;
+                    }
+                });
+    }
+
+    @Override
+    public void push(String user_id, String user_token, String device, String jpush_rid) {
+        DataManager.getFromRemote().push(user_id, user_token, device, jpush_rid)
+                .subscribe(new ApiObserver<BaseBean>(mView,this) {
+                    @Override
+                    protected void doOnSuccess(BaseBean baseBean) {
+                        mView.pushSuccess(baseBean);
+                    }
+
+                    @Override
+                    protected boolean doOnFailure(int code, String message) {
+                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
                         return true;
                     }
                 });

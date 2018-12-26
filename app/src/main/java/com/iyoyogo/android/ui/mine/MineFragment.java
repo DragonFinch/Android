@@ -24,6 +24,7 @@ import com.iyoyogo.android.ui.mine.homepage.Message_center_Activity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.ui.mine.homepage.VipCenterActivity;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.widget.BadgeButton;
 import com.iyoyogo.android.widget.CircleImageView;
 
 import butterknife.BindView;
@@ -37,11 +38,11 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     @BindView(R.id.my_bgi_iv_id)
     ImageView myBgiIvId;
     @BindView(R.id.my_messge_im_id)
-    ImageView myMessgeImId;
+    BadgeButton myMessgeImId;
     @BindView(R.id.my_dot_v_id)
     View myDotVId;
     @BindView(R.id.my_addfriend_im_id)
-    ImageView myAddfriendImId;
+    BadgeButton myAddfriendImId;
     @BindView(R.id.my_basic_headimg_iv_id)
     CircleImageView myBasicHeadimgIvId;
     @BindView(R.id.my_basic_name_tv_id)
@@ -200,6 +201,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         String clock_win = data.getClock_win();
         myExceedTvId.setText("超过了全国" + clock_win + "的用户哦！");
         int count_noread = data.getCount_noread();
+        myMessgeImId.setBadgeText(count_noread+"");
     }
 
 

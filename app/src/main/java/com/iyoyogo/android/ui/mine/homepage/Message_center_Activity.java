@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
@@ -17,28 +18,29 @@ import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.widget.BadgeButton;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class Message_center_Activity extends BaseActivity<MessageCenterContract.Presenter>implements MessageCenterContract.View {
+public class Message_center_Activity extends BaseActivity<MessageCenterContract.Presenter> implements MessageCenterContract.View {
 
 
     @BindView(R.id.message_center_back_im_id)
     ImageView messageCenterBackImId;
-    @BindView(R.id.message_center_system_message_im_id)
-    BadgeButton messageCenterSystemMessageImId;
+    @BindView(R.id.message_system)
+    BadgeButton messageSystem;
     @BindView(R.id.message_center_system_message_rl_id)
     RelativeLayout messageCenterSystemMessageRlId;
-    @BindView(R.id.message_center_like_me_im_id)
-    BadgeButton messageCenterLikeMeImId;
+    @BindView(R.id.like_message)
+    BadgeButton likeMessage;
     @BindView(R.id.message_center_like_me_rl_id)
     RelativeLayout messageCenterLikeMeRlId;
-    @BindView(R.id.message_center_commentary_message_iv_id)
-    BadgeButton messageCenterCommentaryMessageIvId;
+    @BindView(R.id.discuss_message)
+    BadgeButton discussMessage;
     @BindView(R.id.message_center_commentary_message_rl_id)
     RelativeLayout messageCenterCommentaryMessageRlId;
-    @BindView(R.id.message_center_focus_on_news_im_id)
-    BadgeButton messageCenterFocusOnNewsImId;
+    @BindView(R.id.attention_message)
+    BadgeButton attentionMessage;
     @BindView(R.id.message_center_focus_on_news_rl_id)
     RelativeLayout messageCenterFocusOnNewsRlId;
     private String string;
@@ -58,25 +60,25 @@ public class Message_center_Activity extends BaseActivity<MessageCenterContract.
                 finish();
                 break;
             case R.id.message_center_system_message_rl_id:
-
+                intent = new Intent(this, MessageDetailActivity.class);
                 string = "系统消息";
                 intent.putExtra("title", string);
                 startActivity(intent);
                 break;
             case R.id.message_center_like_me_rl_id:
-
+                intent = new Intent(this, MessageDetailActivity.class);
                 string = "喜欢我的";
                 intent.putExtra("title", string);
                 startActivity(intent);
                 break;
             case R.id.message_center_commentary_message_rl_id:
-
+                intent = new Intent(this, MessageDetailActivity.class);
                 string = "评论消息";
                 intent.putExtra("title", string);
                 startActivity(intent);
                 break;
             case R.id.message_center_focus_on_news_rl_id:
-
+                intent = new Intent(this, MessageDetailActivity.class);
                 string = "关注消息";
                 intent.putExtra("title", string);
                 startActivity(intent);
@@ -88,7 +90,6 @@ public class Message_center_Activity extends BaseActivity<MessageCenterContract.
     protected void initView() {
         super.initView();
         StatusBarUtils.setWindowStatusBarColor(Message_center_Activity.this, R.color.white);
-        intent = new Intent(this, MessageDetailActivity.class);
     }
 
     @Override
@@ -96,14 +97,9 @@ public class Message_center_Activity extends BaseActivity<MessageCenterContract.
         super.initData(savedInstanceState);
         user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
         user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
-        mPresenter.getMessageCenter(user_id,user_token);
+        mPresenter.getMessageCenter(user_id, user_token);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
 
     @Override
     protected int getLayoutId() {
@@ -122,18 +118,40 @@ public class Message_center_Activity extends BaseActivity<MessageCenterContract.
         String type2 = data.getType2();
         String type3 = data.getType3();
         String type4 = data.getType4();
-        if (type1.equals("0")){
-            messageCenterSystemMessageImId.setBadgeVisible(false);
-        }else if (type2.equals("0")){
-            messageCenterSystemMessageImId.setBadgeVisible(false);
-        }else if (type3.equals("0")){
-            messageCenterCommentaryMessageIvId.setBadgeVisible(false);
-        }else if (type4.equals("0")){
-            messageCenterFocusOnNewsImId.setBadgeVisible(false);
-        }
-        messageCenterSystemMessageImId.setBadgeText(type1);
-        messageCenterLikeMeImId.setBadgeText(type2);
-        messageCenterCommentaryMessageIvId.setBadgeText(type3);
-        messageCenterFocusOnNewsImId.setBadgeText(type4);
+        Toast.makeText(this, type1, Toast.LENGTH_SHORT).show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                likeMessage.setBadgeText(type2);
+                discussMessage.setBadgeText(type3);
+                attentionMessage.setBadgeText(type4);
+                if (Integer.parseInt(type1) > 0) {
+                    messageSystem.setBadgeText(type1);
+                    messageSystem.setBadgeVisible(true);
+                }
+                if (Integer.parseInt(type2) > 0) {
+                    likeMessage.setBadgeText(type2);
+                    likeMessage.setBadgeVisible(true);
+                }
+                if (Integer.parseInt(type3) > 0) {
+                    discussMessage.setBadgeVisible(true);
+                    discussMessage.setBadgeText(type3);
+                }
+                if (Integer.parseInt(type4) > 0) {
+                    attentionMessage.setBadgeVisible(true);
+                    attentionMessage.setBadgeText(type3);
+                }
+            }
+        }).start();
+
+
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

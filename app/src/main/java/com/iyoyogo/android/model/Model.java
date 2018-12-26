@@ -455,5 +455,8 @@ public class Model {
         return HttpClient.getApiService().setAddressBook(user_id, user_token, search, list)
                 .compose(this.switchThread());
     }
-
+    public Observable<BaseBean> push(String user_id,String user_token,String device, String jpush_rid){
+        return HttpClient.getApiService().push(user_id, user_token, device, jpush_rid)
+                .compose(this.switchThread());
+    }
 }

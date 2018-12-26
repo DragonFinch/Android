@@ -25,7 +25,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class CollectionActivity extends BaseActivity<CollectionContract.Presenter> implements CollectionContract.View,MineCollectionAdapter.OnItemClickListener {
+public class CollectionActivity extends BaseActivity<CollectionContract.Presenter> implements CollectionContract.View {
     @BindView(R.id.back_iv_id)
     ImageView backIvId;
     @BindView(R.id.manager_collection_folder)
@@ -135,21 +135,34 @@ public class CollectionActivity extends BaseActivity<CollectionContract.Presente
         recyclerCollectionFolder.setLayoutManager(new LinearLayoutManager(CollectionActivity.this));
         recyclerCollectionFolder.setAdapter(mineCollectionAdapter);
         mineCollectionAdapter.notifyAdapter(tree, false);
-
-        mineCollectionAdapter.setOnItemClickListener(new MineCollectionAdapter.OnClickListener() {
+        mineCollectionAdapter.setOnItemClickListener(new MineCollectionAdapter.OnItemClickListener() {
             @Override
-            public void setOnClickListener(View v, int position) {
-                Intent intent = new Intent(CollectionActivity.this, DefaultCollectionActivity.class);
-                intent.putExtra("type", 2);
-                String name = tree.get(position).getName();
-                int open = tree.get(position).getOpen();
-                int folder_id = tree.get(position).getFolder_id();
-                intent.putExtra("name", name + "·" + tree.get(position).getCount_record());
-                intent.putExtra("folder_id", folder_id);
-                intent.putExtra("open", open);
-                startActivity(intent);
+            public void onItemClickListener(int pos, List<MineCollectionBean.DataBean.TreeBean> myLiveList) {
+                if (editorStatus) {
+                    MineCollectionBean.DataBean.TreeBean listBean = myLiveList.get(pos);
+                    boolean isSelect = listBean.isSelect();
+                    if (!isSelect) {
+                        index++;
+                        listBean.setSelect(true);
+                        if (index == myLiveList.size()) {
+                            isSelectAll = true;
+//                            mSelectAll.setText("取消全选");
+                        }
+
+                    } else {
+                        listBean.setSelect(false);
+                        index--;
+                        isSelectAll = false;
+//                        mSelectAll.setText("全选");
+                    }
+//                    setBtnBackground(index);
+//                    mTvSelectNum.setText(String.valueOf(index));
+                    mineCollectionAdapter.notifyDataSetChanged();
+                }
             }
         });
+
+
     }
 
     @Override
@@ -159,28 +172,4 @@ public class CollectionActivity extends BaseActivity<CollectionContract.Presente
     }
 
 
-    @Override
-    public void onItemClickListener(int pos, List<MineCollectionBean.DataBean.TreeBean> myLiveList) {
-        if (editorStatus) {
-            MineCollectionBean.DataBean.TreeBean listBean = myLiveList.get(pos);
-            boolean isSelect = listBean.isSelect();
-            if (!isSelect) {
-                index++;
-                listBean.setSelect(true);
-                if (index == myLiveList.size()) {
-                    isSelectAll = true;
-//                            mSelectAll.setText("取消全选");
-                }
-
-            } else {
-                listBean.setSelect(false);
-                index--;
-                isSelectAll = false;
-//                        mSelectAll.setText("全选");
-            }
-//                    setBtnBackground(index);
-//                    mTvSelectNum.setText(String.valueOf(index));
-            mineCollectionAdapter.notifyDataSetChanged();
-        }
-    }
 }

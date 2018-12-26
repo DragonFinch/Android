@@ -505,38 +505,46 @@ public interface ApiService {
     @POST("index.php/api/userconfig/set")
     @FormUrlEncoded
     Observable<BaseBean> setMineSetting(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("wifi_auto_play_video") int wifi_auto_play_video, @Field("notice") int notice, @Field("address_list") int address_list);
+
     //反馈
     @POST("index.php/api/userfeedback/add")
     @FormUrlEncoded
-    Observable<BaseBean> addFeedBack(@Field("user_id") String user_id, @Field("user_token") String user_token,@Field("desc")String desc);
+    Observable<BaseBean> addFeedBack(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("desc") String desc);
+
     //关于我们
     @GET("api/Aboutus/get_list")
     Observable<AboutMeBean> aboutMe();
+
     @POST("index.php/api/message/get_message_view")
     @FormUrlEncoded
-    Observable<MessageBean> getMessage(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("type")int type,@Field("page")int page);
+    Observable<MessageBean> getMessage(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("type") int type, @Field("page") int page);
+
     @POST("index.php/api/message/center")
     @FormUrlEncoded
-    Observable<MessageCenterBean> getMessageCenter(@Field("user_id")String user_id,@Field("user_token")String user_token);
+    Observable<MessageCenterBean> getMessageCenter(@Field("user_id") String user_id, @Field("user_token") String user_token);
+
     @POST("index.php/api/message/read_message")
     @FormUrlEncoded
-    Observable<ReadMessage> readMessage(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("message_id") String message_id);
+    Observable<ReadMessage> readMessage(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("message_id") String message_id);
 
     //获取我粉丝中 我没关注的 (是我的粉丝，我却不是他的粉丝)
     @POST("index.php/api/userattention/get_my_fans_only")
     @FormUrlEncoded
-    Observable<AddCollectionBean1> setAddCollection(@Field("user_id")String user_id,
-                                                    @Field("user_token")String user_token,
-                                                    @Field("page")String page,
+    Observable<AddCollectionBean1> setAddCollection(@Field("user_id") String user_id,
+                                                    @Field("user_token") String user_token,
+                                                    @Field("page") String page,
                                                     @Field("page_size") String page_size);
 
     //获取通讯录中 关注情况
     @POST("index.php/api/userattention/address_list")
     @FormUrlEncoded
-    Observable<AddressBookBean> setAddressBook(@Field("user_id")String user_id,
-                                               @Field("user_token")String user_token,
-                                               @Field("search")String search,
+    Observable<AddressBookBean> setAddressBook(@Field("user_id") String user_id,
+                                               @Field("user_token") String user_token,
+                                               @Field("search") String search,
                                                @Field("list") String list);
 
+    @POST("index.php/api/userjpush/set")
+    @FormUrlEncoded
+    Observable<BaseBean> push(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("device") String device, @Field("jpush_rid") String jpush_rid);
 }
 

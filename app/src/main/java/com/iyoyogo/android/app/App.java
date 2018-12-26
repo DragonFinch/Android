@@ -23,6 +23,7 @@ import com.umeng.socialize.UMShareAPI;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.unit.Subunits;
 
@@ -49,6 +50,7 @@ public class App extends Application {
         super.onCreate();
         context = this;
         UMShareAPI.get(this);
+
         UMConfigure.init(this,"5bea3cb0f1f5565cc1000170"
                 ,"umeng",UMConfigure.DEVICE_TYPE_PHONE,"");
         mContext = getApplicationContext();
@@ -79,6 +81,8 @@ public class App extends Application {
         if (getPackageName().equals(getCurProcessName(this))) {
 //            initDebugTools();
             initLog();
+            JPushInterface.setDebugMode(BuildConfig.DEBUG);
+            JPushInterface.init(this);
 //            initImageLoader();
 
             initUserInfo();

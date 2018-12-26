@@ -3,6 +3,7 @@ package com.iyoyogo.android.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +22,11 @@ public class DefaultCollectionAdapter extends RecyclerView.Adapter<DefaultCollec
 
     List<CollectionFolderBean.DataBean.ListBean> mList;
     private OnItemClickLitener mOnItemClickLitener;
-
-    public DefaultCollectionAdapter(Context context, List<CollectionFolderBean.DataBean.ListBean> list) {
+    private String title;
+    public DefaultCollectionAdapter(Context context, List<CollectionFolderBean.DataBean.ListBean> list, String name) {
         this.mList = list;
         this.context = context;
+        this.title=name;
     }
 
     public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
@@ -44,11 +46,17 @@ public class DefaultCollectionAdapter extends RecyclerView.Adapter<DefaultCollec
         return new ViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
 
 
         String name = mList.get(position).getName();
+        Log.d("DefaultCollectionAdaptr", title);
+        if (name.equals(title)){
+            viewHolder.mTvName.setVisibility(View.GONE);
+            viewHolder.mCheckBox.setVisibility(View.GONE);
+        }
         viewHolder.mTvName.setText(name);
 
         if (selected == position) {
