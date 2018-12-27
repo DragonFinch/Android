@@ -37,6 +37,8 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
     @BindView(R.id.refresh_layout)
     SmartRefreshLayout refreshLayout;
     Unbinder unbinder;
+    private String user_id;
+    private String user_token;
 
     @Override
     protected void initView() {
@@ -64,8 +66,8 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
     @Override
     protected void initData() {
         super.initData();
-        String user_id = SpUtils.getString(getContext(), "user_id", null);
-        String user_token = SpUtils.getString(getContext(), "user_token", null);
+        user_id = SpUtils.getString(getContext(), "user_id", null);
+        user_token = SpUtils.getString(getContext(), "user_token", null);
 
         mPresenter.banner(user_id, user_token, "commend");
 
@@ -91,6 +93,12 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
         Log.d("HomeFragment", "mList.size():" + mList.size());
         recyclerHome.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerHome.setAdapter(homeRecyclerViewAdapter);
+        homeRecyclerViewAdapter.onItemRetryOnClickListener(new HomeRecyclerViewAdapter.OnRetryClickListener() {
+            @Override
+            public void onretry() {
+                mPresenter.banner(user_id,user_token,"commend");
+            }
+        });
     }
 
 

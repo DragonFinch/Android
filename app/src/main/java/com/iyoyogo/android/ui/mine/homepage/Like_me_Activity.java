@@ -98,6 +98,11 @@ public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter>
         if (list != null && list.size() > 0) {
             String file_path = list.get(0).getFile_path();
             int yo_type = list.get(0).getYo_type();
+            if (list.get(0).getFile_type()==1){
+                icVideo.setVisibility(View.GONE);
+            }else {
+                icVideo.setVisibility(View.VISIBLE);
+            }
             imgLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -105,7 +110,7 @@ public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter>
                     Log.d("Like", "mList.get(0).getYo_id():" + mList.get(0).getYo_id());
                     if (yo_type == 1) {
                         Intent intent = new Intent(Like_me_Activity.this, YoXiuDetailActivity.class);
-                        intent.putExtra("yo_id", mList.get(0).getYo_id());
+                        intent.putExtra("id", mList.get(0).getYo_id());
                         startActivity(intent);
                     } else {
                         Intent intent = new Intent(Like_me_Activity.this, YoJiDetailActivity.class);
@@ -128,7 +133,7 @@ public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter>
                     int yo_type = mList.get(position).getYo_type();
                     if (yo_type == 1) {
                         Intent intent = new Intent(Like_me_Activity.this, YoXiuDetailActivity.class);
-                        intent.putExtra("yo_id", mList.get(position).getYo_id());
+                        intent.putExtra("id", mList.get(position).getYo_id());
                         startActivity(intent);
                     } else {
                         Intent intent = new Intent(Like_me_Activity.this, YoJiDetailActivity.class);

@@ -1,6 +1,7 @@
 package com.iyoyogo.android.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.mine.message.MessageBean;
+import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.widget.CircleImageView;
 
@@ -94,6 +96,15 @@ public class MessageDetailAdapter extends RecyclerView.Adapter<MessageDetailAdap
         if (mList.get(position).getUser_logo().equals("")&&mList.get(position).getUser_nickname().equals("")&&mList.get(position).getTitle().equals("")&&mList.get(position).isIs_reply()){
             holder.layout.setVisibility(View.GONE);
         }
+        holder.user_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String yo_user_id = mList.get(position).getUser_id();
+                Intent intent = new Intent(context, Personal_homepage_Activity.class);
+                intent.putExtra("yo_user_id",yo_user_id);
+                context.startActivity(intent);
+            }
+        });
         holder.itemView.setTag(position);
     }
 

@@ -62,7 +62,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
@@ -196,6 +195,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     private int index;
     private List<CollectionFolderBean.DataBean.ListBean> mList1;
     private int add_attention_id;
+    private int yo_attention_id;
 
     @Override
     protected int getLayoutId() {
@@ -370,42 +370,23 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     }
 
-    @OnClick({R.id.add_attention,R.id.img_back, R.id.img_share, R.id.tv_attention, R.id.tv_load_more, R.id.tv_comment, R.id.tv_like, R.id.tv_collection})
+    @OnClick({R.id.add_attention, R.id.img_back, R.id.img_share, R.id.tv_attention, R.id.tv_load_more, R.id.tv_comment, R.id.tv_like, R.id.tv_collection})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_back:
                 finish();
                 break;
             case R.id.add_attention:
-                if (is_my_attention == 0) {
-                    mPresenter.addAttention(user_id, user_token, yo_user_id);
-//                    Log.d("YoXiuDetailActivity", target_id);
+                mPresenter.getYoJiDetail(user_id, user_token, yo_id);
 
-                } else {
-
-                    if (add_attention_id == 0) {
-                        mPresenter.deleteAttention(user_id, user_token, is_my_attention);
-                    } else {
-                        mPresenter.deleteAttention(user_id, user_token, add_attention_id);
-                    }
-                }
+                mPresenter.addAttention(user_id, user_token, yo_attention_id);
                 break;
             case R.id.img_share:
 
                 break;
             case R.id.tv_attention:
-                if (is_my_attention == 0) {
-                    mPresenter.addAttention(user_id, user_token, yo_user_id);
-//                    Log.d("YoXiuDetailActivity", target_id);
-
-                } else {
-
-                    if (add_attention_id == 0) {
-                        mPresenter.deleteAttention(user_id, user_token, is_my_attention);
-                    } else {
-                        mPresenter.deleteAttention(user_id, user_token, add_attention_id);
-                    }
-                }
+                mPresenter.getYoJiDetail(user_id, user_token, yo_id);
+                mPresenter.addAttention(user_id, user_token, yo_attention_id);
                 break;
             case R.id.tv_load_more:
 
@@ -532,6 +513,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     @Override
     public void getYoJiDetailSuccess(YoJiDetailBean.DataBean data) {
+        yo_attention_id = data.getUser_id();
         initPopup();
         tvLike.setText(data.getCount_praise() + "");
         tvCollection.setText(data.getCount_collect() + "");
@@ -650,12 +632,6 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 
     //隐藏事件PopupWindow
     private class poponDismissListener implements PopupWindow.OnDismissListener {

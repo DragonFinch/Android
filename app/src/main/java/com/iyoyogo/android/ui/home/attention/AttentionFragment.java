@@ -90,13 +90,18 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
         Log.d("HomeFragment", "mList.size():" + mList.size());
         recyclerHome.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerHome.setAdapter(homeRecyclerViewAdapter);
-        homeRecyclerViewAdapter.onItemRetryOnClickListener(new HomeRecyclerViewAdapter.OnRetryConnection() {
-            @Override
-            public void on_retry() {
-                mPresenter.banner(user_id, user_token, "attention");
-                homeRecyclerViewAdapter.notifyDataSetChanged();
-            }
-        });
+       homeRecyclerViewAdapter.onRetryClickListener(new HomeRecyclerViewAdapter.OnRetryConnection() {
+           @Override
+           public void on_retry() {
+               mPresenter.banner(user_id,user_token,"attention");
+           }
+       });
+       homeRecyclerViewAdapter.onItemRetryOnClickListener(new HomeRecyclerViewAdapter.OnRetryClickListener() {
+           @Override
+           public void onretry() {
+               mPresenter.banner(user_id,user_token,"attention");
+           }
+       });
     }
 
 }

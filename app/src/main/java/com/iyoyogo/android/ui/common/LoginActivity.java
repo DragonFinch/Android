@@ -486,7 +486,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
 
     @Override
     public void pushSuccess(BaseBean baseBean) {
-        Toast.makeText(this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+
     }
 
 

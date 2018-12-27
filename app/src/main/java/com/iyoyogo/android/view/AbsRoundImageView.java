@@ -1,5 +1,6 @@
 package com.iyoyogo.android.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -22,6 +23,7 @@ import com.iyoyogo.android.R;
  * 描述：
  * </br>
  */
+@SuppressLint("AppCompatCustomView")
 public abstract class AbsRoundImageView extends ImageView {
 
     private static final PorterDuffXfermode xFermode = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
@@ -48,7 +50,7 @@ public abstract class AbsRoundImageView extends ImageView {
      */
     protected int borderColor;
 
-    private Paint borderPaint;
+//    private Paint borderPaint;
 
     public AbsRoundImageView(Context context) {
         this(context, null, 0);
@@ -79,8 +81,8 @@ public abstract class AbsRoundImageView extends ImageView {
         roundPath = new Path();
         borderPath = new Path();
 
-        borderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        borderPaint.setStrokeWidth(borderWidth);
+//        borderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+//        borderPaint.setStrokeWidth(borderWidth);
 
         setScaleType(ScaleType.CENTER_CROP);
     }
@@ -115,15 +117,15 @@ public abstract class AbsRoundImageView extends ImageView {
                 Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(Color.WHITE);
+//        paint.setColor(Color.WHITE);
         canvas.drawPath(roundPath, paint);
         return bitmap;
     }
 
     private void drawBorder(Canvas canvas) {
-        borderPaint.setStyle(Paint.Style.STROKE);
-        borderPaint.setColor(borderColor);
-        canvas.drawPath(borderPath, borderPaint);
+//        borderPaint.setStyle(Paint.Style.STROKE);
+//        borderPaint.setColor(borderColor);
+//        canvas.drawPath(borderPath, borderPaint);
     }
 
     @Override

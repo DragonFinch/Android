@@ -34,4 +34,10 @@
         android:layout_height="match_parent"
         android:id="@+id/recycler_message"
         />
+    <include  android:layout_below="@+id/bar"
+        android:id="@+id/like_layout"
+        layout="@layout/include_layout_message_null"
+        android:visibility="gone"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
 </RelativeLayout>

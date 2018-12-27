@@ -132,21 +132,27 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             setYouJiHolder((Holder_YouJi) viewHolder, yoj_list);
 
 
-        }else if (viewHolder instanceof Holder_Footer){
+        } else if (viewHolder instanceof Holder_Footer) {
             setFootHolder((Holder_Footer) viewHolder);
         }
     }
-
 
 
     @Override
     public int getItemCount() {
         return 4;
     }
+
     //底部
     private void setFootHolder(Holder_Footer viewHolder) {
-
+        viewHolder.look_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, YoJiListActivity.class));
+            }
+        });
     }
+
     //轮播图
     private void setViewPagerHolder(Holder_ViewPager viewHolder, int position) {
         List<HomeBean.DataBean.BannerListBean> banner_list = mList.get(position).getBanner_list();
@@ -249,6 +255,15 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 context.startActivity(intent);
             }
         });
+        yoXiuAdapter.setOnRetryClickListener(new YoXiuAdapter.OnRetryClickListener() {
+            @Override
+            public void onretry() {
+                if (onRetryClickListener!=null){
+                    onRetryClickListener.onretry();
+                }
+            }
+        });
+
 
 
     }
@@ -264,45 +279,54 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         });
 
 
-       youJiHolder.recycler_youji.setLayoutManager(new LinearLayoutManager(context));
-       if (type.equals("attention")){
-           Log.e("attention", "yoj_list.size():" + yoj_list.size());
-           YoJiAttentionAdapter yoJiAttentionAdapter = new YoJiAttentionAdapter(context, yoj_list);
-           youJiHolder.recycler_youji.setLayoutManager(new LinearLayoutManager(context));
-           youJiHolder.recycler_youji.setAdapter(yoJiAttentionAdapter);
-           yoJiAttentionAdapter.setOnItemClickListener(new YoJiAttentionAdapter.OnClickListener() {
-               @Override
-               public void onClick(View v, int position) {
-                   int yo_id = yoj_list.get(position).getYo_id();
-                   Intent intent = new Intent(context, YoJiDetailActivity.class);
-                   intent.putExtra("yo_id",yo_id);
-                   context.startActivity(intent);
-               }
-           });
-           yoJiAttentionAdapter.onItemRetryOnClickListener(new YoJiAttentionAdapter.OnRetryConnection() {
-               @Override
-               public void on_retry() {
-                    if (retryConnection!=null){
+        youJiHolder.recycler_youji.setLayoutManager(new LinearLayoutManager(context));
+        if (type.equals("attention")) {
+            Log.e("attention", "yoj_list.size():" + yoj_list.size());
+            YoJiAttentionAdapter yoJiAttentionAdapter = new YoJiAttentionAdapter(context, yoj_list);
+            youJiHolder.recycler_youji.setLayoutManager(new LinearLayoutManager(context));
+            youJiHolder.recycler_youji.setAdapter(yoJiAttentionAdapter);
+            yoJiAttentionAdapter.setOnItemClickListener(new YoJiAttentionAdapter.OnClickListener() {
+                @Override
+                public void onClick(View v, int position) {
+                    int yo_id = yoj_list.get(position).getYo_id();
+                    Intent intent = new Intent(context, YoJiDetailActivity.class);
+                    intent.putExtra("yo_id", yo_id);
+                    context.startActivity(intent);
+                }
+            });
+            yoJiAttentionAdapter.onItemRetryOnClickListener(new YoJiAttentionAdapter.OnRetryConnection() {
+                @Override
+                public void on_retry() {
+                    if (retryConnection != null) {
                         retryConnection.on_retry();
                         notifyDataSetChanged();
                     }
-               }
-           });
-       }else {
-           Log.d("Size", "yoj_list.size():" + yoj_list.size());
-           YoJiAdapter yoJiAdapter = new YoJiAdapter(context, yoj_list);
-           Log.d("Size", "yoj_list.size():" + yoj_list.size());
-           youJiHolder.recycler_youji.setAdapter(yoJiAdapter);
-           yoJiAdapter.setOnItemClickListener(new YoJiAdapter.OnClickListener() {
-               @Override
-               public void onClick(View v, int position) {
-                   int yo_id = yoj_list.get(position).getYo_id();
-                   Intent intent = new Intent(context, YoJiDetailActivity.class);
-                   intent.putExtra("yo_id",yo_id);
-                   context.startActivity(intent);
-               }
-           });
-       }
+                }
+            });
+
+        } else {
+            Log.d("Size", "yoj_list.size():" + yoj_list.size());
+            YoJiAdapter yoJiAdapter = new YoJiAdapter(context, yoj_list);
+            Log.d("Size", "yoj_list.size():" + yoj_list.size());
+            youJiHolder.recycler_youji.setAdapter(yoJiAdapter);
+            yoJiAdapter.setOnItemClickListener(new YoJiAdapter.OnClickListener() {
+                @Override
+                public void onClick(View v, int position) {
+                    int yo_id = yoj_list.get(position).getYo_id();
+                    Intent intent = new Intent(context, YoJiDetailActivity.class);
+                    intent.putExtra("yo_id", yo_id);
+                    context.startActivity(intent);
+                }
+            });
+            yoJiAdapter.setOnRetryClickListener(new YoJiAdapter.OnRetryClickListener() {
+                @Override
+                public void onretry() {
+                    if (onRetryClickListener != null) {
+                        onRetryClickListener.onretry();
+                    }
+                }
+            });
+        }
 
     }
 
@@ -329,7 +353,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             return YOUXIU;
         } else if (position == 2) {
             return YOUJI;
-        }else if (position==3){
+        } else if (position == 3) {
             return FOOT;
         }
         return super.getItemViewType(position);
@@ -378,16 +402,30 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     public class Holder_Footer extends RecyclerView.ViewHolder {
         TextView look_more;
+
         public Holder_Footer(@NonNull View itemView) {
             super(itemView);
-            look_more=itemView.findViewById(R.id.look_more);
+            look_more = itemView.findViewById(R.id.look_more);
         }
     }
-   public interface OnRetryConnection {
+
+    public interface OnRetryConnection {
         void on_retry();
     }
+
     OnRetryConnection retryConnection;
-    public  void onItemRetryOnClickListener(OnRetryConnection retryConnection){
-        this.retryConnection=retryConnection;
+
+    public void onRetryClickListener(OnRetryConnection retryConnection) {
+        this.retryConnection = retryConnection;
+    }
+
+    public interface OnRetryClickListener {
+        void onretry();
+    }
+
+    OnRetryClickListener onRetryClickListener;
+
+    public void onItemRetryOnClickListener(OnRetryClickListener onRetryClickListener) {
+        this.onRetryClickListener = onRetryClickListener;
     }
 }

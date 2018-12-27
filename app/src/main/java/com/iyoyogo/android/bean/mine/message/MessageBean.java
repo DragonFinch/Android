@@ -47,6 +47,9 @@ public class MessageBean extends BaseBean {
 
             private int message_id;
             private String user_logo;
+            private String user_id;
+            private String yo_type;
+            private String yo_id;
             private String user_nickname;
             private String title;
             private String content;
@@ -55,6 +58,30 @@ public class MessageBean extends BaseBean {
             private int is_read;
             private boolean is_reply;
             private String param;
+
+            public String getUser_id() {
+                return user_id;
+            }
+
+            public void setUser_id(String user_id) {
+                this.user_id = user_id;
+            }
+
+            public String getYo_type() {
+                return yo_type;
+            }
+
+            public void setYo_type(String yo_type) {
+                this.yo_type = yo_type;
+            }
+
+            public String getYo_id() {
+                return yo_id;
+            }
+
+            public void setYo_id(String yo_id) {
+                this.yo_id = yo_id;
+            }
 
             public int getMessage_id() {
                 return message_id;

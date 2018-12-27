@@ -134,20 +134,23 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
             }
         });
 
-
-        int file_type = mList.get(position).getFile_type();
-        if (file_type == 2) {
-            Glide.with(context).load(mList.get(position).getFile_type())
+        int is_video = mList.get(position).getIs_video();
+        if (is_video==1){
+            Glide.with(context).load(mList.get(position).getFile_path())
                     .apply(requestOptions)
                     .into(holder.imageView);
             holder.img_video.setVisibility(View.VISIBLE);
-        } else {
+        }else {
             Glide.with(context).load(mList.get(position).getFile_path())
                     .apply(requestOptions)
                     .into(holder.imageView);
         }
 
-        Glide.with(context).load(mList.get(position).getUser_logo()).into(holder.user_icon);
+       if (mList.get(position).getUser_logo().equals("")){
+           Glide.with(context).load(R.mipmap.default_touxiang).into(holder.user_icon);
+       }else {
+           Glide.with(context).load(mList.get(position).getUser_logo()).into(holder.user_icon);
+       }
         holder.user_name.setText(mList.get(position).getUser_nickname());
         holder.num_like.setText(mList.get(position).getCount_praise() + "");
         holder.num_see.setText(mList.get(position).getCount_view() + "");
@@ -213,14 +216,8 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
-                DataManager.getFromRemote()
-                        .dislike(user_id, user_token, yo_id)
-                        .subscribe(new Consumer<BaseBean>() {
-                            @Override
-                            public void accept(BaseBean baseBean) throws Exception {
+                initDislike();
 
-                            }
-                        });
             }
         });
         tv_report.setOnClickListener(new View.OnClickListener() {
@@ -231,6 +228,54 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
             }
         });
         popupWindow.showAsDropDown(holder.view_like, DensityUtil.dp2px(context, 30), DensityUtil.dp2px(context, 10));
+    }
+
+    private void initDislike() {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_popwindow_not_like, null);
+        PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context,300), DensityUtil.dp2px(context, 230), true);
+        TextView dislike_this_kind = view.findViewById(R.id.dislike_this_kind);
+        TextView dislike_this_item = view.findViewById(R.id.dislike_this_item);
+        backgroundAlpha(0.6f);
+        dislike_this_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataManager.getFromRemote()
+                        .dislike(user_id, user_token, yo_id, 1)
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                                popupWindow.dismiss();
+                                if (onRetryClickListener!=null){
+                                    onRetryClickListener.onretry();
+                                }
+                            }
+                        });
+            }
+        });
+        dislike_this_kind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataManager.getFromRemote()
+                        .dislike(user_id, user_token, yo_id, 2)
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                                popupWindow.dismiss();
+                                if (onRetryClickListener!=null){
+                                    onRetryClickListener.onretry();
+                                }
+                            }
+                        });
+
+            }
+        });
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1.0f);
+            }
+        });
+        popupWindow.showAtLocation(activity.findViewById(R.id.activity_main), Gravity.CENTER, 0, 0);
     }
 
 
@@ -381,5 +426,12 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
             medal = itemView.findViewById(R.id.medal);
             img_level = itemView.findViewById(R.id.img_level);
         }
+    }
+    public interface  OnRetryClickListener{
+        void onretry();
+    }
+    private OnRetryClickListener onRetryClickListener;
+    public void setOnRetryClickListener(OnRetryClickListener onRetryClickListener){
+        this.onRetryClickListener=onRetryClickListener;
     }
 }

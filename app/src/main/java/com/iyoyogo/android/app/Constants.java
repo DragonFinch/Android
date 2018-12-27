@@ -115,4 +115,18 @@ public class Constants {
     final static public String PARAM_CLASS = "param_class";
     final static public String PARAM_SHOW_PLACE = "param_show_PLACE";
     final static public String PARAM_LOCATION = "param_location";
+    //服务器中新版本的app的地址
+    public static final String NEW_VERSION_APP_URL = "http://oh0vbg8a6.bkt.clouddn.com/app-debug.apk";
+    //下载后的新版本的apk的名称
+    public static final String NEW_VERSION_APK_NAME = "myApk.apk";
+
+    //模拟APP版本更新时访问服务器的apk的地址
+    public static class VersionCode{
+        //获取测试用的服务器版的版本号的Json串
+        public static final String URL_VERSIN_CODE = " http://192.168.0.145/index.php/api/version/get_latest_version_info";
+        public static final String URL_VERSION_BASE = "http://192.168.0.145/index.php/api/version/";
+        public static final String URL_VERSION_PATH = "get_latest_version_info";
+    }
+
+
 }

@@ -4,6 +4,7 @@ import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BasePresenter;
+import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.mine.MineMessageBean;
 import com.iyoyogo.android.contract.MineContract;
 import com.iyoyogo.android.model.DataManager;
@@ -34,5 +35,25 @@ public class MineMessagePresenter extends BasePresenter<MineContract.View> imple
                 return true;
             }
         });
+    }
+
+    @Override
+    public void punchClock(String user_id, String user_token) {
+        DataManager.getFromRemote()
+                .punchClock(user_id,user_token)
+                .subscribe(new ApiObserver<BaseBean>(mView,this) {
+                    @Override
+                    protected void doOnSuccess(BaseBean baseBean) {
+
+                            mView.punchClockSuccess(baseBean);
+
+                    }
+
+                    @Override
+                    protected boolean doOnFailure(int code, String message) {
+                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
     }
 }

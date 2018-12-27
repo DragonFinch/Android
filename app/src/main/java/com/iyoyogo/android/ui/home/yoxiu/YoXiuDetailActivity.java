@@ -590,7 +590,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         }
         ViewGroup.LayoutParams layoutParams = imgLogo.getLayoutParams();
         int width = layoutParams.width;
-        requestOptions.placeholder(R.mipmap.default_ic).override(DensityUtil.dp2px(YoXiuDetailActivity.this, ViewGroup.LayoutParams.MATCH_PARENT), DensityUtil.dp2px(YoXiuDetailActivity.this, ViewGroup.LayoutParams.MATCH_PARENT));
+        requestOptions.placeholder(R.mipmap.default_ic);
         Glide.with(this).load(path)
                 .apply(requestOptions)
                 .into(imgLogo);

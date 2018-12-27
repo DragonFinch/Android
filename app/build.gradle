@@ -14,7 +14,7 @@ android {
     defaultConfig {
         multiDexEnabled true
         applicationId "com.iyoyogo.android"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -97,6 +97,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.aliyun.dpa:oss-android-sdk:2.8.3'
     implementation 'top.zibin:Luban:1.1.8'
+    implementation 'com.hjm:BottomTabBar:1.2.2'
     implementation 'com.contrarywind:Android-PickerView:3.2.6'
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'

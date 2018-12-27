@@ -149,6 +149,15 @@ public class HomeBean extends BaseBean {
             private int partner_type;
             private int user_level;
             private int user_score;
+            private int is_video;
+
+            public int getIs_video() {
+                return is_video;
+            }
+
+            public void setIs_video(int is_video) {
+                this.is_video = is_video;
+            }
 
             public int getId() {
                 return id;

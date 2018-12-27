@@ -13,6 +13,7 @@ import com.iyoyogo.android.bean.collection.CollectionFolderContentBean;
 import com.iyoyogo.android.bean.collection.MineCollectionBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.bean.home.HomeBean;
+import com.iyoyogo.android.bean.home.VersionBean;
 import com.iyoyogo.android.bean.login.SendMessageBean;
 import com.iyoyogo.android.bean.login.interest.InterestBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
@@ -459,4 +460,17 @@ public class Model {
         return HttpClient.getApiService().push(user_id, user_token, device, jpush_rid)
                 .compose(this.switchThread());
     }
+    public Observable<BaseBean> punchClock(String user_id,String user_token){
+        return HttpClient.getApiService().punchClock(user_id, user_token)
+                .compose(this.switchThread());
+    }
+    public Observable<VersionBean> getVersionMessage(String user_id,String user_token,String type){
+        return HttpClient.getApiService().getVersionMessage(user_id, user_token, type)
+                .compose(this.switchThread());
+    }
+    public Observable<BaseBean> dislike(String user_id,String user_token,int yo_id,int type){
+        return HttpClient.getApiService().dislike(user_id, user_token, yo_id, type)
+                .compose(this.switchThread());
+    }
+
 }

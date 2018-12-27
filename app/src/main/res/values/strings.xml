@@ -20,7 +20,11 @@
     <string name="binding">已绑定</string>
     <string name="Nobinding">未绑定</string>
     <string name="phonenumber">18511193840</string>
-
+    <string name="hi">Hi～</string>
+    <string name="qingxuanzebuxihaundeliyou">请选择不喜欢的理由</string>
+    <string name="rangwmdeneironggengyouxiiu">让我们的内容更优质yo～</string>
+    <string name="buxihuancilei">不喜欢此类</string>
+    <string name="buxihuancixiang">不喜欢此项</string>
     <string name="replace">更换手机号</string>
     <string name="placephone">请输入手机号</string>
     <string name="verifycode">请输入短信验证码</string>
@@ -99,7 +103,6 @@
         <item>280</item>
     </string-array>
     <!-- 定位-->
-    <string name="hi">Hi~</string>
     <string name="over">资料完善成功!</string>
     <string name="place">请你吃小鱼干yo~</string>
     <string name="yo">__yoyoGo</string>

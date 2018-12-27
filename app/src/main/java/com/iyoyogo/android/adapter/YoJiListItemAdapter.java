@@ -33,6 +33,10 @@ public class YoJiListItemAdapter extends RecyclerView.Adapter<YoJiListItemAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+      /*  SpannableString spannableString = new SpannableString("设置文字的前景色为淡蓝色");
+        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#0099EE"));
+        spannableString.setSpan(colorSpan, 9, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        viewHolder.user_name.setText(spannableString);*/
         viewHolder.user_name.setText(mList.get(position).getUser_nickname());
         viewHolder.tv_content.setText(mList.get(position).getContent());
         viewHolder.itemView.setTag(position);

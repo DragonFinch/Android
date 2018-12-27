@@ -65,28 +65,28 @@
                 android:id="@+id/img_one"
                 android:layout_width="@dimen/dp_80"
                 android:layout_height="@dimen/dp_80"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/default_ic" />
 
             <ImageView
                 android:id="@+id/img_two"
                 android:layout_width="@dimen/dp_80"
                 android:layout_height="@dimen/dp_80"
                 android:layout_marginLeft="@dimen/dp_5"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/default_ic" />
 
             <ImageView
                 android:id="@+id/img_three"
                 android:layout_width="@dimen/dp_80"
                 android:layout_height="@dimen/dp_80"
                 android:layout_marginLeft="@dimen/dp_5"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/default_ic" />
 
             <ImageView
                 android:id="@+id/img_four"
                 android:layout_width="@dimen/dp_80"
                 android:layout_height="@dimen/dp_80"
                 android:layout_marginLeft="@dimen/dp_5"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/default_ic" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

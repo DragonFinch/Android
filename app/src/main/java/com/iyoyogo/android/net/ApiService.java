@@ -11,6 +11,7 @@ import com.iyoyogo.android.bean.collection.CollectionFolderContentBean;
 import com.iyoyogo.android.bean.collection.MineCollectionBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.bean.home.HomeBean;
+import com.iyoyogo.android.bean.home.VersionBean;
 import com.iyoyogo.android.bean.login.SendMessageBean;
 import com.iyoyogo.android.bean.login.interest.InterestBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
@@ -543,8 +544,23 @@ public interface ApiService {
                                                @Field("search") String search,
                                                @Field("list") String list);
 
+    //极光推送
     @POST("index.php/api/userjpush/set")
     @FormUrlEncoded
     Observable<BaseBean> push(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("device") String device, @Field("jpush_rid") String jpush_rid);
+
+    //打卡
+    @POST("index.php/api/clock/do_clock")
+    @FormUrlEncoded
+    Observable<BaseBean> punchClock(@Field("user_id") String user_id, @Field("user_token") String user_token);
+
+    //获取版本信息
+    @POST("index.php/api/version/get_latest_version_info")
+    @FormUrlEncoded
+    Observable<VersionBean> getVersionMessage(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("type") String type);
+    //不喜欢
+    @POST("index.php/api/dislike/add")
+    @FormUrlEncoded
+    Observable<BaseBean> dislike(@Field("user_id") String user_id, @Field("user_token") String user_token,@Field("yo_id")int yo_id,@Field("type") int type);
 }
 

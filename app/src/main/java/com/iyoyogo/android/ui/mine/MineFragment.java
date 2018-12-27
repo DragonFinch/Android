@@ -10,10 +10,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseFragment;
+import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.mine.MineMessageBean;
 import com.iyoyogo.android.contract.MineContract;
 import com.iyoyogo.android.presenter.MineMessagePresenter;
@@ -138,16 +140,16 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         mPresenter.getUserInfo(user_id, user_token);
     }
 
-    @OnClick({R.id.my_basic_headimg_iv_id,R.id.vip_center_img,R.id.my_basic_name_iv_id, R.id.my_messge_im_id, R.id.my_addfriend_im_id, R.id.my_clock_but_id, R.id.my_option_home_id, R.id.my_option_draft_id, R.id.my_option_like_id, R.id.my_option_col_id, R.id.my_option_set_id})
+    @OnClick({R.id.my_basic_headimg_iv_id, R.id.vip_center_img, R.id.my_basic_name_iv_id, R.id.my_messge_im_id, R.id.my_addfriend_im_id, R.id.my_clock_but_id, R.id.my_option_home_id, R.id.my_option_draft_id, R.id.my_option_like_id, R.id.my_option_col_id, R.id.my_option_set_id})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.my_basic_headimg_iv_id:
-                Intent intent = new Intent(getContext(),Personal_homepage_Activity.class);
-                intent.putExtra("yo_user_id",user_id);
+                Intent intent = new Intent(getContext(), Personal_homepage_Activity.class);
+                intent.putExtra("yo_user_id", user_id);
                 startActivity(intent);
                 break;
             case R.id.vip_center_img:
-                startActivity(new Intent(getContext(),VipCenterActivity.class));
+                startActivity(new Intent(getContext(), VipCenterActivity.class));
                 break;
             case R.id.my_messge_im_id:
                 startActivity(new Intent(getContext(), Message_center_Activity.class));
@@ -156,11 +158,11 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
 
                 break;
             case R.id.my_clock_but_id:
-
+                mPresenter.punchClock(user_id, user_token);
                 break;
             case R.id.my_option_home_id:
-                Intent intent1 = new Intent(getContext(),Personal_homepage_Activity.class);
-                intent1.putExtra("yo_user_id",user_id);
+                Intent intent1 = new Intent(getContext(), Personal_homepage_Activity.class);
+                intent1.putExtra("yo_user_id", user_id);
                 startActivity(intent1);
                 break;
             case R.id.my_option_draft_id:
@@ -201,10 +203,23 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         String clock_win = data.getClock_win();
         myExceedTvId.setText("超过了全国" + clock_win + "的用户哦！");
         int count_noread = data.getCount_noread();
-        myMessgeImId.setBadgeText(count_noread+"");
+        if (count_noread>0){
+            myMessgeImId.setBadgeVisible(true);
+        }
+        myMessgeImId.setBadgeText(count_noread + "");
+        int today_isclock = data.getToday_isclock();
+        if (today_isclock == 1) {
+            myClockButId.setVisibility(View.GONE);
+
+        } else {
+            myClockButId.setVisibility(View.VISIBLE);
+        }
     }
 
-
+    @Override
+    public void punchClockSuccess(BaseBean baseBean) {
+        Toast.makeText(mActivity, "打卡成功", Toast.LENGTH_SHORT).show();
+    }
 
 
 }

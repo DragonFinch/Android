@@ -279,6 +279,7 @@
             android:textSize="@dimen/sp_14" />
 
         <ImageView
+            android:visibility="gone"
             android:layout_width="@dimen/dp_6"
             android:layout_height="@dimen/dp_10"
             android:layout_gravity="center"

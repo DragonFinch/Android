@@ -116,11 +116,13 @@
                 />
 
             <ImageView
+                android:layout_centerInParent="true"
+                android:scaleType="centerInside"
                 android:id="@+id/img_logo"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_220"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/img_top"
-                android:scaleType="centerCrop"
+
                 android:src="@mipmap/sea" />
 
             <ImageView
@@ -133,6 +135,7 @@
                 android:src="@mipmap/ic_video" />
 
             <TextView
+                android:layout_alignLeft="@+id/img_logo"
                 android:id="@+id/tv_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

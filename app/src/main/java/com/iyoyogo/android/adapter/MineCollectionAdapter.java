@@ -91,22 +91,15 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
             Glide.with(context).load(record_list.get(0).getFile_path()).apply(requestOptions).into(holder.img_one);
             Glide.with(context).load(record_list.get(1).getFile_path()).apply(requestOptions).into(holder.img_two);
             Glide.with(context).load(record_list.get(2).getFile_path()).apply(requestOptions).into(holder.img_three);
-            holder.img_four.setVisibility(View.INVISIBLE);
+
         } else if (record_list.size() == 2) {
             Glide.with(context).load(record_list.get(0).getFile_path()).apply(requestOptions).into(holder.img_one);
             Glide.with(context).load(record_list.get(1).getFile_path()).apply(requestOptions).into(holder.img_two);
-            holder.img_three.setVisibility(View.INVISIBLE);
-            holder.img_four.setVisibility(View.INVISIBLE);
+
         } else if (record_list.size() == 1) {
             Glide.with(context).load(record_list.get(0).getFile_path()).apply(requestOptions).into(holder.img_one);
-            holder.img_two.setVisibility(View.INVISIBLE);
-            holder.img_three.setVisibility(View.INVISIBLE);
-            holder.img_four.setVisibility(View.INVISIBLE);
+
         } else {
-            holder.img_one.setVisibility(View.INVISIBLE);
-            holder.img_two.setVisibility(View.INVISIBLE);
-            holder.img_three.setVisibility(View.INVISIBLE);
-            holder.img_four.setVisibility(View.INVISIBLE);
         }
         holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
