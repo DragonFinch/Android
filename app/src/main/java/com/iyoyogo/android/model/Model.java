@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.HisFansBean;
+import com.iyoyogo.android.bean.VipCenterBean;
 import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.collection.AddCollectionBean;
 import com.iyoyogo.android.bean.collection.AddCollectionBean1;
@@ -501,5 +502,9 @@ public class Model {
         return HttpClient.getApiService().dislike(user_id, user_token, yo_id, type)
                 .compose(this.switchThread());
     }
-
+    //用户等级页
+    public Observable<VipCenterBean> setVipCenter(String user_id, String user_token){
+        return HttpClient.getApiService().setVipCenter(user_id, user_token)
+                .compose(this.switchThread());
+    }
 }

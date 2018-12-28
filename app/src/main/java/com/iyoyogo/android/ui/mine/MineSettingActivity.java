@@ -253,20 +253,20 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
         is_mail = address_list;
         if (notice == 1) {
             switchButton1.setChecked(true);
-        } else {
+        } else if (notice == 0) {
             switchButton1.setChecked(false);
         }
         if (address_list == 1) {
             switchButton2.setChecked(true);
-        } else {
+        } else if (address_list == 0) {
             switchButton2.setChecked(false);
         }
-
         if (wifi_auto_play_video == 1) {
             switchButton3.setChecked(true);
-        } else {
+        } else if (wifi_auto_play_video == 0) {
             switchButton3.setChecked(false);
         }
+
     }
 
     @Override
@@ -278,37 +278,46 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
     public void onCheckedChanged(SwitchButton view, boolean isChecked) {
         switch (view.getId()) {
             case R.id.switch_button1:
-                if (is_notice == 1) {
-                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, 0, is_mail);
-//                    mPresenter.getMineSetting(user_id, user_token);
-                    Log.e("is_notice", "选中");
-                } else {
+                if (isChecked){
                     mPresenter.setMineSetting(user_id, user_token, is_autoPlay, 1, is_mail);
-//                    mPresenter.getMineSetting(user_id, user_token);
-                    Log.e("is_notice", "no选中");
+                }else {
+                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, 0, is_mail);
                 }
+//                if (is_notice == 1) {
+//                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, 1, is_mail);
+//                    Log.e("is_notice", "选中");
+//                } else if (is_notice == 0) {
+//                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, 0, is_mail);
+//                    Log.e("is_notice", "no选中");
+//                }
                 break;
             case R.id.switch_button2:
-                if (is_mail == 1) {
+                if (isChecked){
+                    mPresenter.setMineSetting(user_id, user_token,is_autoPlay, is_notice, 1);
+                }else {
                     mPresenter.setMineSetting(user_id, user_token, is_autoPlay, is_notice, 0);
-//                    mPresenter.getMineSetting(user_id, user_token);
-                    Log.e("is_mail", "选中");
-                } else {
-                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, is_notice, 1);
-//                    mPresenter.getMineSetting(user_id, user_token);
-                    Log.e("is_mail", "no选中");
                 }
+//                if (is_mail == 1) {
+//                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, is_notice, 1);
+//                    Log.e("is_mail", "选中");
+//                } else if (is_mail == 0) {
+//                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, is_notice, 0);
+//                    Log.e("is_mail", "no选中");
+//                }
                 break;
             case R.id.switch_button3:
-                if (is_autoPlay == 1) {
+                if (isChecked){
+                    mPresenter.setMineSetting(user_id, user_token,1, is_notice, is_mail);
+                }else {
                     mPresenter.setMineSetting(user_id, user_token, 0, is_notice, is_mail);
-//                    mPresenter.getMineSetting(user_id, user_token);
-                    Log.e("is_autoPlay", "选中");
-                } else {
-                    mPresenter.setMineSetting(user_id, user_token, 1, is_notice, is_mail);
-//                    mPresenter.getMineSetting(user_id, user_token);
-                    Log.e("is_autoPlay", "no选中");
                 }
+//                if (is_autoPlay == 1) {
+//                    mPresenter.setMineSetting(user_id, user_token, 1, is_notice, is_mail);
+//                    Log.e("is_autoPlay", "选中");
+//                } else if (is_autoPlay == 0) {
+//                    mPresenter.setMineSetting(user_id, user_token, 0, is_notice, is_mail);
+//                    Log.e("is_autoPlay", "no选中");
+//                }
                 break;
 
         }
