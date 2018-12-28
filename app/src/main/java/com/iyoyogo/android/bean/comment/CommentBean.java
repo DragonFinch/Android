@@ -2,6 +2,7 @@ package com.iyoyogo.android.bean.comment;
 
 import com.iyoyogo.android.bean.BaseBean;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class CommentBean extends BaseBean {
@@ -31,7 +32,7 @@ public class CommentBean extends BaseBean {
             this.list = list;
         }
 
-        public static class ListBean {
+        public static class ListBean implements Serializable {
             /**
              * id : 12271
              * pid : 0

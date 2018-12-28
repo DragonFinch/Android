@@ -145,11 +145,15 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
                     .apply(requestOptions)
                     .into(holder.imageView);
         }
-
+        RequestOptions requestOption = new RequestOptions();
+        requestOption.placeholder(R.mipmap.default_touxiang);
+        requestOption.error(R.mipmap.default_touxiang);
        if (mList.get(position).getUser_logo().equals("")){
-           Glide.with(context).load(R.mipmap.default_touxiang).into(holder.user_icon);
+           Glide.with(context).load(R.mipmap.default_touxiang)
+                   .apply(requestOption)
+                   .into(holder.user_icon);
        }else {
-           Glide.with(context).load(mList.get(position).getUser_logo()).into(holder.user_icon);
+           Glide.with(context).load(mList.get(position).getUser_logo()) .apply(requestOption).into(holder.user_icon);
        }
         holder.user_name.setText(mList.get(position).getUser_nickname());
         holder.num_like.setText(mList.get(position).getCount_praise() + "");

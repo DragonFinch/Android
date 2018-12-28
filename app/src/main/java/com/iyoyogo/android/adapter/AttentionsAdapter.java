@@ -3,8 +3,6 @@ package com.iyoyogo.android.adapter;
 
 import android.graphics.Color;
 import android.support.annotation.Nullable;
-import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -29,8 +27,8 @@ public class AttentionsAdapter extends BaseQuickAdapter<AttentionsBean.DataBean.
     @Override
     protected void convert(BaseViewHolder helper, AttentionsBean.DataBean.ListBean item) {
         helper.setText(R.id.user_nickname, item.getUser_nickname());
-        helper.setText(R.id.count_yoj, item.getCount_yoj());
-        helper.setText(R.id.count_yox, item.getCount_yox());
+        helper.setText(R.id.count_yoj, item.getCount_yoj()+"");
+        helper.setText(R.id.count_yox, item.getCount_yox()+"");
         Glide.with(mContext).load(item.getUser_logo()).into((CircleImageView) helper.getView(R.id.user_logo));
         TextView btu_guanzhu = helper.getView(R.id.tv_guanzhu);
         int status = item.getStatus();

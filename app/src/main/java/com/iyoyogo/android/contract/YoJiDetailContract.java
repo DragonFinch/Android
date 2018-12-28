@@ -21,7 +21,6 @@ public interface YoJiDetailContract {
 
         void createFolderSuccess(BaseBean baseBean);
 
-
         void addCollectionSuccess(AddCollectionBean.DataBean data);
 
         void deleteCollectionSuccess(BaseBean baseBean);

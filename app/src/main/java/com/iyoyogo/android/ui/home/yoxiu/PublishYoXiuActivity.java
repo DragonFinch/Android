@@ -62,7 +62,9 @@ import com.iyoyogo.android.widget.REditText;
 import com.luck.picture.lib.entity.LocalMedia;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -267,6 +269,8 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
         }
 
         path = intent.getStringExtra("path");
+            uploadYoXiuImage();
+
         Log.d("PublishYoXiuActivity", path);
         Glide.with(this).load(path).into(editVideoId);
         mMedia = new LocalMedia();
@@ -493,11 +497,10 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
         tv_message_three.setText("棒棒嗒~");
     }
     private String uploadYoXiuImage() {
-
         final String endpoint = "oss-cn-beijing.aliyuncs.com";
-        final String bucketName = "xzdtest";
-        final String accessKeyId = "LTAInRzzjv0TZcA5";
-        final String accessKeySecret = "jQZXJDYzAU7Ki0DfZvfIoU3PxazsLy";
+        final String bucketName = "iyoyogo";
+        final String accessKeyId = "LTAIql2brWD0qbEN";
+        final String accessKeySecret = "C74lDBcL1AqzEdIvHZkYMJlSNmRtby";
         OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(accessKeyId, accessKeySecret);
         ClientConfiguration conf = new ClientConfiguration();
         conf.setConnectionTimeout(15 * 1000);
@@ -507,13 +510,26 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
         OSSClient ossClient = new OSSClient(PublishYoXiuActivity.this, endpoint, credentialProvider, conf);
         ObjectMetadata objectMeta = new ObjectMetadata();
         objectMeta.setContentType("image/jpeg");
-        String name = "yoyogo/yoxiu/image" + System.currentTimeMillis() + ".jpg";
+        int min=10000;
+        int max=99999;
+        Calendar calendar = Calendar.getInstance();
+//获取系统的日期
+//年
+        int year = calendar.get(Calendar.YEAR);
+//月
+        int month = calendar.get(Calendar.MONTH)+1;
+//日
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        Random random = new Random();
+        int num = random.nextInt(max)%(max-min+1) + min;
+        String name =user_id+"/yox/"+year+"/"+month+"/"+day+"/" + System.currentTimeMillis() + num + ".jpg";
         PutObjectRequest put = new PutObjectRequest(bucketName, name, path);
         put.setMetadata(objectMeta);
         try {
             PutObjectResult result = ossClient.putObject(put);
             if (result != null && result.getStatusCode() == 200) {
-                url = "https://" + bucketName + "." + endpoint + "/" + name;
+                url = "http://" + bucketName + "." + endpoint + "/" + name;
                 Log.d("PublishYoXiuActivity", url);
             }
         } catch (ClientException e) {
@@ -525,27 +541,52 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
     }
 
     private String uploadYoXiuVideo() {
-
+/*
+'aliyun_oss' => [
+        'accessid'  => 'LTAInRzzjv0TZcA5',
+        'accesskey' => 'jQZXJDYzAU7Ki0DfZvfIoU3PxazsLy',
+        'host'      => 'http://xzdtest.oss-cn-beijing.aliyuncs.com',
+        'dirname'   => 'xzdtest',
+    ],
+* 'accessid'  => 'LTAIql2brWD0qbEN',
+        'accesskey' => 'C74lDBcL1AqzEdIvHZkYMJlSNmRtby',
+        'host'      => 'http://iyoyogo.oss-cn-beijing.aliyuncs.com',*/
+       /* 'accessid'  => 'LTAIql2brWD0qbEN',
+                'accesskey' => 'C74lDBcL1AqzEdIvHZkYMJlSNmRtby',
+                'host'      => 'http://iyoyogo.oss-cn-beijing.aliyuncs.com',*/
         final String endpoint = "oss-cn-beijing.aliyuncs.com";
-        final String bucketName = "xzdtest";
-        final String accessKeyId = "LTAInRzzjv0TZcA5";
-        final String accessKeySecret = "jQZXJDYzAU7Ki0DfZvfIoU3PxazsLy";
+        final String bucketName = "iyoyogo";
+        final String accessKeyId = "LTAIql2brWD0qbEN";
+        final String accessKeySecret = "C74lDBcL1AqzEdIvHZkYMJlSNmRtby";
         OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(accessKeyId, accessKeySecret);
         ClientConfiguration conf = new ClientConfiguration();
         conf.setConnectionTimeout(15 * 1000);
         conf.setSocketTimeout(15 * 1000);
         conf.setMaxConcurrentRequest(8);
+        int min=10000;
+        int max=99999;
+        Calendar calendar = Calendar.getInstance();
+//获取系统的日期
+//年
+        int year = calendar.get(Calendar.YEAR);
+//月
+        int month = calendar.get(Calendar.MONTH)+1;
+//日
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        Random random = new Random();
+        int num = random.nextInt(max)%(max-min+1) + min;
         conf.setMaxErrorRetry(2);
         OSSClient ossClient = new OSSClient(PublishYoXiuActivity.this, endpoint, credentialProvider, conf);
         ObjectMetadata objectMeta = new ObjectMetadata();
-        objectMeta.setContentType("image/jpeg");
-        String name = "yoyogo/yoxiu/video" + System.currentTimeMillis() + ".mp4";
+        objectMeta.setContentType("video/mpeg4");
+        String name = user_id+"/yox_video/"+year+"/"+month+"/"+day+"/" + System.currentTimeMillis() + num + ".mp4";
         PutObjectRequest put = new PutObjectRequest(bucketName, name, path);
         put.setMetadata(objectMeta);
         try {
             PutObjectResult result = ossClient.putObject(put);
             if (result != null && result.getStatusCode() == 200) {
-                url = "https://" + bucketName + "." + endpoint + "/" + name;
+                url = "http://" + bucketName + "." + endpoint + "/" + name;
                 Log.d("PublishYoXiuActivity", url);
             }
         } catch (ClientException e) {

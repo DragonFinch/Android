@@ -190,6 +190,14 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
             }
         });
+        editComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editComment.setFocusable(true);
+                editComment.setFocusableInTouchMode(true);
+                editComment.requestFocus();
+            }
+        });
     }
 
     @Override
@@ -424,7 +432,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                 }*/
                 mPresenter.getDetail(user_id, user_token, id);
 
-                    mPresenter.addAttention(user_id, user_token, yo_attention_id);
+                mPresenter.addAttention(user_id, user_token, yo_attention_id);
 //                    Log.d("YoXiuDetailActivity", target_id);
 
                 break;
@@ -553,6 +561,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     public void getDetailSuccess(YoXiuDetailBean.DataBean data) {
         initPopup();
         yo_id = data.getId();
+        tvComment.setText("评论" + "(" + data.getCount_comment() + ")");
         collection_list = new ArrayList<>();
         collection_list.add(data);
         yo_user_id = data.getId();
@@ -590,7 +599,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         }
         ViewGroup.LayoutParams layoutParams = imgLogo.getLayoutParams();
         int width = layoutParams.width;
-        requestOptions.placeholder(R.mipmap.default_ic);
+        requestOptions.placeholder(R.mipmap.default_ic).error(R.mipmap.default_ic);
         Glide.with(this).load(path)
                 .apply(requestOptions)
                 .into(imgLogo);
@@ -601,7 +610,9 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
             imgVideo.setVisibility(View.GONE);
         }
         String user_logo = data.getUser_logo();
-        Glide.with(this).load(user_logo).into(imgUserIcon);
+        RequestOptions requestOption = new RequestOptions();
+        requestOption.error(R.mipmap.default_touxiang).placeholder(R.mipmap.default_touxiang);
+        Glide.with(this).load(user_logo).apply(requestOption).into(imgUserIcon);
         String position_name = data.getPosition_name();
         tvDesc.setText(position_name);
         String user_nickname = data.getUser_nickname();
@@ -695,7 +706,14 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
         List<CommentBean.DataBean.ListBean> list = data.getList();
         List<CommentBean.DataBean.ListBean> commentList = new ArrayList<>();
-        commentList.addAll(list);
+        if (list.size() > 5) {
+            for (int i = 0; i < 5; i++) {
+                commentList.add(list.get(i));
+            }
+        } else {
+            commentList.addAll(list);
+
+        }
         if (commentList.size() > 0) {
             tvMoreComment.setVisibility(View.VISIBLE);
             recyclerComment.setVisibility(View.VISIBLE);
@@ -716,7 +734,12 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         recyclerComment.setLayoutManager(linearLayoutManager);
         yoXiuDetailAdapter = new YoXiuDetailAdapter(YoXiuDetailActivity.this, commentList);
         recyclerComment.setAdapter(yoXiuDetailAdapter);
-
+        yoXiuDetailAdapter.setDeleteOnClickListener(new YoXiuDetailAdapter.DeleteOnClickListener() {
+            @Override
+            public void delete() {
+                mPresenter.getCommentList(user_id,user_token,1,id,0);
+            }
+        });
     }
 
 
@@ -774,9 +797,9 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                 }*/
                 int folder_id = mList.get(position).getFolder_id();
                 mPresenter.getDetail(user_id, user_token, id);
-                    Log.d("YoXiuDetailActivity", "folder_id:" + folder_id);
-                    Log.d("YoXiuDetailActivity", "yo_user_id:" + yo_user_id);
-                    mPresenter.addCollection(user_id, user_token, folder_id, yo_user_id);
+                Log.d("YoXiuDetailActivity", "folder_id:" + folder_id);
+                Log.d("YoXiuDetailActivity", "yo_user_id:" + yo_user_id);
+                mPresenter.addCollection(user_id, user_token, folder_id, yo_user_id);
 //                    Log.d("YoXiuDetailActivity", target_id);
                 popup.dismiss();
 

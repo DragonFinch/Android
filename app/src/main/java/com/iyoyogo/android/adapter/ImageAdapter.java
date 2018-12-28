@@ -174,6 +174,7 @@ public class ImageAdapter extends BaseRecyclerAdapter {
 
                         Glide.with(context).load(ImagePickAction.getVideoThumb(mMedia.getPath(), 1)).into(imgPicture);
                         videoDuration.setVisibility(View.VISIBLE);
+                        videoPlay.setVisibility(View.VISIBLE);
                         long duration =listImage.get(position).getDuration();
 
                         String s = generateTime(duration);

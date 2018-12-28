@@ -85,8 +85,7 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
         data.addAll(list);
 
 //        MyOnItemClickListener listener = new MyOnItemClickListener();
-        adapter = new InterestsAdapter(LikePrefencesActivity.this,data);
-
+        adapter = new InterestsAdapter(LikePrefencesActivity.this, data);
 
 
         gv_interest.setAdapter(adapter);
@@ -160,36 +159,49 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
 
             case R.id.confirm_btn:
                 List<Integer> integerList = adapter.selectPhoto();
-                int size = integerList.size();
-                Integer[] integers = integerList.toArray(new Integer[size]);
-                for (int i = 0; i < integers.length; i++) {
-                    Log.d("AAA", "integers[i]:" + integers[i]);
-                }
-                if (type == 6) {
-                    ArrayList<String> strings = adapter.selectInterest();
-                    Intent intent = new Intent();
-                    intent.putStringArrayListExtra("interestList", strings);
-                    for (int i = 0; i < strings.size(); i++) {
-                        Log.d("LikePrefencesActivity", "interestList" + strings.get(i));
+                if (integerList != null) {
+                    int size = integerList.size();
+                    Integer[] integers = integerList.toArray(new Integer[size]);
+                    for (int i = 0; i < integers.length; i++) {
+                        Log.d("AAA", "integers[i]:" + integers[i]);
                     }
-                    setResult(4, intent);
-                    finish();
-                } else {
-                    if (array.length < 3 && array == null) {
-                        Toast.makeText(this, "亲，兴趣少于三条哦", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Log.d("LikePrefencesActivity", "array.length:" + array.length);
-                        Integer[] objects = (Integer[]) ifRepeat(array);
-                        for (int i = 0; i < objects.length; i++) {
-                            Log.d("LikePrefencesActivity", "objects[i]:" + objects[i]);
+                    if (type == 6) {
+                        ArrayList<String> strings = adapter.selectInterest();
+                        Intent intent = new Intent();
+                        intent.putStringArrayListExtra("interestList", strings);
+                        for (int i = 0; i < strings.size(); i++) {
+                            Log.d("LikePrefencesActivity", "interestList" + strings.get(i));
                         }
-                        mPresenter.addInterest(integers, user_id, user_token);
+                        setResult(4, intent);
+                        finish();
+                    } else {
+                        if (integers.length < 3) {
+                            Toast.makeText(this, "亲，兴趣少于三条哦", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.d("LikePrefencesActivity", "array.length:" + integers.length);
+                            Integer[] objects = (Integer[]) ifRepeat(integers);
+                            for (int i = 0; i < objects.length; i++) {
+                                Log.d("LikePrefencesActivity", "objects[i]:" + objects[i]);
+                            }
+                            mPresenter.addInterest(integers, user_id, user_token);
+                        }
                     }
+                } else {
+
                 }
+
                 break;
         }
     }
     /**
      * Item选则事件的监听类
      */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        List<Integer> integerList = adapter.selectPhoto();
+        if (integerList!=null){
+            integerList.clear();
+        }
+    }
 }

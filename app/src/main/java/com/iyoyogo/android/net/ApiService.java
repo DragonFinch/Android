@@ -28,6 +28,7 @@ import com.iyoyogo.android.bean.mine.MineMessageBean;
 import com.iyoyogo.android.bean.mine.PraiseBean;
 import com.iyoyogo.android.bean.mine.center.UserCenterBean;
 import com.iyoyogo.android.bean.mine.center.YoJiContentBean;
+import com.iyoyogo.android.bean.mine.center.YoXiuContentBean;
 import com.iyoyogo.android.bean.mine.message.MessageBean;
 import com.iyoyogo.android.bean.mine.message.MessageCenterBean;
 import com.iyoyogo.android.bean.mine.message.ReadMessage;
@@ -591,7 +592,13 @@ public interface ApiService {
                                        @Field("his_id") String his_id,
                                        @Field("page") String page,
                                        @Field("page_size") String page_size);
+    @POST("index.php/api/userhome/get_his_yox_list")
+    @FormUrlEncoded
+    Observable<YoXiuContentBean> getYoXiuContent(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("his_id") String his_id, @Field("page") String page, @Field("page_size") String page_size);
 
+@POST("index.php/api/yo/delete")
+    @FormUrlEncoded
+    Observable<BaseBean> deleteYo(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("yo_id")int yo_id);
     //用户等级页
     @POST("index.php/api/userlevel/get")
     @FormUrlEncoded

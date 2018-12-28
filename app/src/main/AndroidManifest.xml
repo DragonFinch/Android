@@ -125,8 +125,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!--读取权限-->
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <!-- 读取权限 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:name=".app.App"
@@ -157,7 +157,6 @@
             android:name="design_height_in_dp"
             android:value="667" />
 
-        <activity android:name=".ui.mine.collection.DefaultCollectionActivity" />
         <activity android:name=".ui.mine.collection.CreateCollectionFolderActivity" />
         <activity android:name=".ui.mine.homepage.Message_center_Activity" />
         <activity android:name=".ui.mine.homepage.Like_me_Activity" />
@@ -176,28 +175,32 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".BadgeActivity"></activity>
         <activity android:name=".ui.common.WelcomeActivity" />
-        <activity android:name=".ui.common.MainActivity"
-            android:launchMode="singleTask"
-            />
+        <activity
+            android:name=".ui.common.MainActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".ui.common.CaptureActivity" />
         <activity android:name=".camera.edit.clipEdit.trim.TrimActivity" />
+
         <service
             android:name=".ui.receive.UpdateService"
             android:exported="false" />
+
         <receiver
             android:name=".ui.receive.MyReceiver"
-            android:exported="false"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!--Required  用户注册SDK的intent-->
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required  用户接收SDK消息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!--Required  用户接收SDK通知栏信息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!--Required  用户打开自定义通知栏的intent-->
-                <action android:name="cn.jpush.android.intent.CONNECTION" /><!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!-- Required  用户注册SDK的intent -->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!-- Required  用户接收SDK消息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!-- Required  用户接收SDK通知栏信息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!-- Required  用户打开自定义通知栏的intent -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" /> <!-- 接收网络变化 连接/断开 since 1.6.3 -->
                 <category android:name="com.iyoyogo.android" />
             </intent-filter>
         </receiver>
+
         <activity
             android:name=".ui.common.EmptyActivity"
             android:theme="@style/LuncherActivityTheme" />
@@ -333,7 +336,9 @@
         <activity android:name=".ui.common.WebActivity" />
         <activity android:name=".ui.common.ResultActivity" />
         <activity android:name=".ui.common.LoginActivity" />
-        <activity android:name=".ui.common.LikePrefencesActivity" />
+        <activity android:name=".ui.common.LikePrefencesActivity" >
+
+        </activity>
         <activity
             android:name="com.umeng.socialize.editorpage.ShareActivity"
             android:excludeFromRecents="true"
@@ -418,9 +423,9 @@
         <activity android:name=".ui.home.yoji.ChooseSignActivity" />
         <activity android:name=".ui.mine.draft.DraftActivity" />
         <activity android:name=".ui.mine.message.MessageDetailActivity" />
-        <activity android:name=".ui.mine.draft.DraftActivity" />
         <activity android:name=".ui.mine.AddCollectionActivity" />
         <activity android:name=".ui.mine.homepage.AddressBookFriendsActivity" />
+        <activity android:name=".ui.home.yoji.ReplyDiscussActivity"></activity>
         <activity android:name=".ui.mine.homepage.MyFollowActivity" />
         <activity android:name=".ui.mine.homepage.HisFansActivity" />
         <activity android:name=".ui.mine.homepage.UserFansActivity" />

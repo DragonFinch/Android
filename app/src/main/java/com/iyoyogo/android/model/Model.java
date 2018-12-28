@@ -30,6 +30,7 @@ import com.iyoyogo.android.bean.mine.MineMessageBean;
 import com.iyoyogo.android.bean.mine.PraiseBean;
 import com.iyoyogo.android.bean.mine.center.UserCenterBean;
 import com.iyoyogo.android.bean.mine.center.YoJiContentBean;
+import com.iyoyogo.android.bean.mine.center.YoXiuContentBean;
 import com.iyoyogo.android.bean.mine.message.MessageBean;
 import com.iyoyogo.android.bean.mine.message.MessageCenterBean;
 import com.iyoyogo.android.bean.mine.message.ReadMessage;
@@ -507,4 +508,13 @@ public class Model {
         return HttpClient.getApiService().setVipCenter(user_id, user_token)
                 .compose(this.switchThread());
     }
+    public Observable<YoXiuContentBean> getYoXiuContent(String user_id, String user_token, String his_id, String page, String page_size) {
+        return HttpClient.getApiService().getYoXiuContent(user_id, user_token, his_id, page, page_size)
+                .compose(this.switchThread());
+    }
+    public Observable<BaseBean> deleteYo(String user_id,String user_token,int yo_id){
+        return HttpClient.getApiService().deleteYo(user_id, user_token, yo_id)
+                .compose(this.switchThread());
+    }
+
 }

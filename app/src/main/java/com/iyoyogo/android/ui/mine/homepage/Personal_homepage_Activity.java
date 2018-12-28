@@ -3,22 +3,23 @@ package com.iyoyogo.android.ui.mine.homepage;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
-import com.iyoyogo.android.adapter.MineFragmentAdapter;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.mine.center.UserCenterBean;
 import com.iyoyogo.android.contract.PersonalCenterContract;
 import com.iyoyogo.android.presenter.PersonalCenterPresenter;
-import com.iyoyogo.android.ui.mine.AddCollectionActivity;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 
@@ -31,6 +32,7 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
@@ -61,10 +63,19 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
     TextView tvStar;
     @BindView(R.id.tv_city)
     TextView tvCity;
-    @BindView(R.id.tab)
-    TabLayout tab;
-    @BindView(R.id.personal_vp_id)
-    ViewPager personalVpId;
+    @BindView(R.id.my_collection)
+    LinearLayout myCollection;
+    @BindView(R.id.get_hisFans)
+    LinearLayout getHisFans;
+    @BindView(R.id.rb_yoji)
+    RadioButton rbYoji;
+    @BindView(R.id.rb_yoxiu)
+    RadioButton rbYoxiu;
+    @BindView(R.id.group)
+    RadioGroup group;
+    @BindView(R.id.frame_container)
+    FrameLayout frameContainer;
+
     private String user_id;
     private String user_token;
     private int age;
@@ -161,18 +172,37 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
         Bundle bundle = new Bundle();
         bundle.putString("yo_user_id", yo_user_id);
         yoJiFragment.setArguments(bundle);
+        yoXiuFragment.setArguments(bundle);
         fragments.add(yoJiFragment);
         fragments.add(yoXiuFragment);
+        switchFragment(yoJiFragment);
+        rbYoji.setText(getResources().getString(R.string.yoji) + "  " + data.getCount_yoj());
+        rbYoxiu.setText(getResources().getString(R.string.yoxiu) + "  " + data.getCount_yox());
         List<String> titles = new ArrayList<>();
-        Glide.with(this).load(data.getUser_logo()).into(imgUserIcon);
-
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.mipmap.default_touxiang)
+                .error(R.mipmap.default_touxiang);
+        Glide.with(this).load(data.getUser_logo()).apply(requestOptions).into(imgUserIcon);
+        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_yoji:
+                        switchFragment(yoJiFragment);
+                        break;
+                    case R.id.rb_yoxiu:
+                        switchFragment(yoXiuFragment);
+                        break;
+                }
+            }
+        });
         String user_sex = data.getUser_sex();
         String user_birthday = data.getUser_birthday();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date date = df.parse(user_birthday);
             age = getAge(date);
-            tvAge.setText(age + "");
+            tvAge.setText(age + "岁");
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -182,7 +212,7 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
 
         if (user_sex.equals("男")) {
             Drawable nan_xuanzhong = getResources().getDrawable(
-                    R.mipmap.nan_xuanzhong);
+                    R.mipmap.nv_wxz);
 
             tvAge.setCompoundDrawablesWithIntrinsicBounds(nan_xuanzhong,
                     null, null, null);
@@ -198,10 +228,24 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
         tvCollectionCount.setText(data.getCount_collect() + "");
         tvFansCount.setText(data.getCount_fans() + "");
         tvCity.setText(data.getUser_city());
-        titles.add(getResources().getString(R.string.yoji) + "  " + data.getCount_yoj());
+
+      /*  titles.add(getResources().getString(R.string.yoji) + "  " + data.getCount_yoj());
         titles.add(getResources().getString(R.string.yoxiu) + "  " + data.getCount_yox());
         MineFragmentAdapter mineFragmentAdapter = new MineFragmentAdapter(getSupportFragmentManager(), fragments, titles);
         personalVpId.setAdapter(mineFragmentAdapter);
-        tab.setupWithViewPager(personalVpId);
+        tab.setupWithViewPager(personalVpId);*/
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
+    private void switchFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_container, fragment)
+                .commitAllowingStateLoss();
     }
 }

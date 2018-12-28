@@ -66,7 +66,9 @@ import com.iyoyogo.android.widget.flow.TagFlowLayout;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -159,8 +161,8 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     private String district;
     private double latitude;
     private double longitude;
-    private MessageBean messageBean1=new MessageBean();
-    private MessageBean publishYoJiRequest=new MessageBean();
+    private MessageBean messageBean1 = new MessageBean();
+    private MessageBean publishYoJiRequest = new MessageBean();
 
     @Override
     protected int getLayoutId() {
@@ -368,9 +370,9 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
             @Override
             public void onImageEditClickListener(int position, PublishYoJiAdapter.ViewHolder holder) {
-                Intent intent1 = new Intent(getApplicationContext(),ImagesPreviewActivity.class);
+                Intent intent1 = new Intent(getApplicationContext(), ImagesPreviewActivity.class);
 
-                startActivityForResult(intent1,1);
+                startActivityForResult(intent1, 1);
             }
         });
        /* etContent.setOnTouchListener(new View.OnTouchListener() {
@@ -432,7 +434,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
     }
 
-    private ArrayList<String>  ossUpload(final ArrayList<String> urls) {
+    private ArrayList<String> ossUpload(final ArrayList<String> urls) {
 
         if (urls.size() <= 0) {
             // 文件全部上传完毕，这里编写上传结束的逻辑，如果要在主线程操作，最好用Handler或runOnUiThead做对应逻辑
@@ -466,11 +468,25 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
 
          * */
-        String name = "yoyogo/yoji/image" + System.currentTimeMillis() + ".jpg";
-        final String bucketName = "xzdtest";
-        final String accessKeyId = "LTAInRzzjv0TZcA5";
-        final String accessKeySecret = "jQZXJDYzAU7Ki0DfZvfIoU3PxazsLy";
         final String endpoint = "oss-cn-beijing.aliyuncs.com";
+        final String bucketName = "iyoyogo";
+        final String accessKeyId = "LTAIql2brWD0qbEN";
+        final String accessKeySecret = "C74lDBcL1AqzEdIvHZkYMJlSNmRtby";
+        int min = 10000;
+        int max = 99999;
+        Calendar calendar = Calendar.getInstance();
+//获取系统的日期
+//年
+        int year = calendar.get(Calendar.YEAR);
+//月
+        int month = calendar.get(Calendar.MONTH) + 1;
+//日
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        Random random = new Random();
+        int num = random.nextInt(max) % (max - min + 1) + min;
+        String name = user_id + "/yoj/" + year + "/" + month + "/" + day + "/" + System.currentTimeMillis() + num + ".jpg";
+
         final String objectKey = "alioss_" + System.currentTimeMillis() + fileSuffix;
 
         // 下面3个参数依次为bucket名，ObjectKey名，上传文件路径
@@ -605,10 +621,6 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
             messageBean1.setPosition_address(place);
 
 
-
-
-
-
             location_tv.setText(place1);
         }
         if (requestCode == 1 && resultCode == 55) {
@@ -666,8 +678,8 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                 int label_id = sign_list.get(i).getLabel_id();
                 label_ids.add(label_id);
             }
-                publishYoJiRequest.setLabel_ids(label_ids);
-                messageBean1.setLabel_ids(label_ids);
+            publishYoJiRequest.setLabel_ids(label_ids);
+            messageBean1.setLabel_ids(label_ids);
 
         }
 
@@ -690,9 +702,9 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                 Log.d("PublishYoJiActivity", path_list.get(i));
             }
 
-                    ArrayList<String> strings = ossUpload(path_list);
-                    messageBean1.setLogos(strings);
-                    list.add(messageBean1);
+            ArrayList<String> strings = ossUpload(path_list);
+            messageBean1.setLogos(strings);
+            list.add(messageBean1);
             publishYoJiAdapter.addData(index, messageBean1);
         }
     }
@@ -785,7 +797,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         return urls;
     }
 
-    @OnClick({R.id.back_img, R.id.tv_add_cover, R.id.more_topic, R.id.next, R.id.tv_publish,R.id.relative_recycler})
+    @OnClick({R.id.back_img, R.id.tv_add_cover, R.id.more_topic, R.id.next, R.id.tv_publish, R.id.relative_recycler})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.relative_recycler:
@@ -818,7 +830,6 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                     Log.d("PublishYoJiActivity", urls.get(i));
                 }
                 Log.d("PublishYoJiActivity", mList.toString());
-
 
 
                 String json = new Gson().toJson(list);

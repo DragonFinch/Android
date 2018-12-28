@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,8 +18,6 @@ import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.mine.center.UserCenterBean;
 import com.iyoyogo.android.contract.PersonalCenterContract;
 import com.iyoyogo.android.presenter.PersonalCenterPresenter;
-import com.iyoyogo.android.ui.mine.homepage.HisFansActivity;
-import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.ui.mine.homepage.UserFansActivity;
 import com.iyoyogo.android.ui.mine.homepage.YoJiFragment;
 import com.iyoyogo.android.ui.mine.homepage.YoXiuFragment;
@@ -36,7 +33,6 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Presenter> implements PersonalCenterContract.View {
@@ -138,6 +134,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
         YoJiFragment yoJiFragment = new YoJiFragment();
         Bundle bundle = new Bundle();
         bundle.putString("yo_user_id", yo_user_id);
+        yoXiuFragment.setArguments(bundle);
         yoJiFragment.setArguments(bundle);
         fragments.add(yoJiFragment);
         fragments.add(yoXiuFragment);

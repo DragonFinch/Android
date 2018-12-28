@@ -191,7 +191,7 @@
                                 android:id="@+id/tv_age"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:drawableLeft="@mipmap/nv_xz"
+                                android:drawableLeft="@mipmap/nv_wxz"
                                 android:drawablePadding="@dimen/dp_5"
                                 android:text="@string/sui25"
                                 android:textColor="@color/FFFFFF"
@@ -228,20 +228,43 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/dp_5"
                 android:orientation="vertical">
+<RadioGroup
+    android:background="@color/white"
+    android:id="@+id/group"
+    android:layout_width="match_parent"
+    android:weightSum="2"
+    android:orientation="horizontal"
+    android:layout_height="@dimen/dp_52">
+    <RadioButton
+        android:id="@+id/rb_yoji"
+        android:layout_width="0dp"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:checked="true"
+        android:drawableBottom="@drawable/line_selector"
+        android:layout_height="@dimen/dp_52"
+        android:button="@null"
+        android:text="@string/yoji"
+        />
+    <RadioButton
+        android:id="@+id/rb_yoxiu"
+        android:checked="false"
+        android:drawableBottom="@drawable/line_selector"
+        android:gravity="center"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="@dimen/dp_52"
+        android:button="@null"
+        android:text="@string/yoxiu"
+        />
+</RadioGroup>
 
-
-                <android.support.design.widget.TabLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tab"
-                    />
-
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/personal_vp_id"
+                <FrameLayout
+                    android:id="@+id/frame_container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                </android.support.v4.view.ViewPager>
+                </FrameLayout>
 
             </LinearLayout>
 

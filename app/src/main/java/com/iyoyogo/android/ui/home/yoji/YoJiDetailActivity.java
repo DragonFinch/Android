@@ -35,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.YoJiDetailCommentAdapter;
@@ -303,6 +304,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
             }
         });
         editComment.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
                     if (editComment.getText().toString().length() > 0) {
@@ -318,6 +320,14 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 }
                 return false;
 
+            }
+        });
+        editComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editComment.setFocusable(true);
+                editComment.setFocusableInTouchMode(true);
+                editComment.requestFocus();
             }
         });
     }
@@ -514,6 +524,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     public void getYoJiDetailSuccess(YoJiDetailBean.DataBean data) {
         yo_attention_id = data.getUser_id();
+        tvComment.setText("评论" + "(" + data.getCount_comment() + ")");
         initPopup();
         tvLike.setText(data.getCount_praise() + "");
         tvCollection.setText(data.getCount_collect() + "");
@@ -541,8 +552,10 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
             addAttention.setVisibility(View.GONE);
         }
         String logo = data.getLogo();
-        Glide.with(this).load(data.getUser_logo()).into(userIcon);
-        Glide.with(this).load(data.getUser_logo()).into(imgHead);
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.mipmap.default_touxiang).error(R.mipmap.default_touxiang);
+        Glide.with(this).load(data.getUser_logo()).apply(requestOptions).into(userIcon);
+        Glide.with(this).load(data.getUser_logo()).apply(requestOptions).into(imgHead);
         Glide.with(this).load(logo).into(bg);
         tvUserName.setText(data.getUser_nickname());
         tvUserNickname.setText(data.getUser_nickname());
@@ -551,8 +564,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         tvYoxiuCount.setText(data.getCount_yox() + "");
         tvTimeCreate.setText(data.getCreate_time());
         tvCountSee.setText(data.getCount_view() + "人");
-        tvMoneyPay.setText(data.getCost() + "人/天");
-        tvMoneyPayFold.setText(data.getCost() + "人/天");
+        tvMoneyPay.setText(data.getCost() + "元/人");
+        tvMoneyPayFold.setText(data.getCost() + "元/人");
         tvSpotTime.setText(data.getCount_dates() + "天");
         tvSpotTimeFold.setText(data.getCount_dates() + "天");
         tvAddressStart.setText(data.getP_start());
@@ -757,9 +770,26 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     @Override
     public void getCommentListSuccess(CommentBean.DataBean data) {
-        yoJiDetailCommentAdapter = new YoJiDetailCommentAdapter(YoJiDetailActivity.this, data.getList());
+        List<CommentBean.DataBean.ListBean> list = data.getList();
+        List<CommentBean.DataBean.ListBean> mList = new ArrayList<>();
+
+        if (list.size() < 5) {
+            mList.addAll(list);
+        } else {
+            for (int i = 0; i < 5; i++) {
+                mList.add(list.get(i));
+
+            }
+        }
+        yoJiDetailCommentAdapter = new YoJiDetailCommentAdapter(YoJiDetailActivity.this, mList);
         recyclerComment.setLayoutManager(new LinearLayoutManager(YoJiDetailActivity.this));
         recyclerComment.setAdapter(yoJiDetailCommentAdapter);
+        yoJiDetailCommentAdapter.setDeleteOnClickListener(new YoJiDetailCommentAdapter.DeleteOnClickListener() {
+            @Override
+            public void delete() {
+                mPresenter.getCommentList(user_id,user_token,1,yo_id,0);
+            }
+        });
     }
 
     @Override
@@ -767,6 +797,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         editComment.setText("");
         yoJiDetailCommentAdapter.notifyDataSetChanged();
         comment();
+        mPresenter.getCommentList(user_id, user_token, 1, yo_id, 0);
 
     }
 
@@ -855,11 +886,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     @Override
     public void addAttentionSuccess(AttentionBean.DataBean data) {
-        String target_id = data.getId();
-        add_attention_id = Integer.parseInt(target_id);
-        Log.d("YoXiuDetailActivity", target_id);
         tvAttention.setText("已关注");
-
     }
 
     @Override

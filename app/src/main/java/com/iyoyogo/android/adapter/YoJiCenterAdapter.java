@@ -94,6 +94,7 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
             Glide.with(context).load(mList.get(position).getUser_info().getUser_logo()).into(holder.user_icon);
 
         }
+        holder.tv_num_like.setVisibility(View.GONE);
         holder.user_name.setText(mList.get(position).getUser_info().getUser_nickname());
         holder.title.setText(mList.get(position).getTitle());
         holder.tv_cost.setText(" ￥" + mList.get(position).getCost() + "/人");

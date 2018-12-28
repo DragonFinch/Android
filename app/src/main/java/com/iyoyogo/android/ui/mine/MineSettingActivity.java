@@ -27,7 +27,6 @@ import com.suke.widget.SwitchButton;
 import java.io.File;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MineSettingActivity extends BaseActivity<MineSettingContract.Presenter> implements MineSettingContract.View, SwitchButton.OnCheckedChangeListener {
@@ -114,9 +113,9 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
         mPresenter.getMineSetting(user_id, user_token);
-        switchButton1.setOnCheckedChangeListener(this);
-        switchButton2.setOnCheckedChangeListener(this);
-        switchButton3.setOnCheckedChangeListener(this);
+     switchButton1.setOnCheckedChangeListener(this);
+     switchButton2.setOnCheckedChangeListener(this);
+     switchButton3.setOnCheckedChangeListener(this);
     }
 
     public String packageName(Context context) {
@@ -133,53 +132,14 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
     }
 
     //R.id.switch1, R.id.switch2, R.id.switch3,
-//    R.id.switch_button1, R.id.switch_button2, R.id.switch_button3,
-    @OnClick({R.id.back_iv_id, R.id.user_security, R.id.feed_back, R.id.about_me, R.id.version_name, R.id.clear_cache, R.id.btn_logout})
+//
+    @OnClick({ R.id.switch_button1, R.id.switch_button2, R.id.switch_button3,R.id.back_iv_id, R.id.user_security, R.id.feed_back, R.id.about_me, R.id.version_name, R.id.clear_cache, R.id.btn_logout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_iv_id:
                 finish();
                 break;
-            case R.id.switch_button1:
-               /* if (notice==1){
-                    mPresenter.setMineSetting(user_id,user_token,is_autoPlay,is_notice,is_mail);
-                    mPresenter.getMineSetting(user_id,user_token);
-                }else {
-                    mPresenter.setMineSetting(user_id,user_token,wifi_auto_play_video,notice,address_list);
-                    mPresenter.getMineSetting(user_id,user_token);
-                }*/
-                if (is_notice == 1) {
-                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, 0, is_mail);
-                    mPresenter.getMineSetting(user_id, user_token);
-                    Log.e("is_notice", "选中");
-                } else {
-                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, 1, is_mail);
-                    mPresenter.getMineSetting(user_id, user_token);
-                    Log.e("is_notice", "no选中");
-                }
-                break;
-            case R.id.switch_button2:
-                if (is_mail == 1) {
-                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, is_notice, 0);
-                    mPresenter.getMineSetting(user_id, user_token);
-                    Log.e("is_mail", "选中");
-                } else {
-                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, is_notice, 1);
-                    mPresenter.getMineSetting(user_id, user_token);
-                    Log.e("is_mail", "no选中");
-                }
-                break;
-            case R.id.switch_button3:
-                if (is_autoPlay == 1) {
-                    mPresenter.setMineSetting(user_id, user_token, 0, is_notice, is_mail);
-                    mPresenter.getMineSetting(user_id, user_token);
-                    Log.e("is_autoPlay", "选中");
-                } else {
-                    mPresenter.setMineSetting(user_id, user_token, 1, is_notice, is_mail);
-                    mPresenter.getMineSetting(user_id, user_token);
-                    Log.e("is_autoPlay", "no选中");
-                }
-                break;
+
 
             case R.id.user_security:
                 startActivity(new Intent(MineSettingActivity.this, UserAndSecurityActivity.class));
@@ -210,19 +170,6 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
         }
     }
 
-    public int getLocalVersion(Context ctx) {
-        int localVersion = 0;
-        try {
-            PackageInfo packageInfo = ctx.getApplicationContext()
-                    .getPackageManager()
-                    .getPackageInfo(ctx.getPackageName(), 0);
-            localVersion = packageInfo.versionCode;
-            Log.d("TAG", "本软件的版本号。。" + localVersion);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return localVersion;
-    }
 
     @Override
     protected int getLayoutId() {

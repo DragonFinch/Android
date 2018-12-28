@@ -96,10 +96,10 @@ public class InterestsAdapter  extends BaseAdapter {
 
             }
         });
-        if (mSelectImg.contains(id)){
+       /* if (mSelectImg.contains(id)){
             vh.mImg.setColorFilter(Color.parseColor("#77000000"));
             vh.mSelect.setImageResource(R.mipmap.xz);
-        }
+        }*/
         return convertView;
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources >
     <declare-styleable name="BadgeButton">
         <!-- 徽标文本，为空时显示一个小红点 -->
         <attr name="btnBadgeText" format="string" />
@@ -52,7 +52,7 @@
         <attr name="object_foreground_color" format="color" />
         <attr name="object_background_color" format="color" />
     </declare-styleable>
-    <declare-styleable name="CircleImageView">
+    <declare-styleable name="CircleImageView" >
         <attr name="civ_border_width" format="dimension" />
         <attr name="civ_border_color" format="color" />
         <attr name="civ_border_overlay" format="boolean" />

@@ -22,8 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/img_youxiu"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="@dimen/dp_16"
-        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginRight="18dp"
         android:src="@mipmap/all" />
 
     <android.support.v7.widget.RecyclerView

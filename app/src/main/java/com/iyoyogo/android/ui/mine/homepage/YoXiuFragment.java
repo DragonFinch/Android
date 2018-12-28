@@ -3,28 +3,45 @@ package com.iyoyogo.android.ui.mine.homepage;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.base.BaseFragment;
+import com.iyoyogo.android.bean.mine.center.YoXiuContentBean;
+import com.iyoyogo.android.contract.YoXiuContentContract;
+import com.iyoyogo.android.presenter.YoXiuContentPresenter;
+import com.iyoyogo.android.utils.SpUtils;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class YoXiuFragment extends Fragment {
+public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> implements YoXiuContentContract.View {
 
 
-    public YoXiuFragment() {
-        // Required empty public constructor
-    }
-
+    private String user_id;
+    private String user_token;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_yo_xiu, container, false);
+    protected int getLayoutId() {
+        return R.layout.fragment_yo_xiu;
     }
 
+    @Override
+    protected void initData() {
+        super.initData();
+        Bundle bundle = getArguments();
+        String yo_user_id = bundle.getString("yo_user_id");
+        user_id = SpUtils.getString(getContext(), "user_id", null);
+        user_token = SpUtils.getString(getContext(), "user_token", null);
+        mPresenter.getYoXiuContent(user_id,user_token,yo_user_id,1+"",20+"");
+    }
+
+    @Override
+    protected YoXiuContentContract.Presenter createPresenter() {
+        return new YoXiuContentPresenter(this);
+    }
+
+    @Override
+    public void getYoXiuContentSuccess(YoXiuContentBean.DataBean data) {
+
+    }
 }
