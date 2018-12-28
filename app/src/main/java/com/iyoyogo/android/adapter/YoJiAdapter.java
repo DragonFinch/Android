@@ -86,7 +86,8 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
             @Override
             public void onClick(View v) {
                 int yo_user_id = mList.get(position).getUser_info().getUser_id();
-                Intent intent = new Intent(context, Personal_homepage_Activity.class);
+//                Intent intent = new Intent(context, Personal_homepage_Activity.class);
+                Intent intent = new Intent(context, UserHomepageActivity.class);
                 intent.putExtra("yo_user_id", String.valueOf(yo_user_id));
                 context.startActivity(intent);
             }
