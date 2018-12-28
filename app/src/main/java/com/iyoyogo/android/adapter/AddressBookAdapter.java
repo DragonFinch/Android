@@ -67,7 +67,7 @@ public class AddressBookAdapter extends BaseQuickAdapter<AddressBookBean.DataBea
             btu_guanzhu.setText("互相关注");
             btu_guanzhu.setTextColor(Color.parseColor("#888"));
         }
-        if (item.getUser_id() == 0) {
+        if (item.getUser_id() == 0) {//没有注册的人
             btu_guanzhu.setBackgroundResource(R.drawable.bg_blue);
             btu_guanzhu.setText("邀请");
             btu_guanzhu.setTextColor(Color.parseColor("#5BCBF5"));

@@ -139,10 +139,11 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:name">
         <activity android:name=".ui.mine.homepage.VipCenterActivity" />
-        <service android:name="cn.jpush.android.service.PushService"
+
+        <service
+            android:name="cn.jpush.android.service.PushService"
             android:process=":multiprocess"
-            tools:node="replace" >
-        </service>
+            tools:node="replace" />
         <service android:name="com.amap.api.location.APSService" />
 
         <activity android:name=".ui.mine.collection.CollectionActivity" />
@@ -416,10 +417,14 @@
         <activity android:name=".ui.home.yoji.YoJiDetailActivity" />
         <activity android:name=".ui.home.yoji.ChooseSignActivity" />
         <activity android:name=".ui.mine.draft.DraftActivity" />
-        <activity android:name=".ui.mine.message.MessageDetailActivity"></activity>
+        <activity android:name=".ui.mine.message.MessageDetailActivity" />
         <activity android:name=".ui.mine.draft.DraftActivity" />
         <activity android:name=".ui.mine.AddCollectionActivity" />
-        <activity android:name=".ui.mine.homepage.AddressBookFriendsActivity"></activity>
+        <activity android:name=".ui.mine.homepage.AddressBookFriendsActivity" />
+        <activity android:name=".ui.mine.homepage.MyFollowActivity" />
+        <activity android:name=".ui.mine.homepage.HisFansActivity" />
+        <activity android:name=".ui.mine.homepage.UserFansActivity" />
+        <activity android:name=".ui.home.yoji.UserHomepageActivity"></activity>
     </application>
 
 </manifest>

@@ -28,67 +28,76 @@
     </RelativeLayout>
 
 
-    <ScrollView
+    <!--<ScrollView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="vertical">-->
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginTop="@dimen/sp_15"
+        android:background="@color/white">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                android:layout_marginTop="@dimen/sp_15"
-                android:background="@color/white">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/dp_15"
-                    android:drawableLeft="@mipmap/xiaoxitix"
-                    android:drawablePadding="@dimen/dp_10"
-                    android:gravity="center_vertical"
-                    android:text="@string/newmessage"
-                    android:textColor="@color/c333333" />
-
-                <ImageView
-                    android:id="@+id/new_message_remind"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/dp_15"
-                    android:gravity="center_vertical"
-                    android:src="@mipmap/off" />
-        <Switch
-            android:id="@+id/switch1"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textOn="关"
-            android:textOff="开"
-            android:switchMinWidth="40dp"
-            android:track="@drawable/image_check"
-            android:thumb="@android:color/transparent"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:drawableLeft="@mipmap/xiaoxitix"
+            android:drawablePadding="@dimen/dp_10"
+            android:gravity="center_vertical"
+            android:text="@string/newmessage"
+            android:textColor="@color/c333333" />
+
+        <!--<ImageView-->
+        <!--android:id="@+id/new_message_remind"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginRight="@dimen/dp_15"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:src="@mipmap/off" />-->
+
+        <!--<Switch-->
+        <!--android:id="@+id/switch1"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginRight="@dimen/dp_15"-->
+        <!--android:switchMinWidth="40dp"-->
+        <!--android:textOff="开"-->
+        <!--android:textOn="关"-->
+        <!--android:thumb="@android:color/transparent"-->
+        <!--android:track="@drawable/image_check"/>-->
+        <com.suke.widget.SwitchButton
+            android:id="@+id/switch_button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/dp_15"/>
+            android:layout_marginRight="@dimen/dp15"
+            android:layout_marginTop="8dp"
+            app:sb_checked_color="@color/orgeen_color"/>
 
-            </RelativeLayout>
+    </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:layout_marginLeft="@dimen/dp_15"
-                android:layout_marginRight="@dimen/dp_15"
-                android:background="@color/F1F1F1" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:layout_marginRight="@dimen/dp_15"
+        android:background="@color/F1F1F1" />
 
 
+    <RelativeLayout
 
-            <RelativeLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                android:background="@color/white">
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:background="@color/white"
+        android:focusableInTouchMode="false">
 
         <TextView
             android:layout_width="wrap_content"
@@ -98,253 +107,264 @@
             android:drawablePadding="@dimen/dp_10"
             android:gravity="center_vertical"
             android:text="@string/visit"
-            android:textColor="@color/c333333"
-            />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/dp_15"
-                    android:drawableLeft="@mipmap/tongxunl"
-                    android:drawablePadding="@dimen/dp_10"
-                    android:gravity="center_vertical"
-                    android:text="@string/visit"
-                    android:textColor="@color/c333333" />
+            android:textColor="@color/c333333" />
 
-        <Switch
-            android:id="@+id/switch2"
+        <!--<Switch-->
+            <!--android:id="@+id/switch2"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginRight="@dimen/dp_15"-->
+            <!--android:switchMinWidth="40dp"-->
+            <!--android:textOff="开"-->
+            <!--android:textOn="关"-->
+            <!--android:thumb="@android:color/transparent"-->
+            <!--android:track="@drawable/image_check" />-->
+
+        <com.suke.widget.SwitchButton
+            android:id="@+id/switch_button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp15"
+            android:layout_marginTop="8dp"
+            app:sb_checked_color="@color/orgeen_color"/>
+
+
+        <!--<ImageView-->
+        <!--android:id="@+id/mail_list"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginRight="@dimen/dp_15"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:src="@mipmap/off" />-->
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:layout_marginRight="@dimen/dp_15"
+        android:background="@color/F1F1F1" />
+
+    <RelativeLayout
+        android:id="@+id/auto_play"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:background="@color/white"
+        android:focusableInTouchMode="false">
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textOn="关"
-            android:textOff="开"
-            android:switchMinWidth="40dp"
-            android:track="@drawable/image_check"
-            android:thumb="@android:color/transparent"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:drawableLeft="@mipmap/wifi"
+            android:drawablePadding="@dimen/dp_10"
+            android:gravity="center_vertical"
+            android:text="@string/wifi"
+            android:textColor="@color/c333333" />
+
+        <!--<Switch-->
+            <!--android:id="@+id/switch3"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginRight="@dimen/dp_15"-->
+            <!--android:switchMinWidth="40dp"-->
+            <!--android:textOff="开"-->
+            <!--android:textOn="关"-->
+            <!--android:thumb="@android:color/transparent"-->
+            <!--android:track="@drawable/image_check" />-->
+
+        <com.suke.widget.SwitchButton
+            android:id="@+id/switch_button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/dp_15"/>
+            android:layout_marginRight="@dimen/dp15"
+            android:layout_marginTop="8dp"
+            app:sb_checked_color="@color/orgeen_color"/>
 
-                <ImageView
-                    android:id="@+id/mail_list"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/dp_15"
-                    android:gravity="center_vertical"
-                    android:src="@mipmap/off" />
 
-            </RelativeLayout>
+        <!--<ImageView-->
+        <!--android:id="@+id/imgg_auto_play"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginRight="@dimen/dp_15"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:src="@mipmap/off" />-->
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:layout_marginLeft="@dimen/dp_15"
-                android:layout_marginRight="@dimen/dp_15"
-                android:background="@color/F1F1F1" />
+    </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/auto_play"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                android:background="@color/white">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/dp_15"
-                    android:drawableLeft="@mipmap/wifi"
-                    android:drawablePadding="@dimen/dp_10"
-                    android:gravity="center_vertical"
-                    android:text="@string/wifi"
-                    android:textColor="@color/c333333" />
+    <RelativeLayout
+        android:id="@+id/user_security"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginTop="@dimen/dp_15"
+        android:background="@color/white">
 
-        <Switch
-            android:id="@+id/switch3"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textOn="关"
-            android:textOff="开"
-            android:switchMinWidth="40dp"
-            android:track="@drawable/image_check"
-            android:thumb="@android:color/transparent"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:drawableLeft="@mipmap/zhanquan"
+            android:drawablePadding="@dimen/dp_10"
+            android:gravity="center_vertical"
+            android:text="@string/account"
+            android:textColor="@color/c333333" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/dp_15"/>
-                <ImageView
-                    android:id="@+id/imgg_auto_play"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/dp_15"
-                    android:gravity="center_vertical"
-                    android:src="@mipmap/off" />
+            android:layout_marginRight="@dimen/dp_15"
+            android:gravity="center_vertical"
+            android:src="@mipmap/next" />
 
-            </RelativeLayout>
+    </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:layout_marginRight="@dimen/dp_15"
+        android:background="@color/F1F1F1" />
 
+    <RelativeLayout
+        android:id="@+id/feed_back"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:background="@color/white">
 
-            <RelativeLayout
-                android:id="@+id/user_security"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                android:layout_marginTop="@dimen/dp_15"
-                android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:drawableLeft="@mipmap/wenti"
+            android:drawablePadding="@dimen/dp_10"
+            android:gravity="center_vertical"
+            android:text="@string/opinion"
+            android:textColor="@color/c333333" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/dp_15"
-                    android:drawableLeft="@mipmap/zhanquan"
-                    android:drawablePadding="@dimen/dp_10"
-                    android:gravity="center_vertical"
-                    android:text="@string/account"
-                    android:textColor="@color/c333333" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_15"
+            android:gravity="center_vertical"
+            android:src="@mipmap/next" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/dp_15"
-                    android:gravity="center_vertical"
-                    android:src="@mipmap/next" />
+    </RelativeLayout>
 
-            </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:layout_marginRight="@dimen/dp_15"
+        android:background="@color/F1F1F1" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:layout_marginLeft="@dimen/dp_15"
-                android:layout_marginRight="@dimen/dp_15"
-                android:background="@color/F1F1F1" />
+    <RelativeLayout
+        android:id="@+id/about_me"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:background="@color/white">
 
-            <RelativeLayout
-                android:id="@+id/feed_back"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:drawableLeft="@mipmap/guanyu"
+            android:drawablePadding="@dimen/dp_10"
+            android:gravity="center_vertical"
+            android:text="@string/about"
+            android:textColor="@color/c333333" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/dp_15"
-                    android:drawableLeft="@mipmap/wenti"
-                    android:drawablePadding="@dimen/dp_10"
-                    android:gravity="center_vertical"
-                    android:text="@string/opinion"
-                    android:textColor="@color/c333333" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_15"
+            android:gravity="center_vertical"
+            android:src="@mipmap/next" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/dp_15"
-                    android:gravity="center_vertical"
-                    android:src="@mipmap/next" />
+    </RelativeLayout>
 
-            </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/version_name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginTop="@dimen/dp_15"
+        android:background="@color/white">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:layout_marginLeft="@dimen/dp_15"
-                android:layout_marginRight="@dimen/dp_15"
-                android:background="@color/F1F1F1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:drawableLeft="@mipmap/dangqianban"
+            android:drawablePadding="@dimen/dp_10"
+            android:gravity="center_vertical"
+            android:text="@string/version"
+            android:textColor="@color/c333333" />
 
-            <RelativeLayout
-                android:id="@+id/about_me"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                android:background="@color/white">
+        <TextView
+            android:id="@+id/tv_version_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_15"
+            android:gravity="center_vertical"
+            android:text="@string/versionnumber" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/dp_15"
-                    android:drawableLeft="@mipmap/guanyu"
-                    android:drawablePadding="@dimen/dp_10"
-                    android:gravity="center_vertical"
-                    android:text="@string/about"
-                    android:textColor="@color/c333333" />
+    </RelativeLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/dp_15"
-                    android:gravity="center_vertical"
-                    android:src="@mipmap/next" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:layout_marginRight="@dimen/dp_15"
+        android:background="@color/F1F1F1" />
 
-            </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/clear_cache"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:background="@color/white">
 
-            <RelativeLayout
-                android:id="@+id/version_name"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                android:layout_marginTop="@dimen/dp_15"
-                android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:drawableLeft="@mipmap/qingkong"
+            android:drawablePadding="@dimen/dp_10"
+            android:gravity="center_vertical"
+            android:text="@string/empty"
+            android:textColor="@color/c333333" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/dp_15"
-                    android:drawableLeft="@mipmap/dangqianban"
-                    android:drawablePadding="@dimen/dp_10"
-                    android:gravity="center_vertical"
-                    android:text="@string/version"
-                    android:textColor="@color/c333333" />
+        <TextView
+            android:id="@+id/tv_clear_cache"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_15"
+            android:gravity="center_vertical"
+            android:text="@string/emptyNumber" />
 
-                <TextView
-                    android:id="@+id/tv_version_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/dp_15"
-                    android:gravity="center_vertical"
-                    android:text="@string/versionnumber" />
+    </RelativeLayout>
 
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:layout_marginLeft="@dimen/dp_15"
-                android:layout_marginRight="@dimen/dp_15"
-                android:background="@color/F1F1F1" />
-
-            <RelativeLayout
-                android:id="@+id/clear_cache"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                android:background="@color/white">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/dp_15"
-                    android:drawableLeft="@mipmap/qingkong"
-                    android:drawablePadding="@dimen/dp_10"
-                    android:gravity="center_vertical"
-                    android:text="@string/empty"
-                    android:textColor="@color/c333333" />
-
-                <TextView
-                    android:id="@+id/tv_clear_cache"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/dp_15"
-                    android:gravity="center_vertical"
-                    android:text="@string/emptyNumber" />
-
-            </RelativeLayout>
-
-            <Button
-                android:id="@+id/btn_logout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:background="@color/white"
-                android:text="@string/logout"
-                android:textColor="@color/FA800A" />
-        </LinearLayout>
-    </ScrollView>
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_15"
+        android:background="@color/white"
+        android:text="@string/logout"
+        android:textColor="@color/FA800A" />
+    <!--</LinearLayout>-->
+    <!--</ScrollView>-->
 
 
 </LinearLayout>

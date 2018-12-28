@@ -612,7 +612,13 @@
 
     <string name="tongxunluhaoyou">通讯录好友</string>
     <string name="addbookusername">张小白的小黑</string>
-    <!--<string name="tongxunlu">通讯录：</string>-->
+    <string name="tianjiaguanzhu">添加关注</string>
     <string name="baisuzhen">白素珍</string>
+    <string name="guanzhuderen">关注的人</string>
+    <string name="wuhuangwanshui">wuhuangwanshui</string>
+    <string name="fans">粉丝</string>
+    <string name="his_guanzhu">TA的关注</string>
+    <string name="his_fans">TA的粉丝</string>
+
 
 </resources>

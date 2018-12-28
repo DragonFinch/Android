@@ -1,4 +1,4 @@
-package com.iyoyogo.android.ui.mine.homepage;
+package com.iyoyogo.android.ui.home.yoji;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,7 +19,11 @@ import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.mine.center.UserCenterBean;
 import com.iyoyogo.android.contract.PersonalCenterContract;
 import com.iyoyogo.android.presenter.PersonalCenterPresenter;
-import com.iyoyogo.android.ui.mine.AddCollectionActivity;
+import com.iyoyogo.android.ui.mine.homepage.HisFansActivity;
+import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
+import com.iyoyogo.android.ui.mine.homepage.UserFansActivity;
+import com.iyoyogo.android.ui.mine.homepage.YoJiFragment;
+import com.iyoyogo.android.ui.mine.homepage.YoXiuFragment;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 
@@ -31,14 +36,11 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Presenter> implements PersonalCenterContract.View {
 
-public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContract.Presenter> implements PersonalCenterContract.View {
-
-
-    @BindView(R.id.img_bg)
-    ImageView imgBg;
     @BindView(R.id.img_back)
     ImageView imgBack;
     @BindView(R.id.img_share)
@@ -70,10 +72,19 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
     private int age;
     private String yo_user_id;
 
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_user_homepage;
+    }
 
     protected void initView() {
         super.initView();
         statusbar();
+    }
+
+    @Override
+    protected PersonalCenterContract.Presenter createPresenter() {
+        return new PersonalCenterPresenter(this);
     }
 
     public int getAge(Date birthDay) throws Exception {
@@ -113,45 +124,12 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        user_id = SpUtils.getString(Personal_homepage_Activity.this, "user_id", null);
-        user_token = SpUtils.getString(Personal_homepage_Activity.this, "user_token", null);
+        user_id = SpUtils.getString(UserHomepageActivity.this, "user_id", null);
+        user_token = SpUtils.getString(UserHomepageActivity.this, "user_token", null);
         Intent intent = getIntent();
         yo_user_id = intent.getStringExtra("yo_user_id");
         mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
     }
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_personal_homepage;
-    }
-
-    @Override
-    protected PersonalCenterContract.Presenter createPresenter() {
-        return new PersonalCenterPresenter(this);
-    }
-
-
-    @OnClick({R.id.img_back, R.id.img_share, R.id.my_collection, R.id.get_hisFans})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.img_back:
-                finish();
-                break;
-            case R.id.img_share:
-                break;
-            case R.id.my_collection:
-                Intent intent = new Intent(this, MyFollowActivity.class);
-                intent.putExtra("yo_user_id", yo_user_id);
-                startActivity(intent);
-                break;
-            case R.id.get_hisFans:
-                Intent intent1 = new Intent(this, HisFansActivity.class);
-                intent1.putExtra("yo_user_id", yo_user_id);
-                startActivity(intent1);
-                break;
-        }
-    }
-
 
     @Override
     public void getPersonalCenterSuccess(UserCenterBean.DataBean data) {
@@ -203,5 +181,27 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
         MineFragmentAdapter mineFragmentAdapter = new MineFragmentAdapter(getSupportFragmentManager(), fragments, titles);
         personalVpId.setAdapter(mineFragmentAdapter);
         tab.setupWithViewPager(personalVpId);
+    }
+
+
+    @OnClick({R.id.img_back, R.id.my_collection, R.id.get_hisFans})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.img_back:
+                finish();
+                break;
+            case R.id.my_collection:
+                Intent intent = new Intent(this, UserFansActivity.class);
+                intent.putExtra("id", 1);
+                intent.putExtra("yo_user_id", yo_user_id);
+                startActivity(intent);
+                break;
+            case R.id.get_hisFans:
+                intent = new Intent(this, UserFansActivity.class);
+                intent.putExtra("id", 2);
+                intent.putExtra("yo_user_id", yo_user_id);
+                startActivity(intent);
+                break;
+        }
     }
 }

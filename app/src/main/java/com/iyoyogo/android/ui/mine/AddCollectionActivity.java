@@ -34,6 +34,11 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
         return R.layout.activity_add_collection;
     }
 
+    protected void initView() {
+        super.initView();
+        statusbar();
+    }
+
     @Override
     protected AddCollectionContract.Presenter createPresenter() {
         return new AddCollectionPresenter(this);
@@ -55,12 +60,14 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
         collectionMyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-
-    @OnClick({R.id.add_address_book_friends})
+    @OnClick({R.id.add_address_book_friends, R.id.message_center_back_im_id})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.add_address_book_friends:
-                startActivity(new Intent(this,AddressBookFriendsActivity.class));
+                startActivity(new Intent(this, AddressBookFriendsActivity.class));
+                break;
+            case R.id.message_center_back_im_id:
+                finish();
                 break;
         }
     }

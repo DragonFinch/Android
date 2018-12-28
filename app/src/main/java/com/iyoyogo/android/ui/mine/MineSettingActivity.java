@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.iyoyogo.android.R;
@@ -23,6 +22,7 @@ import com.iyoyogo.android.ui.common.LoginActivity;
 import com.iyoyogo.android.utils.CleanDataUtils;
 import com.iyoyogo.android.utils.DataCleanManager;
 import com.iyoyogo.android.utils.SpUtils;
+import com.suke.widget.SwitchButton;
 
 import java.io.File;
 
@@ -30,18 +30,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MineSettingActivity extends BaseActivity<MineSettingContract.Presenter> implements MineSettingContract.View {
+public class MineSettingActivity extends BaseActivity<MineSettingContract.Presenter> implements MineSettingContract.View, SwitchButton.OnCheckedChangeListener {
 
     @BindView(R.id.back_iv_id)
     ImageView backIvId;
-    @BindView(R.id.new_message_remind)
-    ImageView newMessageRemind;
-    @BindView(R.id.mail_list)
-    ImageView mailList;
-    @BindView(R.id.imgg_auto_play)
-    ImageView imggAutoPlay;
-    @BindView(R.id.auto_play)
-    RelativeLayout autoPlay;
+    //    @BindView(R.id.new_message_remind)
+//    ImageView newMessageRemind;
+//    @BindView(R.id.mail_list)
+//    ImageView mailList;
+//    @BindView(R.id.imgg_auto_play)
+//    ImageView imggAutoPlay;
+//    @BindView(R.id.auto_play)
+//    RelativeLayout autoPlay;
     @BindView(R.id.user_security)
     RelativeLayout userSecurity;
     @BindView(R.id.feed_back)
@@ -58,12 +58,18 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
     RelativeLayout clearCache;
     @BindView(R.id.btn_logout)
     Button btnLogout;
-    @BindView(R.id.switch1)
-    Switch aSwitch;
-    @BindView(R.id.switch2)
-    Switch bSwitch;
-    @BindView(R.id.switch3)
-    Switch cSwitch;
+    @BindView(R.id.switch_button1)
+    SwitchButton switchButton1;
+    @BindView(R.id.switch_button2)
+    SwitchButton switchButton2;
+    @BindView(R.id.switch_button3)
+    SwitchButton switchButton3;
+    //    @BindView(R.id.switch1)
+//    Switch aSwitch;
+//    @BindView(R.id.switch2)
+//    Switch bSwitch;
+//    @BindView(R.id.switch3)
+//    Switch cSwitch;
     private String user_id;
     private String user_token;
     private String address;
@@ -108,6 +114,9 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
         mPresenter.getMineSetting(user_id, user_token);
+        switchButton1.setOnCheckedChangeListener(this);
+        switchButton2.setOnCheckedChangeListener(this);
+        switchButton3.setOnCheckedChangeListener(this);
     }
 
     public String packageName(Context context) {
@@ -123,13 +132,15 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
         return name;
     }
 
-    @OnClick({R.id.switch1, R.id.switch2, R.id.switch3, R.id.back_iv_id, R.id.user_security, R.id.feed_back, R.id.about_me, R.id.version_name, R.id.clear_cache, R.id.btn_logout})
+    //R.id.switch1, R.id.switch2, R.id.switch3,
+//    R.id.switch_button1, R.id.switch_button2, R.id.switch_button3,
+    @OnClick({R.id.back_iv_id, R.id.user_security, R.id.feed_back, R.id.about_me, R.id.version_name, R.id.clear_cache, R.id.btn_logout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_iv_id:
                 finish();
                 break;
-            case R.id.switch1:
+            case R.id.switch_button1:
                /* if (notice==1){
                     mPresenter.setMineSetting(user_id,user_token,is_autoPlay,is_notice,is_mail);
                     mPresenter.getMineSetting(user_id,user_token);
@@ -137,31 +148,36 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
                     mPresenter.setMineSetting(user_id,user_token,wifi_auto_play_video,notice,address_list);
                     mPresenter.getMineSetting(user_id,user_token);
                 }*/
-
                 if (is_notice == 1) {
                     mPresenter.setMineSetting(user_id, user_token, is_autoPlay, 0, is_mail);
                     mPresenter.getMineSetting(user_id, user_token);
+                    Log.e("is_notice", "选中");
                 } else {
                     mPresenter.setMineSetting(user_id, user_token, is_autoPlay, 1, is_mail);
                     mPresenter.getMineSetting(user_id, user_token);
+                    Log.e("is_notice", "no选中");
                 }
                 break;
-            case R.id.switch2:
+            case R.id.switch_button2:
                 if (is_mail == 1) {
                     mPresenter.setMineSetting(user_id, user_token, is_autoPlay, is_notice, 0);
                     mPresenter.getMineSetting(user_id, user_token);
+                    Log.e("is_mail", "选中");
                 } else {
                     mPresenter.setMineSetting(user_id, user_token, is_autoPlay, is_notice, 1);
                     mPresenter.getMineSetting(user_id, user_token);
+                    Log.e("is_mail", "no选中");
                 }
                 break;
-            case R.id.switch3:
+            case R.id.switch_button3:
                 if (is_autoPlay == 1) {
                     mPresenter.setMineSetting(user_id, user_token, 0, is_notice, is_mail);
                     mPresenter.getMineSetting(user_id, user_token);
+                    Log.e("is_autoPlay", "选中");
                 } else {
                     mPresenter.setMineSetting(user_id, user_token, 1, is_notice, is_mail);
                     mPresenter.getMineSetting(user_id, user_token);
+                    Log.e("is_autoPlay", "no选中");
                 }
                 break;
 
@@ -236,33 +252,65 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
         is_notice = notice;
         is_mail = address_list;
         if (notice == 1) {
-            aSwitch.setChecked(true);
+            switchButton1.setChecked(true);
         } else {
-            aSwitch.setChecked(false);
+            switchButton1.setChecked(false);
         }
         if (address_list == 1) {
-            bSwitch.setChecked(true);
+            switchButton2.setChecked(true);
         } else {
-            bSwitch.setChecked(false);
+            switchButton2.setChecked(false);
         }
 
         if (wifi_auto_play_video == 1) {
-            cSwitch.setChecked(true);
+            switchButton3.setChecked(true);
         } else {
-            cSwitch.setChecked(false);
+            switchButton3.setChecked(false);
         }
     }
 
-
     @Override
     public void setMineSettingSuccess(BaseBean baseBean) {
-
+        mPresenter.getMineSetting(user_id, user_token);
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+        switch (view.getId()) {
+            case R.id.switch_button1:
+                if (is_notice == 1) {
+                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, 0, is_mail);
+//                    mPresenter.getMineSetting(user_id, user_token);
+                    Log.e("is_notice", "选中");
+                } else {
+                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, 1, is_mail);
+//                    mPresenter.getMineSetting(user_id, user_token);
+                    Log.e("is_notice", "no选中");
+                }
+                break;
+            case R.id.switch_button2:
+                if (is_mail == 1) {
+                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, is_notice, 0);
+//                    mPresenter.getMineSetting(user_id, user_token);
+                    Log.e("is_mail", "选中");
+                } else {
+                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, is_notice, 1);
+//                    mPresenter.getMineSetting(user_id, user_token);
+                    Log.e("is_mail", "no选中");
+                }
+                break;
+            case R.id.switch_button3:
+                if (is_autoPlay == 1) {
+                    mPresenter.setMineSetting(user_id, user_token, 0, is_notice, is_mail);
+//                    mPresenter.getMineSetting(user_id, user_token);
+                    Log.e("is_autoPlay", "选中");
+                } else {
+                    mPresenter.setMineSetting(user_id, user_token, 1, is_notice, is_mail);
+//                    mPresenter.getMineSetting(user_id, user_token);
+                    Log.e("is_autoPlay", "no选中");
+                }
+                break;
+
+        }
     }
 }

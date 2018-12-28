@@ -4,12 +4,15 @@ package com.iyoyogo.android.model;
 import android.util.Log;
 
 import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.HisFansBean;
 import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.collection.AddCollectionBean;
 import com.iyoyogo.android.bean.collection.AddCollectionBean1;
 import com.iyoyogo.android.bean.collection.AddressBookBean;
+import com.iyoyogo.android.bean.collection.AttentionsBean;
 import com.iyoyogo.android.bean.collection.CollectionFolderBean;
 import com.iyoyogo.android.bean.collection.CollectionFolderContentBean;
+import com.iyoyogo.android.bean.collection.CommendAttentionBean;
 import com.iyoyogo.android.bean.collection.MineCollectionBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.bean.home.HomeBean;
@@ -426,38 +429,64 @@ public class Model {
         return HttpClient.getApiService().setMineSetting(user_id, user_token, wifi_auto_play_video, notice, address_list)
                 .compose(this.switchThread());
     }
-    public Observable<BaseBean> feedBack(String user_id, String user_token,String desc){
-        return HttpClient.getApiService().addFeedBack(user_id,user_token,desc)
+
+    public Observable<BaseBean> feedBack(String user_id, String user_token, String desc) {
+        return HttpClient.getApiService().addFeedBack(user_id, user_token, desc)
                 .compose(this.switchThread());
     }
-    public Observable<AboutMeBean> aboutme(){
+
+    public Observable<AboutMeBean> aboutme() {
         return HttpClient.getApiService().aboutMe()
                 .compose(this.switchThread());
     }
-    public Observable<MessageBean> getMessage(String user_id,String user_token,int type,int page){
-        return HttpClient.getApiService().getMessage(user_id,user_token,type,page)
+
+    public Observable<MessageBean> getMessage(String user_id, String user_token, int type, int page) {
+        return HttpClient.getApiService().getMessage(user_id, user_token, type, page)
                 .compose(this.switchThread());
     }
-    public Observable<MessageCenterBean> messageCenter(String user_id,String user_token){
-        return HttpClient.getApiService().getMessageCenter(user_id,user_token)
+
+    public Observable<MessageCenterBean> messageCenter(String user_id, String user_token) {
+        return HttpClient.getApiService().getMessageCenter(user_id, user_token)
                 .compose(this.switchThread());
     }
-    public  Observable<ReadMessage> readMessage(String user_id,String user_token,String message_id){
+
+    public Observable<ReadMessage> readMessage(String user_id, String user_token, String message_id) {
         return HttpClient.getApiService().readMessage(user_id, user_token, message_id)
                 .compose(this.switchThread());
     }
 
+    //获取我粉丝中 我没关注的 (是我的粉丝，我却不是他的粉丝)
     public Observable<AddCollectionBean1> setAddCollection(String user_id, String user_token, String page, String page_size) {
         return HttpClient.getApiService().setAddCollection(user_id, user_token, page, page_size)
                 .compose(this.switchThread());
     }
 
+    //获取通讯录中 关注情况
     public Observable<AddressBookBean> setAddressBook(String user_id, String user_token, String search, String list) {
         return HttpClient.getApiService().setAddressBook(user_id, user_token, search, list)
                 .compose(this.switchThread());
     }
-    public Observable<BaseBean> push(String user_id,String user_token,String device, String jpush_rid){
+
+    public Observable<BaseBean> push(String user_id, String user_token, String device, String jpush_rid) {
         return HttpClient.getApiService().push(user_id, user_token, device, jpush_rid)
+                .compose(this.switchThread());
+    }
+
+    //推荐 给我 要关注的人
+    public Observable<CommendAttentionBean> setCommendAttention(String user_id, String user_token) {
+        return HttpClient.getApiService().setCommendAttention(user_id, user_token)
+                .compose(this.switchThread());
+    }
+
+    //获取 用户 关注的人群
+    public Observable<AttentionsBean> setAttentions(String user_id, String user_token, String his_id, String page, String page_size) {
+        return HttpClient.getApiService().setAttentions(user_id, user_token, his_id, page, page_size)
+                .compose(this.switchThread());
+    }
+
+    //获取 用户 粉丝人群
+    public Observable<HisFansBean> setHisFans(String user_id, String user_token, String his_id, String page, String page_size) {
+        return HttpClient.getApiService().setHisFans(user_id, user_token, his_id, page, page_size)
                 .compose(this.switchThread());
     }
     public Observable<BaseBean> punchClock(String user_id,String user_token){

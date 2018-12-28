@@ -2,6 +2,9 @@ package com.iyoyogo.android.net;
 
 
 import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.HisFansBean;
+import com.iyoyogo.android.bean.collection.AttentionsBean;
+import com.iyoyogo.android.bean.collection.CommendAttentionBean;
 import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.collection.AddCollectionBean;
 import com.iyoyogo.android.bean.collection.AddCollectionBean1;
@@ -562,5 +565,30 @@ public interface ApiService {
     @POST("index.php/api/dislike/add")
     @FormUrlEncoded
     Observable<BaseBean> dislike(@Field("user_id") String user_id, @Field("user_token") String user_token,@Field("yo_id")int yo_id,@Field("type") int type);
+
+    //推荐 给我 要关注的人
+    @POST("index.php/api/userattention/commend_me_to_attention")
+    @FormUrlEncoded
+    Observable<CommendAttentionBean> setCommendAttention(@Field("user_id") String user_id,
+                                                         @Field("user_token") String user_token);
+
+    //获取 用户 关注的人群
+    @POST("index.php/api/userhome/get_his_attentions")
+    @FormUrlEncoded
+    Observable<AttentionsBean> setAttentions(@Field("user_id") String user_id,
+                                             @Field("user_token") String user_token,
+                                             @Field("his_id") String his_id,
+                                             @Field("page") String page,
+                                             @Field("page_size") String page_size);
+
+    //获取 用户 粉丝人群
+    @POST("index.php/api/userhome/get_his_fans")
+    @FormUrlEncoded
+    Observable<HisFansBean> setHisFans(@Field("user_id") String user_id,
+                                       @Field("user_token") String user_token,
+                                       @Field("his_id") String his_id,
+                                       @Field("page") String page,
+                                       @Field("page_size") String page_size);
+
 }
 

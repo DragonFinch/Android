@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/F1F1F1"
     android:orientation="vertical"
-    tools:context=".ui.mine.homepage.AddressBookFriendsActivity">
+    tools:context=".ui.mine.homepage.HisFansActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,45 +26,52 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/tongxunluhaoyou"
+            android:text="@string/fans"
             android:textColor="@color/color333333"
             android:textSize="@dimen/sp_16"
             android:textStyle="bold" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_55">
 
-        <EditText
-            android:id="@+id/address_book_search"
-            style="@null"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_marginTop="@dimen/dp_5"
-            android:layout_marginRight="@dimen/dp_20"
-            android:layout_marginBottom="@dimen/dp_5"
-            android:background="@drawable/head_image_bg"
-            android:hint="搜索通讯录好友"
-            android:paddingLeft="@dimen/dp_20"
-            android:textColor="@color/c888888"
-            android:textSize="@dimen/sp_12" />
-
-        <ImageView
-            android:layout_width="@dimen/dp_16"
-            android:layout_height="@dimen/dp_16"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dp_33"
-            android:src="@mipmap/ic_location_search" />
-
-    </RelativeLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/address_book_RecyclerView"
+    <LinearLayout
+        android:id="@+id/Lin_Bitmap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@mipmap/dog" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="你还木有粉丝yo～"
+            android:textColor="@color/c333333"
+            android:layout_marginTop="@dimen/dp20"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="会有人关注你的，别放在心上~"
+            android:textColor="@color/c888888"
+            android:textSize="15sp"
+            android:layout_marginTop="@dimen/dp_10"/>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/myRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dp_10"
         android:background="@color/FFFFFF" />
+
 
 </LinearLayout>

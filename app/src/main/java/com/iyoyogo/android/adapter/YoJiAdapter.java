@@ -25,6 +25,7 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.home.HomeBean;
 import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
@@ -71,6 +72,16 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
         } else {
             holder.typeImageView.setVisibility(View.INVISIBLE);
         }
+       holder.user_icon.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               int yo_user_id = mList.get(position).getUser_info().getUser_id();
+               Intent intent = new Intent(context, UserHomepageActivity.class);
+//               Intent intent = new Intent(context, Personal_homepage_Activity.class);
+               intent.putExtra("yo_user_id", String.valueOf(yo_user_id));
+               context.startActivity(intent);
+           }
+       });
         holder.user_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
