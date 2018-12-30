@@ -1,13 +1,19 @@
 package com.iyoyogo.android.ui.home.yoji;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,8 +27,13 @@ import com.iyoyogo.android.presenter.PersonalCenterPresenter;
 import com.iyoyogo.android.ui.mine.homepage.UserFansActivity;
 import com.iyoyogo.android.ui.mine.homepage.YoJiFragment;
 import com.iyoyogo.android.ui.mine.homepage.YoXiuFragment;
+import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -67,6 +78,8 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
     private String user_token;
     private int age;
     private String yo_user_id;
+    private String user_logo;
+    private String user_nickname;
 
     @Override
     protected int getLayoutId() {
@@ -126,9 +139,101 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
         yo_user_id = intent.getStringExtra("yo_user_id");
         mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
     }
+    public void share() {
+        View view = getLayoutInflater().inflate(R.layout.popup_share, null);
+        PopupWindow popup_share = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(getApplicationContext(), 220), true);
+        popup_share.setBackgroundDrawable(new ColorDrawable());
+        popup_share.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popup_share.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        LinearLayout qq_layout = view.findViewById(R.id.qq_layout);
+        LinearLayout comment_layout = view.findViewById(R.id.comment_layout);
+        LinearLayout wechat_layout = view.findViewById(R.id.wechat_layout);
+        LinearLayout sina_layout = view.findViewById(R.id.sina_layout);
+        TextView tv_cancel = view.findViewById(R.id.cancel);
+        ImageView img_close = view.findViewById(R.id.close_img);
+        img_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                popup_share.dismiss();
+            }
+        });
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_share.dismiss();
+            }
+        });
+        comment_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_share.dismiss();
+                shareWeb(SHARE_MEDIA.WEIXIN_CIRCLE);
+            }
+        });
+        wechat_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_share.dismiss();
+                shareWeb(SHARE_MEDIA.WEIXIN);
+            }
+        });
+        sina_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_share.dismiss();
+                shareWeb(SHARE_MEDIA.SINA);
+            }
+        });
+        qq_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareWeb(SHARE_MEDIA.QQ);
+                popup_share.dismiss();
+            }
+        });
+        backgroundAlpha(0.6f);
+
+        //添加pop窗口关闭事件
+        popup_share.setOnDismissListener(new poponDismissListener());
+        popup_share.showAtLocation(findViewById(R.id.activity_user_homepage), Gravity.BOTTOM, 0, 0);
+
+    }
+
+    private void shareWeb(SHARE_MEDIA share_media) {
+        /*80002/yo_id/4143*/
+        String url = "http://192.168.0.104/home/share/center_yoj/share_user_id/" + user_id + "/his_id/" + yo_user_id;
+        UMWeb web = new UMWeb(url);
+        web.setTitle(user_nickname);//标题
+        UMImage thumb = new UMImage(getApplicationContext(), user_logo);
+        web.setThumb(thumb);  //缩略图
+
+        web.setDescription("用户主页");//描述
+
+        new ShareAction(UserHomepageActivity.this)
+                .withMedia(web)
+                .setPlatform(share_media)
+                .share();
+    }
+
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; // 0.0~1.0
+        getWindow().setAttributes(lp); //act 是上下文context
+
+    }
+
+    //隐藏事件PopupWindow
+    private class poponDismissListener implements PopupWindow.OnDismissListener {
+        @Override
+        public void onDismiss() {
+            backgroundAlpha(1.0f);
+        }
+    }
     @Override
     public void getPersonalCenterSuccess(UserCenterBean.DataBean data) {
+        user_logo = data.getUser_logo();
+        user_nickname = data.getUser_nickname();
         List<Fragment> fragments = new ArrayList<>();
         YoXiuFragment yoXiuFragment = new YoXiuFragment();
         YoJiFragment yoJiFragment = new YoJiFragment();

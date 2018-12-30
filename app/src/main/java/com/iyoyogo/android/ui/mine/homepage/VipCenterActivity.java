@@ -1,11 +1,13 @@
 package com.iyoyogo.android.ui.mine.homepage;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -16,13 +18,17 @@ import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.VipCenterBean;
 import com.iyoyogo.android.contract.VipCenterContract;
 import com.iyoyogo.android.presenter.VipCenterPresenter;
+import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtils;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter> implements VipCenterContract.View {
     @BindView(R.id.my_icon)
@@ -46,6 +52,82 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
         init();
     }
 
+    private void initVipLevelUp() {
+        View view = getLayoutInflater().inflate(R.layout.popup_up_vip, null);
+        PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(getApplicationContext(), 300), DensityUtil.dp2px(getApplicationContext(), 320), true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+        backgroundAlpha(0.6f);
+        popupWindow.setOnDismissListener(new poponDismissListener());
+        ImageView img_wechat = view.findViewById(R.id.img_wechat);
+        ImageView img_wechat_circle = view.findViewById(R.id.img_wechat_circle);
+        ImageView img_qq = view.findViewById(R.id.img_qq);
+        ImageView img_sina = view.findViewById(R.id.img_sina);
+        img_qq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                shareWeb(SHARE_MEDIA.QQ);
+            }
+        });
+        img_wechat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                shareWeb(SHARE_MEDIA.WEIXIN);
+            }
+        });
+        img_sina.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                shareWeb(SHARE_MEDIA.SINA);
+            }
+        });
+        img_wechat_circle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                shareWeb(SHARE_MEDIA.WEIXIN_CIRCLE);
+            }
+        });
+        popupWindow.setOnDismissListener(new poponDismissListener());
+        popupWindow.showAtLocation(findViewById(R.id.activity_vip_center), Gravity.CENTER, 0, 0);
+    }
+
+
+    private void shareWeb(SHARE_MEDIA share_media) {
+        /*80002/yo_id/4143*/
+        String url = "http://192.168.0.145/home/share/levelup/user_id/" + SpUtils.getString(getApplicationContext(), "user_id", null);
+        UMWeb web = new UMWeb(url);
+        web.setTitle("title");//标题
+        UMImage thumb = new UMImage(getApplicationContext(), R.mipmap.logo);
+        web.setThumb(thumb);  //缩略图
+        web.setDescription("YoYoGo");//描述
+       /* if (!TextUtils.isEmpty(desc)) {
+
+        }*/
+        new ShareAction(VipCenterActivity.this)
+                .withMedia(web)
+                .setPlatform(share_media)
+                .share();
+    }
+
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; // 0.0~1.0
+        getWindow().setAttributes(lp); //act 是上下文context
+
+    }
+
+    //隐藏事件PopupWindow
+    private class poponDismissListener implements PopupWindow.OnDismissListener {
+        @Override
+        public void onDismiss() {
+            backgroundAlpha(1.0f);
+        }
+    }
+
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
@@ -65,8 +147,10 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
             @Override
             public void onClick(View v) {
                 initPopupPraise();
+
             }
         });
+
     }
 
     private void initPopupPraise() {
@@ -105,6 +189,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
                 myIcon.setBackgroundResource(R.mipmap.mem_foxi);
             } else if (level == 1) {
                 myIcon.setBackgroundResource(R.mipmap.mem_xiansan);
+                initVipLevelUp();
             } else if (level == 2) {
                 myIcon.setBackgroundResource(R.mipmap.mem_gongcheng);
             } else if (level == 3) {
@@ -145,5 +230,11 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
 
 
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 }

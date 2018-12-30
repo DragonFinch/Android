@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -48,6 +49,10 @@ import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -148,6 +153,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     private int add_collection_id;
     private List<CollectionFolderBean.DataBean.ListBean> mList;
     private int yo_attention_id;
+    private String file_desc;
+    private String path;
 
     @Override
     protected void initView() {
@@ -292,6 +299,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         img_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 popup_share.dismiss();
             }
         });
@@ -305,23 +313,27 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
             @Override
             public void onClick(View v) {
                 popup_share.dismiss();
+                shareWeb(SHARE_MEDIA.WEIXIN_CIRCLE);
             }
         });
         wechat_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popup_share.dismiss();
+                shareWeb(SHARE_MEDIA.WEIXIN);
             }
         });
         sina_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popup_share.dismiss();
+                shareWeb(SHARE_MEDIA.SINA);
             }
         });
         qq_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                shareWeb(SHARE_MEDIA.QQ);
                 popup_share.dismiss();
             }
         });
@@ -331,6 +343,21 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         popup_share.setOnDismissListener(new poponDismissListener());
         popup_share.showAtLocation(findViewById(R.id.activity_yoxiu_detail), Gravity.BOTTOM, 0, 0);
 
+    }
+    private void shareWeb(SHARE_MEDIA share_media) {
+        /*80002/yo_id/4143*/
+        String url = "http://192.168.0.145/home/share/details_yoj/share_user_id/" + user_id + "/yo_id/" + yo_id;
+        UMWeb web = new UMWeb(url);
+        web.setTitle(path);//标题
+        UMImage thumb = new UMImage(getApplicationContext(), path);
+        web.setThumb(thumb);  //缩略图
+        if (!TextUtils.isEmpty(file_desc)) {
+            web.setDescription(file_desc);//描述
+        }
+        new ShareAction(YoXiuDetailActivity.this)
+                .withMedia(web)
+                .setPlatform(share_media)
+                .share();
     }
 
 
@@ -561,6 +588,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     public void getDetailSuccess(YoXiuDetailBean.DataBean data) {
         initPopup();
         yo_id = data.getId();
+
         tvComment.setText("评论" + "(" + data.getCount_comment() + ")");
         collection_list = new ArrayList<>();
         collection_list.add(data);
@@ -585,9 +613,9 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         tvLike.setText(count_praise + "");
         int count_view = data.getCount_view();
         numLook.setText(count_view + "");
-        String file_desc = data.getFile_desc();
+        file_desc = data.getFile_desc();
         textDesc.setText(file_desc);
-        String path = data.getFile_path();
+        path = data.getFile_path();
         RequestOptions requestOptions = new RequestOptions();
         if (editComment.getText().toString().length() > 0) {
             mPresenter.addComment(this.user_id, user_token, 0, this.id, editComment.getText().toString().trim());

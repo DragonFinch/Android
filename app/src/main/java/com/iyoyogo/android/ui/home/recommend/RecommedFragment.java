@@ -54,7 +54,8 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        refreshLayout.finishRefresh(1050);
+                refreshLayout.finishRefresh(1050);
+                mPresenter.banner(user_id, user_token, "commend");
             }
         });
     }
@@ -96,7 +97,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
         homeRecyclerViewAdapter.onItemRetryOnClickListener(new HomeRecyclerViewAdapter.OnRetryClickListener() {
             @Override
             public void onretry() {
-                mPresenter.banner(user_id,user_token,"commend");
+                mPresenter.banner(user_id, user_token, "commend");
             }
         });
     }

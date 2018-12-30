@@ -22,7 +22,6 @@ import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.home.HomeBean;
 import com.iyoyogo.android.model.DataManager;
-import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
@@ -279,12 +278,16 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
                     });
                 }
             }
+            RequestOptions requestOptions = new RequestOptions();
+            requestOptions.placeholder(R.mipmap.default_touxiang)
+                    .error(R.mipmap.default_touxiang);
+
             String user_logo = mList.get(position).getUser_info().getUser_logo();
-            if (user_logo.isEmpty()) {
-                Glide.with(context).load(R.mipmap.default_ic).into(holder.user_icon);
-            } else {
+
                 Log.d("YoJiAdapter", user_logo);
-                Glide.with(context).load(mList.get(position).getUser_info().getUser_logo()).into(holder.user_icon);
+                Glide.with(context).load(mList.get(position).getUser_info().getUser_logo())
+                        .apply(requestOptions)
+                        .into(holder.user_icon);
 
             }
             holder.user_name.setText(mList.get(position).getUser_info().getUser_nickname());
@@ -332,7 +335,7 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
                             });
                 }
             });
-        }
+
 
         holder.itemView.setTag(position);
 

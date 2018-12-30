@@ -490,7 +490,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         final String objectKey = "alioss_" + System.currentTimeMillis() + fileSuffix;
 
         // 下面3个参数依次为bucket名，ObjectKey名，上传文件路径
-        PutObjectRequest put = new PutObjectRequest("xzdtest", name, url);
+        PutObjectRequest put = new PutObjectRequest("iyoyogo", name, url);
 
         // 设置进度回调
         put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {

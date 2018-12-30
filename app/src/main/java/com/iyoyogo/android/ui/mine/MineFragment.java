@@ -26,7 +26,7 @@ import com.iyoyogo.android.ui.mine.homepage.Message_center_Activity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.ui.mine.homepage.VipCenterActivity;
 import com.iyoyogo.android.utils.SpUtils;
-import com.iyoyogo.android.widget.BadgeButton;
+import com.iyoyogo.android.utils.util.badgeview.BadgeViewPro;
 import com.iyoyogo.android.widget.CircleImageView;
 
 import butterknife.BindView;
@@ -40,11 +40,11 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     @BindView(R.id.my_bgi_iv_id)
     ImageView myBgiIvId;
     @BindView(R.id.my_messge_im_id)
-    BadgeButton myMessgeImId;
+    ImageView myMessgeImId;
     @BindView(R.id.my_dot_v_id)
     View myDotVId;
     @BindView(R.id.my_addfriend_im_id)
-    BadgeButton myAddfriendImId;
+    ImageView myAddfriendImId;
     @BindView(R.id.my_basic_headimg_iv_id)
     CircleImageView myBasicHeadimgIvId;
     @BindView(R.id.my_basic_name_tv_id)
@@ -61,6 +61,8 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     TextView myBasicFollowTvId;
     @BindView(R.id.my_basic_follownumber_tv_id)
     TextView myBasicFollownumberTvId;
+    @BindView(R.id.vip_center_img)
+    ImageView vipCenterImg;
     @BindView(R.id.my_rllayout1_id)
     RelativeLayout myRllayout1Id;
     @BindView(R.id.my_clock_iv_id)
@@ -84,9 +86,6 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     @BindView(R.id.my_option_set_id)
     LinearLayout myOptionSetId;
     Unbinder unbinder;
-    @BindView(R.id.vip_center_img)
-    ImageView vipCenterImg;
-
     private String user_id;
     private String user_token;
 
@@ -203,10 +202,10 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         String clock_win = data.getClock_win();
         myExceedTvId.setText("超过了全国" + clock_win + "的用户哦！");
         int count_noread = data.getCount_noread();
-        if (count_noread>0){
-            myMessgeImId.setBadgeVisible(true);
-        }
-        myMessgeImId.setBadgeText(count_noread + "");
+
+       BadgeViewPro bv1 = new BadgeViewPro(getContext());
+//        bv1.setStrText(count_noread + "").setMargin(10, 3, 10, 0).setStrSize(10).setTargetView(myMessgeImId);
+//        bv1.setStrText(count_noread + "").setMargin(10, 3, 10, 0).setStrSize(10).setTargetView(myMessgeImId);
         int today_isclock = data.getToday_isclock();
         if (today_isclock == 1) {
             myClockButId.setVisibility(View.GONE);

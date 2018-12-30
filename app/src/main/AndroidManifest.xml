@@ -158,7 +158,9 @@
             android:value="667" />
 
         <activity android:name=".ui.mine.collection.CreateCollectionFolderActivity" />
-        <activity android:name=".ui.mine.homepage.Message_center_Activity" />
+        <activity android:name=".ui.mine.homepage.Message_center_Activity" >
+
+        </activity>
         <activity android:name=".ui.mine.homepage.Like_me_Activity" />
         <activity
             android:name=".ui.mine.homepage.Personal_homepage_Activity"
@@ -228,6 +230,9 @@
             android:name=".camera.edit.theme.ThemeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/LuncherActivityTheme" />
+        <activity android:name=".TestActivity">
+
+        </activity>
         <activity
             android:name=".camera.edit.clipEdit.spilt.SpiltActivity"
             android:screenOrientation="portrait"

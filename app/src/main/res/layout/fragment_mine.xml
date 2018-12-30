@@ -30,16 +30,14 @@
             android:textSize="@dimen/sp_25"
             tools:ignore="MissingPrefix" />
 
-        <com.iyoyogo.android.widget.BadgeButton
-            style="@style/BadgeButton.Normal"
-            app:btnBadgeVisible="false"
+        <ImageView
+            android:layout_marginTop="@dimen/dp_10"
             android:id="@+id/my_messge_im_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="59dp"
-            android:drawableTop="@mipmap/message"
+            android:src="@mipmap/message"
            />
 
         <View
@@ -50,15 +48,14 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="40dp" />
 
-        <com.iyoyogo.android.widget.BadgeButton
-            style="@style/BadgeButton.Normal"
-            app:btnBadgeVisible="false"
+        <ImageView
+            android:layout_marginTop="@dimen/dp_10"
             android:id="@+id/my_addfriend_im_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:drawableTop="@mipmap/add_friend" />
+            android:src="@mipmap/add_friend" />
 
     </RelativeLayout>
 

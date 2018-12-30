@@ -10,6 +10,11 @@
     <color name="chose">#2E83FF</color>
     <color name="c333333">#333333</color>
     <color name="maskPressed">#33888888</color>
+    <!-- 园的底色 -->
+    <color name="char_circlebackground">#ff303030</color>
+
+    <!-- 园进度条的颜色 -->
+    <color name="char_circleplan">#ffCD2990</color>
     <color name="F1F1F1">#F1F1F1</color>
     <color name="mainGray">#F2F6F7</color>
     <color name="main_40">#40ACD6</color>
@@ -38,6 +43,7 @@
     <color name="bg_activity_gray">#F0F0F0</color>
     <color name="line_gray_e5e5e5">#e5e5e5</color>
     <color name="red_auxiliary">#FF666A</color>
+    <color name="red">#FF0000</color>
     <color name="red_warning">#ff3753</color>
     <color name="bg_common_btn_disable_gradient_start">#B1C6F9</color>
     <color name="bg_common_btn_disable_gradient_end">#9EB7F6</color>

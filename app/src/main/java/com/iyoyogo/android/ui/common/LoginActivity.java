@@ -446,7 +446,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
         status = data.getStatus();
         user_id = data.getUser_id();
         user_token = data.getUser_token();
-        mPresenter.push(user_id, user_token, "and", registrationID);
+
         SpUtils.putBoolean(LoginActivity.this, "isLogin", true);
         SpUtils.putString(LoginActivity.this, "user_id", user_id);
         SpUtils.putString(LoginActivity.this, "user_token", user_token);
@@ -457,6 +457,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
             finish();
 
         } else {
+                mPresenter.push(user_id, user_token, "and", registrationID);
             have_interest = data.getHave_interest();
             if (have_interest == 1) {
                 intent = new Intent();

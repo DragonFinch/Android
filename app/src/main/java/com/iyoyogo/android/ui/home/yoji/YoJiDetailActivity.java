@@ -56,6 +56,10 @@ import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 import com.iyoyogo.android.widget.MyNestedScrollView;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -197,6 +201,10 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     private List<CollectionFolderBean.DataBean.ListBean> mList1;
     private int add_attention_id;
     private int yo_attention_id;
+    private int yo_ids;
+    private String logo;
+    private String desc;
+    private String title;
 
     @Override
     protected int getLayoutId() {
@@ -380,6 +388,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     }
 
+
+
     @OnClick({R.id.add_attention, R.id.img_back, R.id.img_share, R.id.tv_attention, R.id.tv_load_more, R.id.tv_comment, R.id.tv_like, R.id.tv_collection})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -392,7 +402,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 mPresenter.addAttention(user_id, user_token, yo_attention_id);
                 break;
             case R.id.img_share:
-
+                share();
                 break;
             case R.id.tv_attention:
                 mPresenter.getYoJiDetail(user_id, user_token, yo_id);
@@ -524,13 +534,16 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     public void getYoJiDetailSuccess(YoJiDetailBean.DataBean data) {
         yo_attention_id = data.getUser_id();
+        title = data.getTitle();
+
+        yo_ids = data.getYo_id();
         tvComment.setText("评论" + "(" + data.getCount_comment() + ")");
         initPopup();
         tvLike.setText(data.getCount_praise() + "");
         tvCollection.setText(data.getCount_collect() + "");
         dataBeans = new ArrayList<>();
         dataBeans.add(data);
-        String desc = data.getDesc();
+        desc = data.getDesc();
         if (TextUtils.isEmpty(desc)) {
             tvDesc.setVisibility(View.GONE);
         } else {
@@ -551,7 +564,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
             tvAttention.setText("已关注");
             addAttention.setVisibility(View.GONE);
         }
-        String logo = data.getLogo();
+        logo = data.getLogo();
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.mipmap.default_touxiang).error(R.mipmap.default_touxiang);
         Glide.with(this).load(data.getUser_logo()).apply(requestOptions).into(userIcon);
@@ -646,20 +659,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     }
 
 
-    //隐藏事件PopupWindow
-    private class poponDismissListener implements PopupWindow.OnDismissListener {
-        @Override
-        public void onDismiss() {
-            backgroundAlpha(1.0f);
-        }
-    }
 
-    public void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = bgAlpha; // 0.0~1.0
-        getWindow().setAttributes(lp); //act 是上下文context
 
-    }
 
     private void createCollectionFolder() {
         backgroundAlpha(0.6f);
@@ -767,7 +768,95 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         popup.setOnDismissListener(new poponDismissListener());
         popup.showAtLocation(findViewById(R.id.activity_yoji_detail), Gravity.BOTTOM, 0, 0);
     }
+    public void share() {
+        View view = getLayoutInflater().inflate(R.layout.popup_share, null);
+        PopupWindow popup_share = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(YoJiDetailActivity.this, 220), true);
+        popup_share.setBackgroundDrawable(new ColorDrawable());
+        popup_share.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popup_share.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        LinearLayout qq_layout = view.findViewById(R.id.qq_layout);
+        LinearLayout comment_layout = view.findViewById(R.id.comment_layout);
+        LinearLayout wechat_layout = view.findViewById(R.id.wechat_layout);
+        LinearLayout sina_layout = view.findViewById(R.id.sina_layout);
+        TextView tv_cancel = view.findViewById(R.id.cancel);
+        ImageView img_close = view.findViewById(R.id.close_img);
+        img_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                popup_share.dismiss();
+            }
+        });
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_share.dismiss();
+            }
+        });
+        comment_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_share.dismiss();
+                shareWeb(SHARE_MEDIA.WEIXIN_CIRCLE);
+            }
+        });
+        wechat_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_share.dismiss();
+                shareWeb(SHARE_MEDIA.WEIXIN);
+            }
+        });
+        sina_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_share.dismiss();
+                shareWeb(SHARE_MEDIA.SINA);
+            }
+        });
+        qq_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareWeb(SHARE_MEDIA.QQ);
+                popup_share.dismiss();
+            }
+        });
+        backgroundAlpha(0.6f);
+
+        //添加pop窗口关闭事件
+        popup_share.setOnDismissListener(new poponDismissListener());
+        popup_share.showAtLocation(findViewById(R.id.activity_yoji_detail), Gravity.BOTTOM, 0, 0);
+
+    }
+    private void shareWeb(SHARE_MEDIA share_media) {
+        /*80002/yo_id/4143*/
+        String url = "http://192.168.0.145/home/share/details_yoj/share_user_id/" + user_id + "/yo_id/" + yo_id;
+        UMWeb web = new UMWeb(url);
+        web.setTitle(title);//标题
+        UMImage thumb = new UMImage(getApplicationContext(), logo);
+        web.setThumb(thumb);  //缩略图
+        if (!TextUtils.isEmpty(desc)) {
+            web.setDescription(desc);//描述
+        }
+        new ShareAction(YoJiDetailActivity.this)
+                .withMedia(web)
+                .setPlatform(share_media)
+                .share();
+    }
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; // 0.0~1.0
+        getWindow().setAttributes(lp); //act 是上下文context
+
+    }
+
+    //隐藏事件PopupWindow
+    private class poponDismissListener implements PopupWindow.OnDismissListener {
+        @Override
+        public void onDismiss() {
+            backgroundAlpha(1.0f);
+        }
+    }
     @Override
     public void getCommentListSuccess(CommentBean.DataBean data) {
         List<CommentBean.DataBean.ListBean> list = data.getList();
@@ -787,7 +876,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         yoJiDetailCommentAdapter.setDeleteOnClickListener(new YoJiDetailCommentAdapter.DeleteOnClickListener() {
             @Override
             public void delete() {
-                mPresenter.getCommentList(user_id,user_token,1,yo_id,0);
+                mPresenter.getCommentList(user_id, user_token, 1, yo_id, 0);
             }
         });
     }

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
@@ -15,10 +14,9 @@ import com.iyoyogo.android.presenter.MessageCenterPresenter;
 import com.iyoyogo.android.ui.mine.message.MessageDetailActivity;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtils;
-import com.iyoyogo.android.widget.BadgeButton;
+import com.iyoyogo.android.utils.util.badgeview.BadgeViewPro;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
@@ -28,19 +26,19 @@ public class Message_center_Activity extends BaseActivity<MessageCenterContract.
     @BindView(R.id.message_center_back_im_id)
     ImageView messageCenterBackImId;
     @BindView(R.id.message_system)
-    BadgeButton messageSystem;
+    ImageView messageSystem;
     @BindView(R.id.message_center_system_message_rl_id)
     RelativeLayout messageCenterSystemMessageRlId;
     @BindView(R.id.like_message)
-    BadgeButton likeMessage;
+    ImageView likeMessage;
     @BindView(R.id.message_center_like_me_rl_id)
     RelativeLayout messageCenterLikeMeRlId;
     @BindView(R.id.discuss_message)
-    BadgeButton discussMessage;
+    ImageView discussMessage;
     @BindView(R.id.message_center_commentary_message_rl_id)
     RelativeLayout messageCenterCommentaryMessageRlId;
     @BindView(R.id.attention_message)
-    BadgeButton attentionMessage;
+    ImageView attentionMessage;
     @BindView(R.id.message_center_focus_on_news_rl_id)
     RelativeLayout messageCenterFocusOnNewsRlId;
     private String string;
@@ -98,8 +96,15 @@ public class Message_center_Activity extends BaseActivity<MessageCenterContract.
         user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
         user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
         mPresenter.getMessageCenter(user_id, user_token);
+
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.getMessageCenter(user_id, user_token);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -118,40 +123,16 @@ public class Message_center_Activity extends BaseActivity<MessageCenterContract.
         String type2 = data.getType2();
         String type3 = data.getType3();
         String type4 = data.getType4();
-        Toast.makeText(this, type1, Toast.LENGTH_SHORT).show();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                likeMessage.setBadgeText(type2);
-                discussMessage.setBadgeText(type3);
-                attentionMessage.setBadgeText(type4);
-                if (Integer.parseInt(type1) > 0) {
-                    messageSystem.setBadgeText(type1);
-                    messageSystem.setBadgeVisible(true);
-                }
-                if (Integer.parseInt(type2) > 0) {
-                    likeMessage.setBadgeText(type2);
-                    likeMessage.setBadgeVisible(true);
-                }
-                if (Integer.parseInt(type3) > 0) {
-                    discussMessage.setBadgeVisible(true);
-                    discussMessage.setBadgeText(type3);
-                }
-                if (Integer.parseInt(type4) > 0) {
-                    attentionMessage.setBadgeVisible(true);
-                    attentionMessage.setBadgeText(type3);
-                }
-            }
-        }).start();
-
-
+        BadgeViewPro bv1 = new BadgeViewPro(Message_center_Activity.this);
+        BadgeViewPro bv2 = new BadgeViewPro(Message_center_Activity.this);
+        BadgeViewPro bv3 = new BadgeViewPro(Message_center_Activity.this);
+        BadgeViewPro bv4 = new BadgeViewPro(Message_center_Activity.this);
+        bv1.setStrText(type1).setMargin(10, 3, 10, 0).setStrSize(10).setTargetView(messageSystem);
+        bv2.setStrText(type2).setMargin(10, 3, 10, 0).setStrSize(10).setTargetView(likeMessage);
+        bv3.setStrText(type3).setMargin(10, 3, 10, 0).setStrSize(10).setTargetView(discussMessage);
+        bv4.setStrText(type4).setMargin(10, 3, 10, 0).setStrSize(10).setTargetView(attentionMessage);
 
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 }

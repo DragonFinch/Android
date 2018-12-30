@@ -1,5 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources >
+    <declare-styleable name="BadgeViewPro">
+        <attr name="shape" format="integer">
+            <enum name="shape_circle" value="0" />
+            <enum name="shape_oval" value="1" />
+            <enum name="shape_rectangle" value="2" />
+            <enum name="shape_round_rectangle" value="3" />
+        </attr>
+        <attr name="text_Size" format="dimension" />
+        <attr name="textColors" format="color" />
+        <attr name="bgColors" format="color" />
+        <attr name="shape_type" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="NumTipView">
+        <attr name="max_num" format="integer" />
+        <attr name="min_num" format="integer" />
+        <attr name="text_size" format="dimension" />
+        <attr name="text_color" format="color" />
+        <attr name="min_gone" format="boolean" />
+        <attr name="hor_padding" format="dimension" />
+        <attr name="ver_padding" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="TLRedPointView">
+        <attr name="tlRedPointViewTextSize" format="integer" />
+        <attr name="tlRedPointViewTextColor" format="color" />
+        <attr name="tlRedPointViewBGColor" format="color" />
+        <attr name="tlRedPointViewCount" format="integer" />
+        <attr name="tlRedpointViewZeroShowPoint" format="boolean" />
+        <attr name="tlRedPointViewZeroRadius" format="integer" />
+        <attr name="tlRedPointStyle" format="enum">
+            <enum name="circle_point" value="0" />
+            <enum name="popular" value="1" />
+
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="ShoppingCartFloatButton">
+        <attr name="float_image_resource" format="reference" />
+        <attr name="cart_view_width" format="dimension" />
+        <attr name="cart_view_height" format="dimension" />
+        <attr name="dot_to_right_of_float_margin_left" format="dimension" />
+        <attr name="dot_above_float_margin_bottom" format="dimension" />
+        <attr name="commodity_count" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="MutiProgress">
+        <attr name="nodesNum" format="integer"/> <!-- 节点数量 -->
+        <attr name="nodeRadius" format="dimension"/>
+        <attr name="progressingDrawable" format="reference"></attr>
+        <attr name="unprogressingDrawable" format="reference" />  <!-- 未完成的节点图标 -->
+        <attr name="progresFailDrawable" format="reference" />
+        <attr name="progresSuccDrawable" format="reference" />
+        <attr name="textSizes" format="dimension"/>      <!--圆圈中字体大小-->
+        <attr name="processingLineColor" format="color"></attr>
+        <attr name="currNodeNO" format="integer"></attr>   <!-- 当前所到达的节点编号  0开始计算-->
+        <attr name="currNodeState" format="integer"></attr>   <!-- 当前所到达的节点状态，0：失败  1：成功 -->
+    </declare-styleable>
     <declare-styleable name="BadgeButton">
         <!-- 徽标文本，为空时显示一个小红点 -->
         <attr name="btnBadgeText" format="string" />

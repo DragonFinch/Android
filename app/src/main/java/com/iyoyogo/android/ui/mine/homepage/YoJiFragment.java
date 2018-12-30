@@ -52,18 +52,23 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
     @Override
     public void getYoJiContentSuccess(YoJiContentBean.DataBean data) {
         List<YoJiContentBean.DataBean.ListBean> list = data.getList();
-        YoJiCenterAdapter yoJiCenterAdapter = new YoJiCenterAdapter(getContext(), list);
-        recyclerYoji.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerYoji.setAdapter(yoJiCenterAdapter);
-        yoJiCenterAdapter.setOnItemClickListener(new YoJiCenterAdapter.OnClickListener() {
-            @Override
-            public void onClick(View v, int position) {
-                int yo_id = list.get(position).getYo_id();
-                Intent intent = new Intent(getContext(), YoJiDetailActivity.class);
-                intent.putExtra("yo_id", yo_id);
-                startActivity(intent);
-            }
-        });
+        if (list.size()==0){
+            recyclerYoji.setVisibility(View.GONE);
+        }else {
+            YoJiCenterAdapter yoJiCenterAdapter = new YoJiCenterAdapter(getContext(), list);
+            recyclerYoji.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerYoji.setAdapter(yoJiCenterAdapter);
+            yoJiCenterAdapter.setOnItemClickListener(new YoJiCenterAdapter.OnClickListener() {
+                @Override
+                public void onClick(View v, int position) {
+                    int yo_id = list.get(position).getYo_id();
+                    Intent intent = new Intent(getContext(), YoJiDetailActivity.class);
+                    intent.putExtra("yo_id", yo_id);
+                    startActivity(intent);
+                }
+            });
+        }
+
     }
 
 

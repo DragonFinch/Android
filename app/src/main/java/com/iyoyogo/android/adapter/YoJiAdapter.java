@@ -128,14 +128,11 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.mipmap.default_touxiang);
         requestOptions.error(R.mipmap.default_touxiang);
-        if (mList.get(position).getUser_info().getUser_logo().length()==0){
 
-            Glide.with(context).load(R.mipmap.default_touxiang).into(holder.user_icon);
-        }else {
             Glide.with(context).load(mList.get(position).getUser_info().getUser_logo())
                     .apply(requestOptions)
                     .into(holder.user_icon);
-        }
+
         holder.user_name.setText(mList.get(position).getUser_info().getUser_nickname());
         holder.title.setText(mList.get(position).getTitle());
         holder.tv_cost.setText(" ￥" + mList.get(position).getCost() + "/人");
