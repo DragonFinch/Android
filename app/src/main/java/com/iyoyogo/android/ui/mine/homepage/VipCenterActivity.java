@@ -30,6 +30,10 @@ import java.util.List;
 
 import butterknife.BindView;
 
+/**
+ * 会员中心
+ */
+
 public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter> implements VipCenterContract.View {
     @BindView(R.id.my_icon)
     ImageView myIcon;
@@ -199,23 +203,22 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
             } else if (level == 5) {
                 myIcon.setBackgroundResource(R.mipmap.mem_lvxingjia);
             }
-//            int score = list.get(i).getScore();
-//            if (score <= 99) {
-//                tvVip.setText("入门");
-//            } else if (score <= 100 && score < 199){
-//                tvVip.setText("Lv1");
-//            }else if (score <= 200 && score < 499){
-//                tvVip.setText("Lv2");
-//            }else if (score <= 500 && score < 199){
-//                tvVip.setText("Lv3");
-//            }else if (score <= 199 && score < 99){
-//                tvVip.setText("Lv4");
-//            }else if (score <= 199 && score < 99){
-//                tvVip.setText("Lv5");
-//            }else if (score <= 199 && score < 99){
-//                tvVip.setText("Lv6");
-//            }
-//                int score0 = list.get(0).getScore();
+            int score = list.get(i).getScore();
+            if (score >= 0 && score < 99) {
+                tvVip.setText("入门");
+            } else if (score >= 100 && score < 199) {
+                tvVip.setText("Lv1");
+            } else if (score >= 200 && score < 499) {
+                tvVip.setText("Lv2");
+            } else if (score >= 500 && score < 1999) {
+                tvVip.setText("Lv3");
+            } else if (score >= 2000 && score < 7999) {
+                tvVip.setText("Lv4");
+            } else if (score == 5000) {
+                tvVip.setText("Lv5");
+            }
+
+//            int score0 = list.get(0).getScore();
 //            int score1 = list.get(1).getScore();
 //            int score2 = list.get(2).getScore();
 //            int score3 = list.get(3).getScore();

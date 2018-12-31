@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/second_rl_id"
+            android:layout_width="@dimen/dp_180"
+            android:layout_height="@dimen/dp_180">
+
+            <ImageView
+                android:id="@+id/second_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/dp_2"
+                android:src="@mipmap/ic_launcher" />
+            <ImageView
+                android:id="@+id/video_play_21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/ic_video"
+                android:visibility="gone" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="@dimen/dp_10"
+                android:src="@mipmap/ranking2" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fourth_rl_id"
+            android:layout_width="@dimen/dp_180"
+            android:layout_height="@dimen/dp_180">
+
+            <ImageView
+                android:id="@+id/fourth2_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/dp_2"
+                android:src="@mipmap/ic_launcher" />
+
+            <ImageView
+                android:id="@+id/video_play_22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/ic_video"
+                android:visibility="gone" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="@dimen/dp_10"
+                android:src="@mipmap/ranking3" />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>

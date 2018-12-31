@@ -278,4 +278,8 @@
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:gravity">center</item>
     </style>-->
+
+    <style name="MyCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_style</item>
+    </style>
 </resources>

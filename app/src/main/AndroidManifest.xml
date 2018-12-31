@@ -158,9 +158,7 @@
             android:value="667" />
 
         <activity android:name=".ui.mine.collection.CreateCollectionFolderActivity" />
-        <activity android:name=".ui.mine.homepage.Message_center_Activity" >
-
-        </activity>
+        <activity android:name=".ui.mine.homepage.Message_center_Activity" />
         <activity android:name=".ui.mine.homepage.Like_me_Activity" />
         <activity
             android:name=".ui.mine.homepage.Personal_homepage_Activity"
@@ -177,7 +175,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BadgeActivity"></activity>
+        <activity android:name=".BadgeActivity" />
         <activity android:name=".ui.common.WelcomeActivity" />
         <activity
             android:name=".ui.common.MainActivity"
@@ -230,9 +228,7 @@
             android:name=".camera.edit.theme.ThemeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/LuncherActivityTheme" />
-        <activity android:name=".TestActivity">
-
-        </activity>
+        <activity android:name=".TestActivity" />
         <activity
             android:name=".camera.edit.clipEdit.spilt.SpiltActivity"
             android:screenOrientation="portrait"
@@ -341,9 +337,7 @@
         <activity android:name=".ui.common.WebActivity" />
         <activity android:name=".ui.common.ResultActivity" />
         <activity android:name=".ui.common.LoginActivity" />
-        <activity android:name=".ui.common.LikePrefencesActivity" >
-
-        </activity>
+        <activity android:name=".ui.common.LikePrefencesActivity" />
         <activity
             android:name="com.umeng.socialize.editorpage.ShareActivity"
             android:excludeFromRecents="true"
@@ -430,11 +424,15 @@
         <activity android:name=".ui.mine.message.MessageDetailActivity" />
         <activity android:name=".ui.mine.AddCollectionActivity" />
         <activity android:name=".ui.mine.homepage.AddressBookFriendsActivity" />
-        <activity android:name=".ui.home.yoji.ReplyDiscussActivity"></activity>
+        <activity android:name=".ui.home.yoji.ReplyDiscussActivity" />
         <activity android:name=".ui.mine.homepage.MyFollowActivity" />
         <activity android:name=".ui.mine.homepage.HisFansActivity" />
         <activity android:name=".ui.mine.homepage.UserFansActivity" />
-        <activity android:name=".ui.home.yoji.UserHomepageActivity"></activity>
+        <activity android:name=".ui.home.yoji.UserHomepageActivity" />
+        <activity android:name=".ui.common.Same_page_Activity" />
+        <activity android:name=".ui.common.Album_details_Activity" />
+        <activity android:name=".ui.common.CameraActivity" />
+        <activity android:name=".ui.common.Vertical_picture_Activity"></activity>
     </application>
 
 </manifest>
