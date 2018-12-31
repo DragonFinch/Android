@@ -5,18 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.common.Same_page_Activity">
+    tools:context="com.iyoyogo.android.ui.common.Same_page_Activity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/dp_2">
-
-        <ImageView
-            android:id="@+id/img_return"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp_20"
-            android:src="@mipmap/fanhuishouye" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_channel"
@@ -24,6 +17,13 @@
             android:layout_height="match_parent"
             android:layout_margin="@dimen/dp_2"
             android:background="@color/white" />
+
+        <ImageView
+            android:id="@+id/img_return"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_20"
+            android:src="@mipmap/fanhuishouye" />
 
         <ImageView
             android:id="@+id/camera_icon"
