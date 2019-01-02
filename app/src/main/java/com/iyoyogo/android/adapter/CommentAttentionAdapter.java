@@ -32,6 +32,7 @@ public class CommentAttentionAdapter extends BaseQuickAdapter<CommendAttentionBe
     @Override
     protected void convert(BaseViewHolder helper, CommendAttentionBean.DataBean.ListBean item) {
         helper.setText(R.id.user_nick_name, item.getUser_nickname());
+        helper.addOnClickListener(R.id.btu_guanzhu);
         Glide.with(mContext).load(item.getUser_logo()).into((CircleImageView) helper.getView(R.id.user_logo));
         List<CommendAttentionBean.DataBean.ListBean.List4Bean> list_4 = item.getList_4();
         for (int i = 0; i < list_4.size(); i++) {

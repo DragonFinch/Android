@@ -23,6 +23,10 @@ import com.iyoyogo.android.contract.AttentionsContract;
 import com.iyoyogo.android.presenter.AttentionsPresenter;
 import com.iyoyogo.android.utils.SpUtils;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -101,5 +105,4 @@ public class FollowFragment extends BaseFragment<AttentionsContract.Presenter> i
         MyRecyclerView.setAdapter(adapter);
         MyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
-
 }

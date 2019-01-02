@@ -137,7 +137,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:name">
+        tools:replace="android:name"
+        >
         <activity android:name=".ui.mine.homepage.VipCenterActivity" />
 
         <service

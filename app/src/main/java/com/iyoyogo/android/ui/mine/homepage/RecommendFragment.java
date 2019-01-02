@@ -7,19 +7,25 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.CommentAttentionAdapter;
 import com.iyoyogo.android.base.BaseFragment;
+import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.collection.CommendAttentionBean;
 import com.iyoyogo.android.contract.CommendAttentionContract;
 import com.iyoyogo.android.presenter.CommendAttentionPresenter;
 import com.iyoyogo.android.utils.SpUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -95,5 +101,21 @@ public class RecommendFragment extends BaseFragment<CommendAttentionContract.Pre
         CommentAttentionAdapter adapter = new CommentAttentionAdapter(R.layout.item_recommend_recycleview, list);
         myRecyclerView.setAdapter(adapter);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                TextView btu_guanzhu = view.findViewById(R.id.btu_guanzhu);
+                String user_id = list.get(position).getUser_id();
+                mPresenter.addAttention(RecommendFragment.this.user_id, user_token, Integer.parseInt(user_id));
+                btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
+                btu_guanzhu.setText("已关注");
+                btu_guanzhu.setTextColor(Color.parseColor("#888888"));
+            }
+        });
+    }
+
+    @Override
+    public void addAttentionSuccess(AttentionBean attentionBean) {
+
     }
 }

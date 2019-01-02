@@ -4,6 +4,7 @@ import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BasePresenter;
+import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.collection.AddCollectionBean1;
 import com.iyoyogo.android.bean.collection.CommendAttentionBean;
 import com.iyoyogo.android.contract.AddCollectionContract;
@@ -24,6 +25,23 @@ public class CommendAttentionPresenter extends BasePresenter<CommendAttentionCon
                     @Override
                     protected void doOnSuccess(CommendAttentionBean commendAttentionBean) {
                         mView.getCommendAttentionSuccess(commendAttentionBean);
+                    }
+
+                    @Override
+                    protected boolean doOnFailure(int code, String message) {
+                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+    }
+
+    @Override
+    public void addAttention(String user_id, String user_token, int target_id) {
+        DataManager.getFromRemote().addAttention(user_id, user_token,target_id)
+                .subscribe(new ApiObserver<AttentionBean>(mView, this) {
+                    @Override
+                    protected void doOnSuccess(AttentionBean attentionBean) {
+                        mView.addAttentionSuccess(attentionBean);
                     }
 
                     @Override

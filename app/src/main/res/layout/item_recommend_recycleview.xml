@@ -75,6 +75,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
+                    android:id="@+id/btu_guanzhu"
                     android:layout_width="@dimen/dp_60"
                     android:layout_height="@dimen/dp_30"
                     android:layout_alignParentRight="true"

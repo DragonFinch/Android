@@ -38,9 +38,9 @@ public class HisFansAdapter extends BaseQuickAdapter<HisFansBean.DataBean.ListBe
             btu_guanzhu.setText("+关注");
             btu_guanzhu.setTextColor(Color.parseColor("#ffffff"));
         }
-        if (status == 1) {//关注
+        if (status == 1) {//已关注
             btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
-            btu_guanzhu.setText("关注");
+            btu_guanzhu.setText("已关注");
             btu_guanzhu.setTextColor(Color.parseColor("#888888"));
         }
         if (status == 2) {//互相关注

@@ -35,17 +35,17 @@ public class AttentionsAdapter extends BaseQuickAdapter<AttentionsBean.DataBean.
         if (status == 0) {//未关注
             btu_guanzhu.setBackgroundResource(R.drawable.bg_collection);
             btu_guanzhu.setText("+关注");
-            btu_guanzhu.setTextColor(Color.parseColor("#fff"));
+            btu_guanzhu.setTextColor(Color.parseColor("#ffffff"));
         }
-        if (status == 1) {//关注
+        if (status == 1) {//已关注
             btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
-            btu_guanzhu.setText("关注");
-            btu_guanzhu.setTextColor(Color.parseColor("#888"));
+            btu_guanzhu.setText("已关注");
+            btu_guanzhu.setTextColor(Color.parseColor("#888888"));
         }
         if (status == 2) {//互相关注
             btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
             btu_guanzhu.setText("互相关注");
-            btu_guanzhu.setTextColor(Color.parseColor("#888"));
+            btu_guanzhu.setTextColor(Color.parseColor("#888888"));
         }
     }
 }
