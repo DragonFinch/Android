@@ -23,6 +23,9 @@ import java.security.MessageDigest;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 替换手机号
+ */
 public class ReplacePhoneActivity extends BaseActivity<ReplacePhoneContract.Presenter> implements ReplacePhoneContract.View {
 
     @BindView(R.id.back_iv_id)

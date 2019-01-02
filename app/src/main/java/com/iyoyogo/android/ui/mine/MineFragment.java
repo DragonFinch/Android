@@ -26,7 +26,7 @@ import com.iyoyogo.android.ui.mine.homepage.Message_center_Activity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.ui.mine.homepage.VipCenterActivity;
 import com.iyoyogo.android.utils.SpUtils;
-import com.iyoyogo.android.utils.util.badgeview.BadgeViewPro;
+import com.iyoyogo.android.utils.icondottextview.IconDotTextView;
 import com.iyoyogo.android.widget.CircleImageView;
 
 import butterknife.BindView;
@@ -40,7 +40,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     @BindView(R.id.my_bgi_iv_id)
     ImageView myBgiIvId;
     @BindView(R.id.my_messge_im_id)
-    ImageView myMessgeImId;
+    IconDotTextView myMessgeImId;
     @BindView(R.id.my_dot_v_id)
     View myDotVId;
     @BindView(R.id.my_addfriend_im_id)
@@ -203,7 +203,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         myExceedTvId.setText("超过了全国" + clock_win + "的用户哦！");
         int count_noread = data.getCount_noread();
 
-       BadgeViewPro bv1 = new BadgeViewPro(getContext());
+//       BadgeViewPro bv1 = new BadgeViewPro(getContext());
 //        bv1.setStrText(count_noread + "").setMargin(10, 3, 10, 0).setStrSize(10).setTargetView(myMessgeImId);
 //        bv1.setStrText(count_noread + "").setMargin(10, 3, 10, 0).setStrSize(10).setTargetView(myMessgeImId);
         int today_isclock = data.getToday_isclock();
@@ -213,12 +213,19 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         } else {
             myClockButId.setVisibility(View.VISIBLE);
         }
+        if (count_noread>0){
+            myMessgeImId.setDotVisibility(true);
+            myMessgeImId.setDotText(count_noread);
+        }else {
+            myMessgeImId.setDotVisibility(false);
+        }
     }
 
     @Override
     public void punchClockSuccess(BaseBean baseBean) {
         Toast.makeText(mActivity, "打卡成功", Toast.LENGTH_SHORT).show();
     }
+
 
 
 }

@@ -4,7 +4,9 @@ import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.collection.MineCollectionBean;
-
+/**
+ * 收藏夹的契约类
+ */
 public interface CollectionContract {
     interface View extends IBaseView {
         void getCollectionSuccess(MineCollectionBean mineCollectionBean);

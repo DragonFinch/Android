@@ -34,6 +34,9 @@ import java.util.List;
 
 import io.reactivex.functions.Consumer;
 
+/**
+ * yo秀详情评论的适配器
+ */
 public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.Holder> {
     private Context context;
     private TextView tv_message;

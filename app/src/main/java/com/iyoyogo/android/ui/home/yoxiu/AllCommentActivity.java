@@ -4,6 +4,9 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
 
+/**
+ * 所有评论
+ */
 public class AllCommentActivity extends BaseActivity {
 
 

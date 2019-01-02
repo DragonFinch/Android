@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.EditText;
 
 import com.google.gson.Gson;
@@ -18,16 +17,15 @@ import com.iyoyogo.android.contract.AddressBookContract;
 import com.iyoyogo.android.presenter.AddressBookPresenter;
 import com.iyoyogo.android.utils.SpUtils;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class AddressBookFriendsActivity extends BaseActivity<AddressBookContract.Presenter> implements AddressBookContract.View {
-
+    /**
+     *
+     */
     @BindView(R.id.address_book_search)
     EditText addressBookSearch;
     @BindView(R.id.address_book_RecyclerView)

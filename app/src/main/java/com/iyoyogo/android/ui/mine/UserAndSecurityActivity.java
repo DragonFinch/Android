@@ -18,6 +18,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 用户安全
+ */
 public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContract.Presenter> implements UserAndSecurityContract.View {
 
     @BindView(R.id.back_iv_id)

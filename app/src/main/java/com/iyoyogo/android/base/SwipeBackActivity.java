@@ -9,6 +9,9 @@ import com.iyoyogo.android.swipe.SwipeBackActivityHelper;
 import com.iyoyogo.android.swipe.SwipeBackLayout;
 import com.iyoyogo.android.utils.Utils;
 
+/**
+ * 右滑返回
+ */
 public class SwipeBackActivity extends CustomAdaptActivity implements SwipeBackActivityBase {
     private SwipeBackActivityHelper mHelper;
 

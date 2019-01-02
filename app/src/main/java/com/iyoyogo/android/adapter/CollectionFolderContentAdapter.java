@@ -15,6 +15,9 @@ import com.iyoyogo.android.bean.collection.CollectionFolderContentBean;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 收藏夹内容的适配器
+ */
 public class CollectionFolderContentAdapter extends RecyclerView.Adapter<CollectionFolderContentAdapter.ViewHolder> {
     private Context context;
     List<CollectionFolderContentBean.DataBean.ListBean> mList;
@@ -34,6 +37,11 @@ public class CollectionFolderContentAdapter extends RecyclerView.Adapter<Collect
 
     List<String> idList = new ArrayList<>();
 
+    /**
+     * 刷新适配器
+     * @param myLiveList
+     * @param isAdd
+     */
     public void notifyAdapter(List<CollectionFolderContentBean.DataBean.ListBean> myLiveList, boolean isAdd) {
         if (!isAdd) {
             this.mList = myLiveList;
@@ -61,13 +69,14 @@ public class CollectionFolderContentAdapter extends RecyclerView.Adapter<Collect
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CollectionFolderContentBean.DataBean.ListBean listBean = mList.get(position);
+        //获取文件路径
         Glide.with(context).load(mList.get(position).getFile_path()).into(holder.img);
         if (mEditMode == MYLIVE_MODE_CHECK) {
             holder.checkBox.setVisibility(View.GONE);
 
         } else {
             holder.checkBox.setVisibility(View.VISIBLE);
-
+                //判断是否选中以及集合中是否包含，如果包含就删除，不包含，则添加
             if (mList.get(position).isSelect()&&!idList.contains(mList.get(position).getRecord_id())) {
                 holder.checkBox.setImageResource(R.mipmap.zp_xz);
                 idList.add(mList.get(position).getRecord_id()+"");

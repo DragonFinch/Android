@@ -16,7 +16,9 @@ import com.iyoyogo.android.widget.flow.TagFlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * 标签选择我的专属
+ */
 public class LabelThreeAdapter extends PagerAdapter {
     private Context mContext;
     private List<LabelListBean.DataBean.List3Bean> labels;

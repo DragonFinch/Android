@@ -6,7 +6,9 @@ import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.login.interest.InterestBean;
 
 import java.util.List;
-
+/**
+ * 用户兴趣的契约类
+ */
 public interface InterestContract  {
     interface View extends IBaseView {
         void loadDataSuccess(List<InterestBean.DataBean.ListBean> list);

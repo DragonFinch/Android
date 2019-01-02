@@ -14,6 +14,9 @@ import com.iyoyogo.android.bean.mine.PraiseBean;
 
 import java.util.List;
 
+/**
+ * 我的喜欢的适配器
+ */
 public class MineLikeAdapter extends RecyclerView.Adapter<MineLikeAdapter.ViewHolder> implements View.OnClickListener {
     private Context context;
     List<PraiseBean.DataBean.ListBean> mList;

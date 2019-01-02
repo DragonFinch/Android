@@ -6,7 +6,9 @@ import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.login.SendMessageBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.bean.login.login.MarketBean;
-
+/**
+ * 登录的契约类
+ */
 public interface LoginContract {
     interface View extends IBaseView{
         void sendMessageSuccess(SendMessageBean.DataBean data);

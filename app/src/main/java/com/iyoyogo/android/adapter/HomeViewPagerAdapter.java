@@ -18,6 +18,9 @@ import com.iyoyogo.android.utils.RoundTransform;
 
 import java.util.List;
 
+/**
+ * 首页轮播图
+ */
 public class HomeViewPagerAdapter extends PagerAdapter {
     private List<HomeBean.DataBean.BannerListBean> images;
     private Context context;

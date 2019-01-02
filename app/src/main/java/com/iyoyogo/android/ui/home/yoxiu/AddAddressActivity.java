@@ -54,7 +54,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+/**
+ * 添加地址
+ */
 public class AddAddressActivity extends AppCompatActivity {
 
     @BindView(R.id.back)

@@ -25,6 +25,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 兴趣
+ */
 public class LikePrefencesActivity extends BaseActivity<InterestContract.Presenter> implements InterestContract.View {
 
 

@@ -7,7 +7,9 @@ import com.iyoyogo.android.bean.collection.CollectionFolderBean;
 import com.iyoyogo.android.bean.collection.CollectionFolderContentBean;
 
 import java.util.List;
-
+/**
+ * 我的收藏的契约类
+ */
 public interface CollectionFolderContentContract {
     interface View extends IBaseView {
         void getCollectionFolderContentSuccess(List<CollectionFolderContentBean.DataBean.ListBean> list);

@@ -71,6 +71,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.jzvd.JzvdStd;
 
+/**
+ * 发布yo秀
+ */
 public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Presenter> implements PublishYoXiuContract.View {
     private TextView tv_message;
     private TextView tv_message_two;

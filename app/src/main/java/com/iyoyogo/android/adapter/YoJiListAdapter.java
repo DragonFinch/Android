@@ -21,6 +21,9 @@ import com.iyoyogo.android.widget.CircleImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * yo记列表的适配器
+ */
 public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHolder> {
     private Context context;
     List<YoJiListBean.DataBean.ListBean> mList;

@@ -15,6 +15,9 @@ import com.iyoyogo.android.bean.yoxiu.TypeBean;
 
 import java.util.List;
 
+/**
+ * 选择地址类型的适配器
+ */
 public class TypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
     private Context context;
     private List<TypeBean.DataBean.ListBean> mList;

@@ -13,6 +13,9 @@ import com.iyoyogo.android.bean.yoji.list.YoJiListBean;
 
 import java.util.List;
 
+/**
+ * yo记列表的评论
+ */
 public class YoJiListInnerAdapter extends RecyclerView.Adapter<YoJiListInnerAdapter.ViewHolder> implements View.OnClickListener {
     private Context context;
     List<YoJiListBean.DataBean.ListBean.CommentBean> mList;

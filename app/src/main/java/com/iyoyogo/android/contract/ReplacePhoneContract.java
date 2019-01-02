@@ -3,7 +3,9 @@ package com.iyoyogo.android.contract;
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.BaseBean;
-
+/**
+ * 替换手机号的契约类
+ */
 public interface ReplacePhoneContract {
     interface View extends IBaseView{
         void replacePhoneSuccess(BaseBean baseBean);

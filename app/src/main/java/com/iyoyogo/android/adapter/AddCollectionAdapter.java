@@ -2,7 +2,6 @@ package com.iyoyogo.android.adapter;
 
 
 import android.support.annotation.Nullable;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -13,6 +12,9 @@ import com.iyoyogo.android.ui.mine.homepage.CircleImageView;
 
 import java.util.List;
 
+/**
+ * 添加收藏的适配器
+ */
 public class AddCollectionAdapter extends BaseQuickAdapter<AddCollectionBean1.DataBean.ListBean, BaseViewHolder> {
 
     public AddCollectionAdapter(int layoutResId, @Nullable List<AddCollectionBean1.DataBean.ListBean> data) {

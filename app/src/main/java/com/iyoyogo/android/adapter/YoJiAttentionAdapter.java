@@ -292,7 +292,7 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
             }
             holder.user_name.setText(mList.get(position).getUser_info().getUser_nickname());
             holder.title.setText(mList.get(position).getTitle());
-            holder.tv_cost.setText(" ￥" + mList.get(position).getCost() + "/人");
+            holder.tv_cost.setText("￥" + mList.get(position).getCost() + "/人");
             holder.tv_day.setText(mList.get(position).getCount_dates() + "天");
             holder.tv_num_comment.setText("全部评论(" + mList.get(position).getCount_comment() + ")");
             holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");

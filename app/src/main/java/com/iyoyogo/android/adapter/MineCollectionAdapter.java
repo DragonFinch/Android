@@ -21,6 +21,9 @@ import com.iyoyogo.android.utils.DensityUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 我的收藏
+ */
 public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAdapter.ViewHolder> implements View.OnClickListener {
     private Context context;
     List<MineCollectionBean.DataBean.TreeBean> mList;

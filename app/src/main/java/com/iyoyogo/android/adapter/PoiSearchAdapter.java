@@ -21,6 +21,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 添加地点的适配器
+ */
 public class PoiSearchAdapter extends RecyclerView.Adapter<PoiSearchAdapter.ViewHolder> {
     private Context context;
     /**

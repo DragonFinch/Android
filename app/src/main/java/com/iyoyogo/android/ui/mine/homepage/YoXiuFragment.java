@@ -2,7 +2,6 @@ package com.iyoyogo.android.ui.mine.homepage;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseFragment;
@@ -11,8 +10,14 @@ import com.iyoyogo.android.contract.YoXiuContentContract;
 import com.iyoyogo.android.presenter.YoXiuContentPresenter;
 import com.iyoyogo.android.utils.SpUtils;
 
+import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
+ */
+
+/**
+ * yo秀内容
  */
 public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> implements YoXiuContentContract.View {
 
@@ -42,6 +47,7 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
 
     @Override
     public void getYoXiuContentSuccess(YoXiuContentBean.DataBean data) {
+        List<YoXiuContentBean.DataBean.ListBean> list = data.getList();
 
     }
 }

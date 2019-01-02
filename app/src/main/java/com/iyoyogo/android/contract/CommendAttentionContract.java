@@ -7,7 +7,9 @@ import com.iyoyogo.android.bean.collection.AddCollectionBean1;
 import com.iyoyogo.android.bean.collection.CommendAttentionBean;
 
 public interface CommendAttentionContract {
-
+    /**
+     * 首页数据的契约类
+     */
     interface View extends IBaseView {
         void getCommendAttentionSuccess(CommendAttentionBean commendAttentionBean);
         void addAttentionSuccess(AttentionBean attentionBean);

@@ -7,6 +7,9 @@ import com.iyoyogo.android.bean.collection.CollectionFolderBean;
 
 import java.util.List;
 
+/**
+ * 收藏夹的适配器
+ */
 public class CollectionFolderAdapter extends BaseQuickAdapter<CollectionFolderBean.DataBean.ListBean,BaseViewHolder> {
     public CollectionFolderAdapter(List<CollectionFolderBean.DataBean.ListBean> data) {
         super(R.layout.collection_folder, data);

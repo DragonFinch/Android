@@ -29,6 +29,9 @@ import java.io.File;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 我的设置
+ */
 public class MineSettingActivity extends BaseActivity<MineSettingContract.Presenter> implements MineSettingContract.View, SwitchButton.OnCheckedChangeListener {
 
     @BindView(R.id.back_iv_id)

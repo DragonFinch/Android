@@ -74,6 +74,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 发布yo记
+ */
 public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presenter> implements PublishYoJiContract.View {
 
     List<MessageBean> list = new ArrayList<>();
@@ -182,7 +185,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         path_list = intent.getStringArrayListExtra("path_list");
         path = path_list.get(0);
         Glide.with(this).load(path).into(imgYoji);
-        ArrayList<String> strings = ossUpload(path_list);
+//        ArrayList<String> strings = ossUpload(path_list);
         MessageBean messageBean = new MessageBean();
         messageBean.setStart_date("开始日期");
         messageBean.setEnd_date("结束日期");
@@ -192,7 +195,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         messageBean.setPosition_address("2");
         messageBean.setPosition_areas("1");
         mList = new ArrayList<>();
-        messageBean.setLogos(strings);
+        messageBean.setLogos(path_list);
         mList.add(messageBean);
 
 

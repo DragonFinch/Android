@@ -53,7 +53,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link Fragment} subclass.首页
  */
 public class HomeFragment extends BaseFragment {
     PopupWindow popup;

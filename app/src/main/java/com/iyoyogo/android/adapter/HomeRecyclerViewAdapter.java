@@ -30,14 +30,17 @@ import com.iyoyogo.android.view.MyViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 首页数据的适配器
+ */
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int VIEWPAGER = 0;
     public static final int YOUXIU = 1;
     public static final int YOUJI = 2;
     public static final int FOOT = 3;
-    public static final int RECOMMEND = 4;
     private Context context;
     private List<HomeBean.DataBean> mList;
+    //是否轮循
     private boolean isLoop;
     private static final int TIME = 2000;
     private MyViewPager viewpager;
@@ -51,6 +54,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             mHandler.postDelayed(runnableForViewPager, TIME);
         }
     };
+    //使用Thread实现ViewPagerBanner图的效果
     Runnable runnableForViewPager = new Runnable() {
         @Override
         public void run() {
@@ -68,18 +72,16 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
         }
     };
-    private ImageView img_yoji;
-    private ImageView yoji_all;
-    private RecyclerView recycler_yoji;
-    private String type;
 
+    private String type;
+//开始轮循
     public void startLoop() {
         if (viewpager != null && !isLoop) {
             mHandler.postDelayed(runnableForViewPager, TIME);
             isLoop = true;
         }
     }
-
+    //停止轮循
     public void stopLoop() {
         if (viewpager != null) {
             mHandler.removeCallbacksAndMessages(null);

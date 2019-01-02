@@ -29,6 +29,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 编辑收藏夹
+ */
 public class CreateCollectionFolderActivity extends BaseActivity<EditCollectionContract.Presenter> implements EditCollectionContract.View {
 
     @BindView(R.id.back_iv_id)

@@ -32,6 +32,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 我的喜欢
+ */
 public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter> implements MinePraiseContract.View {
 
 

@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * 选择兴趣
+ */
 public class InterestsAdapter  extends BaseAdapter {
 
     private Context context;

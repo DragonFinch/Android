@@ -19,6 +19,9 @@ import com.iyoyogo.android.base.IBasePresenter;
 
 import java.lang.reflect.Method;
 
+/**
+ * Splash
+ */
 public class SplashActivity extends BaseActivity {
 
 

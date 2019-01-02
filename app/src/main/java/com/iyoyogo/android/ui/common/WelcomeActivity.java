@@ -15,6 +15,9 @@ import com.iyoyogo.android.utils.SpUtils;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 欢迎页
+ */
 
 public class WelcomeActivity extends BaseActivity {
     int[] image_ids = {R.mipmap.welcome2, R.mipmap.welcome3, R.mipmap.welcome4};

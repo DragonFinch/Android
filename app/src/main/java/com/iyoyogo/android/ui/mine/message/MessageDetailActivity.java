@@ -31,7 +31,9 @@ import butterknife.OnClick;
 
 public class MessageDetailActivity extends BaseActivity<MessageContract.Presenter> implements MessageContract.View {
 
-
+    /**
+     * 消息详情
+     */
     @BindView(R.id.message_center_back_im_id)
     ImageView messageCenterBackImId;
     @BindView(R.id.like_me_title_tv_id)

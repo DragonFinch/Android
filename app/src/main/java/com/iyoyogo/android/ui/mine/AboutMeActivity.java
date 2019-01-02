@@ -26,6 +26,9 @@ import com.iyoyogo.android.presenter.AboutMePresenter;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 关于我们
+ */
 public class AboutMeActivity extends BaseActivity<AboutMeContract.Presenter> implements AboutMeContract.View {
 
     @BindView(R.id.back_iv_id)

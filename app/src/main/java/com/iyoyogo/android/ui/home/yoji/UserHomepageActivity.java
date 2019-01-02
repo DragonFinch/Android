@@ -46,6 +46,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 用户中心
+ */
 public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Presenter> implements PersonalCenterContract.View {
 
     @BindView(R.id.img_back)

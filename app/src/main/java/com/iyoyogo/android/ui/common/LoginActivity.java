@@ -46,7 +46,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
 
-
+/**
+ * 登录
+ */
 public class LoginActivity extends BaseActivity<LoginContract.Presenter> implements LoginContract.View {
     private static final int REQUEST_CAMERA_PERMISSION_CODE = 0;
     private final String LOGIN_TYPE_YZ = "YZ";

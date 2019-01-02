@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * 频道适配器
+ */
 public class ChannelAdapter   extends BaseAdapter{
         private Context context;
         private List<ChannelBean.DataBean.ListBean> mList;

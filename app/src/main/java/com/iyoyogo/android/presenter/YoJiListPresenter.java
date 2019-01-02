@@ -1,7 +1,6 @@
 package com.iyoyogo.android.presenter;
 
 import com.iyoyogo.android.base.BasePresenter;
-import com.iyoyogo.android.contract.YoJiListContract;
 
 public class YoJiListPresenter extends BasePresenter<YoJiListContract.View> implements YoJiListContract.Presenter {
     public YoJiListPresenter(YoJiListContract.View mView) {

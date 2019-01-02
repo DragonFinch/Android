@@ -34,6 +34,9 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * 定位
+ */
 public class LocationActivity extends AppCompatActivity {
 
     //初始化AMapLocationClientOption对象

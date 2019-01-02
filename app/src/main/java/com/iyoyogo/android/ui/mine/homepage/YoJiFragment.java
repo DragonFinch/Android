@@ -20,7 +20,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.Unbinder;
 
-
+/**
+ * yo记内容
+ */
 public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> implements YoJiContentContract.View {
 
     @BindView(R.id.recycler_yoji)

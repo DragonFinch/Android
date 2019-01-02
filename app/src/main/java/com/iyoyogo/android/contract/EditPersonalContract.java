@@ -4,7 +4,9 @@ import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.mine.GetUserInfoBean;
-
+/**
+ * 编辑用户信息的契约类
+ */
 public interface EditPersonalContract {
     interface View extends IBaseView{
         void getUserInfoSuccess(GetUserInfoBean.DataBean data);

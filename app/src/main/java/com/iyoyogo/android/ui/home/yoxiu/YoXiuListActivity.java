@@ -37,6 +37,9 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
+/*
+yo秀列表
+ */
 public class YoXiuListActivity extends BaseActivity {
     int currentPage = 1;
     @BindView(R.id.back)

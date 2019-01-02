@@ -2,7 +2,6 @@ package com.iyoyogo.android.ui.home.attention;
 
 
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -30,6 +29,10 @@ import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
+ */
+
+/**
+ * 关注Fragment
  */
 public class AttentionFragment extends BaseFragment<HomeContract.Presenter> implements HomeContract.View {
     @BindView(R.id.recycler_recommend)

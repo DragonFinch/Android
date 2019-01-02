@@ -16,6 +16,9 @@ import com.iyoyogo.android.bean.collection.CollectionFolderBean;
 
 import java.util.List;
 
+/**
+ * 移动收藏夹内容的适配器
+ */
 public class DefaultCollectionAdapter extends RecyclerView.Adapter<DefaultCollectionAdapter.ViewHolder> {
     private Context context;
     private int selected = -1;

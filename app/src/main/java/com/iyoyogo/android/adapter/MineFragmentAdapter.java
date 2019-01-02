@@ -7,6 +7,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.List;
 
+/**
+ * 用户主页的适配器
+ */
 public class MineFragmentAdapter extends FragmentPagerAdapter {
     List<Fragment> fragments;
     List<String> title;

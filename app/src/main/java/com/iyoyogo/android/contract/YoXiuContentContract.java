@@ -3,7 +3,9 @@ package com.iyoyogo.android.contract;
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.mine.center.YoXiuContentBean;
-
+/**
+ * yo秀内容的契约类
+ */
 public interface YoXiuContentContract {
     interface View extends IBaseView{
         void getYoXiuContentSuccess(YoXiuContentBean.DataBean data);

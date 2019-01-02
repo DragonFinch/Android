@@ -13,7 +13,7 @@ public interface IBaseView {
     //加载失败
     void setLoadFailedView(boolean isShow);
 
-    //加载失败的视图
+    //加载空数据的视图
     void setNoDataView(boolean isShow);
 
     //长吐司

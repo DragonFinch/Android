@@ -8,7 +8,9 @@ import com.iyoyogo.android.bean.collection.AddCollectionBean;
 import com.iyoyogo.android.bean.collection.CollectionFolderBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.bean.yoji.detail.YoJiDetailBean;
-
+/**
+ * yo记详情的契约类
+ */
 public interface YoJiDetailContract {
     interface View extends IBaseView {
         void getYoJiDetailSuccess(YoJiDetailBean.DataBean data);

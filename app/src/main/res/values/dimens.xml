@@ -17,7 +17,11 @@
     <dimen name="edit_viewpager_weight">320dp</dimen>
     <dimen name="edit_bottom_layout_height">219dp</dimen>
     <dimen name="edit_titleBar_height">64dp</dimen>
+    <dimen name="default_icon_size">32dp</dimen>
 
+    <dimen name="default_dot_size">14dp</dimen>
+    <dimen name="default_dot_text_size">10sp</dimen>
+    <dimen name="default_text_size">14sp</dimen>
     <!-- 水印 -->
     <dimen name="edit_waterMark_width">63dp</dimen>
     <dimen name="edit_waterMark_height">57dp</dimen>

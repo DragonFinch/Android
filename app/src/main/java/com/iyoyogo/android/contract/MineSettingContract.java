@@ -4,7 +4,9 @@ import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.mine.setting.MineSettingBean;
-
+/**
+ * 我的设置的契约类
+ */
 public interface MineSettingContract {
     interface View extends IBaseView {
         void logoutSuccess(BaseBean baseBean);

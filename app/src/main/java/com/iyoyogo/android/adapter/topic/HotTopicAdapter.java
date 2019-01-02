@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 热门话题适配器
+ */
 public class HotTopicAdapter extends RecyclerView.Adapter<HotTopicAdapter.Holder> implements View.OnClickListener {
     private Context context;
     private List<HotTopicBean.DataBean.ListBean> mList;

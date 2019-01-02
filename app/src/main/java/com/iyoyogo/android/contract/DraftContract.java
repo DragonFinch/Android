@@ -5,7 +5,9 @@ import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.mine.DraftBean;
 
 import java.util.List;
-
+/**
+ * 草稿的契约类
+ */
 public interface DraftContract {
     interface View extends IBaseView{
         void getDraftSuccess(List<DraftBean.DataBean.ListBean> list);

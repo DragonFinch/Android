@@ -70,6 +70,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
+/**
+ * yo记详情
+ */
 public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presenter> implements YoJiDetailContract.View {
 
     @BindView(R.id.tv_desc)

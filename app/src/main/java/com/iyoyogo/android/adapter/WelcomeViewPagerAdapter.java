@@ -11,6 +11,9 @@ import android.widget.ImageView;
 
 import com.iyoyogo.android.R;
 
+/**
+ * 欢迎页
+ */
 public class WelcomeViewPagerAdapter extends PagerAdapter {
     //界面列表
     private int[] ids;

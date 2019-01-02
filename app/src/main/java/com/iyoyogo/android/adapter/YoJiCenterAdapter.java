@@ -28,6 +28,9 @@ import java.util.List;
 
 import io.reactivex.functions.Consumer;
 
+/**
+ * yo记用户主页的适配器
+ */
 public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Holder> implements View.OnClickListener {
     private List<YoJiContentBean.DataBean.ListBean> mList;
     private Context context;

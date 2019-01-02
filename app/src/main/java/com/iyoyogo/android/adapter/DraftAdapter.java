@@ -16,7 +16,7 @@ import com.iyoyogo.android.bean.mine.DraftBean;
 import com.iyoyogo.android.utils.GlideRoundTransform;
 
 import java.util.List;
-
+//草稿适配器
 public class DraftAdapter extends RecyclerView.Adapter<DraftAdapter.ViewHolder> {
     Context context;
     List<DraftBean.DataBean.ListBean> mList;

@@ -6,7 +6,7 @@ package com.iyoyogo.android.model;
  * Description : 数据源管理
  */
 public class DataManager {
-
+        //获取Model
     public static Model getFromRemote() {
         return Model.getModel();
     }

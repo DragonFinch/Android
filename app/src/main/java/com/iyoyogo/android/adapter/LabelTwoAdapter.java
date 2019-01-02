@@ -16,7 +16,9 @@ import com.iyoyogo.android.widget.flow.TagFlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * 标签选择防坑指南
+ */
 public class LabelTwoAdapter extends PagerAdapter {
     private Context mContext;
     private List<LabelListBean.DataBean.List2Bean> labels;

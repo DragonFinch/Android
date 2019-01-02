@@ -30,7 +30,6 @@ import android.widget.TextView;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.ImageAdapter;
-import com.iyoyogo.android.adapter.MediaAdapter;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.FileSizeUtil;
 import com.iyoyogo.android.utils.imagepicker.activities.ImagesPreviewActivity;

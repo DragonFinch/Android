@@ -32,7 +32,9 @@ import com.iyoyogo.android.widget.CircleImageView;
 import java.util.List;
 
 import io.reactivex.functions.Consumer;
-
+/*8
+yo秀列表的适配器
+ */
 public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.ViewHolder> implements View.OnClickListener {
     private Context context;
     private List<YouXiuListBean.DataBean.ListBean> mList;

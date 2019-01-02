@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,7 +13,6 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.iyoyogo.android.R;
-import com.iyoyogo.android.bean.collection.AddCollectionBean1;
 import com.iyoyogo.android.bean.collection.AddressBookBean;
 import com.iyoyogo.android.bean.collection.AddressBookPhoneInfoBean;
 import com.iyoyogo.android.ui.mine.homepage.CircleImageView;
@@ -22,6 +20,9 @@ import com.iyoyogo.android.ui.mine.homepage.CircleImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 通讯录的适配器
+ */
 public class AddressBookAdapter extends BaseQuickAdapter<AddressBookBean.DataBean.ListBean, BaseViewHolder> {
 
     private String name;

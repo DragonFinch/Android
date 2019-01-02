@@ -68,6 +68,9 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * 修改用户信息
+ */
 public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContract.Presenter> implements EditPersonalContract.View {
     private static String path = "/sdcard/myHead/";//sd路径
     @BindView(R.id.back_iv_id)

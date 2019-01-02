@@ -12,7 +12,9 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.mine.center.YoJiContentBean;
 
 import java.util.List;
-
+/**
+ * yo记用户主页评论的适配器
+ */
 public class YoJiCenterCommentAdapter extends RecyclerView.Adapter<YoJiCenterCommentAdapter.ViewHolder> implements View.OnClickListener {
     private Context context;
     List<YoJiContentBean.DataBean.ListBean.CommentListBean> mList;

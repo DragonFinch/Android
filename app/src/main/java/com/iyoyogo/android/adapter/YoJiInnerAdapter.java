@@ -14,6 +14,9 @@ import com.iyoyogo.android.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 发布yo记的图片列表
+ */
 public class YoJiInnerAdapter extends RecyclerView.Adapter<YoJiInnerAdapter.ViewHolder> {
     Context context;
     List<String> path_list;

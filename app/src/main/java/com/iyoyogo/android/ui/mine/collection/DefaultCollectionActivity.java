@@ -39,6 +39,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 收藏夹内容
+ */
 public class DefaultCollectionActivity extends BaseActivity<CollectionFolderContentContract.Presenter> implements CollectionFolderContentContract.View {
     private SparseBooleanArray stateCheckedMap = new SparseBooleanArray();//用来存放CheckBox的选中状态，true为选中,false为没有选中
     @BindView(R.id.default_back_iv_id)

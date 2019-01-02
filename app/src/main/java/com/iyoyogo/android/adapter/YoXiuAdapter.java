@@ -30,6 +30,9 @@ import java.util.List;
 
 import io.reactivex.functions.Consumer;
 
+/**
+ * yo秀首页的适配器
+ */
 public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> implements View.OnClickListener {
     private List<HomeBean.DataBean.YoxListBean> mList;
     private Context context;

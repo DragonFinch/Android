@@ -53,6 +53,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 创建点
+ */
 public class CreatePointActivity extends BaseActivity<CreatePointContract.Presenter> implements CreatePointContract.View {
 
     @BindView(R.id.back)

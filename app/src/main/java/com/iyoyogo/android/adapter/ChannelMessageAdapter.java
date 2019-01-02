@@ -8,6 +8,9 @@ import com.iyoyogo.android.R;
 
 import java.util.List;
 
+/**
+ * 选择频道之后返回的数据的适配器
+ */
 public class ChannelMessageAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
     public ChannelMessageAdapter(@Nullable List<String> data) {
         super(R.layout.item_channel, data);

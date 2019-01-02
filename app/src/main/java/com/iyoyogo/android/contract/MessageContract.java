@@ -6,7 +6,9 @@ import com.iyoyogo.android.bean.mine.message.MessageBean;
 import com.iyoyogo.android.bean.mine.message.ReadMessage;
 
 import java.util.List;
-
+/**
+ * 消息详情的契约类
+ */
 public interface MessageContract {
     interface View extends IBaseView {
         void getMessageSuccess(List<MessageBean.DataBean.ListBean> list);

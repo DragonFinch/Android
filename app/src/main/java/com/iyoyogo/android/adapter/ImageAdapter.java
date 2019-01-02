@@ -28,6 +28,9 @@ import java.util.List;
  * Created by eric on 2017/12/3.
  */
 
+/**
+ * 资源选择的适配器
+ */
 public class ImageAdapter extends BaseRecyclerAdapter {
 
     private int count = 0;

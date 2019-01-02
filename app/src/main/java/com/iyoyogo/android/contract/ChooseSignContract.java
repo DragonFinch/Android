@@ -5,14 +5,16 @@ import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.yoji.label.AddLabelBean;
 import com.iyoyogo.android.bean.yoji.label.LabelListBean;
-
+/**
+ * 选择标签的契约类
+ */
 public interface ChooseSignContract {
     interface View extends IBaseView {
-
+        //获取标签
         void getLabelListSuccess(LabelListBean.DataBean data);
-
+        //添加标签
         void addLabelSuccess(AddLabelBean.DataBean data);
-
+        //删除标签
         void deleteLabelSuccess(BaseBean baseBean);
     }
 

@@ -13,6 +13,9 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
 
+/**
+ * WebView
+ */
 public class WebActivity extends BaseActivity {
 
     private WebView mWebView;

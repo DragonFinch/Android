@@ -38,6 +38,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
+/**
+ * 回复评论
+ */
 public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Presenter> implements ReplyDiscussContract.View {
 
 

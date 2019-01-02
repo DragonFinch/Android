@@ -36,6 +36,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 选择标签
+ */
 public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presenter> implements ChooseSignContract.View {
 
 

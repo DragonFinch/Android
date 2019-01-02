@@ -22,6 +22,9 @@ import com.iyoyogo.android.widget.SlideBar;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 城市选择
+ */
 public class CitySelectorActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, SlideBar.OnTouchAssortListener {
     private SlideBar mSlideBar;
     private ListView mListView;

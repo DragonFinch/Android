@@ -13,6 +13,9 @@ import com.iyoyogo.android.bean.home.HomeBean;
 
 import java.util.List;
 
+/**
+ * yo记首页评论
+ */
 public class YoJiListItemAdapter extends RecyclerView.Adapter<YoJiListItemAdapter.ViewHolder> implements View.OnClickListener {
     private Context context;
     List<HomeBean.DataBean.YojListBean.CommentListBean> mList;

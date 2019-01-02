@@ -30,6 +30,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 更多话题
+ */
 public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter> implements MoreTopicContract.View {
 
     @BindView(R.id.location_edit)

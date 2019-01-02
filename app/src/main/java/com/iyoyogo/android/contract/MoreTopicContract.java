@@ -6,7 +6,9 @@ import com.iyoyogo.android.bean.yoxiu.topic.CreateTopicBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
 
 import java.util.List;
-
+/**
+ * 更多话题的契约类
+ */
 public interface MoreTopicContract {
     interface View extends IBaseView{
 

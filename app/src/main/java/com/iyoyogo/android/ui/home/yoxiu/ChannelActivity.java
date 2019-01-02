@@ -24,6 +24,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 频道
+ */
 public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> implements ChannelContract.View {
 
 

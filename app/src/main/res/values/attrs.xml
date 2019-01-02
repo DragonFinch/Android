@@ -1,46 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources >
-    <declare-styleable name="BadgeViewPro">
-        <attr name="shape" format="integer">
-            <enum name="shape_circle" value="0" />
-            <enum name="shape_oval" value="1" />
-            <enum name="shape_rectangle" value="2" />
-            <enum name="shape_round_rectangle" value="3" />
+    <declare-styleable name="IconDotTextView">
+        <attr name="icon" format="reference"/>
+        <attr name="icon_size" format="dimension"/>
+        <attr name="icon_width" format="dimension"/>
+        <attr name="icon_height" format="dimension"/>
+        <attr name="spacing" format="dimension"/>
+        <attr name="direction" format="enum">
+            <enum name="row" value="1"/>
+            <enum name="row_reverse" value="2"/>
+            <enum name="column" value="4"/>
+            <enum name="column_reverse" value="8"/>
         </attr>
-        <attr name="text_Size" format="dimension" />
-        <attr name="textColors" format="color" />
-        <attr name="bgColors" format="color" />
-        <attr name="shape_type" format="integer" />
-    </declare-styleable>
-    <declare-styleable name="NumTipView">
-        <attr name="max_num" format="integer" />
-        <attr name="min_num" format="integer" />
-        <attr name="text_size" format="dimension" />
-        <attr name="text_color" format="color" />
-        <attr name="min_gone" format="boolean" />
-        <attr name="hor_padding" format="dimension" />
-        <attr name="ver_padding" format="dimension" />
-    </declare-styleable>
-    <declare-styleable name="TLRedPointView">
-        <attr name="tlRedPointViewTextSize" format="integer" />
-        <attr name="tlRedPointViewTextColor" format="color" />
-        <attr name="tlRedPointViewBGColor" format="color" />
-        <attr name="tlRedPointViewCount" format="integer" />
-        <attr name="tlRedpointViewZeroShowPoint" format="boolean" />
-        <attr name="tlRedPointViewZeroRadius" format="integer" />
-        <attr name="tlRedPointStyle" format="enum">
-            <enum name="circle_point" value="0" />
-            <enum name="popular" value="1" />
-
+        <attr name="textes" format="string"/>
+        <attr name="text_sizes" format="dimension"/>
+        <attr name="textColors" format="color"/>
+        <attr name="dot_visible" format="boolean"/>
+        <attr name="dot_size" format="dimension"/>
+        <attr name="dot_color" format="color"/>
+        <attr name="dot_text" format="string"/>
+        <attr name="dot_textSizes" format="dimension"/>
+        <attr name="dot_textColors" format="color"/>
+        <attr name="dot_alignToIcon" format="boolean"/>
+        <attr name="dot_alignTo">
+            <flag name="top" value="1"/>
+            <flag name="right" value="2"/>
+            <flag name="bottom" value="4"/>
+            <flag name="left" value="8"/>
         </attr>
-    </declare-styleable>
-    <declare-styleable name="ShoppingCartFloatButton">
-        <attr name="float_image_resource" format="reference" />
-        <attr name="cart_view_width" format="dimension" />
-        <attr name="cart_view_height" format="dimension" />
-        <attr name="dot_to_right_of_float_margin_left" format="dimension" />
-        <attr name="dot_above_float_margin_bottom" format="dimension" />
-        <attr name="commodity_count" format="integer" />
+        <attr name="dot_marginTop" format="dimension"/>
+        <attr name="dot_marginRight" format="dimension"/>
+        <attr name="dot_marginBottom" format="dimension"/>
+        <attr name="dot_marginLeft" format="dimension"/>
     </declare-styleable>
     <declare-styleable name="MutiProgress">
         <attr name="nodesNum" format="integer"/> <!-- 节点数量 -->
@@ -53,16 +44,6 @@
         <attr name="processingLineColor" format="color"></attr>
         <attr name="currNodeNO" format="integer"></attr>   <!-- 当前所到达的节点编号  0开始计算-->
         <attr name="currNodeState" format="integer"></attr>   <!-- 当前所到达的节点状态，0：失败  1：成功 -->
-    </declare-styleable>
-    <declare-styleable name="BadgeButton">
-        <!-- 徽标文本，为空时显示一个小红点 -->
-        <attr name="btnBadgeText" format="string" />
-        <!-- 徽标高度，宽度自适应 -->
-        <attr name="btnBadgeHeight" format="dimension" />
-        <!-- 徽标背景色，文本白色 -->
-        <attr name="btnBadgeColor" format="color" />
-        <!-- 徽标是否可见 -->
-        <attr name="btnBadgeVisible" format="boolean" />
     </declare-styleable>
     <declare-styleable name="TagFlowLayout">
         <attr name="max_select" format="integer"></attr>

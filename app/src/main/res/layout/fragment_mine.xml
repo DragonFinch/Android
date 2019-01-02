@@ -29,16 +29,18 @@
             android:textColor="@color/ffffffff"
             android:textSize="@dimen/sp_25"
             tools:ignore="MissingPrefix" />
-
-        <ImageView
-            android:layout_marginTop="@dimen/dp_10"
-            android:id="@+id/my_messge_im_id"
+        <com.iyoyogo.android.utils.icondottextview.IconDotTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:id="@+id/my_messge_im_id"
+
+            app:icon="@mipmap/message"
+
             android:layout_alignParentRight="true"
             android:layout_marginRight="59dp"
-            android:src="@mipmap/message"
-           />
+            />
+
 
         <View
             android:id="@+id/my_dot_v_id"

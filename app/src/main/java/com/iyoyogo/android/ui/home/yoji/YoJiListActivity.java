@@ -28,6 +28,9 @@ import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+/**
+ * yo记列表
+ */
 public class YoJiListActivity extends BaseActivity {
 
     @BindView(R.id.recycler_yoji_list_two)

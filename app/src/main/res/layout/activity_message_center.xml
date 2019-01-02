@@ -38,11 +38,11 @@
         android:id="@+id/message_center_system_message_rl_id"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_70">
-        <ImageView
+        <com.iyoyogo.android.utils.icondottextview.IconDotTextView
             android:layout_marginTop="@dimen/dp_15"
             android:layout_marginLeft="@dimen/dp_20"
             android:layout_centerVertical="true"
-            android:src="@mipmap/xitong"
+            app:icon="@mipmap/xitong"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/message_system"
@@ -82,11 +82,11 @@
         android:id="@+id/message_center_like_me_rl_id"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_70">
-        <ImageView
+        <com.iyoyogo.android.utils.icondottextview.IconDotTextView
             android:layout_marginTop="@dimen/dp_15"
             android:layout_marginLeft="@dimen/dp_20"
             android:layout_centerVertical="true"
-            android:src="@mipmap/love"
+            app:icon="@mipmap/love"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/like_message"
@@ -127,11 +127,11 @@
         android:id="@+id/message_center_commentary_message_rl_id"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_70">
-        <ImageView
+        <com.iyoyogo.android.utils.icondottextview.IconDotTextView
             android:layout_marginTop="@dimen/dp_15"
             android:layout_marginLeft="@dimen/dp_20"
             android:layout_centerVertical="true"
-            android:src="@mipmap/pinglun"
+            app:icon="@mipmap/pinglun"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/discuss_message"
@@ -170,10 +170,10 @@
         android:id="@+id/message_center_focus_on_news_rl_id"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_70">
-        <ImageView
+        <com.iyoyogo.android.utils.icondottextview.IconDotTextView
             android:id="@+id/attention_message"
             android:layout_centerVertical="true"
-            android:src="@mipmap/guanzhu"
+            app:icon="@mipmap/guanzhu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_20"

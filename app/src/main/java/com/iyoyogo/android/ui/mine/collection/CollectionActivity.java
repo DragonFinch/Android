@@ -24,7 +24,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-
+/**
+ * 我的收藏
+ */
 public class CollectionActivity extends BaseActivity<CollectionContract.Presenter> implements CollectionContract.View {
     @BindView(R.id.back_iv_id)
     ImageView backIvId;

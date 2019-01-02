@@ -5,7 +5,9 @@ import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
 
 import java.util.List;
-
+/**
+ * 发布yo秀的契约类
+ */
 public interface PublishYoXiuContract {
     interface View extends IBaseView {
 

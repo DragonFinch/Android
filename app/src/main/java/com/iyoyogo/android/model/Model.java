@@ -59,7 +59,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class Model {
     private volatile static Model model;
-
+    //单例创建
     public static Model getModel() {
         if (model == null) {
             synchronized (Model.class) {
@@ -169,11 +169,30 @@ public class Model {
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取类型
+     * @param user_id
+     * @param user_token
+     * @return
+     */
     public Observable<TypeBean> getType(String user_id, String user_token) {
         return HttpClient.getApiService().getType(user_id, user_token)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 创建点
+     * @param user_id
+     * @param user_token
+     * @param name
+     * @param en_name
+     * @param areas
+     * @param address
+     * @param lng
+     * @param lat
+     * @param type_id
+     * @return
+     */
     public Observable<BaseBean> create_point(String user_id,
                                              String user_token,
                                              String name,
@@ -186,6 +205,13 @@ public class Model {
         return HttpClient.getApiService().create_pointer(user_id, user_token, name, en_name, areas, address, lng, lat, type_id).compose(this.switchThread());
     }
 
+    /**
+     * 获取热门话题
+     * @param user_id
+     * @param user_token
+     * @param search
+     * @return
+     */
     public Observable<HotTopicBean> getHotTopic(String user_id,
                                                 String user_token,
                                                 String search) {
@@ -193,36 +219,81 @@ public class Model {
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取最近话题
+     * @param user_id
+     * @param user_token
+     * @return
+     */
     public Observable<HotTopicBean> getNearTopic(String user_id,
                                                  String user_token) {
         return HttpClient.getApiService().getNearTopic(user_id, user_token)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 创建话题
+     * @param user_id
+     * @param user_token
+     * @param topic
+     * @return
+     */
     public Observable<CreateTopicBean> createTopic(String user_id,
                                                    String user_token, String topic) {
         return HttpClient.getApiService().createTopic(user_id, user_token, topic)
                 .compose(this.switchThread());
     }
-
+    /*8
+    清空话题
+     */
     public Observable<BaseBean> clearTopic(String user_id,
                                            String user_token) {
         return HttpClient.getApiService().clearTopic(user_id, user_token)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取推荐话题
+     * @param user_id
+     * @param user_token
+     * @return
+     */
     public Observable<HotTopicBean> getRecommend(String user_id,
                                                  String user_token) {
         return HttpClient.getApiService().getRecommend(user_id, user_token)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取频道
+     * @param user_id
+     * @param user_token
+     * @return
+     */
     public Observable<ChannelBean> getChannel(String user_id,
                                               String user_token) {
         return HttpClient.getApiService().getChannel(user_id, user_token)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 发布yo秀
+     * @param user_id
+     * @param user_token
+     * @param yo_id
+     * @param file_path
+     * @param file_type
+     * @param file_desc
+     * @param channel_ids
+     * @param topic_ids
+     * @param open
+     * @param valid
+     * @param position_name
+     * @param position_areas
+     * @param position_address
+     * @param filter_id
+     * @return
+     */
     public Observable<BaseBean> publish_yoXiu(String user_id,
                                               String user_token,
                                               int yo_id,
@@ -241,42 +312,92 @@ public class Model {
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取yo秀详情
+     * @param user_id
+     * @param user_token
+     * @param id
+     * @return
+     */
     public Observable<YoXiuDetailBean> getDetail(String user_id, String user_token, int id) {
         return HttpClient.getApiService().getDetail(user_id, user_token, id)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取yo秀列表
+     * @param user_id
+     * @param user_token
+     * @param page
+     * @return
+     */
     public Observable<YouXiuListBean> getYoXiuList(String user_id, String user_token, int page) {
         return HttpClient.getApiService().getYoXiuList(user_id, user_token, page)
                 .compose(this.switchThread());
     }
-
+    /*8
+   点赞
+     */
     public Observable<BaseBean> praise(String user_id, String user_token, int yo_id, int comment_id) {
         return HttpClient.getApiService().praise(user_id, user_token, yo_id, comment_id)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取个人信息
+     * @param user_id
+     * @param user_token
+     * @return
+     */
     public Observable<MineMessageBean> getPersonInfo(String user_id, String user_token) {
         return HttpClient.getApiService().getPersonInfo(user_id, user_token)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取评论列表
+     * @param user_id
+     * @param user_token
+     * @param page
+     * @param yo_id
+     * @param comment_id
+     * @return
+     */
     public Observable<CommentBean> getComment(String user_id, String user_token, int page, int yo_id, int comment_id) {
         return HttpClient.getApiService().getComment(user_id, user_token, page, yo_id, comment_id)
                 .compose(this.switchThread())
                 ;
     }
-
+/*8
+添加评论
+ */
     public Observable<BaseBean> addComment(String user_id, String user_token, int comment_id, int yo_id, String content) {
         return HttpClient.getApiService().addComment(user_id, user_token, comment_id, yo_id, content)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取用户信息
+     * @param user_id
+     * @param user_token
+     * @return
+     */
     public Observable<GetUserInfoBean> getUserInfo(String user_id, String user_token) {
         return HttpClient.getApiService().getUserInfo(user_id, user_token)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 修改用户信息
+     * @param user_id
+     * @param user_token
+     * @param user_nickname
+     * @param user_logo
+     * @param user_sex
+     * @param user_birthday
+     * @param user_city
+     * @return
+     */
     public Observable<BaseBean> setUserInfo(String user_id,
                                             String user_token,
                                             String user_nickname,
@@ -289,21 +410,51 @@ public class Model {
 
     }
 
+    /**
+     * 获取绑定信息
+     * @param user_id
+     * @param user_token
+     * @return
+     */
     public Observable<GetBindInfoBean> getBindInfo(String user_id, String user_token) {
         return HttpClient.getApiService().getBindInfo(user_id, user_token)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 替换手机号
+     * @param user_id
+     * @param user_token
+     * @param phone
+     * @param yzm
+     * @return
+     */
     public Observable<BaseBean> replacePhone(String user_id, String user_token, String phone, String yzm) {
         return HttpClient.getApiService().replacePhone(user_id, user_token, phone, yzm)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 退出登录
+     * @param user_id
+     * @param user_token
+     * @param addr
+     * @param phone_type
+     * @param app_version
+     * @return
+     */
     public Observable<BaseBean> logout(String user_id, String user_token, String addr, String phone_type, String app_version) {
         return HttpClient.getApiService().logout(user_id, user_token, addr, phone_type, app_version)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 添加关注
+     * @param user_id
+     * @param user_token
+     * @param target_id
+     * @return
+     */
     public Observable<AttentionBean> addAttention(String user_id, String user_token, int target_id) {
         return HttpClient.getApiService().addAttention(user_id, user_token, target_id)
                 .compose(this.switchThread());
@@ -314,52 +465,136 @@ public class Model {
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取收藏夹列表
+     * @param user_id
+     * @param user_token
+     * @return
+     */
     public Observable<CollectionFolderBean> getCollectionFolder(String user_id, String user_token) {
         return HttpClient.getApiService().getCollectionFolder(user_id, user_token)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 创建收藏夹
+     * @param user_id
+     * @param user_token
+     * @param name
+     * @param open
+     * @param id
+     * @return
+     */
     public Observable<BaseBean> create_folder(String user_id, String user_token, String name, int open, String id) {
         return HttpClient.getApiService().createFolder(user_id, user_token, name, open, id)
                 .compose(this.switchThread());
 
     }
 
+    /**
+     * 添加收藏
+     * @param user_id
+     * @param user_token
+     * @param folder_id
+     * @param yo_id
+     * @return
+     */
     public Observable<AddCollectionBean> addCollection(String user_id, String user_token, int folder_id, int yo_id) {
         return HttpClient.getApiService().addCollection(user_id, user_token, folder_id, yo_id)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 取消收藏
+     * @param user_id
+     * @param user_token
+     * @param id
+     * @return
+     */
     public Observable<BaseBean> deleteCollection(String user_id, String user_token, int id) {
         return HttpClient.getApiService().deleteCollection(user_id, user_token, id)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 不喜欢
+     * @param user_id
+     * @param user_token
+     * @param yo_id
+     * @return
+     */
     public Observable<BaseBean> dislike(String user_id, String user_token, int yo_id) {
         return HttpClient.getApiService().dislike(user_id, user_token, yo_id)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 举报
+     * @param user_id
+     * @param user_token
+     * @param yo_id
+     * @param comment_id
+     * @param content
+     * @return
+     */
     public Observable<BaseBean> report(String user_id, String user_token, int yo_id, int comment_id, String content) {
         return HttpClient.getApiService().report(user_id, user_token, yo_id, comment_id, content)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取标签列表
+     * @param user_id
+     * @param user_token
+     * @return
+     */
     public Observable<LabelListBean> getLabelList(String user_id, String user_token) {
         return HttpClient.getApiService().getLabelList(user_id, user_token)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 添加标签
+     * @param user_id
+     * @param user_token
+     * @param label_id
+     * @param type
+     * @param label
+     * @return
+     */
     public Observable<AddLabelBean> addLabel(String user_id, String user_token, int label_id, int type, String label) {
         return HttpClient.getApiService().addLabel(user_id, user_token, label_id, type, label)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 删除标签
+     * @param user_id
+     * @param user_token
+     * @param label_id
+     * @return
+     */
     public Observable<BaseBean> deleteLabel(String user_id, String user_token, int label_id) {
         return HttpClient.getApiService().deleteLabel(user_id, user_token, label_id)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 发布yo记
+     * @param user_id
+     * @param user_token
+     * @param yo_id
+     * @param logo
+     * @param title
+     * @param desc
+     * @param cost
+     * @param open
+     * @param valid
+     * @param topic_ids
+     * @param channel_ids
+     * @param json
+     * @return
+     */
     public Observable<BaseBean> publishYoJi(String user_id, String user_token, int yo_id, String logo, String title, String desc, int cost, int open, int valid, List<Integer> topic_ids, List<Integer> channel_ids, String json) {
 
         Log.e("Gson", json);
@@ -367,91 +602,222 @@ public class Model {
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取草稿
+     * @param user_id
+     * @param user_token
+     * @param page
+     * @param page_size
+     * @return
+     */
     public Observable<DraftBean> getDraft(String user_id, String user_token, int page, int page_size) {
         return HttpClient.getApiService().getDraft(user_id, user_token, page, page_size)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取yo记列表
+     * @param user_id
+     * @param user_token
+     * @param page
+     * @param page_size
+     * @return
+     */
     public Observable<YoJiListBean> getYoJiList(String user_id, String user_token, int page, int page_size) {
         return HttpClient.getApiService().getYoJiList(user_id, user_token, page, page_size)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取yo记详情
+     * @param user_id
+     * @param user_token
+     * @param yo_id
+     * @return
+     */
     public Observable<YoJiDetailBean> getYoJiDetail(String user_id, String user_token, int yo_id) {
         return HttpClient.getApiService().getYoJiDetail(user_id, user_token, yo_id)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取我的收藏
+     * @param user_id
+     * @param user_token
+     * @return
+     */
     public Observable<MineCollectionBean> getMineCollection(String user_id, String user_token) {
         return HttpClient.getApiService().getMineCollection(user_id, user_token)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 删除收藏夹
+     * @param user_id
+     * @param user_token
+     * @param folder_ids
+     * @return
+     */
     public Observable<BaseBean> deleteCollectionFolder(String user_id, String user_token, Integer[] folder_ids) {
         return HttpClient.getApiService().deleteCollectionFolder(user_id, user_token, folder_ids)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取用户主页
+     * @param user_id
+     * @param user_token
+     * @param his_id
+     * @return
+     */
     public Observable<UserCenterBean> getUserCenter(String user_id, String user_token, String his_id) {
         return HttpClient.getApiService().getUserCenter(user_id, user_token, his_id)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取yo记内容
+     * @param user_id
+     * @param user_token
+     * @param his_id
+     * @param page
+     * @param page_size
+     * @return
+     */
     public Observable<YoJiContentBean> getYoJiContent(String user_id, String user_token, String his_id, String page, String page_size) {
         return HttpClient.getApiService().getYoJiContent(user_id, user_token, his_id, page, page_size)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取我的喜欢
+     * @param user_id
+     * @param user_token
+     * @param page
+     * @param page_size
+     * @return
+     */
     public Observable<PraiseBean> getPraise(String user_id, String user_token, int page, int page_size) {
         return HttpClient.getApiService().getPraise(user_id, user_token, page, page_size)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取收藏夹内容
+     * @param user_id
+     * @param user_token
+     * @param page
+     * @param page_size
+     * @return
+     */
     public Observable<CollectionFolderContentBean> getContent(String user_id, String user_token, int page, int page_size) {
         return HttpClient.getApiService().getContent(user_id, user_token, page, page_size)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 取消收藏
+     * @param user_id
+     * @param user_token
+     * @param record_ids
+     * @return
+     */
     public Observable<BaseBean> deleteCollection(String user_id, String user_token, Integer[] record_ids) {
         return HttpClient.getApiService().deleteCollection(user_id, user_token, record_ids)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 移动收藏夹内容
+     * @param user_id
+     * @param user_token
+     * @param record_ids
+     * @param folder_id
+     * @return
+     */
     public Observable<BaseBean> moveCollectionFolder(String user_id, String user_token, Integer[] record_ids, int folder_id) {
         return HttpClient.getApiService().moveCollectionFolder(user_id, user_token, record_ids, folder_id)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取我的设置
+     * @param user_id
+     * @param user_token
+     * @return
+     */
     public Observable<MineSettingBean> getMineSetting(String user_id, String user_token) {
         return HttpClient.getApiService().getMineSetting(user_id, user_token)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 修改我的设置
+     * @param user_id
+     * @param user_token
+     * @param wifi_auto_play_video
+     * @param notice
+     * @param address_list
+     * @return
+     */
     public Observable<BaseBean> setMineSetting(String user_id, String user_token, int wifi_auto_play_video, int notice, int address_list) {
         return HttpClient.getApiService().setMineSetting(user_id, user_token, wifi_auto_play_video, notice, address_list)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 用户反馈
+     * @param user_id
+     * @param user_token
+     * @param desc
+     * @return
+     */
     public Observable<BaseBean> feedBack(String user_id, String user_token, String desc) {
         return HttpClient.getApiService().addFeedBack(user_id, user_token, desc)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 关于我们
+     * @return
+     */
     public Observable<AboutMeBean> aboutme() {
         return HttpClient.getApiService().aboutMe()
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取消息
+     * @param user_id
+     * @param user_token
+     * @param type
+     * @param page
+     * @return
+     */
     public Observable<MessageBean> getMessage(String user_id, String user_token, int type, int page) {
         return HttpClient.getApiService().getMessage(user_id, user_token, type, page)
                 .compose(this.switchThread());
     }
+
+    /**
+     * 获取消息中心
+     * @param user_id
+     * @param user_token
+     * @return
+     */
 
     public Observable<MessageCenterBean> messageCenter(String user_id, String user_token) {
         return HttpClient.getApiService().getMessageCenter(user_id, user_token)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 读取消息
+     * @param user_id
+     * @param user_token
+     * @param message_id
+     * @return
+     */
     public Observable<ReadMessage> readMessage(String user_id, String user_token, String message_id) {
         return HttpClient.getApiService().readMessage(user_id, user_token, message_id)
                 .compose(this.switchThread());
@@ -469,6 +835,14 @@ public class Model {
                 .compose(this.switchThread());
     }
 
+    /**
+     * push
+     * @param user_id
+     * @param user_token
+     * @param device
+     * @param jpush_rid
+     * @return
+     */
     public Observable<BaseBean> push(String user_id, String user_token, String device, String jpush_rid) {
         return HttpClient.getApiService().push(user_id, user_token, device, jpush_rid)
                 .compose(this.switchThread());
@@ -491,14 +865,38 @@ public class Model {
         return HttpClient.getApiService().setHisFans(user_id, user_token, his_id, page, page_size)
                 .compose(this.switchThread());
     }
+
+    /**
+     * 打卡
+     * @param user_id
+     * @param user_token
+     * @return
+     */
     public Observable<BaseBean> punchClock(String user_id,String user_token){
         return HttpClient.getApiService().punchClock(user_id, user_token)
                 .compose(this.switchThread());
     }
+
+    /**
+     * 版本升级
+     * @param user_id
+     * @param user_token
+     * @param type
+     * @return
+     */
     public Observable<VersionBean> getVersionMessage(String user_id,String user_token,String type){
         return HttpClient.getApiService().getVersionMessage(user_id, user_token, type)
                 .compose(this.switchThread());
     }
+
+    /**
+     * 不喜欢
+     * @param user_id
+     * @param user_token
+     * @param yo_id
+     * @param type
+     * @return
+     */
     public Observable<BaseBean> dislike(String user_id,String user_token,int yo_id,int type){
         return HttpClient.getApiService().dislike(user_id, user_token, yo_id, type)
                 .compose(this.switchThread());
@@ -508,10 +906,28 @@ public class Model {
         return HttpClient.getApiService().setVipCenter(user_id, user_token)
                 .compose(this.switchThread());
     }
+
+    /**
+     * 获取yo秀内容
+     * @param user_id
+     * @param user_token
+     * @param his_id
+     * @param page
+     * @param page_size
+     * @return
+     */
     public Observable<YoXiuContentBean> getYoXiuContent(String user_id, String user_token, String his_id, String page, String page_size) {
         return HttpClient.getApiService().getYoXiuContent(user_id, user_token, his_id, page, page_size)
                 .compose(this.switchThread());
     }
+
+    /**
+     * 删除yo秀
+     * @param user_id
+     * @param user_token
+     * @param yo_id
+     * @return
+     */
     public Observable<BaseBean> deleteYo(String user_id,String user_token,int yo_id){
         return HttpClient.getApiService().deleteYo(user_id, user_token, yo_id)
                 .compose(this.switchThread());

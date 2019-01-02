@@ -6,6 +6,9 @@ import com.iyoyogo.android.R;
 
 import java.util.List;
 
+/**
+ * 个人主页的兴趣
+ */
 public class PersonInterestAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
     public PersonInterestAdapter(List<String> data) {
         super(R.layout.item_interest_person, data);

@@ -51,6 +51,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 个人主页
+ */
 
 public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContract.Presenter> implements PersonalCenterContract.View {
 

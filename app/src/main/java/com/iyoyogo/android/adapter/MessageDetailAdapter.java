@@ -21,6 +21,9 @@ import com.iyoyogo.android.widget.CircleImageView;
 
 import java.util.List;
 
+/**
+ * 消息详情
+ */
 public class MessageDetailAdapter extends RecyclerView.Adapter<MessageDetailAdapter.ViewHolder> implements View.OnClickListener {
     Context context;
     List<MessageBean.DataBean.ListBean> mList;

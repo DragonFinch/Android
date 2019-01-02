@@ -22,6 +22,9 @@ import com.iyoyogo.android.widget.FlowGroupView;
 
 import java.util.List;
 
+/**
+ * yo记详情的适配器
+ */
 public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Holder> implements View.OnClickListener {
     List<YoJiDetailBean.DataBean.ListBean> mList;
     private Context context;

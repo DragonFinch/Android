@@ -1,5 +1,8 @@
 package com.iyoyogo.android.ui.common;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -91,7 +94,13 @@ public class SameParaActivity extends BaseActivity {
     }
 
 
-
+    private Bitmap mergeBitmap(Bitmap firstBitmap, Bitmap secondBitmap) {
+        Bitmap bitmap = Bitmap.createBitmap(firstBitmap.getWidth(), firstBitmap.getHeight(),firstBitmap.getConfig());
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawBitmap(firstBitmap, new Matrix(), null);
+        canvas.drawBitmap(secondBitmap, 0, 0, null);
+        return bitmap;
+    }
     @OnClick(R.id.back_same_para)
     public void onViewClicked() {
         finish();

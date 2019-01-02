@@ -19,6 +19,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 草稿
+ */
 public class DraftActivity extends BaseActivity<DraftContract.Presenter> implements DraftContract.View {
 
 

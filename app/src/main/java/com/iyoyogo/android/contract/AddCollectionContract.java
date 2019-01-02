@@ -3,7 +3,9 @@ package com.iyoyogo.android.contract;
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.collection.AddCollectionBean1;
-
+/**
+ * 添加关注的契约类
+ */
 public interface AddCollectionContract {
 
     interface View extends IBaseView {

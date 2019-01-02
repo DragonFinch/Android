@@ -13,10 +13,14 @@ import com.iyoyogo.android.bean.yoxiu.YouXiuListBean;
 
 import java.util.List;
 
+/**
+ * yo秀列表评论的适配器
+ */
 public class YoXiuListItemAdapter extends RecyclerView.Adapter<YoXiuListItemAdapter.ViewHolder> implements View.OnClickListener {
     private Context context;
     List<YouXiuListBean.DataBean.ListBean.CommentListBean> mList;
     private OnClickListener onClickListener;
+
     public YoXiuListItemAdapter(Context context, List<YouXiuListBean.DataBean.ListBean.CommentListBean> comment_list) {
         this.context = context;
         this.mList = comment_list;
@@ -42,12 +46,14 @@ public class YoXiuListItemAdapter extends RecyclerView.Adapter<YoXiuListItemAdap
     public int getItemCount() {
         return mList.size();
     }
-    public interface OnClickListener{
-        void setOnClickListener(View v,int position);
+
+    public interface OnClickListener {
+        void setOnClickListener(View v, int position);
     }
+
     @Override
     public void onClick(View v) {
-        if (onClickListener!=null){
+        if (onClickListener != null) {
             onClickListener.setOnClickListener(v, (Integer) v.getTag());
         }
     }

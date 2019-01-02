@@ -61,6 +61,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
+/**
+ * yo秀详情
+ */
 public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presenter> implements YoXiuDetailContract.View {
     private int open = 2;
     private boolean isOpen;

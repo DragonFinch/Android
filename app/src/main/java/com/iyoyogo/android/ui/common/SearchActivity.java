@@ -37,6 +37,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 位置搜索
+ */
 public class SearchActivity extends BaseActivity {
     @BindView(R.id.locationET_id)
     EditText locationETId;

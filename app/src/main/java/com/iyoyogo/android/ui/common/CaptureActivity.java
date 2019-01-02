@@ -98,6 +98,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
+/**
+ * Go拍
+ */
 public class CaptureActivity extends BaseActivity implements NvsStreamingContext.CaptureDeviceCallback,
         NvsStreamingContext.CaptureRecordingDurationCallback,
         View.OnClickListener,

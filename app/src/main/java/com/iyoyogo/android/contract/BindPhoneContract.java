@@ -4,8 +4,9 @@ import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.login.SendMessageBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
-import com.iyoyogo.android.bean.login.login.MarketBean;
-
+/**
+ * 绑定手机号的契约类
+ */
 public interface BindPhoneContract {
     interface View extends IBaseView {
         void sendMessageSuccess(SendMessageBean.DataBean data);

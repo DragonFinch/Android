@@ -50,6 +50,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
 
+/**
+ * 首页
+ */
 
 public class MainActivity extends BaseActivity<MainContract.Presenter> implements MainContract.View {
 

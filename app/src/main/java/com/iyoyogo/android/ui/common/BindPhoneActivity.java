@@ -27,6 +27,9 @@ import java.security.MessageDigest;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 绑定手机号
+ */
 public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter> implements BindPhoneContract.View {
 
     @BindView(R.id.mBinding_Back_ImgeView_id)

@@ -17,6 +17,9 @@ import com.iyoyogo.android.utils.StatusBarUtils;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 用户反馈
+ */
 public class FeedBackActivity extends BaseActivity<FeedBackContract.Presenter> implements FeedBackContract.View {
 
     @BindView(R.id.back_iv_id)

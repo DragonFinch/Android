@@ -26,6 +26,9 @@ import java.util.List;
 
 import io.reactivex.functions.Consumer;
 
+/**
+ * 回复评论的适配器
+ */
 public class ReplyDiscussAdapter extends RecyclerView.Adapter<ReplyDiscussAdapter.ViewHolder> {
     private Context context;
     private String userName;

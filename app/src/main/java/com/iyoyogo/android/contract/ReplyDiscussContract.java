@@ -4,7 +4,9 @@ import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
-
+/**
+ * 回复评论的契约类
+ */
 public interface ReplyDiscussContract {
     interface View extends IBaseView{
         void getCommentListSuccess(CommentBean.DataBean data);

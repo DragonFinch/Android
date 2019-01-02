@@ -3,7 +3,9 @@ package com.iyoyogo.android.contract;
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.yoxiu.TypeBean;
-
+/**
+ * 创建点的契约类
+ */
 public interface CreatePointContract {
     interface View extends IBaseView{
     void setTypeSuccess(TypeBean.DataBean data);

@@ -24,6 +24,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 发布yo记的适配器
+ */
 public class PublishYoJiAdapter extends RecyclerView.Adapter<PublishYoJiAdapter.ViewHolder> implements View.OnClickListener {
     private Context context;
     private List<MessageBean> mList;
@@ -42,7 +45,7 @@ public class PublishYoJiAdapter extends RecyclerView.Adapter<PublishYoJiAdapter.
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
-
+//选择开始时间
     private void startTime(ViewHolder holder, int position) {
         TimePickerView pvTime = new TimePickerView.Builder(context, new TimePickerView.OnTimeSelectListener() {
             @Override
@@ -81,7 +84,7 @@ public class PublishYoJiAdapter extends RecyclerView.Adapter<PublishYoJiAdapter.
         pvTime.show();
 
     }
-
+    //选择结束时间
     private void endTime(ViewHolder holder, int position) {
         TimePickerView pvTime = new TimePickerView.Builder(context, new TimePickerView.OnTimeSelectListener() {
             @Override
@@ -119,7 +122,7 @@ public class PublishYoJiAdapter extends RecyclerView.Adapter<PublishYoJiAdapter.
         pvTime.show();
 
     }
-
+//获取时间
     private String getTime(Date date) {//可根据需要自行截取数据显示
         //"YYYY-MM-DD HH:MM:SS"        "yyyy-MM-dd"
         SimpleDateFormat format;

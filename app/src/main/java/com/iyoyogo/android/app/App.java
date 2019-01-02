@@ -49,6 +49,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         context = this;
+        //umeng的初始化
         UMShareAPI.get(this);
 
         UMConfigure.init(this,"5bea3cb0f1f5565cc1000170"
@@ -67,7 +68,9 @@ public class App extends Application {
         } else {
             UMConfigure.setLogEnabled(false);
         }
+        //全局不活一场
         CrashHandler.getInstance().init(mContext);
+        //防止方法数
         MultiDex.install(this);
     }
     public static Context getmContext() {
@@ -81,13 +84,15 @@ public class App extends Application {
         if (getPackageName().equals(getCurProcessName(this))) {
 //            initDebugTools();
             initLog();
+            //激光的初始化
             JPushInterface.setDebugMode(BuildConfig.DEBUG);
             JPushInterface.init(this);
 //            initImageLoader();
-
+//初始化用户西你想
             initUserInfo();
 //            initBaiduMap();
 //            initUmeng();
+            //屏幕适配
             initDisplayAdapter();
         }
     }
