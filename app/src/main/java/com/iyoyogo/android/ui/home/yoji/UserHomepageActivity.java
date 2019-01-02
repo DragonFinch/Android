@@ -1,6 +1,7 @@
 package com.iyoyogo.android.ui.home.yoji;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.MineFragmentAdapter;
 import com.iyoyogo.android.base.BaseActivity;
+import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.mine.center.UserCenterBean;
 import com.iyoyogo.android.contract.PersonalCenterContract;
 import com.iyoyogo.android.presenter.PersonalCenterPresenter;
@@ -44,6 +46,7 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -77,6 +80,8 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
     TabLayout tab;
     @BindView(R.id.personal_vp_id)
     ViewPager personalVpId;
+    @BindView(R.id.tv_guanzhu)
+    TextView tvGuanzhu;
     private String user_id;
     private String user_token;
     private int age;
@@ -142,6 +147,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
         yo_user_id = intent.getStringExtra("yo_user_id");
         mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
     }
+
     public void share() {
         View view = getLayoutInflater().inflate(R.layout.popup_share, null);
         PopupWindow popup_share = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(getApplicationContext(), 220), true);
@@ -233,6 +239,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
             backgroundAlpha(1.0f);
         }
     }
+
     @Override
     public void getPersonalCenterSuccess(UserCenterBean.DataBean data) {
         user_logo = data.getUser_logo();
@@ -288,8 +295,13 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
         tab.setupWithViewPager(personalVpId);
     }
 
+    @Override
+    public void addAttention1(AttentionBean.DataBean data) {
 
-    @OnClick({R.id.img_back, R.id.my_collection, R.id.get_hisFans})
+    }
+
+
+    @OnClick({R.id.img_back, R.id.my_collection, R.id.get_hisFans, R.id.tv_guanzhu})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -297,15 +309,21 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
                 break;
             case R.id.my_collection:
                 Intent intent = new Intent(this, UserFansActivity.class);
-                intent.putExtra("id", 1);
+                intent.putExtra("id", "1");
                 intent.putExtra("yo_user_id", yo_user_id);
                 startActivity(intent);
                 break;
             case R.id.get_hisFans:
                 intent = new Intent(this, UserFansActivity.class);
-                intent.putExtra("id", 2);
+                intent.putExtra("id", "2");
                 intent.putExtra("yo_user_id", yo_user_id);
                 startActivity(intent);
+                break;
+            case R.id.tv_guanzhu:
+                mPresenter.addAttention1(user_id, user_token, yo_user_id);
+                tvGuanzhu.setText("已关注");
+                tvGuanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
+                tvGuanzhu.setTextColor(Color.parseColor("#888888"));
                 break;
         }
     }

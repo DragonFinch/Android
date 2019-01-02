@@ -1,6 +1,7 @@
 package com.iyoyogo.android.ui.mine.homepage;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.collection.CommendAttentionBean;
 import com.iyoyogo.android.contract.CommendAttentionContract;
 import com.iyoyogo.android.presenter.CommendAttentionPresenter;
+import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.utils.SpUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -36,7 +38,7 @@ import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
- * 个人主页 — 推荐
+ * 个人主页 — 推荐话题
  */
 public class RecommendFragment extends BaseFragment<CommendAttentionContract.Presenter> implements CommendAttentionContract.View {
 
@@ -44,6 +46,7 @@ public class RecommendFragment extends BaseFragment<CommendAttentionContract.Pre
     RecyclerView myRecyclerView;
     private String user_id;
     private String user_token;
+    private boolean falg = false;
 
     @Override
     protected int getLayoutId() {
@@ -105,13 +108,22 @@ public class RecommendFragment extends BaseFragment<CommendAttentionContract.Pre
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 TextView btu_guanzhu = view.findViewById(R.id.btu_guanzhu);
-                String user_id = list.get(position).getUser_id();
-                mPresenter.addAttention(RecommendFragment.this.user_id, user_token, Integer.parseInt(user_id));
-                btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
-                btu_guanzhu.setText("已关注");
-                btu_guanzhu.setTextColor(Color.parseColor("#888888"));
+                if (falg == false){
+                    falg = true;
+                    mPresenter.addAttention1(user_id,user_token,list.get(position).getUser_id());
+                    btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
+                    btu_guanzhu.setText("已关注");
+                    btu_guanzhu.setTextColor(Color.parseColor("#888888"));
+                }else {
+                    falg = false;
+                    mPresenter.addAttention1(user_id,user_token,list.get(position).getUser_id());
+                    btu_guanzhu.setBackgroundResource(R.drawable.bg_collection);
+                    btu_guanzhu.setText("+关注");
+                    btu_guanzhu.setTextColor(Color.parseColor("#ffffff"));
+                }
             }
         });
+
     }
 
     @Override

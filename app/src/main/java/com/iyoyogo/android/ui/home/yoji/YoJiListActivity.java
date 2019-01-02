@@ -1,6 +1,8 @@
 package com.iyoyogo.android.ui.home.yoji;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -12,13 +14,23 @@ import android.widget.TextView;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.YoJiListHorizontalAdapter;
-import com.iyoyogo.android.adapter.YoJiAdapter;
 import com.iyoyogo.android.adapter.YoJiListAdapter;
+import com.iyoyogo.android.adapter.YoXiuListAdapter;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.bean.yoji.list.YoJiListBean;
+import com.iyoyogo.android.bean.yoxiu.YouXiuListBean;
 import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
+import com.iyoyogo.android.ui.home.yoxiu.YoXiuListActivity;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.List;
 
@@ -27,14 +39,18 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * yo记列表
  */
 public class YoJiListActivity extends BaseActivity {
 
+    int currentPage = 1;
     @BindView(R.id.recycler_yoji_list_two)
     RecyclerView recyclerYojiListTwo;
+    @BindView(R.id.refresh_layout)
+    SmartRefreshLayout refreshLayout;
     private int num = 1;
     @BindView(R.id.back)
     ImageView back;
@@ -47,17 +63,40 @@ public class YoJiListActivity extends BaseActivity {
     @BindView(R.id.recycler_yoji_list)
     RecyclerView recyclerYojiList;
     private YoJiListAdapter yoJiListAdapter;
-    private YoJiAdapter yoJiAdapter;
     boolean isVertical;
     private YoJiListHorizontalAdapter yoJiListHorizontalAdapter;
+    MyRefreshAnimHeader mRefreshAnimHeader;
+    private List<YoJiListBean.DataBean.ListBean> mList;
+    private String user_id;
+    private String user_token;
+
+
+    /**
+     * 设置刷新header风格
+     *
+     * @param header
+     */
+    private void setHeader(RefreshHeader header) {
+        refreshLayout.setRefreshHeader(header);
+    }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        String user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
-        String user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
+        //初始化header
+        mRefreshAnimHeader = new MyRefreshAnimHeader(this);
+        setHeader(mRefreshAnimHeader);
+
+        refreshLayout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
+        //下拉刷新
+        recyclerYojiList.setLayoutManager(new LinearLayoutManager(YoJiListActivity.this));
+        refreshLayout.setEnableRefresh(true);
+        refreshLayout.setFooterHeight(1.0f);
+
+        user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
+        user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
         DataManager.getFromRemote()
-                .getYoJiList(user_id, user_token, 1, 20)
+                .getYoJiList(user_id, user_token, currentPage, 20)
                 .subscribe(new Observer<YoJiListBean>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -66,14 +105,14 @@ public class YoJiListActivity extends BaseActivity {
 
                     @Override
                     public void onNext(YoJiListBean yoJiListBean) {
-                        List<YoJiListBean.DataBean.ListBean> mList = yoJiListBean.getData().getList();
+                        mList = yoJiListBean.getData().getList();
                         yoJiListHorizontalAdapter = new YoJiListHorizontalAdapter(YoJiListActivity.this, mList);
                         yoJiListAdapter = new YoJiListAdapter(YoJiListActivity.this, mList);
                         //横向
                         Log.e("123", "recyclerYojiList" + "isVertical:" + isVertical);
                         recyclerYojiList.setVisibility(View.VISIBLE);
                         recyclerYojiList.setLayoutManager(new LinearLayoutManager(YoJiListActivity.this));
-            recyclerYojiList.setAdapter(yoJiListHorizontalAdapter);
+                        recyclerYojiList.setAdapter(yoJiListHorizontalAdapter);
                         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
                         recyclerYojiListTwo.setLayoutManager(staggeredGridLayoutManager);
                         recyclerYojiListTwo.setAdapter(yoJiListAdapter);
@@ -90,6 +129,67 @@ public class YoJiListActivity extends BaseActivity {
                     }
                 });
 
+        refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                currentPage++;
+                Log.d("currentPage", "currentPage:" + currentPage);
+                DataManager.getFromRemote().getYoJiList(user_id, user_token, currentPage,20)
+                        .subscribe(new Consumer<YoJiListBean>() {
+                            @Override
+                            public void accept(YoJiListBean yoJiListBean) throws Exception {
+                                List<YoJiListBean.DataBean.ListBean> list = yoJiListBean.getData().getList();
+                                mList.addAll(list);
+                                yoJiListAdapter.notifyItemInserted(mList.size());
+                            }
+                        });
+
+//                yoXiuListAdapter.notifyItemInserted(mList.size());
+                refreshLayout.finishLoadMore(2000);
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mList.clear();
+                DataManager.getFromRemote().getYoJiList(user_id, user_token, currentPage,20)
+                        .subscribe(new Observer<YoJiListBean>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+
+                            }
+
+                            @Override
+                            public void onNext(YoJiListBean yoJiListBean) {
+                                List<YoJiListBean.DataBean.ListBean> list = yoJiListBean.getData().getList();
+                                mList.addAll(list);
+
+                                yoJiListAdapter = new YoJiListAdapter(YoJiListActivity.this, mList);
+                                recyclerYojiList.setAdapter(yoJiListAdapter);
+
+                                yoJiListAdapter.setOnItemClickListener(new YoJiListAdapter.OnClickListener() {
+                                    @Override
+                                    public void setOnClickListener(View v, int position) {
+                                        int id = mList.get(position).getYo_id();
+                                        Intent intent = new Intent(YoJiListActivity.this, YoJiDetailActivity.class);
+                                        intent.putExtra("yo_id", id);
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.d("YoXiuListActivity", e.getMessage());
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
+                refreshLayout.finishRefresh();
+            }
+        });
     }
 
     @Override
@@ -129,7 +229,6 @@ public class YoJiListActivity extends BaseActivity {
 
     }
 
-
     @OnClick({R.id.back, R.id.img_replace})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -148,15 +247,7 @@ public class YoJiListActivity extends BaseActivity {
                     recyclerYojiListTwo.setVisibility(View.GONE);
                 }
 
-
                 break;
         }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 }

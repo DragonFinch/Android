@@ -348,6 +348,11 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<AttentionBean> addAttention(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("target_id") int target_id);
 
+    //添加关注
+    @POST("index.php/api/attention/click")
+    @FormUrlEncoded
+    Observable<AttentionBean> addAttention1(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("target_id") String target_id);
+
     //取消关注
     @POST("index.php/api/attention/delete")
     @FormUrlEncoded

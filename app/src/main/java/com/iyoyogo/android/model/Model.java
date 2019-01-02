@@ -460,6 +460,11 @@ public class Model {
                 .compose(this.switchThread());
     }
 
+    public Observable<AttentionBean> addAttention1(String user_id, String user_token, String target_id) {
+        return HttpClient.getApiService().addAttention1(user_id, user_token, target_id)
+                .compose(this.switchThread());
+    }
+
     public Observable<BaseBean> deleteAttention(String user_id, String user_token, int id) {
         return HttpClient.getApiService().deleteAttention(user_id, user_token, id)
                 .compose(this.switchThread());

@@ -11,6 +11,7 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.HisFansAdapter;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.HisFansBean;
+import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.contract.HisHansContract;
 import com.iyoyogo.android.presenter.HisFansPresenter;
 import com.iyoyogo.android.utils.SpUtils;
@@ -67,6 +68,11 @@ public class HisFansActivity extends BaseActivity<HisHansContract.Presenter> imp
             myRecyclerView.setAdapter(adapter);
             myRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
+    }
+
+    @Override
+    public void addAttentionSuccess(AttentionBean attentionBean) {
+
     }
 
     @OnClick(R.id.message_center_back_im_id)

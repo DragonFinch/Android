@@ -35,8 +35,8 @@ public class MyFollowActivity extends BaseActivity {
     TextView tvFollowId;
     @BindView(R.id.fragment)
     View fragment;
-    private FollowFragment followFragment = new FollowFragment();
-    private RecommendFragment recommendFragment = new RecommendFragment();
+    private FollowFragment followFragment = new FollowFragment();//关注的人
+    private RecommendFragment recommendFragment = new RecommendFragment();//推荐话题
     private Fragment currentFragment = new Fragment();
 
     @Override
@@ -75,7 +75,7 @@ public class MyFollowActivity extends BaseActivity {
         return transaction;
     }
 
-    @OnClick({R.id.tv_recommend_id, R.id.tv_follow_id, R.id.add_collection,R.id.message_center_back_im_id})
+    @OnClick({R.id.tv_recommend_id, R.id.tv_follow_id, R.id.add_collection, R.id.message_center_back_im_id})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_recommend_id://推荐
@@ -85,7 +85,7 @@ public class MyFollowActivity extends BaseActivity {
                 switchFragment(followFragment).commit();
                 break;
             case R.id.add_collection://添加关注
-                startActivity(new Intent(this,AddCollectionActivity.class));
+                startActivity(new Intent(this, AddCollectionActivity.class));
                 break;
             case R.id.message_center_back_im_id://finsh
                 finish();

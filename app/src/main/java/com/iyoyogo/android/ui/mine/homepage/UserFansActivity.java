@@ -34,6 +34,7 @@ public class UserFansActivity extends BaseActivity {
     private Fragment currentFragment = new Fragment();
     private UserFollowFragment followFragment = new UserFollowFragment();
     private UserFansFragment fansFragment = new UserFansFragment();
+    private FragmentTransaction transaction;
 
 
     @Override
@@ -44,19 +45,18 @@ public class UserFansActivity extends BaseActivity {
     protected void initView() {
         super.initView();
         statusbar();
-        switchFragment(fansFragment).commit();
+        switchFragment(followFragment).commit();
         tvFollowId.setTextColor(Color.parseColor("#333333"));
     }
 
     protected void onRestart() {
-        Log.e("zz", "onRestart");
-        int id = getIntent().getIntExtra("id", 0);
-        if (id == 1) {
+        super.onRestart();
+        String id = getIntent().getStringExtra("id");
+        if (id.equals("1")) {
             switchFragment(followFragment).commit();
-        }else if (id == 2){
+        }else if (id.equals("2")){
             switchFragment(fansFragment).commit();
         }
-        super.onRestart();
     }
 
 
@@ -66,7 +66,7 @@ public class UserFansActivity extends BaseActivity {
     }
 
     private FragmentTransaction switchFragment(Fragment targetFragment) {
-        FragmentTransaction transaction = getSupportFragmentManager()
+        transaction = getSupportFragmentManager()
                 .beginTransaction();
         if (!targetFragment.isAdded()) {
             //第一次使用switchFragment()时currentFragment为null，所以要判断一下

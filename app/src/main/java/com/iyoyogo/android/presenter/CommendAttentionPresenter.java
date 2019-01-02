@@ -36,8 +36,8 @@ public class CommendAttentionPresenter extends BasePresenter<CommendAttentionCon
     }
 
     @Override
-    public void addAttention(String user_id, String user_token, int target_id) {
-        DataManager.getFromRemote().addAttention(user_id, user_token,target_id)
+    public void addAttention1(String user_id, String user_token, String target_id) {
+        DataManager.getFromRemote().addAttention1(user_id, user_token,target_id)
                 .subscribe(new ApiObserver<AttentionBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(AttentionBean attentionBean) {

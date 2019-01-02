@@ -18,7 +18,7 @@ public interface CommendAttentionContract {
     interface Presenter extends IBasePresenter {
 
         void getCommendAttention(String user_id, String user_token);
-        void addAttention(String user_id, String user_token, int target_id);
+        void addAttention1(String user_id, String user_token, String target_id);
 
     }
 }

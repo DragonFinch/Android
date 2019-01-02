@@ -14,13 +14,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.AttentionsAdapter;
 import com.iyoyogo.android.base.BaseFragment;
+import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.collection.AttentionsBean;
 import com.iyoyogo.android.contract.AttentionsContract;
 import com.iyoyogo.android.presenter.AttentionsPresenter;
+import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.utils.SpUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -45,6 +49,7 @@ public class FollowFragment extends BaseFragment<AttentionsContract.Presenter> i
     private String user_id;
     private String user_token;
     private String yo_user_id;
+    private boolean falg = false;
 
     @Override
     protected int getLayoutId() {
@@ -58,7 +63,7 @@ public class FollowFragment extends BaseFragment<AttentionsContract.Presenter> i
         user_token = SpUtils.getString(getContext(), "user_token", null);
         Intent intent = getActivity().getIntent();
         yo_user_id = intent.getStringExtra("yo_user_id");
-        mPresenter.getAttentions(user_id, user_token, yo_user_id,1+"",20+"");
+        mPresenter.getAttentions(user_id, user_token, yo_user_id, 1 + "", 20 + "");
     }
 
     @Override
@@ -90,7 +95,7 @@ public class FollowFragment extends BaseFragment<AttentionsContract.Presenter> i
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.getAttentions(user_id, user_token,yo_user_id,1+"",20+"");
+        mPresenter.getAttentions(user_id, user_token, yo_user_id, 1 + "", 20 + "");
     }
 
     @Override
@@ -104,5 +109,46 @@ public class FollowFragment extends BaseFragment<AttentionsContract.Presenter> i
         AttentionsAdapter adapter = new AttentionsAdapter(R.layout.item_addconcern_recycleview, list);
         MyRecyclerView.setAdapter(adapter);
         MyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        //取消关注
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                TextView btu_guanzhu = view.findViewById(R.id.tv_guanzhu);
+                int status = list.get(position).getStatus();
+
+                if (falg == false){
+                    falg = true;
+                    mPresenter.addAttention1(user_id, user_token, (list.get(position).getUser_id()));
+                    btu_guanzhu.setBackgroundResource(R.drawable.bg_collection);
+                    btu_guanzhu.setText("+关注");
+                    btu_guanzhu.setTextColor(Color.parseColor("#ffffff"));
+                }else {
+                    falg = false;
+                    mPresenter.addAttention1(user_id, user_token, (list.get(position).getUser_id()));
+                    btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
+                    btu_guanzhu.setText("已关注");
+                    btu_guanzhu.setTextColor(Color.parseColor("#888888"));
+                }
+//                if (status == 0) {//未关注
+//                    mPresenter.addAttention1(user_id, user_token, (list.get(position).getUser_id()));
+//                    btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
+//                    btu_guanzhu.setText("已关注");
+//                    btu_guanzhu.setTextColor(Color.parseColor("#888888"));
+//                    adapter.notifyDataSetChanged();
+//                }
+//                if (status == 1) {//已关注
+//                    mPresenter.addAttention1(user_id, user_token, (list.get(position).getUser_id()));
+//                    btu_guanzhu.setBackgroundResource(R.drawable.bg_collection);
+//                    btu_guanzhu.setText("+关注");
+//                    btu_guanzhu.setTextColor(Color.parseColor("#ffffff"));
+//                }
+            }
+        });
     }
+
+    @Override
+    public void addAttentionSuccess(AttentionBean attentionBean) {
+
+    }
+
 }

@@ -6,6 +6,7 @@ import android.widget.Toast;
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BasePresenter;
 import com.iyoyogo.android.bean.HisFansBean;
+import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.contract.HisHansContract;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.net.ApiObserver;
@@ -23,6 +24,23 @@ public class HisFansPresenter extends BasePresenter<HisHansContract.View> implem
                     @Override
                     protected void doOnSuccess(HisFansBean hisFansBean) {
                         mView.getHisHansSuccess(hisFansBean);
+                    }
+
+                    @Override
+                    protected boolean doOnFailure(int code, String message) {
+                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+    }
+
+    @Override
+    public void addAttention1(String user_id, String user_token, String target_id) {
+        DataManager.getFromRemote().addAttention1(user_id, user_token, target_id)
+                .subscribe(new ApiObserver<AttentionBean>(mView, this) {
+                    @Override
+                    protected void doOnSuccess(AttentionBean attentionBean) {
+                        mView.addAttentionSuccess(attentionBean);
                     }
 
                     @Override
