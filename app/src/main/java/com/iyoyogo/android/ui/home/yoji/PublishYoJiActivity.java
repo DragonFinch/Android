@@ -7,9 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -166,6 +164,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     private double longitude;
     private MessageBean messageBean1 = new MessageBean();
     private MessageBean publishYoJiRequest = new MessageBean();
+    private ArrayList<String> strings;
 
     @Override
     protected int getLayoutId() {
@@ -199,7 +198,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         mList.add(messageBean);
 
 
-        etTitle.addTextChangedListener(new TextWatcher() {
+      /*  etTitle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -235,10 +234,10 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
             public void afterTextChanged(Editable s) {
                 etCost.clearFocus();
                 etCost.setFocusable(false);
-                /*etContent.clearFocus();
+                *//*etContent.clearFocus();
                 etContent.setFocusable(false);
                 etTitle.clearFocus();
-                etTitle.setFocusable(false);*/
+                etTitle.setFocusable(false);*//*
             }
         });
         etContent.addTextChangedListener(new TextWatcher() {
@@ -254,15 +253,15 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
             @Override
             public void afterTextChanged(Editable s) {
-              /*  etCost.clearFocus();
+              *//*  etCost.clearFocus();
                 etCost.setFocusable(false);
 
                 etTitle.clearFocus();
-                etTitle.setFocusable(false);*/
+                etTitle.setFocusable(false);*//*
                 etContent.clearFocus();
                 etContent.setFocusable(false);
             }
-        });
+        });*/
         etContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -287,6 +286,18 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                 etCost.requestFocus();
             }
         });
+        scroll.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                etCost.clearFocus();
+                etCost.setFocusable(false);
+                etContent.clearFocus();
+                etContent.setFocusable(false);
+                etTitle.clearFocus();
+                etTitle.setFocusable(false);
+            }
+        });
+
 //        ScrollLinearLayoutManager scrollLinearLayoutManager = new LinearLayoutMananger(PublishYoJiActivity.this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(PublishYoJiActivity.this) {
             @Override
@@ -378,61 +389,6 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                 startActivityForResult(intent1, 1);
             }
         });
-       /* etContent.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (v.getId()) {
-                    case R.id.et_content:
-                    case R.id.et_title:
-                        // 解决scrollView中嵌套EditText导致不能上下滑动的问题
-                        v.getParent().requestDisallowInterceptTouchEvent(true);
-                        switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                            case MotionEvent.ACTION_UP:
-                                v.getParent().requestDisallowInterceptTouchEvent(false);
-                                break;
-                        }
-                }
-
-                return false;
-            }
-        });
-        etTitle.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (v.getId()) {
-                    case R.id.et_content:
-                    case R.id.et_title:
-                        // 解决scrollView中嵌套EditText导致不能上下滑动的问题
-                        v.getParent().requestDisallowInterceptTouchEvent(true);
-                        switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                            case MotionEvent.ACTION_UP:
-                                v.getParent().requestDisallowInterceptTouchEvent(false);
-                                break;
-                        }
-                }
-
-                return false;
-            }
-        });
-        etCost.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (v.getId()) {
-                    case R.id.et_content:
-                    case R.id.et_title:
-                        // 解决scrollView中嵌套EditText导致不能上下滑动的问题
-                        v.getParent().requestDisallowInterceptTouchEvent(true);
-                        switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                            case MotionEvent.ACTION_UP:
-                                v.getParent().requestDisallowInterceptTouchEvent(false);
-                                break;
-                        }
-                }
-
-                return false;
-            }
-        });*/
-        //
 
 
     }
@@ -559,8 +515,6 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     @Override
     protected void onResume() {
         super.onResume();
-        list.clear();
-        list.add(publishYoJiRequest);
     }
 
     private void setCurrentLocationDetails(LatLonPoint latLonPoint) {
@@ -705,8 +659,8 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                 Log.d("PublishYoJiActivity", path_list.get(i));
             }
 
-            ArrayList<String> strings = ossUpload(path_list);
-            messageBean1.setLogos(strings);
+            strings = ossUpload(path_list);
+            messageBean1.setLogos(path_list);
             list.add(messageBean1);
             publishYoJiAdapter.addData(index, messageBean1);
         }
@@ -730,11 +684,10 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     }
 
     private String uploadYoJiImage() {
-
         final String endpoint = "oss-cn-beijing.aliyuncs.com";
-        final String bucketName = "xzdtest";
-        final String accessKeyId = "LTAInRzzjv0TZcA5";
-        final String accessKeySecret = "jQZXJDYzAU7Ki0DfZvfIoU3PxazsLy";
+        final String bucketName = "iyoyogo";
+        final String accessKeyId = "LTAIql2brWD0qbEN";
+        final String accessKeySecret = "C74lDBcL1AqzEdIvHZkYMJlSNmRtby";
         OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(accessKeyId, accessKeySecret);
         ClientConfiguration conf = new ClientConfiguration();
         conf.setConnectionTimeout(15 * 1000);
@@ -744,14 +697,26 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         OSSClient ossClient = new OSSClient(PublishYoJiActivity.this, endpoint, credentialProvider, conf);
         ObjectMetadata objectMeta = new ObjectMetadata();
         objectMeta.setContentType("image/jpeg");
-        String name = "yoyogo/yoji/image" + System.currentTimeMillis() + ".jpg";
+        int min = 10000;
+        int max = 99999;
+        Calendar calendar = Calendar.getInstance();
+//获取系统的日期
+//年
+        int year = calendar.get(Calendar.YEAR);
+//月
+        int month = calendar.get(Calendar.MONTH) + 1;
+//日
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        Random random = new Random();
+        int num = random.nextInt(max) % (max - min + 1) + min;
+        String name = user_id + "/yoj/" + year + "/" + month + "/" + day + "/" + System.currentTimeMillis() + num + ".jpg";
         PutObjectRequest put = new PutObjectRequest(bucketName, name, path);
         put.setMetadata(objectMeta);
-
         try {
             PutObjectResult result = ossClient.putObject(put);
             if (result != null && result.getStatusCode() == 200) {
-                url = "https://" + bucketName + "." + endpoint + "/" + name;
+                url = "http://" + bucketName + "." + endpoint + "/" + name;
                 Log.d("PublishYoXiuActivity", url);
             }
         } catch (ClientException e) {
@@ -762,12 +727,25 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         return url;
     }
 
-    private ArrayList<String> uploadAllYoJiImage(List<String> list) {
 
+    private ArrayList<String> uploadAllYoJiImage(List<String> list) {
+        int min = 10000;
+        int max = 99999;
+        Calendar calendar = Calendar.getInstance();
+//获取系统的日期
+//年
+        int year = calendar.get(Calendar.YEAR);
+//月
+        int month = calendar.get(Calendar.MONTH) + 1;
+//日
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        Random random = new Random();
+        int num = random.nextInt(max) % (max - min + 1) + min;
         final String endpoint = "oss-cn-beijing.aliyuncs.com";
-        final String bucketName = "xzdtest";
-        final String accessKeyId = "LTAInRzzjv0TZcA5";
-        final String accessKeySecret = "jQZXJDYzAU7Ki0DfZvfIoU3PxazsLy";
+        final String bucketName = "iyoyogo";
+        final String accessKeyId = "LTAIql2brWD0qbEN";
+        final String accessKeySecret = "C74lDBcL1AqzEdIvHZkYMJlSNmRtby";
         OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(accessKeyId, accessKeySecret);
         ClientConfiguration conf = new ClientConfiguration();
         conf.setConnectionTimeout(15 * 1000);
@@ -778,7 +756,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         ObjectMetadata objectMeta = new ObjectMetadata();
         objectMeta.setContentType("image/jpeg");
         ArrayList<String> urls = new ArrayList<>();
-        String name = "yoyogo/yoji/image" + System.currentTimeMillis() + ".jpg";
+        String name = user_id + "/yoj/" + year + "/" + month + "/" + day + "/" + System.currentTimeMillis() + num + ".jpg";
         for (int i = 0; i < list.size(); i++) {
             PutObjectRequest put = new PutObjectRequest(bucketName, name, list.get(i));
             put.setMetadata(objectMeta);
@@ -827,6 +805,11 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                 startActivityForResult(intent, 1);
                 break;
             case R.id.tv_publish:
+                ArrayList<String> strings = uploadAllYoJiImage(path_list);
+                ArrayList<String> strings1 = uploadAllYoJiImage(strings);
+                messageBean1.setLogos(strings1);
+                publishYoJiRequest.setLogos(strings);
+                list.add(publishYoJiRequest);
                 String url_cover = uploadYoJiImage();
                 ArrayList<String> urls = uploadAllYoJiImage(path_list);
                 for (int i = 0; i < urls.size(); i++) {
@@ -840,7 +823,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
 
 //                String json = new Gson().toJson(mList);
-                if (tvPay.getText().toString().trim().length() > 0) {
+                if (etCost.getText().toString().trim().length() > 0) {
                     if (etTitle.getText().toString().trim().length() > 0) {
                         mPresenter.publishYoJi(user_id, user_token, 0, url_cover, etTitle.getText().toString().trim(), etContent.getText().toString().trim(), Integer.parseInt(etCost.getText().toString().trim()), 1, 1, type_list, channel_ids, json);
                     } else {
@@ -849,7 +832,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                 } else {
                     Toast.makeText(this, "请输入价格", Toast.LENGTH_SHORT).show();
                 }
-
+                finish();
                 break;
         }
     }

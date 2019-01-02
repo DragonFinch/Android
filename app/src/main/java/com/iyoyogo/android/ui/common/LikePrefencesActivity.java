@@ -157,6 +157,7 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.close_btn:
+                startActivity(new Intent(LikePrefencesActivity.this, MainActivity.class));
                 finish();
                 break;
 
@@ -196,6 +197,7 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
                 break;
         }
     }
+
     /**
      * Item选则事件的监听类
      */
@@ -203,7 +205,7 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
     protected void onDestroy() {
         super.onDestroy();
         List<Integer> integerList = adapter.selectPhoto();
-        if (integerList!=null){
+        if (integerList != null) {
             integerList.clear();
         }
     }

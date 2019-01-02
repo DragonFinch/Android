@@ -22,6 +22,7 @@ import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.home.HomeBean;
 import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
@@ -81,60 +82,79 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
             holder.tv_attention.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (retryConnection!=null){
+                    if (retryConnection != null) {
                         retryConnection.on_retry();
                         holder.tv_attention.setText("已关注");
                     }
-                    DataManager.getFromRemote().addAttention(user_id,user_token,mList.get(position).getUser_id()).subscribe(new Consumer<AttentionBean>() {
-                                @Override
-                                public void accept(AttentionBean attentionBean) throws Exception {
+                    DataManager.getFromRemote().addAttention(user_id, user_token, mList.get(position).getUser_id()).subscribe(new Consumer<AttentionBean>() {
+                        @Override
+                        public void accept(AttentionBean attentionBean) throws Exception {
 
-                                    notifyDataSetChanged();
-                                }
-                            });
+                            notifyDataSetChanged();
+                        }
+                    });
 
                 }
             });
             Glide.with(context).load(mList.get(position).getUser_logo()).apply(myOptions).into(holder.attention_user_icon);
-            if (list_4==null){
+            if (list_4 == null) {
 
-            }else {
+            } else {
                 if (list_4.size() == 1) {
                     Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_two);
                     Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_three);
                     Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_four);
                     Glide.with(context).load(list_4.get(0).getFile_path()).apply(myOptions).into(holder.img_attention_one);
+                    holder.img_attention_two.setClickable(false);
+                    holder.img_attention_three.setClickable(false);
+                    holder.img_attention_four.setClickable(false);
                     holder.img_attention_one.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             int yo_type = mList.get(position).getList_4().get(0).getYo_type();
                             if (yo_type == 1) {
-                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                                Intent intent = new Intent(context, YoXiuDetailActivity.class);
+                                intent.putExtra("id", list_4.get(0).getYo_id());
+
+                                context.startActivity(intent);
                             } else {
-                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                                Intent intent = new Intent(context, YoJiDetailActivity.class);
+                                intent.putExtra("yo_id", list_4.get(0).getYo_id());
+                                context.startActivity(intent);
                             }
                         }
                     });
                 } else if (list_4.size() == 2) {
+
+                    holder.img_attention_three.setClickable(false);
+                    holder.img_attention_four.setClickable(false);
                     holder.img_attention_one.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             int yo_type = mList.get(position).getList_4().get(0).getYo_type();
                             if (yo_type == 1) {
-                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                                Intent intent = new Intent(context, YoXiuDetailActivity.class);
+                                intent.putExtra("id", list_4.get(0).getYo_id());
+                                context.startActivity(intent);
                             } else {
-                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                                Intent intent = new Intent(context, YoJiDetailActivity.class);
+                                intent.putExtra("yo_id", list_4.get(0).getYo_id());
+                                context.startActivity(intent);
                             }
                         }
                     });
                     holder.img_attention_two.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            int yo_type = mList.get(position).getList_4().get(0).getYo_type();
+                            int yo_type = mList.get(position).getList_4().get(1).getYo_type();
                             if (yo_type == 1) {
-                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                                Intent intent = new Intent(context, YoXiuDetailActivity.class);
+                                intent.putExtra("id", list_4.get(1).getYo_id());
+                                context.startActivity(intent);
                             } else {
-                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                                Intent intent = new Intent(context, YoJiDetailActivity.class);
+                                intent.putExtra("yo_id", list_4.get(1).getYo_id());
+                                context.startActivity(intent);
                             }
                         }
                     });
@@ -143,14 +163,19 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
                     Glide.with(context).load(list_4.get(0).getFile_path()).apply(myOptions).into(holder.img_attention_one);
                     Glide.with(context).load(list_4.get(1).getFile_path()).apply(myOptions).into(holder.img_attention_two);
                 } else if (list_4.size() == 3) {
+                    holder.img_attention_four.setClickable(false);
                     holder.img_attention_three.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            int yo_type = mList.get(position).getList_4().get(0).getYo_type();
+                            int yo_type = mList.get(position).getList_4().get(2).getYo_type();
                             if (yo_type == 1) {
-                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                                Intent intent = new Intent(context, YoXiuDetailActivity.class);
+                                intent.putExtra("id", list_4.get(2).getYo_id());
+                                context.startActivity(intent);
                             } else {
-                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                                Intent intent = new Intent(context, YoJiDetailActivity.class);
+                                intent.putExtra("yo_id", list_4.get(2).getYo_id());
+                                context.startActivity(intent);
                             }
                         }
                     });
@@ -159,20 +184,28 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
                         public void onClick(View v) {
                             int yo_type = mList.get(position).getList_4().get(0).getYo_type();
                             if (yo_type == 1) {
-                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                                Intent intent = new Intent(context, YoXiuDetailActivity.class);
+                                intent.putExtra("id", list_4.get(0).getYo_id());
+                                context.startActivity(intent);
                             } else {
-                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                                Intent intent = new Intent(context, YoJiDetailActivity.class);
+                                intent.putExtra("yo_id", list_4.get(0).getYo_id());
+                                context.startActivity(intent);
                             }
                         }
                     });
                     holder.img_attention_two.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            int yo_type = mList.get(position).getList_4().get(0).getYo_type();
+                            int yo_type = mList.get(position).getList_4().get(1).getYo_type();
                             if (yo_type == 1) {
-                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                                Intent intent = new Intent(context, YoXiuDetailActivity.class);
+                                intent.putExtra("id",list_4.get(1).getYo_id());
+                                context.startActivity(intent);
                             } else {
-                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                                Intent intent = new Intent(context, YoJiDetailActivity.class);
+                                intent.putExtra("yo_id", list_4.get(1).getYo_id());
+                                context.startActivity(intent);
                             }
                         }
                     });
@@ -186,42 +219,59 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
                         public void onClick(View v) {
                             int yo_type = mList.get(position).getList_4().get(0).getYo_type();
                             if (yo_type == 1) {
-                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                                Intent intent = new Intent(context, YoXiuDetailActivity.class);
+                                intent.putExtra("id",list_4.get(0).getYo_id());
+                                context.startActivity(intent);
                             } else {
-                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                                Intent intent = new Intent(context, YoJiDetailActivity.class);
+                                intent.putExtra("yo_id",list_4.get(0).getYo_id());
+                                context.startActivity(intent);
                             }
                         }
                     });
                     holder.img_attention_two.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            int yo_type = mList.get(position).getList_4().get(0).getYo_type();
+                            int yo_type = mList.get(position).getList_4().get(1).getYo_type();
                             if (yo_type == 1) {
-                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                                Intent intent = new Intent(context, YoXiuDetailActivity.class);
+                                intent.putExtra("id",list_4.get(1).getYo_id());
+                                context.startActivity(intent);
                             } else {
-                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                                Intent intent = new Intent(context, YoJiDetailActivity.class);
+                                intent.putExtra("yo_id", list_4.get(1).getYo_id());
+                                context.startActivity(intent);
                             }
                         }
                     });
                     holder.img_attention_three.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            int yo_type = mList.get(position).getList_4().get(0).getYo_type();
+                            int yo_type = mList.get(position).getList_4().get(2).getYo_type();
                             if (yo_type == 1) {
-                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                                Intent intent = new Intent(context, YoXiuDetailActivity.class);
+                                intent.putExtra("id", list_4.get(2).getYo_id());
+                                context.startActivity(intent);
                             } else {
-                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                                Intent intent = new Intent(context, YoJiDetailActivity.class);
+                                intent.putExtra("yo_id", list_4.get(2).getYo_id());
+                                context.startActivity(intent);
                             }
                         }
                     });
                     holder.img_attention_four.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            int yo_type = mList.get(position).getList_4().get(0).getYo_type();
+
+                            int yo_type = mList.get(position).getList_4().get(3).getYo_type();
                             if (yo_type == 1) {
-                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                                Intent intent = new Intent(context, YoXiuDetailActivity.class);
+                                intent.putExtra("id", list_4.get(3).getYo_id());
+                                context.startActivity(intent);
                             } else {
-                                context.startActivity(new Intent(context, YoXiuDetailActivity.class));
+                                Intent intent = new Intent(context, YoJiDetailActivity.class);
+                                intent.putExtra("yo_id", list_4.get(3).getYo_id());
+                                context.startActivity(intent);
                             }
                         }
                     });
@@ -230,6 +280,10 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
                     Glide.with(context).load(list_4.get(2).getFile_path()).apply(myOptions).into(holder.img_attention_three);
                     Glide.with(context).load(list_4.get(3).getFile_path()).apply(myOptions).into(holder.img_attention_four);
                 } else if (list_4.size() == 0) {
+                    holder.img_attention_one.setClickable(false);
+                    holder.img_attention_two.setClickable(false);
+                    holder.img_attention_three.setClickable(false);
+                    holder.img_attention_four.setClickable(false);
                     Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_one);
                     Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_two);
                     Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_three);
@@ -238,8 +292,16 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
             }
 
 
-
         } else {
+            HomeBean.DataBean.YojListBean.UserInfoBean user_info = mList.get(position).getUser_info();
+            Log.d("YoJiAttentionAdapter", user_info.getUser_nickname());
+            if (mList.get(position).getUser_info().getUser_nickname() != null) {
+
+                holder.user_name.setText(mList.get(position).getUser_info().getUser_nickname());
+
+            } else {
+                holder.user_name.setText("");
+            }
             holder.rl_top_content.setVisibility(View.VISIBLE);
             holder.relative_img.setVisibility(View.VISIBLE);
             holder.ll_like_list.setVisibility(View.VISIBLE);
@@ -284,57 +346,56 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
 
             String user_logo = mList.get(position).getUser_info().getUser_logo();
 
-                Log.d("YoJiAdapter", user_logo);
-                Glide.with(context).load(mList.get(position).getUser_info().getUser_logo())
-                        .apply(requestOptions)
-                        .into(holder.user_icon);
+            Log.d("YoJiAdapter", user_logo);
+            Glide.with(context).load(mList.get(position).getUser_info().getUser_logo())
+                    .apply(requestOptions)
+                    .into(holder.user_icon);
 
-            }
-            holder.user_name.setText(mList.get(position).getUser_info().getUser_nickname());
-            holder.title.setText(mList.get(position).getTitle());
-            holder.tv_cost.setText("￥" + mList.get(position).getCost() + "/人");
-            holder.tv_day.setText(mList.get(position).getCount_dates() + "天");
-            holder.tv_num_comment.setText("全部评论(" + mList.get(position).getCount_comment() + ")");
-            holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
-            List<HomeBean.DataBean.YojListBean.CommentListBean> comment_list = mList.get(position).getComment_list();
-            YoJiListItemAdapter adapter = new YoJiListItemAdapter(context, comment_list);
-            Log.d("YoJiAdapter", "comment_list:" + comment_list.size());
-            holder.recycler_comment.setLayoutManager(new LinearLayoutManager(context));
-            holder.recycler_comment.setAdapter(adapter);
-            holder.dt_like.setImageResource(mList.get(position).getIs_my_praise() > 0 ? R.mipmap.yixihuan_xiangqing : R.mipmap.datu_xihuan);
-            holder.dt_like.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int count_praise = mList.get(position).getCount_praise();
+        }
 
-                    Log.d("Test", "dataBeans.get(0).getIs_my_like():" + mList.get(position).getIs_my_praise());
-                    if (mList.get(position).getIs_my_praise() > 0) {
-                        //由喜欢变为不喜欢，亮变暗
-                        holder.dt_like.setImageResource(R.mipmap.datu_xihuan);
-                        count_praise -= 1;
-                        //设置点赞的数量
-                        holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
-                        mList.get(position).setIs_my_praise(0);
-                        mList.get(position).setCount_praise(count_praise);
-                    } else {
-                        //由不喜欢变为喜欢，暗变亮
-                        holder.dt_like.setImageResource(R.mipmap.yixihuan_xiangqing);
-                        count_praise += 1;
-                        //设置点赞的数量
-                        holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
-                        mList.get(position).setIs_my_praise(1);
-                        mList.get(position).setCount_praise(count_praise);
-                    }
-                    String user_id = SpUtils.getString(context, "user_id", null);
-                    String user_token = SpUtils.getString(context, "user_token", null);
-                    DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getYo_id(), 0)
-                            .subscribe(new Consumer<BaseBean>() {
-                                @Override
-                                public void accept(BaseBean baseBean) throws Exception {
-                                }
-                            });
+        holder.title.setText(mList.get(position).getTitle());
+        holder.tv_cost.setText("￥" + mList.get(position).getCost() + "/人");
+        holder.tv_day.setText(mList.get(position).getCount_dates() + "天");
+        holder.tv_num_comment.setText("全部评论(" + mList.get(position).getCount_comment() + ")");
+        holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
+        List<HomeBean.DataBean.YojListBean.CommentListBean> comment_list = mList.get(position).getComment_list();
+        YoJiListItemAdapter adapter = new YoJiListItemAdapter(context, comment_list);
+        holder.recycler_comment.setLayoutManager(new LinearLayoutManager(context));
+        holder.recycler_comment.setAdapter(adapter);
+        holder.dt_like.setImageResource(mList.get(position).getIs_my_praise() > 0 ? R.mipmap.yixihuan_xiangqing : R.mipmap.datu_xihuan);
+        holder.dt_like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int count_praise = mList.get(position).getCount_praise();
+
+                Log.d("Test", "dataBeans.get(0).getIs_my_like():" + mList.get(position).getIs_my_praise());
+                if (mList.get(position).getIs_my_praise() > 0) {
+                    //由喜欢变为不喜欢，亮变暗
+                    holder.dt_like.setImageResource(R.mipmap.datu_xihuan);
+                    count_praise -= 1;
+                    //设置点赞的数量
+                    holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
+                    mList.get(position).setIs_my_praise(0);
+                    mList.get(position).setCount_praise(count_praise);
+                } else {
+                    //由不喜欢变为喜欢，暗变亮
+                    holder.dt_like.setImageResource(R.mipmap.yixihuan_xiangqing);
+                    count_praise += 1;
+                    //设置点赞的数量
+                    holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
+                    mList.get(position).setIs_my_praise(1);
+                    mList.get(position).setCount_praise(count_praise);
                 }
-            });
+                String user_id = SpUtils.getString(context, "user_id", null);
+                String user_token = SpUtils.getString(context, "user_token", null);
+                DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getYo_id(), 0)
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                            }
+                        });
+            }
+        });
 
 
         holder.itemView.setTag(position);
@@ -405,11 +466,14 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
             dt_like = itemView.findViewById(R.id.dt_like);
         }
     }
+
     interface OnRetryConnection {
-            void on_retry();
+        void on_retry();
     }
+
     OnRetryConnection retryConnection;
-    public  void onItemRetryOnClickListener(OnRetryConnection retryConnection){
-        this.retryConnection=retryConnection;
+
+    public void onItemRetryOnClickListener(OnRetryConnection retryConnection) {
+        this.retryConnection = retryConnection;
     }
 }

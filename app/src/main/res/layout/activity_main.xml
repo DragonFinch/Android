@@ -11,7 +11,7 @@
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/ll" />
+        android:layout_above="@+id/tabs_rg" />
 
     <View
         android:layout_width="match_parent"
@@ -19,6 +19,7 @@
         android:layout_above="@id/ll"
         android:background="@mipmap/home_l_shadow" />
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -93,6 +94,39 @@
                 android:textSize="11sp" />-->
         </LinearLayout>
     </LinearLayout>
+    <RadioGroup
 
+        android:id="@+id/tabs_rg"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:background="#ffffff"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/today_tab"
+            style="@style/Custom.TabRadioButton"
+            android:checked="true"
+            android:drawableTop="@drawable/index_home_selector"
+            android:text="@string/shouye" />
+
+        <View style="@style/Custom.TabRadioButton" />
+
+        <RadioButton
+            android:id="@+id/settings_tab"
+            style="@style/Custom.TabRadioButton"
+            android:drawableTop="@drawable/index_me_selector"
+            android:text="我的" />
+    </RadioGroup>
+
+    <ImageView
+        android:id="@+id/sign_iv"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent"
+        android:layout_marginBottom="@dimen/dp_6"
+        android:src="@mipmap/ic_camera" />
 
 </RelativeLayout>

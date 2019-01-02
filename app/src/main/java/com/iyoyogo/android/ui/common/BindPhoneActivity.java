@@ -272,7 +272,7 @@ public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter>
                 if (editBind.getText().toString().length() > 0) {
 
                     sign = MD5(editBind.getText().toString().trim() + "" + dateTime + "yoyogo");
-                    mPresenter.sendMessage(editBind.getText().toString().trim(), editBindCode.getText().toString().trim(), dateTime, sign);
+                    mPresenter.sendMessage(editBind.getText().toString().trim(), "", dateTime, sign);
                 } else {
                     Toast.makeText(this, "手机号必须填", Toast.LENGTH_SHORT).show();
                 }

@@ -47,11 +47,7 @@ public class MineSettingPresenter extends BasePresenter<MineSettingContract.View
 
                     }
 
-                    @Override
-                    protected boolean doOnFailure(int code, String message) {
-                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
-                        return true;
-                    }
+
                 });
     }
 
@@ -65,14 +61,8 @@ public class MineSettingPresenter extends BasePresenter<MineSettingContract.View
 
                         mView.setMineSettingSuccess(baseBean);
 
-
                     }
 
-                    @Override
-                    protected boolean doOnFailure(int code, String message) {
-                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
-                        return true;
-                    }
                 });
     }
 }

@@ -70,7 +70,7 @@ public class SourceChooseActivity extends AppCompatActivity {
     private List<HashMap<String, String>> listImage;
     private String path;
     private String autoFileOrFilesSize;
-    private MediaAdapter mediaAdapter;
+
     private String latitude;
     private String longitude;
     private int num = 0;
@@ -347,12 +347,12 @@ public class SourceChooseActivity extends AppCompatActivity {
                 if (!isSelect) {
                     imgYuantu.setImageResource(R.mipmap.log_select);
                     tvKb.setText(autoFileOrFilesSize);
-                    mediaAdapter.notifyDataSetChanged();
+                    imagesListAdapter.notifyDataSetChanged();
                     isSelect = true;
                 } else {
                     imgYuantu.setImageResource(R.mipmap.log_unselect);
                     tvKb.setText("");
-                    mediaAdapter.notifyDataSetChanged();
+                    imagesListAdapter.notifyDataSetChanged();
                 }
 
                 break;
@@ -424,7 +424,9 @@ public class SourceChooseActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 66) {
-            mediaAdapter.notifyDataSetChanged();
+//            mediaAdapter.notifyDataSetChanged();
+            imagesListAdapter.notifyDataSetChanged();
         }
+
     }
 }

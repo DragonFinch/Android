@@ -19,6 +19,7 @@ import com.iyoyogo.android.bean.mine.setting.MineSettingBean;
 import com.iyoyogo.android.contract.MineSettingContract;
 import com.iyoyogo.android.presenter.MineSettingPresenter;
 import com.iyoyogo.android.ui.common.LoginActivity;
+import com.iyoyogo.android.ui.common.MainActivity;
 import com.iyoyogo.android.utils.CleanDataUtils;
 import com.iyoyogo.android.utils.DataCleanManager;
 import com.iyoyogo.android.utils.SpUtils;
@@ -191,6 +192,10 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
         SpUtils.remove(MineSettingActivity.this, "isLogin");
         startActivity(new Intent(MineSettingActivity.this, LoginActivity.class));
         finish();
+        if(MainActivity.instance!=null){//给一下判空
+            MainActivity.instance.finish();//在其它的activity里面使用
+        }
+
     }
 
     @Override

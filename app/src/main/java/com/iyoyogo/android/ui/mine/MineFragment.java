@@ -3,7 +3,10 @@ package com.iyoyogo.android.ui.mine;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -30,6 +33,7 @@ import com.iyoyogo.android.utils.icondottextview.IconDotTextView;
 import com.iyoyogo.android.widget.CircleImageView;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
@@ -44,7 +48,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     @BindView(R.id.my_dot_v_id)
     View myDotVId;
     @BindView(R.id.my_addfriend_im_id)
-    ImageView myAddfriendImId;
+    IconDotTextView myAddfriendImId;
     @BindView(R.id.my_basic_headimg_iv_id)
     CircleImageView myBasicHeadimgIvId;
     @BindView(R.id.my_basic_name_tv_id)
@@ -213,10 +217,10 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         } else {
             myClockButId.setVisibility(View.VISIBLE);
         }
-        if (count_noread>0){
+        if (count_noread > 0) {
             myMessgeImId.setDotVisibility(true);
             myMessgeImId.setDotText(count_noread);
-        }else {
+        } else {
             myMessgeImId.setDotVisibility(false);
         }
     }
@@ -227,5 +231,17 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     }
 
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 }

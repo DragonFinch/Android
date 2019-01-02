@@ -32,11 +32,9 @@
         <com.iyoyogo.android.utils.icondottextview.IconDotTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
+
             android:id="@+id/my_messge_im_id"
-
             app:icon="@mipmap/message"
-
             android:layout_alignParentRight="true"
             android:layout_marginRight="59dp"
             />
@@ -48,16 +46,17 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
+            android:layout_marginTop="0dp"
             android:layout_marginRight="40dp" />
 
-        <ImageView
-            android:layout_marginTop="@dimen/dp_10"
+        <com.iyoyogo.android.utils.icondottextview.IconDotTextView
+
             android:id="@+id/my_addfriend_im_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/add_friend" />
+
+            app:icon="@mipmap/add_friend" />
 
     </RelativeLayout>
 

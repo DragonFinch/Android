@@ -459,7 +459,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
             finish();
 
         } else {
-                mPresenter.push(user_id, user_token, "and", registrationID);
+//            mPresenter.push(user_id, user_token, "and", registrationID);
             have_interest = data.getHave_interest();
             if (have_interest == 1) {
                 intent = new Intent();

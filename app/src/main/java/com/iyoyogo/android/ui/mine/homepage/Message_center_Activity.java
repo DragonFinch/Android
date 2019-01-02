@@ -136,19 +136,19 @@ public class Message_center_Activity extends BaseActivity<MessageCenterContract.
             messageSystem.setDotVisibility(false);
         }
         if (type_like > 0) {
-            likeMessage.setDotText(type_system);
+            likeMessage.setDotText(type_like);
             likeMessage.setDotVisibility(true);
         } else {
             likeMessage.setDotVisibility(false);
         }
         if (type_discuss > 0) {
-            discussMessage.setDotText(type_system);
+            discussMessage.setDotText(type_discuss);
             discussMessage.setDotVisibility(true);
         } else {
             discussMessage.setDotVisibility(false);
         }
         if (type_attention > 0) {
-            attentionMessage.setDotText(type_system);
+            attentionMessage.setDotText(type_attention);
             attentionMessage.setDotVisibility(true);
         } else {
             attentionMessage.setDotVisibility(false);

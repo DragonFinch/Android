@@ -1,50 +1,50 @@
 package com.iyoyogo.android.ui.common;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.WelcomeViewPagerAdapter;
-import com.iyoyogo.android.base.BaseActivity;
-import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.utils.SpUtils;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
  * 欢迎页
  */
 
-public class WelcomeActivity extends BaseActivity {
+public class WelcomeActivity extends AppCompatActivity {
     int[] image_ids = {R.mipmap.welcome2, R.mipmap.welcome3, R.mipmap.welcome4};
     @BindView(R.id.viewpager)
     ViewPager viewPager;
-    private int previousPosition;
     @BindView(R.id.welcome_enter_btn)
     Button welcomeEnterBtn;
     @BindView(R.id.ll_dot_group)
     LinearLayout ll_dot_group;
+    private int previousPosition;
+
 
     @Override
-    protected void initView() {
-        super.initView();
-
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_welcome);
+        ButterKnife.bind(this);
         boolean isTrue = SpUtils.getBoolean(WelcomeActivity.this, "isTrue", false);
-        if (isTrue){
-            startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
+        if (isTrue) {
+            startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
             finish();
         }
         initViewPagerData();
     }
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_welcome;
-    }
     private void initViewPagerData() {
 
 
@@ -95,17 +95,12 @@ public class WelcomeActivity extends BaseActivity {
         viewPager.setCurrentItem(0);
         ll_dot_group.getChildAt(0).setEnabled(true);
     }
-    @Override
-    protected IBasePresenter createPresenter() {
-        return null;
-    }
-
 
 
     @OnClick(R.id.welcome_enter_btn)
     public void onViewClicked() {
-        SpUtils.putBoolean(WelcomeActivity.this,"isTrue",true);
-        startActivity(new Intent(WelcomeActivity.this,LoginActivity.class));
+        SpUtils.putBoolean(WelcomeActivity.this, "isTrue", true);
+        startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
         finish();
     }
 }

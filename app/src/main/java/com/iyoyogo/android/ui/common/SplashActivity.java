@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -14,34 +17,25 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.iyoyogo.android.R;
-import com.iyoyogo.android.base.BaseActivity;
-import com.iyoyogo.android.base.IBasePresenter;
 
 import java.lang.reflect.Method;
 
 /**
  * Splash
  */
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends AppCompatActivity {
+
+
+
 
 
 
 
     @Override
-    protected int getLayoutId() {
-
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         handler.sendEmptyMessageDelayed(1, 1000);
-        return R.layout.activity_splash;
-    }
-
-    @Override
-    protected IBasePresenter createPresenter() {
-        return null;
-    }
-
-    @Override
-    protected void initView() {
-        super.initView();
+        setContentView(R.layout.activity_splash);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色
             Window window = getWindow();
@@ -64,6 +58,8 @@ public class SplashActivity extends BaseActivity {
             window.setAttributes(attributes);
         }
     }
+
+
 
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
