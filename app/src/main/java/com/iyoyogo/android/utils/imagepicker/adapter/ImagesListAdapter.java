@@ -100,7 +100,7 @@ public class ImagesListAdapter extends BaseRecyclerAdapter {
         }
 
         @Override
-        public void initOnItemClickListener(final OnRecyclerViewItemClickListener listener, final int position) {
+        public void initOnItemClickListener(OnItemChooseCallback chooseCallback,final OnRecyclerViewItemClickListener listener, final int position) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

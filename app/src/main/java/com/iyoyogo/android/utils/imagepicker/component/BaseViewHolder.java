@@ -28,11 +28,13 @@ public abstract class BaseViewHolder extends RecyclerView.ViewHolder {
      * 传入Item的点击事件的监听器
      * @param listener
      */
-    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener, int position){
-        if (listener != null){
-            initOnItemClickListener(listener, position);
+    public void setOnItemClickListener(OnItemChooseCallback chooseCallback,OnRecyclerViewItemClickListener listener, int position){
+        if (listener != null&&chooseCallback != null){
+            initOnItemClickListener(chooseCallback,listener, position);
+            intOnItemChooseCallback(chooseCallback,position);
         }
     }
+
 
     /**
      * 传入Item的长按事件的监听器
@@ -55,7 +57,7 @@ public abstract class BaseViewHolder extends RecyclerView.ViewHolder {
      * 初始化Item的点击事件（开发者自行实现）
      * @param listener 监听器
      */
-    abstract public void initOnItemClickListener(OnRecyclerViewItemClickListener listener, int position);
+    abstract public void initOnItemClickListener(OnItemChooseCallback chooseCallback,OnRecyclerViewItemClickListener listener, int position);
 
     /**
      * 初始化Item的长按事件（开发者自行实现）

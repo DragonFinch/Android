@@ -13,6 +13,7 @@
         layout="@layout/common_bar" />
 
     <android.support.v7.widget.RecyclerView
+        android:background="#FAFAFA"
         android:layout_marginLeft="@dimen/dp_20"
         android:layout_marginRight="@dimen/dp_20"
         android:layout_marginTop="@dimen/sp_15"

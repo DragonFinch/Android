@@ -156,15 +156,16 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
 
                 ArrayList<String> integerList = adapter.selectPhoto();
                 ArrayList<String> strings = adapter.selectChannel();
-                int size = integerList.size();
-                Integer[] channel_ids=new Integer[size];
-                for (int i = 0; i <integerList.size() ; i++) {
-                    channel_ids[i]=Integer.parseInt(integerList.get(i));
-                }
+                if (integerList!=null){
+                    int size = integerList.size();
+                    Integer[] channel_ids=new Integer[size];
+                    for (int i = 0; i <integerList.size() ; i++) {
+                        channel_ids[i]=Integer.parseInt(integerList.get(i));
+                    }
 //                Integer[] integers = integerList.toArray(new Integer[size]);
-                int[] channel_array = new int[channel_ids.length];
-                intent.putExtra("channel_array", channel_array);
-                intent.putStringArrayListExtra("channel_list", strings);
+                    int[] channel_array = new int[channel_ids.length];
+                    intent.putExtra("channel_array", channel_array);
+                    intent.putStringArrayListExtra("channel_list", strings);
                /* for (int i = 0; i < integers.length; i++) {
                     channel_array[i] = integers[i];
                 }
@@ -175,14 +176,16 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
                 Log.d("ChannelActivity", "list.size():" + strings.size());
 
                 Log.d("Test", listToString(strings));*/
-                if (type == 1) {
-                    setResult(1, intent);
-                } else {
-                    setResult(66, intent);
+                    if (type == 1) {
+                        setResult(1, intent);
+                    } else {
+                        setResult(66, intent);
+                    }
+
+
+                    finish();
                 }
 
-
-                finish();
                 break;
         }
     }

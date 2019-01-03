@@ -7,7 +7,7 @@
     <RelativeLayout
 
         android:layout_width="match_parent"
-        android:layout_height="34dp">
+        android:layout_height="@dimen/dp_50">
 
         <ImageView
             android:layout_centerVertical="true"
@@ -30,7 +30,7 @@
             android:clickable="true"
             android:id="@+id/create_complete"
             android:layout_marginTop="@dimen/dp_6"
-
+android:layout_centerVertical="true"
 
             android:textSize="@dimen/sp_15"
             android:layout_width="@dimen/dp_35"
@@ -52,8 +52,8 @@
     <LinearLayout
         android:layout_marginTop="@dimen/dp_17"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+
         android:orientation="vertical"
         android:paddingLeft="@dimen/dp_20"
         android:paddingRight="@dimen/dp_20">
@@ -84,6 +84,7 @@
             android:layout_height="wrap_content"
            />
         <LinearLayout
+            android:layout_gravity="center_horizontal"
             android:id="@+id/ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -102,8 +103,7 @@
     <LinearLayout
         android:layout_marginTop="@dimen/dp_17"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="@dimen/dp_20"
         android:paddingRight="@dimen/dp_20">
@@ -128,14 +128,20 @@
                 android:text="@string/add"
                 />
         </RelativeLayout>
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <com.iyoyogo.android.widget.flow.TagFlowLayout
-        android:id="@+id/flow_two"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</ScrollView>
+        <com.iyoyogo.android.view.flowlayout.JLHorizontalScrollView
+            android:id="@+id/jhs1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <LinearLayout
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/ll1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -146,9 +152,9 @@
 
     <LinearLayout
         android:layout_marginTop="@dimen/dp_17"
-        android:layout_weight="1"
+
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp_40"
         android:orientation="vertical"
         android:paddingLeft="@dimen/dp_20"
@@ -175,14 +181,20 @@
                 android:text="@string/add"
                 />
         </RelativeLayout>
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <com.iyoyogo.android.widget.flow.TagFlowLayout
-        android:id="@+id/flow_third"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</ScrollView>
+        <com.iyoyogo.android.view.flowlayout.JLHorizontalScrollView
+            android:id="@+id/jhs2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <LinearLayout
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/ll2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+        </LinearLayout>
 
         <!--<EditText-->
         <!--android:layout_width="match_parent"-->

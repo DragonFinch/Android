@@ -8,7 +8,7 @@
     android:paddingTop="3dp"
     android:paddingBottom="3dp"
     android:layout_margin="4dp"
-
+    android:id="@+id/tag_textview"
     android:background="@drawable/label_bg_fkzn"
     android:text="aaa"
     android:textColor="@color/blue"

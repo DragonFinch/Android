@@ -14,7 +14,7 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewH
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         holder.setChooseCallback(chooseCallback,position);
-        holder.setOnItemClickListener(onRecyclerViewItemClickListener,position);
+        holder.setOnItemClickListener(chooseCallback,onRecyclerViewItemClickListener,position);
         holder.setOnItemLongClickListener(onRecyclerViewItemLongClickListener,position);
         holder.onBind(position);
     }

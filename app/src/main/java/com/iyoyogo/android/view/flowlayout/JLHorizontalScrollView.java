@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.Bean;
@@ -127,6 +128,17 @@ public class JLHorizontalScrollView extends HorizontalScrollView {
             textView.setLayoutParams(lp);
             textView.setBackgroundResource(R.drawable.tag_selector);
             final int pos = i;
+            if (list.get(pos).getType()==1){
+                textView.setBackgroundResource(R.drawable.label_bg_fkzn);
+                textView.setTextColor(Color.parseColor("#5BCBF5"));
+
+            }else if (list.get(pos).getType()==2){
+                textView.setBackgroundResource(R.drawable.label_bg_deserve_to_do);
+                textView.setTextColor(Color.parseColor("#E0FF6100"));
+            }else if (list.get(pos).getType()==3){
+                textView.setBackgroundResource(R.drawable.label_bg_exclusive);
+                textView.setTextColor(Color.parseColor("#ff8484"));
+            }
             textView.setText(list.get(pos).getLabel());
             img_choose.setVisibility(VISIBLE);
             textView.setOnClickListener(new OnClickListener() {
@@ -135,16 +147,18 @@ public class JLHorizontalScrollView extends HorizontalScrollView {
                     textView.toggle();
                     if (textView.isChecked()) {
                         list.get(pos).setSelect(true);
-                        textView.setTextColor(Color.parseColor("#48B3E2"));
+
                         mData.add(list.get(pos));
                     } else {
                         list.get(pos).setSelect(false);
-                        textView.setTextColor(Color.parseColor("#999999"));
                         mData.remove(list.get(pos));
                     }
                 }
             });
-            jlFlowLayout.addView(img_choose);
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//            layoutParams.addRule(RelativeLayout.RIGHT_OF,R.id.tag_textview);
+//            img_choose.setLayoutParams(layoutParams);
+//            jlFlowLayout.addView(img_choose);
             jlFlowLayout.addView(textView);
         }
     }

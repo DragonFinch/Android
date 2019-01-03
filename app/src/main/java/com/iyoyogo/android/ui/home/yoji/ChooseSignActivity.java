@@ -29,7 +29,6 @@ import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.view.flowlayout.JLHorizontalScrollView;
 import com.iyoyogo.android.widget.flow.TagAdapter;
-import com.iyoyogo.android.widget.flow.TagFlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,14 +61,18 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
     ImageView pitGuideImg;
     @BindView(R.id.add_pit_guide)
     TextView addPitGuide;
-    @BindView(R.id.flow_two)
-    TagFlowLayout flowTwo;
+    @BindView(R.id.jhs1)
+    JLHorizontalScrollView jhs1;
+    @BindView(R.id.ll1)
+    LinearLayout ll1;
     @BindView(R.id.exclusive_mine_img)
     ImageView exclusiveMineImg;
     @BindView(R.id.add_exclusive_mine)
     TextView addExclusiveMine;
-    @BindView(R.id.flow_third)
-    TagFlowLayout flowThird;
+    @BindView(R.id.jhs2)
+    JLHorizontalScrollView jhs2;
+    @BindView(R.id.ll2)
+    LinearLayout ll2;
     @BindView(R.id.activity_choose_sign)
     LinearLayout activityChooseSign;
     private String user_id;
@@ -237,9 +240,10 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
                 finish();
                 break;
             case R.id.create_complete:
-                ArrayList<LabelListBean.DataBean.List1Bean> strings = selectSign1();
-                ArrayList<LabelListBean.DataBean.List2Bean> strings1 = selectSign2();
-                ArrayList<LabelListBean.DataBean.List3Bean> strings2 = selectSign3();
+
+                List<Bean> strings = jhs.getData();
+                List<Bean> strings1 = jhs1.getData();
+                List<Bean> strings2 = jhs2.getData();
                 ArrayList<Bean> list = new ArrayList<>();
 
                 if (strings != null && strings1 != null && strings2 != null) {
@@ -445,7 +449,9 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
 
     @Override
     public void getLabelListSuccess(LabelListBean.DataBean data) {
-        List<Bean> mList = new ArrayList<>();
+        List<Bean> mList1 = new ArrayList<>();
+        List<Bean> mList2 = new ArrayList<>();
+        List<Bean> mList3 = new ArrayList<>();
         List<LabelListBean.DataBean.List1Bean> list1 = data.getList1();
         List<LabelListBean.DataBean.List2Bean> list2 = data.getList2();
         List<LabelListBean.DataBean.List3Bean> list3 = data.getList3();
@@ -457,20 +463,20 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
             bean.setType(list1.get(i).getType());
             bean.setUser_id(list1.get(i).getUser_id());
             bean.setSelect(list1.get(i).isSelect());
-            mList.add(bean);
+            mList1.add(bean);
         }
-        jhs.setData(mList, new JLHorizontalScrollView.OnCompleteCallback() {
+        jhs.setData(mList1, new JLHorizontalScrollView.OnCompleteCallback() {
             @Override
             public void onComplete(int count) {
                 ll.removeAllViews();
-                for(int i = 0;i < count; i++){
+                for (int i = 0; i < count; i++) {
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     RadioButton radioButton = new RadioButton(ChooseSignActivity.this);
                     layoutParams.leftMargin = 20;
                     radioButton.setButtonDrawable(R.drawable.radiobutton_selector);
                     radioButton.setLayoutParams(layoutParams);
                     radioButton.setClickable(false);
-                    if(i == 0){
+                    if (i == 0) {
                         radioButton.setChecked(true);
                     }
                     ll.addView(radioButton);
@@ -479,27 +485,107 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
 
             @Override
             public void onScroll(int index) {
-                for(int i = 0;i<ll.getChildCount(); i++){
+                for (int i = 0; i < ll.getChildCount(); i++) {
                     RadioButton radioButton = (RadioButton) ll.getChildAt(i);
-                    if(i == index){
+                    if (i == index) {
                         radioButton.setChecked(true);
-                    }else{
+                    } else {
                         radioButton.setChecked(false);
                     }
                 }
             }
         });
-        jhs.setOnClickListener(new JLHorizontalScrollView.OnClickListeners() {
+        for (int i = 0; i < list2.size(); i++) {
+            Bean bean = new Bean();
+            bean.setLabel(list2.get(i).getLabel());
+            bean.setLabel_id((list2.get(i).getLabel_id()));
+            bean.setLogo(list2.get(i).getLogo());
+            bean.setType(list2.get(i).getType());
+            bean.setUser_id(list2.get(i).getUser_id());
+            bean.setSelect(list2.get(i).isSelect());
+            mList2.add(bean);
+        }
+        jhs1.setData(mList2, new JLHorizontalScrollView.OnCompleteCallback() {
+            @Override
+            public void onComplete(int count) {
+                ll1.removeAllViews();
+                for (int i = 0; i < count; i++) {
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    RadioButton radioButton = new RadioButton(ChooseSignActivity.this);
+                    layoutParams.leftMargin = 20;
+                    radioButton.setButtonDrawable(R.drawable.radiobutton_two_selector);
+                    radioButton.setLayoutParams(layoutParams);
+                    radioButton.setClickable(false);
+                    if (i == 0) {
+                        radioButton.setChecked(true);
+                    }
+                    ll1.addView(radioButton);
+                }
+            }
+
+            @Override
+            public void onScroll(int index) {
+                for (int i = 0; i < ll1.getChildCount(); i++) {
+                    RadioButton radioButton = (RadioButton) ll1.getChildAt(i);
+                    if (i == index) {
+                        radioButton.setChecked(true);
+                    } else {
+                        radioButton.setChecked(false);
+                    }
+                }
+            }
+        });
+        for (int i = 0; i < list3.size(); i++) {
+            Bean bean = new Bean();
+            bean.setLabel(list3.get(i).getLabel());
+            bean.setLabel_id((list3.get(i).getLabel_id()));
+            bean.setLogo(list3.get(i).getLogo());
+            bean.setType(list3.get(i).getType());
+            bean.setUser_id(list3.get(i).getUser_id());
+            bean.setSelect(list3.get(i).isSelect());
+            mList3.add(bean);
+        }
+        jhs2.setData(mList3, new JLHorizontalScrollView.OnCompleteCallback() {
+            @Override
+            public void onComplete(int count) {
+                ll2.removeAllViews();
+                for (int i = 0; i < count; i++) {
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    RadioButton radioButton = new RadioButton(ChooseSignActivity.this);
+                    layoutParams.leftMargin = 20;
+                    radioButton.setButtonDrawable(R.drawable.radiobutton_three_selector);
+                    radioButton.setLayoutParams(layoutParams);
+                    radioButton.setClickable(false);
+                    if (i == 0) {
+                        radioButton.setChecked(true);
+                    }
+                    ll2.addView(radioButton);
+                }
+            }
+
+            @Override
+            public void onScroll(int index) {
+                for (int i = 0; i < ll2.getChildCount(); i++) {
+                    RadioButton radioButton = (RadioButton) ll2.getChildAt(i);
+                    if (i == index) {
+                        radioButton.setChecked(true);
+                    } else {
+                        radioButton.setChecked(false);
+                    }
+                }
+            }
+        });
+       /* jhs.setOnClickListener(new JLHorizontalScrollView.OnClickListeners() {
             @Override
             public void setOnDeleteClick(View v, int position) {
-                mPresenter.deleteLabel(user_id,user_token,mList.get(position).getLabel_id());
+                mPresenter.deleteLabel(user_id, user_token, mList.get(position).getLabel_id());
             }
 
             @Override
             public void setOnAddClick(View v, int position) {
 
             }
-        });
+        });*/
 
 //            View view = getLayoutInflater().inflate(R.layout.item_viewpager_lable, null);
 //            final TagFlowLayout tagFlowLayout = view.findViewById(R.id.tab_flowLayout);

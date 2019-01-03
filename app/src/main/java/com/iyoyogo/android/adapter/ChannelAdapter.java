@@ -1,6 +1,7 @@
 package com.iyoyogo.android.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,15 +79,17 @@ public class ChannelAdapter extends BaseRecyclerAdapter {
 
         @Override
         public void intOnItemChooseCallback(final OnItemChooseCallback chooseCallback, final int position) {
+
             int id = list.get(position).getId();
             String filePath = String.valueOf(id);
-            mImageChoose.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (count < maxNum) {
                         if (!list.get(position).isChoose() && !mSelectImg.contains(filePath)) {
                             mImageChoose.setImageResource(R.mipmap.zp_xz);
                             mSelectImg.add(filePath);
+                            mImageSrc.setColorFilter(Color.parseColor("#77000000"));
                             mSelectChannel.add(list.get(position).getChannel());
                             list.get(position).setChoose(true);
                             chooseCallback.chooseState(position, true);
@@ -115,11 +118,14 @@ public class ChannelAdapter extends BaseRecyclerAdapter {
         }
 
         @Override
-        public void initOnItemClickListener(final OnRecyclerViewItemClickListener listener, final int position) {
+        public void initOnItemClickListener(OnItemChooseCallback chooseCallback,final OnRecyclerViewItemClickListener listener, final int position) {
+            int id = list.get(position).getId();
+            String filePath = String.valueOf(id);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listener.onItemClick(position);
+
                 }
             });
         }
