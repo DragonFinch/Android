@@ -21,6 +21,7 @@ public class SpUtils {
 
     //取boolean
     public static boolean getBoolean(Context context, String key, boolean defValue) {
+
         return getSp(context).getBoolean(key, defValue);
     }
 
