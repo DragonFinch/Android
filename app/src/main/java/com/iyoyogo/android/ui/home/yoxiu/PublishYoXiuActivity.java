@@ -222,8 +222,8 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
         topic = new MyTopic();
-        type_list = new ArrayList<>();
         topic.setObjectRule("#");
+        type_list = new ArrayList<>();
         user_token = SpUtils.getString(PublishYoXiuActivity.this, "user_token", null);
         user_id = SpUtils.getString(PublishYoXiuActivity.this, "user_id", null);
         mPresenter.getRecommendTopic(user_id, user_token);

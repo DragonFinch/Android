@@ -74,6 +74,7 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
     private List<HotTopicBean.DataBean.ListBean> mList;
     private List<Integer> type_list;
     private Integer[] array;
+    private int yo_types;
 
 
     @Override
@@ -83,9 +84,19 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
     }
 
     @Override
+    protected void initBeforeView() {
+        super.initBeforeView();
+
+    }
+
+
+
+
+    @Override
     protected void initView() {
         super.initView();
         list = new ArrayList<>();
+
 
     }
 
@@ -112,6 +123,12 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
             adapter.setText(text);
             refreshUI();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 
     private void refreshUI() {
@@ -145,6 +162,9 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
+        Intent intent = getIntent();
+        yo_types = intent.getIntExtra("type",0);
+        Log.d("MoreTopicActivity", "sadasdasdasda"+yo_types+"");
         mList = new ArrayList<>();
         type_list = new ArrayList<>();
         user_id = SpUtils.getString(MoreTopicActivity.this, "user_id", null);
@@ -214,11 +234,24 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
 
                 String topic = mList.get(position).getTopic();
                 int id = mList.get(position).getId();
-                Intent intent = new Intent();
+              /*  Intent intent = new Intent();
                 intent.putExtra("topic", topic);
                 intent.putExtra("type_id", id);
                 setResult(5, intent);
-                finish();
+                finish();*/
+                if (yo_types==2){
+                    Intent intent = new Intent();
+                    intent.putExtra("topic", topic);
+                    intent.putExtra("type_id", id);
+                    setResult(6, intent);
+                    finish();
+                }else {
+                    Intent intent = new Intent();
+                    intent.putExtra("topic", topic);
+                    intent.putExtra("type_id", id);
+                    setResult(5, intent);
+
+                }
             }
         });
     }
@@ -238,11 +271,22 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
             public void setOnClickListener(View view, int position) {
                 String topic = mList.get(position).getTopic();
                 int id = mList.get(position).getId();
-                Intent intent = new Intent();
-                intent.putExtra("topic", topic);
-                intent.putExtra("type_id", id);
+
+
+                if (yo_types==2){
+                    Intent intent = new Intent();
+                    intent.putExtra("topic", topic);
+                    intent.putExtra("type_id", id);
+                    setResult(6, intent);
+                    finish();
+                }else {
+                    Intent intent = new Intent();
+                    intent.putExtra("topic", topic);
+                    intent.putExtra("type_id", id);
                 setResult(5, intent);
-                finish();
+
+                }
+
             }
         });
     }

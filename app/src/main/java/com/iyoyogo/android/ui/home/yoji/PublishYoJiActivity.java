@@ -50,14 +50,17 @@ import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.yoji.publish.MessageBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
 import com.iyoyogo.android.contract.PublishYoJiContract;
+import com.iyoyogo.android.model.RObject;
 import com.iyoyogo.android.presenter.PublishYoJiPresenter;
 import com.iyoyogo.android.ui.common.SearchActivity;
 import com.iyoyogo.android.ui.home.yoxiu.ChannelActivity;
+import com.iyoyogo.android.ui.home.yoxiu.MoreTopicActivity;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.imagepicker.activities.ImagesPickActivity;
 import com.iyoyogo.android.utils.imagepicker.activities.ImagesPreviewActivity;
 import com.iyoyogo.android.view.DrawableTextView;
 import com.iyoyogo.android.widget.FlowGroupView;
+import com.iyoyogo.android.widget.REditText;
 import com.iyoyogo.android.widget.flow.FlowLayout;
 import com.iyoyogo.android.widget.flow.TagAdapter;
 import com.iyoyogo.android.widget.flow.TagFlowLayout;
@@ -93,7 +96,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     @BindView(R.id.text_title_length)
     TextView textTitleLength;
     @BindView(R.id.et_content)
-    AeDITEXT etContent;
+    REditText etContent;
     @BindView(R.id.text_content_length)
     TextView textContentLength;
     @BindView(R.id.tv_recommend)
@@ -165,6 +168,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     private MessageBean messageBean1 = new MessageBean();
     private MessageBean publishYoJiRequest = new MessageBean();
     private ArrayList<String> strings;
+    private MyTopic topic;
 
     @Override
     protected int getLayoutId() {
@@ -506,6 +510,8 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
+        topic = new MyTopic();
+        topic.setObjectRule("#");
         user_id = SpUtils.getString(PublishYoJiActivity.this, "user_id", null);
         user_token = SpUtils.getString(PublishYoJiActivity.this, "user_token", null);
         mPresenter.getRecommendTopic(user_id, user_token);
@@ -580,6 +586,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
             location_tv.setText(place1);
         }
+
         if (requestCode == 1 && resultCode == 55) {
             label_tv.setVisibility(View.GONE);
             ArrayList<Bean> sign_list = (ArrayList<Bean>) data.getSerializableExtra("sign_list");
@@ -663,6 +670,14 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
             messageBean1.setLogos(path_list);
             list.add(messageBean1);
             publishYoJiAdapter.addData(index, messageBean1);
+        }
+        if (requestCode==2&&resultCode==6){
+            String topicName = data.getStringExtra("topic");
+            int type_id = data.getIntExtra("type_id", 0);
+            type_list.add(type_id);
+            Log.d("PublishYoJiActivity", topicName);
+            topic.setObjectText(topicName);
+            etContent.setObject(topic);// 设置话题
         }
     }
 
@@ -799,6 +814,10 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                 break;
             case R.id.more_topic:
 
+               Intent intent1 = new Intent(PublishYoJiActivity.this, MoreTopicActivity.class);
+               intent1.putExtra("type",2);
+                startActivityForResult(intent1, 2);
+
                 break;
             case R.id.next:
                 Intent intent = new Intent(PublishYoJiActivity.this, ChannelActivity.class);
@@ -857,5 +876,18 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+    class MyTopic extends RObject {
+        private String id;
+
+        // 其他属性...
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
     }
 }

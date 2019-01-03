@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,12 +17,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.yoji.list.YoJiListBean;
-import com.iyoyogo.android.bean.yoxiu.YouXiuListBean;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
-import com.iyoyogo.android.ui.home.yoji.YoJiListActivity;
-import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
-import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
 import com.iyoyogo.android.utils.SpUtils;
@@ -34,11 +29,11 @@ import java.util.List;
 
 import io.reactivex.functions.Consumer;
 
-public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHolder> implements View.OnClickListener {
+
 /**
  * yo记列表的适配器
  */
-public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHolder> {
+public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHolder> implements View.OnClickListener {
     private Context context;
     List<YoJiListBean.DataBean.ListBean> mList;
     private List<Integer> mHeight;
@@ -188,7 +183,7 @@ public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView img_type, imageView, iv_like, iv_video,more_img,index_look_icon;
+        ImageView img_type, imageView, iv_like, iv_video, more_img, index_look_icon;
         TextView num_like, user_name, tv_title, num_see;
         CircleImageView user_icon;
         RelativeLayout view_like;
@@ -209,4 +204,5 @@ public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHo
             index_look_icon = itemView.findViewById(R.id.index_look_icon);
         }
     }
+
 }

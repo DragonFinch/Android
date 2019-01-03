@@ -1,133 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ClipSquareImageView="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
   >
-
-   <!-- <ImageView
-        android:id="@+id/image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitCenter" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <RelativeLayout
-                android:id="@+id/fanhui"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp">
-
-                <ImageView
-                    android:id="@+id/fan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:layout_centerVertical="true"
-                    android:src="@mipmap/back_icon"
-                    android:tint="@color/bar_grey" />
-
-                <TextView
-                    android:id="@+id/fan1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/fan"
-
-                    android:layout_marginLeft="-1dp"
-                    android:layout_toRightOf="@+id/fan"
-                    android:text="返回"
-                    android:textColor="@color/bar_grey" />
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:background="@color/colorWhite">
-
-            <LinearLayout
-                android:id="@+id/guolv_linear"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:src="@drawable/lvjing_heise" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="滤镜"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/caijian_linear"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_toRightOf="@+id/go_yo_xiu_linear"
-                android:layout_marginLeft="75dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-
-                    android:src="@drawable/caijian_heis" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="裁剪"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginLeft="75dp"
-                android:layout_toRightOf="@+id/guolv_linear"
-                android:id="@+id/go_yo_xiu_linear"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-
-                android:layout_marginTop="0dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:src="@drawable/fayoxiu" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="发yo秀"
-                    android:textSize="12sp" />
-            </LinearLayout>
-        </RelativeLayout>
-    </LinearLayout>-->
-
-
 
 
         <android.support.v7.widget.Toolbar
@@ -188,7 +64,7 @@
                 android:layout_width="55dp"
                 android:layout_height="55dp"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/shanchu"
+                android:src="@mipmap/delte_img"
                 android:checked="false" />
             <ImageView
                 android:id="@+id/send_yoji"

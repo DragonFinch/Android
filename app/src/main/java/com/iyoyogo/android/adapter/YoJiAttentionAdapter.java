@@ -302,6 +302,55 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
             } else {
                 holder.user_name.setText("");
             }
+            holder.title.setText(mList.get(position).getTitle());
+            holder.tv_cost.setText("￥" + mList.get(position).getCost() + "/人");
+            holder.tv_day.setText(mList.get(position).getCount_dates() + "天");
+            holder.tv_num_comment.setText("全部评论(" + mList.get(position).getCount_comment() + ")");
+            holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
+            List<HomeBean.DataBean.YojListBean.CommentListBean> comment_list = mList.get(position).getComment_list();
+            Log.d("YoJiAttentionAdapter", "comment_list.size():" + comment_list.size());
+            if (comment_list.size()==0){
+                holder.recycler_comment.setVisibility(View.GONE);
+            }else {
+                YoJiListItemAdapter adapter = new YoJiListItemAdapter(context, comment_list);
+                holder.recycler_comment.setLayoutManager(new LinearLayoutManager(context));
+                holder.recycler_comment.setAdapter(adapter);
+            }
+
+            holder.dt_like.setImageResource(mList.get(position).getIs_my_praise() > 0 ? R.mipmap.yixihuan_xiangqing : R.mipmap.datu_xihuan);
+            holder.dt_like.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int count_praise = mList.get(position).getCount_praise();
+
+                    Log.d("Test", "dataBeans.get(0).getIs_my_like():" + mList.get(position).getIs_my_praise());
+                    if (mList.get(position).getIs_my_praise() > 0) {
+                        //由喜欢变为不喜欢，亮变暗
+                        holder.dt_like.setImageResource(R.mipmap.datu_xihuan);
+                        count_praise -= 1;
+                        //设置点赞的数量
+                        holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
+                        mList.get(position).setIs_my_praise(0);
+                        mList.get(position).setCount_praise(count_praise);
+                    } else {
+                        //由不喜欢变为喜欢，暗变亮
+                        holder.dt_like.setImageResource(R.mipmap.yixihuan_xiangqing);
+                        count_praise += 1;
+                        //设置点赞的数量
+                        holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
+                        mList.get(position).setIs_my_praise(1);
+                        mList.get(position).setCount_praise(count_praise);
+                    }
+                    String user_id = SpUtils.getString(context, "user_id", null);
+                    String user_token = SpUtils.getString(context, "user_token", null);
+                    DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getYo_id(), 0)
+                            .subscribe(new Consumer<BaseBean>() {
+                                @Override
+                                public void accept(BaseBean baseBean) throws Exception {
+                                }
+                            });
+                }
+            });
             holder.rl_top_content.setVisibility(View.VISIBLE);
             holder.relative_img.setVisibility(View.VISIBLE);
             holder.ll_like_list.setVisibility(View.VISIBLE);
@@ -353,49 +402,7 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
 
         }
 
-        holder.title.setText(mList.get(position).getTitle());
-        holder.tv_cost.setText("￥" + mList.get(position).getCost() + "/人");
-        holder.tv_day.setText(mList.get(position).getCount_dates() + "天");
-        holder.tv_num_comment.setText("全部评论(" + mList.get(position).getCount_comment() + ")");
-        holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
-        List<HomeBean.DataBean.YojListBean.CommentListBean> comment_list = mList.get(position).getComment_list();
-        YoJiListItemAdapter adapter = new YoJiListItemAdapter(context, comment_list);
-        holder.recycler_comment.setLayoutManager(new LinearLayoutManager(context));
-        holder.recycler_comment.setAdapter(adapter);
-        holder.dt_like.setImageResource(mList.get(position).getIs_my_praise() > 0 ? R.mipmap.yixihuan_xiangqing : R.mipmap.datu_xihuan);
-        holder.dt_like.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int count_praise = mList.get(position).getCount_praise();
 
-                Log.d("Test", "dataBeans.get(0).getIs_my_like():" + mList.get(position).getIs_my_praise());
-                if (mList.get(position).getIs_my_praise() > 0) {
-                    //由喜欢变为不喜欢，亮变暗
-                    holder.dt_like.setImageResource(R.mipmap.datu_xihuan);
-                    count_praise -= 1;
-                    //设置点赞的数量
-                    holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
-                    mList.get(position).setIs_my_praise(0);
-                    mList.get(position).setCount_praise(count_praise);
-                } else {
-                    //由不喜欢变为喜欢，暗变亮
-                    holder.dt_like.setImageResource(R.mipmap.yixihuan_xiangqing);
-                    count_praise += 1;
-                    //设置点赞的数量
-                    holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
-                    mList.get(position).setIs_my_praise(1);
-                    mList.get(position).setCount_praise(count_praise);
-                }
-                String user_id = SpUtils.getString(context, "user_id", null);
-                String user_token = SpUtils.getString(context, "user_token", null);
-                DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getYo_id(), 0)
-                        .subscribe(new Consumer<BaseBean>() {
-                            @Override
-                            public void accept(BaseBean baseBean) throws Exception {
-                            }
-                        });
-            }
-        });
 
 
         holder.itemView.setTag(position);

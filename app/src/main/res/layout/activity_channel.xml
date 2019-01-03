@@ -4,17 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/activity_channel"
+    android:background="#FAFAFA"
     tools:context=".ui.home.yoxiu.ChannelActivity">
 
     <include
         android:id="@+id/bar"
         layout="@layout/common_bar" />
 
-    <GridView
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginTop="@dimen/sp_15"
         android:id="@+id/gv_channel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/bar"
-        android:background="@color/white"
+
         android:numColumns="4" />
 </RelativeLayout>

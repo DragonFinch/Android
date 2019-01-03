@@ -123,10 +123,12 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
         return R.layout.fragment_attention;
     }
 
-    private void downloadApk() {
+    private void downloadApk(String url) {
         boolean isWifi = AppUtils.isWifi(getContext()); //是否处于WiFi状态
         if (isWifi) {
-            getActivity().startService(new Intent(getContext(), UpdateService.class));
+            Intent intent = new Intent(getContext(), UpdateService.class);
+            intent.putExtra("url",url);
+            getActivity().startService(intent);
             Toast.makeText(getContext(), "开始下载。", Toast.LENGTH_LONG).show();
         } else {
             //弹出对话框，提示是否用流量下载
@@ -144,7 +146,9 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
             builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    getContext().startService(new Intent(getContext(), UpdateService.class));
+                    Intent intent = new Intent(getContext(), UpdateService.class);
+                    intent.putExtra("url",url);
+                    getContext().startService(intent);
                     Toast.makeText(getContext(), "开始下载。", Toast.LENGTH_LONG).show();
                 }
             });
@@ -164,7 +168,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
         return new HomePresenter(this);
     }
 
-    private void showHintDialog() {
+    private void showHintDialog(String url) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setIcon(R.mipmap.ic_launcher)
                 .setMessage("检测到当前有新版本，是否更新?")
@@ -180,7 +184,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
                     public void onClick(DialogInterface dialog, int which) {
                         //6.0以下系统，不需要请求权限,直接下载新版本的app
                         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                            downloadApk();
+                            downloadApk(url);
                         } else {
                             //6.0以上,先检查，申请权限，再下载
                             checkAllPermission();
@@ -283,7 +287,8 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
                 int local_version = Integer.parseInt(localVersion);
                 int net_version = Integer.parseInt(netVersion);
                 if (local_version < net_version) {
-                    showHintDialog();
+                    String url = data1.getUrl();
+//                    showHintDialog(url);
                 }
             }
 

@@ -3,24 +3,22 @@ package com.iyoyogo.android.ui.home.yoji;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.Bean;
-import com.iyoyogo.android.adapter.LabelAdapter;
-import com.iyoyogo.android.adapter.LabelThreeAdapter;
-import com.iyoyogo.android.adapter.LabelTwoAdapter;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.yoji.label.AddLabelBean;
@@ -29,11 +27,15 @@ import com.iyoyogo.android.contract.ChooseSignContract;
 import com.iyoyogo.android.presenter.ChooseSignPresenter;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.view.flowlayout.JLHorizontalScrollView;
+import com.iyoyogo.android.widget.flow.TagAdapter;
+import com.iyoyogo.android.widget.flow.TagFlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -52,20 +54,22 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
     ImageView makeWorthImg;
     @BindView(R.id.add_make_worth)
     TextView addMakeWorth;
-    @BindView(R.id.vp_one)
-    ViewPager vpOne;
+    @BindView(R.id.jhs)
+    JLHorizontalScrollView jhs;
+    @BindView(R.id.ll)
+    LinearLayout ll;
     @BindView(R.id.pit_guide_img)
     ImageView pitGuideImg;
     @BindView(R.id.add_pit_guide)
     TextView addPitGuide;
-    @BindView(R.id.vp_two)
-    ViewPager vpTwo;
+    @BindView(R.id.flow_two)
+    TagFlowLayout flowTwo;
     @BindView(R.id.exclusive_mine_img)
     ImageView exclusiveMineImg;
     @BindView(R.id.add_exclusive_mine)
     TextView addExclusiveMine;
-    @BindView(R.id.vp_third)
-    ViewPager vpThird;
+    @BindView(R.id.flow_third)
+    TagFlowLayout flowThird;
     @BindView(R.id.activity_choose_sign)
     LinearLayout activityChooseSign;
     private String user_id;
@@ -73,10 +77,13 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
     private PopupWindow popup;
     private TextView tv_type;
     private EditText edit_label;
-    private LabelAdapter labelAdapter;
-    private LabelTwoAdapter labelTwoAdapter;
-    private LabelThreeAdapter labelThreeAdapter;
 
+    TagAdapter<LabelListBean.DataBean.List1Bean> tagAdapter1;
+    TagAdapter<LabelListBean.DataBean.List2Bean> tagAdapter2;
+    TagAdapter<LabelListBean.DataBean.List3Bean> tagAdapter3;
+    private static ArrayList<LabelListBean.DataBean.List1Bean> mSelectImg = new ArrayList<>();
+    private static ArrayList<LabelListBean.DataBean.List2Bean> mSelectImg1 = new ArrayList<>();
+    private static ArrayList<LabelListBean.DataBean.List3Bean> mSelectImg2 = new ArrayList<>();
 
     @Override
     protected int getLayoutId() {
@@ -134,6 +141,10 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
 //                labelTwoAdapter.refresh();
 //                labelThreeAdapter.refresh();
                 popup.dismiss();
+                mPresenter.getLabelList(user_id, user_token);
+//                labelAdapter.notifyDataSetChanged();
+//                labelTwoAdapter.notifyDataSetChanged();
+//                labelThreeAdapter.notifyDataSetChanged();
             }
         });
         btn_canecel.setOnClickListener(new View.OnClickListener() {
@@ -153,6 +164,13 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
         lp.alpha = bgAlpha; // 0.0~1.0
         getWindow().setAttributes(lp); //act 是上下文context
 
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 
 
@@ -219,12 +237,12 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
                 finish();
                 break;
             case R.id.create_complete:
-                ArrayList<LabelListBean.DataBean.List1Bean> strings = labelAdapter.selectSign();
-                ArrayList<LabelListBean.DataBean.List2Bean> strings1 = labelTwoAdapter.selectSign();
-                ArrayList<LabelListBean.DataBean.List3Bean> strings2 = labelThreeAdapter.selectSign();
+                ArrayList<LabelListBean.DataBean.List1Bean> strings = selectSign1();
+                ArrayList<LabelListBean.DataBean.List2Bean> strings1 = selectSign2();
+                ArrayList<LabelListBean.DataBean.List3Bean> strings2 = selectSign3();
                 ArrayList<Bean> list = new ArrayList<>();
 
-               if (strings!=null&&strings1!=null&&strings2!=null){
+                if (strings != null && strings1 != null && strings2 != null) {
                     for (int i = 0; i < strings1.size(); i++) {
                         Bean bean = new Bean();
                         bean.setLabel(strings1.get(i).getLabel());
@@ -255,9 +273,12 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
                         bean.setSelect(strings.get(i).isSelect());
                         list.add(bean);
                     }
-                }else {
-                       //判断1和2是空的就添加3
-                    if (strings==null&&strings1==null){
+                } else {
+                    if (strings == null && strings1 == null && strings2 == null) {
+                        Toast.makeText(this, "请至少选择一个标签", Toast.LENGTH_SHORT).show();
+                    }
+                    //判断1和2是空的就添加3
+                    else if (strings == null && strings1 == null) {
                         for (int i = 0; i < strings2.size(); i++) {
                             Bean bean = new Bean();
                             bean.setLabel(strings2.get(i).getLabel());
@@ -269,102 +290,101 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
                             list.add(bean);
                         }
 
-                    }else
-                    // //判断1和3是空的就添加2
-                    if (strings==null&&strings2==null){
-                        for (int i = 0; i < strings1.size(); i++) {
-                            Bean bean = new Bean();
-                            bean.setLabel(strings1.get(i).getLabel());
-                            bean.setLabel_id((strings1.get(i).getLabel_id()));
-                            bean.setLogo(strings1.get(i).getLogo());
-                            bean.setType(strings1.get(i).getType());
-                            bean.setUser_id(strings1.get(i).getUser_id());
-                            bean.setSelect(strings1.get(i).isSelect());
-                            list.add(bean);
-                        }
-                    }else
-                    if (strings1==null&&strings2==null){
-                    //判断2和3是空的，就添加1
-                        for (int i = 0; i < strings.size(); i++) {
-                            Bean bean = new Bean();
-                            bean.setLabel(strings.get(i).getLabel());
-                            bean.setLabel_id((strings.get(i).getLabel_id()));
-                            bean.setLogo(strings.get(i).getLogo());
-                            bean.setType(strings.get(i).getType());
-                            bean.setUser_id(strings.get(i).getUser_id());
-                            bean.setSelect(strings.get(i).isSelect());
-                            list.add(bean);
-                        }
-                    }else
-                    //判断1是空的
-                    if (strings==null){
-                        for (int i = 0; i < strings1.size(); i++) {
-                            Bean bean = new Bean();
-                            bean.setLabel(strings1.get(i).getLabel());
-                            bean.setLabel_id((strings1.get(i).getLabel_id()));
-                            bean.setLogo(strings1.get(i).getLogo());
-                            bean.setType(strings1.get(i).getType());
-                            bean.setUser_id(strings1.get(i).getUser_id());
-                            bean.setSelect(strings1.get(i).isSelect());
-                            list.add(bean);
-                        }
-                        for (int i = 0; i < strings2.size(); i++) {
-                            Bean bean = new Bean();
-                            bean.setLabel(strings2.get(i).getLabel());
-                            bean.setLabel_id((strings2.get(i).getLabel_id()));
-                            bean.setLogo(strings2.get(i).getLogo());
-                            bean.setType(strings2.get(i).getType());
-                            bean.setUser_id(strings2.get(i).getUser_id());
-                            bean.setSelect(strings2.get(i).isSelect());
-                            list.add(bean);
-                        }
-                    }else
-                    // 判断2是空的
-                    if (strings1==null){
-                        for (int i = 0; i < strings.size(); i++) {
-                            Bean bean = new Bean();
-                            bean.setLabel(strings.get(i).getLabel());
-                            bean.setLabel_id((strings.get(i).getLabel_id()));
-                            bean.setLogo(strings.get(i).getLogo());
-                            bean.setType(strings.get(i).getType());
-                            bean.setUser_id(strings.get(i).getUser_id());
-                            bean.setSelect(strings.get(i).isSelect());
-                            list.add(bean);
-                        }
-                        for (int i = 0; i < strings2.size(); i++) {
-                            Bean bean = new Bean();
-                            bean.setLabel(strings2.get(i).getLabel());
-                            bean.setLabel_id((strings2.get(i).getLabel_id()));
-                            bean.setLogo(strings2.get(i).getLogo());
-                            bean.setType(strings2.get(i).getType());
-                            bean.setUser_id(strings2.get(i).getUser_id());
-                            bean.setSelect(strings2.get(i).isSelect());
-                            list.add(bean);
-                        }
-                    }else
-                    // 判断3是空的
-                    if (strings2==null){
-                        for (int i = 0; i < strings.size(); i++) {
-                            Bean bean = new Bean();
-                            bean.setLabel(strings.get(i).getLabel());
-                            bean.setLabel_id((strings.get(i).getLabel_id()));
-                            bean.setLogo(strings.get(i).getLogo());
-                            bean.setType(strings.get(i).getType());
-                            bean.setUser_id(strings.get(i).getUser_id());
-                            bean.setSelect(strings.get(i).isSelect());
-                            list.add(bean);
-                        }
-                        for (int i = 0; i < strings1.size(); i++) {
-                            Bean bean = new Bean();
-                            bean.setLabel(strings1.get(i).getLabel());
-                            bean.setLabel_id((strings1.get(i).getLabel_id()));
-                            bean.setLogo(strings1.get(i).getLogo());
-                            bean.setType(strings1.get(i).getType());
-                            bean.setUser_id(strings1.get(i).getUser_id());
-                            bean.setSelect(strings1.get(i).isSelect());
-                            list.add(bean);
-                        }
-                    }
+                    } else
+                        // //判断1和3是空的就添加2
+                        if (strings == null && strings2 == null) {
+                            for (int i = 0; i < strings1.size(); i++) {
+                                Bean bean = new Bean();
+                                bean.setLabel(strings1.get(i).getLabel());
+                                bean.setLabel_id((strings1.get(i).getLabel_id()));
+                                bean.setLogo(strings1.get(i).getLogo());
+                                bean.setType(strings1.get(i).getType());
+                                bean.setUser_id(strings1.get(i).getUser_id());
+                                bean.setSelect(strings1.get(i).isSelect());
+                                list.add(bean);
+                            }
+                        } else if (strings1 == null && strings2 == null) {
+                            //判断2和3是空的，就添加1
+                            for (int i = 0; i < strings.size(); i++) {
+                                Bean bean = new Bean();
+                                bean.setLabel(strings.get(i).getLabel());
+                                bean.setLabel_id((strings.get(i).getLabel_id()));
+                                bean.setLogo(strings.get(i).getLogo());
+                                bean.setType(strings.get(i).getType());
+                                bean.setUser_id(strings.get(i).getUser_id());
+                                bean.setSelect(strings.get(i).isSelect());
+                                list.add(bean);
+                            }
+                        } else
+                            //判断1是空的
+                            if (strings == null) {
+                                for (int i = 0; i < strings1.size(); i++) {
+                                    Bean bean = new Bean();
+                                    bean.setLabel(strings1.get(i).getLabel());
+                                    bean.setLabel_id((strings1.get(i).getLabel_id()));
+                                    bean.setLogo(strings1.get(i).getLogo());
+                                    bean.setType(strings1.get(i).getType());
+                                    bean.setUser_id(strings1.get(i).getUser_id());
+                                    bean.setSelect(strings1.get(i).isSelect());
+                                    list.add(bean);
+                                }
+                                for (int i = 0; i < strings2.size(); i++) {
+                                    Bean bean = new Bean();
+                                    bean.setLabel(strings2.get(i).getLabel());
+                                    bean.setLabel_id((strings2.get(i).getLabel_id()));
+                                    bean.setLogo(strings2.get(i).getLogo());
+                                    bean.setType(strings2.get(i).getType());
+                                    bean.setUser_id(strings2.get(i).getUser_id());
+                                    bean.setSelect(strings2.get(i).isSelect());
+                                    list.add(bean);
+                                }
+                            } else
+                                // 判断2是空的
+                                if (strings1 == null) {
+                                    for (int i = 0; i < strings.size(); i++) {
+                                        Bean bean = new Bean();
+                                        bean.setLabel(strings.get(i).getLabel());
+                                        bean.setLabel_id((strings.get(i).getLabel_id()));
+                                        bean.setLogo(strings.get(i).getLogo());
+                                        bean.setType(strings.get(i).getType());
+                                        bean.setUser_id(strings.get(i).getUser_id());
+                                        bean.setSelect(strings.get(i).isSelect());
+                                        list.add(bean);
+                                    }
+                                    for (int i = 0; i < strings2.size(); i++) {
+                                        Bean bean = new Bean();
+                                        bean.setLabel(strings2.get(i).getLabel());
+                                        bean.setLabel_id((strings2.get(i).getLabel_id()));
+                                        bean.setLogo(strings2.get(i).getLogo());
+                                        bean.setType(strings2.get(i).getType());
+                                        bean.setUser_id(strings2.get(i).getUser_id());
+                                        bean.setSelect(strings2.get(i).isSelect());
+                                        list.add(bean);
+                                    }
+                                } else
+                                    // 判断3是空的
+                                    if (strings2 == null) {
+                                        for (int i = 0; i < strings.size(); i++) {
+                                            Bean bean = new Bean();
+                                            bean.setLabel(strings.get(i).getLabel());
+                                            bean.setLabel_id((strings.get(i).getLabel_id()));
+                                            bean.setLogo(strings.get(i).getLogo());
+                                            bean.setType(strings.get(i).getType());
+                                            bean.setUser_id(strings.get(i).getUser_id());
+                                            bean.setSelect(strings.get(i).isSelect());
+                                            list.add(bean);
+                                        }
+                                        for (int i = 0; i < strings1.size(); i++) {
+                                            Bean bean = new Bean();
+                                            bean.setLabel(strings1.get(i).getLabel());
+                                            bean.setLabel_id((strings1.get(i).getLabel_id()));
+                                            bean.setLogo(strings1.get(i).getLogo());
+                                            bean.setType(strings1.get(i).getType());
+                                            bean.setUser_id(strings1.get(i).getUser_id());
+                                            bean.setSelect(strings1.get(i).isSelect());
+                                            list.add(bean);
+                                        }
+                                    }
                 }
 
                 Intent intent = new Intent();
@@ -379,7 +399,7 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("sign_list", list);
                 intent.putExtras(bundle);
-                intent.putExtra("type",1);
+                intent.putExtra("type", 1);
                 Log.d("ChooseSignActivity", "list.size():" + list.size());
                 setResult(55, intent);
                 finish();
@@ -399,45 +419,260 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
         }
     }
 
+    public ArrayList<LabelListBean.DataBean.List1Bean> selectSign1() {
+
+        if (!mSelectImg.isEmpty()) {
+            return mSelectImg;
+        }
+        return null;
+    }
+
+    public ArrayList<LabelListBean.DataBean.List2Bean> selectSign2() {
+
+        if (!mSelectImg1.isEmpty()) {
+            return mSelectImg1;
+        }
+        return null;
+    }
+
+    public ArrayList<LabelListBean.DataBean.List3Bean> selectSign3() {
+
+        if (!mSelectImg2.isEmpty()) {
+            return mSelectImg2;
+        }
+        return null;
+    }
 
     @Override
     public void getLabelListSuccess(LabelListBean.DataBean data) {
-
+        List<Bean> mList = new ArrayList<>();
         List<LabelListBean.DataBean.List1Bean> list1 = data.getList1();
         List<LabelListBean.DataBean.List2Bean> list2 = data.getList2();
         List<LabelListBean.DataBean.List3Bean> list3 = data.getList3();
+        for (int i = 0; i < list1.size(); i++) {
+            Bean bean = new Bean();
+            bean.setLabel(list1.get(i).getLabel());
+            bean.setLabel_id((list1.get(i).getLabel_id()));
+            bean.setLogo(list1.get(i).getLogo());
+            bean.setType(list1.get(i).getType());
+            bean.setUser_id(list1.get(i).getUser_id());
+            bean.setSelect(list1.get(i).isSelect());
+            mList.add(bean);
+        }
+        jhs.setData(mList, new JLHorizontalScrollView.OnCompleteCallback() {
+            @Override
+            public void onComplete(int count) {
+                ll.removeAllViews();
+                for(int i = 0;i < count; i++){
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    RadioButton radioButton = new RadioButton(ChooseSignActivity.this);
+                    layoutParams.leftMargin = 20;
+                    radioButton.setButtonDrawable(R.drawable.radiobutton_selector);
+                    radioButton.setLayoutParams(layoutParams);
+                    radioButton.setClickable(false);
+                    if(i == 0){
+                        radioButton.setChecked(true);
+                    }
+                    ll.addView(radioButton);
+                }
+            }
+
+            @Override
+            public void onScroll(int index) {
+                for(int i = 0;i<ll.getChildCount(); i++){
+                    RadioButton radioButton = (RadioButton) ll.getChildAt(i);
+                    if(i == index){
+                        radioButton.setChecked(true);
+                    }else{
+                        radioButton.setChecked(false);
+                    }
+                }
+            }
+        });
+        jhs.setOnClickListener(new JLHorizontalScrollView.OnClickListeners() {
+            @Override
+            public void setOnDeleteClick(View v, int position) {
+                mPresenter.deleteLabel(user_id,user_token,mList.get(position).getLabel_id());
+            }
+
+            @Override
+            public void setOnAddClick(View v, int position) {
+
+            }
+        });
+
+//            View view = getLayoutInflater().inflate(R.layout.item_viewpager_lable, null);
+//            final TagFlowLayout tagFlowLayout = view.findViewById(R.id.tab_flowLayout);
 
 
-        if (labelAdapter == null) {
-            labelAdapter = new LabelAdapter(ChooseSignActivity.this, list1);
-            vpOne.setAdapter(labelAdapter);
-        } else {
-            labelAdapter.setLabels(list1);
-        }
-        if (labelTwoAdapter == null) {
-            labelTwoAdapter = new LabelTwoAdapter(ChooseSignActivity.this, list2);
-            vpTwo.setAdapter(labelTwoAdapter);
-        } else {
-            labelTwoAdapter.setLabels(list2);
-        }
-        if (labelThreeAdapter == null) {
-            labelThreeAdapter = new LabelThreeAdapter(ChooseSignActivity.this, list3);
-            vpThird.setAdapter(labelThreeAdapter);
-        } else {
-            labelThreeAdapter.setLabels(list3);
-        }
-//        labelAdapter.refreshrefresh();
+    /*    tagAdapter1 = new TagAdapter<LabelListBean.DataBean.List1Bean>(list1) {
+
+            @Override
+            public View getView(FlowLayout parent, int position, LabelListBean.DataBean.List1Bean list1Bean) {
+
+                View contentView = getLayoutInflater().inflate(R.layout.item_label, flowOne, false);
+                TextView tv = contentView.findViewById(R.id.lable_name_tv);
+                ImageView img_delete = contentView.findViewById(R.id.img_delete);
+                tv.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        img_delete.setVisibility(View.VISIBLE);
+                        return true;
+                    }
+                });
+                tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (list1.get(position).isSelect()) {
+                            contentView.findViewById(R.id.img_choice).setVisibility(View.GONE);
+                            list1.get(position).setSelect(false);
+                            mSelectImg.remove(list1.get(position));
+                        } else {
+                            contentView.findViewById(R.id.img_choice).setVisibility(View.VISIBLE);
+                            list1.get(position).setSelect(true);
+                            mSelectImg.add(list1.get(position));
+                        }
+                    }
+                });
+
+                contentView.findViewById(R.id.img_delete).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mPresenter.deleteLabel(user_id,user_token,list1.get(position).getLabel_id());
+                    }
+                });
+                if (list1Bean.isSelect()) {
+                    contentView.findViewById(R.id.img_choice).setVisibility(View.VISIBLE);
+                } else {
+                    contentView.findViewById(R.id.img_choice).setVisibility(View.GONE);
+                }
+                tv.setText(list1Bean.getLabel());
+                return contentView;
+            }
+        };
+        flowOne.setAdapter(tagAdapter1);
+
+
+        tagAdapter2 = new TagAdapter<LabelListBean.DataBean.List2Bean>(list2) {
+            @Override
+            public View getView(FlowLayout parent, int position, LabelListBean.DataBean.List2Bean list2Bean) {
+
+                View contentView = getLayoutInflater().inflate(R.layout.item_label_two, flowTwo, false);
+                TextView tv = contentView.findViewById(R.id.lable_name_tv);
+                ImageView img_delete = contentView.findViewById(R.id.img_delete);
+                tv.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        img_delete.setVisibility(View.VISIBLE);
+                        return false;
+                    }
+                });
+                tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (list2.get(position).isSelect()) {
+                            contentView.findViewById(R.id.img_choice).setVisibility(View.GONE);
+                            list2.get(position).setSelect(false);
+                            mSelectImg1.remove(list2.get(position));
+                        } else {
+                            contentView.findViewById(R.id.img_choice).setVisibility(View.VISIBLE);
+                            list2.get(position).setSelect(true);
+                            mSelectImg1.add(list2.get(position));
+                        }
+                    }
+                });
+                contentView.findViewById(R.id.img_delete).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mPresenter.deleteLabel(user_id,user_token,list2.get(position).getLabel_id());
+                    }
+                });
+                if (list2Bean.isSelect()) {
+                    contentView.findViewById(R.id.img_choice).setVisibility(View.VISIBLE);
+                } else {
+                    contentView.findViewById(R.id.img_choice).setVisibility(View.GONE);
+                }
+                tv.setText(list2Bean.getLabel());
+                return contentView;
+            }
+        };
+        flowTwo.setAdapter(tagAdapter2);
+
+        tagAdapter3 = new TagAdapter<LabelListBean.DataBean.List3Bean>(list3) {
+            @Override
+            public View getView(FlowLayout parent, int position, LabelListBean.DataBean.List3Bean list3Bean) {
+
+                View contentView = getLayoutInflater().inflate(R.layout.item_label_three, flowTwo, false);
+                TextView tv = contentView.findViewById(R.id.lable_name_tv);
+                ImageView img_delete = contentView.findViewById(R.id.img_delete);
+                tv.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        img_delete.setVisibility(View.VISIBLE);
+                        return false;
+                    }
+                });
+                tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (list3.get(position).isSelect()) {
+                            contentView.findViewById(R.id.img_choice).setVisibility(View.GONE);
+                            list3.get(position).setSelect(false);
+                            mSelectImg2.remove(list3.get(position));
+                        } else {
+                            contentView.findViewById(R.id.img_choice).setVisibility(View.VISIBLE);
+                            list3.get(position).setSelect(true);
+                            mSelectImg2.add(list3.get(position));
+                        }
+                    }
+                });
+                contentView.findViewById(R.id.img_delete).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mPresenter.deleteLabel(user_id,user_token,list3.get(position).getLabel_id());
+                    }
+                });
+                if (list3Bean.isSelect()) {
+                    contentView.findViewById(R.id.img_choice).setVisibility(View.VISIBLE);
+                } else {
+                    contentView.findViewById(R.id.img_choice).setVisibility(View.GONE);
+                }
+                tv.setText(list3Bean.getLabel());
+                return contentView;
+            }
+        };
+        flowThird.setAdapter(tagAdapter3);*/
+
+
     }
 
     @Override
     public void addLabelSuccess(AddLabelBean.DataBean data) {
-
+        mPresenter.getLabelList(user_id, user_token);
     }
 
     @Override
     public void deleteLabelSuccess(BaseBean baseBean) {
-
+        mPresenter.getLabelList(user_id, user_token);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ArrayList<LabelListBean.DataBean.List1Bean> list1Beans = selectSign1();
+        ArrayList<LabelListBean.DataBean.List2Bean> list2Beans = selectSign2();
+        ArrayList<LabelListBean.DataBean.List3Bean> list3Beans = selectSign3();
+        if (list1Beans != null) {
+            list1Beans.clear();
 
+        }
+        if (list2Beans != null) {
+            list2Beans.clear();
+
+        }
+        if (list3Beans != null) {
+            list3Beans.clear();
+
+        }
+    }
 }

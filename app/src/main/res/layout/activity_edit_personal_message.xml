@@ -276,8 +276,8 @@
 
                         android:layout_marginRight="20dp"
                         android:text="更懂你~" />
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/recycler_interest"
+<com.iyoyogo.android.widget.flow.TagFlowLayout
+    android:id="@+id/flow_interest"
     android:visibility="gone"
     android:layout_alignParentRight="true"
     android:layout_marginRight="@dimen/dp_20"

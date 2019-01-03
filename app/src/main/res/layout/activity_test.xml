@@ -1,195 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <LinearLayout
+    <com.iyoyogo.android.view.flowlayout.JLHorizontalScrollView
+        android:id="@+id/jhs"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
-            android:text="Normal"
-            />
-        <com.iyoyogo.android.utils.icondottextview.IconDotTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            app:textes="Category"
-            app:icon="@drawable/ic_shopping_cart_black_48dp"
-            app:dot_visible="true"
-            app:dot_size="10dp"
-            />
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
-            android:text="Dot has text"
-            />
-        <com.iyoyogo.android.utils.icondottextview.IconDotTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        android:id="@+id/ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/jhs"
+        android:orientation="horizontal">
 
-            app:textes="Category"
-            app:icon="@drawable/ic_shopping_cart_black_48dp"
-            app:dot_visible="true"
-            app:dot_text="40"
-            />
-        <com.iyoyogo.android.utils.icondottextview.IconDotTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            app:textes="Category"
-            app:icon="@drawable/ic_shopping_cart_black_48dp"
-            app:dot_visible="true"
-            app:dot_text="400"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
-            android:text="Specify size"
-            />
-        <com.iyoyogo.android.utils.icondottextview.IconDotTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            app:textes="Category"
-            app:icon="@drawable/ic_shopping_cart_black_48dp"
-            app:icon_size="25dp"
-            app:textSize="20sp"
-            app:dot_size="15dp"
-            app:dot_visible="true"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
-            android:text="Change State"
-            />
-        <com.iyoyogo.android.utils.icondottextview.IconDotTextView
-            android:id="@+id/t1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:textes="Category"
-            app:icon="@drawable/select_yes"
-            android:clickable="true"
-            />
-        <Button
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="select"
-            android:onClick="selectView"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
-            android:text="Dot Position"
-            />
-        <com.iyoyogo.android.utils.icondottextview.IconDotTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            app:textes="Category"
-            app:icon="@drawable/ic_shopping_cart_black_48dp"
-            app:icon_size="25dp"
-            app:dot_size="10dp"
-            app:dot_visible="true"
-            app:dot_alignTo="left|bottom"
-            />
-        <com.iyoyogo.android.utils.icondottextview.IconDotTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            app:textes="Category"
-            app:icon="@drawable/ic_shopping_cart_black_48dp"
-            app:icon_size="25dp"
-            app:dot_visible="true"
-            app:dot_size="10dp"
-            app:dot_alignTo="left|bottom"
-            app:dot_marginRight="10dp"
-            app:dot_marginBottom="10dp"
-            />
-        <com.iyoyogo.android.utils.icondottextview.IconDotTextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-
-            app:textes="Category"
-            app:icon="@drawable/ic_shopping_cart_black_48dp"
-            app:icon_size="25dp"
-            app:dot_visible="true"
-            app:dot_size="10dp"
-            app:dot_marginRight="10dp"
-            app:dot_marginBottom="10dp"
-            app:dot_alignToIcon="false"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
-            android:text="Specify Direction"
-            />
-        <com.iyoyogo.android.utils.icondottextview.IconDotTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            app:textes="Category"
-            app:icon="@drawable/ic_shopping_cart_black_48dp"
-            app:direction="row"
-            app:spacing="10dp"
-            />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="#48B3E2"
+        android:gravity="center"
+        android:text="data1"
+        android:textColor="#fff"
+        android:layout_centerInParent="true"
+        />
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:background="#48B3E2"
+        android:gravity="center"
+        android:text="data2"
+        android:textColor="#fff"
+        android:layout_below="@+id/tv"
+        android:layout_centerInParent="true"
+        />
 
-
-</LinearLayout>
+</RelativeLayout>

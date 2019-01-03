@@ -2,10 +2,12 @@ package com.iyoyogo.android.bean.mine;
 
 import com.iyoyogo.android.bean.BaseBean;
 
+import java.util.List;
+
 public class GetUserInfoBean extends BaseBean {
 
     /**
-     * data : {"user_id":2,"user_phone":"18233382571","user_nickname":"nickname","user_logo":"logo","user_level":1,"user_back":"","user_sex":"男","user_birthday":"2017-10-10","user_city":""}
+     * data : {"user_id":80002,"user_phone":"15611695821","user_nickname":"用户4c4b891","user_logo":"http://thirdwx.qlogo.cn/mmopen/vi_32/oAlN2OtqiakH1u6SPAmw51QgLdFU7EpSeBvcBTkgU9olk0gRfoKG0lmReSlibwx1KDCTrtXxPIJibOfJEDdlSw74Q/132","user_back":"","user_sex":"女","user_birthday":"2000-10-10","user_city":"阿里地区","user_level":4,"interest_list":[{"id":4,"interest":"美妆&护肤","logo":"http://fengchaominsu.oss-cn-beijing.aliyuncs.com/fengchaominsu/2018/11/12/HswYaBtKKQ.png"}]}
      */
 
     private DataBean data;
@@ -20,26 +22,28 @@ public class GetUserInfoBean extends BaseBean {
 
     public static class DataBean {
         /**
-         * user_id : 2
-         * user_phone : 18233382571
-         * user_nickname : nickname
-         * user_logo : logo
-         * user_level : 1
+         * user_id : 80002
+         * user_phone : 15611695821
+         * user_nickname : 用户4c4b891
+         * user_logo : http://thirdwx.qlogo.cn/mmopen/vi_32/oAlN2OtqiakH1u6SPAmw51QgLdFU7EpSeBvcBTkgU9olk0gRfoKG0lmReSlibwx1KDCTrtXxPIJibOfJEDdlSw74Q/132
          * user_back :
-         * user_sex : 男
-         * user_birthday : 2017-10-10
-         * user_city :
+         * user_sex : 女
+         * user_birthday : 2000-10-10
+         * user_city : 阿里地区
+         * user_level : 4
+         * interest_list : [{"id":4,"interest":"美妆&护肤","logo":"http://fengchaominsu.oss-cn-beijing.aliyuncs.com/fengchaominsu/2018/11/12/HswYaBtKKQ.png"}]
          */
 
         private int user_id;
         private String user_phone;
         private String user_nickname;
         private String user_logo;
-        private int user_level;
         private String user_back;
         private String user_sex;
         private String user_birthday;
         private String user_city;
+        private int user_level;
+        private List<InterestListBean> interest_list;
 
         public int getUser_id() {
             return user_id;
@@ -73,14 +77,6 @@ public class GetUserInfoBean extends BaseBean {
             this.user_logo = user_logo;
         }
 
-        public int getUser_level() {
-            return user_level;
-        }
-
-        public void setUser_level(int user_level) {
-            this.user_level = user_level;
-        }
-
         public String getUser_back() {
             return user_back;
         }
@@ -111,6 +107,58 @@ public class GetUserInfoBean extends BaseBean {
 
         public void setUser_city(String user_city) {
             this.user_city = user_city;
+        }
+
+        public int getUser_level() {
+            return user_level;
+        }
+
+        public void setUser_level(int user_level) {
+            this.user_level = user_level;
+        }
+
+        public List<InterestListBean> getInterest_list() {
+            return interest_list;
+        }
+
+        public void setInterest_list(List<InterestListBean> interest_list) {
+            this.interest_list = interest_list;
+        }
+
+        public static class InterestListBean {
+            /**
+             * id : 4
+             * interest : 美妆&护肤
+             * logo : http://fengchaominsu.oss-cn-beijing.aliyuncs.com/fengchaominsu/2018/11/12/HswYaBtKKQ.png
+             */
+
+            private int id;
+            private String interest;
+            private String logo;
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getInterest() {
+                return interest;
+            }
+
+            public void setInterest(String interest) {
+                this.interest = interest;
+            }
+
+            public String getLogo() {
+                return logo;
+            }
+
+            public void setLogo(String logo) {
+                this.logo = logo;
+            }
         }
     }
 }

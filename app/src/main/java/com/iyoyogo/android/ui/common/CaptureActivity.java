@@ -78,7 +78,6 @@ import com.iyoyogo.android.camera.utils.dataInfo.TimelineData;
 import com.iyoyogo.android.camera.utils.permission.PermissionsActivity;
 import com.iyoyogo.android.camera.utils.permission.PermissionsChecker;
 import com.iyoyogo.android.ui.home.yoxiu.PublishYoXiuActivity;
-import com.iyoyogo.android.ui.home.yoxiu.SourceChooseActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.FileManager;
 import com.iyoyogo.android.view.CircleProgressBar;
@@ -290,7 +289,7 @@ private boolean isTrue=false;
         album.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CaptureActivity.this,SourceChooseActivity.class));
+                startActivity(new Intent(CaptureActivity.this,PictureEditActivity.class));
             }
         });
         photoLayout = (RelativeLayout) findViewById(R.id.photo_layout);

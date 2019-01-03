@@ -41,7 +41,14 @@ public class ChannelBean extends BaseBean {
             private int id;
             private String channel;
             private String logo;
+            private boolean isChoose;
+            public boolean isChoose() {
+                return isChoose;
+            }
 
+            public void setChoose(boolean choose) {
+                isChoose = choose;
+            }
             public int getId() {
                 return id;
             }

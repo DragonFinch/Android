@@ -103,7 +103,7 @@
                 android:hint="0/36"
                 android:textColorHint="#888888" />
 
-            <com.iyoyogo.android.app.AeDITEXT
+            <com.iyoyogo.android.widget.REditText
                 android:layout_marginTop="@dimen/dp_35"
                 android:id="@+id/et_content"
                 android:layout_width="wrap_content"

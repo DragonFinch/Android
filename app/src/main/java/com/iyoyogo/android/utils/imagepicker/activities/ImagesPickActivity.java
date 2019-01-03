@@ -143,6 +143,7 @@ public class ImagesPickActivity extends BaseActivity  {
      */
     private void initRecyclerView() {
         list = ImageFinder.getImages(this, ImageFinder.TYPE_GIF);
+
         callback = new MyChooseCallback();
         listener = new MyOnItemClickListener();
         adapter = new ImagesListAdapter(this, list);

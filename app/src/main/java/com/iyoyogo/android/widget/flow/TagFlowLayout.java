@@ -29,7 +29,7 @@ public class TagFlowLayout extends FlowLayout
 
     private OnSelectListener mOnSelectListener;
     private OnTagClickListener mOnTagClickListener;
-
+    private OnLongTagClickListener onLongTagClickListener;
     public interface OnSelectListener {
         void onSelected(Set<Integer> selectPosSet);
     }
@@ -37,6 +37,10 @@ public class TagFlowLayout extends FlowLayout
     public interface OnTagClickListener {
         boolean onTagClick(View view, int position, FlowLayout parent);
     }
+    public interface OnLongTagClickListener {
+        boolean onLongTagClick(View view, int position, FlowLayout parent);
+    }
+
 
     public TagFlowLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -77,6 +81,9 @@ public class TagFlowLayout extends FlowLayout
 
     public void setOnTagClickListener(OnTagClickListener onTagClickListener) {
         mOnTagClickListener = onTagClickListener;
+    }
+    public void setOnLongTagClickListener(OnLongTagClickListener onTagClickListener) {
+        onLongTagClickListener = onTagClickListener;
     }
 
     public void setAdapter(TagAdapter adapter) {
@@ -134,6 +141,16 @@ public class TagFlowLayout extends FlowLayout
                         mOnTagClickListener.onTagClick(finalTagViewContainer, position,
                                 TagFlowLayout.this);
                     }
+                }
+            });
+            tagViewContainer.setOnLongClickListener(new OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (onLongTagClickListener != null) {
+                        onLongTagClickListener.onLongTagClick(finalTagViewContainer, position,
+                                TagFlowLayout.this);
+                    }
+                    return true;
                 }
             });
         }

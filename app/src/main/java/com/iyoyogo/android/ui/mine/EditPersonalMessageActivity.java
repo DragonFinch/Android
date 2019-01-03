@@ -12,8 +12,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Gravity;
@@ -45,7 +43,6 @@ import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.bigkoo.pickerview.TimePickerView;
 import com.bumptech.glide.Glide;
 import com.iyoyogo.android.R;
-import com.iyoyogo.android.adapter.PersonInterestAdapter;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.mine.GetUserInfoBean;
@@ -54,6 +51,9 @@ import com.iyoyogo.android.presenter.EditPersonalPresenter;
 import com.iyoyogo.android.ui.common.LikePrefencesActivity;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
+import com.iyoyogo.android.widget.flow.FlowLayout;
+import com.iyoyogo.android.widget.flow.TagAdapter;
+import com.iyoyogo.android.widget.flow.TagFlowLayout;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -95,8 +95,8 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
     TextView tvStartSeat;
     @BindView(R.id.tv_interest)
     TextView tvInterest;
-    @BindView(R.id.recycler_interest)
-    RecyclerView recyclerInterest;
+    @BindView(R.id.flow_interest)
+    TagFlowLayout flow_interest;
     @BindView(R.id.tv_phone)
     TextView tvPhone;
     @BindView(R.id.city_tv_id)
@@ -394,12 +394,18 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             ArrayList<String> interestList = data.getStringArrayListExtra("interestList");
             if (interestList != null) {
                 tvInterest.setVisibility(View.GONE);
-                recyclerInterest.setVisibility(View.VISIBLE);
-                LinearLayoutManager manager = new LinearLayoutManager(EditPersonalMessageActivity.this);
-                manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                recyclerInterest.setLayoutManager(manager);
-                PersonInterestAdapter personInterestAdapter = new PersonInterestAdapter(interestList);
-                recyclerInterest.setAdapter(personInterestAdapter);
+                flow_interest.setVisibility(View.VISIBLE);
+                TagAdapter<String> tagAdapter = new TagAdapter<String>(interestList) {
+                    @Override
+                    public View getView(FlowLayout parent, int position, String s) {
+                        View contentView = getLayoutInflater().inflate(R.layout.item_interest_person, flow_interest, false);
+                        TextView tv = contentView.findViewById(R.id.tv_interest);
+                        tv.setText(interestList.get(position));
+                        return contentView;
+                    }
+                };
+
+                flow_interest.setAdapter(tagAdapter);
             }
         }
         switch (requestCode) {
@@ -629,8 +635,13 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             tvPhone.setText(data.getUser_phone());
 
         }
-        userId.setText(data.getUser_id()+"");
-
+        userId.setText(data.getUser_id() + "");
+        String user_sex = data.getUser_sex();
+        if (user_sex.equals("男")) {
+            boy.setChecked(true);
+        } else {
+            girl.setChecked(true);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)

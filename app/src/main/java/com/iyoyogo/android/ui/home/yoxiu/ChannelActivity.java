@@ -1,12 +1,17 @@
 package com.iyoyogo.android.ui.home.yoxiu;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.GridView;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -16,13 +21,19 @@ import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.yoxiu.channel.ChannelBean;
 import com.iyoyogo.android.contract.ChannelContract;
 import com.iyoyogo.android.presenter.ChannelPresenter;
+import com.iyoyogo.android.utils.DensityUtil;
+import com.iyoyogo.android.utils.GridSpacingItemDecoration;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.imagepicker.component.OnItemChooseCallback;
+import com.iyoyogo.android.utils.imagepicker.component.OnRecyclerViewItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.iyoyogo.android.app.App.context;
 
 /**
  * 频道
@@ -39,7 +50,7 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
     @BindView(R.id.bar)
     RelativeLayout bar;
     @BindView(R.id.gv_channel)
-    GridView gv_channel;
+    RecyclerView gv_channel;
     private String user_id;
     private String user_token;
     private int size;
@@ -48,6 +59,11 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
     private ArrayList<String> channelList;
     private ChannelAdapter adapter;
     private int type;
+    private TextView tv_message;
+    private TextView tv_message_two;
+    private TextView tv_message_three;
+    private ImageView img_tip;
+    private PopupWindow popup;
 
     @Override
     protected void initData(Bundle savedInstanceState) {
@@ -69,6 +85,12 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
     }
 
     @Override
+    protected void initView() {
+        super.initView();
+
+    }
+
+    @Override
     protected ChannelContract.Presenter createPresenter() {
         return new ChannelPresenter(this);
     }
@@ -76,7 +98,17 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
     @Override
     public void getChannelSuccess(List<ChannelBean.DataBean.ListBean> list) {
         adapter = new ChannelAdapter(ChannelActivity.this, list);
-        gv_channel.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+        int spanCount = 4; // 3 columns
+        int spacing = 24; // 50px
+        boolean includeEdge = false;
+        gv_channel.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
+        MyChooseCallback callback = new MyChooseCallback();
+        MyOnItemClickListener listener = new MyOnItemClickListener();
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 4);
+        adapter.setMaxNum(5);
+        adapter.setChooseCallback(callback);
+        adapter.setOnRecyclerViewItemClickListener(listener);
+        gv_channel.setLayoutManager(layoutManager);
         gv_channel.setAdapter(adapter);
     }
 
@@ -121,21 +153,28 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
                 break;
             case R.id.create_complete:
                 Intent intent = new Intent();
-                ArrayList<String> strings = adapter.selectInterest();
-                List<Integer> integerList = adapter.selectPhoto();
+
+                ArrayList<String> integerList = adapter.selectPhoto();
+                ArrayList<String> strings = adapter.selectChannel();
                 int size = integerList.size();
-                Integer[] integers = integerList.toArray(new Integer[size]);
-                int[] channel_array = new int[integers.length];
-                for (int i = 0; i < integers.length; i++) {
+                Integer[] channel_ids=new Integer[size];
+                for (int i = 0; i <integerList.size() ; i++) {
+                    channel_ids[i]=Integer.parseInt(integerList.get(i));
+                }
+//                Integer[] integers = integerList.toArray(new Integer[size]);
+                int[] channel_array = new int[channel_ids.length];
+                intent.putExtra("channel_array", channel_array);
+                intent.putStringArrayListExtra("channel_list", strings);
+               /* for (int i = 0; i < integers.length; i++) {
                     channel_array[i] = integers[i];
                 }
                 for (int i = 0; i < strings.size(); i++) {
                     Log.d("ChannelActivity", "channel_array[i]:" + strings.get(i));
                 }
-                intent.putExtra("channel_array", channel_array);
+
                 Log.d("ChannelActivity", "list.size():" + strings.size());
-                intent.putStringArrayListExtra("channel_list", strings);
-                Log.d("Test", listToString(strings));
+
+                Log.d("Test", listToString(strings));*/
                 if (type == 1) {
                     setResult(1, intent);
                 } else {
@@ -147,7 +186,58 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
                 break;
         }
     }
+    public void backgroundAlpha(float bgAlpha) {
 
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; // 0.0~1.0
+        getWindow().setAttributes(lp); //act 是上下文context
+
+    }
+
+    //隐藏事件PopupWindow
+    private class poponDismissListener implements PopupWindow.OnDismissListener {
+        @Override
+        public void onDismiss() {
+            backgroundAlpha(1.0f);
+        }
+    }
+    public void report() {
+        tv_message.setText("请为你的yo·秀");
+        tv_message.setTextColor(Color.parseColor("#333333"));
+        tv_message_two.setTextColor(Color.parseColor("#333333"));
+        tv_message_three.setTextColor(Color.parseColor("#333333"));
+        img_tip.setImageResource(R.mipmap.stamp_report);
+        tv_message_two.setText("选择1-5个「频道」");
+        tv_message_three.setText("让更多小伙伴看到哦~");
+        popup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        //点击空白处时，隐藏掉pop窗口
+
+        backgroundAlpha(0.6f);
+
+        //添加pop窗口关闭事件
+        popup.setOnDismissListener(new poponDismissListener());
+        popup.showAtLocation(findViewById(R.id.activity_channel), Gravity.CENTER, 0, 0);
+    }
+    public void initPopup() {
+        View view = LayoutInflater.from(ChannelActivity.this).inflate(R.layout.like_layout, null);
+        popup = new PopupWindow(view, DensityUtil.dp2px(context, 300), DensityUtil.dp2px(context, 145), true);
+        popup.setOutsideTouchable(true);
+        popup.setBackgroundDrawable(new ColorDrawable());
+        tv_message = view.findViewById(R.id.tv_message);
+        tv_message_two = view.findViewById(R.id.tv_message_two);
+
+        tv_message_three = view.findViewById(R.id.tv_message_three);
+        img_tip = view.findViewById(R.id.tip_img);
+
+        popup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        //点击空白处时，隐藏掉pop窗口
+
+
+        //添加pop窗口关闭事件
+        popup.setOnDismissListener(new poponDismissListener());
+    }
     public String listToString(ArrayList<String> mList) {
         String convertedListStr = "";
         if (null != mList && mList.size() > 0) {
@@ -161,6 +251,16 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
             }
             return convertedListStr;
         } else return "List is null!!!";
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ArrayList<String> strings = adapter.selectPhoto();
+        if (strings!=null){
+            strings.clear();
+
+        }
     }
 
     public ArrayList removeDuplicate(ArrayList list) {
@@ -184,5 +284,39 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
             }
         }
         return listTemp;
+    }
+    /**
+     * Item点击事件的监听类
+     */
+    private class MyOnItemClickListener implements OnRecyclerViewItemClickListener {
+
+        @Override
+        public void onItemClick(int position) {
+
+        }
+    }
+
+    /**
+     * Item选则事件的监听类
+     */
+    private class MyChooseCallback implements OnItemChooseCallback {
+
+        @Override
+        public void chooseState(int position, boolean isChosen) {
+
+        }
+
+        @Override
+        public void countNow(int countNow) {
+//            btnContinue.setText("继续" + "（" + countNow + "）");
+        }
+
+        @Override
+        public void countWarning(int count) {
+//            Toast.makeText(ChannelActivity.this, "最多选择" + count + "张图片", Toast.LENGTH_SHORT).show();
+            initPopup();
+            report();
+        }
+
     }
 }
