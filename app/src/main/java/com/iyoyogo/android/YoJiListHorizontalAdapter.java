@@ -1,6 +1,7 @@
 package com.iyoyogo.android;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.iyoyogo.android.adapter.YoJiListInnerAdapter;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.yoji.list.YoJiListBean;
 import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
 import com.iyoyogo.android.utils.SpUtils;
@@ -31,6 +33,7 @@ import io.reactivex.functions.Consumer;
 public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHorizontalAdapter.Holder> implements View.OnClickListener {
     private List<YoJiListBean.DataBean.ListBean> mList;
     private Context context;
+    private int yo_id;
 
     public YoJiListHorizontalAdapter(Context context, List<YoJiListBean.DataBean.ListBean> data) {
         this.mList = data;
@@ -108,6 +111,92 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
         });
         holder.itemView.setTag(position);
 
+        //点赞
+        if (mList.get(position).getIs_my_praise() == 0) {
+            holder.dt_like.setImageResource(R.mipmap.datu_xihuan);
+        } else {
+            holder.dt_like.setImageResource(R.mipmap.yixihuan_xiangqing);
+        }
+        holder.dt_like.setImageResource(mList.get(position).getIs_my_praise() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+        yo_id = mList.get(position).getYo_id();
+        holder.dt_like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String user_id = SpUtils.getString(context, "user_id", null);
+                String user_token = SpUtils.getString(context, "user_token", null);
+
+                int count_praise = mList.get(position).getCount_praise();
+                mList.get(position).setIs_my_praise(mList.get(position).getIs_my_praise() == 1 ? 0 : 1);
+                if (mList.get(position).getIs_my_praise() == 1) {
+                    count_praise += 1;
+                    mList.get(position).setCount_praise(count_praise);
+                } else if (count_praise > 0) {
+                    count_praise -= 1;
+                    mList.get(position).setCount_praise(count_praise);
+
+                }
+                holder.tv_num_like.setText(count_praise + "");
+                holder.dt_like.setImageResource(mList.get(position).getIs_my_praise() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        DataManager.getFromRemote().praise(user_id, user_token, 0, mList.get(position).getYo_id())
+                                .subscribe(new Consumer<BaseBean>() {
+                                    @Override
+                                    public void accept(BaseBean baseBean) throws Exception {
+                                    }
+                                });
+                    }
+                }).start();
+            }
+        });
+
+        holder.user_icon.setOnClickListener(new View.OnClickListener() {//头像
+            @Override
+            public void onClick(View v) {
+                int id = mList.get(position).getYo_id();
+                Intent intent = new Intent(context, YoJiDetailActivity.class);
+                intent.putExtra("yo_id", id);
+                context.startActivity(intent);
+            }
+        });
+        holder.index_look_icon.setOnClickListener(new View.OnClickListener() {//眼睛
+            @Override
+            public void onClick(View v) {
+                int id = mList.get(position).getYo_id();
+                Intent intent = new Intent(context, YoJiDetailActivity.class);
+                intent.putExtra("yo_id", id);
+                context.startActivity(intent);
+            }
+        });
+        holder.zuji_image.setOnClickListener(new View.OnClickListener() {//背景图
+            @Override
+            public void onClick(View v) {
+                int id = mList.get(position).getYo_id();
+                Intent intent = new Intent(context, YoJiDetailActivity.class);
+                intent.putExtra("yo_id", id);
+                context.startActivity(intent);
+            }
+        });
+        holder.more_img.setOnClickListener(new View.OnClickListener() {//...
+            @Override
+            public void onClick(View v) {
+                int id = mList.get(position).getYo_id();
+                Intent intent = new Intent(context, YoJiDetailActivity.class);
+                intent.putExtra("yo_id", id);
+                context.startActivity(intent);
+            }
+        });
+        holder.tv_num_comment.setOnClickListener(new View.OnClickListener() {//全部评论
+            @Override
+            public void onClick(View v) {
+                int id = mList.get(position).getYo_id();
+                Intent intent = new Intent(context, YoJiDetailActivity.class);
+                intent.putExtra("yo_id", id);
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -133,7 +222,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-        ImageView zuji_image, typeImageView, dt_like;
+        ImageView zuji_image, typeImageView, dt_like,index_look_icon,more_img;
         CircleImageView user_icon;
         TextView num_look, user_name, title, tv_cost, location, tv_day, tv_num_like, tv_num_comment;
         RelativeLayout view_like;
@@ -157,6 +246,8 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
             typeImageView = itemView.findViewById(R.id.img_type);
             user_icon = itemView.findViewById(R.id.user_icon);
             dt_like = itemView.findViewById(R.id.dt_like);
+            index_look_icon = itemView.findViewById(R.id.index_look_icon);
+            more_img = itemView.findViewById(R.id.more_img);
         }
     }
 }

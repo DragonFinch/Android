@@ -49,8 +49,10 @@ public class YoJiListActivity extends BaseActivity {
     int currentPage = 1;
     @BindView(R.id.recycler_yoji_list_two)
     RecyclerView recyclerYojiListTwo;
-    @BindView(R.id.refresh_layout)
-    SmartRefreshLayout refreshLayout;
+    @BindView(R.id.refresh_layout1)
+    SmartRefreshLayout refreshLayout1;
+    @BindView(R.id.refresh_layout2)
+    SmartRefreshLayout refreshLayout2;
     private int num = 1;
     @BindView(R.id.back)
     ImageView back;
@@ -65,36 +67,52 @@ public class YoJiListActivity extends BaseActivity {
     private YoJiListAdapter yoJiListAdapter;
     boolean isVertical;
     private YoJiListHorizontalAdapter yoJiListHorizontalAdapter;
-    MyRefreshAnimHeader mRefreshAnimHeader;
+    MyRefreshAnimHeader mRefreshAnimHeader2;
+    MyRefreshAnimHeader mRefreshAnimHeader1;
     private List<YoJiListBean.DataBean.ListBean> mList;
     private String user_id;
     private String user_token;
-
+    private StaggeredGridLayoutManager staggeredGridLayoutManager;
+    private LinearLayoutManager linearLayoutManager;
 
     /**
      * 设置刷新header风格
      *
      * @param header
      */
-    private void setHeader(RefreshHeader header) {
-        refreshLayout.setRefreshHeader(header);
+    private void setHeader1(RefreshHeader header) {
+        refreshLayout1.setRefreshHeader(header);
+    }
+
+    private void setHeader2(RefreshHeader header) {
+        refreshLayout2.setRefreshHeader(header);
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
         //初始化header
-        mRefreshAnimHeader = new MyRefreshAnimHeader(this);
-        setHeader(mRefreshAnimHeader);
+        mRefreshAnimHeader1 = new MyRefreshAnimHeader(this);
+        setHeader1(mRefreshAnimHeader1);
 
-        refreshLayout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
+        mRefreshAnimHeader2 = new MyRefreshAnimHeader(this);
+        setHeader2(mRefreshAnimHeader2);
+
+        refreshLayout1.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
+        refreshLayout2.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
+
         //下拉刷新
-        recyclerYojiList.setLayoutManager(new LinearLayoutManager(YoJiListActivity.this));
-        refreshLayout.setEnableRefresh(true);
-        refreshLayout.setFooterHeight(1.0f);
+        recyclerYojiList.setLayoutManager(linearLayoutManager);
+        refreshLayout1.setEnableRefresh(true);
+        refreshLayout1.setFooterHeight(1.0f);
+
+        recyclerYojiListTwo.setLayoutManager(staggeredGridLayoutManager);
+        refreshLayout2.setEnableRefresh(true);
+        refreshLayout2.setFooterHeight(1.0f);
 
         user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
         user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
+
         DataManager.getFromRemote()
                 .getYoJiList(user_id, user_token, currentPage, 20)
                 .subscribe(new Observer<YoJiListBean>() {
@@ -106,14 +124,18 @@ public class YoJiListActivity extends BaseActivity {
                     @Override
                     public void onNext(YoJiListBean yoJiListBean) {
                         mList = yoJiListBean.getData().getList();
-                        yoJiListHorizontalAdapter = new YoJiListHorizontalAdapter(YoJiListActivity.this, mList);
-                        yoJiListAdapter = new YoJiListAdapter(YoJiListActivity.this, mList);
                         //横向
                         Log.e("123", "recyclerYojiList" + "isVertical:" + isVertical);
-                        recyclerYojiList.setVisibility(View.VISIBLE);
-                        recyclerYojiList.setLayoutManager(new LinearLayoutManager(YoJiListActivity.this));
+//                        recyclerYojiList.setVisibility(View.VISIBLE);
+                        refreshLayout1.setVisibility(View.VISIBLE);
+
+                        yoJiListHorizontalAdapter = new YoJiListHorizontalAdapter(YoJiListActivity.this, mList);
+                        linearLayoutManager = new LinearLayoutManager(YoJiListActivity.this);
+                        recyclerYojiList.setLayoutManager(linearLayoutManager);
                         recyclerYojiList.setAdapter(yoJiListHorizontalAdapter);
-                        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+
+                        yoJiListAdapter = new YoJiListAdapter(YoJiListActivity.this, mList);
+                        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
                         recyclerYojiListTwo.setLayoutManager(staggeredGridLayoutManager);
                         recyclerYojiListTwo.setAdapter(yoJiListAdapter);
                     }
@@ -129,12 +151,72 @@ public class YoJiListActivity extends BaseActivity {
                     }
                 });
 
-        refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+        refreshLayout1.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 currentPage++;
                 Log.d("currentPage", "currentPage:" + currentPage);
-                DataManager.getFromRemote().getYoJiList(user_id, user_token, currentPage,20)
+                DataManager.getFromRemote().getYoJiList(user_id, user_token, currentPage, 20)
+                        .subscribe(new Consumer<YoJiListBean>() {
+                            @Override
+                            public void accept(YoJiListBean yoJiListBean) throws Exception {
+                                List<YoJiListBean.DataBean.ListBean> list = yoJiListBean.getData().getList();
+                                mList.addAll(list);
+                                yoJiListHorizontalAdapter.notifyItemInserted(mList.size());
+                            }
+                        });
+
+//                yoXiuListAdapter.notifyItemInserted(mList.size());
+                refreshLayout.finishLoadMore(2000);
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mList.clear();
+                DataManager.getFromRemote().getYoJiList(user_id, user_token, currentPage, 20)
+                        .subscribe(new Observer<YoJiListBean>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+
+                            }
+
+                            @Override
+                            public void onNext(YoJiListBean yoJiListBean) {
+                                List<YoJiListBean.DataBean.ListBean> list = yoJiListBean.getData().getList();
+                                mList.addAll(list);
+                                yoJiListHorizontalAdapter = new YoJiListHorizontalAdapter(YoJiListActivity.this, mList);
+                                recyclerYojiList.setAdapter(yoJiListHorizontalAdapter);
+                                yoJiListHorizontalAdapter.setOnItemClickListener(new YoJiListHorizontalAdapter.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v, int position) {
+                                        int id = mList.get(position).getYo_id();
+                                        Intent intent = new Intent(YoJiListActivity.this, YoJiDetailActivity.class);
+                                        intent.putExtra("yo_id", id);
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.d("YoJiListActivity", e.getMessage());
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
+                refreshLayout.finishRefresh();
+            }
+        });
+
+        refreshLayout2.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                currentPage++;
+                Log.d("currentPage", "currentPage:" + currentPage);
+                DataManager.getFromRemote().getYoJiList(user_id, user_token, currentPage, 20)
                         .subscribe(new Consumer<YoJiListBean>() {
                             @Override
                             public void accept(YoJiListBean yoJiListBean) throws Exception {
@@ -151,7 +233,7 @@ public class YoJiListActivity extends BaseActivity {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 mList.clear();
-                DataManager.getFromRemote().getYoJiList(user_id, user_token, currentPage,20)
+                DataManager.getFromRemote().getYoJiList(user_id, user_token, currentPage, 20)
                         .subscribe(new Observer<YoJiListBean>() {
                             @Override
                             public void onSubscribe(Disposable d) {
@@ -162,10 +244,8 @@ public class YoJiListActivity extends BaseActivity {
                             public void onNext(YoJiListBean yoJiListBean) {
                                 List<YoJiListBean.DataBean.ListBean> list = yoJiListBean.getData().getList();
                                 mList.addAll(list);
-
                                 yoJiListAdapter = new YoJiListAdapter(YoJiListActivity.this, mList);
-                                recyclerYojiList.setAdapter(yoJiListAdapter);
-
+                                recyclerYojiListTwo.setAdapter(yoJiListAdapter);
                                 yoJiListAdapter.setOnItemClickListener(new YoJiListAdapter.OnClickListener() {
                                     @Override
                                     public void setOnClickListener(View v, int position) {
@@ -239,14 +319,17 @@ public class YoJiListActivity extends BaseActivity {
                 num++;
                 if (num % 2 == 0) {
                     imgReplace.setImageResource(R.mipmap.view2);
-                    recyclerYojiList.setVisibility(View.GONE);
-                    recyclerYojiListTwo.setVisibility(View.VISIBLE);
+                    refreshLayout1.setVisibility(View.GONE);
+                    refreshLayout2.setVisibility(View.VISIBLE);
+//                    recyclerYojiList.setVisibility(View.GONE);
+//                    recyclerYojiListTwo.setVisibility(View.VISIBLE);
                 } else if (num % 2 == 1) {
                     imgReplace.setImageResource(R.mipmap.view1);
-                    recyclerYojiList.setVisibility(View.VISIBLE);
-                    recyclerYojiListTwo.setVisibility(View.GONE);
+                    refreshLayout1.setVisibility(View.VISIBLE);
+                    refreshLayout2.setVisibility(View.GONE);
+//                    recyclerYojiList.setVisibility(View.VISIBLE);
+//                    recyclerYojiListTwo.setVisibility(View.GONE);
                 }
-
                 break;
         }
     }

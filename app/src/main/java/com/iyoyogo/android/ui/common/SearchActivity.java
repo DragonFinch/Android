@@ -25,13 +25,17 @@ import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.PoiSearchAdapter;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.bean.LocationBean;
+import com.iyoyogo.android.utils.SpUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,6 +73,10 @@ public class SearchActivity extends BaseActivity {
     RelativeLayout goCreatePoint;
     @BindView(R.id.location_RV_id)
     RecyclerView locationRVId;
+    @BindView(R.id.history_close)
+    TextView historyClose;
+    @BindView(R.id.history)
+    RelativeLayout history;
     private ArrayList<String> list;
 
     private PoiSearch.Query query;
@@ -77,6 +85,9 @@ public class SearchActivity extends BaseActivity {
     private PoiSearchAdapter adapter;
     private String place;
     private GeocodeSearch geocoderSearch;
+    private String latitude;
+    private String longitude;
+    private String country;
 
     @Override
     protected void initView() {
@@ -85,14 +96,14 @@ public class SearchActivity extends BaseActivity {
         datas = new ArrayList<>();
         Intent intent = getIntent();
         place = intent.getStringExtra("place");
-        String latitude = intent.getStringExtra("latitude");
-        String longitude = intent.getStringExtra("longitude");
+        latitude = intent.getStringExtra("latitude");
+        longitude = intent.getStringExtra("longitude");
+        country = intent.getStringExtra("country");
         locationAgainGPSTVId.setVisibility(View.GONE);
         goCreatePoint.setVisibility(View.GONE);
 
-        if (latitude.equals("0") && longitude.equals("0")) {
+        if (latitude == null && longitude == null) {
             shortToast("经纬度为空");
-
             locationPlaceTVId.setVisibility(View.GONE);
             locationGpsplaceTVId.setVisibility(View.GONE);
             goCreatePoint.setVisibility(View.GONE);
@@ -118,7 +129,6 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().trim() != null) {
-
                     searchLocationPoi(s);
                 }
             }
@@ -128,6 +138,39 @@ public class SearchActivity extends BaseActivity {
                 addressInfo.setText(s.toString().trim());
             }
         });
+
+        if (place.equals(country)) {
+            locationRecommendTVId.setVisibility(View.VISIBLE);
+        } else {
+            locationRecommendTVId.setVisibility(View.GONE);
+        }
+
+        //历史记录
+        List<LocationBean> list = new ArrayList<>();
+        String title = SpUtils.getString(SearchActivity.this, "title", "");
+        String provinceName = SpUtils.getString(SearchActivity.this, "provinceName", "");
+        LocationBean locationBean = new LocationBean();
+        locationBean.setTitle(title);
+        locationBean.setProvinceName(provinceName);
+        list.add(locationBean);
+        if (title != null) {
+            history.setVisibility(View.VISIBLE);
+        } else {
+            history.setVisibility(View.GONE);
+        }
+        adapter = new PoiSearchAdapter(SearchActivity.this, list);
+        locationRVId.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
+        locationRVId.setAdapter(adapter);
+        historyClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                list.clear();
+                SpUtils.remove(SearchActivity.this, "title");
+                SpUtils.remove(SearchActivity.this, "provinceName");
+                adapter.notifyDataSetChanged();
+            }
+        });
+
     }
 
     private void setCurrentLocationDetails(LatLonPoint latLonPoint) {
@@ -227,15 +270,16 @@ public class SearchActivity extends BaseActivity {
                                 double latitude = datas.get(pos).getLatitude();
                                 double longitude = datas.get(pos).getLongitude();
                                 String title = datas.get(pos).getTitle();
+                                String provinceName = datas.get(pos).getProvinceName();
+                                String snippet = datas.get(pos).getSnippet();
+                                SpUtils.putString(SearchActivity.this, "title", title);
+                                SpUtils.putString(SearchActivity.this, "provinceName", provinceName);
                                 Intent intent = new Intent();
                                 intent.putExtra("latitude", latitude);
                                 intent.putExtra("longitude", longitude);
                                 intent.putExtra("title", title);
-
                                 setResult(3, intent);
                                 finish();
-
-
                             }
                         });
 
@@ -336,10 +380,42 @@ public class SearchActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+
+    class HistoryPoiSearchAdapter extends BaseQuickAdapter<DateBean, BaseViewHolder> {
+        public HistoryPoiSearchAdapter(int layoutResId, @Nullable List<DateBean> data) {
+            super(layoutResId, data);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder helper, DateBean item) {
+            helper.setText(R.id.tv_title, item.getTv_titles());
+            helper.setText(R.id.tv_province, item.getTv_provinceName());
+        }
+    }
+
+    class DateBean {
+        private String tv_titles;
+        private String tv_provinceName;
+
+        public DateBean(String tv_titles, String tv_provinceName) {
+            this.tv_titles = tv_titles;
+            this.tv_provinceName = tv_provinceName;
+        }
+
+        public String getTv_titles() {
+            return tv_titles;
+        }
+
+        public void setTv_titles(String tv_titles) {
+            this.tv_titles = tv_titles;
+        }
+
+        public String getTv_provinceName() {
+            return tv_provinceName;
+        }
+
+        public void setTv_provinceName(String tv_provinceName) {
+            this.tv_provinceName = tv_provinceName;
+        }
     }
 }

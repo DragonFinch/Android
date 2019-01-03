@@ -122,6 +122,7 @@ public class UserFollowFragment extends BaseFragment<AttentionsContract.Presente
                 }
                 mPresenter.getAttentions(user_id, user_token, yo_user_id, 1 + "", 20 + "");
                 adapter.notifyDataSetChanged();
+
             }
         });
     }

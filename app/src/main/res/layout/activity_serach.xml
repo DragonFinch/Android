@@ -4,24 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-   >
+    android:orientation="vertical">
 
     <RelativeLayout
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:id="@+id/location_rl"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/colorFFFFFF">
+        android:background="@color/colorFFFFFF"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <EditText
-            android:layout_centerHorizontal="true"
             android:id="@+id/locationET_id"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_toLeftOf="@+id/location_cancelTV_id"
+            android:layout_centerHorizontal="true"
             android:layout_marginLeft="15dp"
+            android:layout_toLeftOf="@+id/location_cancelTV_id"
             android:drawableLeft="@mipmap/sousuo_grey"
             android:hint="请输入在哪里yo～"
             android:textSize="15sp" />
@@ -30,9 +29,9 @@
             android:id="@+id/location_cancelTV_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
-           android:layout_alignParentRight="true"
             android:text="取消" />
     </RelativeLayout>
 
@@ -97,55 +96,97 @@
         android:layout_marginLeft="15dp"
         android:paddingTop="5dp"
         android:text="为您推荐附近位置信息"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:visibility="gone" />
 
-<RelativeLayout
-    android:visibility="gone"
-    android:layout_below="@+id/location_recommendTV_id"
-    android:id="@+id/go_create_point"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <ImageView
-        android:layout_marginLeft="@dimen/dp_21"
-        android:id="@+id/no_address"
-        android:src="@mipmap/wuweizhi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:layout_marginLeft="@dimen/dp_6"
-        android:textSize="@dimen/sp_15"
-        android:layout_toRightOf="@+id/no_address"
-        android:text="没找到位置?"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_20"
-
-        />
-    <TextView
-        android:layout_marginTop="@dimen/dp_11"
-        android:layout_marginLeft="@dimen/dp_42"
-        android:id="@+id/address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/no_address"
-        android:hint="创建您的专属位置:"
-        />
-    <TextView
-        android:layout_marginTop="@dimen/dp_11"
-        android:layout_below="@+id/no_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/address_info"
-        android:layout_marginLeft="@dimen/dp_5"
-        android:layout_toRightOf="@+id/address"
-        />
-
-</RelativeLayout>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/location_RV_id"
+    <RelativeLayout
+        android:id="@+id/go_create_point"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/go_create_point"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/location_recommendTV_id"
         android:layout_marginTop="5dp"
-        android:background="@color/colorFFFFFF" />
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/no_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_21"
+            android:src="@mipmap/wuweizhi" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_20"
+            android:layout_marginLeft="@dimen/dp_6"
+            android:layout_toRightOf="@+id/no_address"
+            android:text="没找到位置?"
+            android:textSize="@dimen/sp_15"
+
+            />
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/no_address"
+            android:layout_marginLeft="@dimen/dp_42"
+            android:layout_marginTop="@dimen/dp_11"
+            android:hint="创建您的专属位置:" />
+
+        <TextView
+            android:id="@+id/address_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/no_address"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:layout_marginTop="@dimen/dp_11"
+            android:layout_toRightOf="@+id/address" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/location_recommendTV_id"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/history"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp15"
+                android:gravity="center"
+                android:text="历史创建"
+                android:textColor="@color/c333333"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/history_close"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:paddingRight="@dimen/dp15"
+                android:text="清空"
+                android:textColor="@color/c888888"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/location_RV_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/history"
+            android:background="@color/colorFFFFFF" />
+    </LinearLayout>
+
 
 </RelativeLayout>

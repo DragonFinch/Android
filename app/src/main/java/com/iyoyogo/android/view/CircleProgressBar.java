@@ -21,7 +21,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.iyoyogo.android.R;
-import com.iyoyogo.android.interfaces.CaptureListener;
+import com.iyoyogo.android.net.CaptureListener;
 import com.iyoyogo.android.utils.UnitUtils;
 
 import java.lang.annotation.Retention;

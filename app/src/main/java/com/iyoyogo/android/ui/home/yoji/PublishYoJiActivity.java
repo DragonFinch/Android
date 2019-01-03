@@ -428,8 +428,6 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         // 文件标识符objectKey
         /*
          *
-
-
          * */
         final String endpoint = "oss-cn-beijing.aliyuncs.com";
         final String bucketName = "iyoyogo";
@@ -510,8 +508,6 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        topic = new MyTopic();
-        topic.setObjectRule("#");
         user_id = SpUtils.getString(PublishYoJiActivity.this, "user_id", null);
         user_token = SpUtils.getString(PublishYoJiActivity.this, "user_token", null);
         mPresenter.getRecommendTopic(user_id, user_token);
@@ -521,6 +517,8 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     @Override
     protected void onResume() {
         super.onResume();
+        list.clear();
+        list.add(publishYoJiRequest);
     }
 
     private void setCurrentLocationDetails(LatLonPoint latLonPoint) {
@@ -586,7 +584,6 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
             location_tv.setText(place1);
         }
-
         if (requestCode == 1 && resultCode == 55) {
             label_tv.setVisibility(View.GONE);
             ArrayList<Bean> sign_list = (ArrayList<Bean>) data.getSerializableExtra("sign_list");
@@ -666,18 +663,10 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                 Log.d("PublishYoJiActivity", path_list.get(i));
             }
 
-            strings = ossUpload(path_list);
-            messageBean1.setLogos(path_list);
+            ArrayList<String> strings = ossUpload(path_list);
+            messageBean1.setLogos(strings);
             list.add(messageBean1);
             publishYoJiAdapter.addData(index, messageBean1);
-        }
-        if (requestCode==2&&resultCode==6){
-            String topicName = data.getStringExtra("topic");
-            int type_id = data.getIntExtra("type_id", 0);
-            type_list.add(type_id);
-            Log.d("PublishYoJiActivity", topicName);
-            topic.setObjectText(topicName);
-            etContent.setObject(topic);// 设置话题
         }
     }
 
@@ -699,10 +688,11 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     }
 
     private String uploadYoJiImage() {
+
         final String endpoint = "oss-cn-beijing.aliyuncs.com";
-        final String bucketName = "iyoyogo";
-        final String accessKeyId = "LTAIql2brWD0qbEN";
-        final String accessKeySecret = "C74lDBcL1AqzEdIvHZkYMJlSNmRtby";
+        final String bucketName = "xzdtest";
+        final String accessKeyId = "LTAInRzzjv0TZcA5";
+        final String accessKeySecret = "jQZXJDYzAU7Ki0DfZvfIoU3PxazsLy";
         OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(accessKeyId, accessKeySecret);
         ClientConfiguration conf = new ClientConfiguration();
         conf.setConnectionTimeout(15 * 1000);
@@ -712,26 +702,14 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         OSSClient ossClient = new OSSClient(PublishYoJiActivity.this, endpoint, credentialProvider, conf);
         ObjectMetadata objectMeta = new ObjectMetadata();
         objectMeta.setContentType("image/jpeg");
-        int min = 10000;
-        int max = 99999;
-        Calendar calendar = Calendar.getInstance();
-//获取系统的日期
-//年
-        int year = calendar.get(Calendar.YEAR);
-//月
-        int month = calendar.get(Calendar.MONTH) + 1;
-//日
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        Random random = new Random();
-        int num = random.nextInt(max) % (max - min + 1) + min;
-        String name = user_id + "/yoj/" + year + "/" + month + "/" + day + "/" + System.currentTimeMillis() + num + ".jpg";
+        String name = "yoyogo/yoji/image" + System.currentTimeMillis() + ".jpg";
         PutObjectRequest put = new PutObjectRequest(bucketName, name, path);
         put.setMetadata(objectMeta);
+
         try {
             PutObjectResult result = ossClient.putObject(put);
             if (result != null && result.getStatusCode() == 200) {
-                url = "http://" + bucketName + "." + endpoint + "/" + name;
+                url = "https://" + bucketName + "." + endpoint + "/" + name;
                 Log.d("PublishYoXiuActivity", url);
             }
         } catch (ClientException e) {
@@ -742,25 +720,12 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         return url;
     }
 
-
     private ArrayList<String> uploadAllYoJiImage(List<String> list) {
-        int min = 10000;
-        int max = 99999;
-        Calendar calendar = Calendar.getInstance();
-//获取系统的日期
-//年
-        int year = calendar.get(Calendar.YEAR);
-//月
-        int month = calendar.get(Calendar.MONTH) + 1;
-//日
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        Random random = new Random();
-        int num = random.nextInt(max) % (max - min + 1) + min;
         final String endpoint = "oss-cn-beijing.aliyuncs.com";
-        final String bucketName = "iyoyogo";
-        final String accessKeyId = "LTAIql2brWD0qbEN";
-        final String accessKeySecret = "C74lDBcL1AqzEdIvHZkYMJlSNmRtby";
+        final String bucketName = "xzdtest";
+        final String accessKeyId = "LTAInRzzjv0TZcA5";
+        final String accessKeySecret = "jQZXJDYzAU7Ki0DfZvfIoU3PxazsLy";
         OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(accessKeyId, accessKeySecret);
         ClientConfiguration conf = new ClientConfiguration();
         conf.setConnectionTimeout(15 * 1000);
@@ -771,7 +736,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         ObjectMetadata objectMeta = new ObjectMetadata();
         objectMeta.setContentType("image/jpeg");
         ArrayList<String> urls = new ArrayList<>();
-        String name = user_id + "/yoj/" + year + "/" + month + "/" + day + "/" + System.currentTimeMillis() + num + ".jpg";
+        String name = "yoyogo/yoji/image" + System.currentTimeMillis() + ".jpg";
         for (int i = 0; i < list.size(); i++) {
             PutObjectRequest put = new PutObjectRequest(bucketName, name, list.get(i));
             put.setMetadata(objectMeta);
@@ -814,21 +779,12 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                 break;
             case R.id.more_topic:
 
-               Intent intent1 = new Intent(PublishYoJiActivity.this, MoreTopicActivity.class);
-               intent1.putExtra("type",2);
-                startActivityForResult(intent1, 2);
-
                 break;
             case R.id.next:
                 Intent intent = new Intent(PublishYoJiActivity.this, ChannelActivity.class);
                 startActivityForResult(intent, 1);
                 break;
             case R.id.tv_publish:
-                ArrayList<String> strings = uploadAllYoJiImage(path_list);
-                ArrayList<String> strings1 = uploadAllYoJiImage(strings);
-                messageBean1.setLogos(strings1);
-                publishYoJiRequest.setLogos(strings);
-                list.add(publishYoJiRequest);
                 String url_cover = uploadYoJiImage();
                 ArrayList<String> urls = uploadAllYoJiImage(path_list);
                 for (int i = 0; i < urls.size(); i++) {
@@ -842,7 +798,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
 
 //                String json = new Gson().toJson(mList);
-                if (etCost.getText().toString().trim().length() > 0) {
+                if (tvPay.getText().toString().trim().length() > 0) {
                     if (etTitle.getText().toString().trim().length() > 0) {
                         mPresenter.publishYoJi(user_id, user_token, 0, url_cover, etTitle.getText().toString().trim(), etContent.getText().toString().trim(), Integer.parseInt(etCost.getText().toString().trim()), 1, 1, type_list, channel_ids, json);
                     } else {
@@ -851,7 +807,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                 } else {
                     Toast.makeText(this, "请输入价格", Toast.LENGTH_SHORT).show();
                 }
-                finish();
+
                 break;
         }
     }

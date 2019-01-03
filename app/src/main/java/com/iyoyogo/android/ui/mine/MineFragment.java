@@ -3,6 +3,7 @@ package com.iyoyogo.android.ui.mine;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.util.Log;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -194,8 +195,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         if (user_logo.equals("")) {
             myBasicHeadimgIvId.setImageResource(R.mipmap.default_touxiang);
         } else {
-
-            Glide.with(getContext()).load(user_logo).into(myBasicHeadimgIvId);
+            Glide.with(getContext()).load(data.getUser_logo()).into(myBasicHeadimgIvId);
         }
         int count_fans = data.getCount_fans();
         myBasicFansnumberTvId.setText(count_fans + "");

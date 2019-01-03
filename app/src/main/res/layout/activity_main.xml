@@ -36,7 +36,7 @@
             android:orientation="vertical">
             <ImageView
                 android:id="@+id/iv1"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/index_home_selector" />
      <!--       <TextView
@@ -58,7 +58,7 @@
             android:orientation="vertical">
             <ImageView
                 android:id="@+id/iv2"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/cam" />
            <!-- <TextView
@@ -80,7 +80,7 @@
             android:orientation="vertical">
             <ImageView
                 android:id="@+id/iv3"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/index_me_selector" />
           <!--  <TextView

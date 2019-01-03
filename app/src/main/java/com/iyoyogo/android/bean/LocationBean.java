@@ -46,4 +46,12 @@ public class LocationBean {
     public void setSnippet(String snippet) {
         this.snippet = snippet;
     }
+
+    public LocationBean() {
+    }
+
+    public LocationBean(String title,String provinceName) {
+        this.title = title;
+        this.provinceName = provinceName;
+    }
 }

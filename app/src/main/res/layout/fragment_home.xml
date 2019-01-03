@@ -10,7 +10,6 @@
     <!-- TODO: Update blank fragment layout -->
     <com.iyoyogo.android.view.YoyogoTopBarView
         android:id="@+id/bar"
-
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_70"
         android:visibility="visible" />

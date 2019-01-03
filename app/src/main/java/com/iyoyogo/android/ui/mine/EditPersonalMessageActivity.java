@@ -1,6 +1,7 @@
 package com.iyoyogo.android.ui.mine;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -35,8 +36,10 @@ import com.alibaba.sdk.android.oss.ClientConfiguration;
 import com.alibaba.sdk.android.oss.ClientException;
 import com.alibaba.sdk.android.oss.OSSClient;
 import com.alibaba.sdk.android.oss.ServiceException;
+import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
+import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.ObjectMetadata;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
@@ -137,6 +140,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
     private String user_id;
     private String user_token;
     private File file;
+    private String user_logo;
 
     private void setLocalPhoto() {
         if (popupWindow != null && popupWindow.isShowing()) {
@@ -259,21 +263,23 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             @Override
             public void onClick(View v) {
                 changeIcon();
-
             }
         });
 
         //保存
-
         preser.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                mPresenter.setUserInfo(user_id, user_token, nickName.getText().toString(), url, sex, brithTvId.getText().toString(), cityTvId.getText().toString());
-
+                if (url==null) {
+                    mPresenter.setUserInfo(user_id, user_token, nickName.getText().toString(), user_logo, sex, brithTvId.getText().toString(), cityTvId.getText().toString());
+                } else {
+                    mPresenter.setUserInfo(user_id, user_token, nickName.getText().toString(), url, sex, brithTvId.getText().toString(), cityTvId.getText().toString());
+                }
 
             }
         });
+
         //跳转城市选择
         cityLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -301,7 +307,6 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
         citytextView = (TextView) findViewById(R.id.city_tv_id);
         headimage = (CircleImageView) findViewById(R.id.head_im_id);
         back = (ImageView) findViewById(R.id.back_iv_id);
-
         //返回
 
     }
@@ -455,6 +460,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
         intent.putExtra("outputY", 150);
         intent.putExtra("return-data", true);
         startActivityForResult(intent, 3);
+
     }
 
     private void setPicToView(Bitmap mBitmap) {
@@ -484,9 +490,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
         }
     }
 
-
     private String uploadYoXiuImage(String path) {
-
         final String endpoint = "oss-cn-beijing.aliyuncs.com";
         final String bucketName = "xzdtest";
         final String accessKeyId = "LTAInRzzjv0TZcA5";
@@ -504,11 +508,13 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
         PutObjectRequest put = new PutObjectRequest(bucketName, name, path);
         put.setMetadata(objectMeta);
 
+
         try {
             PutObjectResult result = ossClient.putObject(put);
             if (result != null && result.getStatusCode() == 200) {
                 url = "https://" + bucketName + "." + endpoint + "/" + name;
                 Log.d("PublishYoXiuActivity", url);
+                Log.d("PublishYoXiuActivity", path);
             }
         } catch (ClientException e) {
             e.printStackTrace();
@@ -547,8 +553,6 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             });
 
             // 设置背景图片， 必须设置，不然动画没作用
-
-
             popupView.findViewById(R.id.photo).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -556,7 +560,6 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
                     Intent intent1 = new Intent(Intent.ACTION_PICK, null);
                     intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
                     startActivityForResult(intent1, 1);
-
                     popupWindow.dismiss();
                 }
             });
@@ -602,14 +605,14 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
 
     @SuppressLint("ResourceAsColor")
     @Override
-    public void getUserInfoSuccess(GetUserInfoBean.DataBean data) {
+    public void getUserInfoSuccess(GetUserInfoBean.DataBean data) {//获取个人信息
         String user_nickname = data.getUser_nickname();
         if (user_nickname.equals("")) {
             nickName.setText("起个响亮的名字~");
         } else {
             nickName.setText(user_nickname);
         }
-        String user_logo = data.getUser_logo();
+        user_logo = data.getUser_logo();
         if (user_logo.equals("")) {
             headimage.setImageResource(R.mipmap.default_touxiang);
         } else {
@@ -642,19 +645,19 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
         } else {
             girl.setChecked(true);
         }
+        userId.setText(data.getUser_id() + "");
+        if (data.getUser_sex().equals("男")) {
+            boy.setChecked(true);
+        } else {
+            girl.setChecked(true);
+        }
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    public void setUserInfoSuccess(BaseBean baseBean) {
+    public void setUserInfoSuccess(BaseBean baseBean) {//设置个人信息
         initPopuptWindow();
     }
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

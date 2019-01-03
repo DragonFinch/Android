@@ -424,7 +424,8 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
                 Intent intent = new Intent(PublishYoXiuActivity.this, SearchActivity.class);
                 intent.putExtra("latitude", latitude);
                 intent.putExtra("longitude", longitude);
-                intent.putExtra("place", place);
+                intent.putExtra("place", publishPlace.getText().toString());
+                intent.putExtra("country", country);
 
                 startActivityForResult(intent, 1);
                 break;
