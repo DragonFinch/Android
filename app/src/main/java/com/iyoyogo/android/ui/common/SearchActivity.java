@@ -31,7 +31,11 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.PoiSearchAdapter;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
+import com.iyoyogo.android.bean.HisPositionBean;
 import com.iyoyogo.android.bean.LocationBean;
+import com.iyoyogo.android.contract.HisPositionContract;
+import com.iyoyogo.android.presenter.HisPositionPresenter;
+import com.iyoyogo.android.ui.home.yoxiu.PublishYoXiuActivity;
 import com.iyoyogo.android.utils.SpUtils;
 
 import java.util.ArrayList;
@@ -44,7 +48,7 @@ import butterknife.OnClick;
 /**
  * 位置搜索
  */
-public class SearchActivity extends BaseActivity {
+public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> implements HisPositionContract.View {
     @BindView(R.id.locationET_id)
     EditText locationETId;
     @BindView(R.id.location_cancelTV_id)
@@ -88,6 +92,9 @@ public class SearchActivity extends BaseActivity {
     private String latitude;
     private String longitude;
     private String country;
+    private String user_token;
+    private String user_id;
+    private List<HisPositionBean.DataBean.ListBean> list1;
 
     @Override
     protected void initView() {
@@ -136,41 +143,27 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 addressInfo.setText(s.toString().trim());
+                locationRVId.setVisibility(View.GONE);
             }
         });
 
         if (place.equals(country)) {
             locationRecommendTVId.setVisibility(View.VISIBLE);
+            locationAgainGPSTVId.setVisibility(View.GONE);
         } else {
             locationRecommendTVId.setVisibility(View.GONE);
         }
-
-        //历史记录
-        List<LocationBean> list = new ArrayList<>();
-        String title = SpUtils.getString(SearchActivity.this, "title", "");
-        String provinceName = SpUtils.getString(SearchActivity.this, "provinceName", "");
-        LocationBean locationBean = new LocationBean();
-        locationBean.setTitle(title);
-        locationBean.setProvinceName(provinceName);
-        list.add(locationBean);
-        if (title != null) {
-            history.setVisibility(View.VISIBLE);
-        } else {
-            history.setVisibility(View.GONE);
+        if (place.equals("添加地点")) {
+            locationPlaceTVId.setText("未获取到位置信息");
+            locationAgainGPSTVId.setVisibility(View.GONE);
         }
-        adapter = new PoiSearchAdapter(SearchActivity.this, list);
-        locationRVId.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
-        locationRVId.setAdapter(adapter);
-        historyClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                list.clear();
-                SpUtils.remove(SearchActivity.this, "title");
-                SpUtils.remove(SearchActivity.this, "provinceName");
-                adapter.notifyDataSetChanged();
-            }
-        });
+        user_token = SpUtils.getString(SearchActivity.this, "user_token", null);
+        user_id = SpUtils.getString(SearchActivity.this, "user_id", null);
+    }
 
+    @Override
+    protected HisPositionContract.Presenter createPresenter() {
+        return new HisPositionPresenter(this);
     }
 
     private void setCurrentLocationDetails(LatLonPoint latLonPoint) {
@@ -213,6 +206,7 @@ public class SearchActivity extends BaseActivity {
         if (TextUtils.isEmpty(s.toString().trim())) {
             Toast.makeText(this, "内容为空!", Toast.LENGTH_SHORT).show();
             goCreatePoint.setVisibility(View.GONE);
+            locationAgainGPSTVId.setVisibility(View.GONE);
 //            mapAddAddress.setVisibility(View.VISIBLE);
 //            recyclerAddAddress.setVisibility(View.GONE);
 //            mapAddAddress.invalidate();
@@ -251,7 +245,7 @@ public class SearchActivity extends BaseActivity {
                         if (pois.size() == 0) {
                             goCreatePoint.setVisibility(View.VISIBLE);
                             locationRVId.setVisibility(View.GONE);
-
+                            mPresenter.getHisPosition(user_id, user_token, 1, 20);
                         }
                         adapter = new PoiSearchAdapter(SearchActivity.this, datas);
                         /*if (datas!=null){
@@ -270,10 +264,6 @@ public class SearchActivity extends BaseActivity {
                                 double latitude = datas.get(pos).getLatitude();
                                 double longitude = datas.get(pos).getLongitude();
                                 String title = datas.get(pos).getTitle();
-                                String provinceName = datas.get(pos).getProvinceName();
-                                String snippet = datas.get(pos).getSnippet();
-                                SpUtils.putString(SearchActivity.this, "title", title);
-                                SpUtils.putString(SearchActivity.this, "provinceName", provinceName);
                                 Intent intent = new Intent();
                                 intent.putExtra("latitude", latitude);
                                 intent.putExtra("longitude", longitude);
@@ -335,16 +325,12 @@ public class SearchActivity extends BaseActivity {
         return R.layout.activity_serach;
     }
 
-    @Override
-    protected IBasePresenter createPresenter() {
-        return null;
-    }
-
 
     @OnClick({R.id.location_cancelTV_id, R.id.location_rl, R.id.go_create_point})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.location_cancelTV_id:
+                finish();
                 break;
             case R.id.location_rl:
                 break;
@@ -380,42 +366,40 @@ public class SearchActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void setHisPosition(HisPositionBean bean) {
+        list1 = bean.getData().getList();
+        locationRVId.setVisibility(View.VISIBLE);
+        HistoryPoiSearchAdapter adapter = new HistoryPoiSearchAdapter(R.layout.item_search, list1);
+        locationRVId.setAdapter(adapter);
+        locationRVId.setLayoutManager(new LinearLayoutManager(this));
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                double latitude = Double.valueOf(list1.get(position).getLat());
+                double longitude = Double.valueOf(list1.get(position).getLng());
+                String title = list1.get(position).getAddress();
+                Intent intent = new Intent();
+                intent.putExtra("latitude", latitude);
+                intent.putExtra("longitude", longitude);
+                intent.putExtra("title", title);
+                setResult(3, intent);
+                finish();
+            }
+        });
+    }
 
-    class HistoryPoiSearchAdapter extends BaseQuickAdapter<DateBean, BaseViewHolder> {
-        public HistoryPoiSearchAdapter(int layoutResId, @Nullable List<DateBean> data) {
+
+    class HistoryPoiSearchAdapter extends BaseQuickAdapter<HisPositionBean.DataBean.ListBean, BaseViewHolder> {
+        public HistoryPoiSearchAdapter(int layoutResId, @Nullable List<HisPositionBean.DataBean.ListBean> data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, DateBean item) {
-            helper.setText(R.id.tv_title, item.getTv_titles());
-            helper.setText(R.id.tv_province, item.getTv_provinceName());
+        protected void convert(BaseViewHolder helper, HisPositionBean.DataBean.ListBean item) {
+            helper.setText(R.id.tv_title, item.getAddress());
+            helper.setText(R.id.tv_province, item.getAreas());
         }
     }
 
-    class DateBean {
-        private String tv_titles;
-        private String tv_provinceName;
-
-        public DateBean(String tv_titles, String tv_provinceName) {
-            this.tv_titles = tv_titles;
-            this.tv_provinceName = tv_provinceName;
-        }
-
-        public String getTv_titles() {
-            return tv_titles;
-        }
-
-        public void setTv_titles(String tv_titles) {
-            this.tv_titles = tv_titles;
-        }
-
-        public String getTv_provinceName() {
-            return tv_provinceName;
-        }
-
-        public void setTv_provinceName(String tv_provinceName) {
-            this.tv_provinceName = tv_provinceName;
-        }
-    }
 }

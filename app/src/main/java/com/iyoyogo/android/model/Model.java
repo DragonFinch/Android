@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.HisFansBean;
+import com.iyoyogo.android.bean.HisPositionBean;
 import com.iyoyogo.android.bean.VipCenterBean;
 import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.collection.AddCollectionBean;
@@ -59,6 +60,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class Model {
     private volatile static Model model;
+
     //单例创建
     public static Model getModel() {
         if (model == null) {
@@ -171,6 +173,7 @@ public class Model {
 
     /**
      * 获取类型
+     *
      * @param user_id
      * @param user_token
      * @return
@@ -182,6 +185,7 @@ public class Model {
 
     /**
      * 创建点
+     *
      * @param user_id
      * @param user_token
      * @param name
@@ -207,6 +211,7 @@ public class Model {
 
     /**
      * 获取热门话题
+     *
      * @param user_id
      * @param user_token
      * @param search
@@ -221,6 +226,7 @@ public class Model {
 
     /**
      * 获取最近话题
+     *
      * @param user_id
      * @param user_token
      * @return
@@ -233,6 +239,7 @@ public class Model {
 
     /**
      * 创建话题
+     *
      * @param user_id
      * @param user_token
      * @param topic
@@ -243,6 +250,7 @@ public class Model {
         return HttpClient.getApiService().createTopic(user_id, user_token, topic)
                 .compose(this.switchThread());
     }
+
     /*8
     清空话题
      */
@@ -254,6 +262,7 @@ public class Model {
 
     /**
      * 获取推荐话题
+     *
      * @param user_id
      * @param user_token
      * @return
@@ -266,6 +275,7 @@ public class Model {
 
     /**
      * 获取频道
+     *
      * @param user_id
      * @param user_token
      * @return
@@ -278,6 +288,7 @@ public class Model {
 
     /**
      * 发布yo秀
+     *
      * @param user_id
      * @param user_token
      * @param yo_id
@@ -314,6 +325,7 @@ public class Model {
 
     /**
      * 获取yo秀详情
+     *
      * @param user_id
      * @param user_token
      * @param id
@@ -326,6 +338,7 @@ public class Model {
 
     /**
      * 获取yo秀列表
+     *
      * @param user_id
      * @param user_token
      * @param page
@@ -335,6 +348,7 @@ public class Model {
         return HttpClient.getApiService().getYoXiuList(user_id, user_token, page)
                 .compose(this.switchThread());
     }
+
     /*8
    点赞
      */
@@ -345,6 +359,7 @@ public class Model {
 
     /**
      * 获取个人信息
+     *
      * @param user_id
      * @param user_token
      * @return
@@ -356,6 +371,7 @@ public class Model {
 
     /**
      * 获取评论列表
+     *
      * @param user_id
      * @param user_token
      * @param page
@@ -368,9 +384,10 @@ public class Model {
                 .compose(this.switchThread())
                 ;
     }
-/*8
-添加评论
- */
+
+    /*8
+    添加评论
+     */
     public Observable<BaseBean> addComment(String user_id, String user_token, int comment_id, int yo_id, String content) {
         return HttpClient.getApiService().addComment(user_id, user_token, comment_id, yo_id, content)
                 .compose(this.switchThread());
@@ -378,6 +395,7 @@ public class Model {
 
     /**
      * 获取用户信息
+     *
      * @param user_id
      * @param user_token
      * @return
@@ -389,6 +407,7 @@ public class Model {
 
     /**
      * 修改用户信息
+     *
      * @param user_id
      * @param user_token
      * @param user_nickname
@@ -412,6 +431,7 @@ public class Model {
 
     /**
      * 获取绑定信息
+     *
      * @param user_id
      * @param user_token
      * @return
@@ -423,6 +443,7 @@ public class Model {
 
     /**
      * 替换手机号
+     *
      * @param user_id
      * @param user_token
      * @param phone
@@ -436,6 +457,7 @@ public class Model {
 
     /**
      * 退出登录
+     *
      * @param user_id
      * @param user_token
      * @param addr
@@ -450,6 +472,7 @@ public class Model {
 
     /**
      * 添加关注
+     *
      * @param user_id
      * @param user_token
      * @param target_id
@@ -472,6 +495,7 @@ public class Model {
 
     /**
      * 获取收藏夹列表
+     *
      * @param user_id
      * @param user_token
      * @return
@@ -483,6 +507,7 @@ public class Model {
 
     /**
      * 创建收藏夹
+     *
      * @param user_id
      * @param user_token
      * @param name
@@ -498,6 +523,7 @@ public class Model {
 
     /**
      * 添加收藏
+     *
      * @param user_id
      * @param user_token
      * @param folder_id
@@ -511,6 +537,7 @@ public class Model {
 
     /**
      * 取消收藏
+     *
      * @param user_id
      * @param user_token
      * @param id
@@ -523,6 +550,7 @@ public class Model {
 
     /**
      * 不喜欢
+     *
      * @param user_id
      * @param user_token
      * @param yo_id
@@ -535,6 +563,7 @@ public class Model {
 
     /**
      * 举报
+     *
      * @param user_id
      * @param user_token
      * @param yo_id
@@ -549,6 +578,7 @@ public class Model {
 
     /**
      * 获取标签列表
+     *
      * @param user_id
      * @param user_token
      * @return
@@ -560,6 +590,7 @@ public class Model {
 
     /**
      * 添加标签
+     *
      * @param user_id
      * @param user_token
      * @param label_id
@@ -574,6 +605,7 @@ public class Model {
 
     /**
      * 删除标签
+     *
      * @param user_id
      * @param user_token
      * @param label_id
@@ -586,6 +618,7 @@ public class Model {
 
     /**
      * 发布yo记
+     *
      * @param user_id
      * @param user_token
      * @param yo_id
@@ -609,6 +642,7 @@ public class Model {
 
     /**
      * 获取草稿
+     *
      * @param user_id
      * @param user_token
      * @param page
@@ -622,6 +656,7 @@ public class Model {
 
     /**
      * 获取yo记列表
+     *
      * @param user_id
      * @param user_token
      * @param page
@@ -635,6 +670,7 @@ public class Model {
 
     /**
      * 获取yo记详情
+     *
      * @param user_id
      * @param user_token
      * @param yo_id
@@ -647,6 +683,7 @@ public class Model {
 
     /**
      * 获取我的收藏
+     *
      * @param user_id
      * @param user_token
      * @return
@@ -658,6 +695,7 @@ public class Model {
 
     /**
      * 删除收藏夹
+     *
      * @param user_id
      * @param user_token
      * @param folder_ids
@@ -670,6 +708,7 @@ public class Model {
 
     /**
      * 获取用户主页
+     *
      * @param user_id
      * @param user_token
      * @param his_id
@@ -682,6 +721,7 @@ public class Model {
 
     /**
      * 获取yo记内容
+     *
      * @param user_id
      * @param user_token
      * @param his_id
@@ -696,6 +736,7 @@ public class Model {
 
     /**
      * 获取我的喜欢
+     *
      * @param user_id
      * @param user_token
      * @param page
@@ -709,6 +750,7 @@ public class Model {
 
     /**
      * 获取收藏夹内容
+     *
      * @param user_id
      * @param user_token
      * @param page
@@ -722,6 +764,7 @@ public class Model {
 
     /**
      * 取消收藏
+     *
      * @param user_id
      * @param user_token
      * @param record_ids
@@ -734,6 +777,7 @@ public class Model {
 
     /**
      * 移动收藏夹内容
+     *
      * @param user_id
      * @param user_token
      * @param record_ids
@@ -747,6 +791,7 @@ public class Model {
 
     /**
      * 获取我的设置
+     *
      * @param user_id
      * @param user_token
      * @return
@@ -758,6 +803,7 @@ public class Model {
 
     /**
      * 修改我的设置
+     *
      * @param user_id
      * @param user_token
      * @param wifi_auto_play_video
@@ -772,6 +818,7 @@ public class Model {
 
     /**
      * 用户反馈
+     *
      * @param user_id
      * @param user_token
      * @param desc
@@ -784,6 +831,7 @@ public class Model {
 
     /**
      * 关于我们
+     *
      * @return
      */
     public Observable<AboutMeBean> aboutme() {
@@ -793,6 +841,7 @@ public class Model {
 
     /**
      * 获取消息
+     *
      * @param user_id
      * @param user_token
      * @param type
@@ -806,6 +855,7 @@ public class Model {
 
     /**
      * 获取消息中心
+     *
      * @param user_id
      * @param user_token
      * @return
@@ -818,6 +868,7 @@ public class Model {
 
     /**
      * 读取消息
+     *
      * @param user_id
      * @param user_token
      * @param message_id
@@ -842,6 +893,7 @@ public class Model {
 
     /**
      * push
+     *
      * @param user_id
      * @param user_token
      * @param device
@@ -873,47 +925,52 @@ public class Model {
 
     /**
      * 打卡
+     *
      * @param user_id
      * @param user_token
      * @return
      */
-    public Observable<BaseBean> punchClock(String user_id,String user_token){
+    public Observable<BaseBean> punchClock(String user_id, String user_token) {
         return HttpClient.getApiService().punchClock(user_id, user_token)
                 .compose(this.switchThread());
     }
 
     /**
      * 版本升级
+     *
      * @param user_id
      * @param user_token
      * @param type
      * @return
      */
-    public Observable<VersionBean> getVersionMessage(String user_id,String user_token,String type){
+    public Observable<VersionBean> getVersionMessage(String user_id, String user_token, String type) {
         return HttpClient.getApiService().getVersionMessage(user_id, user_token, type)
                 .compose(this.switchThread());
     }
 
     /**
      * 不喜欢
+     *
      * @param user_id
      * @param user_token
      * @param yo_id
      * @param type
      * @return
      */
-    public Observable<BaseBean> dislike(String user_id,String user_token,int yo_id,int type){
+    public Observable<BaseBean> dislike(String user_id, String user_token, int yo_id, int type) {
         return HttpClient.getApiService().dislike(user_id, user_token, yo_id, type)
                 .compose(this.switchThread());
     }
+
     //用户等级页
-    public Observable<VipCenterBean> setVipCenter(String user_id, String user_token){
+    public Observable<VipCenterBean> setVipCenter(String user_id, String user_token) {
         return HttpClient.getApiService().setVipCenter(user_id, user_token)
                 .compose(this.switchThread());
     }
 
     /**
      * 获取yo秀内容
+     *
      * @param user_id
      * @param user_token
      * @param his_id
@@ -928,14 +985,27 @@ public class Model {
 
     /**
      * 删除yo秀
+     *
      * @param user_id
      * @param user_token
      * @param yo_id
      * @return
      */
-    public Observable<BaseBean> deleteYo(String user_id,String user_token,int yo_id){
+    public Observable<BaseBean> deleteYo(String user_id, String user_token, int yo_id) {
         return HttpClient.getApiService().deleteYo(user_id, user_token, yo_id)
                 .compose(this.switchThread());
     }
 
+    /**
+     * 获取用户历史自定义位置
+     *
+     * @param user_id
+     * @param user_token
+     * @param
+     * @return
+     */
+    public Observable<HisPositionBean> setHisPosition(String user_id, String user_token, int page, int page_size) {
+        return HttpClient.getApiService().setHisPosition(user_id, user_token, page, page_size)
+                .compose(this.switchThread());
+    }
 }

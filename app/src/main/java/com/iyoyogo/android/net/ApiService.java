@@ -3,6 +3,7 @@ package com.iyoyogo.android.net;
 
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.HisFansBean;
+import com.iyoyogo.android.bean.HisPositionBean;
 import com.iyoyogo.android.bean.VipCenterBean;
 import com.iyoyogo.android.bean.collection.AttentionsBean;
 import com.iyoyogo.android.bean.collection.CommendAttentionBean;
@@ -597,17 +598,32 @@ public interface ApiService {
                                        @Field("his_id") String his_id,
                                        @Field("page") String page,
                                        @Field("page_size") String page_size);
+
     @POST("index.php/api/userhome/get_his_yox_list")
     @FormUrlEncoded
     Observable<YoXiuContentBean> getYoXiuContent(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("his_id") String his_id, @Field("page") String page, @Field("page_size") String page_size);
 
-@POST("index.php/api/yo/delete")
+    @POST("index.php/api/yo/delete")
     @FormUrlEncoded
-    Observable<BaseBean> deleteYo(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("yo_id")int yo_id);
+    Observable<BaseBean> deleteYo(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id);
+
     //用户等级页
     @POST("index.php/api/userlevel/get")
     @FormUrlEncoded
     Observable<VipCenterBean> setVipCenter(@Field("user_id") String user_id,
                                            @Field("user_token") String user_token);
+
+    //获取用户历史自定义位置
+    @POST("index.php/api/position/get_his_position")
+    @FormUrlEncoded
+    Observable<HisPositionBean> setHisPosition(@Field("user_id") String user_id,
+                                               @Field("user_token") String user_token,
+                                               @Field("page") int page,
+                                               @Field("page_size") int page_size);
+
+    //清空用户历史自定义位置
+    @POST("index.php/api/position/del_his_position")
+    @FormUrlEncoded
+    Observable<BaseBean> DelPosition(@Field("user_id") String user_id, @Field("user_token") String user_token);
 }
 

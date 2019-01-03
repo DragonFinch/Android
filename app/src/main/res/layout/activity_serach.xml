@@ -147,7 +147,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/location_recommendTV_id"
+        android:layout_below="@+id/go_create_point"
         android:layout_marginTop="5dp"
         android:orientation="vertical">
 

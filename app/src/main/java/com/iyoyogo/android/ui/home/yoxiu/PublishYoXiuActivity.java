@@ -690,6 +690,8 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
         }
     }
 
+
+
     @Override
     public void getRecommendTopicSuccess(List<HotTopicBean.DataBean.ListBean> list) {
         for (int i = 0; i < list.size(); i++) {
