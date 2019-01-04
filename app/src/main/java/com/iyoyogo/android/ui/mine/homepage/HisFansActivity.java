@@ -44,7 +44,6 @@ public class HisFansActivity extends BaseActivity<HisHansContract.Presenter> imp
 
     protected void initView() {
         super.initView();
-        statusbar();
     }
 
     @Override

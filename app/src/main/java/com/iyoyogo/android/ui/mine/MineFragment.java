@@ -1,6 +1,5 @@
 package com.iyoyogo.android.ui.mine;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -19,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -31,9 +29,12 @@ import com.iyoyogo.android.contract.MineContract;
 import com.iyoyogo.android.presenter.MineMessagePresenter;
 import com.iyoyogo.android.ui.mine.collection.CollectionActivity;
 import com.iyoyogo.android.ui.mine.draft.DraftActivity;
+import com.iyoyogo.android.ui.mine.homepage.HisFansActivity;
 import com.iyoyogo.android.ui.mine.homepage.Like_me_Activity;
 import com.iyoyogo.android.ui.mine.homepage.Message_center_Activity;
+import com.iyoyogo.android.ui.mine.homepage.MyFollowActivity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
+import com.iyoyogo.android.ui.mine.homepage.UserFansActivity;
 import com.iyoyogo.android.ui.mine.homepage.VipCenterActivity;
 import com.iyoyogo.android.utils.FastBlurUtil;
 import com.iyoyogo.android.utils.SpUtils;
@@ -102,8 +103,11 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     ImageView imgVipSign;
     @BindView(R.id.img_level)
     ImageView imgLevel;
+    Unbinder unbinder1;
     private String user_id;
     private String user_token;
+    private Intent intent2;
+    private Intent intent3;
 
     @Override
     protected int getLayoutId() {
@@ -155,7 +159,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         mPresenter.getUserInfo(user_id, user_token);
     }
 
-    @OnClick({R.id.my_basic_headimg_iv_id, R.id.vip_center_img, R.id.my_basic_name_iv_id, R.id.my_messge_im_id, R.id.my_addfriend_im_id, R.id.my_clock_but_id, R.id.my_option_home_id, R.id.my_option_draft_id, R.id.my_option_like_id, R.id.my_option_col_id, R.id.my_option_set_id})
+    @OnClick({R.id.my_basic_fans_tv_id, R.id.my_basic_fansnumber_tv_id, R.id.my_basic_follow_tv_id, R.id.my_basic_follownumber_tv_id,R.id.my_basic_headimg_iv_id, R.id.vip_center_img, R.id.my_basic_name_iv_id, R.id.my_messge_im_id, R.id.my_addfriend_im_id, R.id.my_clock_but_id, R.id.my_option_home_id, R.id.my_option_draft_id, R.id.my_option_like_id, R.id.my_option_col_id, R.id.my_option_set_id})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.my_basic_headimg_iv_id:
@@ -195,6 +199,30 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
             case R.id.my_basic_name_iv_id:
                 startActivity(new Intent(getContext(), EditPersonalMessageActivity.class));
                 break;
+            case R.id.my_basic_fans_tv_id:
+                intent3 = new Intent(getContext(), HisFansActivity.class);
+                intent3.putExtra("id", "2");
+                intent3.putExtra("yo_user_id", user_id);
+                startActivity(intent3);
+                break;
+            case R.id.my_basic_fansnumber_tv_id:
+                intent3 = new Intent(getContext(), HisFansActivity.class);
+                intent3.putExtra("id", "2");
+                intent3.putExtra("yo_user_id", user_id);
+                startActivity(intent3);
+                break;
+            case R.id.my_basic_follow_tv_id:
+                intent2 = new Intent(getContext(), MyFollowActivity.class);
+                intent2.putExtra("id", "1");
+                intent2.putExtra("yo_user_id", user_id);
+                startActivity(intent2);
+                break;
+            case R.id.my_basic_follownumber_tv_id:
+                intent2 = new Intent(getContext(), MyFollowActivity.class);
+                intent2.putExtra("id", "1");
+                intent2.putExtra("yo_user_id", user_id);
+                startActivity(intent2);
+                break;
         }
     }
 
@@ -204,73 +232,73 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         //获取用户等级
         int user_level = data.getUser_level();
         final String pattern = "2";
-       if (Patterns.WEB_URL.matcher(data.getUser_logo()).matches()){
-           final String url =
-                   data.getUser_logo();
-           new Thread(new Runnable() {
-               @Override
-               public void run() {
-                   int scaleRatio = 0;
-                   if (TextUtils.isEmpty(pattern)) {
-                       scaleRatio = 0;
-                   } else if (scaleRatio < 0) {
-                       scaleRatio = 10;
-                   } else {
-                       scaleRatio = Integer.parseInt(pattern);
-                   }
-                   //                        下面的这个方法必须在子线程中执行
-                   final Bitmap blurBitmap2 = FastBlurUtil.GetUrlBitmap(url, scaleRatio);
+        if (Patterns.WEB_URL.matcher(data.getUser_logo()).matches()) {
+            final String url =
+                    data.getUser_logo();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    int scaleRatio = 0;
+                    if (TextUtils.isEmpty(pattern)) {
+                        scaleRatio = 0;
+                    } else if (scaleRatio < 0) {
+                        scaleRatio = 10;
+                    } else {
+                        scaleRatio = Integer.parseInt(pattern);
+                    }
+                    //                        下面的这个方法必须在子线程中执行
+                    final Bitmap blurBitmap2 = FastBlurUtil.GetUrlBitmap(url, scaleRatio);
 
-                   //                        刷新ui必须在主线程中执行
-                   getActivity().runOnUiThread(new Runnable() {//这个是我自己封装的在主线程中刷新ui的方法。
-                       @Override
-                       public void run() {
-                           myBgiIvId.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                           myBgiIvId.setImageBitmap(blurBitmap2);
-                       }
-                   });
-               }
-           }).start();
-       }else {
-           int scaleRatio = 0;
-           if (TextUtils.isEmpty(pattern)) {
-               scaleRatio = 0;
-           } else if (scaleRatio < 0) {
-               scaleRatio = 10;
-           } else {
-               scaleRatio = Integer.parseInt(pattern);
-           }
+                    //                        刷新ui必须在主线程中执行
+                    getActivity().runOnUiThread(new Runnable() {//这个是我自己封装的在主线程中刷新ui的方法。
+                        @Override
+                        public void run() {
+                            myBgiIvId.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                            myBgiIvId.setImageBitmap(blurBitmap2);
+                        }
+                    });
+                }
+            }).start();
+        } else {
+            int scaleRatio = 0;
+            if (TextUtils.isEmpty(pattern)) {
+                scaleRatio = 0;
+            } else if (scaleRatio < 0) {
+                scaleRatio = 10;
+            } else {
+                scaleRatio = Integer.parseInt(pattern);
+            }
 
-           //        获取需要被模糊的原图bitmap
-           Resources res = getResources();
-           Bitmap scaledBitmap = BitmapFactory.decodeResource(res, R.mipmap.default_touxiang);
+            //        获取需要被模糊的原图bitmap
+            Resources res = getResources();
+            Bitmap scaledBitmap = BitmapFactory.decodeResource(res, R.mipmap.default_touxiang);
 
-           //        scaledBitmap为目标图像，10是缩放的倍数（越大模糊效果越高）
-           Bitmap blurBitmap = FastBlurUtil.toBlur(scaledBitmap, scaleRatio);
-           myBgiIvId.setScaleType(ImageView.ScaleType.CENTER_CROP);
-           myBgiIvId.setImageBitmap(blurBitmap);
-       }
+            //        scaledBitmap为目标图像，10是缩放的倍数（越大模糊效果越高）
+            Bitmap blurBitmap = FastBlurUtil.toBlur(scaledBitmap, scaleRatio);
+            myBgiIvId.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            myBgiIvId.setImageBitmap(blurBitmap);
+        }
 
-        if (user_level==1){
+        if (user_level == 1) {
             imgLevel.setVisibility(View.VISIBLE);
             imgVipSign.setImageResource(R.mipmap.level_one);
-        }else if (user_level==2){
+        } else if (user_level == 2) {
             imgLevel.setVisibility(View.VISIBLE);
             imgLevel.setImageResource(R.mipmap.lv2);
             imgVipSign.setImageResource(R.mipmap.level_two);
-        }else if (user_level==3){
+        } else if (user_level == 3) {
             imgLevel.setVisibility(View.VISIBLE);
             imgLevel.setImageResource(R.mipmap.lv3);
             imgVipSign.setImageResource(R.mipmap.level_three);
-        }else if (user_level==4){
+        } else if (user_level == 4) {
             imgLevel.setVisibility(View.VISIBLE);
             imgLevel.setImageResource(R.mipmap.lv4);
             imgVipSign.setImageResource(R.mipmap.level_four);
-        }else if (user_level==5){
+        } else if (user_level == 5) {
             imgLevel.setVisibility(View.VISIBLE);
             imgLevel.setImageResource(R.mipmap.lv5);
             imgVipSign.setImageResource(R.mipmap.level_five);
-        }else {
+        } else {
             imgLevel.setVisibility(View.GONE);
             imgVipSign.setImageResource(R.mipmap.level_zero);
         }
@@ -279,9 +307,9 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         myBasicNameTvId.setText(user_nickname);
         String user_logo = data.getUser_logo();
 
-            RequestOptions requestOptions = new RequestOptions();
-            requestOptions.error(R.mipmap.default_touxiang).placeholder(R.mipmap.default_touxiang);
-            Glide.with(getContext()).load(data.getUser_logo()).apply(requestOptions).into(myBasicHeadimgIvId);
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.error(R.mipmap.default_touxiang).placeholder(R.mipmap.default_touxiang);
+        Glide.with(getContext()).load(data.getUser_logo()).apply(requestOptions).into(myBasicHeadimgIvId);
 
         int count_fans = data.getCount_fans();
         myBasicFansnumberTvId.setText(count_fans + "");
@@ -316,9 +344,23 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
 
     @Override
     public void punchClockSuccess(BaseBean baseBean) {
-      mPresenter.getUserInfo(user_id,user_token);
+        mPresenter.getUserInfo(user_id, user_token);
     }
 
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder1 = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder1.unbind();
+    }
 
 
 }

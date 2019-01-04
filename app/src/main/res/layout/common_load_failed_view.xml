@@ -16,6 +16,7 @@
         android:id="@+id/tv_empty_tips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:textColor="@color/text_common_gray_999999"
         android:textSize="16dp" />
 

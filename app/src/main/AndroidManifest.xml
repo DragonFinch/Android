@@ -229,7 +229,7 @@
             android:name=".camera.edit.theme.ThemeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/LuncherActivityTheme" />
-        <activity android:name=".TestActivity"></activity>
+        <activity android:name=".TestActivity" />
         <activity
             android:name=".camera.edit.clipEdit.spilt.SpiltActivity"
             android:screenOrientation="portrait"
@@ -435,7 +435,6 @@
         <activity android:name=".ui.common.CameraActivity" />
         <activity android:name=".ui.common.Vertical_picture_Activity" />
         <activity android:name=".ui.home.yoxiu.AllReplyActivity"></activity>
-        <activity android:name=".ui.common.Vertical_picture_Activity" />
         <activity
             android:name=".ui.home.yoji.NewPublishYoJiActivity"
             android:windowSoftInputMode="stateHidden" />

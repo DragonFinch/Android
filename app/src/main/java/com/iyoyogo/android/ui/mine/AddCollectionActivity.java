@@ -36,7 +36,7 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
 
     protected void initView() {
         super.initView();
-        statusbar();
+
     }
 
     @Override

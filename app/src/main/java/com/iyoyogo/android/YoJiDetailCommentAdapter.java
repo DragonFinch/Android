@@ -320,12 +320,12 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
         holder.img_function.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initDelete(holder, String.valueOf(mList.get(position).getUser_id()), mList.get(position).getId(), mList.get(position).getYo_id());
+                initDelete(holder, String.valueOf(mList.get(position).getUser_id()), mList.get(position).getId(), mList.get(position).getYo_id(),position);
             }
         });
     }
 
-    private void initDelete(Holder holder, String yo_user_id, int comment_id, int yo_id) {
+    private void initDelete(Holder holder, String yo_user_id, int comment_id, int yo_id, int position) {
         View view = LayoutInflater.from(context).inflate(R.layout.popup_delete_or_report, null);
         PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 125), ViewGroup.LayoutParams.WRAP_CONTENT, true);
         String user_id = SpUtils.getString(context, "user_id", null);
@@ -347,6 +347,8 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
                             public void accept(BaseBean baseBean) throws Exception {
                         if (deleteOnClickListener!=null){
                             deleteOnClickListener.delete();
+                            mList.remove(position);
+                            notifyDataSetChanged();
                         }
                             }
                         });

@@ -13,6 +13,7 @@ import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -28,6 +29,29 @@ import java.lang.reflect.Method;
 
 public class StatusBarUtil {
 
+    public static void setStatusBarLayoutStyle(Context context,boolean isChange){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //透明状态栏
+            ((AppCompatActivity)context).getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //透明导航栏
+            ((AppCompatActivity)context).getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            SystemBarTintManager tintManager = new SystemBarTintManager(((AppCompatActivity)context));
+            // 激活状态栏
+            tintManager.setStatusBarTintEnabled(true);
+            //判断是否需要更改状态栏颜色
+            if(isChange){
+                tintManager.setStatusBarTintResource(R.color.transparent);
+            }else{
+                tintManager.setStatusBarTintResource(android.R.color.white);
+            }
+            ViewGroup mContentView = (ViewGroup) ((AppCompatActivity) context).getWindow().findViewById(((AppCompatActivity) context).getWindow().ID_ANDROID_CONTENT);
+            View mChildView = mContentView.getChildAt(0);
+            if (mChildView != null) {
+                //注意不是设置 ContentView 的 FitsSystemWindows, 而是设置 ContentView 的第一个子 View . 预留出系统 View 的空间.
+                mChildView.setFitsSystemWindows(true);
+            }
+        }
+    }
 
     public static final int DEFAULT_STATUS_BAR_ALPHA = 112;
 
