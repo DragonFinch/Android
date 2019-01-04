@@ -1,68 +1,65 @@
 package com.iyoyogo.android.view;
 
-
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.view.Gravity;
+import android.content.ContextWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import com.iyoyogo.android.R;
-import com.iyoyogo.android.utils.DensityUtil;
 
-/**
- * 创建时间：2018/6/30
- * 描述：
- */
-public class LoadingDialog extends BaseDialog {
-    private Context context;
-    private View view;
-    private ImageView dialog_close;
-    private TextView dialog_cancel;
-    private TextView dialog_confirm;
-    private TextView title_dialog;
-    private EditText lable_et;
-    private View div;
-    private AddLabelDialogCallback labelDialogCallback;
+public class LoadingDialog {
+    public Dialog  mLoadingDialog;
+    public Context context;
 
-    public AddLabelDialogCallback getLabelDialogCallback() {
-        return labelDialogCallback;
+    private static LoadingDialog instance;
+
+    public static LoadingDialog get() {
+        if (instance == null) {
+            instance = new LoadingDialog();
+        }
+        return instance;
     }
 
-    public void setLabelDialogCallback(AddLabelDialogCallback labelDialogCallback) {
-        this.labelDialogCallback = labelDialogCallback;
+    public LoadingDialog create(Context context) {
+        // 首先得到整个View
+        View view = LayoutInflater.from(context).inflate(
+                R.layout.dialog_loading, null);
+        // 获取整个布局
+        LinearLayout layout = view.findViewById(R.id.dialog_view);
+        // 创建自定义样式的Dialog
+        mLoadingDialog = new Dialog(context, R.style.loading_dialog);
+        // 设置返回键无效
+        mLoadingDialog.setCancelable(true);
+        mLoadingDialog.setCanceledOnTouchOutside(false);
+        mLoadingDialog.setContentView(layout, new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT));
+        return this;
     }
 
-    public LoadingDialog(@NonNull Context context) {
-        super(context);
-        this.context = context;
-        init();
-        initListener();
-        Window win = getWindow();
-        WindowManager.LayoutParams lp = win.getAttributes();
-        lp.gravity = Gravity.CENTER;
-        lp.height = DensityUtil.dp2px(context, 183.5f);
-        lp.width = DensityUtil.dp2px(context, 250);
-        win.setAttributes(lp);
+    public void show() {
+        if (mLoadingDialog != null) {
+            mLoadingDialog.show();
+        }
     }
 
-    private void initListener() {
-
-    }
-
-    private void init() {
-        view = LayoutInflater.from(context).inflate(R.layout.loading_view, null);
-        setContentView(view);
-    }
-
-    public interface AddLabelDialogCallback {
-        void onConfirm();
-
-        void onCancel();
+    public void close() {
+        try {
+            if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+                Context context = ((ContextWrapper) mLoadingDialog.getContext()).getBaseContext();
+                if (context instanceof Activity) {
+                    if (!((Activity) context).isFinishing() && !((Activity) context).isDestroyed())
+                        mLoadingDialog.dismiss();
+                } else {
+                    mLoadingDialog.dismiss();
+                }
+                mLoadingDialog = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

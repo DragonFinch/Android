@@ -36,11 +36,15 @@ import com.iyoyogo.android.base.BaseFragment;
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.ui.home.attention.AttentionFragment;
 import com.iyoyogo.android.ui.home.recommend.RecommedFragment;
+import com.iyoyogo.android.ui.home.yoji.NewPublishYoJiActivity;
 import com.iyoyogo.android.ui.home.yoxiu.SourceChooseActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.imagepicker.activities.ImagesPickActivity;
 import com.iyoyogo.android.view.YoyogoTopBarView;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -190,8 +194,21 @@ public class HomeFragment extends BaseFragment {
         publish_yoxiu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "发布yo.秀", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getContext(), SourceChooseActivity.class));
+                PictureSelector.create(HomeFragment.this)
+                        .openGallery(PictureMimeType.ofAll())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                        .imageSpanCount(3)// 每行显示个数 int
+                        .selectionMode(PictureConfig.SINGLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
+                        .previewImage(true)// 是否可预览图片 true or false
+                        .isCamera(true)// 是否显示拍照按钮 true or false
+                        .imageFormat(PictureMimeType.PNG)// 拍照保存图片格式后缀,默认jpeg
+                        .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
+                        .sizeMultiplier(0.5f)// glide 加载图片大小 0~1之间 如设置 .glideOverride()无效
+                        .compress(true)// 是否压缩 true or false
+                        .isGif(true)// 是否显示gif图片 true or false
+                        .previewEggs(true)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
+                        .minimumCompressSize(800)// 小于100kb的图片不压缩
+                        .synOrAsy(false)//同步true或异步false 压缩 默认同步
+                        .forResult(201);
                 popup.dismiss();
             }
         });
@@ -199,8 +216,23 @@ public class HomeFragment extends BaseFragment {
         publish_yoji.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "发布yo.记", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getContext(), ImagesPickActivity.class));
+                PictureSelector.create(HomeFragment.this)
+                        .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                        .maxSelectNum(9)// 最大图片选择数量 int
+                        .minSelectNum(1)// 最小选择数量 int
+                        .imageSpanCount(3)// 每行显示个数 int
+                        .selectionMode(PictureConfig.MULTIPLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
+                        .previewImage(true)// 是否可预览图片 true or false
+                        .isCamera(true)// 是否显示拍照按钮 true or false
+                        .imageFormat(PictureMimeType.PNG)// 拍照保存图片格式后缀,默认jpeg
+                        .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
+                        .sizeMultiplier(0.5f)// glide 加载图片大小 0~1之间 如设置 .glideOverride()无效
+                        .compress(true)// 是否压缩 true or false
+                        .isGif(true)// 是否显示gif图片 true or false
+                        .previewEggs(true)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
+                        .minimumCompressSize(800)// 小于100kb的图片不压缩
+                        .synOrAsy(false)//同步true或异步false 压缩 默认同步
+                        .forResult(PictureConfig.CHOOSE_REQUEST);
                 popup.dismiss();
             }
         });
@@ -224,6 +256,17 @@ public class HomeFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data!=null) {
+            if (requestCode == PictureConfig.CHOOSE_REQUEST) {
+                startActivity(data.setClass(getActivity(), EditImageOrVideoActivity.class).putExtra("type", 1));
+            } else if (requestCode == 201) {
+                startActivity(data.setClass(getActivity(), EditImageOrVideoActivity.class).putExtra("type", 2));
+            }
+        }
+    }
 
     @Override
     protected void initData() {

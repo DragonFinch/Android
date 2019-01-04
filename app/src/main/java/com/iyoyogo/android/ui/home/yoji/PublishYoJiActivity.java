@@ -48,6 +48,7 @@ import com.iyoyogo.android.app.AeDITEXT;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.yoji.publish.MessageBean;
+import com.iyoyogo.android.bean.yoji.publish.PublishYoJiBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
 import com.iyoyogo.android.contract.PublishYoJiContract;
 import com.iyoyogo.android.model.RObject;
@@ -837,7 +838,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 //                String json = new Gson().toJson(mList);
                 if (tvPay.getText().toString().trim().length() > 0) {
                     if (etTitle.getText().toString().trim().length() > 0) {
-                        mPresenter.publishYoJi(user_id, user_token, 0, url_cover, etTitle.getText().toString().trim(), etContent.getText().toString().trim(), Integer.parseInt(etCost.getText().toString().trim()), 1, 1, type_list, channel_ids, json);
+                        mPresenter.publishYoJi(user_id, user_token, 0, url_cover, etTitle.getText().toString().trim(), etContent.getText().toString().trim(), Integer.parseInt(etCost.getText().toString().trim()), 1, 1, channel_ids.toString(), json);
                     } else {
                         Toast.makeText(this, "标题不能为空", Toast.LENGTH_SHORT).show();
                     }
@@ -861,6 +862,11 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
             addTextView(list.get(i).getTopic(), editFlowgroupviewId);
             type_list.add(list.get(i).getId());
         }
+    }
+
+    @Override
+    public void onYoJiData(PublishYoJiBean data) {
+
     }
 
 

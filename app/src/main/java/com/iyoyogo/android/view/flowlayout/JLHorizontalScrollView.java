@@ -14,6 +14,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.Bean;
@@ -33,8 +34,8 @@ public class JLHorizontalScrollView extends HorizontalScrollView {
 
 
     private LinearLayout mContainer;
-    private boolean flag;
-    private int mPageCount;
+    private boolean      flag;
+    private int          mPageCount;
 
     private Context mContext;
 
@@ -116,36 +117,32 @@ public class JLHorizontalScrollView extends HorizontalScrollView {
 
     private void fillData(final List<Bean> list, JLFlowLayout jlFlowLayout) {
         for (int i = 0; i < mList.size(); i++) {
-            MarginLayoutParams lp = new MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            lp.setMargins(dp2px(5), dp2px(5), dp2px(5), dp2px(5));
-           /* View view = LayoutInflater.from(getContext()).inflate(R.layout.item_label, null);
-            ImageView img_delete = view.findViewById(R.id.img_delete);
-            CheckedTextView lable_name_tv = view.findViewById(R.id.lable_name_tv);
-            ImageView img_choice = view.findViewById(R.id.img_choice);*/
-            final CheckedTextView textView = (CheckedTextView) LayoutInflater.from(getContext()).inflate(R.layout.tag_textview, null);
-            final ImageView img_choose = (ImageView) LayoutInflater.from(getContext()).inflate(R.layout.item_img, null);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp.setMargins(0, dp2px(13), dp2px(5), 0);
+            View      view       = LayoutInflater.from(getContext()).inflate(R.layout.tag_textview, null);
+            TextView  textView   = view.findViewById(R.id.tag_textview);
+            ImageView img_choice = view.findViewById(R.id.iv_select);
             textView.setText(list.get(i).getLabel());
-            textView.setLayoutParams(lp);
-            textView.setBackgroundResource(R.drawable.tag_selector);
+            view.setLayoutParams(lp);
             final int pos = i;
-            if (list.get(pos).getType()==1){
+            if (list.get(pos).getType() == 1) {
                 textView.setBackgroundResource(R.drawable.label_bg_fkzn);
                 textView.setTextColor(Color.parseColor("#5BCBF5"));
 
-            }else if (list.get(pos).getType()==2){
+            } else if (list.get(pos).getType() == 2) {
                 textView.setBackgroundResource(R.drawable.label_bg_deserve_to_do);
                 textView.setTextColor(Color.parseColor("#E0FF6100"));
-            }else if (list.get(pos).getType()==3){
+            } else if (list.get(pos).getType() == 3) {
                 textView.setBackgroundResource(R.drawable.label_bg_exclusive);
                 textView.setTextColor(Color.parseColor("#ff8484"));
             }
             textView.setText(list.get(pos).getLabel());
-            img_choose.setVisibility(VISIBLE);
-            textView.setOnClickListener(new OnClickListener() {
+            img_choice.setVisibility(list.get(pos).isSelect() ? VISIBLE : GONE);
+
+            view.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    textView.toggle();
-                    if (textView.isChecked()) {
+                    if (!list.get(pos).isSelect()) {
                         list.get(pos).setSelect(true);
 
                         mData.add(list.get(pos));
@@ -153,27 +150,33 @@ public class JLHorizontalScrollView extends HorizontalScrollView {
                         list.get(pos).setSelect(false);
                         mData.remove(list.get(pos));
                     }
+                    img_choice.setVisibility(list.get(pos).isSelect() ? VISIBLE : GONE);
                 }
             });
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 //            layoutParams.addRule(RelativeLayout.RIGHT_OF,R.id.tag_textview);
 //            img_choose.setLayoutParams(layoutParams);
 //            jlFlowLayout.addView(img_choose);
-            jlFlowLayout.addView(textView);
+            jlFlowLayout.addView(view);
         }
     }
 
     public List<Bean> getData() {
         return mData;
     }
-    public interface OnClickListeners{
+
+    public interface OnClickListeners {
         void setOnDeleteClick(View v, int position);
-        void setOnAddClick(View v,int position);
+
+        void setOnAddClick(View v, int position);
     }
+
     private OnClickListeners onClickListener;
-    public void setOnClickListener (OnClickListeners onClickListener){
-        this.onClickListener=onClickListener;
+
+    public void setOnClickListener(OnClickListeners onClickListener) {
+        this.onClickListener = onClickListener;
     }
+
     /**
      * 填满一页返回再填下一页
      */
@@ -213,9 +216,9 @@ public class JLHorizontalScrollView extends HorizontalScrollView {
             flag = true;
         }
         //为了支持 margin 再套一层,还有个解决办法是 JLFlowLayout加上对 padding 的支持。
-        FrameLayout child = new FrameLayout(getContext());
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mRealWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
-        LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        FrameLayout               child        = new FrameLayout(getContext());
+        LinearLayout.LayoutParams params       = new LinearLayout.LayoutParams(mRealWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LayoutParams              layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.leftMargin = mMargin;
         layoutParams.rightMargin = mMargin;
         page.setLayoutParams(layoutParams);

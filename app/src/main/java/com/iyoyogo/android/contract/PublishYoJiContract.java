@@ -3,6 +3,7 @@ package com.iyoyogo.android.contract;
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.yoji.publish.PublishYoJiBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public interface PublishYoJiContract {
 
         void getRecommendTopicSuccess(List<HotTopicBean.DataBean.ListBean> list);
 
+        void onYoJiData(PublishYoJiBean data);
     }
 
     interface Presenter extends IBasePresenter {
@@ -29,8 +31,11 @@ public interface PublishYoJiContract {
                          int cost,
                          int open,
                          int valid,
-                         List<Integer> topic_ids,
-                         List<Integer> channel_ids,
+                         String channel_ids,
                        String json);
+
+        void getYoJiData(String user_id,
+                         String user_token,
+                         int yo_id);
     }
 }

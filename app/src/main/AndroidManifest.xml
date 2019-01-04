@@ -139,8 +139,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:name"
-        >
+        tools:replace="android:name">
         <activity android:name=".ui.mine.homepage.VipCenterActivity" />
 
         <service
@@ -437,7 +436,12 @@
         <activity android:name=".ui.common.Same_page_Activity" />
         <activity android:name=".ui.common.Album_details_Activity" />
         <activity android:name=".ui.common.CameraActivity" />
-        <activity android:name=".ui.common.Vertical_picture_Activity"></activity>
+        <activity android:name=".ui.common.Vertical_picture_Activity" />
+        <activity
+            android:name=".ui.home.yoji.NewPublishYoJiActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".ui.home.yoxiu.NewPublishYoXiuActivity" />
+        <activity android:name=".ui.home.EditImageOrVideoActivity"></activity>
     </application>
 
 </manifest>

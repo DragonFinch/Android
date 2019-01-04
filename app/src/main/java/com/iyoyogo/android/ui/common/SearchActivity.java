@@ -50,55 +50,51 @@ import butterknife.OnClick;
  */
 public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> implements HisPositionContract.View {
     @BindView(R.id.locationET_id)
-    EditText locationETId;
+    EditText       locationETId;
     @BindView(R.id.location_cancelTV_id)
-    TextView locationCancelTVId;
+    TextView       locationCancelTVId;
     @BindView(R.id.location_rl)
     RelativeLayout locationRl;
     @BindView(R.id.location_photo_TV_id)
-    TextView locationPhotoTVId;
+    TextView       locationPhotoTVId;
     @BindView(R.id.location_place_TV_id)
-    TextView locationPlaceTVId;
+    TextView       locationPlaceTVId;
     @BindView(R.id.location_gpsplace_TV_id)
-    TextView locationGpsplaceTVId;
+    TextView       locationGpsplaceTVId;
     @BindView(R.id.location_ll)
-    LinearLayout locationLl;
+    LinearLayout   locationLl;
     @BindView(R.id.location_againGPS_TV_id)
-    TextView locationAgainGPSTVId;
+    TextView       locationAgainGPSTVId;
     @BindView(R.id.location_recommendTV_id)
-    TextView locationRecommendTVId;
+    TextView       locationRecommendTVId;
     @BindView(R.id.no_address)
-    ImageView noAddress;
+    ImageView      noAddress;
     @BindView(R.id.address)
-    TextView address;
+    TextView       address;
     @BindView(R.id.address_info)
-    TextView addressInfo;
+    TextView       addressInfo;
     @BindView(R.id.go_create_point)
     RelativeLayout goCreatePoint;
     @BindView(R.id.location_RV_id)
-    RecyclerView locationRVId;
+    RecyclerView   locationRVId;
     @BindView(R.id.history_close)
-    TextView historyClose;
+    TextView       historyClose;
     @BindView(R.id.history)
     RelativeLayout history;
     private ArrayList<String> list;
 
-    private PoiSearch.Query query;
-    private PoiSearch poiSearch;
+    private PoiSearch.Query         query;
+    private PoiSearch               poiSearch;
     private ArrayList<LocationBean> datas;
-    private PoiSearchAdapter adapter;
-    private String place;
-    private GeocodeSearch geocoderSearch;
-    private String latitude;
-    private String longitude;
-    private String country;
-    private int yo_type;
-    private String address1;
-    private String city;
-    private String country1;
-    private String district;
-    private String province;
-    private String aoiName;
+    private PoiSearchAdapter        adapter;
+    private String                  place;
+    private GeocodeSearch           geocoderSearch;
+    private String                  latitude;
+    private String                  longitude;
+    private String                  country;
+    private int                     yo_type;
+    private String                  address1;
+    private String                  city;
 
     @Override
     protected void initData(Bundle savedInstanceState) {
@@ -107,8 +103,8 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
         yo_type = intent.getIntExtra("yo_type", 0);
     }
 
-    private String user_token;
-    private String user_id;
+    private String                                  user_token;
+    private String                                  user_id;
     private List<HisPositionBean.DataBean.ListBean> list1;
 
     @Override
@@ -154,13 +150,13 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
                             ArrayList<PoiItem> pois = poiResult.getPois();
                             for (int i = 0; i < pois.size(); i++) {
                                 LocationBean locationBean = new LocationBean();
-                                String title = pois.get(i).getTitle();
-                                String snippet = pois.get(i).getSnippet();
-                                String provinceName = pois.get(i).getProvinceName();
+                                String       title        = pois.get(i).getTitle();
+                                String       snippet      = pois.get(i).getSnippet();
+                                String       provinceName = pois.get(i).getProvinceName();
                                 locationBean.setProvinceName(provinceName);
                                 LatLonPoint latLonPoint = pois.get(i).getLatLonPoint();
-                                double latitude = latLonPoint.getLatitude();
-                                double longitude = latLonPoint.getLongitude();
+                                double      latitude    = latLonPoint.getLatitude();
+                                double      longitude   = latLonPoint.getLongitude();
                                 locationBean.setLatitude(latitude);
                                 locationBean.setLongitude(longitude);
                                 Log.d("Test", title);
@@ -192,21 +188,24 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
                             adapter.setOnItemClickListener(new PoiSearchAdapter.onItemClickListener() {
                                 @Override
                                 public void onClick(View view, int pos) {
-                                    double latitude = datas.get(pos).getLatitude();
-                                    double longitude = datas.get(pos).getLongitude();
-                                    String title = datas.get(pos).getTitle();
+                                    double latitude     = datas.get(pos).getLatitude();
+                                    double longitude    = datas.get(pos).getLongitude();
+                                    String title        = datas.get(pos).getTitle();
                                     String provinceName = datas.get(pos).getProvinceName();
-                                    String snippet = datas.get(pos).getSnippet();
+                                    String snippet      = datas.get(pos).getSnippet();
                                     SpUtils.putString(SearchActivity.this, "title", title);
                                     SpUtils.putString(SearchActivity.this, "provinceName", provinceName);
                                     Intent intent = new Intent();
                                     intent.putExtra("latitude", latitude);
                                     intent.putExtra("longitude", longitude);
                                     intent.putExtra("title", title);
-
+                                    if (yo_type == 2) {
+                                        setResult(45, intent);
+                                        finish();
+                                    } else {
                                         setResult(3, intent);
                                         finish();
-
+                                    }
 
                                 }
                             });
@@ -273,17 +272,17 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
             @Override
             public void onRegeocodeSearched(RegeocodeResult result, int rCode) {
                 address1 = result.getRegeocodeAddress().getFormatAddress();
-                country = result.getRegeocodeAddress().getCountry();
-                province = result.getRegeocodeAddress().getProvince();
+                String country      = result.getRegeocodeAddress().getCountry();
+                String province     = result.getRegeocodeAddress().getProvince();
                 String neighborhood = result.getRegeocodeAddress().getNeighborhood();
-                district = result.getRegeocodeAddress().getDistrict();
-                String towncode = result.getRegeocodeAddress().getTowncode();
+                String district     = result.getRegeocodeAddress().getDistrict();
+                String towncode     = result.getRegeocodeAddress().getTowncode();
                 city = result.getRegeocodeAddress().getCity();
                 Log.e("formatAddress", "formatAddress:" + address1);
                 Log.e("formatAddress", "rCode:" + rCode);
 
                 for (int i = 0; i < result.getRegeocodeAddress().getAois().size(); i++) {
-                    aoiName = result.getRegeocodeAddress().getAois().get(i).getAoiName();
+                    String aoiName = result.getRegeocodeAddress().getAois().get(i).getAoiName();
                     Log.e("formatAddress", "aoiName:" + aoiName);
                 }
                 Log.e("formatAddress", "neighborhood:" + neighborhood);
@@ -326,18 +325,22 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
                         ArrayList<PoiItem> pois = poiResult.getPois();
                         for (int i = 0; i < pois.size(); i++) {
                             LocationBean locationBean = new LocationBean();
-                            String title = pois.get(i).getTitle();
-                            String snippet = pois.get(i).getSnippet();
-                            String provinceName = pois.get(i).getProvinceName();
+                            String       title        = pois.get(i).getTitle();
+                            String       snippet      = pois.get(i).getSnippet();
+                            String       provinceName = pois.get(i).getProvinceName();
                             locationBean.setProvinceName(provinceName);
                             LatLonPoint latLonPoint = pois.get(i).getLatLonPoint();
-                            double latitude = latLonPoint.getLatitude();
-                            double longitude = latLonPoint.getLongitude();
+                            double      latitude    = latLonPoint.getLatitude();
+                            double      longitude   = latLonPoint.getLongitude();
                             locationBean.setLatitude(latitude);
                             locationBean.setLongitude(longitude);
                             Log.d("Test", title);
                             locationBean.setSnippet(snippet);
                             locationBean.setTitle(title);
+                            locationBean.setCity(pois.get(i).getCityName());
+                            locationBean.setAreas(pois.get(i).getProvinceName() + "," + pois.get(i).getCityName() + "," + pois.get(i).getAdName());
+
+
                             datas.add(locationBean);
                         }
                         Log.d("SearchActivity", "datas.size():" + datas.size());
@@ -362,26 +365,22 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
                         adapter.setOnItemClickListener(new PoiSearchAdapter.onItemClickListener() {
                             @Override
                             public void onClick(View view, int pos) {
-                                double latitude = datas.get(pos).getLatitude();
-                                double longitude = datas.get(pos).getLongitude();
-                                LatLonPoint latLonPoint = new LatLonPoint(latitude, longitude);
-                                setCurrentLocationDetails(latLonPoint);
-                                String title = datas.get(pos).getTitle();
+                                double latitude     = datas.get(pos).getLatitude();
+                                double longitude    = datas.get(pos).getLongitude();
+                                String title        = datas.get(pos).getTitle();
                                 String provinceName = datas.get(pos).getProvinceName();
-                                String snippet = datas.get(pos).getSnippet();
+                                String snippet      = datas.get(pos).getSnippet();
                                 SpUtils.putString(SearchActivity.this, "title", title);
                                 SpUtils.putString(SearchActivity.this, "provinceName", provinceName);
                                 Intent intent = new Intent();
-                                intent.putExtra("latitude", String.valueOf(latitude));
-                                intent.putExtra("longitude",  String.valueOf(latitude));
-                                intent.putExtra("position_areas",  country + "," + province + "," + city + "," + district);
-                                intent.putExtra("place", title);
-                                intent.putExtra("position_city", city);
-                                intent.putExtra("position_address", aoiName);
+                                intent.putExtra("latitude", latitude);
+                                intent.putExtra("longitude", longitude);
+                                intent.putExtra("title", title);
+                                intent.putExtra("area", datas.get(pos).getAreas());
+                                intent.putExtra("address", datas.get(pos).getSnippet());
+                                intent.putExtra("city", datas.get(pos).getCity());
                                 setResult(3, intent);
                                 finish();
-
-
                             }
                         });
 
@@ -463,22 +462,19 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 2) {
-            String type = data.getStringExtra("type");
-            String place = data.getStringExtra("place");
-            double latitude = data.getDoubleExtra("latitude", 0.0);
+            String type      = data.getStringExtra("type");
+            String place     = data.getStringExtra("place");
+            double latitude  = data.getDoubleExtra("latitude", 0.0);
             double longitude = data.getDoubleExtra("longitude", 0.0);
-            LatLonPoint latLonPoint = new LatLonPoint(latitude, longitude);
-            setCurrentLocationDetails(latLonPoint);
-            Intent intent = new Intent();
+            Intent intent    = new Intent();
             intent.putExtra("type", type);
-            intent.putExtra("latitude", String.valueOf(latitude));
-            intent.putExtra("longitude", String.valueOf(longitude));
+            intent.putExtra("latitude", latitude);
+            intent.putExtra("longitude", longitude);
             intent.putExtra("place", place);
-            intent.putExtra("position_areas",  country + "," + province + "," + city + "," + district);
-            intent.putExtra("position_city", city);
-            intent.putExtra("position_address", aoiName);
-            Log.d("SearchActivity", "latitude+longitude:" + (latitude + longitude));
+
             setResult(2, intent);
+
+
             finish();
         }
     }
@@ -494,18 +490,13 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-                double latitude = Double.valueOf(list1.get(position).getLatitude());
+                double latitude  = Double.valueOf(list1.get(position).getLatitude());
                 double longitude = Double.valueOf(list1.get(position).getLongitude());
-                LatLonPoint latLonPoint = new LatLonPoint(latitude, longitude);
-                setCurrentLocationDetails(latLonPoint);
-                String place = list1.get(position).getName();
-                Intent intent = new Intent();
-                intent.putExtra("place", place);
-                intent.putExtra("latitude", String.valueOf(latitude));
-                intent.putExtra("longitude", String.valueOf(longitude));
-                intent.putExtra("position_areas",  country + "," + province + "," + city + "," + district);
-                intent.putExtra("position_city", city);
-                intent.putExtra("position_address", aoiName);
+                String title     = list1.get(position).getName();
+                Intent intent    = new Intent();
+                intent.putExtra("latitude", latitude);
+                intent.putExtra("longitude", longitude);
+                intent.putExtra("title", title);
                 setResult(3, intent);
                 finish();
             }

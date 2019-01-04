@@ -171,12 +171,11 @@ ChannelActivity extends BaseActivity<ChannelContract.Presenter> implements Chann
                         Log.d("channel_ids", "channel_ids[i]:" + channel_ids[i]);
                     }
 //                Integer[] integers = integerList.toArray(new Integer[size]);
-                    int[] channel_array = new int[integerList.size()];
+                    ArrayList<Integer> channel_array = new ArrayList<>();
                     for (int i = 0; i < integerList.size(); i++) {
-                        channel_array[i]=channel_ids[i];
-                        Log.d("channel_array", "channel_array[i]:" + channel_array[i]);
+                        channel_array.add(channel_ids[i]);
                     }
-                    intent.putExtra("channel_array", channel_array);
+                    intent.putIntegerArrayListExtra("channel_array", channel_array);
                     intent.putStringArrayListExtra("channel_list", strings);
                /* for (int i = 0; i < integers.length; i++) {
                     channel_array[i] = integers[i];

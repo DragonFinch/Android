@@ -169,14 +169,6 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
 
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-
     //隐藏事件PopupWindow
     private class poponDismissListener implements PopupWindow.OnDismissListener {
         @Override

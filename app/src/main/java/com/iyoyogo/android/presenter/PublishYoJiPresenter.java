@@ -5,6 +5,7 @@ import android.widget.Toast;
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BasePresenter;
 import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.yoji.publish.PublishYoJiBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
 import com.iyoyogo.android.contract.PublishYoJiContract;
 import com.iyoyogo.android.model.DataManager;
@@ -39,13 +40,31 @@ public class PublishYoJiPresenter extends BasePresenter<PublishYoJiContract.View
     }
 
     @Override
-    public void publishYoJi(String user_id, String user_token, int yo_id, String logo, String title, String desc, int cost, int open, int valid, List<Integer> topic_ids, List<Integer> channel_ids, String json) {
+    public void publishYoJi(String user_id, String user_token, int yo_id, String logo, String title, String desc, int cost, int open, int valid, String channel_ids, String json) {
         DataManager.getFromRemote()
-                .publishYoJi(user_id, user_token, yo_id, logo, title, desc, cost, open, valid, topic_ids, channel_ids, json)
+                .publishYoJi(user_id, user_token, yo_id, logo, title, desc, cost, open, valid, channel_ids, json)
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
                         mView.publishYoJiSuccess(baseBean);
+                    }
+
+                    @Override
+                    protected boolean doOnFailure(int code, String message) {
+                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+    }
+
+    @Override
+    public void getYoJiData(String user_id, String user_token, int yo_id) {
+        DataManager.getFromRemote()
+                .getYoJiData(user_id, user_token, yo_id+"")
+                .subscribe(new ApiObserver<PublishYoJiBean>(mView,this) {
+                    @Override
+                    protected void doOnSuccess(PublishYoJiBean publishYoJiBean) {
+                        mView.onYoJiData(publishYoJiBean);
                     }
 
                     @Override

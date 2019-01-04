@@ -1,11 +1,30 @@
 package com.iyoyogo.android.bean;
 
 public class LocationBean {
-  public     String title;
-    public    String snippet;
-    public    double latitude;
-    public    double longitude;
-    public  String provinceName;
+    public String title;
+    public String snippet;
+    public double latitude;
+    public double longitude;
+    public String provinceName;
+    public String city;
+
+    private String areas;
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getAreas() {
+        return areas;
+    }
+
+    public void setAreas(String areas) {
+        this.areas = areas;
+    }
 
     public String getProvinceName() {
         return provinceName;
@@ -50,7 +69,7 @@ public class LocationBean {
     public LocationBean() {
     }
 
-    public LocationBean(String title,String provinceName) {
+    public LocationBean(String title, String provinceName) {
         this.title = title;
         this.provinceName = provinceName;
     }

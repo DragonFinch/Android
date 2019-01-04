@@ -52,6 +52,7 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.ChannelMessageAdapter;
 import com.iyoyogo.android.app.Constant;
 import com.iyoyogo.android.base.BaseActivity;
+import com.iyoyogo.android.bean.yoxiu.PublishYoXiuBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
 import com.iyoyogo.android.contract.PublishYoXiuContract;
 import com.iyoyogo.android.model.RObject;
@@ -383,23 +384,23 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
 
                     if (mimeType != null && mimeType.contains("video")) {
                         String uploadVideo = uploadYoXiuVideo();
-                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 1, publishPlace.getText().toString().trim(), position_areas, "", position_city, longitude, latitude, "", "");
+//                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 1, publishPlace.getText().toString().trim(), position_areas, "", position_city, longitude, latitude, "", "");
 
 
                     } else {
                         String uploadImage = uploadYoXiuImage();
-                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 1, publishPlace.getText().toString().trim(), position_areas, "", position_city, longitude, latitude, "", "");
+//                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 1, publishPlace.getText().toString().trim(), position_areas, "", position_city, longitude, latitude, "", "");
                     }
                 } else {
 
                     if (mimeType != null && mimeType.contains("video")) {
                         String uploadVideo = uploadYoXiuVideo();
-                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 1, publishPlace.getText().toString().trim(), position_areas, position_address, position_city, longitude, latitude, "", "");
+//                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 1, publishPlace.getText().toString().trim(), position_areas, position_address, position_city, longitude, latitude, "", "");
 
 
                     } else {
                         String uploadImage = uploadYoXiuImage();
-                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 1, publishPlace.getText().toString().trim(), position_areas, position_address, position_city, longitude, latitude, "", "");
+//                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 1, publishPlace.getText().toString().trim(), position_areas, position_address, position_city, longitude, latitude, "", "");
                     }
 
 
@@ -750,6 +751,11 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
     }
 
     @Override
+    public void onYoXiuData(PublishYoXiuBean data) {
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
@@ -813,23 +819,23 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
 
                     if (mimeType != null && mimeType.contains("video")) {
                         String uploadVideo = uploadYoXiuVideo();
-                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 3, publishPlace.getText().toString().trim(), position_areas, "", position_city, longitude, latitude, "", "");
+//                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 3, publishPlace.getText().toString().trim(), position_areas, "", position_city, longitude, latitude, "", "");
 
 
                     } else {
                         String uploadImage = uploadYoXiuImage();
-                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 3, publishPlace.getText().toString().trim(), position_areas, "", position_city, longitude, latitude, "", "");
+//                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 3, publishPlace.getText().toString().trim(), position_areas, "", position_city, longitude, latitude, "", "");
                     }
                 } else {
 
                     if (mimeType != null && mimeType.contains("video")) {
                         String uploadVideo = uploadYoXiuVideo();
-                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 3, publishPlace.getText().toString().trim(), position_areas, position_address, position_city, longitude, latitude, "", "");
+//                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 3, publishPlace.getText().toString().trim(), position_areas, position_address, position_city, longitude, latitude, "", "");
 
 
                     } else {
                         String uploadImage = uploadYoXiuImage();
-                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 3, publishPlace.getText().toString().trim(), position_areas, position_address, position_city, longitude, latitude, "", "");
+//                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 3, publishPlace.getText().toString().trim(), position_areas, position_address, position_city, longitude, latitude, "", "");
                     }
 
 

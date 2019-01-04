@@ -5,6 +5,8 @@ import android.widget.Toast;
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BasePresenter;
 import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.yoji.publish.PublishYoJiBean;
+import com.iyoyogo.android.bean.yoxiu.PublishYoXiuBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
 import com.iyoyogo.android.contract.PublishYoXiuContract;
 import com.iyoyogo.android.model.DataManager;
@@ -45,7 +47,7 @@ public class PublishYoXiuPresenter extends BasePresenter<PublishYoXiuContract.Vi
                              String file_path,
                              int file_type,
                              String file_desc,
-                             int[] channel_ids,
+                             String channel_ids,
                              int open,
                              int valid,
                              String position_name,
@@ -60,6 +62,24 @@ public class PublishYoXiuPresenter extends BasePresenter<PublishYoXiuContract.Vi
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
                                 mView.publishYoXiuSuccess();
+                    }
+
+                    @Override
+                    protected boolean doOnFailure(int code, String message) {
+                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+    }
+
+    @Override
+    public void getYoXiuData(String user_id, String user_token, int yo_id) {
+        DataManager.getFromRemote()
+                .getYoXiuData(user_id, user_token, yo_id+"")
+                .subscribe(new ApiObserver<PublishYoXiuBean>(mView,this) {
+                    @Override
+                    protected void doOnSuccess(PublishYoXiuBean publishYoXiuBean) {
+                        mView.onYoXiuData(publishYoXiuBean);
                     }
 
                     @Override

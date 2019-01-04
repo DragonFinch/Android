@@ -2,6 +2,8 @@ package com.iyoyogo.android.contract;
 
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
+import com.iyoyogo.android.bean.yoji.publish.PublishYoJiBean;
+import com.iyoyogo.android.bean.yoxiu.PublishYoXiuBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
 
 import java.util.List;
@@ -14,6 +16,8 @@ public interface PublishYoXiuContract {
         void getRecommendTopicSuccess(List<HotTopicBean.DataBean.ListBean> list);
 
         void publishYoXiuSuccess();
+
+        void onYoXiuData(PublishYoXiuBean data);
     }
 
     interface Presenter extends IBasePresenter {
@@ -26,7 +30,7 @@ public interface PublishYoXiuContract {
                           String file_path,
                           int file_type,
                           String file_desc,
-                          int[] channel_ids,
+                          String channel_ids,
                           int open,
                           int valid,
                           String position_name,
@@ -36,5 +40,9 @@ public interface PublishYoXiuContract {
                           String lng,
                           String lat,
                           String filter_id,String size);
+
+        void getYoXiuData(String user_id,
+                         String user_token,
+                         int yo_id);
     }
 }

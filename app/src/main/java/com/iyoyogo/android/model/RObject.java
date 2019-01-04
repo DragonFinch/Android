@@ -2,8 +2,8 @@ package com.iyoyogo.android.model;
 
 public class RObject {
 
-	private String objectRule = "#";// ƥ�����
-	private String objectText;// �����ı�
+	private String objectRule = "#";
+	private String objectText;
 
 	public String getObjectRule() {
 		return objectRule;

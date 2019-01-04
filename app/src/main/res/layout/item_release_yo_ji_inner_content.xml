@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dp_95"
     android:layout_height="@dimen/dp_95"
+    android:layout_marginLeft="5dp"
     android:orientation="vertical">
 
     <ImageView

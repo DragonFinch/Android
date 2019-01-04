@@ -1,58 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_choose_sign"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/activity_choose_sign"
     android:orientation="vertical">
+
     <RelativeLayout
 
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50">
 
         <ImageView
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_20"
+            android:id="@+id/back"
             android:layout_width="@dimen/dp_10"
             android:layout_height="@dimen/dp_17"
-            android:id="@+id/back"
-            android:src="@mipmap/back_black"
-            />
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:src="@mipmap/back_black" />
+
         <TextView
             android:id="@+id/tv_title"
-            android:textColor="#000"
-            android:textSize="@dimen/sp_15"
             android:layout_width="@dimen/dp_80"
             android:layout_height="@dimen/dp_20"
-            android:text="创建地址"
             android:layout_centerInParent="true"
-            />
-        <TextView
-            android:clickable="true"
-            android:id="@+id/create_complete"
-            android:layout_marginTop="@dimen/dp_6"
-android:layout_centerVertical="true"
+            android:text="创建地址"
+            android:textColor="#000"
+            android:textSize="@dimen/sp_15" />
 
-            android:textSize="@dimen/sp_15"
+        <TextView
+            android:id="@+id/create_complete"
             android:layout_width="@dimen/dp_35"
             android:layout_height="@dimen/dp_20"
-            android:layout_marginRight="@dimen/dp_21"
             android:layout_alignParentRight="true"
-            android:textColor="#333333"
+
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/dp_6"
+            android:layout_marginRight="@dimen/dp_21"
+            android:clickable="true"
             android:text="完成"
+            android:textColor="#333333"
+            android:textSize="@dimen/sp_15"
 
             />
+
         <View
-            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_1"
-            android:background="#E1E1E1"
-            />
+            android:layout_alignParentBottom="true"
+            android:background="#E1E1E1" />
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_marginTop="@dimen/dp_17"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_17"
 
         android:orientation="vertical"
         android:paddingLeft="@dimen/dp_20"
@@ -62,32 +63,33 @@ android:layout_centerVertical="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-          <ImageView
-              android:id="@+id/make_worth_img"
-              android:src="@mipmap/zhide_title"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content" />
-<TextView
-    android:id="@+id/add_make_worth"
-    android:layout_alignParentRight="true"
-    android:layout_width="@dimen/dp_33"
-    android:gravity="center"
-    android:textColor="@color/blue"
-    android:background="@drawable/label_bg_fkzn"
-    android:layout_height="@dimen/dp_22"
-    android:text="@string/add"
-    />
+            <ImageView
+                android:id="@+id/make_worth_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/zhide_title" />
+
+            <TextView
+                android:id="@+id/add_make_worth"
+                android:layout_width="@dimen/dp_33"
+                android:layout_height="@dimen/dp_22"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/label_bg_fkzn"
+                android:gravity="center"
+                android:text="@string/add"
+                android:textColor="@color/blue" />
         </RelativeLayout>
+
         <com.iyoyogo.android.view.flowlayout.JLHorizontalScrollView
             android:id="@+id/jhs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-           />
+            android:layout_height="wrap_content" />
+
         <LinearLayout
-            android:layout_gravity="center_horizontal"
             android:id="@+id/ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
@@ -95,15 +97,15 @@ android:layout_centerVertical="true"
 
     </LinearLayout>
 
-    <View android:layout_width="match_parent"
+    <View
+        android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
-        android:background="#E1E1E1"
-        />
+        android:background="#E1E1E1" />
 
     <LinearLayout
-        android:layout_marginTop="@dimen/dp_17"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_17"
         android:orientation="vertical"
         android:paddingLeft="@dimen/dp_20"
         android:paddingRight="@dimen/dp_20">
@@ -114,30 +116,31 @@ android:layout_centerVertical="true"
 
             <ImageView
                 android:id="@+id/pit_guide_img"
-                android:src="@mipmap/fangkeng_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:src="@mipmap/fangkeng_title" />
+
             <TextView
                 android:id="@+id/add_pit_guide"
-                android:layout_alignParentRight="true"
                 android:layout_width="@dimen/dp_33"
-                android:gravity="center"
-                android:textColor="@color/orange"
-                android:background="@drawable/label_bg_deserve_to_do"
                 android:layout_height="@dimen/dp_22"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/label_bg_deserve_to_do"
+                android:gravity="center"
                 android:text="@string/add"
-                />
+                android:textColor="@color/orange" />
         </RelativeLayout>
+
         <com.iyoyogo.android.view.flowlayout.JLHorizontalScrollView
             android:id="@+id/jhs1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
+
         <LinearLayout
-            android:layout_gravity="center_horizontal"
             android:id="@+id/ll1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
@@ -145,16 +148,16 @@ android:layout_centerVertical="true"
 
     </LinearLayout>
 
-    <View android:layout_width="match_parent"
+    <View
+        android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
-        android:background="#E1E1E1"
-        />
+        android:background="#E1E1E1" />
 
     <LinearLayout
-        android:layout_marginTop="@dimen/dp_17"
-
         android:layout_width="match_parent"
+
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_17"
         android:layout_marginBottom="@dimen/dp_40"
         android:orientation="vertical"
         android:paddingLeft="@dimen/dp_20"
@@ -167,30 +170,31 @@ android:layout_centerVertical="true"
 
             <ImageView
                 android:id="@+id/exclusive_mine_img"
-                android:src="@mipmap/zhuanshu_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:src="@mipmap/zhuanshu_title" />
+
             <TextView
                 android:id="@+id/add_exclusive_mine"
-                android:layout_alignParentRight="true"
                 android:layout_width="@dimen/dp_33"
-                android:gravity="center"
-                android:textColor="@color/color_exclusive"
-                android:background="@drawable/label_bg_exclusive"
                 android:layout_height="@dimen/dp_22"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/label_bg_exclusive"
+                android:gravity="center"
                 android:text="@string/add"
-                />
+                android:textColor="@color/color_exclusive" />
         </RelativeLayout>
+
         <com.iyoyogo.android.view.flowlayout.JLHorizontalScrollView
             android:id="@+id/jhs2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
+
         <LinearLayout
-            android:layout_gravity="center_horizontal"
             android:id="@+id/ll2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 

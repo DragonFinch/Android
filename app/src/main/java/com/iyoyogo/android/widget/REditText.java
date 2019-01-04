@@ -28,21 +28,22 @@ public class REditText extends EditText {
     //
     private float margin;
 
-    private int paperColor;
+    private              int   paperColor;
     // 默认,话题文本高亮颜色
-    private static final int FOREGROUND_COLOR = Color.parseColor("#FF8C00");
+    private static final int   FOREGROUND_COLOR = Color.parseColor("#FF8C00");
     // 默认,话题背景高亮颜色
-    private static final int BACKGROUND_COLOR = Color.parseColor("#FFDEAD");
-    private Paint linePaint;
-    Rect mRect;
+    private static final int   BACKGROUND_COLOR = Color.parseColor("#FFDEAD");
+    private              Paint linePaint;
+    Rect          mRect;
     ColorDrawable lineDivider;
     /**
      * 开发者可设置内容
      */
-    private int mForegroundColor = FOREGROUND_COLOR;// 话题文本高亮颜色
-    private int mBackgroundColor = BACKGROUND_COLOR;// 话题背景高亮颜色
-    private List<RObject> mRObjectsList = new ArrayList<RObject>();// object集合
+    private int           mForegroundColor = FOREGROUND_COLOR;// 话题文本高亮颜色
+    private int           mBackgroundColor = BACKGROUND_COLOR;// 话题背景高亮颜色
+    private List<RObject> mRObjectsList    = new ArrayList<RObject>();// object集合
     float lineDividerHeight;
+
     public REditText(Context context) {
         this(context, null);
     }
@@ -75,9 +76,9 @@ public class REditText extends EditText {
             return;
         }
 
-        int startPosition = 0;
-        int endPosition = 0;
-        String objectText = "";
+        int    startPosition = 0;
+        int    endPosition   = 0;
+        String objectText    = "";
         for (int i = 0; i < mRObjectsList.size(); i++) {
             objectText = mRObjectsList.get(i).getObjectText();// 文本
             startPosition = getText().toString().indexOf(objectText);// 获取文本开始下标
@@ -89,7 +90,6 @@ public class REditText extends EditText {
         }
 
     }
-
 
 
     /**
@@ -134,7 +134,7 @@ public class REditText extends EditText {
                         && event.getAction() == KeyEvent.ACTION_DOWN) {
 
                     int selectionStart = getSelectionStart();
-                    int selectionEnd = getSelectionEnd();
+                    int selectionEnd   = getSelectionEnd();
 
                     /**
                      * 如果光标起始和结束不在同一位置,删除文本
@@ -152,7 +152,7 @@ public class REditText extends EditText {
                         return false;
                     }
 
-                    int lastPos = 0;
+                    int      lastPos  = 0;
                     Editable editable = getText();
                     // 遍历判断光标的位置
                     for (int i = 0; i < mRObjectsList.size(); i++) {
@@ -212,20 +212,17 @@ public class REditText extends EditText {
         /**
          * 重新设置span
          */
-        Editable editable = getText();
-        int findPosition = 0;
+        Editable editable     = getText();
+        int      findPosition = 0;
         for (int i = 0; i < mRObjectsList.size(); i++) {
-            final RObject object = mRObjectsList.get(i);
-            String objectText = object.getObjectText();// 文本
+            final RObject object     = mRObjectsList.get(i);
+            String        objectText = object.getObjectText();// 文本
             findPosition = content.indexOf(objectText);// 获取文本开始下标
 
             if (findPosition != -1) {// 设置话题内容前景色高亮
                 ForegroundColorSpan colorSpan = new ForegroundColorSpan(
                         mForegroundColor);
-                editable.setSpan(colorSpan, findPosition, findPosition
-                                + objectText.length(),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
+                editable.setSpan(colorSpan, findPosition, findPosition + objectText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
         }
 
@@ -247,7 +244,7 @@ public class REditText extends EditText {
             return;
 
         // 拼接字符# %s #,并保存
-        objectText = objectRule + objectText + objectRule;
+        objectText = objectRule + " " + objectText + " " + objectRule;
         object.setObjectText(objectText);
 
         /**
@@ -264,8 +261,8 @@ public class REditText extends EditText {
         /**
          * 2.将话题内容添加到EditText中展示
          */
-        int selectionStart = getSelectionStart();// 光标位置
-        Editable editable = getText();// 原先内容
+        int      selectionStart = getSelectionStart();// 光标位置
+        Editable editable       = getText();// 原先内容
 
         if (selectionStart >= 0) {
             editable.insert(selectionStart, objectText);// 在光标位置插入内容
@@ -283,9 +280,9 @@ public class REditText extends EditText {
         // 由于保存时候文本内容添加了匹配字符#,此处去除,还原数据
         if (mRObjectsList != null && mRObjectsList.size() > 0) {
             for (int i = 0; i < mRObjectsList.size(); i++) {
-                RObject object = mRObjectsList.get(i);
-                String objectText = object.getObjectText();
-                String objectRule = object.getObjectRule();
+                RObject object     = mRObjectsList.get(i);
+                String  objectText = object.getObjectText();
+                String  objectRule = object.getObjectRule();
                 object.setObjectText(objectText.replace(objectRule, ""));// 将匹配规则字符替换
                 objectsList.add(object);
             }

@@ -38,6 +38,8 @@ import com.iyoyogo.android.bean.yoji.detail.YoJiDetailBean;
 import com.iyoyogo.android.bean.yoji.label.AddLabelBean;
 import com.iyoyogo.android.bean.yoji.label.LabelListBean;
 import com.iyoyogo.android.bean.yoji.list.YoJiListBean;
+import com.iyoyogo.android.bean.yoji.publish.PublishYoJiBean;
+import com.iyoyogo.android.bean.yoxiu.PublishYoXiuBean;
 import com.iyoyogo.android.bean.yoxiu.TypeBean;
 import com.iyoyogo.android.bean.yoxiu.YoXiuDetailBean;
 import com.iyoyogo.android.bean.yoxiu.YouXiuListBean;
@@ -238,7 +240,7 @@ public interface ApiService {
                                        @Field("file_path") String file_path,
                                        @Field("file_type") int file_type,
                                        @Field("file_desc") String file_desc,
-                                       @Field("channel_ids") int[] channel_ids,
+                                       @Field("channel_ids") String channel_ids,
                                        @Field("open") int open,
                                        @Field("valid") int valid,
                                        @Field("position_name") String position_name,
@@ -447,7 +449,7 @@ public interface ApiService {
     //发布yo记
     @POST("index.php/api/yoj/save")
     @FormUrlEncoded
-    Observable<BaseBean> publish_yoji(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id, @Field("logo") String logo, @Field("title") String title, @Field("desc") String desc, @Field("cost") int cost, @Field("open") int open, @Field("valid") int valid, @Field("topic_ids") List<Integer> topic_ids, @Field("channel_ids") List<Integer> channel_ids, @Field("list") String list);
+    Observable<BaseBean> publish_yoji(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id, @Field("logo") String logo, @Field("title") String title, @Field("desc") String desc, @Field("cost") int cost, @Field("open") int open, @Field("valid") int valid,  @Field("channel_ids") String channel_ids, @Field("list") String list);
 
     //获取草稿列表
     @POST("index.php/api/draft/get_list")
@@ -622,6 +624,19 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<VipCenterBean> setVipCenter(@Field("user_id") String user_id,
                                            @Field("user_token") String user_token);
+
+    //yo记数据
+    @POST("index.php/api/yoj/details_for_edit")
+    @FormUrlEncoded
+    Observable<PublishYoJiBean> getYoJiData(@Field("user_id") String user_id,
+                                            @Field("user_token") String user_token,
+                                            @Field("yo_id") String yo_id);
+    //yo秀数据
+    @POST("index.php/api/yox/details_for_edit")
+    @FormUrlEncoded
+    Observable<PublishYoXiuBean> getYoXiuData(@Field("user_id") String user_id,
+                                              @Field("user_token") String user_token,
+                                              @Field("yo_id") String yo_id);
 
     //获取用户历史自定义位置
     @POST("index.php/api/position/get_his_position")
