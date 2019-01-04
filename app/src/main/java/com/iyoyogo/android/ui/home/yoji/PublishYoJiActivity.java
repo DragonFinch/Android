@@ -170,6 +170,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     private ArrayList<String> strings;
     private MyTopic topic;
 
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_publish_yo_ji;
@@ -316,13 +317,14 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         publishYoJiAdapter.setOnPlayClickListener(new PublishYoJiAdapter.OnLocationClickListener() {
             @Override
             public void onAddAddressClick(int position, PublishYoJiAdapter.ViewHolder holder) {
-                Intent intent = new Intent(PublishYoJiActivity.this, SearchActivity.class);
-                intent.putExtra("latitude", "0");
-                intent.putExtra("yo_type", 2);
-                intent.putExtra("longitude", "0");
-                intent.putExtra("place", "添加地点");
-                startActivityForResult(intent, 1);
+
                 location_tv = holder.itemView.findViewById(R.id.location_tv);
+                Intent intent = new Intent(PublishYoJiActivity.this, SearchActivity.class);
+                intent.putExtra("latitude", String.valueOf(latitude));
+                intent.putExtra("yo_type", 2);
+                intent.putExtra("longitude", String.valueOf(longitude));
+                intent.putExtra("place", location_tv.getText().toString().trim());
+                startActivityForResult(intent, 1);
             }
 
             @Override
@@ -509,6 +511,8 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
+        topic = new MyTopic();
+        topic.setObjectRule("#");
         user_id = SpUtils.getString(PublishYoJiActivity.this, "user_id", null);
         user_token = SpUtils.getString(PublishYoJiActivity.this, "user_token", null);
         mPresenter.getRecommendTopic(user_id, user_token);
@@ -562,10 +566,10 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==1&&resultCode==45){
-            double latitude = data.getDoubleExtra("latitude", 0.0);
+        if (requestCode==1&&resultCode==3){
+            latitude = data.getDoubleExtra("latitude", 0.0);
             String title = data.getStringExtra("title");
-            double longitude = data.getDoubleExtra("longitude", 0.0);
+            longitude = data.getDoubleExtra("longitude", 0.0);
             LatLonPoint latLonPoint = new LatLonPoint(latitude, longitude);
             setCurrentLocationDetails(latLonPoint);
             publishYoJiRequest.setLogos(uris);
@@ -583,7 +587,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
             location_tv.setText(title);
         }
-        if (requestCode == 1 && resultCode == 3) {
+        if (requestCode == 1 && resultCode == 2) {
             place1 = data.getStringExtra("place");
             Log.d("PublishYoJiActivity", place1);
             String type = data.getStringExtra("type");
@@ -623,19 +627,19 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                         View contentView = LayoutInflater.from(PublishYoJiActivity.this).inflate(R.layout.item_label, tagFlowLayout, false);
                         TextView tv = contentView.findViewById(R.id.lable_name_tv);
                         int type = sign_list.get(position).getType();
-                        if (type == 1) {
-                            tv.setBackgroundResource(R.drawable.label_bg_deserve_to_do);
-                            tv.setText(sign_list.get(position).getLabel());
-                            tv.setTextColor(Color.parseColor("#E0FF6100"));
-                        } else if (type == 2) {
+                        if (sign_list.get(position).getType()==1){
                             tv.setBackgroundResource(R.drawable.label_bg_fkzn);
-                            tv.setText(sign_list.get(position).getLabel());
                             tv.setTextColor(Color.parseColor("#5BCBF5"));
-                        } else if (type == 3) {
+
+                        }else if (sign_list.get(position).getType()==2){
+                            tv.setBackgroundResource(R.drawable.label_bg_deserve_to_do);
+                            tv.setTextColor(Color.parseColor("#E0FF6100"));
+                        }else if (sign_list.get(position).getType()==3){
                             tv.setBackgroundResource(R.drawable.label_bg_exclusive);
-                            tv.setText(sign_list.get(position).getLabel());
                             tv.setTextColor(Color.parseColor("#ff8484"));
                         }
+                        tv.setText(sign_list.get(position).getLabel());
+
                    /* if (labels.get(position).getType().equals("A")) {
                         tv.setBackgroundResource(R.drawable.label_bg_deserve_to_do);
                         tv.setTextColor(mContext.getResources().getColor(R.color.orgeen_color));
@@ -666,7 +670,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
         }
 
-        if (requestCode == 1 && resultCode == 66) {
+        if (requestCode == 1 && resultCode == 1) {
 //                label_tv.setVisibility(View.GONE);
 //                ArrayList<Bean> sign_list = (ArrayList<Bean>) data.getSerializableExtra("sign_list");
             int[] channel_arrays = data.getIntArrayExtra("channel_array");
@@ -690,10 +694,10 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
             list.add(messageBean1);
             publishYoJiAdapter.addData(index, messageBean1);
         }
-        if (requestCode==2&&resultCode==6){
+        if (requestCode==1&&resultCode==6){
             String topicName = data.getStringExtra("topic");
             int type_id = data.getIntExtra("type_id", 0);
-            type_list.add(type_id);
+//            type_list.add(type_id);
             Log.d("PublishYoJiActivity", topicName);
             topic.setObjectText(topicName);
             etContent.setObject(topic);// 设置话题
@@ -810,7 +814,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
             case R.id.more_topic:
                 Intent intent1 = new Intent(PublishYoJiActivity.this, MoreTopicActivity.class);
                 intent1.putExtra("type",2);
-                startActivityForResult(intent1, 2);
+                startActivityForResult(intent1, 1);
 
                 break;
             case R.id.next:

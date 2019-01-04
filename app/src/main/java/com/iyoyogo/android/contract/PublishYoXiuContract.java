@@ -27,12 +27,14 @@ public interface PublishYoXiuContract {
                           int file_type,
                           String file_desc,
                           int[] channel_ids,
-                          Integer[] topic_ids,
                           int open,
                           int valid,
                           String position_name,
                           String position_areas,
                           String position_address,
-                          String filter_id);
+                          String position_city,
+                          String lng,
+                          String lat,
+                          String filter_id,String size);
     }
 }

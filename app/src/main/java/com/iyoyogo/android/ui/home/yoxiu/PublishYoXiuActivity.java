@@ -184,6 +184,8 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
     private OSSClient oss;
     private String stsServer;
     private String url;
+    private double lat;
+    private double lng;
 
     private void setCurrentLocationDetails(LatLonPoint latLonPoint) {
 // 地址逆解析
@@ -373,26 +375,38 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
 
                     if (mimeType != null && mimeType.contains("video")) {
                         String uploadVideo = uploadYoXiuVideo();
-                        mPresenter.publishYoXiu(user_id, user_token,0, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, topic_arrays, 1, 1, "", country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), "");
+                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, 1, 1, "", country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), city, longitude, latitude, "", "");
 
 
                     } else {
                         String uploadImage = uploadYoXiuImage();
-                        mPresenter.publishYoXiu(user_id, user_token,0, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, topic_arrays, 1, 1, "", country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), "");
+                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, 1, 1, "", country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), city, longitude, latitude, "", "");
                     }
                 } else {
 
                     if (mimeType != null && mimeType.contains("video")) {
                         String uploadVideo = uploadYoXiuVideo();
-                        mPresenter.publishYoXiu(user_id, user_token, 0,uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, topic_arrays, 1, 1, aoiName, country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), "");
+                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, 1, 1, aoiName, country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), city, longitude, latitude, "", "");
 
 
                     } else {
                         String uploadImage = uploadYoXiuImage();
-                        mPresenter.publishYoXiu(user_id, user_token,0, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, topic_arrays, 1, 1, aoiName, country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), "");
+                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, 1, 1, aoiName, country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), city, longitude, latitude, "", "");
                     }
-                }
 
+
+                }
+                Log.d("TAGS", city );
+                Log.d("TAGS", longitude );
+                Log.d("TAGS", latitude );
+                Log.d("TAGS", editEdittextId.getText().toString().trim() );
+                Log.d("TAGS", aoiName );
+                Log.d("TAGS", publishPlace.getText().toString().trim() );
+                Log.d("TAGS",  country + "," + province + "," + city + "," + district );
+                for (int i = 0; i < channel_arrays.length; i++) {
+                    Log.d("TA", channel_arrays[i]+"");
+
+                }
 
                 break;
             case R.id.button_open:
@@ -426,16 +440,17 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
                 intent.putExtra("latitude", latitude);
                 intent.putExtra("longitude", longitude);
                 intent.putExtra("place", publishPlace.getText().toString());
+                intent.putExtra("yo_type", 1);
                 intent.putExtra("country", country);
 
                 startActivityForResult(intent, 1);
                 break;
             case R.id.edit_replace_id:
                 Intent intent1 = new Intent(PublishYoXiuActivity.this, SourceChooseActivity.class);
-                intent1.putExtra("positionName",publishPlace.getText().toString().trim());
-                intent1.putExtra("desc",editEdittextId.getText().toString().trim());
-                intent1.putExtra("type",1);
-                startActivityForResult(intent1,1);
+                intent1.putExtra("positionName", publishPlace.getText().toString().trim());
+                intent1.putExtra("desc", editEdittextId.getText().toString().trim());
+                intent1.putExtra("type", 1);
+                startActivityForResult(intent1, 1);
 
                 break;
             case R.id.more_topic:
@@ -447,11 +462,12 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
                 break;
             case R.id.channel_next:
                 Intent intent2 = new Intent(PublishYoXiuActivity.this, ChannelActivity.class);
-                intent2.putExtra("type",1);
+                intent2.putExtra("type", 1);
                 startActivityForResult(intent2, 1);
                 break;
         }
     }
+
     public void initPopup() {
         View view = LayoutInflater.from(PublishYoXiuActivity.this).inflate(R.layout.like_layout, null);
         popup = new PopupWindow(view, DensityUtil.dp2px(PublishYoXiuActivity.this, 300), DensityUtil.dp2px(PublishYoXiuActivity.this, 145), true);
@@ -469,14 +485,14 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
         //点击空白处时，隐藏掉pop窗口
 
 
-
         //添加pop窗口关闭事件
         popup.setOnDismissListener(new poponDismissListener());
-        popup.showAtLocation(findViewById(R.id.edit_rlayout_id),Gravity.CENTER,0,0);
+        popup.showAtLocation(findViewById(R.id.edit_rlayout_id), Gravity.CENTER, 0, 0);
     }
+
     public void backgroundAlpha(float bgAlpha) {
 
-        WindowManager.LayoutParams lp =getWindow().getAttributes();
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = bgAlpha; // 0.0~1.0
         getWindow().setAttributes(lp); //act 是上下文context
 
@@ -489,6 +505,7 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
             backgroundAlpha(1.0f);
         }
     }
+
     public void like() {
         tv_message.setTextColor(Color.parseColor("#FA800A"));
         tv_message_two.setTextColor(Color.parseColor("#FA800A"));
@@ -501,6 +518,7 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
         tv_message_three.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
         tv_message_three.setText("棒棒嗒~");
     }
+
     private String uploadYoXiuImage() {
         final String endpoint = "oss-cn-beijing.aliyuncs.com";
         final String bucketName = "iyoyogo";
@@ -515,20 +533,20 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
         OSSClient ossClient = new OSSClient(PublishYoXiuActivity.this, endpoint, credentialProvider, conf);
         ObjectMetadata objectMeta = new ObjectMetadata();
         objectMeta.setContentType("image/jpeg");
-        int min=10000;
-        int max=99999;
+        int min = 10000;
+        int max = 99999;
         Calendar calendar = Calendar.getInstance();
 //获取系统的日期
 //年
         int year = calendar.get(Calendar.YEAR);
 //月
-        int month = calendar.get(Calendar.MONTH)+1;
+        int month = calendar.get(Calendar.MONTH) + 1;
 //日
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         Random random = new Random();
-        int num = random.nextInt(max)%(max-min+1) + min;
-        String name =user_id+"/yox/"+year+"/"+month+"/"+day+"/" + System.currentTimeMillis() + num + ".jpg";
+        int num = random.nextInt(max) % (max - min + 1) + min;
+        String name = user_id + "/yox/" + year + "/" + month + "/" + day + "/" + System.currentTimeMillis() + num + ".jpg";
         PutObjectRequest put = new PutObjectRequest(bucketName, name, path);
         put.setMetadata(objectMeta);
         try {
@@ -568,24 +586,24 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
         conf.setConnectionTimeout(15 * 1000);
         conf.setSocketTimeout(15 * 1000);
         conf.setMaxConcurrentRequest(8);
-        int min=10000;
-        int max=99999;
+        int min = 10000;
+        int max = 99999;
         Calendar calendar = Calendar.getInstance();
 //获取系统的日期
 //年
         int year = calendar.get(Calendar.YEAR);
 //月
-        int month = calendar.get(Calendar.MONTH)+1;
+        int month = calendar.get(Calendar.MONTH) + 1;
 //日
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         Random random = new Random();
-        int num = random.nextInt(max)%(max-min+1) + min;
+        int num = random.nextInt(max) % (max - min + 1) + min;
         conf.setMaxErrorRetry(2);
         OSSClient ossClient = new OSSClient(PublishYoXiuActivity.this, endpoint, credentialProvider, conf);
         ObjectMetadata objectMeta = new ObjectMetadata();
         objectMeta.setContentType("video/mpeg4");
-        String name = user_id+"/yox_video/"+year+"/"+month+"/"+day+"/" + System.currentTimeMillis() + num + ".mp4";
+        String name = user_id + "/yox_video/" + year + "/" + month + "/" + day + "/" + System.currentTimeMillis() + num + ".mp4";
         PutObjectRequest put = new PutObjectRequest(bucketName, name, path);
         put.setMetadata(objectMeta);
         try {
@@ -625,9 +643,9 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
         if (requestCode == 1 && resultCode == 2) {
             String place = data.getStringExtra("place");
             String type = data.getStringExtra("type");
-            double latitude = data.getDoubleExtra("latitude", 0.0);
-            double longitude = data.getDoubleExtra("longitude", 0.0);
-            LatLonPoint latLonPoint = new LatLonPoint(latitude, longitude);
+            lat = data.getDoubleExtra("latitude", 0.0);
+            lng = data.getDoubleExtra("longitude", 0.0);
+            LatLonPoint latLonPoint = new LatLonPoint(lat, lng);
             publishPlace.setText(place);
             setCurrentLocationDetails(latLonPoint);
             Log.d("PublishYoXiuActivity", "latitude=" + latitude + "longitude= " + longitude);
@@ -636,22 +654,23 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
             String title = data.getStringExtra("title");
             double longitude = data.getDoubleExtra("longitude", 0.0);
             LatLonPoint latLonPoint = new LatLonPoint(latitude, longitude);
+
             setCurrentLocationDetails(latLonPoint);
             publishPlace.setText(title);
-        } else if (requestCode == 1 && resultCode == 5) {
+        } else if (requestCode == 1 && resultCode == 6) {
             String topicName = data.getStringExtra("topic");
             int type_id = data.getIntExtra("type_id", 0);
 
             type_list.add(type_id);
             topic.setObjectText(topicName);
             editEdittextId.setObject(topic);// 设置话题
-        }else if (requestCode==1&&resultCode==88){
+        } else if (requestCode == 1 && resultCode == 88) {
             String latitude = data.getStringExtra("latitude");
             String longitude = data.getStringExtra("longitude");
             String desc = data.getStringExtra("desc");
             String positionName = data.getStringExtra("positionName");
             String path = data.getStringExtra("path");
-            latLonPoint=new LatLonPoint(Double.valueOf(latitude),Double.valueOf(longitude));
+            latLonPoint = new LatLonPoint(Double.valueOf(latitude), Double.valueOf(longitude));
             editEdittextId.setText(desc);
             publishPlace.setText(positionName);
             setCurrentLocationDetails(latLonPoint);
@@ -695,7 +714,6 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
             mLocationClient.stopLocation();//停止定位
         }
     }
-
 
 
     @Override

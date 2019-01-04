@@ -44,7 +44,10 @@ import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.PoiSearchAdapter;
+import com.iyoyogo.android.base.BaseActivity;
+import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.bean.LocationBean;
+import com.iyoyogo.android.utils.StatusBarUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,7 +60,7 @@ import butterknife.OnClick;
 /**
  * 添加地址
  */
-public class AddAddressActivity extends AppCompatActivity {
+public class AddAddressActivity extends BaseActivity {
 
     @BindView(R.id.back)
     ImageView back;
@@ -135,11 +138,16 @@ public class AddAddressActivity extends AppCompatActivity {
         }
     };
 
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_address);
-        ButterKnife.bind(this);
+    protected int getLayoutId() {
+        return R.layout.activity_add_address;
+    }
+
+    @Override
+    protected void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
         Intent intent = getIntent();
         datas = new ArrayList<>();
         list = new ArrayList<>();
@@ -224,6 +232,11 @@ public class AddAddressActivity extends AppCompatActivity {
                 aMap.invalidate();
             }
         });
+    }
+
+    @Override
+    protected IBasePresenter createPresenter() {
+        return null;
     }
 
     private void textChangeSearch(CharSequence charSequence) {
@@ -385,7 +398,7 @@ public class AddAddressActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         //在activity执行onDestroy时执行mapview.onDestroy()，销毁地图
-        mapAddAddress.onDestroy();
+//        mapAddAddress.onDestroy();
         if (null != mLocationClient) {
             mLocationClient.onDestroy();
         }

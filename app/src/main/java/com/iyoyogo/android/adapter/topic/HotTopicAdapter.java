@@ -81,10 +81,10 @@ public class HotTopicAdapter extends RecyclerView.Adapter<HotTopicAdapter.Holder
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-
         KeyWordUtil keyWordUtil = new KeyWordUtil();
         if (position == 0) {
             if (text != null) {
+
                 SpannableString number = keyWordUtil.matcherSearchTitle(Color.parseColor("#ff9314"), mList.get(position).getTopic() + "", text);
 
                 holder.tv_message_one.setText(number);

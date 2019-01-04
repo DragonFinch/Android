@@ -93,6 +93,8 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
     private String longitude;
     private String country;
     private int yo_type;
+    private String address1;
+    private String city;
 
     @Override
     protected void initData(Bundle savedInstanceState) {
@@ -100,6 +102,7 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
         Intent intent = getIntent();
         yo_type = intent.getIntExtra("yo_type", 0);
     }
+
     private String user_token;
     private String user_id;
     private List<HisPositionBean.DataBean.ListBean> list1;
@@ -132,6 +135,94 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
             locationPlaceTVId.setText(place);
             LatLonPoint latLonPoint = new LatLonPoint(Double.valueOf(latitude), Double.valueOf(longitude));
             setCurrentLocationDetails(latLonPoint);
+            if (place.equals("添加地点")){
+
+            }else {
+                query = new PoiSearch.Query(place, "", "");
+                query.setPageSize(20);// 设置每页最多返回多少条poiitem
+                query.setPageNum(0);// 设置查第一页
+                poiSearch = new PoiSearch(SearchActivity.this, query);
+                poiSearch.setOnPoiSearchListener(new PoiSearch.OnPoiSearchListener() {
+                    @Override
+                    public void onPoiSearched(PoiResult poiResult, int errcode) {
+                        if (errcode == 1000) {
+
+                            ArrayList<PoiItem> pois = poiResult.getPois();
+                            for (int i = 0; i < pois.size(); i++) {
+                                LocationBean locationBean = new LocationBean();
+                                String title = pois.get(i).getTitle();
+                                String snippet = pois.get(i).getSnippet();
+                                String provinceName = pois.get(i).getProvinceName();
+                                locationBean.setProvinceName(provinceName);
+                                LatLonPoint latLonPoint = pois.get(i).getLatLonPoint();
+                                double latitude = latLonPoint.getLatitude();
+                                double longitude = latLonPoint.getLongitude();
+                                locationBean.setLatitude(latitude);
+                                locationBean.setLongitude(longitude);
+                                Log.d("Test", title);
+                                locationBean.setSnippet(snippet);
+                                locationBean.setTitle(title);
+                                datas.add(locationBean);
+                            }
+                            Log.d("SearchActivity", "datas.size():" + datas.size());
+
+                            if (pois.size() == 0) {
+                                goCreatePoint.setVisibility(View.VISIBLE);
+                                locationRVId.setVisibility(View.GONE);
+                                mPresenter.getHisPosition(user_id, user_token, 1, 20);
+                            } else {
+
+                            }
+                            adapter = new PoiSearchAdapter(SearchActivity.this, datas);
+                    /*    if (datas!=null){
+                            mapAddAddress.setVisibility(View.GONE);
+                            recyclerAddAddress.setVisibility(View.VISIBLE);
+                        }else {
+                            mapAddAddress.setVisibility(View.VISIBLE);
+                            recyclerAddAddress.setVisibility(View.GONE);
+                        }*/
+                            locationRVId.setVisibility(View.VISIBLE);
+                            locationRVId.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
+                            locationRVId.setAdapter(adapter);
+//                        doChangeColor(s.toString().trim());
+                            adapter.setOnItemClickListener(new PoiSearchAdapter.onItemClickListener() {
+                                @Override
+                                public void onClick(View view, int pos) {
+                                    double latitude = datas.get(pos).getLatitude();
+                                    double longitude = datas.get(pos).getLongitude();
+                                    String title = datas.get(pos).getTitle();
+                                    String provinceName = datas.get(pos).getProvinceName();
+                                    String snippet = datas.get(pos).getSnippet();
+                                    SpUtils.putString(SearchActivity.this, "title", title);
+                                    SpUtils.putString(SearchActivity.this, "provinceName", provinceName);
+                                    Intent intent = new Intent();
+                                    intent.putExtra("latitude", latitude);
+                                    intent.putExtra("longitude", longitude);
+                                    intent.putExtra("title", title);
+                                    if (yo_type == 2) {
+                                        setResult(45, intent);
+                                        finish();
+                                    } else {
+                                        setResult(3, intent);
+                                        finish();
+                                    }
+
+                                }
+                            });
+
+//                        searchCarAdapter.setNewData(datas);
+                        } else {
+                            Log.d("error", "errcode:" + errcode);
+                        }
+                    }
+
+                    @Override
+                    public void onPoiItemSearched(PoiItem poiItem, int i) {
+
+                    }
+                });
+                poiSearch.searchPOIAsyn();
+            }
 
         }
 
@@ -180,14 +271,14 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
         geocoderSearch.setOnGeocodeSearchListener(new GeocodeSearch.OnGeocodeSearchListener() {
             @Override
             public void onRegeocodeSearched(RegeocodeResult result, int rCode) {
-                String address = result.getRegeocodeAddress().getFormatAddress();
+                address1 = result.getRegeocodeAddress().getFormatAddress();
                 String country = result.getRegeocodeAddress().getCountry();
                 String province = result.getRegeocodeAddress().getProvince();
                 String neighborhood = result.getRegeocodeAddress().getNeighborhood();
                 String district = result.getRegeocodeAddress().getDistrict();
                 String towncode = result.getRegeocodeAddress().getTowncode();
-                String city = result.getRegeocodeAddress().getCity();
-                Log.e("formatAddress", "formatAddress:" + address);
+                city = result.getRegeocodeAddress().getCity();
+                Log.e("formatAddress", "formatAddress:" + address1);
                 Log.e("formatAddress", "rCode:" + rCode);
 
                 for (int i = 0; i < result.getRegeocodeAddress().getAois().size(); i++) {
@@ -281,13 +372,13 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
                                 intent.putExtra("latitude", latitude);
                                 intent.putExtra("longitude", longitude);
                                 intent.putExtra("title", title);
-                                if (yo_type==2){
-                                    setResult(45, intent);
-                                    finish();
-                                }else {
+
                                     setResult(3, intent);
                                     finish();
-                                }
+
+                                    setResult(3, intent);
+                                    finish();
+
 
                             }
                         });
@@ -379,8 +470,11 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
             intent.putExtra("latitude", latitude);
             intent.putExtra("longitude", longitude);
             intent.putExtra("place", place);
-            setResult(2, intent);
-            setResult(3, intent);
+
+                setResult(2, intent);
+
+
+
             finish();
         }
     }
@@ -396,20 +490,15 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-                double latitude = Double.valueOf(list1.get(position).getLat());
-                double longitude = Double.valueOf(list1.get(position).getLng());
+                double latitude = Double.valueOf(list1.get(position).getLatitude());
+                double longitude = Double.valueOf(list1.get(position).getLongitude());
                 String title = list1.get(position).getName();
                 Intent intent = new Intent();
                 intent.putExtra("latitude", latitude);
                 intent.putExtra("longitude", longitude);
                 intent.putExtra("title", title);
-                if (yo_type==2){
-                    setResult(45, intent);
-                    finish();
-                }else {
                     setResult(3, intent);
                     finish();
-                }
             }
         });
     }

@@ -226,6 +226,12 @@ public interface ApiService {
     //发布优秀
     @POST("index.php/api/yox/save")
     @FormUrlEncoded
+    /**
+     * position_city	是	string	位置城市 例如 北京
+     * lng	是	string	经度
+     * lat	是	string	纬度
+     * size	是	string	比例参数 例如 4:9
+     */
     Observable<BaseBean> publish_yoXiu(@Field("user_id") String user_id,
                                        @Field("user_token") String user_token,
                                        @Field("yo_id") int yo_id,
@@ -233,13 +239,17 @@ public interface ApiService {
                                        @Field("file_type") int file_type,
                                        @Field("file_desc") String file_desc,
                                        @Field("channel_ids") int[] channel_ids,
-                                       @Field("topic_ids") Integer[] topic_ids,
                                        @Field("open") int open,
                                        @Field("valid") int valid,
                                        @Field("position_name") String position_name,
                                        @Field("position_areas") String position_areas,
                                        @Field("position_address") String position_address,
-                                       @Field("filter_id") String filter_id
+                                       @Field("position_city")String position_city,
+                                       @Field("lat")String lat,
+                                       @Field("lng")String lng,
+                                       @Field("filter_id") String filter_id,
+                                       @Field("size") String size
+
     );
 
     //获取yo秀详情

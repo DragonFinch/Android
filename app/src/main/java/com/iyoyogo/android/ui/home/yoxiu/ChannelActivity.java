@@ -176,7 +176,7 @@ ChannelActivity extends BaseActivity<ChannelContract.Presenter> implements Chann
                         channel_array[i]=channel_ids[i];
                         Log.d("channel_array", "channel_array[i]:" + channel_array[i]);
                     }
-                    intent.putExtra("channel_array", channel_ids);
+                    intent.putExtra("channel_array", channel_array);
                     intent.putStringArrayListExtra("channel_list", strings);
                /* for (int i = 0; i < integers.length; i++) {
                     channel_array[i] = integers[i];
@@ -188,11 +188,8 @@ ChannelActivity extends BaseActivity<ChannelContract.Presenter> implements Chann
                 Log.d("ChannelActivity", "list.size():" + strings.size());
 
                 Log.d("Test", listToString(strings));*/
-                    if (type == 1) {
                         setResult(1, intent);
-                    } else {
-                        setResult(66, intent);
-                    }
+
 
 
                     finish();
@@ -266,6 +263,12 @@ ChannelActivity extends BaseActivity<ChannelContract.Presenter> implements Chann
             }
             return convertedListStr;
         } else return "List is null!!!";
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 
     @Override

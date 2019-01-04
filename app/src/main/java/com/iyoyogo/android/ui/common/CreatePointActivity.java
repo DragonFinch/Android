@@ -44,6 +44,7 @@ import com.iyoyogo.android.bean.yoxiu.TypeBean;
 import com.iyoyogo.android.contract.CreatePointContract;
 import com.iyoyogo.android.presenter.CreatePointPresenter;
 import com.iyoyogo.android.ui.home.yoxiu.AddAddressActivity;
+import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
 
 import java.util.ArrayList;
@@ -363,7 +364,7 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
     //初始化PopupWindow
     private void initPopup() {
         View view = getLayoutInflater().inflate(R.layout.popup_type, null);
-        popup = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popup = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, DensityUtil.dp2px(getApplicationContext(),564), true);
         popup.setOutsideTouchable(true);
         popup.setBackgroundDrawable(new ColorDrawable());
         ImageView img_delete = view.findViewById(R.id.img_delete);

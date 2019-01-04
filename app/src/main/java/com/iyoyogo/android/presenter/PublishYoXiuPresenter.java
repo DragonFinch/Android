@@ -39,8 +39,23 @@ public class PublishYoXiuPresenter extends BasePresenter<PublishYoXiuContract.Vi
     }
 
     @Override
-    public void publishYoXiu(String user_id, String user_token,int yo_id, String file_path, int file_type, String file_desc, int[] channel_ids, Integer[] topic_ids, int open, int valid, String position_name, String position_areas, String position_address, String filter_id) {
-        DataManager.getFromRemote().publish_yoXiu(user_id, user_token,yo_id, file_path, file_type, file_desc, channel_ids, topic_ids, open, valid, position_name, position_areas, position_address, filter_id)
+    public void publishYoXiu(String user_id,
+                             String user_token,
+                             int yo_id,
+                             String file_path,
+                             int file_type,
+                             String file_desc,
+                             int[] channel_ids,
+                             int open,
+                             int valid,
+                             String position_name,
+                             String position_areas,
+                             String position_address,
+                             String position_city,
+                             String lng,
+                             String lat,
+                             String filter_id,String size) {
+        DataManager.getFromRemote().publish_yoXiu(user_id, user_token, yo_id, file_path, file_type, file_desc, channel_ids, open, valid, position_name, position_areas, position_address, position_city, lng, lat, filter_id, size)
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {

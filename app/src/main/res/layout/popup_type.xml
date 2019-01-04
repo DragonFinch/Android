@@ -45,7 +45,7 @@
         <View
             android:id="@+id/line_vertical"
             android:layout_width="@dimen/dp_10"
-            android:layout_height="@dimen/dp_380"
+            android:layout_height="@dimen/dp_390"
             android:layout_below="@+id/img_type"
             android:layout_centerHorizontal="true"
             android:background="@drawable/type_vertical_line" />

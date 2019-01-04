@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/activity_create_point"
     tools:context=".ui.common.CreatePointActivity">
-<include layout="@layout/common_bar"/>
+<include layout="@layout/common_bar" android:id="@+id/bar"/>
     <RelativeLayout
         android:focusable="true"
         android:focusableInTouchMode="true"

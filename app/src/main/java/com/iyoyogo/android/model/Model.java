@@ -56,6 +56,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.http.Field;
 
 
 public class Model {
@@ -312,14 +313,16 @@ public class Model {
                                               int file_type,
                                               String file_desc,
                                               int[] channel_ids,
-                                              Integer[] topic_ids,
                                               int open,
                                               int valid,
                                               String position_name,
                                               String position_areas,
                                               String position_address,
-                                              String filter_id) {
-        return HttpClient.getApiService().publish_yoXiu(user_id, user_token, yo_id, file_path, file_type, file_desc, channel_ids, topic_ids, open, valid, position_name, position_areas, position_address, filter_id)
+                                              String position_city,
+                                              String lng,
+                                              String lat,
+                                              String filter_id, String size) {
+        return HttpClient.getApiService().publish_yoXiu(user_id, user_token, yo_id, file_path, file_type, file_desc, channel_ids, open, valid, position_name, position_areas, position_address, position_city, lng, lat, filter_id, size)
                 .compose(this.switchThread());
     }
 

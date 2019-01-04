@@ -219,9 +219,12 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
                     recyclerTopicMore.setVisibility(View.GONE);
                     recyclerTopicNear.setVisibility(View.GONE);
                 } else {
+                    relaCreate.setVisibility(View.GONE);
                     relativeMore.setVisibility(View.VISIBLE);
                     relativeNear.setVisibility(View.VISIBLE);
                     clearSearch.setVisibility(View.GONE);
+                    recyclerTopicMore.setVisibility(View.VISIBLE);
+                    recyclerTopicNear.setVisibility(View.VISIBLE);
                 }
 
 
@@ -241,19 +244,13 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
 
                 String topic = mList.get(position).getTopic();
                 int id = mList.get(position).getId();
-                if (yo_types==2){
+
                     Intent intent = new Intent();
                     intent.putExtra("topic", topic);
                     intent.putExtra("type_id", id);
                     setResult(6, intent);
                     finish();
-                }else {
-                    Intent intent = new Intent();
-                    intent.putExtra("topic", topic);
-                    intent.putExtra("type_id", id);
-                    setResult(5, intent);
 
-                }
             }
         });
     }
@@ -271,23 +268,16 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
         hotTopicAdapter.setOnClickListener(new HotTopicAdapter.OnClickListener() {
             @Override
             public void setOnClickListener(View view, int position) {
+
+
                 String topic = mList.get(position).getTopic();
                 int id = mList.get(position).getId();
 
-
-                if (yo_types==2){
-                    Intent intent = new Intent();
-                    intent.putExtra("topic", topic);
-                    intent.putExtra("type_id", id);
-                    setResult(6, intent);
-                    finish();
-                }else {
-                    Intent intent = new Intent();
-                    intent.putExtra("topic", topic);
-                    intent.putExtra("type_id", id);
-                setResult(5, intent);
-
-                }
+                Intent intent = new Intent();
+                intent.putExtra("topic", topic);
+                intent.putExtra("type_id", id);
+                setResult(6, intent);
+                finish();
 
             }
         });
@@ -308,8 +298,8 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
         Intent intent = new Intent();
         intent.putExtra("topic", trim);
         intent.putExtra("type_id", i);
-        setResult(5, intent);
-        finish();
+//        setResult(5, intent);
+//        finish();
         Toast.makeText(this, "创建成功", Toast.LENGTH_SHORT).show();
     }
 
@@ -318,7 +308,7 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_create:
-                mPresenter.getCreateTopic(user_id, user_token, locationEdit.getText().toString());
+//                mPresenter.getCreateTopic(user_id, user_token, locationEdit.getText().toString());
                 break;
             case R.id.clear:
                 mPresenter.getClearTopic(user_id, user_token);
