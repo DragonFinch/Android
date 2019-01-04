@@ -148,6 +148,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/set_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/go_create_point"
@@ -160,7 +161,7 @@
             android:layout_height="35dp"
             android:background="@color/white"
             android:gravity="center"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <TextView
                 android:layout_width="wrap_content"

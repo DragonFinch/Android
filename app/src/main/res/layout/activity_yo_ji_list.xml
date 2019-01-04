@@ -43,7 +43,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
             android:padding="@dimen/dp_8"
-            android:src="@mipmap/view2"
+            android:src="@mipmap/view1"
             />
     </RelativeLayout>
 
@@ -51,7 +51,8 @@
         android:id="@+id/refresh_layout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/bar">
+        android:layout_below="@+id/bar"
+        android:background="@color/white">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_yoji_list"
@@ -60,7 +61,8 @@
         android:layout_below="@+id/bar"
         android:layout_marginLeft="@dimen/dp_20"
         android:layout_marginTop="@dimen/dp_15"
-        android:layout_marginRight="@dimen/dp_20" />
+        android:layout_marginRight="@dimen/dp_20"
+        android:background="@color/white"/>
 
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>

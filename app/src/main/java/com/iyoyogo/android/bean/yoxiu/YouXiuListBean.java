@@ -2,6 +2,7 @@ package com.iyoyogo.android.bean.yoxiu;
 
 import com.iyoyogo.android.bean.BaseBean;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class YouXiuListBean extends BaseBean {
@@ -166,7 +167,7 @@ public class YouXiuListBean extends BaseBean {
                 this.comment_list = comment_list;
             }
 
-            public static class CommentListBean {
+            public static class CommentListBean{
                 /**
                  * id : 3
                  * content : 中国铁道博物馆。铁道博物馆是中国国家级专业铁路博物馆，它的前身是铁道部科学技术馆，1978年成立，2003年更名为中国铁道博物馆，主要任务是负责铁路文物、科研成果等展品的收藏、保管、陈列、展示及编辑研究工作。中国铁道博物馆有三个馆:正阳门馆（主要是历史资料、图片、文字说明和少量实物）、东郊馆（主要为各个历史时期的机车陈列）、詹天佑纪念馆（主要介绍詹天佑对中国铁路发展的贡献）。

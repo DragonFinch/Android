@@ -48,6 +48,7 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
     private List<CommentBean.DataBean.ListBean> mList;
     private String user_id;
     private String user_token;
+    private View view;
 
     public YoXiuDetailAdapter(Context context, List<CommentBean.DataBean.ListBean> mList) {
         this.context = context;
@@ -170,7 +171,7 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         backgroundAlpha(0.6f);
         popup_more.setOnDismissListener(new poponDismissListener());
         //添加pop窗口关闭事件
-        popup_more.showAtLocation(activity.findViewById(R.id.activity_yoxiu_detail), Gravity.BOTTOM, 0, 0);
+        popup_more.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
 
 
@@ -219,11 +220,11 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
 
         //添加pop窗口关闭事件
         popup.setOnDismissListener(new poponDismissListener());
-        popup.showAtLocation(activity.findViewById(R.id.activity_yoxiu_detail), Gravity.CENTER, 0, 0);
+        popup.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 
     public void initPopup() {
-        View view = LayoutInflater.from(context).inflate(R.layout.like_layout, null);
+        view = LayoutInflater.from(context).inflate(R.layout.like_layout, null);
         popup = new PopupWindow(view, DensityUtil.dp2px(context, 300), DensityUtil.dp2px(context, 145), true);
         popup.setOutsideTouchable(true);
         popup.setBackgroundDrawable(new ColorDrawable());

@@ -10,12 +10,14 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.collection.CommendAttentionBean;
 import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.ui.mine.homepage.CircleImageView;
+import com.iyoyogo.android.utils.GlideRoundTransform;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,8 @@ public class CommentAttentionAdapter extends BaseQuickAdapter<CommendAttentionBe
     @Override
     protected void convert(BaseViewHolder helper, CommendAttentionBean.DataBean.ListBean item) {
         helper.setText(R.id.user_nick_name, item.getUser_nickname());
+        helper.setText(R.id.yoji, item.getCount_yoj()+"");
+        helper.setText(R.id.yoxiu, item.getCount_yox()+"");
         helper.addOnClickListener(R.id.btu_guanzhu)
               .addOnClickListener(R.id.user_logo);
         Glide.with(mContext).load(item.getUser_logo()).into((CircleImageView) helper.getView(R.id.user_logo));
@@ -42,7 +46,13 @@ public class CommentAttentionAdapter extends BaseQuickAdapter<CommendAttentionBe
         for (int i = 0; i < list_4.size(); i++) {
             file_path = list_4.get(i).getFile_path();
         }
-        Glide.with(mContext).load(file_path).into((ImageView) helper.getView(R.id.img_attention_one));
+
+        RequestOptions requestOptions = new RequestOptions().centerCrop()
+                .transform(new GlideRoundTransform(mContext, 8));
+        requestOptions.placeholder(R.mipmap.default_ic);
+        requestOptions.error(R.mipmap.default_ic);
+
+        Glide.with(mContext).load(file_path).apply(requestOptions).into((ImageView) helper.getView(R.id.img_attention_one));
         CircleImageView user_logo = helper.getView(R.id.user_logo);
         user_logo.setOnClickListener(new View.OnClickListener() {
             @Override

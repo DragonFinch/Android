@@ -983,4 +983,17 @@ public class Model {
         return HttpClient.getApiService().setHisPosition(user_id, user_token, page, page_size)
                 .compose(this.switchThread());
     }
+
+    /**
+     * 清空用户历史自定义位置
+     *
+     * @param user_id
+     * @param user_token
+     * @param
+     * @return
+     */
+    public Observable<BaseBean> DelPosition(String user_id, String user_token) {
+        return HttpClient.getApiService().DelPosition(user_id, user_token)
+                .compose(this.switchThread());
+    }
 }

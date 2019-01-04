@@ -53,6 +53,7 @@ import com.iyoyogo.android.bean.yoji.detail.YoJiDetailBean;
 import com.iyoyogo.android.contract.YoJiDetailContract;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.presenter.YoJiDetailPresenter;
+import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
 import com.iyoyogo.android.ui.home.yoxiu.MoreTopicActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
@@ -412,7 +413,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     }
 
 
-    @OnClick({R.id.add_attention, R.id.img_back, R.id.img_share, R.id.tv_attention, R.id.tv_load_more, R.id.tv_comment, R.id.tv_like, R.id.tv_collection})
+    @OnClick({R.id.add_attention, R.id.img_back, R.id.img_share, R.id.tv_attention, R.id.tv_load_more, R.id.tv_comment, R.id.tv_like, R.id.tv_collection, R.id.tv_more_comment})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -476,6 +477,11 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 break;
             case R.id.tv_collection:
                 collection();
+                break;
+            case R.id.tv_more_comment:
+                Intent intent = new Intent(this, AllCommentActivity.class);
+                intent.putExtra("id", yo_id);
+                startActivity(intent);
                 break;
         }
     }
@@ -956,7 +962,14 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 }*/
                 int folder_id = mList1.get(position).getFolder_id();
                 mPresenter.getYoJiDetail(user_id, user_token, yo_id);
-                mPresenter.addCollection(user_id, user_token, folder_id, yo_user_id);
+                if (is_my_attention == 0) {
+                    mPresenter.addCollection(user_id, user_token, folder_id, yo_user_id);
+                    popup.dismiss();
+//                    Log.d("YoXiuDetailActivity", target_id);
+
+                } else {
+
+                }
                 popup.dismiss();
 
             }

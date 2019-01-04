@@ -577,6 +577,8 @@
     <string name="fans">粉丝</string>
     <string name="his_guanzhu">TA的关注</string>
     <string name="his_fans">TA的粉丝</string>
+    <string name="all_comment">全部评论（6）</string>
+    <string name="all_reply">回复（6）</string>
 
 
 </resources>

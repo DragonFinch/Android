@@ -20,6 +20,7 @@ import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.yoji.list.YoJiListBean;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
+import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
 import com.iyoyogo.android.utils.SpUtils;
@@ -191,8 +192,8 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
             @Override
             public void onClick(View v) {
                 int id = mList.get(position).getYo_id();
-                Intent intent = new Intent(context, YoJiDetailActivity.class);
-                intent.putExtra("yo_id", id);
+                Intent intent = new Intent(context, AllCommentActivity.class);
+                intent.putExtra("id", id);
                 context.startActivity(intent);
             }
         });

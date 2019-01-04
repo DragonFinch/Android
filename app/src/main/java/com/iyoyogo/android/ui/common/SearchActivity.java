@@ -31,6 +31,7 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.PoiSearchAdapter;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
+import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.HisPositionBean;
 import com.iyoyogo.android.bean.LocationBean;
 import com.iyoyogo.android.contract.HisPositionContract;
@@ -81,6 +82,8 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
     TextView       historyClose;
     @BindView(R.id.history)
     RelativeLayout history;
+    @BindView(R.id.set_history)
+    LinearLayout set_history;
     private ArrayList<String> list;
 
     private PoiSearch.Query         query;
@@ -106,6 +109,7 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
     private String                                  user_token;
     private String                                  user_id;
     private List<HisPositionBean.DataBean.ListBean> list1;
+    private HistoryPoiSearchAdapter adapter1;
 
     @Override
     protected void initView() {
@@ -117,6 +121,7 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
         latitude = intent.getStringExtra("latitude");
         longitude = intent.getStringExtra("longitude");
         country = intent.getStringExtra("country");
+        set_history.setVisibility(View.GONE);
         locationAgainGPSTVId.setVisibility(View.GONE);
         goCreatePoint.setVisibility(View.GONE);
 
@@ -243,6 +248,7 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
             public void afterTextChanged(Editable s) {
                 addressInfo.setText(s.toString().trim());
                 locationRVId.setVisibility(View.GONE);
+                set_history.setVisibility(View.GONE);
             }
         });
 
@@ -306,6 +312,8 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
             Toast.makeText(this, "内容为空!", Toast.LENGTH_SHORT).show();
             goCreatePoint.setVisibility(View.GONE);
             locationAgainGPSTVId.setVisibility(View.GONE);
+            locationRVId.setVisibility(View.GONE);
+            set_history.setVisibility(View.GONE);
 //            mapAddAddress.setVisibility(View.VISIBLE);
 //            recyclerAddAddress.setVisibility(View.GONE);
 //            mapAddAddress.invalidate();
@@ -349,6 +357,13 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
                             goCreatePoint.setVisibility(View.VISIBLE);
                             locationRVId.setVisibility(View.GONE);
                             mPresenter.getHisPosition(user_id, user_token, 1, 20);
+                            historyClose.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mPresenter.DelPosition(user_id, user_token);
+                                }
+                            });
+
                         }
                         adapter = new PoiSearchAdapter(SearchActivity.this, datas);
                     /*    if (datas!=null){
@@ -483,10 +498,11 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
     public void setHisPosition(HisPositionBean bean) {
         list1 = bean.getData().getList();
         locationRVId.setVisibility(View.VISIBLE);
-        HistoryPoiSearchAdapter adapter = new HistoryPoiSearchAdapter(R.layout.item_search, list1);
-        locationRVId.setAdapter(adapter);
+        set_history.setVisibility(View.VISIBLE);
+        adapter1 = new HistoryPoiSearchAdapter(R.layout.item_search, list1);
+        locationRVId.setAdapter(adapter1);
         locationRVId.setLayoutManager(new LinearLayoutManager(this));
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        adapter1.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
@@ -501,6 +517,14 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
                 finish();
             }
         });
+    }
+
+    @Override
+    public void DelPosition(BaseBean bean) {
+        int code = bean.getCode();
+        if (code == 200) {
+            set_history.setVisibility(View.GONE);
+        }
     }
 
 

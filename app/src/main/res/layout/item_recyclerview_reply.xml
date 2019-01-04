@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/dp_21"
+    android:paddingTop="@dimen/dp_10"
+    android:paddingRight="@dimen/dp_21">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.iyoyogo.android.widget.CircleImageView
+            android:id="@+id/all_reply_img_user_icon"
+            android:layout_width="@dimen/dp_35"
+            android:layout_height="@dimen/dp_35"
+            android:src="@mipmap/headimage" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/dp_10">
+
+            <LinearLayout
+                android:id="@+id/all"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/all_reply_title1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="March"
+                    android:textColor="@color/orange"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/all_reply_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  回复  "
+                    android:textColor="@color/c333333"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/all_reply_title2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jason"
+                    android:textColor="@color/orange"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/all_reply_title3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="：Jason"
+                    android:textColor="@color/c333333"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_30"
+                android:orientation="horizontal"
+                android:layout_below="@id/all"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:id="@+id/all_reply_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingTop="15dp"
+                    android:text="1小时前"
+                    android:textColor="@color/c888888"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/all_reply_zan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="5dp"
+                    android:drawableLeft="@mipmap/zan"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="10"
+                    android:textColor="@color/c888888"
+                    android:textSize="10sp"
+                    />
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="#F1F1F1" />
+
+
+</LinearLayout>

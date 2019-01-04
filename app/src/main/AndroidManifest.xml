@@ -129,7 +129,6 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
 
-
     <application
         android:name=".app.App"
         android:allowBackup="true"
@@ -230,9 +229,7 @@
             android:name=".camera.edit.theme.ThemeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/LuncherActivityTheme" />
-        <activity android:name=".TestActivity" >
-
-        </activity>
+        <activity android:name=".TestActivity"></activity>
         <activity
             android:name=".camera.edit.clipEdit.spilt.SpiltActivity"
             android:screenOrientation="portrait"
@@ -436,6 +433,8 @@
         <activity android:name=".ui.common.Same_page_Activity" />
         <activity android:name=".ui.common.Album_details_Activity" />
         <activity android:name=".ui.common.CameraActivity" />
+        <activity android:name=".ui.common.Vertical_picture_Activity" />
+        <activity android:name=".ui.home.yoxiu.AllReplyActivity"></activity>
         <activity android:name=".ui.common.Vertical_picture_Activity" />
         <activity
             android:name=".ui.home.yoji.NewPublishYoJiActivity"

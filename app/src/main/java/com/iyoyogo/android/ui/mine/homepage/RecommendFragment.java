@@ -1,14 +1,12 @@
 package com.iyoyogo.android.ui.mine.homepage;
 
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +22,12 @@ import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.collection.CommendAttentionBean;
 import com.iyoyogo.android.contract.CommendAttentionContract;
 import com.iyoyogo.android.presenter.CommendAttentionPresenter;
-import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.utils.SpUtils;
-
-import org.greenrobot.eventbus.EventBus;
+import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 
 import java.util.List;
 
@@ -44,9 +44,22 @@ public class RecommendFragment extends BaseFragment<CommendAttentionContract.Pre
 
     @BindView(R.id.myRecyclerView)
     RecyclerView myRecyclerView;
+//    @BindView(R.id.refresh_layout)
+//    SmartRefreshLayout refreshLayout;
+    Unbinder unbinder;
     private String user_id;
     private String user_token;
     private boolean falg = false;
+//    MyRefreshAnimHeader mRefreshAnimHeader;
+
+    /**
+     * 设置刷新header风格
+     *
+     * @param
+     */
+//    private void setHeader(RefreshHeader header) {
+//        refreshLayout.setRefreshHeader(header);
+//    }
 
     @Override
     protected int getLayoutId() {
@@ -59,6 +72,10 @@ public class RecommendFragment extends BaseFragment<CommendAttentionContract.Pre
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
         mPresenter.getCommendAttention(user_id, user_token);
+        //初始化header
+//        mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
+//        setHeader(mRefreshAnimHeader);
+//        refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
     }
 
     @Override
@@ -108,15 +125,15 @@ public class RecommendFragment extends BaseFragment<CommendAttentionContract.Pre
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 TextView btu_guanzhu = view.findViewById(R.id.btu_guanzhu);
-                if (falg == false){
+                if (falg == false) {
                     falg = true;
-                    mPresenter.addAttention1(user_id,user_token,list.get(position).getUser_id());
+                    mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
                     btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
                     btu_guanzhu.setText("已关注");
                     btu_guanzhu.setTextColor(Color.parseColor("#888888"));
-                }else {
+                } else {
                     falg = false;
-                    mPresenter.addAttention1(user_id,user_token,list.get(position).getUser_id());
+                    mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
                     btu_guanzhu.setBackgroundResource(R.drawable.bg_collection);
                     btu_guanzhu.setText("+关注");
                     btu_guanzhu.setTextColor(Color.parseColor("#ffffff"));
@@ -128,6 +145,6 @@ public class RecommendFragment extends BaseFragment<CommendAttentionContract.Pre
 
     @Override
     public void addAttentionSuccess(AttentionBean attentionBean) {
-
     }
+
 }

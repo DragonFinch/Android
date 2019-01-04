@@ -102,19 +102,18 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
         viewHolder.recycler_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 int id = mList.get(position).getId();
                 Intent intent = new Intent(context, YoXiuDetailActivity.class);
                 intent.putExtra("id", id);
                 context.startActivity(intent);
             }
         });
-        viewHolder.comment_all.setOnClickListener(new View.OnClickListener() {
+        viewHolder.comment_all.setOnClickListener(new View.OnClickListener() {//全部
             @Override
             public void onClick(View v) {
                 int id = mList.get(position).getId();
                 Intent intent = new Intent(context, AllCommentActivity.class);
-                intent.putExtra("yo_id",id);
+                intent.putExtra("id",id);
                 context.startActivity(intent);
             }
         });

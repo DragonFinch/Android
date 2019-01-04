@@ -388,7 +388,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
             case R.id.tv_like:
 
                 Drawable like = getResources().getDrawable(
-                        R.mipmap.xihuan_xiangqing);
+                    R.mipmap.xihuan_xiangqing);
                 Drawable liked = getResources().getDrawable(
                         R.mipmap.yixihuan_xiangqing);
                 tvLike.setCompoundDrawablesWithIntrinsicBounds(null, dataBeans.get(0).getIs_my_like() > 0 ? liked : like, null, null);
@@ -476,7 +476,9 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
                 break;
             case R.id.tv_more_comment:
-
+                Intent intent = new Intent(this, AllCommentActivity.class);
+                intent.putExtra("id",id);
+                startActivity(intent);
                 break;
         }
     }
@@ -591,7 +593,6 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     public void getDetailSuccess(YoXiuDetailBean.DataBean data) {
         initPopup();
         yo_id = data.getId();
-
         tvComment.setText("评论" + "(" + data.getCount_comment() + ")");
         collection_list = new ArrayList<>();
         collection_list.add(data);
