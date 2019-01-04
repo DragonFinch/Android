@@ -10,5 +10,5 @@
         android:id="@+id/recycler_yoji"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
+    <include layout="@layout/yoji_null" android:id="@+id/list_blank" android:visibility="gone"/>
 </FrameLayout>

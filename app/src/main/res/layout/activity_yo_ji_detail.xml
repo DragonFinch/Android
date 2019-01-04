@@ -2,16 +2,22 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_yoji_detail"
+    android:animateLayoutChanges="true"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
+        android:animateLayoutChanges="true"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/coll"
+            android:animateLayoutChanges="true"
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:contentScrim="@color/white"
@@ -29,7 +35,7 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dp_50"
                 app:layout_collapseMode="pin">
 
                 <RelativeLayout
@@ -95,12 +101,15 @@
 
     <com.iyoyogo.android.widget.MyNestedScrollView
         android:id="@+id/nested"
+        android:animateLayoutChanges="true"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:descendantFocusability="blocksDescendants"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
+            android:animateLayoutChanges="true"
 
             android:layout_width="match_parent"
             android:layout_height="match_parent">

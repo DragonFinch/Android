@@ -213,6 +213,7 @@ ChannelActivity extends BaseActivity<ChannelContract.Presenter> implements Chann
             backgroundAlpha(1.0f);
         }
     }
+    //数量限制
     public void report() {
         tv_message.setText("请为你的yo·秀");
         tv_message.setTextColor(Color.parseColor("#333333"));
@@ -277,7 +278,6 @@ ChannelActivity extends BaseActivity<ChannelContract.Presenter> implements Chann
         ArrayList<String> strings = adapter.selectPhoto();
         if (strings!=null){
             strings.clear();
-
         }
     }
 

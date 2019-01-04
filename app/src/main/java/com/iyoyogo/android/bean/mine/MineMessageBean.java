@@ -7,7 +7,7 @@ public class MineMessageBean extends BaseBean {
 
 
     /**
-     * data : {"count_noread":10,"user_id":2,"user_nickname":"nickname","user_logo":"logo","count_fans":11,"count_attention":12,"today_isclock":0,"clock_days":13,"clock_win":"66.68%"}
+     * data : {"count_noread":3,"user_id":"2","user_nickname":"","user_logo":"?x-oss-process=image/resize,w_50","user_level":0,"partner_type":"0","count_attention":6,"count_fans":1,"today_isclock":0,"clock_days":13,"clock_win":"65.76%"}
      */
 
     private DataBean data;
@@ -22,23 +22,27 @@ public class MineMessageBean extends BaseBean {
 
     public static class DataBean {
         /**
-         * count_noread : 10
+         * count_noread : 3
          * user_id : 2
-         * user_nickname : nickname
-         * user_logo : logo
-         * count_fans : 11
-         * count_attention : 12
+         * user_nickname :
+         * user_logo : ?x-oss-process=image/resize,w_50
+         * user_level : 0
+         * partner_type : 0
+         * count_attention : 6
+         * count_fans : 1
          * today_isclock : 0
          * clock_days : 13
-         * clock_win : 66.68%
+         * clock_win : 65.76%
          */
 
         private int count_noread;
-        private int user_id;
+        private String user_id;
         private String user_nickname;
         private String user_logo;
-        private int count_fans;
+        private int user_level;
+        private String partner_type;
         private int count_attention;
+        private int count_fans;
         private int today_isclock;
         private int clock_days;
         private String clock_win;
@@ -51,11 +55,11 @@ public class MineMessageBean extends BaseBean {
             this.count_noread = count_noread;
         }
 
-        public int getUser_id() {
+        public String getUser_id() {
             return user_id;
         }
 
-        public void setUser_id(int user_id) {
+        public void setUser_id(String user_id) {
             this.user_id = user_id;
         }
 
@@ -75,12 +79,20 @@ public class MineMessageBean extends BaseBean {
             this.user_logo = user_logo;
         }
 
-        public int getCount_fans() {
-            return count_fans;
+        public int getUser_level() {
+            return user_level;
         }
 
-        public void setCount_fans(int count_fans) {
-            this.count_fans = count_fans;
+        public void setUser_level(int user_level) {
+            this.user_level = user_level;
+        }
+
+        public String getPartner_type() {
+            return partner_type;
+        }
+
+        public void setPartner_type(String partner_type) {
+            this.partner_type = partner_type;
         }
 
         public int getCount_attention() {
@@ -89,6 +101,14 @@ public class MineMessageBean extends BaseBean {
 
         public void setCount_attention(int count_attention) {
             this.count_attention = count_attention;
+        }
+
+        public int getCount_fans() {
+            return count_fans;
+        }
+
+        public void setCount_fans(int count_fans) {
+            this.count_fans = count_fans;
         }
 
         public int getToday_isclock() {

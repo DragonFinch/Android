@@ -23,8 +23,8 @@
 
     <ImageView
         android:id="@+id/image_preview_show"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_225"
         android:layout_centerInParent="true"
         android:scaleType="centerCrop"
         android:src="@mipmap/sea" />

@@ -1,6 +1,8 @@
 package com.iyoyogo.android.ui.mine.homepage;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +27,11 @@ import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.utils.imagepicker.activities.ImagesPickActivity;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +44,7 @@ import butterknife.OnClick;
  */
 public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter> implements MinePraiseContract.View {
 
-
+    private Bitmap bitmap;
     @BindView(R.id.message_center_back_im_id)
     ImageView messageCenterBackImId;
     @BindView(R.id.like_me_title_tv_id)
@@ -50,8 +57,6 @@ public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter>
     ImageView img;
     @BindView(R.id.ic_video)
     ImageView icVideo;
-    @BindView(R.id.img_layout)
-    RelativeLayout imgLayout;
     @BindView(R.id.like_me_rv_id)
     RecyclerView likeMeRvId;
     @BindView(R.id.img_stamp)
@@ -63,7 +68,7 @@ public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter>
     @BindView(R.id.publish_yoxiu)
     TextView publishYoxiu;
     @BindView(R.id.like_layout)
-    LinearLayout layoutLike;
+    LinearLayout likeLayout;
     private String user_id;
     private String user_token;
 
@@ -101,23 +106,23 @@ public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter>
         if (list != null && list.size() > 0) {
             String file_path = list.get(0).getFile_path();
             int yo_type = list.get(0).getYo_type();
-            if (list.get(0).getFile_type()==1){
+            if (list.get(0).getFile_type() == 1) {
                 icVideo.setVisibility(View.GONE);
-            }else {
+            } else {
                 icVideo.setVisibility(View.VISIBLE);
             }
-            imgLayout.setOnClickListener(new View.OnClickListener() {
+            img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.d("Like", "yo_type:" + yo_type);
-                    Log.d("Like", "mList.get(0).getYo_id():" + mList.get(0).getYo_id());
+                    Log.d("Like", "mList.get(0).getYo_id():" + list.get(0).getYo_id());
                     if (yo_type == 1) {
                         Intent intent = new Intent(Like_me_Activity.this, YoXiuDetailActivity.class);
-                        intent.putExtra("id", mList.get(0).getYo_id());
+                        intent.putExtra("id", list.get(0).getYo_id());
                         startActivity(intent);
                     } else {
                         Intent intent = new Intent(Like_me_Activity.this, YoJiDetailActivity.class);
-                        intent.putExtra("yo_id", mList.get(0).getYo_id());
+                        intent.putExtra("yo_id", list.get(0).getYo_id());
                         startActivity(intent);
                     }
                 }
@@ -128,7 +133,12 @@ public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter>
                 mList.add(list.get(i));
             }
             MineLikeAdapter mineLikeAdapter = new MineLikeAdapter(Like_me_Activity.this, mList);
-            likeMeRvId.setLayoutManager(new GridLayoutManager(Like_me_Activity.this, 3));
+            likeMeRvId.setLayoutManager(new GridLayoutManager(Like_me_Activity.this, 3){
+                @Override
+                public boolean canScrollVertically() {
+                    return false;
+                }
+            });
             likeMeRvId.setAdapter(mineLikeAdapter);
             mineLikeAdapter.setOnItemClickListener(new MineLikeAdapter.OnClickListenerListener() {
                 @Override
@@ -146,7 +156,7 @@ public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter>
                 }
             });
         } else {
-            layoutLike.setVisibility(View.VISIBLE);
+            likeLayout.setVisibility(View.VISIBLE);
             tvStampTitle.setText("你还没有任何喜欢内容yo~");
             imgStamp.setImageResource(R.mipmap.blank_list);
             likeMeRvId.setVisibility(View.GONE);
@@ -174,6 +184,7 @@ public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter>
                 break;
         }
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

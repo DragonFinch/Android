@@ -248,18 +248,9 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     }
     private FragmentTransaction switchFragment(Fragment targetFragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (!targetFragment.isAdded()) {
-            //第一次使用switchFragment()时currentFragment为null，所以要判断一下    
-            if (currentFragment != null) {
-                transaction.hide(currentFragment);
-            }
-            transaction.add(R.id.frame_container, targetFragment, targetFragment.getClass().getName());
-        } else {
-            transaction
-                    .hide(currentFragment)
-                    .show(targetFragment);
-        }
-        currentFragment = targetFragment;
+
+            transaction.replace(R.id.frame_container, targetFragment, targetFragment.getClass().getName());
+
         return transaction;
     }
     private void initViews() {
@@ -268,7 +259,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         homeFragment = new HomeFragment();
         mineFragment = new MineFragment();
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.frame_container, homeFragment)
+                .replace(R.id.frame_container, homeFragment)
                 .commitAllowingStateLoss();
 //
 //        mFragmentSparseArray.append(R.id.today_tab, homeFragment);

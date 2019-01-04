@@ -1,10 +1,15 @@
 package com.iyoyogo.android.ui.mine;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
-import android.util.Log;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseFragment;
 import com.iyoyogo.android.bean.BaseBean;
@@ -29,6 +35,7 @@ import com.iyoyogo.android.ui.mine.homepage.Like_me_Activity;
 import com.iyoyogo.android.ui.mine.homepage.Message_center_Activity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.ui.mine.homepage.VipCenterActivity;
+import com.iyoyogo.android.utils.FastBlurUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.icondottextview.IconDotTextView;
 import com.iyoyogo.android.widget.CircleImageView;
@@ -91,6 +98,10 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     @BindView(R.id.my_option_set_id)
     LinearLayout myOptionSetId;
     Unbinder unbinder;
+    @BindView(R.id.img_vip_sign)
+    ImageView imgVipSign;
+    @BindView(R.id.img_level)
+    ImageView imgLevel;
     private String user_id;
     private String user_token;
 
@@ -187,16 +198,91 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         }
     }
 
+
     @Override
     public void getUserInfoSuccess(MineMessageBean.DataBean data) {
+        //获取用户等级
+        int user_level = data.getUser_level();
+        final String pattern = "2";
+       if (Patterns.WEB_URL.matcher(data.getUser_logo()).matches()){
+           final String url =
+                   data.getUser_logo();
+           new Thread(new Runnable() {
+               @Override
+               public void run() {
+                   int scaleRatio = 0;
+                   if (TextUtils.isEmpty(pattern)) {
+                       scaleRatio = 0;
+                   } else if (scaleRatio < 0) {
+                       scaleRatio = 10;
+                   } else {
+                       scaleRatio = Integer.parseInt(pattern);
+                   }
+                   //                        下面的这个方法必须在子线程中执行
+                   final Bitmap blurBitmap2 = FastBlurUtil.GetUrlBitmap(url, scaleRatio);
+
+                   //                        刷新ui必须在主线程中执行
+                   getActivity().runOnUiThread(new Runnable() {//这个是我自己封装的在主线程中刷新ui的方法。
+                       @Override
+                       public void run() {
+                           myBgiIvId.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                           myBgiIvId.setImageBitmap(blurBitmap2);
+                       }
+                   });
+               }
+           }).start();
+       }else {
+           int scaleRatio = 0;
+           if (TextUtils.isEmpty(pattern)) {
+               scaleRatio = 0;
+           } else if (scaleRatio < 0) {
+               scaleRatio = 10;
+           } else {
+               scaleRatio = Integer.parseInt(pattern);
+           }
+
+           //        获取需要被模糊的原图bitmap
+           Resources res = getResources();
+           Bitmap scaledBitmap = BitmapFactory.decodeResource(res, R.mipmap.default_touxiang);
+
+           //        scaledBitmap为目标图像，10是缩放的倍数（越大模糊效果越高）
+           Bitmap blurBitmap = FastBlurUtil.toBlur(scaledBitmap, scaleRatio);
+           myBgiIvId.setScaleType(ImageView.ScaleType.CENTER_CROP);
+           myBgiIvId.setImageBitmap(blurBitmap);
+       }
+
+        if (user_level==1){
+            imgLevel.setVisibility(View.VISIBLE);
+            imgVipSign.setImageResource(R.mipmap.level_one);
+        }else if (user_level==2){
+            imgLevel.setVisibility(View.VISIBLE);
+            imgLevel.setImageResource(R.mipmap.lv2);
+            imgVipSign.setImageResource(R.mipmap.level_two);
+        }else if (user_level==3){
+            imgLevel.setVisibility(View.VISIBLE);
+            imgLevel.setImageResource(R.mipmap.lv3);
+            imgVipSign.setImageResource(R.mipmap.level_three);
+        }else if (user_level==4){
+            imgLevel.setVisibility(View.VISIBLE);
+            imgLevel.setImageResource(R.mipmap.lv4);
+            imgVipSign.setImageResource(R.mipmap.level_four);
+        }else if (user_level==5){
+            imgLevel.setVisibility(View.VISIBLE);
+            imgLevel.setImageResource(R.mipmap.lv5);
+            imgVipSign.setImageResource(R.mipmap.level_five);
+        }else {
+            imgLevel.setVisibility(View.GONE);
+            imgVipSign.setImageResource(R.mipmap.level_zero);
+        }
+
         String user_nickname = data.getUser_nickname();
         myBasicNameTvId.setText(user_nickname);
         String user_logo = data.getUser_logo();
-        if (user_logo.equals("")) {
-            myBasicHeadimgIvId.setImageResource(R.mipmap.default_touxiang);
-        } else {
-            Glide.with(getContext()).load(data.getUser_logo()).into(myBasicHeadimgIvId);
-        }
+
+            RequestOptions requestOptions = new RequestOptions();
+            requestOptions.error(R.mipmap.default_touxiang).placeholder(R.mipmap.default_touxiang);
+            Glide.with(getContext()).load(data.getUser_logo()).apply(requestOptions).into(myBasicHeadimgIvId);
+
         int count_fans = data.getCount_fans();
         myBasicFansnumberTvId.setText(count_fans + "");
         int count_attention = data.getCount_attention();
@@ -212,7 +298,10 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
 //        bv1.setStrText(count_noread + "").setMargin(10, 3, 10, 0).setStrSize(10).setTargetView(myMessgeImId);
         int today_isclock = data.getToday_isclock();
         if (today_isclock == 1) {
-            myClockButId.setVisibility(View.GONE);
+            myClockButId.setText("打卡成功");
+            myClockButId.setClickable(false);
+            myClockButId.setTextColor(Color.parseColor("#FA800A"));
+            myClockButId.setBackgroundResource(R.drawable.punch_bg);
 
         } else {
             myClockButId.setVisibility(View.VISIBLE);
@@ -227,21 +316,9 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
 
     @Override
     public void punchClockSuccess(BaseBean baseBean) {
-        Toast.makeText(mActivity, "打卡成功", Toast.LENGTH_SHORT).show();
+      mPresenter.getUserInfo(user_id,user_token);
     }
 
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 }

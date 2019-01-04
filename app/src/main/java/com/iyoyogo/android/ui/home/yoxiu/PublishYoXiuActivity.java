@@ -6,9 +6,12 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -54,6 +57,7 @@ import com.iyoyogo.android.contract.PublishYoXiuContract;
 import com.iyoyogo.android.model.RObject;
 import com.iyoyogo.android.presenter.PublishYoXiuPresenter;
 import com.iyoyogo.android.ui.common.SearchActivity;
+import com.iyoyogo.android.ui.mine.AboutMeActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.ImagePickAction;
 import com.iyoyogo.android.utils.SpUtils;
@@ -124,6 +128,7 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
     @BindView(R.id.layout_open)
     LinearLayout layoutOpen;
     private int open_type = 1;
+    PopupWindow popMenu;
     private static final String[] SELECTIMAGES = {
             MediaStore.Images.Media.DATA,
             MediaStore.Images.Media.DISPLAY_NAME,
@@ -186,6 +191,9 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
     private String url;
     private double lat;
     private double lng;
+    private String position_areas;
+    private String position_city;
+    private String position_address;
 
     private void setCurrentLocationDetails(LatLonPoint latLonPoint) {
 // 地址逆解析
@@ -271,7 +279,7 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
             shortToast("经纬度为空");
             publishPlace.setText("添加地点");
         } else {
-            setCurrentLocationDetails(latLonPoint);
+//            setCurrentLocationDetails(latLonPoint);
         }
 
         path = intent.getStringExtra("path");
@@ -363,7 +371,7 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.edit_back_id:
-                finish();
+                initPopuptWindow();
                 break;
             case R.id.edit_publish_id:
 
@@ -371,40 +379,40 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
                 for (int i = 0; i < topic_arrays.length; i++) {
                     Log.d("PublishYoXiuActivity", "integers[i]:" + topic_arrays[i]);
                 }
-                if (aoiName == null) {
+                if (position_address == null) {
 
                     if (mimeType != null && mimeType.contains("video")) {
                         String uploadVideo = uploadYoXiuVideo();
-                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, 1, 1, "", country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), city, longitude, latitude, "", "");
+                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 1, publishPlace.getText().toString().trim(), position_areas, "", position_city, longitude, latitude, "", "");
 
 
                     } else {
                         String uploadImage = uploadYoXiuImage();
-                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, 1, 1, "", country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), city, longitude, latitude, "", "");
+                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 1, publishPlace.getText().toString().trim(), position_areas, "", position_city, longitude, latitude, "", "");
                     }
                 } else {
 
                     if (mimeType != null && mimeType.contains("video")) {
                         String uploadVideo = uploadYoXiuVideo();
-                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, 1, 1, aoiName, country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), city, longitude, latitude, "", "");
+                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 1, publishPlace.getText().toString().trim(), position_areas, position_address, position_city, longitude, latitude, "", "");
 
 
                     } else {
                         String uploadImage = uploadYoXiuImage();
-                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, 1, 1, aoiName, country + "," + province + "," + city + "," + district, publishPlace.getText().toString().trim(), city, longitude, latitude, "", "");
+                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 1, publishPlace.getText().toString().trim(), position_areas, position_address, position_city, longitude, latitude, "", "");
                     }
 
 
                 }
-                Log.d("TAGS", city );
-                Log.d("TAGS", longitude );
-                Log.d("TAGS", latitude );
-                Log.d("TAGS", editEdittextId.getText().toString().trim() );
-                Log.d("TAGS", aoiName );
-                Log.d("TAGS", publishPlace.getText().toString().trim() );
-                Log.d("TAGS",  country + "," + province + "," + city + "," + district );
+                Log.d("TAGS", position_city);
+                Log.d("TAGS", longitude);
+                Log.d("TAGS", latitude);
+                Log.d("TAGS", editEdittextId.getText().toString().trim());
+                Log.d("TAGS", publishPlace.getText().toString().trim());
+                Log.d("TAGS", position_areas);
+//                Log.d("TAGS", position_address);
                 for (int i = 0; i < channel_arrays.length; i++) {
-                    Log.d("TA", channel_arrays[i]+"");
+                    Log.d("TA", channel_arrays[i] + "");
 
                 }
 
@@ -624,6 +632,7 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
+        //选择频道
         if (requestCode == 1 && resultCode == 1) {
             channelRecycler.setVisibility(View.VISIBLE);
             line2.setVisibility(View.VISIBLE);
@@ -640,31 +649,41 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
             channelRecycler.setLayoutManager(new GridLayoutManager(PublishYoXiuActivity.this, 3));
             channelRecycler.setAdapter(adapter);
         }
+        //创建自定义点回来
         if (requestCode == 1 && resultCode == 2) {
-            String place = data.getStringExtra("place");
-            String type = data.getStringExtra("type");
-            lat = data.getDoubleExtra("latitude", 0.0);
-            lng = data.getDoubleExtra("longitude", 0.0);
-            LatLonPoint latLonPoint = new LatLonPoint(lat, lng);
-            publishPlace.setText(place);
-            setCurrentLocationDetails(latLonPoint);
-            Log.d("PublishYoXiuActivity", "latitude=" + latitude + "longitude= " + longitude);
-        } else if (requestCode == 1 && resultCode == 3) {
-            double latitude = data.getDoubleExtra("latitude", 0.0);
-            String title = data.getStringExtra("title");
-            double longitude = data.getDoubleExtra("longitude", 0.0);
-            LatLonPoint latLonPoint = new LatLonPoint(latitude, longitude);
 
-            setCurrentLocationDetails(latLonPoint);
-            publishPlace.setText(title);
-        } else if (requestCode == 1 && resultCode == 6) {
+
+            position_address = data.getStringExtra("position_address");
+            position_city = data.getStringExtra("position_city");
+            position_areas = data.getStringExtra("position_areas");
+            longitude = data.getStringExtra("longitude");
+            latitude = data.getStringExtra("latitude");
+            place = data.getStringExtra("place");
+            String type = data.getStringExtra("type");
+            publishPlace.setText(place);
+            Log.d("PublishYoXiuActivity", "latitude=" + latitude + "longitude= " + longitude);
+        }
+        //选择位置回来
+        if (requestCode == 1 && resultCode == 3) {
+            position_address = data.getStringExtra("position_address");
+            position_city = data.getStringExtra("position_city");
+            position_areas = data.getStringExtra("position_areas");
+            longitude = data.getStringExtra("longitude");
+            latitude = data.getStringExtra("latitude");
+            place = data.getStringExtra("place");
+            publishPlace.setText(place);
+        }
+        //更多话题
+        if (requestCode == 1 && resultCode == 6) {
             String topicName = data.getStringExtra("topic");
             int type_id = data.getIntExtra("type_id", 0);
 
             type_list.add(type_id);
             topic.setObjectText(topicName);
             editEdittextId.setObject(topic);// 设置话题
-        } else if (requestCode == 1 && resultCode == 88) {
+        }
+        //替换图片
+        if (requestCode == 1 && resultCode == 88) {
             String latitude = data.getStringExtra("latitude");
             String longitude = data.getStringExtra("longitude");
             String desc = data.getStringExtra("desc");
@@ -750,5 +769,92 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
         public void setId(String id) {
             this.id = id;
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void initPopuptWindow() {
+        View pop_view = View.inflate(this, R.layout.item_praise_popup, null);
+
+
+        pop_view.findViewById(R.id.popup_im_id).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                popMenu.dismiss();
+            }
+        });
+        popMenu = new PopupWindow(pop_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
+        popMenu.setFocusable(true);//设置pw中的控件能够获取焦点
+        ColorDrawable dw = new ColorDrawable();
+        popMenu.setBackgroundDrawable(dw);//设置mPopupWindow背景颜色或图片，这里设置半透明
+        popMenu.setOutsideTouchable(true); //设置可以通过点击mPopupWindow外部关闭mPopupWindow
+//        popMenu.setAnimationStyle(R.style.PopupAnimationAmount);//设置mPopupWindow的进出动画
+        Button popup_no_id = pop_view.findViewById(R.id.popup_no_id);
+        Button popup_yes_id = pop_view.findViewById(R.id.popup_yes_id);
+        TextView pop_content_id = pop_view.findViewById(R.id.pop_content_id);
+        TextView pop_title_id = pop_view.findViewById(R.id.pop_title_id);
+        pop_title_id.setText("码字「不易」");
+        pop_content_id.setText("退出前是否要保存到草稿？");
+        popup_no_id.setText("放弃");
+        popup_no_id.setTextColor(Color.parseColor("#FA800A"));
+        popup_yes_id.setTextColor(Color.parseColor("#FA800A"));
+        popup_yes_id.setText("准了");
+        popup_no_id.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                popMenu.dismiss();
+            }
+        });
+        popup_yes_id.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (position_address == null) {
+
+                    if (mimeType != null && mimeType.contains("video")) {
+                        String uploadVideo = uploadYoXiuVideo();
+                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 3, publishPlace.getText().toString().trim(), position_areas, "", position_city, longitude, latitude, "", "");
+
+
+                    } else {
+                        String uploadImage = uploadYoXiuImage();
+                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 3, publishPlace.getText().toString().trim(), position_areas, "", position_city, longitude, latitude, "", "");
+                    }
+                } else {
+
+                    if (mimeType != null && mimeType.contains("video")) {
+                        String uploadVideo = uploadYoXiuVideo();
+                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadVideo, 2, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 3, publishPlace.getText().toString().trim(), position_areas, position_address, position_city, longitude, latitude, "", "");
+
+
+                    } else {
+                        String uploadImage = uploadYoXiuImage();
+                        mPresenter.publishYoXiu(user_id, user_token, 0, uploadImage, 1, editEdittextId.getText().toString().trim(), channel_arrays, open_type, 3, publishPlace.getText().toString().trim(), position_areas, position_address, position_city, longitude, latitude, "", "");
+                    }
+
+
+                }
+                finish();
+                popMenu.dismiss();
+            }
+        });
+        backgroundAlpha(0.6f);
+        popMenu.showAtLocation(findViewById(R.id.edit_rlayout_id), Gravity.CENTER, 0, 0);//mPopupWindow显示的位置
+        /**
+         * PopupWindow消失监听方法
+         */
+
+        popMenu.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1.0f);
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        initPopuptWindow();
+
     }
 }

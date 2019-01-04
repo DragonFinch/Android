@@ -24,6 +24,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -54,6 +56,7 @@ import com.iyoyogo.android.presenter.YoJiDetailPresenter;
 import com.iyoyogo.android.ui.home.yoxiu.MoreTopicActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.StatusBarUtil;
 import com.iyoyogo.android.widget.CircleImageView;
 import com.iyoyogo.android.widget.MyNestedScrollView;
 import com.umeng.socialize.ShareAction;
@@ -208,6 +211,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     private String logo;
     private String desc;
     private String title;
+    private TranslateAnimation mShowAction;
+    private TranslateAnimation mHiddenAction;
 
     @Override
     protected int getLayoutId() {
@@ -217,6 +222,16 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     protected void initView() {
         super.initView();
+        StatusBarUtil.setTranslucent (this);//就这么一行代码
+        mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+                -1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
+        mShowAction.setDuration(500);
+        mHiddenAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF,
+                0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+                -1.0f);
+        mHiddenAction.setDuration(500);
         Intent intent = getIntent();
         yo_id = intent.getIntExtra("yo_id", 0);
         setSupportActionBar(toolbar);
@@ -239,6 +254,9 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                     imgBack.setImageResource(R.mipmap.fanhui_black);
                     imgShare.setImageResource(R.mipmap.fenxiang_hei);
                     imgMessage.setVisibility(View.VISIBLE);
+                    imgMessage.startAnimation(mShowAction);
+                    messageTrip.startAnimation(mShowAction);
+                    realtive.startAnimation(mHiddenAction);
                     messageTrip.setVisibility(View.VISIBLE);
                     realtive.setVisibility(View.GONE);
 //                    StatusBarUtil.setStatusBarColor(YoJiDetailActivity.this,Color.parseColor("#ffffff"));
@@ -252,6 +270,9 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                     imgMessage.setVisibility(View.GONE);
                     messageTrip.setVisibility(View.GONE);
                     realtive.setVisibility(View.VISIBLE);
+                    imgMessage.startAnimation(mHiddenAction);
+                    messageTrip.startAnimation(mHiddenAction);
+                    realtive.startAnimation(mShowAction);
 //                    StatusBarUtil.setStatusBarColor(YoJiDetailActivity.this,Color.parseColor("#00000000"));
 
                 }

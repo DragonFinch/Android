@@ -4,7 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.YoJiCenterAdapter;
@@ -18,6 +22,7 @@ import com.iyoyogo.android.utils.SpUtils;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
@@ -28,6 +33,11 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
     @BindView(R.id.recycler_yoji)
     RecyclerView recyclerYoji;
     Unbinder unbinder;
+    @BindView(R.id.tv_tips)
+    TextView tvTips;
+    @BindView(R.id.list_blank)
+    LinearLayout listBlank;
+    Unbinder unbinder1;
     private String user_id;
     private String user_token;
 
@@ -54,9 +64,10 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
     @Override
     public void getYoJiContentSuccess(YoJiContentBean.DataBean data) {
         List<YoJiContentBean.DataBean.ListBean> list = data.getList();
-        if (list.size()==0){
+        if (list.size() == 0) {
             recyclerYoji.setVisibility(View.GONE);
-        }else {
+            listBlank.setVisibility(View.VISIBLE);
+        } else {
             YoJiCenterAdapter yoJiCenterAdapter = new YoJiCenterAdapter(getContext(), list);
             recyclerYoji.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerYoji.setAdapter(yoJiCenterAdapter);
@@ -74,5 +85,17 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
     }
 
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder1 = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder1.unbind();
+    }
 }
