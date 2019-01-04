@@ -246,7 +246,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 //
 //                    layoutParams.alignWithParent=true;
 
-                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     layoutParams.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);
                     editComment.setLayoutParams(layoutParams);
 
@@ -404,14 +404,14 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                     tvLike.setText(count_praise + "");
                     dataBeans.get(0).setIs_my_like(0);
                     dataBeans.get(0).setCount_praise(count_praise);
-                    like();
-                    popup.showAtLocation(findViewById(R.id.activity_yoxiu_detail), Gravity.CENTER, 0, 0);
+
                 } else {
                     //由不喜欢变为喜欢，暗变亮
                     tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
                             liked, null, null);
                     count_praise += 1;
                     //设置点赞的数量
+                    like();
                     tvLike.setText(count_praise + "");
                     dataBeans.get(0).setIs_my_like(1);
                     dataBeans.get(0).setCount_praise(count_praise);

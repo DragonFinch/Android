@@ -480,7 +480,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_comment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_below="@+id/tv_comment"
                 android:visibility="visible"
 
@@ -540,7 +540,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/line2"
-                android:layout_marginBottom="@dimen/dp_25"
+                android:layout_marginBottom="@dimen/dp_30"
                 android:focusable="true"
                 android:focusableInTouchMode="true">
 
@@ -549,6 +549,7 @@
                     android:layout_width="@dimen/dp_230"
                     android:layout_height="@dimen/dp_30"
                     android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/dp_18"
                     android:background="#00000000"
                     android:hint="再不评论 , 你会被抓去写作业的~"
                     android:imeOptions="actionSend"
@@ -617,7 +618,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dp_10"
                     android:layout_marginBottom="@dimen/dp_10"
                     android:src="@mipmap/input_biaoqing"

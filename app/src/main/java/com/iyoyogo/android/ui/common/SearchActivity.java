@@ -92,6 +92,14 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
     private String latitude;
     private String longitude;
     private String country;
+    private int yo_type;
+
+    @Override
+    protected void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
+        Intent intent = getIntent();
+        yo_type = intent.getIntExtra("yo_type", 0);
+    }
     private String user_token;
     private String user_id;
     private List<HisPositionBean.DataBean.ListBean> list1;
@@ -248,13 +256,14 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
                             mPresenter.getHisPosition(user_id, user_token, 1, 20);
                         }
                         adapter = new PoiSearchAdapter(SearchActivity.this, datas);
-                        /*if (datas!=null){
+                    /*    if (datas!=null){
                             mapAddAddress.setVisibility(View.GONE);
                             recyclerAddAddress.setVisibility(View.VISIBLE);
                         }else {
                             mapAddAddress.setVisibility(View.VISIBLE);
                             recyclerAddAddress.setVisibility(View.GONE);
                         }*/
+                        locationRVId.setVisibility(View.VISIBLE);
                         locationRVId.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
                         locationRVId.setAdapter(adapter);
                         doChangeColor(s.toString().trim());
@@ -264,12 +273,22 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
                                 double latitude = datas.get(pos).getLatitude();
                                 double longitude = datas.get(pos).getLongitude();
                                 String title = datas.get(pos).getTitle();
+                                String provinceName = datas.get(pos).getProvinceName();
+                                String snippet = datas.get(pos).getSnippet();
+                                SpUtils.putString(SearchActivity.this, "title", title);
+                                SpUtils.putString(SearchActivity.this, "provinceName", provinceName);
                                 Intent intent = new Intent();
                                 intent.putExtra("latitude", latitude);
                                 intent.putExtra("longitude", longitude);
                                 intent.putExtra("title", title);
-                                setResult(3, intent);
-                                finish();
+                                if (yo_type==2){
+                                    setResult(45, intent);
+                                    finish();
+                                }else {
+                                    setResult(3, intent);
+                                    finish();
+                                }
+
                             }
                         });
 
@@ -376,15 +395,21 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
                 double latitude = Double.valueOf(list1.get(position).getLat());
                 double longitude = Double.valueOf(list1.get(position).getLng());
-                String title = list1.get(position).getAddress();
+                String title = list1.get(position).getName();
                 Intent intent = new Intent();
                 intent.putExtra("latitude", latitude);
                 intent.putExtra("longitude", longitude);
                 intent.putExtra("title", title);
-                setResult(3, intent);
-                finish();
+                if (yo_type==2){
+                    setResult(45, intent);
+                    finish();
+                }else {
+                    setResult(3, intent);
+                    finish();
+                }
             }
         });
     }
@@ -397,7 +422,7 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
 
         @Override
         protected void convert(BaseViewHolder helper, HisPositionBean.DataBean.ListBean item) {
-            helper.setText(R.id.tv_title, item.getAddress());
+            helper.setText(R.id.tv_title, item.getName());
             helper.setText(R.id.tv_province, item.getAreas());
         }
     }

@@ -318,8 +318,9 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
             public void onAddAddressClick(int position, PublishYoJiAdapter.ViewHolder holder) {
                 Intent intent = new Intent(PublishYoJiActivity.this, SearchActivity.class);
                 intent.putExtra("latitude", "0");
+                intent.putExtra("yo_type", 2);
                 intent.putExtra("longitude", "0");
-                intent.putExtra("place", "添加位置");
+                intent.putExtra("place", "添加地点");
                 startActivityForResult(intent, 1);
                 location_tv = holder.itemView.findViewById(R.id.location_tv);
             }
@@ -561,6 +562,27 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==1&&resultCode==45){
+            double latitude = data.getDoubleExtra("latitude", 0.0);
+            String title = data.getStringExtra("title");
+            double longitude = data.getDoubleExtra("longitude", 0.0);
+            LatLonPoint latLonPoint = new LatLonPoint(latitude, longitude);
+            setCurrentLocationDetails(latLonPoint);
+            publishYoJiRequest.setLogos(uris);
+            publishYoJiRequest.setPosition_name(place1);
+            publishYoJiRequest.setPosition_areas(country + "," + province + "," + city + "," + district);
+            publishYoJiRequest.setLat(String.valueOf(latitude));
+            publishYoJiRequest.setLng(String.valueOf(longitude));
+            publishYoJiRequest.setPosition_address(place);
+            messageBean1.setPosition_name(place1);
+            messageBean1.setPosition_areas(country + "," + province + "," + city + "," + district);
+            messageBean1.setLat(String.valueOf(latitude));
+            messageBean1.setLng(String.valueOf(longitude));
+            messageBean1.setPosition_address(place);
+
+
+            location_tv.setText(title);
+        }
         if (requestCode == 1 && resultCode == 3) {
             place1 = data.getStringExtra("place");
             Log.d("PublishYoJiActivity", place1);
@@ -667,6 +689,14 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
             messageBean1.setLogos(strings);
             list.add(messageBean1);
             publishYoJiAdapter.addData(index, messageBean1);
+        }
+        if (requestCode==2&&resultCode==6){
+            String topicName = data.getStringExtra("topic");
+            int type_id = data.getIntExtra("type_id", 0);
+            type_list.add(type_id);
+            Log.d("PublishYoJiActivity", topicName);
+            topic.setObjectText(topicName);
+            etContent.setObject(topic);// 设置话题
         }
     }
 
@@ -778,6 +808,9 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
                 break;
             case R.id.more_topic:
+                Intent intent1 = new Intent(PublishYoJiActivity.this, MoreTopicActivity.class);
+                intent1.putExtra("type",2);
+                startActivityForResult(intent1, 2);
 
                 break;
             case R.id.next:

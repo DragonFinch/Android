@@ -226,6 +226,7 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
         type_list = new ArrayList<>();
         user_token = SpUtils.getString(PublishYoXiuActivity.this, "user_token", null);
         user_id = SpUtils.getString(PublishYoXiuActivity.this, "user_id", null);
+        uploadYoXiuImage();
         mPresenter.getRecommendTopic(user_id, user_token);
         editEdittextId.addTextChangedListener(new TextWatcher() {
             @Override
@@ -272,7 +273,7 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
         }
 
         path = intent.getStringExtra("path");
-            uploadYoXiuImage();
+
 
         Log.d("PublishYoXiuActivity", path);
         Glide.with(this).load(path).into(editVideoId);
@@ -610,6 +611,9 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
             line2.setVisibility(View.VISIBLE);
             tvChannel.setVisibility(View.GONE);
             channel_arrays = data.getIntArrayExtra("channel_array");
+            for (int i = 0; i < channel_arrays.length; i++) {
+                Log.d("PublishYoXiuActivity", "channel_arrays[i]:" + channel_arrays[i]);
+            }
             ArrayList<String> channel_list = data.getStringArrayListExtra("channel_list");
             for (int i = 0; i < channel_list.size(); i++) {
                 Log.d("PublishYoXiuActivity", channel_list.get(i));
@@ -631,6 +635,8 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
             double latitude = data.getDoubleExtra("latitude", 0.0);
             String title = data.getStringExtra("title");
             double longitude = data.getDoubleExtra("longitude", 0.0);
+            LatLonPoint latLonPoint = new LatLonPoint(latitude, longitude);
+            setCurrentLocationDetails(latLonPoint);
             publishPlace.setText(title);
         } else if (requestCode == 1 && resultCode == 5) {
             String topicName = data.getStringExtra("topic");

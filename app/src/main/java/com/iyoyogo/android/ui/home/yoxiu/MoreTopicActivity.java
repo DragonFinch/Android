@@ -207,24 +207,31 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                relaCreate.setVisibility(View.VISIBLE);
                 if (s.toString().trim().length() != 0) {
+                relaCreate.setVisibility(View.VISIBLE);
                     clearSearch.setVisibility(View.VISIBLE);
+                    adapter.setSearchContent(s.toString().trim());
+                    tvCreateMessage.setText(s.toString().trim());
+                    tvCreateMessage.setTextColor(Color.parseColor("#FA800A"));
+                    relativeMore.setVisibility(View.GONE);
+                    relativeNear.setVisibility(View.GONE);
+                    searchLocationPoi(s, mList);
+                    recyclerTopicMore.setVisibility(View.GONE);
+                    recyclerTopicNear.setVisibility(View.GONE);
                 } else {
+                    relativeMore.setVisibility(View.VISIBLE);
+                    relativeNear.setVisibility(View.VISIBLE);
                     clearSearch.setVisibility(View.GONE);
                 }
 
-                adapter.setSearchContent(s.toString().trim());
-                tvCreateMessage.setText(s.toString().trim());
-                tvCreateMessage.setTextColor(Color.parseColor("#FA800A"));
-                relativeMore.setVisibility(View.GONE);
-                relativeNear.setVisibility(View.GONE);
-                searchLocationPoi(s, mList);
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+            if (s.toString().trim().length()==0){
 
+            }
             }
         });
 
@@ -234,11 +241,6 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
 
                 String topic = mList.get(position).getTopic();
                 int id = mList.get(position).getId();
-              /*  Intent intent = new Intent();
-                intent.putExtra("topic", topic);
-                intent.putExtra("type_id", id);
-                setResult(5, intent);
-                finish();*/
                 if (yo_types==2){
                     Intent intent = new Intent();
                     intent.putExtra("topic", topic);

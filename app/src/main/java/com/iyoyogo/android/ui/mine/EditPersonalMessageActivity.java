@@ -1,7 +1,6 @@
 package com.iyoyogo.android.ui.mine;
 
 import android.annotation.SuppressLint;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -36,10 +35,8 @@ import com.alibaba.sdk.android.oss.ClientConfiguration;
 import com.alibaba.sdk.android.oss.ClientException;
 import com.alibaba.sdk.android.oss.OSSClient;
 import com.alibaba.sdk.android.oss.ServiceException;
-import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
-import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.ObjectMetadata;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
@@ -66,6 +63,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -110,6 +108,8 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
     TextView userId;
     @BindView(R.id.main_llayout_id)
     LinearLayout mainLlayoutId;
+    @BindView(R.id.interest_layout)
+    RelativeLayout interestLayout;
 
     private RelativeLayout relativeLayout;
     private TextView textView;
@@ -204,7 +204,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
         user_id = SpUtils.getString(EditPersonalMessageActivity.this, "user_id", null);
         user_token = SpUtils.getString(EditPersonalMessageActivity.this, "user_token", null);
         mPresenter.getUserInfo(user_id, user_token);
-        tvInterest.setOnClickListener(new View.OnClickListener() {
+        interestLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EditPersonalMessageActivity.this, LikePrefencesActivity.class);
@@ -271,7 +271,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                if (url==null) {
+                if (url == null) {
                     mPresenter.setUserInfo(user_id, user_token, nickName.getText().toString(), user_logo, sex, brithTvId.getText().toString(), cityTvId.getText().toString());
                 } else {
                     mPresenter.setUserInfo(user_id, user_token, nickName.getText().toString(), url, sex, brithTvId.getText().toString(), cityTvId.getText().toString());
@@ -651,6 +651,26 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
         } else {
             girl.setChecked(true);
         }
+        List<GetUserInfoBean.DataBean.InterestListBean> interest_list = data.getInterest_list();
+        if (interest_list.size() == 0) {
+            flow_interest.setVisibility(View.GONE);
+            tvInterest.setVisibility(View.VISIBLE);
+
+        } else {
+            flow_interest.setVisibility(View.VISIBLE);
+            tvInterest.setVisibility(View.GONE);
+            TagAdapter<GetUserInfoBean.DataBean.InterestListBean> tagAdapter = new TagAdapter<GetUserInfoBean.DataBean.InterestListBean>(interest_list) {
+                @Override
+                public View getView(FlowLayout parent, int position, GetUserInfoBean.DataBean.InterestListBean interestListBean) {
+                    View contentView = getLayoutInflater().inflate(R.layout.item_interest_person, flow_interest, false);
+                    TextView tv = contentView.findViewById(R.id.tv_interest);
+                    tv.setText(interest_list.get(position).getInterest());
+                    return contentView;
+                }
+            };
+            flow_interest.setAdapter(tagAdapter);
+        }
+
 
     }
 
@@ -660,4 +680,10 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
         initPopuptWindow();
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

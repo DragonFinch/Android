@@ -242,7 +242,6 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                     messageTrip.setVisibility(View.VISIBLE);
                     realtive.setVisibility(View.GONE);
 //                    StatusBarUtil.setStatusBarColor(YoJiDetailActivity.this,Color.parseColor("#ffffff"));
-                    Toast.makeText(YoJiDetailActivity.this, "折叠了", Toast.LENGTH_SHORT).show();
                 }
                 if (expendedtag == 2 && verticalOffset == 0) {
                     statusbar();
@@ -254,7 +253,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                     messageTrip.setVisibility(View.GONE);
                     realtive.setVisibility(View.VISIBLE);
 //                    StatusBarUtil.setStatusBarColor(YoJiDetailActivity.this,Color.parseColor("#00000000"));
-                    Toast.makeText(YoJiDetailActivity.this, "展开了", Toast.LENGTH_SHORT).show();
+
                 }
                 if (expendedtag != 2 && verticalOffset == 0) {
                     expendedtag++;
@@ -390,7 +389,6 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         mPresenter.getCommentList(user_id, user_token, 1, yo_id, 0);
 
     }
-
 
 
     @OnClick({R.id.add_attention, R.id.img_back, R.id.img_share, R.id.tv_attention, R.id.tv_load_more, R.id.tv_comment, R.id.tv_like, R.id.tv_collection})
@@ -662,9 +660,6 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     }
 
 
-
-
-
     private void createCollectionFolder() {
         backgroundAlpha(0.6f);
         View view = LayoutInflater.from(YoJiDetailActivity.this).inflate(R.layout.popup_collection, null);
@@ -771,6 +766,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         popup.setOnDismissListener(new poponDismissListener());
         popup.showAtLocation(findViewById(R.id.activity_yoji_detail), Gravity.BOTTOM, 0, 0);
     }
+
     public void share() {
         View view = getLayoutInflater().inflate(R.layout.popup_share, null);
         PopupWindow popup_share = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(YoJiDetailActivity.this, 220), true);
@@ -831,6 +827,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         popup_share.showAtLocation(findViewById(R.id.activity_yoji_detail), Gravity.BOTTOM, 0, 0);
 
     }
+
     private void shareWeb(SHARE_MEDIA share_media) {
         /*80002/yo_id/4143*/
         String url = "http://192.168.0.145/home/share/details_yoj/share_user_id/" + user_id + "/yo_id/" + yo_id;
@@ -846,6 +843,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 .setPlatform(share_media)
                 .share();
     }
+
     public void backgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = bgAlpha; // 0.0~1.0
@@ -860,6 +858,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
             backgroundAlpha(1.0f);
         }
     }
+
     @Override
     public void getCommentListSuccess(CommentBean.DataBean data) {
         List<CommentBean.DataBean.ListBean> list = data.getList();
@@ -936,14 +935,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 }*/
                 int folder_id = mList1.get(position).getFolder_id();
                 mPresenter.getYoJiDetail(user_id, user_token, yo_id);
-                if (is_my_attention == 0) {
-                    mPresenter.addCollection(user_id, user_token, folder_id, yo_user_id);
-                    popup.dismiss();
-//                    Log.d("YoXiuDetailActivity", target_id);
-
-                } else {
-
-                }
+                mPresenter.addCollection(user_id, user_token, folder_id, yo_user_id);
                 popup.dismiss();
 
             }

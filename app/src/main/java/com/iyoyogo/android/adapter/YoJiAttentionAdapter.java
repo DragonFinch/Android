@@ -293,6 +293,7 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
 
 
         } else {
+
             HomeBean.DataBean.YojListBean.UserInfoBean user_info = mList.get(position).getUser_info();
             Log.d("YoJiAttentionAdapter", user_info.getUser_nickname());
             if (mList.get(position).getUser_info().getUser_nickname() != null) {
@@ -312,9 +313,10 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
             if (comment_list.size()==0){
                 holder.recycler_comment.setVisibility(View.GONE);
             }else {
-                YoJiListItemAdapter adapter = new YoJiListItemAdapter(context, comment_list);
+                holder.recycler_comment.setVisibility(View.VISIBLE);
+                YoJiListItemAdapter yoJiListItemAdapter = new YoJiListItemAdapter(context, comment_list);
                 holder.recycler_comment.setLayoutManager(new LinearLayoutManager(context));
-                holder.recycler_comment.setAdapter(adapter);
+                holder.recycler_comment.setAdapter(yoJiListItemAdapter);
             }
 
             holder.dt_like.setImageResource(mList.get(position).getIs_my_praise() > 0 ? R.mipmap.yixihuan_xiangqing : R.mipmap.datu_xihuan);
@@ -375,6 +377,7 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
             LayoutInflater inflater = LayoutInflater.from(context);
             if (mList.get(position).getUsers_praise().size() == 0) {
                 holder.pile_layout.setVisibility(View.GONE);
+                holder.tv_num_like.setVisibility(View.GONE);
             } else {
                 for (int i = 0; i < mList.get(position).getUsers_praise().size(); i++) {
                     com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);

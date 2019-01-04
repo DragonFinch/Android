@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +39,8 @@ import static com.iyoyogo.android.app.App.context;
 /**
  * 频道
  */
-public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> implements ChannelContract.View {
+public class
+ChannelActivity extends BaseActivity<ChannelContract.Presenter> implements ChannelContract.View {
 
 
     @BindView(R.id.back)
@@ -155,6 +157,9 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
                 Intent intent = new Intent();
 
                 ArrayList<String> integerList = adapter.selectPhoto();
+                for (int i = 0; i < integerList.size(); i++) {
+                    Log.d("ChannelActivity", integerList.get(i));
+                }
                 ArrayList<String> strings = adapter.selectChannel();
                 if (integerList!=null){
                     int size = integerList.size();
@@ -162,9 +167,16 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
                     for (int i = 0; i <integerList.size() ; i++) {
                         channel_ids[i]=Integer.parseInt(integerList.get(i));
                     }
+                    for (int i = 0; i < channel_ids.length; i++) {
+                        Log.d("channel_ids", "channel_ids[i]:" + channel_ids[i]);
+                    }
 //                Integer[] integers = integerList.toArray(new Integer[size]);
-                    int[] channel_array = new int[channel_ids.length];
-                    intent.putExtra("channel_array", channel_array);
+                    int[] channel_array = new int[integerList.size()];
+                    for (int i = 0; i < integerList.size(); i++) {
+                        channel_array[i]=channel_ids[i];
+                        Log.d("channel_array", "channel_array[i]:" + channel_array[i]);
+                    }
+                    intent.putExtra("channel_array", channel_ids);
                     intent.putStringArrayListExtra("channel_list", strings);
                /* for (int i = 0; i < integers.length; i++) {
                     channel_array[i] = integers[i];

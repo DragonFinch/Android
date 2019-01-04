@@ -109,6 +109,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
         LayoutInflater inflater = LayoutInflater.from(context);
         if (mList.get(position).getUsers_praise().size() == 0) {
             holder.pile_layout.setVisibility(View.GONE);
+            holder.tv_num_like.setVisibility(View.GONE);
         } else {
             for (int i = 0; i < mList.get(position).getUsers_praise().size(); i++) {
                 com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
