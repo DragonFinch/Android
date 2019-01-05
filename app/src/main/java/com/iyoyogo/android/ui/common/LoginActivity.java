@@ -1,14 +1,20 @@
 package com.iyoyogo.android.ui.common;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +29,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.bumptech.glide.Glide;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
@@ -39,7 +49,11 @@ import com.umeng.socialize.UMShareConfig;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -117,14 +131,133 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE};
 
-
+    public AMapLocationClient mLocationClient = null;
+    //声明AMapLocationClientOption对象
+    public AMapLocationClientOption mLocationOption = null;
+    //初始化AMapLocationClientOption对象
     private int status;
     private int have_interest;
     private String user_id;
     private String user_token;
     private String registrationID;
+    //声明定位回调监听器
+    public AMapLocationListener mLocationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation amapLocation) {
+            if (amapLocation != null) {
+                if (amapLocation.getErrorCode() == 0) {
+//可在其中解析amapLocation获取相应内容。
+                    mLocationOption.setNeedAddress(true);
+                    amapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
+                    amapLocation.getLatitude();//获取纬度
+                    amapLocation.getLongitude();//获取经度
+                    amapLocation.getAccuracy();//获取精度信息
+                    //地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
+                    address = amapLocation.getAddress();
+                    SpUtils.putString(getApplicationContext(), "address", address);
+                    String systemVersion = Build.VERSION.RELEASE;
+                    SpUtils.putString(getApplicationContext(), "phone_type", android.os.Build.BRAND + "_" + android.os.Build.MODEL);
+                    SpUtils.putString(getApplicationContext(), "system_version", systemVersion);
+                    amapLocation.getCountry();//国家信息
+                    amapLocation.getProvince();//省信息
+                    String city = amapLocation.getCity();//城市信息
+//                    bar.setLocationResult(city);
+                    amapLocation.getDistrict();//城区信息
+                    amapLocation.getStreet();//街道信息
+                    amapLocation.getStreetNum();//街道门牌号信息
+                    amapLocation.getCityCode();//城市编码
+                    amapLocation.getAdCode();//地区编码
+                    amapLocation.getAoiName();//获取当前定位点的AOI信息
+                    amapLocation.getBuildingId();//获取当前室内定位的建筑物Id
+                    amapLocation.getFloor();//获取当前室内定位的楼层
+                    amapLocation.getGpsAccuracyStatus();//获取GPS的当前状态
+//获取定位时间
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date = new Date(amapLocation.getTime());
+                    df.format(date);
+                } else {
+                    //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
+                    Log.e("AmapError", "location Error, ErrCode:"
+                            + amapLocation.getErrorCode() + ", errInfo:"
+                            + amapLocation.getErrorInfo());
+                }
+            }
+        }
+    };
+    private String address;
+
+    public String sHA1(Context context) {
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo(
+                    context.getPackageName(), PackageManager.GET_SIGNATURES);
+            byte[] cert = info.signatures[0].toByteArray();
+            MessageDigest md = MessageDigest.getInstance("SHA1");
+            byte[] publicKey = md.digest(cert);
+            StringBuffer hexString = new StringBuffer();
+            for (int i = 0; i < publicKey.length; i++) {
+                String appendString = Integer.toHexString(0xFF & publicKey[i])
+                        .toUpperCase(Locale.US);
+                if (appendString.length() == 1)
+                    hexString.append("0");
+                hexString.append(appendString);
+                hexString.append(":");
+            }
+            String result = hexString.toString();
+            return result.substring(0, result.length() - 1);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private void initLocation() {
+        String s = sHA1(getApplicationContext());
+        Log.d("LocationActivity", s);
 
 
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
+        builder.detectFileUriExposure();
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            String[] mPermissionList = new String[]{
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_PHONE_STATE};
+            ActivityCompat.requestPermissions(LoginActivity.this, mPermissionList, 123);
+        }
+
+
+        //初始化定位
+        mLocationClient = new AMapLocationClient(getApplicationContext());
+//设置定位回调监听
+        mLocationClient.setLocationListener(mLocationListener);
+        mLocationOption = new AMapLocationClientOption();
+
+        mLocationOption.setLocationPurpose(AMapLocationClientOption.AMapLocationPurpose.SignIn);
+        if (null != mLocationClient) {
+            mLocationClient.setLocationOption(mLocationOption);
+            //设置场景模式后最好调用一次stop，再调用start以保证场景模式生效
+            mLocationClient.stopLocation();
+            mLocationClient.startLocation();
+        }
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        mLocationOption.setOnceLocation(true);
+
+//获取最近3s内精度最高的一次定位结果：
+//设置setOnceLocationLatest(boolean b)接口为true，启动定位时SDK会返回最近3s内精度最高的一次定位结果。如果设置其为true，setOnceLocation(boolean b)接口也会被设置为true，反之不会，默认为false。
+        mLocationOption.setOnceLocationLatest(true);
+
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+//启动定位
+        mLocationClient.startLocation();
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -194,7 +327,12 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
                 SpUtils.putString(LoginActivity.this, "nickname", name);
                 SpUtils.putString(LoginActivity.this, "logo", iconurl);
                 //拿到信息去请求登录接口。。。
-                mPresenter.login("", "", "", type, "", "", uid, name, iconurl);
+                if (address!=null){
+
+                mPresenter.login(address, android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, type, "", "", uid, name, iconurl);
+                }else {
+                    mPresenter.login("", android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, type, "", "", uid, name, iconurl);
+                }
 
 
             }
@@ -257,6 +395,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
+        initLocation();
         mPresenter.market();
     }
 
@@ -372,7 +511,13 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
 
                     if (etPhoneNum.getText().toString().length() == 11 && !TextUtils.isEmpty(etPhoneNum.getText().toString()) && etPhoneNum.getText().toString().startsWith("1")) {
                         if (!TextUtils.isEmpty(etVerCode.getText().toString().trim())) {
-                            mPresenter.login("", "", "", 4, etPhoneNum.getText().toString().trim(), etVerCode.getText().toString().trim(), "", "", "");
+                            if (address!=null){
+
+                            mPresenter.login(address, android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, 4, etPhoneNum.getText().toString().trim(), etVerCode.getText().toString().trim(), "", "", "");
+                            }else {
+                            mPresenter.login("", android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, 4, etPhoneNum.getText().toString().trim(), etVerCode.getText().toString().trim(), "", "", "");
+
+                            }
                         } else {
                             Toast.makeText(this, "验证码不能为空", Toast.LENGTH_SHORT).show();
                         }

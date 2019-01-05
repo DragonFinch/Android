@@ -503,7 +503,12 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
             intent.putExtra("longitude", longitude);
             intent.putExtra("title", place);
             intent.putExtra("area", province+","+city+","+district);
-            intent.putExtra("address", aoiName);
+            if (aoiName==null){
+                intent.putExtra("address", "");
+            }else {
+                intent.putExtra("address", aoiName);
+            }
+
             intent.putExtra("city", city);
 
             setResult(2, intent);
