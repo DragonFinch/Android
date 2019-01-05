@@ -430,7 +430,18 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
                 mData.get(optionIndex).setLat(latitude + "");
                 mData.get(optionIndex).setLng(longitude + "");
                 mAdapter.notifyItemChanged(optionIndex);
-            } else if (requestCode == 1 && resultCode == 55) {
+            }
+            else if (requestCode == 1 && resultCode == 2) {
+                double latitude  = data.getDoubleExtra("latitude", 0.0);
+                String title     = data.getStringExtra("title");
+                double longitude = data.getDoubleExtra("longitude", 0.0);
+                mData.get(optionIndex).setPosition_areas(data.getStringExtra("area"));
+                mData.get(optionIndex).setPosition_address(data.getStringExtra("address"));
+                mData.get(optionIndex).setPosition_name(title);
+                mData.get(optionIndex).setLat(latitude + "");
+                mData.get(optionIndex).setLng(longitude + "");
+                mAdapter.notifyItemChanged(optionIndex);
+            }else if (requestCode == 1 && resultCode == 55) {
                 ArrayList<Bean>                                    sign_list = (ArrayList<Bean>) data.getSerializableExtra("sign_list");
                 List<PublishYoJiBean.DataBean.ListBean.LabelsBean> list      = new ArrayList<>();
                 for (Bean bean : sign_list) {

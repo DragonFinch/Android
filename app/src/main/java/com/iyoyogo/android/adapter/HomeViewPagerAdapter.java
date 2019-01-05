@@ -78,13 +78,16 @@ public class HomeViewPagerAdapter extends PagerAdapter {
                     }else {
                         Toast.makeText(context, "链接为空", Toast.LENGTH_SHORT).show();
                     }
-                }else {
+                }else if (images.get(position).getType().equals("video")){
                     String target_url = images.get(position).getTarget_url();
-                    Intent intent = new Intent(context, VideoActivity.class);
-                    intent.putExtra("title",images.get(position).getTitle());
-                    intent.putExtra("url",target_url);
-                    intent.putExtra("img_url", images.get(position).getPath());
-                    context.startActivity(intent);
+                    if (target_url!=null){
+                        Intent intent = new Intent(context, VideoActivity.class);
+                        intent.putExtra("title",images.get(position).getTitle());
+                        intent.putExtra("url",target_url);
+                        intent.putExtra("img_url", images.get(position).getPath());
+                        context.startActivity(intent);
+                    }
+
                 }
 
 
