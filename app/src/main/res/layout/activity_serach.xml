@@ -153,6 +153,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/go_create_point"
         android:layout_marginTop="5dp"
+        android:visibility="visible"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -162,7 +163,12 @@
             android:background="@color/white"
             android:gravity="center"
             android:visibility="visible">
-
+<ImageView
+    android:gravity="center"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:src="@mipmap/history_icon"
+    />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

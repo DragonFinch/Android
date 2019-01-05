@@ -140,6 +140,11 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:name">
         <activity android:name=".ui.mine.homepage.VipCenterActivity" />
+        <provider
+            android:authorities="com.iyoyogo.android.DataProvider"
+            android:name="cn.jpush.android.service.DataProvider"
+            android:exported="false"
+            />
 
         <service
             android:name="cn.jpush.android.service.PushService"
@@ -428,6 +433,12 @@
         <activity android:name=".ui.home.yoji.ReplyDiscussActivity" />
         <activity android:name=".ui.mine.homepage.MyFollowActivity" />
         <activity android:name=".ui.mine.homepage.HisFansActivity" />
+        <activity android:name=".ui.common.VideoActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            >
+
+        </activity>
         <activity android:name=".ui.mine.homepage.UserFansActivity" />
         <activity android:name=".ui.home.yoji.UserHomepageActivity" />
         <activity android:name=".ui.common.Same_page_Activity" />

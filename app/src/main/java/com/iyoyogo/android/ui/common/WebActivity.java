@@ -59,7 +59,8 @@ public class WebActivity extends BaseActivity {
         });
 
         tvTitle = (TextView) findViewById(R.id.title);
-        tvTitle.setText("悠悠行旅");
+        String title = intent.getStringExtra("title");
+        tvTitle.setText(title);
     }
 
     @Override

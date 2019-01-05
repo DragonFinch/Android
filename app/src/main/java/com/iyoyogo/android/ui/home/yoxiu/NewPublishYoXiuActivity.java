@@ -24,7 +24,6 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.alibaba.sdk.android.oss.ServiceException;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -145,7 +144,7 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
     @Override
     protected void initView() {
         super.initView();
-//        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
+        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
         mPublishOpenPopup=new PublishOpenPopup(this);
         mPublishOpenPopup.setOpenPopupClick(this);
     }
@@ -243,7 +242,7 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
                 intent.putExtra("latitude", "0");
                 intent.putExtra("yo_type", 2);
                 intent.putExtra("longitude", "0");
-                intent.putExtra("place", "添加地点");
+                intent.putExtra("place", mTvAddress.getText().toString());
                 startActivityForResult(intent, 1);
                 break;
             case R.id.rbtn_friend_circle:

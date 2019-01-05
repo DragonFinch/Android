@@ -351,7 +351,8 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
                 intent.putExtra("latitude", "0");
                 intent.putExtra("yo_type", 2);
                 intent.putExtra("longitude", "0");
-                intent.putExtra("place", "添加地点");
+                TextView tv_location =view.findViewById(R.id.tv_location);
+                intent.putExtra("place", tv_location.getText().toString());
                 startActivityForResult(intent, 1);
                 break;
 
@@ -578,7 +579,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
             PictureFileUtils.deleteCacheDirFile(this);
             Log.d("NewPublishYoJiActivity", new Gson().toJson(mData));
 
-            runOnUiThread(() -> mPresenter.publishYoJi(userId, token, id, coverUrl, mEtTitle.getText().toString(), mEtInfo.getText().toString(), Integer.valueOf(mEtMoney.getText().toString()), isOpen, saveType, channel_arrays.toString().replace("[", "").replace("]", ""), new Gson().toJson(setParams())));
+            runOnUiThread(() -> mPresenter.publishYoJi(userId, token, id, coverUrl, mEtTitle.getText().toString(), mEtInfo.getText().toString(), Integer.valueOf(mEtMoney.getText().toString()), isOpen, saveType, channel_arrays.toString().replace("[", "").replace("]", ""), new Gson().toJson( setParams())));
         }
         Log.d("NewPublishYoJiActivity", "position:" + position);
         Log.d("NewPublishYoJiActivity", "uploadIndex:" + uploadIndex);

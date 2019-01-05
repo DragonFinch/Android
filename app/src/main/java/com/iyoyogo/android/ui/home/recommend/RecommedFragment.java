@@ -80,21 +80,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
     @Override
     protected void initView() {
         super.initView();
-        MyRefreshAnimHeader mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
-        setHeader(mRefreshAnimHeader);
-        refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
-        //下拉刷新
-        refreshLayout.setEnableRefresh(true);
-        refreshLayout.setFooterHeight(1.0f);
-        refreshLayout.autoRefresh();
-        refreshLayout.finishRefresh(1050);
-        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                refreshLayout.finishRefresh(1050);
-                mPresenter.banner(user_id, user_token, "commend");
-            }
-        });
+
     }
 
     private void setHeader(RefreshHeader header) {
@@ -113,8 +99,22 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
         super.initData();
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
-
-        mPresenter.banner(user_id, user_token, "commend");
+        MyRefreshAnimHeader mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
+        setHeader(mRefreshAnimHeader);
+        refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
+        //下拉刷新
+        refreshLayout.setEnableRefresh(true);
+        refreshLayout.setFooterHeight(1.0f);
+        refreshLayout.autoRefresh();
+        refreshLayout.finishRefresh(1050);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                refreshLayout.finishRefresh(1050);
+                mPresenter.banner(user_id, user_token, "commend");
+            }
+        });
+//        mPresenter.banner(user_id, user_token, "commend");
 
     }
 

@@ -297,7 +297,7 @@
     <string name="str_report_not_allowed">违法违规</string>
     <!--通用-->
     <string name="connect_error">连接失败</string>
-    <string name="load_error_tips">加载失败～点击屏幕重试</string>
+    <string name="load_error_tips">咦？网络君去度假了～</string>
     <string name="confirm">确定</string>
     <string name="double_exit">再按一次退出伴婚礼</string>
 

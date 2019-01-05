@@ -74,7 +74,6 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.jzvd.JzvdStd;
 
 /**
  * 发布yo秀
@@ -442,7 +441,7 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
                 layoutOpen.setVisibility(View.GONE);
                 break;
             case R.id.edit_start_id:
-                JzvdStd.startFullscreen(PublishYoXiuActivity.this, JzvdStd.class, path, "");
+//                JzvdStd.startFullscreen(PublishYoXiuActivity.this, JzvdStd.class, path, "");
                 break;
             case R.id.publish_place:
                 Intent intent = new Intent(PublishYoXiuActivity.this, SearchActivity.class);

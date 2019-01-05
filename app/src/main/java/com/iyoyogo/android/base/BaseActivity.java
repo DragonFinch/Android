@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.ui.common.LoginActivity;
@@ -80,7 +81,8 @@ public abstract class BaseActivity<T extends IBasePresenter> extends AppCompatAc
 
         setScreenOrientation();
 //        setDefaultDisplayAdaptOrientation();
-        setStatusBar();
+//        setStatusBar();
+        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(getLayoutId());
         App.context = this;

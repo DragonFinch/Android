@@ -72,6 +72,24 @@ public class HomeBean extends BaseBean {
              * target_url : http://app.iyoyogo.com/index.php/home/article/details?id=10
              * remark : http://iyoyogo.oss-cn-beijing.aliyuncs.com/iyoyogo/2018/12/8/pPTdGnfQNN.mp4
              */
+            private String type;
+            private String title;
+
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
 
             private int id;
             private String path;

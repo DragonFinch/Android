@@ -98,6 +98,9 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
     private int                     yo_type;
     private String                  address1;
     private String                  city;
+    private String province;
+    private String aoiName;
+    private String district;
 
     @Override
     protected void initData(Bundle savedInstanceState) {
@@ -121,7 +124,7 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
         latitude = intent.getStringExtra("latitude");
         longitude = intent.getStringExtra("longitude");
         country = intent.getStringExtra("country");
-        set_history.setVisibility(View.GONE);
+        history.setVisibility(View.GONE);
         locationAgainGPSTVId.setVisibility(View.GONE);
         goCreatePoint.setVisibility(View.GONE);
 
@@ -140,7 +143,7 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
             locationPlaceTVId.setText(place);
             LatLonPoint latLonPoint = new LatLonPoint(Double.valueOf(latitude), Double.valueOf(longitude));
             setCurrentLocationDetails(latLonPoint);
-            if (place.equals("添加地点")) {
+            if (place.equals("选择地址")) {
 
             } else {
                 query = new PoiSearch.Query(place, "", "");
@@ -151,7 +154,7 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
                     @Override
                     public void onPoiSearched(PoiResult poiResult, int errcode) {
                         if (errcode == 1000) {
-
+//TODO
                             ArrayList<PoiItem> pois = poiResult.getPois();
                             for (int i = 0; i < pois.size(); i++) {
                                 LocationBean locationBean = new LocationBean();
@@ -173,12 +176,10 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
 
                             if (pois.size() == 0) {
                                 goCreatePoint.setVisibility(View.VISIBLE);
-                                locationRVId.setVisibility(View.GONE);
+                                locationRVId.setVisibility(View.VISIBLE);
                                 mPresenter.getHisPosition(user_id, user_token, 1, 20);
                             } else {
-
-                            }
-                            adapter = new PoiSearchAdapter(SearchActivity.this, datas);
+                                adapter = new PoiSearchAdapter(SearchActivity.this, datas);
                     /*    if (datas!=null){
                             mapAddAddress.setVisibility(View.GONE);
                             recyclerAddAddress.setVisibility(View.VISIBLE);
@@ -186,34 +187,41 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
                             mapAddAddress.setVisibility(View.VISIBLE);
                             recyclerAddAddress.setVisibility(View.GONE);
                         }*/
-                            locationRVId.setVisibility(View.VISIBLE);
-                            locationRVId.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
-                            locationRVId.setAdapter(adapter);
+                                locationRVId.setVisibility(View.VISIBLE);
+                                locationRVId.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
+                                locationRVId.setAdapter(adapter);
 //                        doChangeColor(s.toString().trim());
-                            adapter.setOnItemClickListener(new PoiSearchAdapter.onItemClickListener() {
-                                @Override
-                                public void onClick(View view, int pos) {
-                                    double latitude     = datas.get(pos).getLatitude();
-                                    double longitude    = datas.get(pos).getLongitude();
-                                    String title        = datas.get(pos).getTitle();
-                                    String provinceName = datas.get(pos).getProvinceName();
-                                    String snippet      = datas.get(pos).getSnippet();
-                                    SpUtils.putString(SearchActivity.this, "title", title);
-                                    SpUtils.putString(SearchActivity.this, "provinceName", provinceName);
-                                    Intent intent = new Intent();
-                                    intent.putExtra("latitude", latitude);
-                                    intent.putExtra("longitude", longitude);
-                                    intent.putExtra("title", title);
-                                    if (yo_type == 2) {
-                                        setResult(45, intent);
-                                        finish();
-                                    } else {
-                                        setResult(3, intent);
-                                        finish();
-                                    }
+                                adapter.setOnItemClickListener(new PoiSearchAdapter.onItemClickListener() {
+                                    @Override
+                                    public void onClick(View view, int pos) {
+                                        double latitude     = datas.get(pos).getLatitude();
+                                        double longitude    = datas.get(pos).getLongitude();
+                                        String title        = datas.get(pos).getTitle();
+                                        String provinceName = datas.get(pos).getProvinceName();
+                                        String snippet      = datas.get(pos).getSnippet();
+                                        String areas      = datas.get(pos).getAreas();
+                                        SpUtils.putString(SearchActivity.this, "title", title);
+                                        SpUtils.putString(SearchActivity.this, "provinceName", provinceName);
+                                        LatLonPoint latLonPoint = new LatLonPoint(latitude, longitude);
+                                        setCurrentLocationDetails(latLonPoint);
+                                        intent.putExtra("latitude", latitude);
+                                        intent.putExtra("longitude", longitude);
+                                        intent.putExtra("title", title);
+                                        intent.putExtra("area", areas);
+                                        intent.putExtra("address", snippet);
+                                        intent.putExtra("city", city);
+                                        if (yo_type == 2) {
+                                            setResult(45, intent);
+                                            finish();
+                                        } else {
+                                            setResult(3, intent);
+                                            finish();
+                                        }
 
-                                }
-                            });
+                                    }
+                                });
+                            }
+
 
 //                        searchCarAdapter.setNewData(datas);
                         } else {
@@ -239,16 +247,18 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().trim() != null) {
-                    searchLocationPoi(s);
-                }
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 addressInfo.setText(s.toString().trim());
-                locationRVId.setVisibility(View.GONE);
-                set_history.setVisibility(View.GONE);
+                locationRVId.setVisibility(View.VISIBLE);
+                history.setVisibility(View.GONE);
+                if (s.toString().trim().length() >0) {
+                    String trim = s.toString().trim();
+                    searchLocationPoi(s.toString().trim());
+                }
             }
         });
 
@@ -258,7 +268,7 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
         } else {
             locationRecommendTVId.setVisibility(View.GONE);
         }
-        if (place.equals("添加地点")) {
+        if (place.equals("选择地址")||place.equals("添加位置")) {
             locationPlaceTVId.setText("未获取到位置信息");
             locationAgainGPSTVId.setVisibility(View.GONE);
         }
@@ -279,16 +289,16 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
             public void onRegeocodeSearched(RegeocodeResult result, int rCode) {
                 address1 = result.getRegeocodeAddress().getFormatAddress();
                 String country      = result.getRegeocodeAddress().getCountry();
-                String province     = result.getRegeocodeAddress().getProvince();
+                province = result.getRegeocodeAddress().getProvince();
                 String neighborhood = result.getRegeocodeAddress().getNeighborhood();
-                String district     = result.getRegeocodeAddress().getDistrict();
+                district = result.getRegeocodeAddress().getDistrict();
                 String towncode     = result.getRegeocodeAddress().getTowncode();
                 city = result.getRegeocodeAddress().getCity();
                 Log.e("formatAddress", "formatAddress:" + address1);
                 Log.e("formatAddress", "rCode:" + rCode);
 
                 for (int i = 0; i < result.getRegeocodeAddress().getAois().size(); i++) {
-                    String aoiName = result.getRegeocodeAddress().getAois().get(i).getAoiName();
+                    aoiName = result.getRegeocodeAddress().getAois().get(i).getAoiName();
                     Log.e("formatAddress", "aoiName:" + aoiName);
                 }
                 Log.e("formatAddress", "neighborhood:" + neighborhood);
@@ -305,15 +315,15 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
         geocoderSearch.getFromLocationAsyn(query);
     }
 
-    private void searchLocationPoi(CharSequence s) {
+    private void searchLocationPoi(String s) {
         //关闭键盘
 //        KeyBoardUtils.closeKeybord(poiSearchInMaps, BaseApplication.mContext);
-        if (TextUtils.isEmpty(s.toString().trim())) {
+        if (TextUtils.isEmpty(s)) {
             Toast.makeText(this, "内容为空!", Toast.LENGTH_SHORT).show();
             goCreatePoint.setVisibility(View.GONE);
             locationAgainGPSTVId.setVisibility(View.GONE);
-            locationRVId.setVisibility(View.GONE);
-            set_history.setVisibility(View.GONE);
+            locationRVId.setVisibility(View.VISIBLE);
+            history.setVisibility(View.GONE);
 //            mapAddAddress.setVisibility(View.VISIBLE);
 //            recyclerAddAddress.setVisibility(View.GONE);
 //            mapAddAddress.invalidate();
@@ -355,7 +365,7 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
 
                         if (pois.size() == 0) {
                             goCreatePoint.setVisibility(View.VISIBLE);
-                            locationRVId.setVisibility(View.GONE);
+                            locationRVId.setVisibility(View.VISIBLE);
                             mPresenter.getHisPosition(user_id, user_token, 1, 20);
                             historyClose.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -364,42 +374,38 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
                                 }
                             });
 
-                        }
-                        adapter = new PoiSearchAdapter(SearchActivity.this, datas);
-                    /*    if (datas!=null){
-                            mapAddAddress.setVisibility(View.GONE);
-                            recyclerAddAddress.setVisibility(View.VISIBLE);
                         }else {
-                            mapAddAddress.setVisibility(View.VISIBLE);
-                            recyclerAddAddress.setVisibility(View.GONE);
-                        }*/
-                        locationRVId.setVisibility(View.VISIBLE);
-                        locationRVId.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
-                        locationRVId.setAdapter(adapter);
-                        doChangeColor(s.toString().trim());
-                        adapter.setOnItemClickListener(new PoiSearchAdapter.onItemClickListener() {
-                            @Override
-                            public void onClick(View view, int pos) {
-                                double latitude     = datas.get(pos).getLatitude();
-                                double longitude    = datas.get(pos).getLongitude();
-                                String title        = datas.get(pos).getTitle();
-                                String provinceName = datas.get(pos).getProvinceName();
-                                String snippet      = datas.get(pos).getSnippet();
-                                SpUtils.putString(SearchActivity.this, "title", title);
-                                SpUtils.putString(SearchActivity.this, "provinceName", provinceName);
-                                Intent intent = new Intent();
-                                intent.putExtra("latitude", latitude);
-                                intent.putExtra("longitude", longitude);
-                                intent.putExtra("title", title);
-                                intent.putExtra("area", datas.get(pos).getAreas());
-                                intent.putExtra("address", datas.get(pos).getSnippet());
-                                intent.putExtra("city", datas.get(pos).getCity());
-                                setResult(3, intent);
-                                finish();
-                            }
-                        });
+                            //TODO  回传
+                            adapter = new PoiSearchAdapter(SearchActivity.this, datas);
+                            locationRVId.setVisibility(View.VISIBLE);
+                            locationRVId.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
+                            locationRVId.setAdapter(adapter);
+                            doChangeColor(s.toString().trim());
+                            adapter.setOnItemClickListener(new PoiSearchAdapter.onItemClickListener() {
+                                @Override
+                                public void onClick(View view, int pos) {
+                                    double latitude     = datas.get(pos).getLatitude();
+                                    double longitude    = datas.get(pos).getLongitude();
+                                    String title        = datas.get(pos).getTitle();
+                                    String provinceName = datas.get(pos).getProvinceName();
+                                    String snippet      = datas.get(pos).getSnippet();
+                                    SpUtils.putString(SearchActivity.this, "title", title);
+                                    SpUtils.putString(SearchActivity.this, "provinceName", provinceName);
+                                    Log.d("SearchActivity", datas.get(pos).getAreas());
+                                    Log.d("SearchActivity", datas.get(pos).getSnippet());
+                                    Intent intent = new Intent();
+                                    intent.putExtra("latitude", latitude);
+                                    intent.putExtra("longitude", longitude);
+                                    intent.putExtra("title", title);
+                                    intent.putExtra("area", datas.get(pos).getAreas());
+                                    intent.putExtra("address", datas.get(pos).getSnippet());
+                                    intent.putExtra("city", datas.get(pos).getCity());
+                                    setResult(3, intent);
+                                    finish();
+                                }
+                            });
+                        }
 
-//                        searchCarAdapter.setNewData(datas);
                     } else {
                         Log.d("error", "errcode:" + errcode);
                     }
@@ -481,11 +487,24 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
             String place     = data.getStringExtra("place");
             double latitude  = data.getDoubleExtra("latitude", 0.0);
             double longitude = data.getDoubleExtra("longitude", 0.0);
-            Intent intent    = new Intent();
-            intent.putExtra("type", type);
+
+            /*
+            *  Intent intent = new Intent();
+                                    intent.putExtra("latitude", latitude);
+                                    intent.putExtra("longitude", longitude);
+                                    intent.putExtra("title", title);
+                                    intent.putExtra("area", datas.get(pos).getAreas());
+                                    intent.putExtra("address", datas.get(pos).getSnippet());
+                                    intent.putExtra("city", datas.get(pos).getCity());*/
+            Intent intent = new Intent();
+            LatLonPoint latLonPoint = new LatLonPoint(latitude, longitude);
+            setCurrentLocationDetails(latLonPoint);
             intent.putExtra("latitude", latitude);
             intent.putExtra("longitude", longitude);
-            intent.putExtra("place", place);
+            intent.putExtra("title", place);
+            intent.putExtra("area", province+","+city+","+district);
+            intent.putExtra("address", aoiName);
+            intent.putExtra("city", city);
 
             setResult(2, intent);
 
@@ -498,7 +517,7 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
     public void setHisPosition(HisPositionBean bean) {
         list1 = bean.getData().getList();
         locationRVId.setVisibility(View.VISIBLE);
-        set_history.setVisibility(View.VISIBLE);
+        history.setVisibility(View.VISIBLE);
         adapter1 = new HistoryPoiSearchAdapter(R.layout.item_search, list1);
         locationRVId.setAdapter(adapter1);
         locationRVId.setLayoutManager(new LinearLayoutManager(this));
@@ -523,7 +542,7 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
     public void DelPosition(BaseBean bean) {
         int code = bean.getCode();
         if (code == 200) {
-            set_history.setVisibility(View.GONE);
+            history.setVisibility(View.GONE);
         }
     }
 

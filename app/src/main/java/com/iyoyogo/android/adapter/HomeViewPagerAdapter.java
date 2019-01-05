@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.home.HomeBean;
+import com.iyoyogo.android.ui.common.VideoActivity;
 import com.iyoyogo.android.ui.common.WebActivity;
 import com.iyoyogo.android.utils.RoundTransform;
 
@@ -60,21 +61,32 @@ public class HomeViewPagerAdapter extends PagerAdapter {
         Glide.with(context)
                 .load(images.get(position).getPath())
                 .apply(requestOptions)
-
                 .into(imageView);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                int user_id = Integer.parseInt(SPUtil.get(context, Constant.USER_ID, 0).toString());
-                String target_url = images.get(position).getTarget_url();
-                Intent intent = new Intent(context, WebActivity.class);
-                if (target_url.length()>0){
-                    intent.putExtra("url",target_url);
-                    context.startActivity(intent);
+                if (images.get(position).getType().equals("url")){
+                    String target_url = images.get(position).getTarget_url();
+                    Intent intent = new Intent(context, WebActivity.class);
+                    if (target_url.length()>0){
+                        intent.putExtra("title",images.get(position).getTitle());
+                        intent.putExtra("url",target_url);
+                        intent.putExtra("img_url", images.get(position).getPath());
+                        context.startActivity(intent);
+                    }else {
+                        Toast.makeText(context, "链接为空", Toast.LENGTH_SHORT).show();
+                    }
                 }else {
-                    Toast.makeText(context, "链接为空", Toast.LENGTH_SHORT).show();
+                    String target_url = images.get(position).getTarget_url();
+                    Intent intent = new Intent(context, VideoActivity.class);
+                    intent.putExtra("title",images.get(position).getTitle());
+                    intent.putExtra("url",target_url);
+                    intent.putExtra("img_url", images.get(position).getPath());
+                    context.startActivity(intent);
                 }
+
 
               /*  if ("V".equals(remark)) {
                     ActivityUtils.goVideoActivity(context, images.get(position).getJumpAddr());

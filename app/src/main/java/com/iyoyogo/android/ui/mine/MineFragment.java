@@ -122,9 +122,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     @Override
     protected void initData() {
         super.initData();
-        user_id = SpUtils.getString(getContext(), "user_id", null);
-        user_token = SpUtils.getString(getContext(), "user_token", null);
-        mPresenter.getUserInfo(user_id, user_token);
+
     }
 
     @Override
@@ -156,6 +154,8 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     @Override
     public void onResume() {
         super.onResume();
+        user_id = SpUtils.getString(getContext(), "user_id", null);
+        user_token = SpUtils.getString(getContext(), "user_token", null);
         mPresenter.getUserInfo(user_id, user_token);
     }
 

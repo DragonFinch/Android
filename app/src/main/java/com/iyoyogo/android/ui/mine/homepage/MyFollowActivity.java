@@ -10,6 +10,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
@@ -34,10 +36,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity.MIUISetStatusBarLightMode;
+
 /***
  * 关注
  */
-public class MyFollowActivity extends AppCompatActivity {
+public class MyFollowActivity extends BaseActivity {
 
     @BindView(R.id.message_center_back_im_id)
     ImageView messageCenterBackImId;
@@ -53,22 +57,33 @@ public class MyFollowActivity extends AppCompatActivity {
     private RecommendFragment recommendFragment = new RecommendFragment();//推荐话题
     private Fragment currentFragment = new Fragment();
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Util.setDarkStatusBarText(this,true,R.color.colorAccent);
-        setContentView(R.layout.activity_my_follow);
-        ButterKnife.bind(this);
-       /* this.getWindow()
-                .getDecorView()
-                .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-
-        MIUISetStatusBarLightMode(this.getWindow(), true);
-        FlymeSetStatusBarLightMode(this.getWindow(), true);*/
-
+    protected void initView() {
+        super.initView();
+        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
         switchFragment(recommendFragment).commit();
         tvRecommendId.setTextColor(Color.parseColor("#333333"));
     }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_my_follow;
+    }
+
+    @Override
+    protected IBasePresenter createPresenter() {
+        return null;
+    }
+
+    /**
+     * 设置状态栏图标为深色和魅族特定的文字风格
+     * 可以用来判断是否为Flyme用户
+     *
+     * @param window 需要设置的窗口
+     * @param dark   是否把状态栏字体及图标颜色设置为深色
+     * @return boolean 成功执行返回true
+     */
     public static boolean FlymeSetStatusBarLightMode(Window window, boolean dark) {
         boolean result = false;
         if (window != null) {
@@ -96,124 +111,38 @@ public class MyFollowActivity extends AppCompatActivity {
         }
         return result;
     }
-
-    public static boolean MIUISetStatusBarLightMode(Window window, boolean dark) {
-        boolean result = false;
-        if (window != null) {
-            Class clazz = window.getClass();
-            try {
-                int darkModeFlag = 0;
-                Class layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
-                Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
-                darkModeFlag = field.getInt(layoutParams);
-                Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
-                if (dark) {
-                    extraFlagField.invoke(window, darkModeFlag, darkModeFlag);//状态栏透明且黑色字体
-                } else {
-                    extraFlagField.invoke(window, 0, darkModeFlag);//清除黑色字体
-                }
-                result = true;
-            } catch (Exception e) {
-
-            }
-        }
-        return result;
-    }
-
-
-    protected void setStatusBar(@ColorInt int color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-            // 设置状态栏底色颜色
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            getWindow().setStatusBarColor(color);
-
-            // 如果亮色，设置状态栏文字为黑色
-            if (isLightColor(color)) {
-                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            } else {
-                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-            }
-        }
-
-    }
-
-    /**
-     * 判断颜色是不是亮色
-     *
-     * @param color
-     * @return
-     * @from https://stackoverflow.com/questions/24260853/check-if-color-is-dark-or-light-in-android
-     */
-    private boolean isLightColor(@ColorInt int color) {
-        return ColorUtils.calculateLuminance(color) >= 0.5;
-    }
-
-    /**
-     * 获取StatusBar颜色，默认白色
-     *
-     * @return
-     */
-    protected @ColorInt
-    int getStatusBarColor() {
-        return Color.WHITE;
-    }
-
-
-    @TargetApi(19)
-    private void setTranslucentStatus(boolean on) {
-        Window win = getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
-    }
-
-    protected void setTranslucentStatus() {
+    //白色可以替换成其他浅色系
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static void myStatusBar(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setTranslucentStatus(true);
-        }
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintEnabled(true);
-        tintManager.setStatusBarTintResource(R.color.white);// 通知栏所需颜色
-    }
-
-    public static void setStatusBarColor(Activity activity, int colorId) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = activity.getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(activity.getResources().getColor(colorId));
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            //使用SystemBarTint库使4.4版本状态栏变色，需要先将状态栏设置为透明
-            transparencyBar(activity);
-            SystemBarTintManager tintManager = new SystemBarTintManager(activity);
-            tintManager.setStatusBarTintEnabled(true);
-            tintManager.setStatusBarTintResource(colorId);
-        }
-    }
-
-    @TargetApi(19)
-    public static void transparencyBar(Activity activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = activity.getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window window = activity.getWindow();
-            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            if (MIUISetStatusBarLightMode(activity.getWindow(), true)) {//MIUI
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//5.0
+                    activity.getWindow().setStatusBarColor(Color.WHITE);
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {//4.4
+                    activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                            WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                    SystemBarTintManager tintManager = new SystemBarTintManager(activity);
+                    tintManager.setStatusBarTintEnabled(true);
+                    tintManager.setStatusBarTintResource(android.R.color.white);
+                }
+            } else if (FlymeSetStatusBarLightMode(activity.getWindow(), true)) {//Flyme
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//5.0
+                    activity.getWindow().setStatusBarColor(Color.WHITE);
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {//4.4
+                    activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                            WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                    SystemBarTintManager tintManager = new SystemBarTintManager(activity);
+                    tintManager.setStatusBarTintEnabled(true);
+                    tintManager.setStatusBarTintResource(android.R.color.white);
+                }
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {//6.0
+                activity.getWindow().setStatusBarColor(Color.WHITE);
+                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
         }
     }
+
+
 
     private FragmentTransaction switchFragment(Fragment targetFragment) {
         FragmentTransaction transaction = getSupportFragmentManager()
