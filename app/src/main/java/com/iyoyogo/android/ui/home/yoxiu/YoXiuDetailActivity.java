@@ -347,6 +347,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         popup_share.showAtLocation(findViewById(R.id.activity_yoxiu_detail), Gravity.BOTTOM, 0, 0);
 
     }
+
     private void shareWeb(SHARE_MEDIA share_media) {
         /*80002/yo_id/4143*/
         String url = "http://192.168.0.145/home/share/details_yoj/share_user_id/" + user_id + "/yo_id/" + yo_id;
@@ -388,7 +389,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
             case R.id.tv_like:
 
                 Drawable like = getResources().getDrawable(
-                    R.mipmap.xihuan_xiangqing);
+                        R.mipmap.xihuan_xiangqing);
                 Drawable liked = getResources().getDrawable(
                         R.mipmap.yixihuan_xiangqing);
                 tvLike.setCompoundDrawablesWithIntrinsicBounds(null, dataBeans.get(0).getIs_my_like() > 0 ? liked : like, null, null);
@@ -477,7 +478,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                 break;
             case R.id.tv_more_comment:
                 Intent intent = new Intent(this, AllCommentActivity.class);
-                intent.putExtra("id",id);
+                intent.putExtra("id", id);
                 startActivity(intent);
                 break;
         }
@@ -769,7 +770,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         yoXiuDetailAdapter.setDeleteOnClickListener(new YoXiuDetailAdapter.DeleteOnClickListener() {
             @Override
             public void delete() {
-                mPresenter.getCommentList(user_id,user_token,1,id,0);
+                mPresenter.getCommentList(user_id, user_token, 1, id, 0);
             }
         });
     }

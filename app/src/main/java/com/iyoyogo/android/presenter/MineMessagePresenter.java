@@ -19,33 +19,33 @@ public class MineMessagePresenter extends BasePresenter<MineContract.View> imple
     @Override
     public void getUserInfo(String user_id, String user_token) {
         DataManager.getFromRemote()
-        .getPersonInfo(user_id,user_token)
-        .subscribe(new ApiObserver<MineMessageBean>(mView,this) {
-            @Override
-            protected void doOnSuccess(MineMessageBean mineMessageBean) {
-                MineMessageBean.DataBean data = mineMessageBean.getData();
-                if (data!=null){
-                    mView.getUserInfoSuccess(data);
-                }
-            }
+                .getPersonInfo(user_id, user_token)
+                .subscribe(new ApiObserver<MineMessageBean>(mView, this) {
+                    @Override
+                    protected void doOnSuccess(MineMessageBean mineMessageBean) {
+                        MineMessageBean.DataBean data = mineMessageBean.getData();
+                        if (data != null) {
+                            mView.getUserInfoSuccess(data);
+                        }
+                    }
 
-            @Override
-            protected boolean doOnFailure(int code, String message) {
-                Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
+                    @Override
+                    protected boolean doOnFailure(int code, String message) {
+                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
     }
 
     @Override
     public void punchClock(String user_id, String user_token) {
         DataManager.getFromRemote()
-                .punchClock(user_id,user_token)
-                .subscribe(new ApiObserver<BaseBean>(mView,this) {
+                .punchClock(user_id, user_token)
+                .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
 
-                            mView.punchClockSuccess(baseBean);
+                        mView.punchClockSuccess(baseBean);
 
                     }
 

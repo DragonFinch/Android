@@ -11,6 +11,8 @@ import com.iyoyogo.android.contract.HisHansContract;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.net.ApiObserver;
 
+import java.util.List;
+
 public class HisFansPresenter extends BasePresenter<HisHansContract.View> implements HisHansContract.Presenter {
 
     public HisFansPresenter(HisHansContract.View mView) {
@@ -23,7 +25,10 @@ public class HisFansPresenter extends BasePresenter<HisHansContract.View> implem
                 .subscribe(new ApiObserver<HisFansBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(HisFansBean hisFansBean) {
-                        mView.getHisHansSuccess(hisFansBean);
+                        HisFansBean.DataBean data = hisFansBean.getData();
+                        if (data != null) {
+                            mView.getHisHansSuccess(hisFansBean);
+                        }
                     }
 
                     @Override
@@ -40,7 +45,10 @@ public class HisFansPresenter extends BasePresenter<HisHansContract.View> implem
                 .subscribe(new ApiObserver<AttentionBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(AttentionBean attentionBean) {
-                        mView.addAttentionSuccess(attentionBean);
+                        AttentionBean.DataBean data = attentionBean.getData();
+                        if (data != null) {
+                            mView.addAttentionSuccess(attentionBean);
+                        }
                     }
 
                     @Override

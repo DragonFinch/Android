@@ -462,6 +462,7 @@
         <activity
             android:name=".ui.home.CutVideoActivity"
             android:theme="@style/AppTheme.Full"></activity>
+        <activity android:name=".ui.home.EditImageOrVideoActivity" />
     </application>
 
 </manifest>

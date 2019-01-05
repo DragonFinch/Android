@@ -51,7 +51,6 @@ public class CommentAttentionAdapter extends BaseQuickAdapter<CommendAttentionBe
                 .transform(new GlideRoundTransform(mContext, 8));
         requestOptions.placeholder(R.mipmap.default_ic);
         requestOptions.error(R.mipmap.default_ic);
-
         Glide.with(mContext).load(file_path).apply(requestOptions).into((ImageView) helper.getView(R.id.img_attention_one));
         CircleImageView user_logo = helper.getView(R.id.user_logo);
         user_logo.setOnClickListener(new View.OnClickListener() {

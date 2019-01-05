@@ -314,6 +314,18 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
                 mData.setLat(latitude + "");
                 mData.setLng(longitude + "");
                 mTvAddress.setText(title);
+            }
+            else if (requestCode == 1 && resultCode == 2) {
+                double latitude  = data.getDoubleExtra("latitude", 0.0);
+                String title     = data.getStringExtra("title");
+                double longitude = data.getDoubleExtra("longitude", 0.0);
+                mData.setPosition_areas(data.getStringExtra("area"));
+                mData.setPosition_address(data.getStringExtra("address"));
+                mData.setPosition_city(data.getStringExtra("city"));
+                mData.setPosition_name(title);
+                mData.setLat(latitude + "");
+                mData.setLng(longitude + "");
+                mTvAddress.setText(title);
             } else if (requestCode == 1 && resultCode == 1) {
                 channel_arrays = data.getIntegerArrayListExtra("channel_array");
                 channel_list = data.getStringArrayListExtra("channel_list");

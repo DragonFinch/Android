@@ -106,6 +106,8 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     public static final String KEY_EXTRAS = "extras";
     private SparseArray<Fragment> mFragmentSparseArray;
     private Fragment currentFragment = new Fragment();
+    private FragmentTransaction transaction;
+
     public void registerMessageReceiver() {
         mMessageReceiver = new MessageReceiver();
         IntentFilter filter = new IntentFilter();
@@ -246,21 +248,13 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
                 showHintDialog();
             }*/
     }
-    private FragmentTransaction switchFragment(Fragment targetFragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-            transaction.replace(R.id.frame_container, targetFragment, targetFragment.getClass().getName());
-
-        return transaction;
-    }
     private void initViews() {
 
 //        mFragmentSparseArray = new SparseArray<>();
         homeFragment = new HomeFragment();
         mineFragment = new MineFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frame_container, homeFragment)
-                .commitAllowingStateLoss();
+        switchContent(mineFragment,homeFragment);
 //
 //        mFragmentSparseArray.append(R.id.today_tab, homeFragment);
 //
@@ -271,10 +265,10 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
                 // 具体的fragment切换逻辑可以根据应用调整，例如使用show()/hide()
                switch (checkedId){
                    case R.id.today_tab:
-                    switchFragment(homeFragment).commitAllowingStateLoss();
+                     switchContent(mineFragment,homeFragment);
                        break;
                    case R.id.settings_tab:
-                       switchFragment(mineFragment).commitAllowingStateLoss();
+                       switchContent(homeFragment,mineFragment);
                        break;
                }
             }
@@ -291,6 +285,35 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
                 startActivity(new Intent(MainActivity.this, CaptureActivity.class));
             }
         });
+    }
+    /**
+     * 是否第一次
+     */
+    private boolean mIsFirstIn = true;
+
+    /**
+     * Fragment 切换
+     *
+     * @param from
+     *            隐藏的fragment
+     * @param to
+     *            显示的fragment
+     * @param id
+     *            {@code R.id.main} 加载到的布局
+     */
+    private void switchContent(Fragment from, Fragment to) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (!to.isAdded()) {
+            // 先判断是否被add过
+            if (mIsFirstIn) {
+                mIsFirstIn = false;
+                ft.add(R.id.frame_container, to).commit();
+            } else {
+                ft.hide(from).add(R.id.frame_container, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+            }
+        } else {
+            ft.hide(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
+        }
     }
 
     private void showHintDialog() {

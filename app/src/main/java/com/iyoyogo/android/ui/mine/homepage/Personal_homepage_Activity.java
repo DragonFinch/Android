@@ -1,12 +1,16 @@
 package com.iyoyogo.android.ui.mine.homepage;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,17 +32,15 @@ import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.mine.center.UserCenterBean;
 import com.iyoyogo.android.contract.PersonalCenterContract;
 import com.iyoyogo.android.presenter.PersonalCenterPresenter;
+import com.iyoyogo.android.ui.mine.collection.CollectionActivity;
 import com.iyoyogo.android.utils.DensityUtil;
+import com.iyoyogo.android.utils.FastBlurUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -95,6 +97,12 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
     RadioGroup group;
     @BindView(R.id.frame_container)
     FrameLayout frameContainer;
+    @BindView(R.id.img_vip_sign)
+    ImageView imgVipSign;
+    @BindView(R.id.img_level)
+    ImageView imgLevel;
+    @BindView(R.id.collect)
+    LinearLayout collect;
 
     private String user_id;
     private String user_token;
@@ -164,7 +172,7 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
     }
 
 
-    @OnClick({R.id.img_back, R.id.img_share, R.id.my_collection, R.id.get_hisFans})
+    @OnClick({R.id.img_back, R.id.img_share, R.id.my_collection, R.id.get_hisFans, R.id.collect})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -182,6 +190,11 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
                 Intent intent1 = new Intent(this, HisFansActivity.class);
                 intent1.putExtra("yo_user_id", yo_user_id);
                 startActivity(intent1);
+                break;
+            case R.id.collect:
+                Intent intent2 = new Intent(this, CollectionActivity.class);
+                intent2.putExtra("collect",2);
+                startActivity(intent2);
                 break;
         }
     }
@@ -350,11 +363,85 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
         MineFragmentAdapter mineFragmentAdapter = new MineFragmentAdapter(getSupportFragmentManager(), fragments, titles);
         personalVpId.setAdapter(mineFragmentAdapter);
         tab.setupWithViewPager(personalVpId);*/
+
+        //获取用户等级
+        int user_level = data.getUser_level();
+        if (user_level == 1) {
+            imgLevel.setVisibility(View.VISIBLE);
+            imgLevel.setImageResource(R.mipmap.lv1);
+            imgVipSign.setImageResource(R.mipmap.level_one);
+        } else if (user_level == 2) {
+            imgLevel.setVisibility(View.VISIBLE);
+            imgLevel.setImageResource(R.mipmap.lv2);
+            imgVipSign.setImageResource(R.mipmap.level_two);
+        } else if (user_level == 3) {
+            imgLevel.setVisibility(View.VISIBLE);
+            imgLevel.setImageResource(R.mipmap.lv3);
+            imgVipSign.setImageResource(R.mipmap.level_three);
+        } else if (user_level == 4) {
+            imgLevel.setVisibility(View.VISIBLE);
+            imgLevel.setImageResource(R.mipmap.lv4);
+            imgVipSign.setImageResource(R.mipmap.level_four);
+        } else if (user_level == 5) {
+            imgLevel.setVisibility(View.VISIBLE);
+            imgLevel.setImageResource(R.mipmap.lv5);
+            imgVipSign.setImageResource(R.mipmap.level_five);
+        } else {
+            imgLevel.setVisibility(View.GONE);
+            imgVipSign.setImageResource(R.mipmap.level_zero);
+        }
+
+        final String pattern = "2";
+        if (Patterns.WEB_URL.matcher(data.getUser_logo()).matches()) {
+            final String url =
+                    data.getUser_logo();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    int scaleRatio = 0;
+                    if (TextUtils.isEmpty(pattern)) {
+                        scaleRatio = 0;
+                    } else if (scaleRatio < 0) {
+                        scaleRatio = 10;
+                    } else {
+                        scaleRatio = Integer.parseInt(pattern);
+                    }
+                    //                        下面的这个方法必须在子线程中执行
+                    final Bitmap blurBitmap2 = FastBlurUtil.GetUrlBitmap(url, scaleRatio);
+
+                    //                        刷新ui必须在主线程中执行
+                    runOnUiThread(new Runnable() {//这个是我自己封装的在主线程中刷新ui的方法。
+                        @Override
+                        public void run() {
+                            imgBg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                            imgBg.setImageBitmap(blurBitmap2);
+                        }
+                    });
+                }
+            }).start();
+        } else {
+            int scaleRatio = 0;
+            if (TextUtils.isEmpty(pattern)) {
+                scaleRatio = 0;
+            } else if (scaleRatio < 0) {
+                scaleRatio = 10;
+            } else {
+                scaleRatio = Integer.parseInt(pattern);
+            }
+
+            //        获取需要被模糊的原图bitmap
+            Resources res = getResources();
+            Bitmap scaledBitmap = BitmapFactory.decodeResource(res, R.mipmap.default_touxiang);
+
+            //        scaledBitmap为目标图像，10是缩放的倍数（越大模糊效果越高）
+            Bitmap blurBitmap = FastBlurUtil.toBlur(scaledBitmap, scaleRatio);
+            imgBg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imgBg.setImageBitmap(blurBitmap);
+        }
     }
 
     @Override
     public void addAttention1(AttentionBean.DataBean data) {
-
     }
 
 

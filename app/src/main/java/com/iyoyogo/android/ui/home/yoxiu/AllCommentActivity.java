@@ -104,7 +104,9 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
     private List<YoXiuDetailBean.DataBean> collection_list;
     private boolean flag = false;
     private View view;
-    private int id2;
+    private int yo_id;
+    private int add_collection_id;
+    private int folder_id;
 
     @Override
     protected int getLayoutId() {
@@ -120,6 +122,7 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
         user_id = SpUtils.getString(this, "user_id", null);
         user_token = SpUtils.getString(this, "user_token", null);
         mPresenter.getCommentList(user_id, user_token, 1, id1, 0);
+        mPresenter.getDetail(user_id, user_token, id1);
         editComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             @Override
@@ -167,71 +170,41 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
                 finish();
                 break;
             case R.id.tv_like:
+                Drawable like = getResources().getDrawable(
+                        R.mipmap.xihuan_xiangqing);
+                Drawable liked = getResources().getDrawable(
+                        R.mipmap.yixihuan_xiangqing);
+                tvLike.setCompoundDrawablesWithIntrinsicBounds(null, dataBeans.get(0).getIs_my_like() > 0 ? liked : like, null, null);
+                int count_praise = dataBeans.get(0).getCount_praise();
 
-                DataManager.getFromRemote().getDetail(user_id, user_token, id1)
-                        .subscribe(new Consumer<YoXiuDetailBean>() {
+                Log.d("Test", "dataBeans.get(0).getIs_my_like():" + dataBeans.get(0).getIs_my_like());
+                if (dataBeans.get(0).getIs_my_like() > 0) {
+                    //由喜欢变为不喜欢，亮变暗
+                    tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
+                            like, null, null);
+                    count_praise -= 1;
+                    //设置点赞的数量
+                    tvLike.setText(count_praise + "");
+                    dataBeans.get(0).setIs_my_like(0);
+                    dataBeans.get(0).setCount_praise(count_praise);
+
+                } else {
+                    //由不喜欢变为喜欢，暗变亮
+                    tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
+                            liked, null, null);
+                    count_praise += 1;
+                    //设置点赞的数量
+                    like();
+                    tvLike.setText(count_praise + "");
+                    dataBeans.get(0).setIs_my_like(1);
+                    dataBeans.get(0).setCount_praise(count_praise);
+                }
+                DataManager.getFromRemote().praise(user_id, user_token, dataBeans.get(0).getId(), 0)
+                        .subscribe(new Consumer<BaseBean>() {
                             @Override
-                            public void accept(YoXiuDetailBean baseBean) throws Exception {
-                                initPopup();
-                                dataBeans.add(baseBean.getData());
-                                id2 = baseBean.getData().getId();
-                                collections();
-                                Drawable like = getResources().getDrawable(
-                                        R.mipmap.xihuan_xiangqing);
-                                Drawable liked = getResources().getDrawable(
-                                        R.mipmap.yixihuan_xiangqing);
-
-//                                if (flag = false){
-//                                    flag = true;
-//                                    liked.setBounds(0, 0, liked.getMinimumWidth(), liked.getMinimumHeight());
-//                                    tvLike.setCompoundDrawables(null, liked, null, null);
-//                                }else {
-//                                    flag = false;
-//                                    like.setBounds(0, 0, like.getMinimumWidth(), like.getMinimumHeight());
-//                                    tvLike.setCompoundDrawables(null, like, null, null);
-//                                }
-                                tvLike.setCompoundDrawablesWithIntrinsicBounds(null, dataBeans.get(0).getIs_my_like() > 0 ? liked : like, null, null);
-                                int count_praise = dataBeans.get(0).getCount_praise();
-                                if (editComment.getText().toString().length() > 0) {
-                                    mPresenter.addComment(user_id, user_token, 0, id1, editComment.getText().toString().trim());
-                                    closeInputMethod();
-                                    yoXiuDetailAdapter.notifyDataSetChanged();
-                                    refresh();
-                                } else {
-
-                                }
-                                praise();
-                                Log.d("Test", "dataBeans.get(0).getIs_my_like():" + dataBeans.get(0).getIs_my_like());
-                                if (dataBeans.get(0).getIs_my_like() > 0) {
-                                    //由喜欢变为不喜欢，亮变暗
-                                    tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
-                                            like, null, null);
-                                    count_praise -= 1;
-                                    //设置点赞的数量
-                                    tvLike.setText(count_praise + "");
-                                    dataBeans.get(0).setIs_my_like(0);
-                                    dataBeans.get(0).setCount_praise(count_praise);
-                                    like();
-//                                    popup.showAtLocation(findViewById(R.id.activity_yoxiu_detail), Gravity.CENTER, 0, 0);
-                                } else {
-                                    //由不喜欢变为喜欢，暗变亮
-                                    tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
-                                            liked, null, null);
-                                    count_praise += 1;
-                                    //设置点赞的数量
-                                    tvLike.setText(count_praise + "");
-                                    dataBeans.get(0).setIs_my_like(1);
-                                    dataBeans.get(0).setCount_praise(count_praise);
-                                }
-                                DataManager.getFromRemote().praise(user_id, user_token, dataBeans.get(0).getId(), 0)
-                                        .subscribe(new Consumer<BaseBean>() {
-                                            @Override
-                                            public void accept(BaseBean baseBean) throws Exception {
-                                            }
-                                        });
+                            public void accept(BaseBean baseBean) throws Exception {
                             }
                         });
-
                 break;
             case R.id.tv_collection:
                 collection();
@@ -422,11 +395,28 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
 
     @Override
     public void getDetailSuccess(YoXiuDetailBean.DataBean data) {
+        initPopup();
+        yo_id = data.getId();
+        collection_list = new ArrayList<>();
+        collection_list.add(data);
+        yo_user_id = data.getId();
         yo_attention_id = data.getUser_id();
-
+        dataBeans.add(data);
         collections();
         count_collect = data.getCount_collect();
         tvCollection.setText(count_collect + "");
+        int count_praise = data.getCount_praise();
+        tvLike.setText(count_praise + "");
+        int count_collect = data.getCount_collect();
+        tvCollection.setText(count_collect + "");
+        if (editComment.getText().toString().length() > 0) {
+            mPresenter.addComment(this.user_id, user_token, 0, id1, editComment.getText().toString().trim());
+            closeInputMethod();
+            yoXiuDetailAdapter.notifyDataSetChanged();
+            refresh();
+        } else {
+
+        }
         praise();
     }
 
@@ -552,7 +542,7 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
 
     @Override
     public void createFolderSuccess(BaseBean baseBean) {
-
+        Toast.makeText(this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -584,11 +574,11 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
                         mPresenter.deleteCollection(user_id, user_token, i);
                     }
                 }*/
-                int folder_id = mList.get(position).getFolder_id();
+                folder_id = mList.get(position).getFolder_id();
                 mPresenter.getDetail(user_id, user_token, id1);
                 Log.d("YoXiuDetailActivity", "folder_id:" + folder_id);
                 Log.d("YoXiuDetailActivity", "yo_user_id:" + yo_user_id);
-                mPresenter.addCollection(user_id, user_token, folder_id, id2);
+                mPresenter.addCollection(user_id, user_token, folder_id, id1);
 //                    Log.d("YoXiuDetailActivity", target_id);
                 popup.dismiss();
 
@@ -598,7 +588,18 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
 
     @Override
     public void addCollectionSuccess(AddCollectionBean.DataBean data) {
+        String collection_id = data.getId();
+        add_collection_id = Integer.parseInt(collection_id);
+        count_collect += 1;
+        Drawable collection = getResources().getDrawable(
+                R.mipmap.shoucang_xiangqing);
+        Drawable collectioned = getResources().getDrawable(
+                R.mipmap.yishoucang_xiangqing);
+        dataBeans.get(0).setIs_my_collect(Integer.parseInt(collection_id));
+        tvCollection.setCompoundDrawablesWithIntrinsicBounds(null,
+                dataBeans.get(0).getIs_my_collect() == 0 ? collection : collectioned, null, null);
 
+        tvCollection.setText(count_collect + "");
     }
 
     @Override

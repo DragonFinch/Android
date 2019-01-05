@@ -16,21 +16,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
-import com.iyoyogo.android.base.BaseActivity;
-import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.ui.mine.AddCollectionActivity;
 import com.iyoyogo.android.utils.SystemBarTintManager;
-import com.iyoyogo.android.utils.UIUtils;
 import com.iyoyogo.android.utils.Util;
-import com.iyoyogo.android.utils.Utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,18 +48,45 @@ public class MyFollowActivity extends BaseActivity {
     ImageView messageCenterBackImId;
     @BindView(R.id.like_me_title_tv_id)
     TextView likeMeTitleTvId;
-    @BindView(R.id.tv_recommend_id)
-    TextView tvRecommendId;
-    @BindView(R.id.tv_follow_id)
-    TextView tvFollowId;
-    @BindView(R.id.fragment)
-    View fragment;
+    @BindView(R.id.rb_yoji)
+    RadioButton rbYoji;
+    @BindView(R.id.rb_yoxiu)
+    RadioButton rbYoxiu;
+    @BindView(R.id.group)
+    RadioGroup group;
     private FollowFragment followFragment = new FollowFragment();//关注的人
     private RecommendFragment recommendFragment = new RecommendFragment();//推荐话题
     private Fragment currentFragment = new Fragment();
 
 
     @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Util.setDarkStatusBarText(this, true, R.color.colorAccent);
+        setContentView(R.layout.activity_my_follow);
+        ButterKnife.bind(this);
+       /* this.getWindow()
+                .getDecorView()
+                .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
+        MIUISetStatusBarLightMode(this.getWindow(), true);
+        FlymeSetStatusBarLightMode(this.getWindow(), true);*/
+
+        switchFragment(recommendFragment);
+        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_yoji:
+                        switchFragment(recommendFragment);
+                        break;
+                    case R.id.rb_yoxiu:
+                        switchFragment(followFragment);
+                        break;
+                }
+            }
+        });
+
     protected void initView() {
         super.initView();
         StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
@@ -84,6 +112,7 @@ public class MyFollowActivity extends BaseActivity {
      * @param dark   是否把状态栏字体及图标颜色设置为深色
      * @return boolean 成功执行返回true
      */
+
     public static boolean FlymeSetStatusBarLightMode(Window window, boolean dark) {
         boolean result = false;
         if (window != null) {
@@ -144,33 +173,15 @@ public class MyFollowActivity extends BaseActivity {
 
 
 
-    private FragmentTransaction switchFragment(Fragment targetFragment) {
-        FragmentTransaction transaction = getSupportFragmentManager()
-                .beginTransaction();
-        if (!targetFragment.isAdded()) {
-//第一次使用switchFragment()时currentFragment为null，所以要判断一下
-            if (currentFragment != null) {
-                transaction.hide(currentFragment);
-            }
-            transaction.add(R.id.fragment, targetFragment, targetFragment.getClass().getName());
-        } else {
-            transaction
-                    .hide(currentFragment)
-                    .show(targetFragment);
-        }
-        currentFragment = targetFragment;
-        return transaction;
+    private void switchFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment, fragment)
+                .commitAllowingStateLoss();
     }
 
-    @OnClick({R.id.tv_recommend_id, R.id.tv_follow_id, R.id.add_collection, R.id.message_center_back_im_id})
+    @OnClick({R.id.add_collection, R.id.message_center_back_im_id})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.tv_recommend_id://推荐
-                switchFragment(recommendFragment).commit();
-                break;
-            case R.id.tv_follow_id://关注的人
-                switchFragment(followFragment).commit();
-                break;
             case R.id.add_collection://添加关注
                 startActivity(new Intent(this, AddCollectionActivity.class));
                 break;

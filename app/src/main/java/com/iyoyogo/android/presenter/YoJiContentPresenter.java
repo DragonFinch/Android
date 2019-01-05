@@ -15,7 +15,7 @@ public class YoJiContentPresenter extends BasePresenter<YoJiContentContract.View
     }
 
     @Override
-    public void getYoJiContent(String user_id, String user_token, String his_id, String page, String page_size) {
+    public void getYoJiContent(String user_id, String user_token, String his_id, int page, String page_size) {
         DataManager.getFromRemote()
                 .getYoJiContent(user_id,user_token,his_id,page,page_size)
                 .subscribe(new ApiObserver<YoJiContentBean>(mView,this) {

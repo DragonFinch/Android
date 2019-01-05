@@ -2,11 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_user_homepage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/F1F1F1"
-    android:id="@+id/activity_user_homepage"
-    >
+    android:background="@color/F1F1F1">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -93,6 +92,7 @@
                         android:background="@color/BFBFBF" />
 
                     <LinearLayout
+                        android:id="@+id/collect"
                         android:layout_width="@dimen/dp_94"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -149,7 +149,7 @@
 
             </RelativeLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_20"
@@ -157,17 +157,37 @@
                 android:orientation="horizontal">
 
                 <com.iyoyogo.android.widget.CircleImageView
+                    android:id="@+id/img_user_icon"
                     android:layout_width="@dimen/dp_70"
                     android:layout_height="@dimen/dp_70"
-                    android:id="@+id/img_user_icon"
-                    android:background="@drawable/head_image_bg"
                     android:padding="@dimen/dp_4"
                     android:src="@mipmap/headimage" />
+
+                <ImageView
+                    android:id="@+id/img_vip_sign"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="@dimen/dp_76"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginTop="-8dp"
+                    android:layout_marginBottom="@dimen/dp_22"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/huiyuanbiaoshi" />
+
+                <ImageView
+                    android:id="@+id/img_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@+id/img_vip_sign"
+                    android:layout_alignBottom="@+id/img_vip_sign"
+                    android:src="@mipmap/lv1"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_toRightOf="@id/img_user_icon"
                     android:orientation="vertical">
 
                     <TextView
@@ -220,8 +240,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/tv_guanzhu"
@@ -238,7 +257,7 @@
 
                 </RelativeLayout>
 
-            </LinearLayout>
+            </RelativeLayout>
 
 
         </RelativeLayout>
@@ -249,19 +268,44 @@
             android:layout_marginTop="@dimen/dp_5"
             android:orientation="vertical">
 
-
-            <android.support.design.widget.TabLayout
+            <RadioGroup
+                android:id="@+id/group"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tab"
-                />
+                android:layout_height="@dimen/dp_52"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="2">
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/personal_vp_id"
+                <RadioButton
+                    android:id="@+id/rb_yoji"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp_52"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:checked="true"
+                    android:drawableBottom="@drawable/line_selector"
+                    android:gravity="center"
+                    android:text="@string/yoji" />
+
+                <RadioButton
+                    android:id="@+id/rb_yoxiu"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp_52"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:checked="false"
+                    android:drawableBottom="@drawable/line_selector"
+                    android:gravity="center"
+                    android:text="@string/yoxiu" />
+            </RadioGroup>
+
+            <FrameLayout
+                android:id="@+id/frame_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/white">
 
-            </android.support.v4.view.ViewPager>
+            </FrameLayout>
 
         </LinearLayout>
 
