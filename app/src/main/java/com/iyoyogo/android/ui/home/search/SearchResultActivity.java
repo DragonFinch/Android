@@ -328,16 +328,14 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
         int status = keywordBean.getData().getStatus();
         if (status == 1) {
             Log.e("qq", "guanZhu: "+status+"" );
-            mPresenter.getKeyWord(user_id,user_token,keyword,"user");
-            tv_guanzhu1.setText("关注");
+           // mPresenter.getKeyWord(user_id,user_token,keyword,"user");
+            tv_guanzhu1.setText("+关注");
             // houle1.setText("已关注");
         }
         if (status == 0) {
-             mPresenter.getKeyWord(user_id,user_token,keyword,"user");
+             //mPresenter.getKeyWord(user_id,user_token,keyword,"user");
             //houle1.setText("+关注");
-            tv_guanzhu1.setText("yiguanzshu");
-        } else {
-
+            tv_guanzhu1.setText("已关注");
         }
     }
 
