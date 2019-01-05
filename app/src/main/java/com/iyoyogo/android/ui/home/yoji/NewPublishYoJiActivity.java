@@ -592,7 +592,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
     }
 
     private void setTopic(String content) {
-        Pattern TAG_PATTERN = Pattern.compile("# ([^\\#|.]+) #");
+        Pattern TAG_PATTERN = Pattern.compile("#([^\\#|.]+)#");
         Matcher m           = TAG_PATTERN.matcher(content);
         while (m.find()) {
             String tagNameMatch = m.group();

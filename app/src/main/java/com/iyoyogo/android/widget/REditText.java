@@ -244,7 +244,7 @@ public class REditText extends EditText {
             return;
 
         // 拼接字符# %s #,并保存
-        objectText = objectRule + " " + objectText + " " + objectRule;
+        objectText = objectRule + objectText + objectRule;
         object.setObjectText(objectText);
 
         /**
