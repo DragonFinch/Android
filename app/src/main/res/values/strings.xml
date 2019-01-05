@@ -483,6 +483,7 @@
 
     <!--我的收藏-->
     <string name="collection">我的收藏</string>
+    <string name="his_collection">TA的收藏</string>
     <string name="guanli">管理</string>
     <string name="chuangjian">创建收藏夹</string>
     <string name="bianjishouchangjia">编辑收藏夹</string>

@@ -6,9 +6,27 @@
     android:background="@color/white"
     tools:context=".ui.mine.homepage.YoJiFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_yoji"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    <include layout="@layout/yoji_null" android:id="@+id/list_blank" android:visibility="gone"/>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/bar"
+        android:background="@color/white">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_yoji"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    <include
+        android:id="@+id/list_blank"
+        layout="@layout/yoji_null"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/list_blank_me"
+        layout="@layout/yoji_null_me"
+        android:visibility="gone" />
+
 </FrameLayout>

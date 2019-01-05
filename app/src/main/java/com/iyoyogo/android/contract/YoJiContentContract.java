@@ -11,6 +11,6 @@ public interface YoJiContentContract {
         void getYoJiContentSuccess(YoJiContentBean.DataBean data);
     }
     interface Presenter extends IBasePresenter{
-        void getYoJiContent(String user_id,String user_token,String his_id,String page,String page_size);
+        void getYoJiContent(String user_id,String user_token,String his_id,int page,String page_size);
     }
 }

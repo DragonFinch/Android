@@ -1,6 +1,9 @@
 package com.iyoyogo.android.ui.home.yoji;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -8,28 +11,35 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
-import com.iyoyogo.android.adapter.MineFragmentAdapter;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.mine.center.UserCenterBean;
 import com.iyoyogo.android.contract.PersonalCenterContract;
 import com.iyoyogo.android.presenter.PersonalCenterPresenter;
+import com.iyoyogo.android.ui.mine.collection.CollectionActivity;
 import com.iyoyogo.android.ui.mine.homepage.UserFansActivity;
 import com.iyoyogo.android.ui.mine.homepage.YoJiFragment;
 import com.iyoyogo.android.ui.mine.homepage.YoXiuFragment;
 import com.iyoyogo.android.utils.DensityUtil;
+import com.iyoyogo.android.utils.FastBlurUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 import com.umeng.socialize.ShareAction;
@@ -53,7 +63,8 @@ import butterknife.OnClick;
  * 用户中心
  */
 public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Presenter> implements PersonalCenterContract.View {
-
+    @BindView(R.id.img_bg)
+    ImageView imgBg;
     @BindView(R.id.img_back)
     ImageView imgBack;
     @BindView(R.id.img_share)
@@ -76,18 +87,31 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
     TextView tvStar;
     @BindView(R.id.tv_city)
     TextView tvCity;
-    @BindView(R.id.tab)
-    TabLayout tab;
-    @BindView(R.id.personal_vp_id)
-    ViewPager personalVpId;
     @BindView(R.id.tv_guanzhu)
     TextView tvGuanzhu;
+    @BindView(R.id.img_vip_sign)
+    ImageView imgVipSign;
+    @BindView(R.id.img_level)
+    ImageView imgLevel;
+    @BindView(R.id.rb_yoji)
+    RadioButton rbYoji;
+    @BindView(R.id.rb_yoxiu)
+    RadioButton rbYoxiu;
+    @BindView(R.id.group)
+    RadioGroup group;
+    @BindView(R.id.frame_container)
+    FrameLayout frameContainer;
+    @BindView(R.id.collect)
+    LinearLayout collect;
     private String user_id;
     private String user_token;
     private int age;
     private String yo_user_id;
     private String user_logo;
     private String user_nickname;
+    private String user_nickName;
+    private boolean flag = false;
+    private int is_my_attention;
 
     @Override
     protected int getLayoutId() {
@@ -232,6 +256,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
 
     }
 
+
     //隐藏事件PopupWindow
     private class poponDismissListener implements PopupWindow.OnDismissListener {
         @Override
@@ -242,27 +267,45 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
 
     @Override
     public void getPersonalCenterSuccess(UserCenterBean.DataBean data) {
-        user_logo = data.getUser_logo();
-        user_nickname = data.getUser_nickname();
         List<Fragment> fragments = new ArrayList<>();
         YoXiuFragment yoXiuFragment = new YoXiuFragment();
         YoJiFragment yoJiFragment = new YoJiFragment();
         Bundle bundle = new Bundle();
         bundle.putString("yo_user_id", yo_user_id);
-        yoXiuFragment.setArguments(bundle);
         yoJiFragment.setArguments(bundle);
+        yoXiuFragment.setArguments(bundle);
         fragments.add(yoJiFragment);
         fragments.add(yoXiuFragment);
+        switchFragment(yoJiFragment);
+        user_logo = data.getUser_logo();
+        user_nickName = data.getUser_nickname();
+        rbYoji.setText(getResources().getString(R.string.yoji) + "  " + data.getCount_yoj());
+        rbYoxiu.setText(getResources().getString(R.string.yoxiu) + "  " + data.getCount_yox());
         List<String> titles = new ArrayList<>();
-        Glide.with(this).load(data.getUser_logo()).into(imgUserIcon);
-
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.mipmap.default_touxiang)
+                .error(R.mipmap.default_touxiang);
+        Glide.with(this).load(data.getUser_logo()).apply(requestOptions).into(imgUserIcon);
+        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_yoji:
+                        switchFragment(yoJiFragment);
+                        break;
+                    case R.id.rb_yoxiu:
+                        switchFragment(yoXiuFragment);
+                        break;
+                }
+            }
+        });
         String user_sex = data.getUser_sex();
         String user_birthday = data.getUser_birthday();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date date = df.parse(user_birthday);
             age = getAge(date);
-            tvAge.setText(age + "");
+            tvAge.setText(age + "岁");
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -272,7 +315,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
 
         if (user_sex.equals("男")) {
             Drawable nan_xuanzhong = getResources().getDrawable(
-                    R.mipmap.nan_xuanzhong);
+                    R.mipmap.nv_wxz);
 
             tvAge.setCompoundDrawablesWithIntrinsicBounds(nan_xuanzhong,
                     null, null, null);
@@ -288,20 +331,115 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
         tvCollectionCount.setText(data.getCount_collect() + "");
         tvFansCount.setText(data.getCount_fans() + "");
         tvCity.setText(data.getUser_city());
-        titles.add(getResources().getString(R.string.yoji) + "  " + data.getCount_yoj());
+
+      /*  titles.add(getResources().getString(R.string.yoji) + "  " + data.getCount_yoj());
         titles.add(getResources().getString(R.string.yoxiu) + "  " + data.getCount_yox());
         MineFragmentAdapter mineFragmentAdapter = new MineFragmentAdapter(getSupportFragmentManager(), fragments, titles);
         personalVpId.setAdapter(mineFragmentAdapter);
-        tab.setupWithViewPager(personalVpId);
+        tab.setupWithViewPager(personalVpId);*/
+
+        //获取用户等级
+        int user_level = data.getUser_level();
+        if (user_level == 1) {
+            imgLevel.setVisibility(View.VISIBLE);
+            imgLevel.setImageResource(R.mipmap.lv1);
+            imgVipSign.setImageResource(R.mipmap.level_one);
+        } else if (user_level == 2) {
+            imgLevel.setVisibility(View.VISIBLE);
+            imgLevel.setImageResource(R.mipmap.lv2);
+            imgVipSign.setImageResource(R.mipmap.level_two);
+        } else if (user_level == 3) {
+            imgLevel.setVisibility(View.VISIBLE);
+            imgLevel.setImageResource(R.mipmap.lv3);
+            imgVipSign.setImageResource(R.mipmap.level_three);
+        } else if (user_level == 4) {
+            imgLevel.setVisibility(View.VISIBLE);
+            imgLevel.setImageResource(R.mipmap.lv4);
+            imgVipSign.setImageResource(R.mipmap.level_four);
+        } else if (user_level == 5) {
+            imgLevel.setVisibility(View.VISIBLE);
+            imgLevel.setImageResource(R.mipmap.lv5);
+            imgVipSign.setImageResource(R.mipmap.level_five);
+        } else {
+            imgLevel.setVisibility(View.GONE);
+            imgVipSign.setImageResource(R.mipmap.level_zero);
+        }
+
+        is_my_attention = data.getIs_my_attention();
+        if (is_my_attention == 0) {
+            tvGuanzhu.setText("+关注");
+            tvGuanzhu.setBackgroundResource(R.drawable.bg_continue);
+            tvGuanzhu.setTextColor(Color.parseColor("#ffffff"));
+        } else {
+            tvGuanzhu.setText("已关注");
+            tvGuanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
+            tvGuanzhu.setTextColor(Color.parseColor("#888888"));
+        }
+
+
+        final String pattern = "2";
+        if (Patterns.WEB_URL.matcher(data.getUser_logo()).matches()) {
+            final String url =
+                    data.getUser_logo();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    int scaleRatio = 0;
+                    if (TextUtils.isEmpty(pattern)) {
+                        scaleRatio = 0;
+                    } else if (scaleRatio < 0) {
+                        scaleRatio = 10;
+                    } else {
+                        scaleRatio = Integer.parseInt(pattern);
+                    }
+                    //                        下面的这个方法必须在子线程中执行
+                    final Bitmap blurBitmap2 = FastBlurUtil.GetUrlBitmap(url, scaleRatio);
+
+                    //                        刷新ui必须在主线程中执行
+                    runOnUiThread(new Runnable() {//这个是我自己封装的在主线程中刷新ui的方法。
+                        @Override
+                        public void run() {
+                            imgBg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                            imgBg.setImageBitmap(blurBitmap2);
+                        }
+                    });
+                }
+            }).start();
+        } else {
+            int scaleRatio = 0;
+            if (TextUtils.isEmpty(pattern)) {
+                scaleRatio = 0;
+            } else if (scaleRatio < 0) {
+                scaleRatio = 10;
+            } else {
+                scaleRatio = Integer.parseInt(pattern);
+            }
+
+            //        获取需要被模糊的原图bitmap
+            Resources res = getResources();
+            Bitmap scaledBitmap = BitmapFactory.decodeResource(res, R.mipmap.default_touxiang);
+
+            //        scaledBitmap为目标图像，10是缩放的倍数（越大模糊效果越高）
+            Bitmap blurBitmap = FastBlurUtil.toBlur(scaledBitmap, scaleRatio);
+            imgBg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imgBg.setImageBitmap(blurBitmap);
+        }
     }
+
 
     @Override
     public void addAttention1(AttentionBean.DataBean data) {
 
     }
 
+    private void switchFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_container, fragment)
+                .commitAllowingStateLoss();
+    }
 
-    @OnClick({R.id.img_back, R.id.my_collection, R.id.get_hisFans, R.id.tv_guanzhu})
+
+    @OnClick({R.id.img_back, R.id.my_collection, R.id.get_hisFans, R.id.tv_guanzhu, R.id.collect})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -309,21 +447,36 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
                 break;
             case R.id.my_collection:
                 Intent intent = new Intent(this, UserFansActivity.class);
-                intent.putExtra("id", "1");
+                intent.putExtra("id", 1);
                 intent.putExtra("yo_user_id", yo_user_id);
                 startActivity(intent);
                 break;
             case R.id.get_hisFans:
                 intent = new Intent(this, UserFansActivity.class);
-                intent.putExtra("id", "2");
+                intent.putExtra("id", 2);
                 intent.putExtra("yo_user_id", yo_user_id);
                 startActivity(intent);
                 break;
             case R.id.tv_guanzhu:
-                mPresenter.addAttention1(user_id, user_token, yo_user_id);
-                tvGuanzhu.setText("已关注");
-                tvGuanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
-                tvGuanzhu.setTextColor(Color.parseColor("#888888"));
+                if (flag == false) {
+                    flag = true;
+                    mPresenter.addAttention1(user_id, user_token, yo_user_id);
+                    tvGuanzhu.setText("已关注");
+                    tvGuanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
+                    tvGuanzhu.setTextColor(Color.parseColor("#888888"));
+                } else {
+                    flag = false;
+                    mPresenter.addAttention1(user_id, user_token, yo_user_id);
+                    tvGuanzhu.setText("+关注");
+                    tvGuanzhu.setBackgroundResource(R.drawable.bg_continue);
+                    tvGuanzhu.setTextColor(Color.parseColor("#ffffff"));
+                }
+                break;
+            case R.id.collect:
+                Intent intent1 = new Intent(this,CollectionActivity.class);
+                intent1.putExtra("collect",1);
+                intent1.putExtra("id",yo_user_id);
+                startActivity(intent1);
                 break;
         }
     }

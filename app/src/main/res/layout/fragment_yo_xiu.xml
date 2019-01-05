@@ -5,11 +5,27 @@
     android:layout_height="match_parent"
     tools:context=".ui.mine.homepage.YoXiuFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-   <android.support.v7.widget.RecyclerView
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:id="@+id/recycler_yoxiu"
-       />
-<include layout="@layout/yoji_null" android:id="@+id/list_blank" android:visibility="gone"/>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/bar"
+        android:background="@color/white">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_yoxiu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <include
+        android:id="@+id/list_blank"
+        layout="@layout/yoji_null"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/list_blank_me"
+        layout="@layout/yoxiu_null"
+        android:visibility="gone" />
 </FrameLayout>

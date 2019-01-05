@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.yoxiu.AllCommentActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/all_comment_lltoobar_id"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_35"
@@ -23,14 +23,15 @@
 
         <TextView
             android:id="@+id/all_comment_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="10"
             android:gravity="center"
             android:text="@string/all_reply"
-            android:textColor="@color/color333333" />
+            android:textColor="@color/color333333"
+            />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/all_comment_RecyclerView"
@@ -38,7 +39,8 @@
         android:layout_height="match_parent"
         android:layout_below="@id/all_comment_lltoobar_id"
         android:layout_marginTop="1dp"
-        android:background="@color/white"/>
+        android:background="@color/white"
+        android:layout_above="@id/comment_layout"/>
 
     <RelativeLayout
         android:id="@+id/comment_layout"
@@ -46,7 +48,8 @@
         android:layout_height="@dimen/dp_50"
         android:layout_alignParentBottom="true"
         android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:background="@color/white">
 
         <EditText
             android:id="@+id/edit_comment"

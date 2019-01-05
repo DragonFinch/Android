@@ -24,7 +24,10 @@ public class CommendAttentionPresenter extends BasePresenter<CommendAttentionCon
                 .subscribe(new ApiObserver<CommendAttentionBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(CommendAttentionBean commendAttentionBean) {
-                        mView.getCommendAttentionSuccess(commendAttentionBean);
+                        CommendAttentionBean.DataBean data = commendAttentionBean.getData();
+                        if (data != null) {
+                            mView.getCommendAttentionSuccess(commendAttentionBean);
+                        }
                     }
 
                     @Override
@@ -37,11 +40,14 @@ public class CommendAttentionPresenter extends BasePresenter<CommendAttentionCon
 
     @Override
     public void addAttention1(String user_id, String user_token, String target_id) {
-        DataManager.getFromRemote().addAttention1(user_id, user_token,target_id)
+        DataManager.getFromRemote().addAttention1(user_id, user_token, target_id)
                 .subscribe(new ApiObserver<AttentionBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(AttentionBean attentionBean) {
-                        mView.addAttentionSuccess(attentionBean);
+                        AttentionBean.DataBean data = attentionBean.getData();
+                        if (data != null) {
+                            mView.addAttentionSuccess(attentionBean);
+                        }
                     }
 
                     @Override

@@ -23,6 +23,7 @@ import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.home.HomeBean;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
+import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
@@ -200,7 +201,7 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
                             int yo_type = mList.get(position).getList_4().get(1).getYo_type();
                             if (yo_type == 1) {
                                 Intent intent = new Intent(context, YoXiuDetailActivity.class);
-                                intent.putExtra("id",list_4.get(1).getYo_id());
+                                intent.putExtra("id", list_4.get(1).getYo_id());
                                 context.startActivity(intent);
                             } else {
                                 Intent intent = new Intent(context, YoJiDetailActivity.class);
@@ -220,11 +221,11 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
                             int yo_type = mList.get(position).getList_4().get(0).getYo_type();
                             if (yo_type == 1) {
                                 Intent intent = new Intent(context, YoXiuDetailActivity.class);
-                                intent.putExtra("id",list_4.get(0).getYo_id());
+                                intent.putExtra("id", list_4.get(0).getYo_id());
                                 context.startActivity(intent);
                             } else {
                                 Intent intent = new Intent(context, YoJiDetailActivity.class);
-                                intent.putExtra("yo_id",list_4.get(0).getYo_id());
+                                intent.putExtra("yo_id", list_4.get(0).getYo_id());
                                 context.startActivity(intent);
                             }
                         }
@@ -235,7 +236,7 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
                             int yo_type = mList.get(position).getList_4().get(1).getYo_type();
                             if (yo_type == 1) {
                                 Intent intent = new Intent(context, YoXiuDetailActivity.class);
-                                intent.putExtra("id",list_4.get(1).getYo_id());
+                                intent.putExtra("id", list_4.get(1).getYo_id());
                                 context.startActivity(intent);
                             } else {
                                 Intent intent = new Intent(context, YoJiDetailActivity.class);
@@ -310,9 +311,9 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
             holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
             List<HomeBean.DataBean.YojListBean.CommentListBean> comment_list = mList.get(position).getComment_list();
             Log.d("YoJiAttentionAdapter", "comment_list.size():" + comment_list.size());
-            if (comment_list.size()==0){
+            if (comment_list.size() == 0) {
                 holder.recycler_comment.setVisibility(View.GONE);
-            }else {
+            } else {
                 holder.recycler_comment.setVisibility(View.VISIBLE);
                 YoJiListItemAdapter yoJiListItemAdapter = new YoJiListItemAdapter(context, comment_list);
                 holder.recycler_comment.setLayoutManager(new LinearLayoutManager(context));
@@ -404,8 +405,6 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
                     .into(holder.user_icon);
 
         }
-
-
 
 
         holder.itemView.setTag(position);

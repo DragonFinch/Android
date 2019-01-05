@@ -32,7 +32,8 @@
         android:layout_marginTop="@dimen/dp_1"
         android:layout_toRightOf="@+id/img_user_icon"
         android:text="@string/account_and_safe"
-        android:textSize="@dimen/sp_10" />
+        android:textSize="@dimen/sp_10"
+        android:textColor="@color/c888888"/>
 
 
     <LinearLayout
@@ -59,7 +60,8 @@
             android:layout_below="@+id/layout_function"
             android:layout_alignEnd="@+id/layout_function"
             android:layout_marginLeft="@dimen/dp_6"
-            android:text="aaa" />
+            android:text="aaa"
+            android:textColor="@color/c888888"/>
 
 
     </LinearLayout>

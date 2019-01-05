@@ -4,8 +4,9 @@ import com.iyoyogo.android.bean.BaseBean;
 
 public class UserCenterBean extends BaseBean {
 
+
     /**
-     * data : {"user_id":3,"user_nickname":"","user_logo":"","user_level":0,"partner_type":0,"user_sex":"","user_city":"","user_birthday":"0000-00-00","count_attention":"","count_fens":"","count_collect":"","count_yox":"","count_yoj":""}
+     * data : {"user_id":"2","user_nickname":"","user_logo":"?x-oss-process=image/resize,w_50","user_level":0,"partner_type":"0","user_sex":"","user_city":"","user_birthday":"1989-11-01","count_attention":"6","count_fans":"1","count_collect":"0","count_yox":"2","count_yoj":"0","is_my_attention":0}
      */
 
     private DataBean data;
@@ -20,41 +21,42 @@ public class UserCenterBean extends BaseBean {
 
     public static class DataBean {
         /**
-         * user_id : 3
+         * user_id : 2
          * user_nickname :
-         * user_logo :
+         * user_logo : ?x-oss-process=image/resize,w_50
          * user_level : 0
          * partner_type : 0
          * user_sex :
          * user_city :
-         * user_birthday : 0000-00-00
-         * count_attention :
-         * count_fens :
-         * count_collect :
-         * count_yox :
-         * count_yoj :
+         * user_birthday : 1989-11-01
+         * count_attention : 6
+         * count_fans : 1
+         * count_collect : 0
+         * count_yox : 2
+         * count_yoj : 0
+         * is_my_attention : 0
          */
 
-        private int user_id;
+        private String user_id;
         private String user_nickname;
         private String user_logo;
         private int user_level;
-        private int partner_type;
+        private String partner_type;
         private String user_sex;
         private String user_city;
         private String user_birthday;
         private String count_attention;
-
         private String count_fans;
         private String count_collect;
         private String count_yox;
         private String count_yoj;
+        private int is_my_attention;
 
-        public int getUser_id() {
+        public String getUser_id() {
             return user_id;
         }
 
-        public void setUser_id(int user_id) {
+        public void setUser_id(String user_id) {
             this.user_id = user_id;
         }
 
@@ -82,11 +84,11 @@ public class UserCenterBean extends BaseBean {
             this.user_level = user_level;
         }
 
-        public int getPartner_type() {
+        public String getPartner_type() {
             return partner_type;
         }
 
-        public void setPartner_type(int partner_type) {
+        public void setPartner_type(String partner_type) {
             this.partner_type = partner_type;
         }
 
@@ -152,6 +154,14 @@ public class UserCenterBean extends BaseBean {
 
         public void setCount_yoj(String count_yoj) {
             this.count_yoj = count_yoj;
+        }
+
+        public int getIs_my_attention() {
+            return is_my_attention;
+        }
+
+        public void setIs_my_attention(int is_my_attention) {
+            this.is_my_attention = is_my_attention;
         }
     }
 }

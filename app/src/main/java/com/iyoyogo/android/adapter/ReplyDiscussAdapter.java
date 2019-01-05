@@ -55,8 +55,8 @@ public class ReplyDiscussAdapter extends RecyclerView.Adapter<ReplyDiscussAdapte
         //设置字体(default,default-bold,monospace,serif,sans-serif)
 //        msp.setSpan(new TypefaceSpan("monospace"), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         if (position == 0) {
-            SpannableString msp1 = new SpannableString(mList.get(position).getUser_nickname() + " 回复"+userName+":" + mList.get(position).getContent());
-            msp1.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), 0, mList.get(position).getUser_nickname().length() , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
+            SpannableString msp1 = new SpannableString(mList.get(position).getUser_nickname() + " 回复" + userName + ":" + mList.get(position).getContent());
+            msp1.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), 0, mList.get(position).getUser_nickname().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
             msp1.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), mList.get(position).getUser_nickname().length() + 3, mList.get(position).getUser_nickname().length() + 4 + userName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
             holder.user_content.setText(msp1);
             holder.tv_time.setText(mList.get(position).getCreate_time());
@@ -65,9 +65,9 @@ public class ReplyDiscussAdapter extends RecyclerView.Adapter<ReplyDiscussAdapte
             requestOptions.error(R.mipmap.default_touxiang);
             requestOptions.placeholder(R.mipmap.default_touxiang);
             Glide.with(context).load(mList.get(position).getUser_logo()).apply(requestOptions).into(holder.img_user_icon);
-            if (mList.get(position).getIs_my_praise()==0){
+            if (mList.get(position).getIs_my_praise() == 0) {
                 holder.img_comment_like.setImageResource(R.mipmap.zan_select);
-            }else {
+            } else {
                 holder.img_comment_like.setImageResource(R.mipmap.zan_selected);
             }
             holder.img_comment_like.setImageResource(mList.get(position).getIs_my_praise() == 0 ? R.mipmap.zan_select : R.mipmap.zan_selected);
@@ -88,7 +88,7 @@ public class ReplyDiscussAdapter extends RecyclerView.Adapter<ReplyDiscussAdapte
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            DataManager.getFromRemote().praise(user_id, user_token,0, mList.get(position).getId())
+                            DataManager.getFromRemote().praise(user_id, user_token, 0, mList.get(position).getId())
                                     .subscribe(new Consumer<BaseBean>() {
                                         @Override
                                         public void accept(BaseBean baseBean) throws Exception {
@@ -100,8 +100,9 @@ public class ReplyDiscussAdapter extends RecyclerView.Adapter<ReplyDiscussAdapte
 
                 }
             });
-        }else {
-            SpannableString msp = new SpannableString(mList.get(position).getUser_nickname() + " 回复"+ ":" + mList.get(position).getContent());            msp.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), 0, mList.get(position).getUser_nickname().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
+        } else {
+            SpannableString msp = new SpannableString(mList.get(position).getUser_nickname() + " 回复" + ":" + mList.get(position).getContent());
+            msp.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), 0, mList.get(position).getUser_nickname().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
             msp.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), 0, mList.get(position).getUser_nickname().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
             holder.user_content.setText(msp);
             holder.tv_time.setText(mList.get(position).getCreate_time());
@@ -109,10 +110,10 @@ public class ReplyDiscussAdapter extends RecyclerView.Adapter<ReplyDiscussAdapte
             RequestOptions requestOptions = new RequestOptions();
             requestOptions.error(R.mipmap.default_touxiang);
             requestOptions.placeholder(R.mipmap.default_touxiang);
-        Glide.with(context).load(mList.get(position).getUser_logo()).apply(requestOptions).into(holder.img_user_icon);
-            if (mList.get(position).getIs_my_praise()==0){
+            Glide.with(context).load(mList.get(position).getUser_logo()).apply(requestOptions).into(holder.img_user_icon);
+            if (mList.get(position).getIs_my_praise() == 0) {
                 holder.img_comment_like.setImageResource(R.mipmap.zan_select);
-            }else {
+            } else {
                 holder.img_comment_like.setImageResource(R.mipmap.zan_selected);
             }
             holder.img_comment_like.setImageResource(mList.get(position).getIs_my_praise() == 0 ? R.mipmap.zan_select : R.mipmap.zan_selected);
@@ -133,7 +134,7 @@ public class ReplyDiscussAdapter extends RecyclerView.Adapter<ReplyDiscussAdapte
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            DataManager.getFromRemote().praise(user_id, user_token,0, mList.get(position).getId())
+                            DataManager.getFromRemote().praise(user_id, user_token, 0, mList.get(position).getId())
                                     .subscribe(new Consumer<BaseBean>() {
                                         @Override
                                         public void accept(BaseBean baseBean) throws Exception {

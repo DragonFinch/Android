@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.iyoyogo.android.R;
@@ -33,7 +34,10 @@ public class HisFansAdapter extends BaseQuickAdapter<HisFansBean.DataBean.ListBe
         helper.setText(R.id.user_nickname, item.getUser_nickname());
         helper.setText(R.id.count_yoj, item.getCount_yoj() + "");
         helper.setText(R.id.count_yox, item.getCount_yox() + "");
-        Glide.with(mContext).load(item.getUser_logo()).into((CircleImageView) helper.getView(R.id.user_logo));
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.mipmap.default_touxiang)
+                .error(R.mipmap.default_touxiang);
+        Glide.with(mContext).load(item.getUser_logo()).apply(requestOptions).into((CircleImageView) helper.getView(R.id.user_logo));
         TextView btu_guanzhu = helper.getView(R.id.tv_guanzhu);
         helper.addOnClickListener(R.id.tv_guanzhu);
         int status = item.getStatus();

@@ -358,6 +358,7 @@ public class Model {
         return HttpClient.getApiService().getYoXiuList(user_id, user_token, page)
                 .compose(this.switchThread());
     }
+
     /*8
    点赞
      */
@@ -440,6 +441,7 @@ public class Model {
 
     /**
      * 获取绑定信息
+     *
      * @param user_id
      * @param user_token
      * @return
@@ -451,6 +453,7 @@ public class Model {
 
     /**
      * 替换手机号
+     *
      * @param user_id
      * @param user_token
      * @param phone
@@ -464,6 +467,7 @@ public class Model {
 
     /**
      * 退出登录
+     *
      * @param user_id
      * @param user_token
      * @param addr
@@ -478,6 +482,7 @@ public class Model {
 
     /**
      * 添加关注
+     *
      * @param user_id
      * @param user_token
      * @param target_id
@@ -500,6 +505,7 @@ public class Model {
 
     /**
      * 获取收藏夹列表
+     *
      * @param user_id
      * @param user_token
      * @return
@@ -511,6 +517,7 @@ public class Model {
 
     /**
      * 创建收藏夹
+     *
      * @param user_id
      * @param user_token
      * @param name
@@ -526,6 +533,7 @@ public class Model {
 
     /**
      * 添加收藏
+     *
      * @param user_id
      * @param user_token
      * @param folder_id
@@ -539,6 +547,7 @@ public class Model {
 
     /**
      * 取消收藏
+     *
      * @param user_id
      * @param user_token
      * @param id
@@ -551,6 +560,7 @@ public class Model {
 
     /**
      * 不喜欢
+     *
      * @param user_id
      * @param user_token
      * @param yo_id
@@ -563,6 +573,7 @@ public class Model {
 
     /**
      * 举报
+     *
      * @param user_id
      * @param user_token
      * @param yo_id
@@ -577,6 +588,7 @@ public class Model {
 
     /**
      * 获取标签列表
+     *
      * @param user_id
      * @param user_token
      * @return
@@ -588,6 +600,7 @@ public class Model {
 
     /**
      * 添加标签
+     *
      * @param user_id
      * @param user_token
      * @param label_id
@@ -602,6 +615,7 @@ public class Model {
 
     /**
      * 删除标签
+     *
      * @param user_id
      * @param user_token
      * @param label_id
@@ -614,6 +628,7 @@ public class Model {
 
     /**
      * 发布yo记
+     *
      * @param user_id
      * @param user_token
      * @param yo_id
@@ -628,7 +643,7 @@ public class Model {
      * @param json
      * @return
      */
-    public Observable<BaseBean> publishYoJi(String user_id, String user_token, int yo_id, String logo, String title, String desc, int cost, int open, int valid,  String channel_ids, String json) {
+    public Observable<BaseBean> publishYoJi(String user_id, String user_token, int yo_id, String logo, String title, String desc, int cost, int open, int valid, String channel_ids, String json) {
 
         Log.e("Gson", json);
         return HttpClient.getApiService().publish_yoji(user_id, user_token, yo_id, logo, title, desc, cost, open, valid, channel_ids, json)
@@ -637,6 +652,7 @@ public class Model {
 
     /**
      * 获取草稿
+     *
      * @param user_id
      * @param user_token
      * @param page
@@ -650,6 +666,7 @@ public class Model {
 
     /**
      * 获取yo记列表
+     *
      * @param user_id
      * @param user_token
      * @param page
@@ -663,6 +680,7 @@ public class Model {
 
     /**
      * 获取yo记详情
+     *
      * @param user_id
      * @param user_token
      * @param yo_id
@@ -675,6 +693,7 @@ public class Model {
 
     /**
      * 获取我的收藏
+     *
      * @param user_id
      * @param user_token
      * @return
@@ -685,7 +704,20 @@ public class Model {
     }
 
     /**
+     * 获取TA的收藏
+     *
+     * @param user_id
+     * @param user_token
+     * @return
+     */
+    public Observable<MineCollectionBean> getHisCollection(String user_id, String user_token, String his_id) {
+        return HttpClient.getApiService().getHisCollection(user_id, user_token, his_id)
+                .compose(this.switchThread());
+    }
+
+    /**
      * 删除收藏夹
+     *
      * @param user_id
      * @param user_token
      * @param folder_ids
@@ -698,6 +730,7 @@ public class Model {
 
     /**
      * 获取用户主页
+     *
      * @param user_id
      * @param user_token
      * @param his_id
@@ -710,6 +743,7 @@ public class Model {
 
     /**
      * 获取yo记内容
+     *
      * @param user_id
      * @param user_token
      * @param his_id
@@ -717,13 +751,14 @@ public class Model {
      * @param page_size
      * @return
      */
-    public Observable<YoJiContentBean> getYoJiContent(String user_id, String user_token, String his_id, String page, String page_size) {
+    public Observable<YoJiContentBean> getYoJiContent(String user_id, String user_token, String his_id, int page, String page_size) {
         return HttpClient.getApiService().getYoJiContent(user_id, user_token, his_id, page, page_size)
                 .compose(this.switchThread());
     }
 
     /**
      * 获取我的喜欢
+     *
      * @param user_id
      * @param user_token
      * @param page
@@ -737,6 +772,7 @@ public class Model {
 
     /**
      * 获取收藏夹内容
+     *
      * @param user_id
      * @param user_token
      * @param page
@@ -750,6 +786,7 @@ public class Model {
 
     /**
      * 取消收藏
+     *
      * @param user_id
      * @param user_token
      * @param record_ids
@@ -762,6 +799,7 @@ public class Model {
 
     /**
      * 移动收藏夹内容
+     *
      * @param user_id
      * @param user_token
      * @param record_ids
@@ -775,6 +813,7 @@ public class Model {
 
     /**
      * 获取我的设置
+     *
      * @param user_id
      * @param user_token
      * @return
@@ -786,6 +825,7 @@ public class Model {
 
     /**
      * 修改我的设置
+     *
      * @param user_id
      * @param user_token
      * @param wifi_auto_play_video
@@ -800,6 +840,7 @@ public class Model {
 
     /**
      * 用户反馈
+     *
      * @param user_id
      * @param user_token
      * @param desc
@@ -812,6 +853,7 @@ public class Model {
 
     /**
      * 关于我们
+     *
      * @return
      */
     public Observable<AboutMeBean> aboutme() {
@@ -821,6 +863,7 @@ public class Model {
 
     /**
      * 获取消息
+     *
      * @param user_id
      * @param user_token
      * @param type
@@ -834,6 +877,7 @@ public class Model {
 
     /**
      * 获取消息中心
+     *
      * @param user_id
      * @param user_token
      * @return
@@ -846,6 +890,7 @@ public class Model {
 
     /**
      * 读取消息
+     *
      * @param user_id
      * @param user_token
      * @param message_id
@@ -870,6 +915,7 @@ public class Model {
 
     /**
      * push
+     *
      * @param user_id
      * @param user_token
      * @param device
@@ -901,47 +947,52 @@ public class Model {
 
     /**
      * 打卡
+     *
      * @param user_id
      * @param user_token
      * @return
      */
-    public Observable<BaseBean> punchClock(String user_id,String user_token){
+    public Observable<BaseBean> punchClock(String user_id, String user_token) {
         return HttpClient.getApiService().punchClock(user_id, user_token)
                 .compose(this.switchThread());
     }
 
     /**
      * 版本升级
+     *
      * @param user_id
      * @param user_token
      * @param type
      * @return
      */
-    public Observable<VersionBean> getVersionMessage(String user_id,String user_token,String type){
+    public Observable<VersionBean> getVersionMessage(String user_id, String user_token, String type) {
         return HttpClient.getApiService().getVersionMessage(user_id, user_token, type)
                 .compose(this.switchThread());
     }
 
     /**
      * 不喜欢
+     *
      * @param user_id
      * @param user_token
      * @param yo_id
      * @param type
      * @return
      */
-    public Observable<BaseBean> dislike(String user_id,String user_token,int yo_id,int type){
+    public Observable<BaseBean> dislike(String user_id, String user_token, int yo_id, int type) {
         return HttpClient.getApiService().dislike(user_id, user_token, yo_id, type)
                 .compose(this.switchThread());
     }
+
     //用户等级页
-    public Observable<VipCenterBean> setVipCenter(String user_id, String user_token){
+    public Observable<VipCenterBean> setVipCenter(String user_id, String user_token) {
         return HttpClient.getApiService().setVipCenter(user_id, user_token)
                 .compose(this.switchThread());
     }
 
     /**
      * 获取yo秀内容
+     *
      * @param user_id
      * @param user_token
      * @param his_id
@@ -956,23 +1007,24 @@ public class Model {
 
     /**
      * 删除yo秀
+     *
      * @param user_id
      * @param user_token
      * @param yo_id
      * @return
      */
-    public Observable<BaseBean> deleteYo(String user_id,String user_token,int yo_id){
+    public Observable<BaseBean> deleteYo(String user_id, String user_token, int yo_id) {
         return HttpClient.getApiService().deleteYo(user_id, user_token, yo_id)
                 .compose(this.switchThread());
     }
 
-    public Observable<PublishYoJiBean> getYoJiData(String user_id, String user_token, String yo_id){
-                return HttpClient.getApiService().getYoJiData(user_id, user_token,yo_id)
+    public Observable<PublishYoJiBean> getYoJiData(String user_id, String user_token, String yo_id) {
+        return HttpClient.getApiService().getYoJiData(user_id, user_token, yo_id)
                 .compose(this.switchThread());
     }
 
-    public Observable<PublishYoXiuBean> getYoXiuData(String user_id, String user_token, String yo_id){
-                return HttpClient.getApiService().getYoXiuData(user_id, user_token,yo_id)
+    public Observable<PublishYoXiuBean> getYoXiuData(String user_id, String user_token, String yo_id) {
+        return HttpClient.getApiService().getYoXiuData(user_id, user_token, yo_id)
                 .compose(this.switchThread());
     }
 

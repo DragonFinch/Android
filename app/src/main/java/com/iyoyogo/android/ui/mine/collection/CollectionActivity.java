@@ -1,6 +1,7 @@
 package com.iyoyogo.android.ui.mine.collection;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.MineCollectionAdapter;
 import com.iyoyogo.android.base.BaseActivity;
@@ -22,6 +24,7 @@ import com.iyoyogo.android.utils.StatusBarUtils;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -40,8 +43,12 @@ public class CollectionActivity extends BaseActivity<CollectionContract.Presente
     LinearLayout collectionLlId;
     @BindView(R.id.go_home)
     TextView goHome;
+    @BindView(R.id.title)
+    TextView title;
     @BindView(R.id.layout_collection_null)
     LinearLayout layoutCollectionNull;
+    @BindView(R.id.layout_his_collection_null)
+    LinearLayout layoutHisCollectionNull;
     private String user_id;
     private String user_token;
     //我的收藏夹
@@ -70,7 +77,22 @@ public class CollectionActivity extends BaseActivity<CollectionContract.Presente
         super.onResume();
         user_id = SpUtils.getString(CollectionActivity.this, "user_id", null);
         user_token = SpUtils.getString(CollectionActivity.this, "user_token", null);
-        mPresenter.getCollectionFold(user_id, user_token);
+        Intent intent = getIntent();
+        int coll = intent.getIntExtra("collect", 0);
+        String id = intent.getStringExtra("id");
+        if (coll == 1) {
+            recyclerCollectionFolder.setVisibility(View.VISIBLE);
+            layoutCreateCollection.setVisibility(View.GONE);
+            managerCollectionFolder.setVisibility(View.GONE);
+            title.setText("TA的收藏");
+            mPresenter.getHisCollectionFold(user_id, user_token, id);
+        } else if (coll == 2) {
+            recyclerCollectionFolder.setVisibility(View.VISIBLE);
+            layoutCreateCollection.setVisibility(View.VISIBLE);
+            managerCollectionFolder.setVisibility(View.VISIBLE);
+            title.setText("我的收藏");
+            mPresenter.getCollectionFold(user_id, user_token);
+        }
     }
 
     @Override
@@ -168,10 +190,22 @@ public class CollectionActivity extends BaseActivity<CollectionContract.Presente
     }
 
     @Override
+    public void getHisCollectionSuccess(MineCollectionBean mineCollectionBean) {
+        List<MineCollectionBean.DataBean.TreeBean> tree = mineCollectionBean.getData().getTree();
+        mineCollectionAdapter = new MineCollectionAdapter(CollectionActivity.this, tree);
+        recyclerCollectionFolder.setLayoutManager(new LinearLayoutManager(CollectionActivity.this));
+        recyclerCollectionFolder.setAdapter(mineCollectionAdapter);
+        mineCollectionAdapter.notifyAdapter(tree, false);
+        if (tree.size() == 0) {
+            recyclerCollectionFolder.setVisibility(View.GONE);
+            layoutHisCollectionNull.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
     public void deleteCollectionFolderSuccess(BaseBean baseBean) {
         Toast.makeText(this, "删除成功", Toast.LENGTH_SHORT).show();
         finish();
     }
-
 
 }

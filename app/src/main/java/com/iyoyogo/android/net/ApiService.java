@@ -476,6 +476,12 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<MineCollectionBean> getMineCollection(@Field("user_id") String user_id, @Field("user_token") String user_token);
 
+    //获取TA的收藏
+    @POST("index.php/api/userhome/get_his_collects")
+    @FormUrlEncoded
+    Observable<MineCollectionBean> getHisCollection(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("his_id") String his_id);
+
+
     //删除收藏夹
     @POST("index.php/api/collect/folder_delete")
     @FormUrlEncoded
@@ -489,7 +495,7 @@ public interface ApiService {
     //获取yo记内容
     @POST("index.php/api/userhome/get_his_yoj_list")
     @FormUrlEncoded
-    Observable<YoJiContentBean> getYoJiContent(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("his_id") String his_id, @Field("page") String page, @Field("page_size") String page_size);
+    Observable<YoJiContentBean> getYoJiContent(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("his_id") String his_id, @Field("page") int page, @Field("page_size") String page_size);
 
     //获取我喜欢的
     @POST("index.php/api/praise/get_list")
