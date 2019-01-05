@@ -23,6 +23,7 @@ import com.iyoyogo.android.bean.login.SendMessageBean;
 import com.iyoyogo.android.bean.login.interest.InterestBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.bean.login.login.MarketBean;
+import com.iyoyogo.android.bean.map.MapBean;
 import com.iyoyogo.android.bean.mine.AboutMeBean;
 import com.iyoyogo.android.bean.mine.DraftBean;
 import com.iyoyogo.android.bean.mine.GetBindInfoBean;
@@ -36,6 +37,10 @@ import com.iyoyogo.android.bean.mine.message.MessageBean;
 import com.iyoyogo.android.bean.mine.message.MessageCenterBean;
 import com.iyoyogo.android.bean.mine.message.ReadMessage;
 import com.iyoyogo.android.bean.mine.setting.MineSettingBean;
+import com.iyoyogo.android.bean.search.GuanZhuBean;
+import com.iyoyogo.android.bean.search.KeywordBean;
+import com.iyoyogo.android.bean.search.KeywordUserBean;
+import com.iyoyogo.android.bean.search.SearchBean;
 import com.iyoyogo.android.bean.yoji.detail.YoJiDetailBean;
 import com.iyoyogo.android.bean.yoji.label.AddLabelBean;
 import com.iyoyogo.android.bean.yoji.label.LabelListBean;
@@ -994,6 +999,51 @@ public class Model {
      */
     public Observable<BaseBean> DelPosition(String user_id, String user_token) {
         return HttpClient.getApiService().DelPosition(user_id, user_token)
+                .compose(this.switchThread());
+    }
+
+    public Observable<SearchBean> search(String user_id, String user_token){
+        return HttpClient.getApiService()
+                .search(user_id, user_token)
+                .compose(this.switchThread());
+    }
+
+    public Observable<KeywordBean> keyword(String user_id, String user_token, String search, String type){
+        return HttpClient.getApiService()
+                .keyword(user_id, user_token,search,type)
+                .compose(this.switchThread());
+    }
+    public Observable<GuanZhuBean> guanzhu(String user_id, String user_token, String target){
+        return HttpClient.getApiService()
+                .keyword(user_id, user_token,target)
+                .compose(this.switchThread());
+    }
+    /*    public Observable<MapBean> mapDiTu(String user_id, String user_token, String type, String search){
+            return HttpClient.getApiService()
+                    .getChengShi(user_id, user_token,type,search)
+                    .compose(this.switchThread());
+        }*/
+    public Observable<MapBean> mapDiTu(String user_id, String user_token, String type, String seatch){
+        return HttpClient.getApiService()
+                .getChengShi(user_id, user_token,type,seatch)
+                .compose(this.switchThread());
+    }
+    //个人信息 城市的选择
+    public Observable<MapBean> chengShi(String user_id, String user_token, String type,String seatch){
+        return HttpClient.getApiService()
+                .getChengShiLieBiao(user_id, user_token,type,seatch)
+                .compose(this.switchThread());
+    }
+    //首页地图定位
+    public Observable<MapBean> CPS(String user_id, String user_token, String type,String seatch){
+        return HttpClient.getApiService()
+                .getGps(user_id, user_token,type,seatch)
+                .compose(this.switchThread());
+    }
+    //首页搜索  关键字  搜索
+    public Observable<KeywordUserBean> srarch(String user_id, String user_token, String seatch){
+        return HttpClient.getApiService()
+                .getserarch(user_id, user_token,seatch)
                 .compose(this.switchThread());
     }
 }

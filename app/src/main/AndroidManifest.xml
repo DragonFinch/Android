@@ -440,6 +440,10 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ui.home.yoxiu.NewPublishYoXiuActivity" />
         <activity android:name=".ui.home.EditImageOrVideoActivity"></activity>
+        <activity android:name=".ui.home.map.DiTuActivity"></activity>
+        <activity android:name=".ui.mine.CityActivity"></activity>
+        <activity android:name=".ui.home.search.SearchActivity"></activity>
+        <activity android:name=".ui.home.search.SearchResultActivity"></activity>
     </application>
 
 </manifest>

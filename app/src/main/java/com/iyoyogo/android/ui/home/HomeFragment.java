@@ -11,7 +11,9 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -35,7 +37,9 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseFragment;
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.ui.home.attention.AttentionFragment;
+import com.iyoyogo.android.ui.home.map.DiTuActivity;
 import com.iyoyogo.android.ui.home.recommend.RecommedFragment;
+import com.iyoyogo.android.ui.home.search.SearchActivity;
 import com.iyoyogo.android.ui.home.yoji.NewPublishYoJiActivity;
 import com.iyoyogo.android.ui.home.yoxiu.SourceChooseActivity;
 import com.iyoyogo.android.utils.DensityUtil;
@@ -45,6 +49,10 @@ import com.iyoyogo.android.view.YoyogoTopBarView;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -81,7 +89,7 @@ public class HomeFragment extends BaseFragment {
     private ImageView publish_close;
     @BindView(R.id.publish_home)
     ImageView publish_home;
-
+    private String name1;
 
     private Fragment currentFragment = new Fragment();
 
@@ -318,11 +326,13 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onSearchClick() {
                 //
+                startActivity(new Intent(getActivity(),SearchActivity.class));
                 Toast.makeText(mActivity, "正在开发中", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onLocationClick() {
+                startActivity(new Intent(getActivity(),DiTuActivity.class));
                 Toast.makeText(mActivity, "正在开发中", Toast.LENGTH_SHORT).show();
             }
 
@@ -345,6 +355,22 @@ public class HomeFragment extends BaseFragment {
                 switchFragment(attentionFragment).commit();
             }
         });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN ,sticky = true)
+    public void Token(String name){
+        if (name!=null){
+            name1 = name;
+            Log.e("Token", "Token: "+name );
+        }
+
+        bar.setLocationResult(name1);
     }
 
 
@@ -428,6 +454,8 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
+        EventBus.getDefault().removeAllStickyEvents();
 
     }
 }

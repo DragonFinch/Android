@@ -581,4 +581,16 @@
     <string name="all_reply">回复（6）</string>
 
 
+    <string name="weizhi">请输入在哪里yo~></string>
+    <string name="sousuo">搜索</string>
+    <string name="wuhuangwanshuii">等100人喜欢过</string>
+    <string name="qingkong">清空</string>
+    <string name="quanbupinglun">全部评论(190)</string>
+    <string name="browserecord">1765</string>
+    <string name="shibai">咦？没找到yo~</string>
+    <string name="shibai1">修改关键词再次尝试吧</string>
+    <string name="shibai2">快来看看热门城市吧</string>
+    <string name="guonei">国内</string>
+    <string name="guoji">国际</string>
+    <string name="user">用户</string>
 </resources>

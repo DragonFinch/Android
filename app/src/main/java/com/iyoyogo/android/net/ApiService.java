@@ -21,6 +21,7 @@ import com.iyoyogo.android.bean.login.SendMessageBean;
 import com.iyoyogo.android.bean.login.interest.InterestBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.bean.login.login.MarketBean;
+import com.iyoyogo.android.bean.map.MapBean;
 import com.iyoyogo.android.bean.mine.AboutMeBean;
 import com.iyoyogo.android.bean.mine.DraftBean;
 import com.iyoyogo.android.bean.mine.GetBindInfoBean;
@@ -34,6 +35,10 @@ import com.iyoyogo.android.bean.mine.message.MessageBean;
 import com.iyoyogo.android.bean.mine.message.MessageCenterBean;
 import com.iyoyogo.android.bean.mine.message.ReadMessage;
 import com.iyoyogo.android.bean.mine.setting.MineSettingBean;
+import com.iyoyogo.android.bean.search.GuanZhuBean;
+import com.iyoyogo.android.bean.search.KeywordBean;
+import com.iyoyogo.android.bean.search.KeywordUserBean;
+import com.iyoyogo.android.bean.search.SearchBean;
 import com.iyoyogo.android.bean.yoji.detail.YoJiDetailBean;
 import com.iyoyogo.android.bean.yoji.label.AddLabelBean;
 import com.iyoyogo.android.bean.yoji.label.LabelListBean;
@@ -650,5 +655,40 @@ public interface ApiService {
     @POST("index.php/api/position/del_his_position")
     @FormUrlEncoded
     Observable<BaseBean> DelPosition(@Field("user_id") String user_id, @Field("user_token") String user_token);
+
+
+    //首页搜索   页面
+    @POST("index.php/api/city/get_hot")
+    @FormUrlEncoded
+    Observable<SearchBean> search(@Field("user_id") String user_id, @Field("user_token") String user_token);
+
+    //首页  搜索
+    @POST("/index.php/api/search/index")
+    @FormUrlEncoded
+    Observable<KeywordBean> keyword(@Field("user_id")String user_id, @Field("user_token") String user_token , @Field("search") String search, @Field("type")String type);
+
+
+    //首页  搜索
+    @POST("/index.php/api/attention/click")
+    @FormUrlEncoded
+    Observable<GuanZhuBean> keyword(@Field("user_id")String user_id, @Field("user_token") String user_token, @Field("target_id")String target_id);
+
+    //首页  选择城市
+    @POST("/index.php/api/city/get_list")
+    @FormUrlEncoded
+    Observable<MapBean> getChengShi(@Field("user_id")String user_id, @Field("user_token") String user_token, @Field("type")String type, @Field("search")String search);
+    //首页  个人信息
+    @POST("/index.php/api/city/get_list")
+    @FormUrlEncoded
+    Observable<MapBean> getChengShiLieBiao(@Field("user_id")String user_id, @Field("user_token") String user_token, @Field("type")String type, @Field("search")String search);
+    //首页  个人信息
+    @POST("/index.php/api/city/get_list")
+    @FormUrlEncoded
+    Observable<MapBean> getGps(@Field("user_id")String user_id, @Field("user_token") String user_token, @Field("type")String type, @Field("search")String search);
+
+    //首页  搜索 关键字搜索
+    @POST("/index.php/api/search/get_keywords")
+    @FormUrlEncoded
+    Observable<KeywordUserBean> getserarch(@Field("user_id")String user_id, @Field("user_token") String user_token, @Field("search")String search);
 }
 

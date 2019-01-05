@@ -284,7 +284,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
         cityLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EditPersonalMessageActivity.this, CitySelectorActivity.class);
+                Intent intent = new Intent(EditPersonalMessageActivity.this, CityActivity.class);
                 startActivityForResult(intent, 1);
             }
         });

@@ -176,6 +176,10 @@
     <color name="E1E1E1">#E1E1E1</color>
 
     <color name="FAEBD7">#FAEBD7</color> <!--古董白 -->
+    <color name="gray1">#cccccc</color>
     <color name="grey_808080">#808080</color>
+    <color name="gray2">#efefef</color>
+    <color name="gray">#808080</color>
+    <color name="FAFAFA">#FAFAFA</color>
 
 </resources>
