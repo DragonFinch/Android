@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_marginRight="15dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_public"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/gongkai_xz"
+        android:drawablePadding="5dp"
+        android:paddingLeft="38dp"
+        android:paddingTop="15dp"
+        android:paddingRight="38dp"
+        android:paddingBottom="15dp"
+        android:text="公开"
+        android:textColor="#FA800A"
+        android:textSize="15sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="#F1F1F1" />
+
+    <TextView
+        android:id="@+id/tv_private"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/gongkai_wxz"
+        android:drawablePadding="5dp"
+        android:paddingLeft="38dp"
+        android:paddingTop="15dp"
+        android:paddingRight="38dp"
+        android:paddingBottom="15dp"
+        android:text="私密"
+        android:textColor="#333333"
+        android:textSize="15sp" />
+</LinearLayout>

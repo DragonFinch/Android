@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -18,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 import com.alibaba.sdk.android.oss.ServiceException;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.githang.statusbar.StatusBarCompat;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.gson.Gson;
 import com.iyoyogo.android.R;
@@ -60,8 +63,10 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import razerdp.basepopup.QuickPopupBuilder;
+import razerdp.basepopup.QuickPopupConfig;
 
-public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter> implements PublishYoXiuContract.View, OssService.UploadImageListener {
+public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter> implements PublishYoXiuContract.View, OssService.UploadImageListener, PublishOpenPopup.OpenPopupClick {
 
 
     @BindView(R.id.tv_title)
@@ -96,6 +101,10 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
     TextView      mTvPublishType;
     @BindView(R.id.tv_select_address)
     TextView      mTvAddress;
+    @BindView(R.id.iv_video)
+    ImageView     mIvVideo;
+    @BindView(R.id.ll_option)
+    LinearLayout  mLlOption;
 
 
     private OssService mOssService;
@@ -117,9 +126,11 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
     private int    saveType = 1;
     private String filterId = "0";
 
-    private String scale="9:16";
+    private String scale = "9:16";
 
     PopupWindow popMenu;
+
+    private PublishOpenPopup mPublishOpenPopup;
 
     @Override
     protected int getLayoutId() {
@@ -134,7 +145,9 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
     @Override
     protected void initView() {
         super.initView();
-
+//        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
+        mPublishOpenPopup=new PublishOpenPopup(this);
+        mPublishOpenPopup.setOpenPopupClick(this);
     }
 
     @Override
@@ -150,12 +163,8 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
         if (id == 0) {
             List<LocalMedia> localMedia = PictureSelector.obtainMultipleResult(getIntent());
             coverPath = TextUtils.isEmpty(localMedia.get(0).getCompressPath()) ? localMedia.get(0).getPath() : localMedia.get(0).getCompressPath();
-//            if (coverPath.contains(".mp4")) {
-//                Glide.with(this).load(VideoUtil.createVideoThumbnail(coverPath, UiUtils.getScreenPix().widthPixels, UiUtils.dip2px(225))).apply(new RequestOptions().centerCrop()).into(mIvCover);
-//            }else {
+            mIvVideo.setVisibility(coverPath.contains(".mp4")?View.VISIBLE:View.GONE);
             Glide.with(this).load(coverPath).apply(new RequestOptions().centerCrop()).into(mIvCover);
-
-//            }
         } else {
             mPresenter.getYoXiuData(userId, token, id);
         }
@@ -174,6 +183,8 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
         coverUrl = data.getData().getFile_path();
         channel_arrays = new ArrayList<>();
         channel_list = new ArrayList<>();
+        mTvPublishType.setText(data.getData().getOpen()==1?"公开":"私密");
+        isOpen=data.getData().getOpen();
         for (PublishYoXiuBean.DataBean.ChannelsBean channelsBean : data.getData().getChannels()) {
             channel_list.add(channelsBean.getChannel());
             channel_arrays.add(channelsBean.getChannel_id());
@@ -190,7 +201,7 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
         mTvAddress.setText(data.getData().getPosition_name());
     }
 
-    @OnClick({R.id.iv_back, R.id.tv_publish, R.id.tv_select_address, R.id.tv_change_image, R.id.ll_channel, R.id.more_topic, R.id.rbtn_friend_circle, R.id.rbtn_weibo, R.id.rbtn_qq, R.id.rbtn_wechat})
+    @OnClick({R.id.iv_back, R.id.tv_publish,R.id.tv_publish_type, R.id.tv_select_address, R.id.tv_change_image, R.id.ll_channel, R.id.more_topic, R.id.rbtn_friend_circle, R.id.rbtn_weibo, R.id.rbtn_qq, R.id.rbtn_wechat})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -215,9 +226,13 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
                 break;
             case R.id.tv_publish:
                 if (isParamsEmpty()) {
-                    saveType=1;
+                    saveType = 1;
                     LoadingDialog.get().create(this).show();
-                    mOssService.asyncPutImage(coverPath, -1);
+                    if (TextUtils.isEmpty(coverPath)&&!TextUtils.isEmpty(coverUrl)){
+                        mPresenter.publishYoXiu(userId, token, id, coverUrl, coverPath.contains(".mp4") ? 2 : 1, mEtTitle.getText().toString(), channel_arrays.toString().replace("[", "").replace("]", ""), isOpen, saveType, mData.getPosition_name(), mData.getPosition_areas(), mData.getPosition_address(), mData.getPosition_city(), mData.getLng(), mData.getLat(), filterId, scale);
+                    }else if (!TextUtils.isEmpty(coverPath)){
+                        mOssService.asyncPutImage(coverPath, -1);
+                    }
                 }
                 break;
             case R.id.more_topic:
@@ -243,17 +258,23 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
             case R.id.ll_channel:
                 startActivityForResult(new Intent(this, ChannelActivity.class), 1);
                 break;
+            case R.id.tv_publish_type:
+               mPublishOpenPopup.showPopupWindow(mLlOption);
+                break;
         }
     }
 
     private boolean isParamsEmpty() {
-        if (TextUtils.isEmpty(mEtTitle.getText())) {
+        if (TextUtils.isEmpty(coverPath)&&TextUtils.isEmpty(coverUrl)){
+            Toast.makeText(this, "图片不能为空", Toast.LENGTH_SHORT).show();
+        }else if (TextUtils.isEmpty(mEtTitle.getText())) {
             Toast.makeText(this, "标题不能为空，请输入", Toast.LENGTH_SHORT).show();
             return false;
         } else if (channel_arrays == null || channel_arrays.size() == 0) {
             Toast.makeText(this, "请选择频道", Toast.LENGTH_SHORT).show();
             return false;
-        }else if (TextUtils.isEmpty(mData.getLat())||TextUtils.isEmpty(mData.getLng())){
+        } else if (TextUtils.isEmpty(mData.getLat()) || TextUtils.isEmpty(mData.getLng())) {
+            Toast.makeText(this, "请选择地址", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -331,10 +352,10 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
 
     @Override
     public void onUploadSuccess(String url, int position) {
-        coverUrl=url;
+        coverUrl = url;
         PictureFileUtils.deleteCacheDirFile(this);
         Log.d("NewPublishYoJiActivity", new Gson().toJson(mData));
-        runOnUiThread(() -> mPresenter.publishYoXiu(userId, token, id, coverUrl, coverPath.contains(".mp4") ? 2 : 1, mEtTitle.getText().toString(), channel_arrays.toString().replace("[","").replace("]",""), isOpen, saveType, mData.getPosition_name(), mData.getPosition_areas(), mData.getPosition_address(), mData.getPosition_city(), mData.getLng(), mData.getLat(), filterId,scale));
+        runOnUiThread(() -> mPresenter.publishYoXiu(userId, token, id, coverUrl, coverPath.contains(".mp4") ? 2 : 1, mEtTitle.getText().toString(), channel_arrays.toString().replace("[", "").replace("]", ""), isOpen, saveType, mData.getPosition_name(), mData.getPosition_areas(), mData.getPosition_address(), mData.getPosition_city(), mData.getLng(), mData.getLat(), filterId, scale));
     }
 
     @Override
@@ -417,9 +438,13 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
         });
         popup_yes_id.setOnClickListener(v -> {
             if (isParamsEmpty()) {
-                saveType=3;
+                saveType = 3;
                 LoadingDialog.get().create(NewPublishYoXiuActivity.this).show();
-                mOssService.asyncPutImage(coverPath, -1);
+                if (TextUtils.isEmpty(coverPath)&&!TextUtils.isEmpty(coverUrl)){
+                    mPresenter.publishYoXiu(userId, token, id, coverUrl, coverPath.contains(".mp4") ? 2 : 1, mEtTitle.getText().toString(), channel_arrays.toString().replace("[", "").replace("]", ""), isOpen, saveType, mData.getPosition_name(), mData.getPosition_areas(), mData.getPosition_address(), mData.getPosition_city(), mData.getLng(), mData.getLat(), filterId, scale);
+                }else if (!TextUtils.isEmpty(coverPath)){
+                    mOssService.asyncPutImage(coverPath, -1);
+                }
             }
             popMenu.dismiss();
         });
@@ -450,5 +475,11 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
     public void onBackPressed() {
         initPopuptWindow();
 
+    }
+
+    @Override
+    public void onOpenClick(int type, String typeName) {
+        mTvPublishType.setText(typeName);
+        isOpen=type;
     }
 }

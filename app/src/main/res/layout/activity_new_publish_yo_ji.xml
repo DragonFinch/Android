@@ -306,6 +306,7 @@
                 android:background="#f1f1f1" />
 
             <LinearLayout
+                android:id="@+id/ll_option"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -367,6 +368,8 @@
                     android:paddingRight="12dp"
                     android:paddingBottom="6dp"
                     android:text="公开"
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@mipmap/gongkai"
                     android:textColor="#FA800A"
                     android:textSize="15sp" />
             </LinearLayout>

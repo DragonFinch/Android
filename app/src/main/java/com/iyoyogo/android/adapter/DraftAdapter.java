@@ -2,6 +2,7 @@ package com.iyoyogo.android.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,8 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.mine.DraftBean;
 import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.ui.home.yoji.NewPublishYoJiActivity;
+import com.iyoyogo.android.ui.home.yoxiu.NewPublishYoXiuActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
 import com.iyoyogo.android.utils.SpUtils;
@@ -63,6 +66,16 @@ public class DraftAdapter extends RecyclerView.Adapter<DraftAdapter.ViewHolder> 
             @Override
             public void onClick(View v) {
                 initDelete(holder, mList.get(position).getYo_id(),position);
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (yo_type == 1) {
+                    activity.startActivityForResult(new Intent(activity,NewPublishYoXiuActivity.class).putExtra("id",mList.get(position).getYo_id()),0);
+                }else {
+                    activity.startActivityForResult(new Intent(activity,NewPublishYoJiActivity.class).putExtra("id",mList.get(position).getYo_id()),0);
+                }
             }
         });
 

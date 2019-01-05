@@ -83,6 +83,7 @@
                     android:textSize="12sp" />
 
                 <ImageView
+                    android:id="@+id/iv_video"
                     android:layout_width="wrap_content"
                     android:src="@mipmap/ic_video"
                     android:layout_centerInParent="true"
@@ -267,6 +268,7 @@
                 android:background="#f1f1f1" />
 
             <LinearLayout
+                android:id="@+id/ll_option"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -327,6 +329,8 @@
                     android:paddingTop="6dp"
                     android:paddingRight="12dp"
                     android:paddingBottom="6dp"
+                    android:drawableLeft="@mipmap/gongkai"
+                    android:drawablePadding="5dp"
                     android:text="公开"
                     android:textColor="#FA800A"
                     android:textSize="15sp" />

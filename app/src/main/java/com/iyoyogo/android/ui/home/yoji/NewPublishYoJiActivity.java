@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -49,6 +50,7 @@ import com.iyoyogo.android.ui.common.SearchActivity;
 import com.iyoyogo.android.ui.home.yoxiu.ChannelActivity;
 import com.iyoyogo.android.ui.home.yoxiu.MoreTopicActivity;
 import com.iyoyogo.android.ui.home.yoxiu.NewPublishYoXiuActivity;
+import com.iyoyogo.android.ui.home.yoxiu.PublishOpenPopup;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.TextChangeListener;
 import com.iyoyogo.android.utils.util.DateUtils;
@@ -69,7 +71,7 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> implements BaseQuickAdapter.OnItemChildClickListener, PublishYoJiContract.View, TextChangeListener.TextChange, OssService.UploadImageListener {
+public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> implements BaseQuickAdapter.OnItemChildClickListener, PublishYoJiContract.View, TextChangeListener.TextChange, OssService.UploadImageListener, PublishOpenPopup.OpenPopupClick {
 
     @BindView(R.id.tv_title)
     TextView      mTvTitle;
@@ -107,6 +109,8 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
     RadioButton   mRbtnWechat;
     @BindView(R.id.tv_publish_type)
     TextView      mTvPublishType;
+    @BindView(R.id.ll_option)
+    LinearLayout  mLlOption;
 
     private List<PublishYoJiBean.DataBean.ListBean> mData;
 
@@ -135,7 +139,9 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
 
     private List<Integer>     channel_arrays;
     private ArrayList<String> channel_list;
-    private PopupWindow popMenu;
+    private PopupWindow       popMenu;
+
+    private PublishOpenPopup mPublishOpenPopup;
 
     @Override
     protected int getLayoutId() {
@@ -152,6 +158,9 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
 
         mEtTitle.addTextChangedListener(new TextChangeListener(mEtTitle, this));
         mEtInfo.addTextChangedListener(new TextChangeListener(mEtInfo, this));
+
+        mPublishOpenPopup=new PublishOpenPopup(this);
+        mPublishOpenPopup.setOpenPopupClick(this);
     }
 
     @Override
@@ -208,16 +217,8 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
                 break;
             case R.id.tv_publish:
                 if (isParamsEmpty()) {
-                    saveType=1;
-                    LoadingDialog.get().create(this).show();
-                    uploadIndex = 0;
-                    uploadSize = getImageSize() + 1;
-                    mOssService.asyncPutImage(coverPath, -1);
-                    for (int i = 0; i < mData.size(); i++) {
-                        for (LocalMedia localMedia : mData.get(i).getLocalMedia()) {
-                            mOssService.asyncPutImage(TextUtils.isEmpty(localMedia.getCompressPath()) ? localMedia.getPath() : localMedia.getCompressPath(), i);
-                        }
-                    }
+                    saveType = 1;
+                    publish();
                 }
                 break;
             case R.id.iv_cover:
@@ -234,12 +235,22 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
             case R.id.rbtn_wechat:
                 break;
             case R.id.tv_publish_type:
+                mPublishOpenPopup.showPopupWindow(mLlOption);
                 break;
             case R.id.ll_channel:
                 Intent intent = new Intent(this, ChannelActivity.class);
                 startActivityForResult(intent, 1);
                 break;
         }
+    }
+
+    private boolean isUploadImage() {
+        for (PublishYoJiBean.DataBean.ListBean datum : mData) {
+            if (datum.getLocalMedia() != null && datum.getLocalMedia().size() > 0) {
+                return true;
+            }
+        }
+        return !TextUtils.isEmpty(coverPath);
     }
 
     private boolean isParamsEmpty() {
@@ -348,6 +359,22 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
                 Intent intent1 = new Intent(this, ChooseSignActivity.class);
                 startActivityForResult(intent1, 1);
                 break;
+        }
+    }
+
+    private void publish() {
+        LoadingDialog.get().create(this).show();
+        if (isUploadImage()) {
+            uploadIndex = 0;
+            uploadSize = getImageSize() + 1;
+            mOssService.asyncPutImage(coverPath, -1);
+            for (int i = 0; i < mData.size(); i++) {
+                for (LocalMedia localMedia : mData.get(i).getLocalMedia()) {
+                    mOssService.asyncPutImage(TextUtils.isEmpty(localMedia.getCompressPath()) ? localMedia.getPath() : localMedia.getCompressPath(), i);
+                }
+            }
+        }else {
+            mPresenter.publishYoJi(userId, token, id, coverUrl, mEtTitle.getText().toString(), mEtInfo.getText().toString(), Integer.valueOf(mEtMoney.getText().toString()), isOpen, saveType, channel_arrays.toString().replace("[", "").replace("]", ""), new Gson().toJson(setParams()));
         }
     }
 
@@ -462,7 +489,9 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
     private int getImageSize() {
         int size = 0;
         for (PublishYoJiBean.DataBean.ListBean datum : mData) {
-            size += datum.getLocalMedia().size();
+            if (datum.getLocalMedia() != null) {
+                size += datum.getLocalMedia().size();
+            }
         }
         return size;
     }
@@ -504,6 +533,8 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
         coverUrl = data.getData().getLogo();
         channel_arrays = new ArrayList<>();
         channel_list = new ArrayList<>();
+        mTvPublishType.setText(data.getData().getOpen()==1?"公开":"私密");
+        isOpen=data.getData().getOpen();
         for (PublishYoJiBean.DataBean.ChannelsBean channelsBean : data.getData().getChannels()) {
             channel_list.add(channelsBean.getChannel());
             channel_arrays.add(channelsBean.getChannel_id());
@@ -547,7 +578,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
             PictureFileUtils.deleteCacheDirFile(this);
             Log.d("NewPublishYoJiActivity", new Gson().toJson(mData));
 
-            runOnUiThread(() -> mPresenter.publishYoJi(userId, token, id, coverUrl, mEtTitle.getText().toString(), mEtInfo.getText().toString(), Integer.valueOf(mEtMoney.getText().toString()), isOpen, saveType, channel_arrays.toString().replace("[","").replace("]",""), new Gson().toJson(setParams())));
+            runOnUiThread(() -> mPresenter.publishYoJi(userId, token, id, coverUrl, mEtTitle.getText().toString(), mEtInfo.getText().toString(), Integer.valueOf(mEtMoney.getText().toString()), isOpen, saveType, channel_arrays.toString().replace("[", "").replace("]", ""), new Gson().toJson(setParams())));
         }
         Log.d("NewPublishYoJiActivity", "position:" + position);
         Log.d("NewPublishYoJiActivity", "uploadIndex:" + uploadIndex);
@@ -559,18 +590,18 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
         Toast.makeText(this, "图片上传失败", Toast.LENGTH_SHORT).show();
     }
 
-    private void setTopic(String content){
+    private void setTopic(String content) {
         Pattern TAG_PATTERN = Pattern.compile("# ([^\\#|.]+) #");
-        Matcher m = TAG_PATTERN.matcher(content);
+        Matcher m           = TAG_PATTERN.matcher(content);
         while (m.find()) {
             String tagNameMatch = m.group();
-            mEtInfo.setText(mEtInfo.getText().toString().replace(tagNameMatch,""));
+            mEtInfo.setText(mEtInfo.getText().toString().replace(tagNameMatch, ""));
             mEtInfo.setSelection(mEtInfo.getText().length());
             RObject object = new RObject();
             //匹配规则
             object.setObjectRule("#");
             //话题内容
-            object.setObjectText(tagNameMatch.replace("# ","").replace(" #",""));
+            object.setObjectText(tagNameMatch.replace("# ", "").replace(" #", ""));
             mEtInfo.setObject(object);
         }
     }
@@ -613,16 +644,8 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
         });
         popup_yes_id.setOnClickListener(v -> {
             if (isParamsEmpty()) {
-                saveType=3;
-                LoadingDialog.get().create(this).show();
-                uploadIndex = 0;
-                uploadSize = getImageSize() + 1;
-                mOssService.asyncPutImage(coverPath, -1);
-                for (int i = 0; i < mData.size(); i++) {
-                    for (LocalMedia localMedia : mData.get(i).getLocalMedia()) {
-                        mOssService.asyncPutImage(TextUtils.isEmpty(localMedia.getCompressPath()) ? localMedia.getPath() : localMedia.getCompressPath(), i);
-                    }
-                }
+                saveType = 3;
+                publish();
             }
             popMenu.dismiss();
         });
@@ -653,5 +676,11 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
     public void onBackPressed() {
         initPopuptWindow();
 
+    }
+
+    @Override
+    public void onOpenClick(int type, String typeName) {
+        mTvPublishType.setText(typeName);
+        isOpen=type;
     }
 }

@@ -70,7 +70,7 @@ public class OssService {
     private UploadImageListener mUploadImageListener;
 
     public OssService(UploadImageListener uploadImageListener) {
-        this.mUploadImageListener=uploadImageListener;
+        this.mUploadImageListener = uploadImageListener;
         OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(accessKeyId, accessKeySecret);
         // 异步上传
         ClientConfiguration conf = new ClientConfiguration();
@@ -141,7 +141,7 @@ public class OssService {
     }
 
 
-    public void asyncPutImage(String localFile ,int position) {
+    public void asyncPutImage(String localFile, int position) {
         final long upload_start = System.currentTimeMillis();
         OSSLog.logDebug("upload start");
 
@@ -154,7 +154,7 @@ public class OssService {
         String userId = SpUtils.getString(App.getmContext(), "user_id", null);
         String date   = DateUtils.stampToDate(new Date(), "yyyy/MM/dd");
         int    num    = new Random().nextInt(99999) % (99999 - 10000 + 1) + 10000;
-        String name   = userId + "/yoj/" + date + "/" + System.currentTimeMillis() + num + ".jpg";
+        String name   = userId + "/yoj/" + date + "/" + System.currentTimeMillis() + num + (localFile.contains(".mp4") ? ".mp4" : ".jpg");
 
         // 构造上传请求
         OSSLog.logDebug("create PutObjectRequest ");
@@ -185,7 +185,7 @@ public class OssService {
             public void onSuccess(PutObjectRequest request, PutObjectResult result) {
                 String url = "https://" + bucketName + "." + endpoint + "/" + name;
                 Log.d("OssService", url);
-                mUploadImageListener.onUploadSuccess(url,position);
+                mUploadImageListener.onUploadSuccess(url, position);
             }
 
             @Override
@@ -424,7 +424,7 @@ public class OssService {
     }
 
     public interface UploadImageListener {
-        void onUploadSuccess(String url,int position);
+        void onUploadSuccess(String url, int position);
 
         void onUploadError(ServiceException e);
     }
