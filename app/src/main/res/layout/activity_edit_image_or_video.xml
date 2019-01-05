@@ -42,20 +42,58 @@
             android:textColor="#333333" />
     </RelativeLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.2dp"
-        android:background="#bfbfbf" />
-
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.iyoyogo.android.view.MyViewPagers
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/iv_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/ic_video" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_option_image"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:background="@color/white"
+        android:gravity="center_horizontal|bottom"
+        android:paddingBottom="20dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/iv_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:src="@mipmap/zpbianji_lvjing" />
+
+        <ImageView
+            android:id="@+id/iv_coup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:src="@mipmap/zpbianji_caijian" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_done"
+        android:layout_width="match_parent"
         android:layout_height="50dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:background="#f1f1f1" />
 
         <Button
             android:id="@+id/btn_done"

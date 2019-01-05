@@ -445,7 +445,7 @@
         <activity android:name=".ui.common.Album_details_Activity" />
         <activity android:name=".ui.common.CameraActivity" />
         <activity android:name=".ui.common.Vertical_picture_Activity" />
-        <activity android:name=".ui.home.yoxiu.AllReplyActivity"></activity>
+        <activity android:name=".ui.home.yoxiu.AllReplyActivity" />
         <activity
             android:name=".ui.home.yoji.NewPublishYoJiActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -455,6 +455,13 @@
         <activity android:name=".ui.mine.CityActivity"></activity>
         <activity android:name=".ui.home.search.SearchActivity"></activity>
         <activity android:name=".ui.home.search.SearchResultActivity"></activity>
+        <activity android:name=".ui.home.EditImageOrVideoActivity" />
+        <activity
+            android:name=".ui.home.CutImageActivity"
+            android:theme="@style/AppTheme.Full" />
+        <activity
+            android:name=".ui.home.CutVideoActivity"
+            android:theme="@style/AppTheme.Full"></activity>
     </application>
 
 </manifest>
