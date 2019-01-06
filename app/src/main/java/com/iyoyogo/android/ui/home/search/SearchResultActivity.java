@@ -108,7 +108,12 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 return false;
             }
         });*/
+        searchGuanjiaci.findViewById(android.support.v7.appcompat.R.id.search_plate).setBackground(null);
+        searchGuanjiaci.findViewById(android.support.v7.appcompat.R.id.submit_area).setBackground(null);
+        int magId = getResources().getIdentifier("android:id/search_mag_icon",null, null);
 
+        ImageView magImage = (ImageView) searchGuanjiaci.findViewById(magId);
+//        magImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         lv.setLayoutManager(new LinearLayoutManager(this));
         lvUser.setLayoutManager(new LinearLayoutManager(this));
         lvContent.setLayoutManager(new LinearLayoutManager(this));
@@ -159,15 +164,17 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
 
                 Toast.makeText(SearchResultActivity.this, "qweqwe", Toast.LENGTH_SHORT).show();
                 s = tv_guanzhu1.getText().toString();
-
-                for (int i = 0; i < mUser.size(); i++) {
+                int user_id = mUser.get(po).getUser_id();
+           /*     for (int i = 0; i < mUser.size(); i++) {
                     user_id1 = mUser.get(po).getUser_id();
-                }
+                    Log.e("setOnClickListener", "setOnClickListener11111111111111111: "+user_id1 );
+                }*/
+                Log.e("setOnClickListener", "setOnClickListener: "+user_id );
                 if (s.equals("+关注")) {
-                    mPresenter.getGuanZhu(user_id, user_token, user_id1 + "");
+                    mPresenter.getGuanZhu(SearchResultActivity.this.user_id, user_token, user_id + "");
                 }
                 if (s.equals("已关注")) {
-                    mPresenter.getGuanZhu(user_id, user_token, user_id1 + "");
+                    mPresenter.getGuanZhu(SearchResultActivity.this.user_id, user_token, user_id + "");
                 }
             }
         });
@@ -328,14 +335,14 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
         int status = keywordBean.getData().getStatus();
         if (status == 1) {
             Log.e("qq", "guanZhu: "+status+"" );
-           // mPresenter.getKeyWord(user_id,user_token,keyword,"user");
-            tv_guanzhu1.setText("+关注");
-            // houle1.setText("已关注");
+            mPresenter.getKeyWord(user_id,user_token,keyword,"user");
+    /*        tv_guanzhu1.setText("+关注");
+            // houle1.setText("已关注");*/
         }
         if (status == 0) {
-             //mPresenter.getKeyWord(user_id,user_token,keyword,"user");
+             mPresenter.getKeyWord(user_id,user_token,keyword,"user");
             //houle1.setText("+关注");
-            tv_guanzhu1.setText("已关注");
+            //tv_guanzhu1.setText("已关注");
         }
     }
 
@@ -391,8 +398,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             lvUser.setVisibility(View.GONE);
             hit.setVisibility(View.GONE);
             content.setVisibility(View.GONE);
-
-
             adapter.notifyDataSetChanged();
             Log.e("keyWordMessage", "keyWordMessage: " + mUser.size());
             if (user_list.size() <= 0) {
@@ -400,6 +405,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 lv.setVisibility(View.GONE);
                 lvUser.setVisibility(View.GONE);
                 lvContent.setVisibility(View.GONE);
+                cancel.setVisibility(View.VISIBLE);
             }
 
 //            SharedPrefrenceUtils.putSerializableList(SearchResultActivity.this,"user111",mUser);

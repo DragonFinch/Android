@@ -175,17 +175,20 @@
             android:name=".camera.utils.permission.PermissionsActivity"
             android:theme="@style/TranslucentFullScreenTheme" />
         <activity android:name=".ui.common.SplashActivity">
+
+        </activity>
+        <activity android:name=".BadgeActivity" />
+        <activity android:name=".ui.common.WelcomeActivity" />
+        <activity
+            android:name=".ui.common.MainActivity"
+
+            android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BadgeActivity" />
-        <activity android:name=".ui.common.WelcomeActivity" />
-        <activity
-            android:name=".ui.common.MainActivity"
-            android:launchMode="singleTask" />
         <activity android:name=".ui.common.CaptureActivity" />
         <activity android:name=".camera.edit.clipEdit.trim.TrimActivity" />
 

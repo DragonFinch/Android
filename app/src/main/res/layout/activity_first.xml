@@ -95,12 +95,11 @@
         android:src="@mipmap/user_title"/>
 
     <android.support.v7.widget.RecyclerView
+        android:nestedScrollingEnabled="false"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lv"></android.support.v7.widget.RecyclerView>
-
-
 
         <ImageView
             android:id="@+id/content"
@@ -114,16 +113,17 @@
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/lv_content"></android.support.v7.widget.RecyclerView>
+            android:id="@+id/lv_content"
+            android:nestedScrollingEnabled="false"></android.support.v7.widget.RecyclerView>
         <android.support.v7.widget.RecyclerView
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
             android:id="@+id/lv_user"></android.support.v7.widget.RecyclerView>
 
 
     </LinearLayout>
-
     </ScrollView>
 
     <LinearLayout

@@ -7,30 +7,27 @@
     android:layout_height="match_parent"
     android:background="@color/mainGray"
     android:orientation="vertical">
-
     <LinearLayout
-        android:backgroundTint="@color/FA800A"
+        android:backgroundTint="@color/holo_orange_dark"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
         android:background="#F0F0F0"
         android:orientation="horizontal"
         android:padding="5dp" >
-
-
         <com.iyoyogo.android.view.ClearEditText
             android:id="@+id/search_editText_searchContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#FA800A"
+            android:background="@color/holo_orange_dark"
             android:drawableLeft="@mipmap/sousuowhite"
             android:drawablePadding="5dp"
             android:ems="10"
             android:hint="@string/weizhi"
-            android:textColorHint="#ffffff"
+            android:textColorHint="#FEE9D5"
             android:maxLines="1"
             android:padding="5dp"
-            android:textColor="#FA800A"
+            android:textColor="#FEE9D5"
             android:textSize="15sp" >
         </com.iyoyogo.android.view.ClearEditText>
 
@@ -155,6 +152,11 @@
                     android:layout_height="wrap_content"
                     android:text="@string/shibai2"/>
             </LinearLayout>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </ListView>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

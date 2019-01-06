@@ -10,7 +10,6 @@
         android:id="@+id/group1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/dp_5"
         android:orientation="vertical">
 
         <RadioGroup
@@ -21,11 +20,11 @@
             android:orientation="horizontal"
             android:layout_height="@dimen/dp_52">
             <ImageView
-                android:layout_margin="8dp"
+               android:layout_gravity="center"
                 android:id="@+id/finshi"
                 android:src="@mipmap/fanhui_black"
                 android:layout_width="@dimen/dp_21"
-                android:layout_height="@dimen/dp_33"
+                android:layout_height="@dimen/dp_17"
                 />
             <RadioButton
                 android:id="@+id/rb_yoji"

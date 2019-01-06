@@ -1,5 +1,6 @@
 package com.iyoyogo.android.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,15 +12,12 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.iyoyogo.android.R;
+
 import static android.graphics.Color.BLACK;
+import static android.graphics.Color.BLUE;
 import static android.graphics.Color.parseColor;
 
-/**
- * 爱生活，爱代码
- * 创建于：2018/11/8 14:10
- * 作 者：T
- * 微信：704003376
- */
 public class MyQuickIndexBar extends View {
     private String[] mStrArr = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "k", "L", "M", "N", "O", "p", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
 
@@ -57,18 +55,18 @@ public class MyQuickIndexBar extends View {
         mPaint.setTextAlign(Paint.Align.CENTER);
         mPaint.setTextSize(30);
     }
-
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onDraw(Canvas canvas) {
         for (int i = 0; i < mStrArr.length; i++) {
             float x = mWidth / 2;
             float y = mCellHeight / 2 + getTextHeight(mStrArr[i]) / 2 + i * mCellHeight + 10;
-            mPaint.setColor(mLastIndex == i ? parseColor("#ffffff") : BLACK);
+            mPaint.setColor(mLastIndex == i ? parseColor("#000000") :Color.parseColor("#FA800A"));
             canvas.drawText(mStrArr[i], x, y, mPaint);
         }
         super.onDraw(canvas);
     }
-	
+
     private float getTextHeight(String text) {
         Rect rect = new Rect();
         mPaint.getTextBounds(text, 0, text.length(), rect);

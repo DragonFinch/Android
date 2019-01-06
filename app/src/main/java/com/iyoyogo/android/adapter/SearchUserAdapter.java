@@ -55,21 +55,19 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Vi
         });
             holder.count_yoj.setText(userListBean.getCount_yoj()+"");
             holder.count_yox.setText(userListBean.getCount_yox()+"");
-        for (int j = 0; j <mUser.size() ; j++) {
-                if (mUser.get(j).getAttention_status().equals("0")) {
-                    holder.tv_guanzhu.setText("+关注");
-                    Log.e("qq12", "keyWordMessage: " + mUser.get(j).getAttention_status());
-                    if (mUser.get(j).getAttention_status().equals("1")) {
-                        Log.e("qq", "keyWordMessage: " + mUser.get(j).getAttention_status());
+                if (mUser.get(position).getAttention_status().equals("0")) {
+                    holder.tv_guanzhu.setText("已关注");
+                    Log.e("qq12", "keyWordMessage: 11111" + mUser.get(position).getAttention_status());
+                    if (mUser.get(position).getAttention_status().equals("1")) {
+                        Log.e("qq", "keyWordMessage:22222 " + mUser.get(position).getAttention_status());
                         holder.tv_guanzhu.setText("互相关注");
                     }
-                    if (mUser.get(j).getAttention_status().equals("2")) {
-                        Log.e("qq", "keyWordMessage: " + mUser.get(j).getAttention_status());
-                        holder.tv_guanzhu.setText("已关注");
+                    if (mUser.get(position).getAttention_status().equals("2")) {
+                        Log.e("qq", "keyWordMessage:33333 " + mUser.get(position).getAttention_status());
+                        holder.tv_guanzhu.setText("+关注");
                     }
                 }
 
-        }
 
     }
 

@@ -40,7 +40,7 @@ public class StatusBarUtil {
             tintManager.setStatusBarTintEnabled(true);
             //判断是否需要更改状态栏颜色
             if(isChange){
-                tintManager.setStatusBarTintResource(R.color.transparent);
+                tintManager.setStatusBarTintResource(R.color.holo_orange_dark);
             }else{
                 tintManager.setStatusBarTintResource(android.R.color.white);
             }
