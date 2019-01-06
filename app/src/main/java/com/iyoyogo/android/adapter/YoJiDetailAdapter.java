@@ -55,14 +55,18 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
         params.setMargins(15, 15, 15, 15);
         child.setLayoutParams(params);
         if (type == 1) {
-            child.setBackgroundResource(R.drawable.label_bg_deserve_to_do);
-            child.setText(str);
-            child.setTextColor(Color.parseColor("#E0FF6100"));
-        } else if (type == 2) {
             child.setBackgroundResource(R.drawable.label_bg_fkzn);
+            child.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.mipmap.make),null, null, null);
             child.setText(str);
             child.setTextColor(Color.parseColor("#5BCBF5"));
+
+        } else if (type == 2) {
+            child.setBackgroundResource(R.drawable.label_bg_deserve_to_do);
+            child.setText(str);
+            child.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.mipmap.donot),null, null, null);
+            child.setTextColor(Color.parseColor("#E0FF6100"));
         } else if (type == 3) {
+            child.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.mipmap.self),null, null, null);
             child.setBackgroundResource(R.drawable.label_bg_exclusive);
             child.setText(str);
             child.setTextColor(Color.parseColor("#ff8484"));
@@ -110,7 +114,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
         List<String> logos = mList.get(position).getLogos();
         int size = logos.size();
 
-        if (size == 1) {
+      /*  if (size == 1) {
             holder.picture_count_one.setVisibility(View.VISIBLE);
             Glide.with(context).load(logos.get(0)).into(holder.img_count_one_one);
         } else if (size == 2) {
@@ -144,7 +148,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
             Glide.with(context).load(logos.get(5)).into(holder.img_count_five_five);
             holder.tv_pic_count.setVisibility(View.VISIBLE);
             holder.tv_pic_count.setText(size + "");
-        }
+        }*/
         if (OnPlayListener != null) {
             OnPlayListener.getData(holder, position);
         }

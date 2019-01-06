@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/activity_yo_ji_list"
     tools:context=".ui.home.yoji.YoJiListActivity">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -43,7 +44,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
             android:padding="@dimen/dp_8"
-            android:src="@mipmap/view1"
+            android:src="@mipmap/view2"
             />
     </RelativeLayout>
 
@@ -59,9 +60,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/bar"
-        android:layout_marginLeft="@dimen/dp_20"
         android:layout_marginTop="@dimen/dp_15"
-        android:layout_marginRight="@dimen/dp_20"
+
         android:background="@color/white"/>
 
 

@@ -4,25 +4,16 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:visibility="gone"
-        android:layout_marginTop="@dimen/dp_11"
-        android:id="@+id/user_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/orgeen_color"
-        android:textSize="@dimen/sp_12" />
-
-    <TextView
-        android:visibility="visible"
-        android:layout_marginTop="@dimen/dp_11"
         android:id="@+id/tv_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp_11"
+
+        android:layout_marginTop="@dimen/dp_11"
         android:ellipsize="end"
         android:maxLines="2"
         android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         android:textColor="#888888"
-        android:textSize="@dimen/sp_12" />
+        android:textSize="@dimen/sp_12"
+        android:visibility="visible" />
 
 </LinearLayout>

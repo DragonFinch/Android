@@ -17,8 +17,14 @@
         android:layout_alignParentBottom="true"
         android:focusable="true"
         android:focusableInTouchMode="true">
-
+<View
+    android:id="@+id/shadow"
+    android:layout_width="match_parent"
+    android:background="@mipmap/home_l_shadow"
+    android:layout_height="@dimen/dp_5"/>
         <EditText
+            android:layout_below="@+id/shadow"
+         android:paddingBottom="@dimen/dp_8"
             android:layout_marginTop="@dimen/dp_18"
             android:id="@+id/edit_comment"
             android:layout_width="@dimen/dp_230"
@@ -288,22 +294,17 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/recycler_comment"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_21"
+                android:layout_marginTop="@dimen/dp_10"
                 android:drawableRight="@mipmap/chakangengduo"
                 android:drawablePadding="@dimen/dp_5"
                 android:gravity="center"
+                android:layout_marginBottom="@dimen/dp_10"
                 android:text="全部评论"
 
                 android:textColor="#888888"
                 android:visibility="visible" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:layout_below="@+id/tv_more_comment"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_10"
-                android:background="#f1f1f1" />
+
 
         </RelativeLayout>
     </ScrollView>

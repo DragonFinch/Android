@@ -9,10 +9,11 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dp_76"
         android:background="@color/orange">
 
         <ImageView
+            android:layout_centerVertical="true"
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -22,6 +23,7 @@
             android:src="@mipmap/back_icon" />
 
         <TextView
+            android:layout_centerVertical="true"
             android:id="@+id/tv_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,6 +34,7 @@
             android:textSize="@dimen/sp_18" />
 
         <ImageView
+            android:layout_centerVertical="true"
             android:id="@+id/share_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

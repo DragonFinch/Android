@@ -74,15 +74,16 @@ public abstract class BaseActivity<T extends IBasePresenter> extends AppCompatAc
             window.setAttributes(attributes);
         }
     }
-
+protected void setSetting(){}
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+setSetting();
         setScreenOrientation();
 //        setDefaultDisplayAdaptOrientation();
 //        setStatusBar();
-        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
+        setSetting();
+//        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(getLayoutId());
         App.context = this;

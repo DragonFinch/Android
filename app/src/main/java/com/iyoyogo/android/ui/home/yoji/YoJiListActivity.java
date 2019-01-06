@@ -108,7 +108,7 @@ public class YoJiListActivity extends BaseActivity {
 
         recyclerYojiListTwo.setLayoutManager(staggeredGridLayoutManager);
         refreshLayout2.setEnableRefresh(true);
-        refreshLayout2.setFooterHeight(1.0f);
+//        refreshLayout2.setFooterHeight(1.0f);
 
         user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
         user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
@@ -318,13 +318,13 @@ public class YoJiListActivity extends BaseActivity {
             case R.id.img_replace:
                 num++;
                 if (num % 2 == 0) {
-                    imgReplace.setImageResource(R.mipmap.view2);
+                    imgReplace.setImageResource(R.mipmap.view1);
                     refreshLayout1.setVisibility(View.GONE);
                     refreshLayout2.setVisibility(View.VISIBLE);
 //                    recyclerYojiList.setVisibility(View.GONE);
 //                    recyclerYojiListTwo.setVisibility(View.VISIBLE);
                 } else if (num % 2 == 1) {
-                    imgReplace.setImageResource(R.mipmap.view1);
+                    imgReplace.setImageResource(R.mipmap.view2);
                     refreshLayout1.setVisibility(View.VISIBLE);
                     refreshLayout2.setVisibility(View.GONE);
 //                    recyclerYojiList.setVisibility(View.VISIBLE);

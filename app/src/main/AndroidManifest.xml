@@ -410,7 +410,10 @@
         <activity android:name=".ui.home.yoxiu.AddAddressActivity" />
         <activity android:name=".ui.home.yoxiu.MoreTopicActivity" />
         <activity android:name=".ui.home.yoxiu.ChannelActivity" />
-        <activity android:name=".ui.home.yoxiu.YoXiuDetailActivity" />
+        <activity android:name=".ui.home.yoxiu.YoXiuDetailActivity"
+
+            android:windowSoftInputMode="adjustResize"
+            />
         <activity android:name=".ui.home.yoxiu.YoXiuListActivity" />
         <activity android:name=".ui.mine.EditPersonalMessageActivity" />
         <activity android:name=".ui.mine.CitySelectorActivity" />
@@ -424,7 +427,9 @@
         <activity android:name=".ui.home.yoji.YoJiListActivity" />
         <activity android:name=".utils.select.SelectPhotoActivity" />
         <activity android:name=".ui.common.CropImageActivity" />
-        <activity android:name=".ui.home.yoji.YoJiDetailActivity" />
+        <activity android:name=".ui.home.yoji.YoJiDetailActivity"
+            android:windowSoftInputMode="adjustResize"
+            />
         <activity android:name=".ui.home.yoji.ChooseSignActivity" />
         <activity android:name=".ui.mine.draft.DraftActivity" />
         <activity android:name=".ui.mine.message.MessageDetailActivity" />

@@ -20,19 +20,16 @@ import java.util.List;
 public class YoJiInnerAdapter extends RecyclerView.Adapter<YoJiInnerAdapter.ViewHolder> {
     Context context;
     List<String> path_list;
-
     public YoJiInnerAdapter(Context context, ArrayList<String> path_list) {
         this.context = context;
         this.path_list = path_list;
     }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_release_yo_ji_inner_content, null);
         return new ViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Glide.with(context).load(path_list.get(position)).into(holder.iv_image);
@@ -52,9 +49,7 @@ public class YoJiInnerAdapter extends RecyclerView.Adapter<YoJiInnerAdapter.View
             }
         });
         holder.itemView.setTag(position);
-
     }
-
     @Override
     public int getItemCount() {
         return path_list.size();
@@ -62,20 +57,16 @@ public class YoJiInnerAdapter extends RecyclerView.Adapter<YoJiInnerAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView iv_image, iv_delete;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             iv_delete = itemView.findViewById(R.id.iv_image_delete);
             iv_image = itemView.findViewById(R.id.iv_image);
         }
     }
-
     interface OnImageClickListener {
         void setOnClick(View v, int position);
     }
-
     private OnImageClickListener onImageClickListener;
-
     public void setOnImageClickListener(OnImageClickListener onImageClickListener) {
         this.onImageClickListener = onImageClickListener;
     }
