@@ -298,7 +298,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
      *            隐藏的fragment
      * @param to
      *            显示的fragment
-     * @param id
+     * @param
      *            {@code R.id.main} 加载到的布局
      */
     private void switchContent(Fragment from, Fragment to) {

@@ -1,8 +1,12 @@
 package com.iyoyogo.android.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,14 +39,18 @@ public class YoJiListItemAdapter extends RecyclerView.Adapter<YoJiListItemAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
       /*  SpannableString spannableString = new SpannableString("设置文字的前景色为淡蓝色");
         ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#0099EE"));
         spannableString.setSpan(colorSpan, 9, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         viewHolder.user_name.setText(spannableString);*/
-        viewHolder.user_name.setText(mList.get(position).getUser_nickname());
-        viewHolder.tv_content.setText(mList.get(position).getContent());
-        viewHolder.itemView.setTag(position);
+        SpannableString msp1 = new SpannableString(mList.get(position).getUser_nickname() + "  " + mList.get(position).getContent());
+        msp1.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), 0, mList.get(position).getUser_nickname().length()+2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
+//        msp1.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), mList.get(position).getUser_nickname().length() + 3, mList.get(position).getUser_nickname().length() + 4 + userName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
+        holder.tv_content.setText(msp1);
+//        holder.user_name.setText(mList.get(position).getUser_nickname());
+//        holder.tv_content.setText(mList.get(position).getContent());
+        holder.itemView.setTag(position);
     }
 
     @Override

@@ -24,6 +24,8 @@ import android.widget.TextView;
 
 import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.base.BaseActivity;
+import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.ui.mine.AddCollectionActivity;
 import com.iyoyogo.android.utils.SystemBarTintManager;
 import com.iyoyogo.android.utils.Util;
@@ -58,40 +60,26 @@ public class MyFollowActivity extends BaseActivity {
     private RecommendFragment recommendFragment = new RecommendFragment();//推荐话题
     private Fragment currentFragment = new Fragment();
 
+    private boolean mIsFirstIn = true;
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Util.setDarkStatusBarText(this, true, R.color.colorAccent);
-        setContentView(R.layout.activity_my_follow);
-        ButterKnife.bind(this);
-       /* this.getWindow()
-                .getDecorView()
-                .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+    protected void initView() {
+        super.initView();
+        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
 
-        MIUISetStatusBarLightMode(this.getWindow(), true);
-        FlymeSetStatusBarLightMode(this.getWindow(), true);*/
-
-        switchFragment(recommendFragment);
+        switchContent(followFragment,recommendFragment);
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_yoji:
-                        switchFragment(recommendFragment);
+                        switchContent(followFragment,recommendFragment);
                         break;
                     case R.id.rb_yoxiu:
-                        switchFragment(followFragment);
+                        switchContent(recommendFragment,followFragment);
                         break;
                 }
             }
         });
-
-    protected void initView() {
-        super.initView();
-        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
-        switchFragment(recommendFragment).commit();
-        tvRecommendId.setTextColor(Color.parseColor("#333333"));
     }
 
     @Override
@@ -173,10 +161,20 @@ public class MyFollowActivity extends BaseActivity {
 
 
 
-    private void switchFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment, fragment)
-                .commitAllowingStateLoss();
+    private void switchContent(Fragment from, Fragment to) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (!to.isAdded()) {
+            // 先判断是否被add过
+            if (mIsFirstIn) {
+
+                mIsFirstIn = false;
+                ft.add(R.id.fragment, to).commit();
+            } else {
+                ft.hide(from).add(R.id.fragment, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+            }
+        } else {
+            ft.hide(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
+        }
     }
 
     @OnClick({R.id.add_collection, R.id.message_center_back_im_id})
