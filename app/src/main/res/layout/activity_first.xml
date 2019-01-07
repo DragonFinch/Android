@@ -166,7 +166,6 @@
         android:layout_height="45dp"
         android:gravity="center_vertical"
         android:padding="8dp"
-        android:text="简书你好!"
        />
     <ImageView
         android:id="@+id/im_dizhi"
@@ -196,7 +195,6 @@
             android:layout_height="45dp"
             android:gravity="center_vertical"
             android:padding="8dp"
-            android:text="简书你好!!"
            />
         <ImageView
             android:id="@+id/im_dizhi1"
@@ -226,7 +224,6 @@
             android:layout_height="45dp"
             android:gravity="center_vertical"
             android:padding="8dp"
-            android:text="简书你好!!!"
             />
         <ImageView
             android:id="@+id/im_dizhi2"
@@ -256,7 +253,6 @@
             android:layout_height="45dp"
             android:gravity="center_vertical"
             android:padding="8dp"
-            android:text="简书你好!!!!"
           />
         <ImageView
             android:id="@+id/im_dizhi3"
@@ -287,7 +283,6 @@
             android:layout_height="45dp"
             android:gravity="center_vertical"
             android:padding="8dp"
-            android:text="简书你好!!!!!"
             />
         <ImageView
             android:id="@+id/im_dizhi4"
@@ -317,7 +312,6 @@
             android:layout_height="45dp"
             android:gravity="center_vertical"
             android:padding="8dp"
-            android:text="简书你好!!!!!!"
             />
         <ImageView
             android:id="@+id/im_dizhi5"

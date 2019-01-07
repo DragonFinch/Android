@@ -126,14 +126,14 @@ public class SearchYoJiListHorizontalAdapter extends RecyclerView.Adapter<Search
                     count_praise += 1;
                     mList.get(position).setCount_praise(count_praise);
                     holder.tv_num_like.setText("等("+count_praise + ")人喜欢过");
-                    holder.dt_like.setImageResource(mList.get(position).isIs_my_praise() == false ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+                    holder.dt_like.setImageResource(mList.get(position).isIs_my_praise() == true ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
 
                 } else if (count_praise > 0) {
                     count_praise -= 1;
                     mList.get(position).setCount_praise(count_praise);
-                    holder.tv_num_like.setText("等("+count_praise + ")人喜欢过");
-                    holder.dt_like.setImageResource(mList.get(position).isIs_my_praise() == true ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
 
+                    holder.tv_num_like.setText("等("+count_praise + ")人喜欢过");
+                    holder.dt_like.setImageResource(mList.get(position).isIs_my_praise() == false ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
                 }
             }
         });
