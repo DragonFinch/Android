@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
@@ -300,9 +301,25 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
         bundle.putString("yo_user_id", yo_user_id);
         yoJiFragment.setArguments(bundle);
         yoXiuFragment.setArguments(bundle);
-        fragments.add(yoJiFragment);
-        fragments.add(yoXiuFragment);
-        switchFragment(yoJiFragment);
+//        fragments.add(yoJiFragment);
+//        fragments.add(yoXiuFragment);
+        switchContent(yoJiFragment,yoXiuFragment);
+        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // 具体的fragment切换逻辑可以根据应用调整，例如使用show()/hide()
+                switch (checkedId){
+                    case R.id.rb_yoji:
+                        imgView.setVisibility(View.VISIBLE);
+                        switchContent(yoJiFragment,yoXiuFragment);
+                        break;
+                    case R.id.rb_yoxiu:
+                        imgView.setVisibility(View.GONE);
+                        switchContent(yoXiuFragment,yoJiFragment);
+                        break;
+                }
+            }
+        });
         user_logo = data.getUser_logo();
         user_nickName = data.getUser_nickname();
         rbYoji.setText(getResources().getString(R.string.yoji) + "  " + data.getCount_yoj());
@@ -552,6 +569,25 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
             case R.id.img_share:
                 share();
                 break;
+        }
+    }
+
+    /**
+     * 是否第一次
+     */
+    private boolean mIsFirstIn = true;
+    private void switchContent(Fragment from, Fragment to) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (!to.isAdded()) {
+            // 先判断是否被add过
+            if (mIsFirstIn) {
+                mIsFirstIn = false;
+                ft.add(R.id.frame_container, to).commit();
+            } else {
+                ft.hide(from).add(R.id.frame_container, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+            }
+        } else {
+            ft.hide(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
         }
     }
 

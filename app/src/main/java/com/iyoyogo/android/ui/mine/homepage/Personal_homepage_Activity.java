@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -341,9 +342,25 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
         bundle.putString("yo_user_id", yo_user_id);
         yoJiFragment.setArguments(bundle);
         yoXiuFragment.setArguments(bundle);
-        fragments.add(yoJiFragment);
-        fragments.add(yoXiuFragment);
-        switchFragment(yoJiFragment);
+//        fragments.add(yoJiFragment);
+//        fragments.add(yoXiuFragment);
+        switchContent(yoJiFragment,yoXiuFragment);
+        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // 具体的fragment切换逻辑可以根据应用调整，例如使用show()/hide()
+                switch (checkedId){
+                    case R.id.rb_yoji:
+                        imgView.setVisibility(View.VISIBLE);
+                        switchContent(yoJiFragment,yoXiuFragment);
+                        break;
+                    case R.id.rb_yoxiu:
+                        imgView.setVisibility(View.GONE);
+                        switchContent(yoXiuFragment,yoJiFragment);
+                        break;
+                }
+            }
+        });
         user_logo = data.getUser_logo();
         user_nickName = data.getUser_nickname();
         rbYoji.setText(getResources().getString(R.string.yoji) + "  " + data.getCount_yoj());
@@ -353,21 +370,6 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
         requestOptions.placeholder(R.mipmap.default_touxiang)
                 .error(R.mipmap.default_touxiang);
         Glide.with(this).load(data.getUser_logo()).apply(requestOptions).into(imgUserIcon);
-        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.rb_yoji:
-                        switchFragment(yoJiFragment);
-                        imgView.setVisibility(View.VISIBLE);
-                        break;
-                    case R.id.rb_yoxiu:
-                        switchFragment(yoXiuFragment);
-                        imgView.setVisibility(View.GONE);
-                        break;
-                }
-            }
-        });
         String user_sex = data.getUser_sex();
         String user_birthday = data.getUser_birthday();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -505,4 +507,23 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
                 .replace(R.id.frame_container, fragment)
                 .commitAllowingStateLoss();
     }
+    /**
+     * 是否第一次
+     */
+    private boolean mIsFirstIn = true;
+    private void switchContent(Fragment from, Fragment to) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (!to.isAdded()) {
+            // 先判断是否被add过
+            if (mIsFirstIn) {
+                mIsFirstIn = false;
+                ft.add(R.id.frame_container, to).commit();
+            } else {
+                ft.hide(from).add(R.id.frame_container, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+            }
+        } else {
+            ft.hide(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
+        }
+    }
+
 }
