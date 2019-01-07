@@ -25,7 +25,7 @@ public class SearchYoXiuAdapter extends RecyclerView.Adapter<SearchYoXiuAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.comment_layout, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.search_comment_layout, null);
         ViewHolder viewHolder = new ViewHolder(view);
         view.setOnClickListener(this);
         return viewHolder;

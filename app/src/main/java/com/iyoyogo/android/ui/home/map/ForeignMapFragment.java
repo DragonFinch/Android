@@ -37,10 +37,12 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.map.CityEntity;
 import com.iyoyogo.android.base.BaseFragment;
 import com.iyoyogo.android.bean.map.MapBean;
+import com.iyoyogo.android.bean.map.MapInfo;
 import com.iyoyogo.android.contract.MapContract;
 import com.iyoyogo.android.presenter.MapPresenter;
 import com.iyoyogo.android.ui.home.map.binding.Bind;
 import com.iyoyogo.android.ui.home.map.binding.ViewBinder;
+import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.map.JsonReadUtil;
 import com.iyoyogo.android.utils.map.ToastUtils;
 import com.iyoyogo.android.view.LetterListView;
@@ -95,6 +97,7 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
     protected CityListAdapter cityListAdapter;
     protected SearchCityListAdapter searchCityListAdapter;
     private List<MapBean.DataBean.ListBean> mChengshi = new ArrayList<>();
+    private List<MapInfo> mChengshi1 = new ArrayList<>();
     private String locationCity, curSelCity;
     private double lati;
     private double longa;
@@ -106,6 +109,7 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
             noSearchResultTv.setText(msg.obj.toString());
         }
     };
+        //进行网络请去
 
     @Nullable
     @Override
@@ -116,7 +120,6 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
         initData1();
         initListener1();
         initdiwei();
-
         return inflate;
 
     }
@@ -225,7 +228,6 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-
             }
         });
 
@@ -241,8 +243,8 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 1) {
-                    CityEntity cityEntity = totalCityList.get(position);
-                    showSetCityDialog(cityEntity.getName(), cityEntity.getCityCode());
+                    CityEntity mapInfo = totalCityList.get(position);
+                    showSetCityDialog(mapInfo.getName(), mapInfo.getCityCode());
                 }
 
             }
@@ -250,6 +252,7 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
         totalCityLettersLv.setOnTouchingLetterChangedListener(new LetterListViewListener());
         initOverlay();
     }
+
 
     @Override
     protected MapContract.Presenter createPresenter() {
@@ -295,14 +298,12 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
                 String pinyin = object.getString("full");
                 String first = object.getString("first");
                 String cityCode = object.getString("code");
-
                 CityEntity cityEntity = new CityEntity();
                 cityEntity.setName(name);
                 cityEntity.setKey(key);
                 cityEntity.setPinyin(pinyin);
                 cityEntity.setFirst(first);
                 cityEntity.setCityCode(cityCode);
-
                 if (key.equals("热门")) {
                     hotCityList.add(cityEntity);
                 } else {
@@ -311,6 +312,7 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
                     }
                     totalCityList.add(cityEntity);
                     Log.e("initTotalCityList", "initTotalCityList: "+totalCityList.get(0).getName() );
+
                 }
             }
 
@@ -562,7 +564,7 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
             } else {
                 if (null == convertView) {
                     holder = new ViewHolder();
-                    convertView = inflater.inflate(R.layout.city_list_item_layout, null);
+                    convertView = inflater.inflate(R.layout.city_list_item_layout1, null);
                     ViewBinder.bind(holder, convertView);
                     convertView.setTag(holder);
                 } else {
@@ -573,7 +575,7 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
                 holder.cityKeyTv.setVisibility(View.VISIBLE);
                 holder.cityKeyTv.setText(getAlpha(cityEntity.getKey()));
                 holder.cityNameTv.setText(cityEntity.getName());
-
+                holder.name_tv.setText("("+cityEntity.getFirst()+")");
                 if (position >= 1) {
                     CityEntity preCity = totalCityList.get(position - 1);
                     if (preCity.getKey().equals(cityEntity.getKey())) {
@@ -592,6 +594,8 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
             TextView cityNameTv;
             @Bind(R.id.city_key_tv)
             TextView cityKeyTv;
+            @Bind(R.id.name_tv)
+            TextView name_tv;
         }
     }
 

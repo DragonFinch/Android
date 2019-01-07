@@ -39,6 +39,7 @@ import com.iyoyogo.android.bean.search.GuanZhuBean;
 import com.iyoyogo.android.bean.search.KeywordBean;
 import com.iyoyogo.android.bean.search.KeywordUserBean;
 import com.iyoyogo.android.bean.search.SearchBean;
+import com.iyoyogo.android.bean.search.searchInfo;
 import com.iyoyogo.android.bean.yoji.detail.YoJiDetailBean;
 import com.iyoyogo.android.bean.yoji.label.AddLabelBean;
 import com.iyoyogo.android.bean.yoji.label.LabelListBean;
@@ -664,9 +665,9 @@ public interface ApiService {
 
 
     //首页搜索   页面
-    @POST("index.php/api/city/get_hot")
+    @POST("/index.php/api/search/get_hot_and_history")
     @FormUrlEncoded
-    Observable<SearchBean> search(@Field("user_id") String user_id, @Field("user_token") String user_token);
+    Observable<searchInfo> search(@Field("user_id") String user_id, @Field("user_token") String user_token);
 
     //首页  搜索
     @POST("index.php/api/search/index")

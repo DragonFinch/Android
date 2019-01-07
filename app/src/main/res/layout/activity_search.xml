@@ -60,6 +60,7 @@
             android:padding="@dimen/dp_10">
 
             <RelativeLayout
+                android:background="#FAFAFA"
                 android:id="@+id/rl_lishi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -87,12 +88,14 @@
 
             <com.iyoyogo.android.view.ZFlowLayout
                 android:id="@+id/history_fl"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical" />
 
             <ImageView
+                android:background="#FAFAFA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dp_10"

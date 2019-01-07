@@ -120,6 +120,9 @@ public class GuiJiFragment extends BaseFragment<GeRenChengShiContract.Presenter>
                     String strLetter = list1.get(i).getEnglish_name().charAt(0) + "";
                     if (letter.equalsIgnoreCase(strLetter)) {
                         mLv.setSelection(i);
+                        for (int j = 0; j <list1.size() ; j++) {
+                            Log.e("getOnImtemPosition", "getOnImtemPosition: "+list1.get(j).getChina_name()+"==="+list1.get(j).getCode() );
+                        }
                       /*  mLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -131,7 +134,6 @@ public class GuiJiFragment extends BaseFragment<GeRenChengShiContract.Presenter>
                 }
                 showCurrentTvWindow(letter);
             }
-
 
         });
        /* ViewHelper.setScaleX(mTv_window, 0F);

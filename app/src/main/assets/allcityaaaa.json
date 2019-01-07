@@ -102,266 +102,259 @@
       "code": "6524",
       "name": "阿比林市",
       "key": "A",
-      "first": "abd",
+      "first": "US Texas_Abilene City",
       "full": "abd"
     },
     {
       "code": "1529",
       "name": "阿宾顿小镇",
       "key": "A",
-      "first": "alsm",
+      "first": "US Pennsylvania_Abington Township",
       "full": "alashanmeng"
     },
     {
       "code": "6543",
       "name": "艾达县",
       "key": "A",
-      "first": "altdq",
+      "first": "US Idaho_Ada County",
       "full": "aletaidiqu"
     },
     {
       "code": "5425",
       "name": "亚当斯县",
       "key": "A",
-      "first": "aldq",
+      "first": "US Colorado_Adams County",
       "full": "alidiqu"
     },
     {
       "code": "6109",
       "name": "阿迪森小镇",
       "key": "A",
-      "first": "aks",
+      "first": "US Illinois_Addison Township",
       "full": "ankang"
     },
     {
       "code": "3408",
-      "name": "艾达县",
+      "name": "阿德莱德",
       "key": "A",
-      "first": "aqs",
+      "first": "AU South Australia_Adelaide",
       "full": "anqing"
     },
     {
       "code": "2103",
       "name": "阿尔马",
       "key": "A",
-      "first": "ass",
+      "first": "CA Quebec_Alma",
       "full": "anshan"
     },
     {
       "code": "5204",
       "name": "亚罗牙也",
       "key": "A",
-      "first": "ass",
+      "first": "MY Malacca_Alor Gajah",
       "full": "anshun"
     },
     {
       "code": "4105",
       "name": "阿尔法利塔市",
       "key": "A",
-      "first": "ays",
+      "first": "US Georgia_Alpharetta City",
       "full": "anyang"
     },
     {
       "code": "8200",
       "name": "阿马里洛市",
       "key": "A",
-      "first": "am",
+      "first": "US Texas_Amarillo City",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "埃姆斯市",
       "key": "A",
-      "first": "am",
+      "first": "US Iowa_Ames City",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "阿默斯特镇",
       "key": "A",
-      "first": "am",
+      "first": "US New York_Amherst Town",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "阿纳海姆市",
       "key": "A",
-      "first": "am",
+      "first": "US California_Anaheim City",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "安克雷奇市",
       "key": "A",
-      "first": "am",
+      "first": "US Alaska_Anchorage Municipality",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "安德森县",
       "key": "A",
-      "first": "am",
+      "first": "US South Carolina_Anderson County",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "安德森小镇",
       "key": "A",
-      "first": "am",
+      "first": "US Indiana_Anderson Township",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "安东市",
       "key": "A",
-      "first": "am",
+      "first": "KR Chungcheongbuk-do_Andong",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "安克尼市",
       "key": "A",
-      "first": "am",
+      "first": "US Iowa_Ankeny City",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "阿内阿伦德尔县",
       "key": "A",
-      "first": "am",
+      "first": "US Maryland_Anne Arundel County",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "安山市",
       "key": "A",
-      "first": "am",
+      "first": "KR Jeju-do_Ansan",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "安城市",
       "key": "A",
-      "first": "am",
+      "first": "KRJeju-do_Anseong",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "安蒂戈尼什",
       "key": "A",
-      "first": "am",
+      "first": "CA Nova Scotia_Antigonish",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "安条克市",
       "key": "A",
-      "first": "am",
+      "first": "US California_Antioch City",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "安养市",
       "key": "A",
-      "first": "am",
+      "first": "KR Jeju-do_Anyang",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "阿帕奇县",
       "key": "A",
-      "first": "am",
+      "first": "US Arizona_Apache County",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "阿普尔瓦利市",
       "key": "A",
-      "first": "am",
+      "first": "US Minnesota_Apple Valley City",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "苹果谷镇",
       "key": "A",
-      "first": "am",
+      "first": "US California_Apple Valley Town",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "阿普尔顿市",
       "key": "A",
-      "first": "am",
+      "first": "US Wisconsin_Appleton City",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "阿拉帕霍县",
       "key": "A",
-      "first": "am",
+      "first": "US Colorado_Arapahoe County",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "阿卡迪亚市",
       "key": "A",
-      "first": "am",
-      "full": "aomen"
-    },
-    {
-      "code": "8200",
-      "name": "阿卡迪亚市",
-      "key": "A",
-      "first": "am",
+      "first": "US California_Arcadia City",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "阿灵顿市",
       "key": "A",
-      "first": "am",
+      "first": "US Texas_Arlington City",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "亚特兰大市",
       "key": "A",
-      "first": "am",
+      "first": "US Georgia_Atlanta City",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "奥本市",
       "key": "A",
-      "first": "am",
+      "first": "US Washington_Auburn City",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "奥罗拉市",
       "key": "A",
-      "first": "am",
+      "first": "US Colorado_Aurora City",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "奥罗拉小镇",
       "key": "A",
-      "first": "am",
+      "first": "US Illinois_Aurora Township",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "北极湾",
       "key": "A",
-      "first": "am",
+      "first": "CA Nunavut_Arctic Bay",
       "full": "aomen"
     },
     {
       "code": "8200",
       "name": "贝克湖",
       "key": "A",
-      "first": "am",
+      "first": "CA Nunavut_Baker Lake",
       "full": "aomen"
     },
 
@@ -369,294 +362,294 @@
       "code": "8204",
       "name": "贝克斯菲尔德市",
       "key": "A",
-      "first": "am",
+      "first": "US California_Bakersfield City",
       "full": "yatelan"
     },
     {
       "code": "2208",
       "name": "鲍德温县",
       "key": "B",
-      "first": "bcs",
+      "first": "US Alabama_Baldwin County",
       "full": "baicheng"
     },
     {
       "code": "4510",
       "name": "鲍德温公园市",
       "key": "B",
-      "first": "bss",
+      "first": "USAlabama_Baldwin County",
       "full": "baise"
     },
     {
       "code": "2206",
       "name": "班戈",
       "key": "B",
-      "first": "bss",
+      "first": "GB Wales_Bangor",
       "full": "baishan"
     },
     {
       "code": "6204",
       "name": "巴恩斯特布尔县",
       "key": "B",
-      "first": "bys",
+      "first": "US Massachusetts_Barnstable County",
       "full": "baiyin"
     },
     {
       "code": "3403",
       "name": "巴特利特市",
       "key": "B",
-      "first": "bbs",
+      "first": "US Tennessee_Bartlett City",
       "full": "bangbu"
     },
     {
       "code": "1306",
       "name": "巴斯特罗普县",
       "key": "B",
-      "first": "bds",
+      "first": "US Texas_Bastrop County",
       "full": "baoding"
     },
     {
       "code": "6103",
       "name": "巴约讷市",
       "key": "B",
-      "first": "bjs",
+      "first": "US New Jersey_Bayonne City",
       "full": "baoji"
     },
     {
       "code": "5305",
       "name": "巴吞鲁日市",
       "key": "B",
-      "first": "bss",
+      "first": "US_Louisiana_Baton Rouge City",
       "full": "baoshan"
     },
     {
       "code": "1502",
       "name": "巴特尔克里克市",
       "key": "B",
-      "first": "bts",
+      "first": "US_Michigan_Battle Creek City",
       "full": "baotou"
     },
     {
       "code": "1508",
       "name": "巴约讷市",
       "key": "B",
-      "first": "bynes",
+      "first": "US New Jersey_Bayonne City",
       "full": "bayannaoer"
     },
     {
       "code": "6528",
       "name": "博蒙特市",
       "key": "B",
-      "first": "byglmgzzz",
+      "first": "US_Texas_Beaumont City",
       "full": "bayinguolengmengguzizhizhou"
     },
     {
       "code": "5119",
       "name": "比弗顿市",
       "key": "B",
-      "first": "bzs",
+      "first": "US Oregon_Beaverton City",
       "full": "bazhong"
     },
     {
       "code": "4505",
       "name": "贝尔维尤市",
       "key": "B",
-      "first": "bhs",
+      "first": "US Nebraska_Bellevue City",
       "full": "beihai"
     },
     {
       "code": "11",
       "name": "贝尔佛劳尔市",
       "key": "B",
-      "first": "bjs",
+      "first": "US California_Bellflower City",
       "full": "beijing"
     },
     {
       "code": "2105",
       "name": "贝灵汉市",
       "key": "B",
-      "first": "bxs",
+      "first": "US Washington_Bellingham City",
       "full": "benxi"
     },
     {
       "code": "5224",
       "name": "班萨莱姆小镇",
       "key": "B",
-      "first": "bjdq",
+      "first": "US Pennsylvania_Bensalem Township",
       "full": "bijiediqu"
     },
     {
       "code": "3716",
       "name": "卑尔根县",
       "key": "B",
-      "first": "bzs",
+      "first": "US New Jersey_Bergen County",
       "full": "binzhou"
     },
     {
       "code": "6527",
       "name": "伯克利市",
       "key": "B",
-      "first": "betlmgzzz",
+      "first": "US California_Berkeley City",
       "full": "boertalamengguzizhizhou"
     },
     {
       "code": "3416",
       "name": "比林斯市",
       "key": "B",
-      "first": "bzs",
+      "first": "US Montana_Billings City",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "伯明翰市",
       "key": "B",
-      "first": "bzs",
+      "first": "US Alabama_Birmingham City",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "俾斯麦市",
       "key": "B",
-      "first": "bzs",
+      "first": "US North Dakota_Bismarck City",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "布莱恩市",
       "key": "B",
-      "first": "bzs",
+      "first": "US Minnesota_Blaine City",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "布卢明顿市",
       "key": "B",
-      "first": "bzs",
+      "first": "US Indiana_Bloomington City",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "贝尔维尤市",
       "key": "B",
-      "first": "bzs",
+      "first": "US Idaho_BoiseCity",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "博卡拉顿市",
       "key": "B",
-      "first": "bzs",
+      "first": "US Missouri_Blue Springs City",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "博伊西市",
       "key": "B",
-      "first": "bzs",
+      "first": "US Idaho_BoiseCity",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "博西尔市",
       "key": "B",
-      "first": "bzs",
+      "first": "US Louisiana_Bossier City",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "波士顿市",
       "key": "B",
-      "first": "bzs",
+      "first": "US Massachusetts_Boston City",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "博尔德市",
       "key": "B",
-      "first": "bzs",
+      "first": "US Colorado_Boulder City",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "鲍灵格林市",
       "key": "B",
-      "first": "bzs",
+      "first": "US Kentucky_Bowling Green City",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "博因顿比奇市",
       "key": "B",
-      "first": "bzs",
+      "first": "US Florida_Boynton Beach City",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "布雷登顿市",
       "key": "B",
-      "first": "bzs",
+      "first": "US Florida_Bradenton City",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "布伦特伍德市",
       "key": "B",
-      "first": "bzs",
+      "first": "US California_Brentwood Cit",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "布里奇波特市",
       "key": "B",
-      "first": "bzs",
+      "first": "US Connecticut_Bridgeport City",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "布里斯托市",
       "key": "B",
-      "first": "bzs",
+      "first": "GB England_Bristol",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "布里斯托市",
       "key": "B",
-      "first": "bzs",
+      "first": "US Connecticut_Bristol City",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "布罗克顿市",
       "key": "B",
-      "first": "bzs",
+      "first": "US Massachusetts_Brockton City",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "布鲁克黑文市",
       "key": "B",
-      "first": "bzs",
+      "first": "US Georgia_Brookhaven City",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "布鲁克林帕克市",
       "key": "B",
-      "first": "bzs",
+      "first": "US Minnesota_Brooklyn Park City",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "布鲁姆菲尔德市",
       "key": "B",
-      "first": "bzs",
+      "first": "US Colorado_Broomfield City",
       "full": "bozhou"
     },
     {
       "code": "3416",
       "name": "本德市",
       "key": "B",
-      "first": "bzs",
+      "first": "US Color_Bro",
       "full": "bozhou"
     },
 
@@ -664,56 +657,56 @@
       "code": "1309",
       "name": "百乐",
       "key": "B",
-      "first": "czs",
+      "first": "KR Jeollabuk-do_Cheongju",
       "full": "cangzhou"
     },
     {
       "code": "1309",
       "name": "柏克夏县",
       "key": "B",
-      "first": "czs",
+      "first": "US South Carolina_Charleston Cit",
       "full": "cangzhou"
     },
     {
       "code": "1309",
       "name": "伯温小镇",
       "key": "B",
-      "first": "czs",
+      "first": "US Georgia_Chatham County",
       "full": "cangzhou"
     },
     {
       "code": "1309",
       "name": "伯明翰市",
       "key": "B",
-      "first": "czs",
+      "first": "CA Quebec_Châteauguay",
       "full": "cangzhou"
     },
     {
       "code": "1309",
       "name": "保宁市",
       "key": "B",
-      "first": "czs",
+      "first": "US Ohio_Dayton City",
       "full": "cangzhou"
     },
     {
       "code": "1309",
       "name": "鲍灵格林市",
       "key": "B",
-      "first": "czs",
+      "first": "US Florida_Daytona Beach City",
       "full": "cangzhou"
     },
     {
       "code": "1309",
       "name": "布拉佐里亚县",
       "key": "B",
-      "first": "czs",
+      "first": "US Illinois_Wheaton City",
       "full": "cangzhou"
     },
     {
       "code": "1309",
       "name": "不来梅小镇",
       "key": "B",
-      "first": "czs",
+      "first": "US Washington_Whatcom County",
       "full": "cangzhou"
     },
     {
@@ -727,7 +720,7 @@
       "code": "1309",
       "name": "布里奇波特市",
       "key": "B",
-      "first": "czs",
+      "first": "US Washington_Whatcom County",
       "full": "cangzhou"
     },
     {
@@ -741,70 +734,70 @@
       "code": "2201",
       "name": "夏洛特市",
       "key": "C",
-      "first": "ccs",
+      "first": "US Maine_Cumberland County",
       "full": "changchun"
     },
     {
       "code": "4307",
       "name": "查洛城",
       "key": "C",
-      "first": "cds",
+      "first": "CA British Columbia_Cranbrook",
       "full": "changde"
     },
     {
       "code": "5421",
       "name": "查尔斯县",
       "key": "C",
-      "first": "cddq",
+      "first": "US Washington_Whatcom County",
       "full": "changdudiqu"
     },
     {
       "code": "6523",
       "name": "城堡盖",
       "key": "C",
-      "first": "cjhzzzz",
+      "first": "US Georgia_Coweta County",
       "full": "changjihuizuzizhizhou"
     },
     {
       "code": "4301",
       "name": "查塔努加市",
       "key": "C",
-      "first": "css",
+      "first": "US Georgia_Coweta County",
       "full": "changsha"
     },
     {
       "code": "1404",
       "name": "青阳郡",
       "key": "C",
-      "first": "czs",
+      "first": "US Georgia_Coweta County",
       "full": "changzhi"
     },
     {
       "code": "3204",
       "name": "春川市",
       "key": "C",
-      "first": "czs",
+      "first": "US Maine_Cumberland County",
       "full": "changzhou"
     },
     {
       "code": "2113",
       "name": "奇诺岗市",
       "key": "C",
-      "first": "cys",
+      "first": "GB England_Coventr",
       "full": "chaoyang"
     },
     {
       "code": "4451",
       "name": "丘拉维斯塔市",
       "key": "C",
-      "first": "czs",
+      "first": "US Washington_Whatcom County",
       "full": "chaozhou"
     },
     {
       "code": "1308",
       "name": "忠州市",
       "key": "C",
-      "first": "cds",
+      "first": "US North Carolina_Concord City",
       "full": "chengde"
     },
     {
@@ -825,21 +818,21 @@
       "code": "1504",
       "name": "克利夫兰市",
       "key": "C",
-      "first": "cfs",
+      "first": "US Washington_Whatcom County",
       "full": "chifeng"
     },
     {
       "code": "3417",
       "name": "克利夫顿市",
       "key": "C",
-      "first": "czs",
+      "first": "GB England_Coventr",
       "full": "chizhou"
     },
     {
       "code": "50",
       "name": "克洛维斯市",
       "key": "C",
-      "first": "cqs",
+      "first": "US Maine_Cumberland County",
       "full": "chongqing"
     },
     {
@@ -853,42 +846,42 @@
       "code": "5323",
       "name": "科科纳特克里克市",
       "key": "C",
-      "first": "cxyzzzz",
+      "first": "US Washington_Whatcom County",
       "full": "chuxiongyizuzizhizhou"
     },
     {
       "code": "3411",
       "name": "哥伦比亚市",
       "key": "C",
-      "first": "czs",
+      "first": "GB England_Coventr",
       "full": "chuzhou"
     },
     {
       "code": "3411",
       "name": "康科德市",
       "key": "C",
-      "first": "czs",
+      "first": "US North Carolina_Concord City",
       "full": "chuzhou"
     },
     {
       "code": "3411",
       "name": "康威市",
       "key": "C",
-      "first": "czs",
+      "first": "US Washington_Whatcom Countyzs",
       "full": "chuzhou"
     },
     {
       "code": "3411",
       "name": "库恩拉皮兹市",
       "key": "C",
-      "first": "czs",
+      "first": "KR Daegu_Daegu",
       "full": "chuzhou"
     },
     {
       "code": "3411",
       "name": "科罗纳市",
       "key": "C",
-      "first": "czs",
+      "first": "US Washington_Whatcom County",
       "full": "chuzhou"
     },
     {
@@ -902,105 +895,105 @@
       "code": "3411",
       "name": "克兰斯顿市",
       "key": "C",
-      "first": "czs",
+      "first": "US Connecticut_Danbury City",
       "full": "chuzhou"
     },
     {
       "code": "3411",
       "name": "库比蒂诺市",
       "key": "C",
-      "first": "czs",
+      "first": "GB England_Coventr",
       "full": "chuzhou"
     },
     {
       "code": "3411",
       "name": "达拉斯市",
       "key": "C",
-      "first": "czs",
+      "first": "US Arkansas_Conway City",
       "full": "chuzhou"
     },
     {
       "code": "3411",
       "name": "丹伯里市",
       "key": "C",
-      "first": "czs",
+      "first": "CA Ontario_Cornwall",
       "full": "chuzhou"
     },
     {
       "code": "3411",
       "name": "达文波特市",
       "key": "C",
-      "first": "czs",
+      "first": "US Washington_Whatcom County",
       "full": "chuzhou"
     },
     {
       "code": "3411",
       "name": "德通纳海滩市",
       "key": "C",
-      "first": "czs",
+      "first": "CA Manitoba_Dauphin",
       "full": "chuzhou"
     },
     {
       "code": "3411",
       "name": "迪尔伯恩海茨市",
       "key": "C",
-      "first": "czs",
+      "first": "GB England_Coventr",
       "full": "chuzhou"
     },
     {
       "code": "3411",
       "name": "迪尔菲尔德海滩市",
       "key": "C",
-      "first": "czs",
+      "first": "US Colorado_CommerceCity",
       "full": "chuzhou"
     },
     {
       "code": "3411",
       "name": "德拉海滩市",
       "key": "C",
-      "first": "czs",
+      "first": "US California_Corona City",
       "full": "chuzhou"
     },
     {
       "code": "3411",
       "name": "德斯普兰斯市",
       "key": "C",
-      "first": "czs",
+      "first": "US Washington_Whatcom County",
       "full": "chuzhou"
     },
     {
       "code": "3411",
       "name": "底特律市",
       "key": "C",
-      "first": "czs",
+      "first": "GB England_Coventr",
       "full": "chuzhou"
     },
     {
       "code": "3411",
       "name": "唐娜安娜县",
       "key": "C",
-      "first": "czs",
+      "first": "CA British Columbia_Colwood",
       "full": "chuzhou"
     },
     {
       "code": "3411",
       "name": "都柏林市",
       "key": "C",
-      "first": "czs",
+      "first": "US Missouri_Columbia City",
       "full": "chuzhou"
     },
     {
       "code": "3411",
       "name": "德卢斯市",
       "key": "C",
-      "first": "czs",
+      "first": "US Washington_Whatcom County",
       "full": "chuzhou"
     },
     {
       "code": "3411",
       "name": "杜佩奇县",
       "key": "C",
-      "first": "czs",
+      "first": "US New York_Colonie Town",
       "full": "chuzhou"
     },
     {
@@ -1014,14 +1007,14 @@
       "code": "3411",
       "name": "邓迪小镇",
       "key": "C",
-      "first": "czs",
+      "first": "US Washington_Whatcom County",
       "full": "chuzhou"
     },
     {
       "code": "3411",
       "name": "杜佩奇县",
       "key": "C",
-      "first": "czs",
+      "first": "CA Manitoba_Dauphin",
       "full": "chuzhou"
     },
 
@@ -1029,70 +1022,70 @@
       "code": "2102",
       "name": "东豆川市",
       "key": "D",
-      "first": "dls",
+      "first": "US Washington_Whatcom County",
       "full": "dalian"
     },
     {
       "code": "5329",
       "name": "东巴吞鲁日教区",
       "key": "D",
-      "first": "dlbzzzz",
+      "first": "US Florida_Clay County",
       "full": "dalibaizuzizhizhou"
     },
     {
       "code": "2106",
       "name": "东哈特福德镇",
       "key": "D",
-      "first": "dds",
+      "first": "US New York_Colonie Town",
       "full": "dandong"
     },
     {
       "code": "2306",
       "name": "东奥兰治市",
       "key": "D",
-      "first": "dqs",
+      "first": "US Florida_Clay County",
       "full": "daqing"
     },
     {
       "code": "1402",
       "name": "东主",
       "key": "D",
-      "first": "dts",
+      "first": "US Washington_Whatcom County",
       "full": "datong"
     },
     {
       "code": "2327",
       "name": "东谷市",
       "key": "D",
-      "first": "dxaldq",
+      "first": "US Florida_Weston City",
       "full": "daxinganlingdiqu"
     },
     {
       "code": "5117",
       "name": "达州",
       "key": "D",
-      "first": "dzs",
+      "first": "US Florida_Clearwater City",
       "full": "dazhou"
     },
     {
       "code": "5331",
       "name": "伊顿县",
       "key": "D",
-      "first": "dhdzjpzzzz",
+      "first": "US Florida_Weston City",
       "full": "dehongdaizujingpozuzizhizhou"
     },
     {
       "code": "5106",
       "name": "伊顿普瑞里市",
       "key": "D",
-      "first": "dys",
+      "first": "CA Manitoba_Dauphin",
       "full": "deyang"
     },
     {
       "code": "3714",
       "name": "欧克莱尔市",
       "key": "D",
-      "first": "dzs",
+      "first": "US New York_Colonie Town",
       "full": "dezhou"
     },
     {
@@ -1106,7 +1099,7 @@
       "code": "5334",
       "name": "艾尔蒙特市",
       "key": "D",
-      "first": "dqzzzzz",
+      "first": "US Michigan_Westland City",
       "full": "diqingzangzuzizhizhou"
     },
     {
@@ -1120,175 +1113,175 @@
       "code": "4419",
       "name": "埃尔金市",
       "key": "D",
-      "first": "dzs",
+      "first": "US Michigan_Westland City",
       "full": "dongzuo"
     },
     {
       "code": "1506",
       "name": "亨特敦县",
       "key": "E",
-      "first": "eedss",
+      "first": "US New Jersey_Clifton City",
       "full": "eerduosi"
     },
     {
       "code": "4228",
       "name": "休斯敦市",
       "key": "E",
-      "first": "estjzmzzzz",
+      "first": "US Nevada_Washoe County",
       "full": "enshitujiazumiaozuzizhizhou"
     },
     {
       "code": "4207",
       "name": "亨廷顿帕克市",
       "key": "E",
-      "first": "ezs",
+      "first": "CA Manitoba_Dauphin",
       "full": "ezhou"
     },
     {
       "code": "4506",
       "name": "爱达荷福尔斯市",
       "key": "F",
-      "first": "fcgs",
+      "first": "US Wisconsin_Waukesha City",
       "full": "fangchenggang"
     },
     {
       "code": "4406",
       "name": "益山市",
       "key": "F",
-      "first": "fss",
+      "first": "US Illinois_Waukegan City",
       "full": "foshan"
     },
     {
       "code": "2104",
       "name": "印第安纳波利斯市",
       "key": "F",
-      "first": "fss",
+      "first": "US Michigan_Westland City",
       "full": "fushun"
     },
     {
       "code": "2109",
       "name": "伊努朱亚克",
       "key": "F",
-      "first": "fxs",
+      "first": "US Michigan_Wayne County",
       "full": "fuxin"
     },
     {
       "code": "3412",
       "name": "爱荷华市",
       "key": "F",
-      "first": "fys",
+      "first": "US Indiana_Wayne Township",
       "full": "fuyang"
     },
     {
       "code": "3501",
       "name": "尔湾市",
       "key": "F",
-      "first": "fzs",
+      "first": "US tah_West Jordan City",
       "full": "fuzhou"
     },
     {
       "code": "3610",
       "name": "迪比克市",
       "key": "F",
-      "first": "fzs",
+      "first": "US Michigan_Westland City",
       "full": "fuzhou"
     },
     {
       "code": "6230",
       "name": "埃斯孔迪多市",
       "key": "G",
-      "first": "gnzzzzz",
+      "first": "US New York_Colonie Town",
       "full": "gannanzangzuzizhizhou"
     },
     {
       "code": "3607",
       "name": "弗拉格斯塔夫市",
       "key": "G",
-      "first": "gzs",
+      "first": "US Ohio_Dayton City",
       "full": "ganzhou"
     },
     {
       "code": "5133",
       "name": "柯林斯堡市",
       "key": "G",
-      "first": "gzzzzzz",
+      "first": "CA Manitoba_Dauphin",
       "full": "ganzizangzuzizhizhou"
     },
     {
       "code": "5116",
       "name": "沃斯堡市",
       "key": "G",
-      "first": "gas",
+      "first": "US Florida_Clay County",
       "full": "guangan"
     },
     {
       "code": "5108",
       "name": "盖恩斯维尔市",
       "key": "G",
-      "first": "gys",
+      "first": "US Ohio_Clark County",
       "full": "guangyuan"
     },
     {
       "code": "4401",
       "name": "江陵市",
       "key": "G",
-      "first": "gzs",
+      "first": "US Ohio_Dayton City",
       "full": "guangzhou"
     },
     {
       "code": "4508",
       "name": "加登格罗夫市",
       "key": "G",
-      "first": "ggs",
+      "first": "US Florida_Citrus County",
       "full": "guigang"
     },
     {
       "code": "4503",
       "name": "加斯托尼亚市",
       "key": "G",
-      "first": "gls",
+      "first": "US New Jersey_Clifton City",
       "full": "guilin"
     },
     {
       "code": "5201",
       "name": "巨济市",
       "key": "G",
-      "first": "gys",
+      "first": "US Nevada_Washoe County",
       "full": "guiyang"
     },
     {
       "code": "6326",
       "name": "吉尔罗伊市",
       "key": "G",
-      "first": "glzzzzz",
+      "first": "US Florida_Citrus County",
       "full": "guoluozangzuzizhizhou"
     },
     {
       "code": "6404",
       "name": "金堤市",
       "key": "G",
-      "first": "gys",
+      "first": "US Florida_Citrus County",
       "full": "guyuan"
     },
     {
       "code": "2301",
       "name": "格伦代尔市",
       "key": "H",
-      "first": "hebs",
+      "first": "US New York_Colonie Town",
       "full": "haerbin"
     },
     {
       "code": "6322",
       "name": "古德伊尔市",
       "key": "H",
-      "first": "hbzzzzz",
+      "first": "US Ohio_Dayton City",
       "full": "haibeizangzuzizhizhou"
     },
     {
       "code": "6321",
       "name": "高阳市",
       "key": "H",
-      "first": "hddq",
+      "first": "US Illinois_Warren Township",
       "full": "haidongdiqu"
     },
     {
@@ -1302,7 +1295,7 @@
       "code": "6325",
       "name": "大章克申市",
       "key": "H",
-      "first": "hnzzzzz",
+      "first": "US Illinois_Warren Township",
       "full": "hainanzangzuzizhizhou"
     },
     {
@@ -1316,140 +1309,140 @@
       "code": "6522",
       "name": "格里利市",
       "key": "H",
-      "first": "hmdq",
+      "first": "US Florida_Citrus County",
       "full": "hamidiqu"
     },
     {
       "code": "1304",
       "name": "格林斯博罗市",
       "key": "H",
-      "first": "hds",
+      "first": "US New York_Colonie Town",
       "full": "handan"
     },
     {
       "code": "3301",
       "name": "格林伍德市",
       "key": "H",
-      "first": "hzs",
+      "first": "US Ohio_Dayton City",
       "full": "hangzhou"
     },
     {
       "code": "6107",
       "name": "军浦市",
       "key": "H",
-      "first": "hzs",
+      "first": "US Illinois_Warren Township",
       "full": "hanzhong"
     },
     {
       "code": "4106",
       "name": "格威内特县",
       "key": "H",
-      "first": "hbs",
+      "first": "US New Jersey_Clifton City",
       "full": "hebi"
     },
     {
       "code": "4512",
       "name": "哈姆登市",
       "key": "H",
-      "first": "hcs",
+      "first": "US Ohio_Cincinnati City",
       "full": "hechi"
     },
     {
       "code": "3401",
       "name": "哈蒙德市",
       "key": "H",
-      "first": "hfs",
+      "first": "US Illinois_Warren Township",
       "full": "hefei"
     },
     {
       "code": "2304",
       "name": "汉普顿市",
       "key": "H",
-      "first": "hgs",
+      "first": "US New York_Colonie Town",
       "full": "hegang"
     },
     {
       "code": "2311",
       "name": "汉福德市",
       "key": "H",
-      "first": "hhs",
+      "first": "US Ohio_Dayton City",
       "full": "heihe"
     },
     {
       "code": "1311",
       "name": "哈林根市",
       "key": "H",
-      "first": "hss",
+      "first": "US Illinois_Warren Township",
       "full": "hengshui"
     },
     {
       "code": "4304",
       "name": "哈特福德市",
       "key": "H",
-      "first": "hys",
+      "first": "US Ohio_Cincinnati City",
       "full": "hengyang"
     },
     {
       "code": "6532",
       "name": "哈里逊小镇",
       "key": "H",
-      "first": "htdq",
+      "first": "US Ohio_Cincinnati City",
       "full": "hetiandiqu"
     },
     {
       "code": "4416",
       "name": "哈里斯县",
       "key": "H",
-      "first": "hys",
+      "first": "US New Jersey_Clifton City",
       "full": "heyuan"
     },
     {
       "code": "3717",
       "name": "哈里森堡市",
       "key": "H",
-      "first": "hzs",
+      "first": "US Illinois_Warren Township",
       "full": "heze"
     },
     {
       "code": "4511",
       "name": "哈特福德县",
       "key": "H",
-      "first": "hzs",
+      "first": "US Michigan_Warren City",
       "full": "hezhou"
     },
     {
       "code": "5325",
       "name": "黑弗里尔市",
       "key": "H",
-      "first": "hhhnzyzzzz",
+      "first": "CA Saskatchewan_Warman",
       "full": "honghehanizuyizuzizhizhou"
     },
     {
       "code": "3208",
       "name": "海斯县",
       "key": "H",
-      "first": "has",
+      "first": "US New York_Colonie Town",
       "full": "huaian"
     },
     {
       "code": "3406",
       "name": "斯特德村",
       "key": "H",
-      "first": "hbs",
+      "first": "US Texas_Victoria City",
       "full": "huaibei"
     },
     {
       "code": "4312",
       "name": "哈里森堡市",
       "key": "H",
-      "first": "hhs",
+      "first": "US New Jersey_Clifton City",
       "full": "huaihua"
     },
     {
       "code": "3404",
       "name": "海沃德市",
       "key": "H",
-      "first": "hns",
+      "first": "US Ohio_Dayton City",
       "full": "huainan"
     },
     {
@@ -1463,14 +1456,14 @@
       "code": "6323",
       "name": "亨德森县",
       "key": "H",
-      "first": "hnzzzzz",
+      "first": "US New York_Colonie Town",
       "full": "huangnanzangzuzizhizhou"
     },
     {
       "code": "3410",
       "name": "亨德森维尔市",
       "key": "H",
-      "first": "hss",
+      "first": "US Texas_Victoria City",
       "full": "huangshan"
     },
     {
@@ -1484,84 +1477,84 @@
       "code": "1501",
       "name": "赫斯珀里亚市",
       "key": "H",
-      "first": "hhhts",
+      "first": "CA Nunavut_Clyde River",
       "full": "huhehaote"
     },
     {
       "code": "4413",
       "name": "赫尔南多县",
       "key": "H",
-      "first": "hzs",
+      "first": "US Ohio_Dayton City",
       "full": "huizhou"
     },
     {
       "code": "2114",
       "name": "赫里福德",
       "key": "H",
-      "first": "hlds",
+      "first": "CA Ontario_Vaughan",
       "full": "huludao"
     },
     {
       "code": "1507",
       "name": "海厄利亚市",
       "key": "H",
-      "first": "hlbes",
+      "first": "US Texas_Victoria City",
       "full": "hulunbeier"
     },
     {
       "code": "3305",
       "name": "海波因特市",
       "key": "H",
-      "first": "hzs",
+      "first": "KR Jeju-do_Uijeongbu",
       "full": "huzhou"
     },
     {
       "code": "2308",
       "name": "博卡拉顿市",
       "key": "J",
-      "first": "jmss",
+      "first": "US Georgia_Valdosta City",
       "full": "jiamusi"
     },
     {
       "code": "4407",
       "name": "布朗特县",
       "key": "J",
-      "first": "jms",
+      "first": "US Texas_Tyler City",
       "full": "jiangmen"
     },
     {
       "code": "3608",
       "name": "博西尔市",
       "key": "J",
-      "first": "jas",
+      "first": "US California_Tulare County",
       "full": "jian"
     },
     {
       "code": "4108",
       "name": "波士顿市",
       "key": "J",
-      "first": "jzs",
+      "first": "GB England_Truro",
       "full": "jiaozuo"
     },
     {
       "code": "3304",
       "name": "博尔德市",
       "key": "J",
-      "first": "jxs",
+      "first": "MY Sabah_Tuaran",
       "full": "jiaxing"
     },
     {
       "code": "6202",
       "name": "博因顿比奇市",
       "key": "J",
-      "first": "jygs",
+      "first": "CA Nunavut_Clyde River",
       "full": "jiayuguan"
     },
     {
       "code": "4452",
       "name": "布雷登顿市",
       "key": "J",
-      "first": "jys",
+      "first": "US New York_Colonie Town",
       "full": "jieyang"
     },
     {
@@ -1575,63 +1568,63 @@
       "code": "7100",
       "name": "塔拉哈西市",
       "key": "J",
-      "first": "jls",
+      "first": "MY Sabah_Tuaran",
       "full": "jilong"
     },
     {
       "code": "3701",
       "name": "锡拉丘兹市",
       "key": "J",
-      "first": "jns",
+      "first": "US Ohio_Cincinnati City",
       "full": "jinan"
     },
     {
       "code": "6203",
       "name": "斯威夫特卡伦特",
       "key": "J",
-      "first": "jcs",
+      "first": "US New York_Colonie Town",
       "full": "jinchang"
     },
     {
       "code": "1405",
       "name": "汤顿市",
       "key": "J",
-      "first": "jcs",
+      "first": "US Ohio_Dayton City",
       "full": "jincheng"
     },
     {
       "code": "3602",
       "name": "特雷霍特市",
       "key": "J",
-      "first": "jdzs",
+      "first": "CA Nunavut_Clyde River",
       "full": "jingdezhen"
     },
     {
       "code": "4208",
       "name": "蒂伽德市",
       "key": "J",
-      "first": "jms",
+      "first": "US Illinois_Cicero Township",
       "full": "jingmen"
     },
     {
       "code": "4210",
       "name": "托皮卡市",
       "key": "J",
-      "first": "jzs",
+      "first": "US Ohio_Cincinnati City",
       "full": "jingzhou"
     },
     {
       "code": "3307",
       "name": "特伦顿市",
       "key": "J",
-      "first": "jhs",
+      "first": "US New York_Colonie Town",
       "full": "jinhua"
     },
     {
       "code": "3708",
       "name": "特兰伯尔县",
       "key": "J",
-      "first": "jns",
+      "first": "MY Sabah_Tuaran",
       "full": "jining"
     },
     {
@@ -1645,7 +1638,7 @@
       "code": "2107",
       "name": "泰勒市",
       "key": "J",
-      "first": "jzs",
+      "first": "US New York_Colonie Town",
       "full": "jinzhou"
     },
     {
@@ -1659,112 +1652,112 @@
       "code": "6209",
       "name": "尤宁市",
       "key": "J",
-      "first": "jqs",
+      "first": "US Ohio_Dayton City",
       "full": "jiuquan"
     },
     {
       "code": "2303",
       "name": "尤宁小镇",
       "key": "J",
-      "first": "jxs",
+      "first": "MY Sabah_Tuaran",
       "full": "jixi"
     },
     {
       "code": "4102",
       "name": "瓦卡维尔市",
       "key": "K",
-      "first": "kfs",
+      "first": "CA Nunavut_Clyde River",
       "full": "kaifeng"
     },
     {
       "code": "6531",
       "name": "沃尔顿县",
       "key": "K",
-      "first": "ksdq",
+      "first": "KR Jeollabuk-do_Chungju",
       "full": "kashidiqu"
     },
     {
       "code": "6502",
       "name": "沃伦市",
       "key": "K",
-      "first": "klmys",
+      "first": "US Ohio_Dayton City",
       "full": "kelamayi"
     },
     {
       "code": "6530",
       "name": "华纳罗宾斯市",
       "key": "K",
-      "first": "kzlskekzzzz",
+      "first": "MY Sabah_Tuaran",
       "full": "kezilesukeerkezizizhizhou"
     },
     {
       "code": "5301",
       "name": "沃威克市",
       "key": "K",
-      "first": "kms",
+      "first": "US Ohio_Colerain Township",
       "full": "kunming"
     },
     {
       "code": "4513",
       "name": "华盛顿市",
       "key": "L",
-      "first": "lbs",
+      "first": "US Ohio_Colerain Township",
       "full": "laibin"
     },
     {
       "code": "3712",
       "name": "滑铁卢市",
       "key": "L",
-      "first": "lws",
+      "first": "KR Jeollabuk-do_Chungju",
       "full": "laiwu"
     },
     {
       "code": "1310",
       "name": "瓦克夏市",
       "key": "L",
-      "first": "lfs",
+      "first": "US Ohio_Colerain Township",
       "full": "langfang"
     },
     {
       "code": "6201",
       "name": "韦恩小镇",
       "key": "L",
-      "first": "lzs",
+      "first": "US Ohio_Colerain Township",
       "full": "lanzhou"
     },
     {
       "code": "5401",
       "name": "西阿利斯市",
       "key": "L",
-      "first": "lss",
+      "first": "US Ohio_Dayton City",
       "full": "lasa"
     },
     {
       "code": "5111",
       "name": "西柯汶纳市",
       "key": "L",
-      "first": "lss",
+      "first": "MY Sabah_Tuaran",
       "full": "leshan"
     },
     {
       "code": "5134",
       "name": "西哈特福德镇",
       "key": "L",
-      "first": "lsyzzzz",
+      "first": "US Ohio_Colerain Township",
       "full": "liangshanyizuzizhizhou"
     },
     {
       "code": "3207",
       "name": "西瓦利市",
       "key": "L",
-      "first": "lygs",
+      "first": "KR Gangwon-do_Chuncheon",
       "full": "lianyungang"
     },
     {
       "code": "3715",
       "name": "西萨克拉门托市",
       "key": "L",
-      "first": "lcs",
+      "first": "USVermont_Chittenden County",
       "full": "liaocheng"
     },
     {
@@ -1778,63 +1771,63 @@
       "code": "2204",
       "name": "韦斯顿市",
       "key": "L",
-      "first": "lys",
+      "first": "US Michigan_Troy City",
       "full": "liaoyuan"
     },
     {
       "code": "5307",
       "name": "韦茅斯镇市",
       "key": "L",
-      "first": "ljs",
+      "first": "MY Sabah_Tuaran",
       "full": "lijiang"
     },
     {
       "code": "5309",
       "name": "怀特普莱恩斯市",
       "key": "L",
-      "first": "lcs",
+      "first": "US Ohio_Dayton City",
       "full": "lincang"
     },
     {
       "code": "1410",
       "name": "惠特菲尔德县",
       "key": "L",
-      "first": "lfs",
+      "first": "CA Nunavut_Clyde River",
       "full": "linfen"
     },
     {
       "code": "6229",
       "name": "威奇托市",
       "key": "L",
-      "first": "lxhzzzz",
+      "first": "US Ohio_Colerain Township",
       "full": "linxiahuizuzizhizhou"
     },
     {
       "code": "3713",
       "name": "威尔克斯县",
       "key": "L",
-      "first": "lys",
+      "first": "US Michigan_Troy City",
       "full": "linyi"
     },
     {
       "code": "5426",
       "name": "温莎县",
       "key": "L",
-      "first": "lzdq",
+      "first": "US Vermont_Chittenden County",
       "full": "linzhidiqu"
     },
     {
       "code": "3311",
       "name": "温斯顿",
       "key": "L",
-      "first": "lss",
+      "first": "US Vermont_Chittenden County",
       "full": "lishui"
     },
     {
       "code": "3415",
       "name": "伍德布里奇小镇",
       "key": "L",
-      "first": "las",
+      "first": "US Vermont_Chittenden County",
       "full": "liuan"
     },
     {
@@ -1848,7 +1841,7 @@
       "code": "4502",
       "name": "梁山市",
       "key": "L",
-      "first": "lzs",
+      "first": "US Michigan_Troy City",
       "full": "liuzhou"
     },
     {
@@ -1862,98 +1855,98 @@
       "code": "3508",
       "name": "燕岐郡",
       "key": "L",
-      "first": "lys",
+      "first": "US Alabama_Decatur City",
       "full": "longyan"
     },
     {
       "code": "4313",
       "name": "丽水市",
       "key": "L",
-      "first": "lds",
+      "first": "US Ohio_Colerain Township",
       "full": "loudi"
     },
     {
       "code": "4111",
       "name": "漯河",
       "key": "L",
-      "first": "lhs",
+      "first": "CA Nunavut_Clyde River",
       "full": "luohe"
     },
     {
       "code": "4103",
       "name": "伊普西兰蒂查特小镇",
       "key": "L",
-      "first": "lys",
+      "first": "US Vermont_Chittenden County",
       "full": "luoyang"
     },
     {
       "code": "5105",
       "name": "约克县",
       "key": "L",
-      "first": "lzs",
+      "first": "US Michigan_Troy City",
       "full": "luzhou"
     },
     {
       "code": "1411",
       "name": "尤巴县",
       "key": "L",
-      "first": "lls",
+      "first": "US Vermont_Chittenden County",
       "full": "lvliang"
     },
     {
       "code": "3405",
       "name": "怀俄明市",
       "key": "M",
-      "first": "mass",
+      "first": "US Alabama_Decatur City",
       "full": "maanshan"
     },
     {
       "code": "4409",
       "name": "扬平郡",
       "key": "M",
-      "first": "mms",
+      "first": "US Ohio_Colerain Township",
       "full": "maoming"
     },
     {
       "code": "5114",
       "name": "涟川郡",
       "key": "M",
-      "first": "mss",
+      "first": "US New York_Dutchess County",
       "full": "meishan"
     },
     {
       "code": "4414",
       "name": "白石镇",
       "key": "M",
-      "first": "mzs",
+      "first": "US Michigan_Eaton County",
       "full": "meizhou"
     },
     {
       "code": "5107",
       "name": "怀特普莱恩斯市",
       "key": "M",
-      "first": "mys",
+      "first": "US Texas_Edinburg City",
       "full": "mianyang"
     },
     {
       "code": "2310",
       "name": "西萨克拉门托市",
       "key": "M",
-      "first": "mdjs",
+      "first": "US Michigan_Troy City",
       "full": "mudanjiang"
     },
     {
       "code": "3601",
       "name": "西黑文镇",
       "key": "N",
-      "first": "ncs",
+      "first": "CA Nunavut_Clyde River",
       "full": "nanchang"
     },
     {
       "code": "5113",
       "name": "西哈特福德镇",
       "key": "N",
-      "first": "ncs",
+      "first": "US Oklahoma_Edmond City",
       "full": "nanchong"
     },
     {
@@ -1967,56 +1960,56 @@
       "code": "4501",
       "name": "惠灵顿村",
       "key": "N",
-      "first": "nns",
+      "first": "CA Alberta_Edmonton",
       "full": "nanning"
     },
     {
       "code": "3507",
       "name": "韦恩小镇",
       "key": "N",
-      "first": "nps",
+      "first": "US Michigan_Troy City",
       "full": "nanping"
     },
     {
       "code": "3206",
       "name": "沃特福德查特小镇",
       "key": "N",
-      "first": "nts",
+      "first": "US New York_Tonawanda Town",
       "full": "nantong"
     },
     {
       "code": "4113",
       "name": "沃特伯里市",
       "key": "N",
-      "first": "nys",
+      "first": "AU Queensland_Toowoomba",
       "full": "nanyang"
     },
     {
       "code": "5424",
       "name": "沃肖县",
       "key": "N",
-      "first": "nqdq",
+      "first": "US California_Tracy City",
       "full": "naqudiqu"
     },
     {
       "code": "5110",
       "name": "沃威克市",
       "key": "N",
-      "first": "njs",
+      "first": "CA Quebec_Trois-Rivières",
       "full": "neijiang"
     },
     {
       "code": "3302",
       "name": "华纳罗宾斯市",
       "key": "N",
-      "first": "nbs",
+      "first": "US Alabama_Decatur City",
       "full": "ningbo"
     },
     {
       "code": "3509",
       "name": "弗吉尼亚比奇市",
       "key": "N",
-      "first": "nds",
+      "first": "US California_Chico City",
       "full": "ningde"
     },
     {
@@ -2030,28 +2023,28 @@
       "code": "2111",
       "name": "范德堡县",
       "key": "P",
-      "first": "pjs",
+      "first": "US Ohio_Colerain Township",
       "full": "panjin"
     },
     {
       "code": "5104",
       "name": "瓦列霍市",
       "key": "P",
-      "first": "pzhs",
+      "first": "CA Nunavut_Clyde River",
       "full": "panzhihua"
     },
     {
       "code": "4104",
       "name": "尤宁小镇",
       "key": "P",
-      "first": "pdss",
+      "first": "US California_Chico City",
       "full": "pingdingshan"
     },
     {
       "code": "6208",
       "name": "上达比小镇",
       "key": "P",
-      "first": "pls",
+      "first": "US New York_Dutchess County",
       "full": "pingliang"
     },
     {
@@ -2065,217 +2058,224 @@
       "code": "3503",
       "name": "瓦尔多斯塔市",
       "key": "P",
-      "first": "pts",
+      "first": "US Vermont_Chittenden County",
       "full": "putian"
     },
     {
       "code": "4109",
       "name": "特洛伊市",
       "key": "P",
-      "first": "pys",
+      "first": "US New York_Dutchess County",
       "full": "puyang"
     },
     {
       "code": "5226",
       "name": "特伦顿市",
       "key": "Q",
-      "first": "qdnmzdzzzz",
+      "first": "US Ohio_Colerain Township",
       "full": "qiandongnanmiaozudongzuzizhizhou"
     },
     {
       "code": "5227",
       "name": "托兰斯市",
       "key": "Q",
-      "first": "qnbyzmzzzz",
+      "first": "CA Nunavut_Clyde River",
       "full": "qiannanbuyizumiaozuzizhizhou"
     },
     {
       "code": "5223",
       "name": "汤斯维尔",
       "key": "Q",
-      "first": "qxnbyzmzzzz",
+      "first": "US Alabama_Decatur City",
+      "full": "qianxinanbuyizumiaozuzizhizhou"
+    },
+    {
+      "code": "5223",
+      "name": "切罗基县",
+      "key": "Q",
+      "first": "US Georgia_Cherokee County",
       "full": "qianxinanbuyizumiaozuzizhizhou"
     },
     {
       "code": "3702",
       "name": "托皮卡市",
       "key": "Q",
-      "first": "qds",
+      "first": "US Vermont_Chittenden County",
       "full": "qingdao"
     },
     {
       "code": "6210",
       "name": "廷利公园村",
       "key": "Q",
-      "first": "qys",
+      "first": "US New York_Dutchess County",
       "full": "qingyang"
     },
     {
       "code": "4418",
       "name": "蒂伽德市",
       "key": "Q",
-      "first": "qys",
+      "first": "US California_Chico City",
       "full": "qingyuan"
     },
     {
       "code": "1303",
       "name": "瑟斯顿县",
       "key": "Q",
-      "first": "qhds",
+      "first": "US Ohio_Colerain Township",
       "full": "qinhuangdao"
     },
     {
       "code": "4507",
       "name": "泰勒博恩教区",
       "key": "Q",
-      "first": "qzs",
+      "first": "US California_Chico City",
       "full": "qinzhou"
     },
     {
       "code": "2302",
       "name": "特雷霍特市",
       "key": "Q",
-      "first": "qqhes",
+      "first": "US California_Chico City",
       "full": "qiqihaer"
     },
     {
       "code": "2309",
       "name": "泰勒斯维尔市",
       "key": "Q",
-      "first": "qths",
+      "first": "US New York_Dutchess County",
       "full": "qitaihe"
     },
     {
       "code": "3505",
       "name": "汤顿市",
       "key": "Q",
-      "first": "qzs",
+      "first": "US California_Chico City",
       "full": "quanzhou"
     },
     {
       "code": "5303",
       "name": "坦帕市",
       "key": "Q",
-      "first": "qjs",
+      "first": "US Vermont_Chittenden County",
       "full": "qujing"
     },
     {
       "code": "3308",
       "name": "锡拉丘兹市",
       "key": "Q",
-      "first": "qzs",
+      "first": "US Vermont_Chittenden County",
       "full": "quzhou"
     },
     {
       "code": "5423",
       "name": "斯威夫特卡伦特",
       "key": "R",
-      "first": "rkzdq",
+      "first": "CA Nunavut_Clyde River",
       "full": "rikazediqu"
     },
     {
       "code": "3711",
       "name": "寿城区",
       "key": "R",
-      "first": "rzs",
+      "first": "US Alabama_Decatur City",
       "full": "rizhao"
     },
     {
       "code": "4112",
       "name": "素里市",
       "key": "S",
-      "first": "smxs",
+      "first": "US New York_Dutchess County",
       "full": "sanmenxia"
     },
     {
       "code": "3504",
       "name": "瑟普赖斯市",
       "key": "S",
-      "first": "sms",
+      "first": "US Alabama_Decatur City",
       "full": "sanming"
     },
     {
       "code": "4602",
       "name": "淳昌郡",
       "key": "S",
-      "first": "sys",
+      "first": "CA Nunavut_Clyde River",
       "full": "sanya"
     },
     {
       "code": "3101",
       "name": "萨姆纳县",
       "key": "S",
-      "first": "shs",
+      "first": "US Ohio_Colerain Township",
       "full": "shanghai"
     },
     {
       "code": "6110",
       "name": "萨福克县",
       "key": "S",
-      "first": "sls",
+      "first": "CA Nunavut_Clyde River",
       "full": "shangluo"
     },
     {
       "code": "4114",
       "name": "斯特拉特福镇",
       "key": "S",
-      "first": "sqs",
+      "first": "US New York_Dutchess County",
       "full": "shangqiu"
     },
     {
       "code": "3611",
       "name": "斯特拉福德县",
       "key": "S",
-      "first": "srs",
+      "first": "US Ohio_Colerain Township",
       "full": "shangrao"
     },
     {
       "code": "5422",
       "name": "特伦特河畔斯多克",
       "key": "S",
-      "first": "sndq",
+      "first": "US Georgia_Dekalb County",
       "full": "shannandiqu"
     },
     {
       "code": "4405",
       "name": "斯特灵海茨市",
       "key": "S",
-      "first": "sts",
+      "first": "CA Nunavut_Clyde River",
       "full": "shantou"
     },
     {
       "code": "4415",
       "name": "斯坦尼斯劳斯县",
       "key": "S",
-      "first": "sws",
+      "first": "US New York_Dutchess County",
       "full": "shanwei"
     },
     {
       "code": "4402",
       "name": "圣彼得市",
       "key": "S",
-      "first": "sgs",
+      "first": "US California_Chino City",
       "full": "shaoguan"
     },
     {
       "code": "3306",
       "name": "圣玛丽斯县",
       "key": "S",
-      "first": "sxs",
+      "first": "US Vermont_Chittenden County",
       "full": "shaoxing"
     },
     {
       "code": "4305",
       "name": "圣路易斯县",
       "key": "S",
-      "first": "sys",
+      "first": "US Ohio_Colerain Township",
       "full": "shaoyang"
     },
     {
       "code": "2101",
       "name": "圣约瑟夫市",
       "key": "S",
-      "first": "sys",
+      "first": "US California_Chico City",
       "full": "shenyang"
     },
     {
@@ -2289,21 +2289,21 @@
       "code": "1301",
       "name": "城南市",
       "key": "S",
-      "first": "sjzs",
+      "first": "CA Nunavut_Clyde River",
       "full": "shijiazhuang"
     },
     {
       "code": "4203",
       "name": "舒川郡",
       "key": "S",
-      "first": "sys",
+      "first": "US New York_Dutchess County",
       "full": "shiyan"
     },
     {
       "code": "6402",
       "name": "塞米诺尔县",
       "key": "S",
-      "first": "szss",
+      "first": "US California_Chino City",
       "full": "shizuishan"
     },
     {
@@ -2317,98 +2317,98 @@
       "code": "1406",
       "name": "斯克兰顿市",
       "key": "S",
-      "first": "szs",
+      "first": "US Georgia_Dekalb County",
       "full": "shuozhou"
     },
     {
       "code": "5308",
       "name": "圣克鲁斯县",
       "key": "S",
-      "first": "sms",
+      "first": "US California_Chico City",
       "full": "simao"
     },
     {
       "code": "2203",
       "name": "圣安娜市",
       "key": "S",
-      "first": "sps",
+      "first": "US California_Chino City",
       "full": "siping"
     },
     {
       "code": "2207",
       "name": "山打根",
       "key": "S",
-      "first": "sys",
+      "first": "US New York_Dutchess County",
       "full": "songyuan"
     },
     {
       "code": "2312",
       "name": "圣马科斯市",
       "key": "S",
-      "first": "shs",
+      "first": "US California_Chico City",
       "full": "suihua"
     },
     {
       "code": "5109",
       "name": "圣路易斯奥比斯波县",
       "key": "S",
-      "first": "sns",
+      "first": "US California_Chico City",
       "full": "suining"
     },
     {
       "code": "4213",
       "name": "圣胡安县",
       "key": "S",
-      "first": "szs",
+      "first": "US California_Chico City",
       "full": "suizhou"
     },
     {
       "code": "3213",
       "name": "圣华金县",
       "key": "S",
-      "first": "sqs",
+      "first": "US California_Chico City",
       "full": "suqian"
     },
     {
       "code": "3205",
       "name": "圣何塞市",
       "key": "S",
-      "first": "szs",
+      "first": "US California_Chino City",
       "full": "suzhou"
     },
     {
       "code": "3413",
       "name": "旧金山市",
       "key": "S",
-      "first": "szs",
+      "first": "US New York_Dutchess County",
       "full": "suzhou"
     },
     {
       "code": "6542",
       "name": "圣迭戈市",
       "key": "T",
-      "first": "tcdq",
+      "first": "CA Quebec_Chicoutimi",
       "full": "tachengdiqu"
     },
     {
       "code": "3709",
       "name": "圣克利门蒂市",
       "key": "T",
-      "first": "tas",
+      "first": "CA Quebec_Chicoutimi",
       "full": "taian"
     },
     {
       "code": "7100",
       "name": "圣安吉洛市",
       "key": "T",
-      "first": "tbs",
+      "first": "US California_Chino City",
       "full": "taibei"
     },
     {
       "code": "1401",
       "name": "桑普森县",
       "key": "T",
-      "first": "tys",
+      "first": "US Georgia_Dekalb County",
       "full": "taiyuan"
     },
     {
@@ -2422,7 +2422,7 @@
       "code": "3212",
       "name": "萨利纳斯市",
       "key": "T",
-      "first": "tzs",
+      "first": "US California_Chino City",
       "full": "taizhou"
     },
     {
@@ -2436,14 +2436,14 @@
       "code": "12",
       "name": "圣阿本斯",
       "key": "T",
-      "first": "tjs",
+      "first": "US California_Chino City",
       "full": "tianjin"
     },
     {
       "code": "6205",
       "name": "袋村",
       "key": "T",
-      "first": "tss",
+      "first": "US New York_Dutchess County",
       "full": "tianshui"
     },
     {
@@ -2457,182 +2457,182 @@
       "code": "6102",
       "name": "罗亚尔奥克市",
       "key": "T",
-      "first": "tcs",
+      "first": "US California_Chino City",
       "full": "tongchuan"
     },
     {
       "code": "2205",
       "name": "朗德罗克市",
       "key": "T",
-      "first": "ths",
+      "first": "US California_Chino City",
       "full": "tonghua"
     },
     {
       "code": "1505",
       "name": "罗斯威尔市",
       "key": "T",
-      "first": "tls",
+      "first": "US Georgia_Dekalb County",
       "full": "tongliao"
     },
     {
       "code": "3407",
       "name": "罗斯米德市",
       "key": "T",
-      "first": "tls",
+      "first": "GB England_Durham",
       "full": "tongling"
     },
     {
       "code": "5222",
       "name": "罗金厄姆县",
       "key": "T",
-      "first": "trdq",
+      "first": "MY Terengganu_Dungun",
       "full": "tongrendiqu"
     },
     {
       "code": "6521",
       "name": "里奥兰珠市",
       "key": "T",
-      "first": "tlfdq",
+      "first": "US California_Chino City",
       "full": "tulufandiqu"
     },
     {
       "code": "3707",
       "name": "列治文市",
       "key": "W",
-      "first": "wfs",
+      "first": "US California_Chino City",
       "full": "weifang"
     },
     {
       "code": "3710",
       "name": "里奇兰县",
       "key": "W",
-      "first": "whs",
+      "first": "US California_Chino City",
       "full": "weihai"
     },
     {
       "code": "6105",
       "name": "里亚托市",
       "key": "W",
-      "first": "wns",
+      "first": "US Georgia_Dekalb County",
       "full": "weinan"
     },
     {
       "code": "5326",
       "name": "雷夫尔斯托克",
       "key": "W",
-      "first": "wszzmzzzz",
+      "first": "US Georgia_Dekalb County",
       "full": "wenshanzhuangzumiaozuzizhizhou"
     },
     {
       "code": "3303",
       "name": "伦迪尔站",
       "key": "W",
-      "first": "wzs",
+      "first": "US California_Chino City",
       "full": "wenzhou"
     },
     {
       "code": "1503",
       "name": "雷德伍德市",
       "key": "W",
-      "first": "whs",
+      "first": "US California_Chino City",
       "full": "wuhai"
     },
     {
       "code": "4201",
       "name": "雷德蒙市",
       "key": "W",
-      "first": "whs",
+      "first": "US Minnesota_Duluth City",
       "full": "wuhan"
     },
     {
       "code": "3402",
       "name": "兰乔科尔多瓦市",
       "key": "W",
-      "first": "whs",
+      "first": "US California_Whittier City",
       "full": "wuhu"
     },
     {
       "code": "1509",
       "name": "拉马波镇",
       "key": "W",
-      "first": "wlcbs",
+      "first": "AU South Australia_Whyalla",
       "full": "wulanchabu"
     },
     {
       "code": "6501",
       "name": "奎斯内尔",
       "key": "W",
-      "first": "wlmqs",
+      "first": "US Texas_Wichita Falls City",
       "full": "wulumuqi"
     },
     {
       "code": "6206",
       "name": "帕特兰县",
       "key": "W",
-      "first": "wws",
+      "first": "US Tennessee_Wilson County",
       "full": "wuwei"
     },
     {
       "code": "3202",
       "name": "罗利市",
       "key": "W",
-      "first": "wxs",
+      "first": "US Minnesota_Woodbury City",
       "full": "wuxi"
     },
     {
       "code": "6403",
       "name": "波特兰市",
       "key": "W",
-      "first": "wzs",
+      "first": "US New Jersey_Woodbridge Township",
       "full": "wuzhong"
     },
     {
       "code": "4504",
       "name": "皮里港",
       "key": "W",
-      "first": "wzs",
+      "first": "CA Manitoba_Winnipeg",
       "full": "wuzhou"
     },
     {
       "code": "3502",
       "name": "珀特奥兰治市",
       "key": "X",
-      "first": "xms",
+      "first": "US Minnesota_Woodbury City",
       "full": "xiamen"
     },
     {
       "code": "4206",
-      "name": "波德申",
+      "name": "伍伦贡",
       "key": "X",
-      "first": "xfs",
+      "first": "AU New South Wales_Wollongong",
       "full": "xiangfan"
     },
     {
       "code": "8100",
       "name": "林肯港",
       "key": "X",
-      "first": "xg",
+      "first": "US onnecticut_Windham County",
       "full": "xianggang"
     },
     {
       "code": "4303",
       "name": "科尔本港",
       "key": "X",
-      "first": "xts",
+      "first": "US Texas_Denton County",
       "full": "xiangtan"
     },
     {
       "code": "4331",
       "name": "阿瑟港市",
       "key": "X",
-      "first": "xxtjzmzzzz",
+      "first": "CA Ontario_Woodstock",
       "full": "xiangxitujiazumiaozuzizhizhou"
     },
     {
       "code": "4212",
       "name": "波尔克县",
       "key": "X",
-      "first": "xns",
+      "first": "US Minnesota_Duluth City",
       "full": "xianning"
     },
     {
@@ -2646,7 +2646,7 @@
       "code": "6104",
       "name": "普利茅斯镇",
       "key": "X",
-      "first": "xys",
+      "first": "CA Ontario_Woodstock",
       "full": "xianyang"
     },
     {
@@ -2667,98 +2667,98 @@
       "code": "1522",
       "name": "普兰菲尔德市",
       "key": "X",
-      "first": "xam",
+      "first": "CA Ontario_Woodstock",
       "full": "xinganmeng"
     },
     {
       "code": "1305",
       "name": "普莱恩小镇",
       "key": "X",
-      "first": "xts",
+      "first": "US Minnesota_Duluth City",
       "full": "xingtai"
     },
     {
       "code": "6301",
       "name": "皮茨尔瓦尼亚县",
       "key": "X",
-      "first": "xns",
+      "first": "US Texas_Denton County",
       "full": "xining"
     },
     {
       "code": "4107",
       "name": "匹兹堡市",
       "key": "X",
-      "first": "xxs",
+      "first": "CA Ontario_Woodstock",
       "full": "xinxiang"
     },
     {
       "code": "4115",
       "name": "皮特县",
       "key": "X",
-      "first": "xys",
+      "first": "US Texas_Denton County",
       "full": "xinyang"
     },
     {
       "code": "3605",
       "name": "皮内拉斯县",
       "key": "X",
-      "first": "xys",
+      "first": "US Texas_Denton County",
       "full": "xinyu"
     },
     {
       "code": "1409",
       "name": "皮马县",
       "key": "X",
-      "first": "xzs",
+      "first": "CA Ontario_Woodstock",
       "full": "xinzhou"
     },
     {
       "code": "5328",
       "name": "派克小镇",
       "key": "X",
-      "first": "xsbndzzzz",
+      "first": "US Texas_Denton County",
       "full": "xishuangbannadaizuzizhizhou"
     },
     {
       "code": "3418",
       "name": "彼得伯勒",
       "key": "X",
-      "first": "xcs",
+      "first": "CA Ontario_Woodstock",
       "full": "xuancheng"
     },
     {
       "code": "4110",
       "name": "佩塔卢马市",
       "key": "X",
-      "first": "xcs",
+      "first": "US Texas_Denton County",
       "full": "xuchang"
     },
     {
       "code": "3203",
       "name": "皮克里维拉市",
       "key": "X",
-      "first": "xzs",
+      "first": "US Iowa_Des Moines City",
       "full": "xuzhou"
     },
     {
       "code": "5118",
       "name": "皮奥里亚市",
       "key": "Y",
-      "first": "yas",
+      "first": "US Minnesota_Duluth City",
       "full": "yaan"
     },
     {
       "code": "6106",
       "name": "皮奥里亚市",
       "key": "Y",
-      "first": "yas",
+      "first": "CA Ontario_Woodstock",
       "full": "yanan"
     },
     {
       "code": "2224",
       "name": "彭蒂克顿",
       "key": "Y",
-      "first": "ybcxzzzz",
+      "first": "US California_Dublin City",
       "full": "yanbianchaoxianzuzizhizhou"
     },
     {
@@ -2772,294 +2772,294 @@
       "code": "4417",
       "name": "佩诺布斯科特县",
       "key": "Y",
-      "first": "yjs",
+      "first": "CA Ontario_Woodstock",
       "full": "yangjiang"
     },
     {
       "code": "1403",
       "name": "彭布罗克派恩斯市",
       "key": "Y",
-      "first": "yqs",
+      "first": "AU Tasmania_Devonport",
       "full": "yangquan"
     },
     {
       "code": "3210",
       "name": "北根",
       "key": "Y",
-      "first": "yzs",
+      "first": "US California_Dublin City",
       "full": "yangzhou"
     },
     {
       "code": "3706",
       "name": "皮博迪市",
       "key": "Y",
-      "first": "yts",
+      "first": "KR Jeju-do_Dongducheon",
       "full": "yantai"
     },
     {
       "code": "5115",
       "name": "芒特普莱森特镇",
       "key": "Y",
-      "first": "ybs",
+      "first": "CA Ontario_Woodstock",
       "full": "yibin"
     },
     {
       "code": "4205",
       "name": "莫雷诺谷市",
       "key": "Y",
-      "first": "ycs",
+      "first": "US Alabama_Dothan City",
       "full": "yichang"
     },
     {
       "code": "2307",
       "name": "摩尔市",
       "key": "Y",
-      "first": "ycs",
+      "first": "US Oregon_Douglas County",
       "full": "yichun"
     },
     {
       "code": "3609",
       "name": "密阳市",
       "key": "Y",
-      "first": "ycs",
+      "first": "CA Ontario_Woodstock",
       "full": "yichun"
     },
     {
       "code": "6540",
       "name": "米拉马尔市",
       "key": "Y",
-      "first": "ylhskzzz",
+      "first": "US Colorado_Douglas County",
       "full": "yilihasakezizhizhou"
     },
     {
       "code": "6401",
       "name": "明尼阿波利斯市",
       "key": "Y",
-      "first": "ycs",
+      "first": "CA Ontario_Woodstock",
       "full": "yinchuan"
     },
     {
       "code": "2108",
       "name": "密尔沃基市",
       "key": "Y",
-      "first": "yks",
+      "first": "US California_Dublin City",
       "full": "yingkou"
     },
     {
       "code": "3606",
       "name": "米尔皮塔斯市",
       "key": "Y",
-      "first": "yts",
+      "first": "CA Ontario_Woodstock",
       "full": "yingtan"
     },
     {
       "code": "4309",
-      "name": "米德尔敦镇",
+      "name": "沃斯小镇",
       "key": "Y",
-      "first": "yys",
+      "first": "US Illinois_Worth Township",
       "full": "yiyang"
     },
     {
       "code": "4311",
       "name": "米德尔塞克斯县",
       "key": "Y",
-      "first": "yzs",
+      "first": "US Michigan_Wyoming City",
       "full": "yongzhou"
     },
     {
       "code": "4306",
       "name": "迈阿密花园市",
       "key": "Y",
-      "first": "yys",
+      "first": "US Washington_Yakima City",
       "full": "yueyang"
     },
     {
       "code": "4509",
-      "name": "梅萨市",
+      "name": "亚基马县",
       "key": "Y",
-      "first": "yls",
+      "first": "US Washington_Yakima County",
       "full": "yulin"
     },
     {
       "code": "6108",
-      "name": "梅里马克县",
+      "name": "杨口郡",
       "key": "Y",
-      "first": "yls",
+      "first": "KR Gangwon-do_Yanggu County",
       "full": "yulin"
     },
     {
       "code": "1408",
       "name": "默里迪恩市",
       "key": "Y",
-      "first": "ycs",
+      "first": "KR Jeju-do_Yangpyeong County",
       "full": "yuncheng"
     },
     {
       "code": "4453",
       "name": "默瑟县",
       "key": "Y",
-      "first": "yfs",
+      "first": "CA Nova Scotia_Yarmouth",
       "full": "yunfu"
     },
     {
       "code": "6327",
       "name": "门尼菲市",
       "key": "Y",
-      "first": "yszzzzz",
+      "first": "KR Gangwon-do_Yangyang Count",
       "full": "yushuzangzuzizhizhou"
     },
     {
       "code": "5304",
       "name": "孟菲斯市",
       "key": "Y",
-      "first": "yxs",
+      "first": "CA Nova Scotia_Yarmouth",
       "full": "yuxi"
     },
     {
       "code": "3704",
       "name": "墨尔本市",
       "key": "Z",
-      "first": "zzs",
+      "first": "KR Gangwon-do_Yangyang Count",
       "full": "zaozhuang"
     },
     {
       "code": "4308",
       "name": "梅德福市",
       "key": "Z",
-      "first": "zjjs",
+      "first": "CA Nova Scotia_Yarmouth",
       "full": "zhangjiajie"
     },
     {
       "code": "1307",
       "name": "门尼菲市",
       "key": "Z",
-      "first": "zjks",
+      "first": "US Colorado_Douglas County",
       "full": "zhangjiakou"
     },
     {
       "code": "6207",
-      "name": "圣迭戈县",
+      "name": "亚瓦派县",
       "key": "Z",
-      "first": "zys",
+      "first": "US_Arizona_Yavapai County",
       "full": "zhangye"
     },
     {
       "code": "3506",
-      "name": "圣克鲁斯市",
+      "name": "骊州郡",
       "key": "Z",
-      "first": "zzs",
+      "first": "KR Jeju-do_Yeoju County",
       "full": "zhangzhou"
     },
     {
       "code": "4408",
       "name": "桑福德市",
       "key": "Z",
-      "first": "zjs",
+      "first": "KR Gangwon-do_Yeongwol County",
       "full": "zhanjiang"
     },
     {
       "code": "4412",
       "name": "圣拉蒙市",
       "key": "Z",
-      "first": "zqs",
+      "first": "KR Chungcheongbuk-do_Yeongyang County",
       "full": "zhaoqing"
     },
     {
       "code": "5306",
-      "name": "圣拉斐尔市",
+      "name": "丽水市",
       "key": "Z",
-      "first": "zts",
+      "first": "KR Gyeongsangnam-do_Yeosu",
       "full": "zhaotong"
     },
     {
       "code": "4101",
-      "name": "圣安东尼奥市",
+      "name": "礼山郡",
       "key": "Z",
-      "first": "zzs",
+      "first": "KR Jeollanam-do_Yesan County",
       "full": "zhengzhou"
     },
     {
       "code": "3211",
-      "name": "萨蒙阿姆",
+      "name": "龙仁市",
       "key": "Z",
-      "first": "zjs",
+      "first": "KR Jeju-do_Yongin",
       "full": "zhenjiang"
     },
     {
       "code": "4420",
-      "name": "萨利纳斯市",
+      "name": "扬克斯市",
       "key": "Z",
-      "first": "zss",
+      "first": "US New York_Yonkers City",
       "full": "zhongshan"
     },
     {
       "code": "6405",
-      "name": "圣阿本斯",
+      "name": "约巴林达市",
       "key": "Z",
-      "first": "zws",
+      "first": "US California_Yorba Linda City",
       "full": "zhongwei"
     },
     {
       "code": "4116",
-      "name": "袋村",
+      "name": "约克小镇",
       "key": "Z",
-      "first": "zks",
+      "first": "US Illinois_York Township",
       "full": "zhoukou"
     },
     {
       "code": "3309",
-      "name": "萨克斯港",
+      "name": "约克顿",
       "key": "Z",
-      "first": "zss",
+      "first": "CA Saskatchewan_Yorkton",
       "full": "zhoushan"
     },
     {
       "code": "4404",
-      "name": "萨克拉门托县",
+      "name": "扬斯敦市",
       "key": "Z",
-      "first": "zhs",
+      "first": "US Ohio_Youngstown City",
       "full": "zhuhai"
     },
     {
       "code": "4117",
-      "name": "萨克拉门托市",
+      "name": "伊普西兰蒂查特小镇",
       "key": "Z",
-      "first": "zmds",
+      "first": "US Michigan_Ypsilanti Charter Township",
       "full": "zhumadian"
     },
     {
       "code": "4302",
-      "name": "朗德罗克市",
+      "name": "尤巴市",
       "key": "Z",
-      "first": "zzs",
+      "first": "US California_Yuba City",
       "full": "zhuzhou"
     },
     {
       "code": "3703",
-      "name": "罗斯河",
+      "name": "尤巴县",
       "key": "Z",
-      "first": "zbs",
+      "first": "US California_Yuba County",
       "full": "zibo"
     },
     {
       "code": "5103",
-      "name": "阿尔斯特县",
+      "name": "尤卡帕市",
       "key": "Z",
-      "first": "zgs",
+      "first": "US California_Yucaipa City",
       "full": "zigong"
     },
     {
       "code": "5120",
       "name": "仪旺市",
       "key": "Z",
-      "first": "zys",
+      "first": "US Arizona_Yuma City",
       "full": "ziyang"
     },
     {
       "code": "5203",
-      "name": "塔斯卡卢萨县",
+      "name": "尤马县",
       "key": "Z",
-      "first": "zys",
+      "first": "US Arizona_Yuma County",
       "full": "zunyi"
     }
   ]

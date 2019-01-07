@@ -31,22 +31,21 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_10" />
 
-            <android.support.v7.widget.SearchView
-                android:layout_margin="10dp"
+            <com.iyoyogo.android.view.ClearEditText
                 android:id="@+id/search_guanjiaci"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:background="@null"
-                android:isScrollContainer="false"
-                />
+                android:isScrollContainer="false" />
+
             <Button
-                android:visibility="gone"
                 android:id="@+id/search_btn_back"
                 android:layout_width="30dp"
                 android:layout_height="35dp"
                 android:alpha="0.7"
-                android:background="@drawable/ic_camera" />
-
+                android:background="@drawable/ic_camera"
+                android:visibility="gone" />
 
 
         </LinearLayout>
@@ -152,6 +151,9 @@
 
     </LinearLayout>
     <RelativeLayout
+        android:id="@+id/name1"
+        android:visibility="gone"
+        android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -163,8 +165,8 @@
         android:layout_height="45dp"
         android:gravity="center_vertical"
         android:padding="8dp"
-        android:text="简书你好"
-        android:textColor="#333333"/>
+        android:text="简书你好!"
+        android:textColor="@color/orgeen_color"/>
     <ImageView
         android:id="@+id/im_dizhi"
         android:layout_alignParentRight="true"
@@ -177,6 +179,9 @@
         android:layout_height="0.5dp"
         android:background="@color/colorc1c1c1"></View>
     <RelativeLayout
+        android:layout_margin="5dp"
+        android:id="@+id/name2"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
        >
@@ -188,8 +193,8 @@
             android:layout_height="45dp"
             android:gravity="center_vertical"
             android:padding="8dp"
-            android:text="简书你好"
-            android:textColor="#333333"/>
+            android:text="简书你好!!"
+            android:textColor="@color/orgeen_color"/>
         <ImageView
             android:id="@+id/im_dizhi1"
             android:layout_alignParentRight="true"
@@ -202,6 +207,9 @@
         android:layout_height="0.5dp"
         android:background="@color/colorc1c1c1"></View>
     <RelativeLayout
+        android:layout_margin="5dp"
+        android:id="@+id/name3"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
@@ -213,8 +221,8 @@
             android:layout_height="45dp"
             android:gravity="center_vertical"
             android:padding="8dp"
-            android:text="简书你好"
-            android:textColor="#333333"/>
+            android:text="简书你好!!!"
+            android:textColor="@color/orgeen_color"/>
         <ImageView
             android:id="@+id/im_dizhi2"
             android:layout_alignParentRight="true"
@@ -227,6 +235,9 @@
         android:layout_height="0.5dp"
         android:background="@color/colorc1c1c1"></View>
     <RelativeLayout
+        android:layout_margin="5dp"
+        android:id="@+id/name4"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
@@ -238,8 +249,8 @@
             android:layout_height="45dp"
             android:gravity="center_vertical"
             android:padding="8dp"
-            android:text="简书你好"
-            android:textColor="#333333"/>
+            android:text="简书你好!!!!"
+            android:textColor="@color/orgeen_color"/>
         <ImageView
             android:id="@+id/im_dizhi3"
             android:layout_alignParentRight="true"
@@ -252,10 +263,14 @@
         android:layout_height="0.5dp"
         android:background="@color/colorc1c1c1"></View>
     <RelativeLayout
+        android:layout_margin="5dp"
+        android:id="@+id/name5"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
         <TextView
+
             android:layout_margin="5dp"
             android:textSize="@dimen/dp15"
             android:id="@+id/text_name4"
@@ -263,8 +278,8 @@
             android:layout_height="45dp"
             android:gravity="center_vertical"
             android:padding="8dp"
-            android:text="简书你好"
-            android:textColor="#333333"/>
+            android:text="简书你好!!!!!"
+            android:textColor="@color/orgeen_color"/>
         <ImageView
             android:id="@+id/im_dizhi4"
             android:layout_alignParentRight="true"
@@ -277,6 +292,9 @@
         android:layout_height="0.5dp"
         android:background="@color/colorc1c1c1"></View>
     <RelativeLayout
+        android:layout_margin="5dp"
+        android:id="@+id/name6"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
@@ -288,8 +306,8 @@
             android:layout_height="45dp"
             android:gravity="center_vertical"
             android:padding="8dp"
-            android:text="简书你好"
-            android:textColor="#333333"/>
+            android:text="简书你好!!!!!!"
+            android:textColor="@color/orgeen_color"/>
         <ImageView
             android:id="@+id/im_dizhi5"
             android:layout_alignParentRight="true"
@@ -301,27 +319,6 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/colorc1c1c1"></View>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-        <TextView
-            android:layout_margin="5dp"
-            android:textSize="@dimen/dp15"
-            android:id="@+id/text_name6"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:gravity="center_vertical"
-            android:padding="8dp"
-            android:text="简书你好"
-            android:textColor="#333333"/>
-        <ImageView
-            android:id="@+id/im_dizhi6"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-    </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"

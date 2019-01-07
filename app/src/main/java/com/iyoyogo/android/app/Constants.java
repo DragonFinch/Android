@@ -9,9 +9,6 @@ public class Constants {
 
     public static final String BASE_URL="http://app.iyoyogo.com/";
 
-//    public static final String BASE_URL="http://192.168.0.145";
-
-
     //http://192.168.0.145        http://192.168.0.104
 
     /**
@@ -134,6 +131,4 @@ public class Constants {
         public static final String URL_VERSION_BASE = "http://192.168.0.145/index.php/api/version/";
         public static final String URL_VERSION_PATH = "get_latest_version_info";
     }
-
-
 }

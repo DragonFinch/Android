@@ -40,7 +40,7 @@ import com.iyoyogo.android.bean.mine.setting.MineSettingBean;
 import com.iyoyogo.android.bean.search.GuanZhuBean;
 import com.iyoyogo.android.bean.search.KeywordBean;
 import com.iyoyogo.android.bean.search.KeywordUserBean;
-import com.iyoyogo.android.bean.search.SearchBean;
+import com.iyoyogo.android.bean.search.searchInfo;
 import com.iyoyogo.android.bean.yoji.detail.YoJiDetailBean;
 import com.iyoyogo.android.bean.yoji.label.AddLabelBean;
 import com.iyoyogo.android.bean.yoji.label.LabelListBean;
@@ -57,13 +57,10 @@ import com.iyoyogo.android.model.en.SendMessageRequest;
 import com.iyoyogo.android.net.AddInterestRequest;
 import com.iyoyogo.android.net.HttpClient;
 
-import java.util.List;
-
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.http.Field;
 
 
 public class Model {
@@ -1054,7 +1051,7 @@ public class Model {
                 .compose(this.switchThread());
     }
 
-    public Observable<SearchBean> search(String user_id, String user_token){
+    public Observable<searchInfo> search(String user_id, String user_token){
         return HttpClient.getApiService()
                 .search(user_id, user_token)
                 .compose(this.switchThread());

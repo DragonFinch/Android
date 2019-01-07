@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.search.SearchBean;
+import com.iyoyogo.android.bean.search.searchInfo;
 import com.iyoyogo.android.contract.SearchContract;
 import com.iyoyogo.android.presenter.SearchPresenter;
 import com.iyoyogo.android.utils.SpUtils;
@@ -64,8 +65,8 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
     @BindView(R.id.rl_lishi)
     RelativeLayout rlLishi;
 
-    private List<String> mList = new ArrayList<>();
-    private List<String> list1;
+    private List<searchInfo> mList = new ArrayList<>();
+    private List<searchInfo> list1;
 
     @Override
     protected int getLayoutId() {
@@ -134,7 +135,7 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
             //添加分类块
             View paramItemView = getLayoutInflater().inflate(R.layout.adapter_search_keyword, null);
             TextView keyWordTv = paramItemView.findViewById(R.id.tv_content);
-            keyWordTv.setText(keyword.get(j));
+            keyWordTv.setText(keyword.get(i));
             keyWordTv.setBackgroundResource(R.drawable.whitebg_strokegrey_radius3);
             keywordFl.addView(paramItemView, layoutParams);
             keyWordTv.setOnClickListener(new View.OnClickListener() {
@@ -199,14 +200,10 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
     }
 
     @Override
-    public void publishYoJiSuccess(SearchBean baseBean) {
-        Log.e("h", "publishYoJiSuccess: " + "请求失败");
-    }
-
-    @Override
-    public void getRecommendTopicSuccess(List<String> list) {
-        list1 = list;
-        initKeyword(list1);
+    public void getRecommendTopicSuccess(searchInfo list) {
+        List<String> list_hot = list.getData().getList_hot();
+        Log.e("h", "publishYoJiSuccess: " +list_hot.size());
+        initKeyword(list_hot);
         initHistory();
         String[] data = SPUtils.getInstance(this).getHistoryList();
 
@@ -232,7 +229,6 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
 
             }
         });
-
     }
 
     @Override
