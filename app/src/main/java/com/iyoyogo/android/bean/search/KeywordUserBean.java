@@ -6,8 +6,9 @@ import java.util.List;
 
 public class KeywordUserBean extends BaseBean {
 
+
     /**
-     * data : {"list":[{"type":1,"user_id":60299,"user_nickname":"以南的地方天如海","yo_id":52,"file_desc":"津湾广场是欣赏海河昼夜景致的最佳观赏地点","label_id":1,"label":"地理位置","key_type":"label","position_id":163,"position_name":"海南母瑞山革命根据地纪念园","channel_id":6,"channel":"地标打卡"},{"type":3,"yo_id":52,"file_desc":"津湾广场是欣赏海河昼夜景致的最佳观赏地点"},{"type":4,"label_id":1,"label":"地理位置","key_type":"label"},{"type":5,"position_id":163,"position_name":"海南母瑞山革命根据地纪念园","key_type":"position"},{"type":6,"channel_id":6,"channel":"地标打卡","key_type":"channel"},{"type":1,"user_id":60738,"user_nickname":"人生地不熟"},{"type":3,"yo_id":55,"file_desc":"私藏旅行地解放北路"},{"type":4,"label_id":5,"label":"旅游胜地111121121","key_type":"label"},{"type":5,"position_id":168,"position_name":"刘家峡恐龙国家地质公园","key_type":"position"},{"type":1,"user_id":60898,"user_nickname":"靠天靠地不如靠自己"}]}
+     * data : {"list":[{"type":1,"user_id":60299,"user_nickname":"以南的地方天如海","yo_id":5007,"title":"用7天认识上海,一个人的地铁+暴走之旅","file_desc":"津湾广场是欣赏海河昼夜景致的最佳观赏地点","label_id":1,"label":"地理位置","key_type":"label","position_id":163,"position_name":"海南母瑞山革命根据地纪念园","channel_id":6,"channel":"地标打卡"},{"type":2,"yo_id":5007,"title":"用7天认识上海,一个人的地铁+暴走之旅"},{"type":3,"yo_id":52,"file_desc":"津湾广场是欣赏海河昼夜景致的最佳观赏地点"},{"type":4,"label_id":1,"label":"地理位置","key_type":"label"},{"type":5,"position_id":163,"position_name":"海南母瑞山革命根据地纪念园","key_type":"position"},{"type":6,"channel_id":6,"channel":"地标打卡","key_type":"channel"},{"type":1,"user_id":60738,"user_nickname":"人生地不熟"},{"type":2,"yo_id":5054,"title":"一起去地道的古都西安"},{"type":3,"yo_id":55,"file_desc":"私藏旅行地解放北路"},{"type":4,"label_id":5,"label":"旅游胜地111121121","key_type":"label"}]}
      */
 
     private DataBean data;
@@ -36,7 +37,8 @@ public class KeywordUserBean extends BaseBean {
              * type : 1
              * user_id : 60299
              * user_nickname : 以南的地方天如海
-             * yo_id : 52
+             * yo_id : 5007
+             * title : 用7天认识上海,一个人的地铁+暴走之旅
              * file_desc : 津湾广场是欣赏海河昼夜景致的最佳观赏地点
              * label_id : 1
              * label : 地理位置
@@ -45,13 +47,13 @@ public class KeywordUserBean extends BaseBean {
              * position_name : 海南母瑞山革命根据地纪念园
              * channel_id : 6
              * channel : 地标打卡
-             * title  :  大连博物馆，不只是广场而已
              */
 
             private int type;
             private int user_id;
             private String user_nickname;
             private int yo_id;
+            private String title;
             private String file_desc;
             private int label_id;
             private String label;
@@ -60,20 +62,6 @@ public class KeywordUserBean extends BaseBean {
             private String position_name;
             private int channel_id;
             private String channel;
-            private String title;
-
-            public String getTitle() {
-                return title;
-            }
-
-            public void setTitle(String title) {
-                this.title = title;
-            }
-
-            public ListBean(String title) {
-
-                this.title = title;
-            }
 
             public int getType() {
                 return type;
@@ -105,6 +93,14 @@ public class KeywordUserBean extends BaseBean {
 
             public void setYo_id(int yo_id) {
                 this.yo_id = yo_id;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
             }
 
             public String getFile_desc() {

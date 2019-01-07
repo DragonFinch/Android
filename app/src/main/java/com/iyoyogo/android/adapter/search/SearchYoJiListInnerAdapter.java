@@ -3,6 +3,7 @@ package com.iyoyogo.android.adapter.search;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,8 @@ public class SearchYoJiListInnerAdapter extends RecyclerView.Adapter<SearchYoJiL
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         if (mList.size() != 0){
+            Log.e("qwewqe", "onBindViewHolder: "+mList.get(0).getContent() );
+            Log.e("qwewqe", "onBindViewHolder: "+mList.get(0).getUser_nickname() );
             viewHolder.user_name.setText(mList.get(position).getUser_nickname()+"  ");
             viewHolder.tv_content.setText(mList.get(position).getContent());
             viewHolder.itemView.setTag(position);
