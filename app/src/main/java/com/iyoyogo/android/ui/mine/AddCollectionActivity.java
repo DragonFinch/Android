@@ -64,7 +64,7 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.add_address_book_friends:
-                startActivity(new Intent(this, AddressBookFriendsActivity.class));
+//                startActivity(new Intent(this, AddressBookFriendsActivity.class));
                 break;
             case R.id.message_center_back_im_id:
                 finish();

@@ -10,7 +10,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_65"
-        android:background="@color/FFFFFF">
+        android:background="@color/FFFFFF"
+        android:layout_marginTop="@dimen/dp20">
 
         <ImageView
             android:id="@+id/message_center_back_im_id"

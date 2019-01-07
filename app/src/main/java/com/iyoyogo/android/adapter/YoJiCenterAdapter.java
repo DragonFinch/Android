@@ -181,7 +181,7 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
         holder.view_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initDelete(holder, String.valueOf(mList.get(position).getUser_info().getUser_id()), mList.get(position).getComment_list().get(position).getId(), mList.get(position).getYo_id());
+                initDelete(holder, String.valueOf(mList.get(position).getUser_info().getUser_id()), mList.get(position).getYo_id());
             }
         });
 
@@ -253,11 +253,10 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
             @Override
             public void onClick(View v) {
                 int count_praise = mList.get(position).getCount_praise();
-
                 Log.d("Test", "dataBeans.get(0).getIs_my_like():" + mList.get(position).getIs_my_praise());
                 if (mList.get(position).getIs_my_praise() > 0) {
                     //由喜欢变为不喜欢，亮变暗
-                    holder.dt_like.setImageResource(R.mipmap.datu_xihuan);
+                    holder.dt_like.setImageResource(R.mipmap.yixihuan_xiangqing);
                     count_praise -= 1;
                     //设置点赞的数量
                     holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
@@ -265,7 +264,7 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
                     mList.get(position).setCount_praise(count_praise);
                 } else {
                     //由不喜欢变为喜欢，暗变亮
-                    holder.dt_like.setImageResource(R.mipmap.yixihuan_xiangqing);
+                    holder.dt_like.setImageResource(R.mipmap.datu_xihuan);
                     count_praise += 1;
                     //设置点赞的数量
                     holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
@@ -295,7 +294,7 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
 
     }
 
-    private void initDelete(Holder holder, String yo_user_id, int comment_id, int yo_id) {
+    private void initDelete(Holder holder, String yo_user_id,  int yo_id) {
         View view = LayoutInflater.from(context).inflate(R.layout.popup_delete_or_report, null);
         PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 125), ViewGroup.LayoutParams.WRAP_CONTENT, true);
         String user_id = SpUtils.getString(context, "user_id", null);
@@ -328,7 +327,7 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
         tv_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadMore(comment_id);
+                loadMore(yo_id);
                 popupWindow.dismiss();
             }
         });

@@ -160,6 +160,11 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
         return new YoXiuDetailPresenter(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.getCommentList(user_id, user_token, 1, id1, 0);
+    }
 
     /***
      * 返回
@@ -403,15 +408,17 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
         yo_user_id = data.getId();
         yo_attention_id = data.getUser_id();
         dataBeans.add(data);
+        tvLike.setText(data.getCount_praise() + "");
+//        tvCollection.setText(data.getCount_collect() + "");
         collections();
-        count_collect = data.getCount_collect();
-        tvCollection.setText(count_collect + "");
-        int count_praise = data.getCount_praise();
-        tvLike.setText(count_praise + "");
-        int count_collect = data.getCount_collect();
-        tvCollection.setText(count_collect + "");
+//        count_collect = data.getCount_collect();
+//        tvCollection.setText(count_collect + "");
+//        int count_praise = data.getCount_praise();
+//        tvLike.setText(count_praise + "");
+//        int count_collect = data.getCount_collect();
+//        tvCollection.setText(count_collect + "");
         if (editComment.getText().toString().length() > 0) {
-            mPresenter.addComment(this.user_id, user_token, 0, id1, editComment.getText().toString().trim());
+            mPresenter.addComment(user_id, user_token, 0, id1, editComment.getText().toString().trim());
             closeInputMethod();
             yoXiuDetailAdapter.notifyDataSetChanged();
             refresh();
