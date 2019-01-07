@@ -24,7 +24,10 @@ public class AttentionsPresenter extends BasePresenter<AttentionsContract.View> 
                 .subscribe(new ApiObserver<AttentionsBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(AttentionsBean attentionsBean) {
-                        mView.getAttentionsSuccess(attentionsBean);
+                        AttentionsBean.DataBean data = attentionsBean.getData();
+                        if (data != null) {
+                            mView.getAttentionsSuccess(attentionsBean);
+                        }
                     }
 
                     @Override
@@ -37,7 +40,7 @@ public class AttentionsPresenter extends BasePresenter<AttentionsContract.View> 
 
     @Override
     public void addAttention1(String user_id, String user_token, String target_id) {
-        DataManager.getFromRemote().addAttention1(user_id, user_token,target_id)
+        DataManager.getFromRemote().addAttention1(user_id, user_token, target_id)
                 .subscribe(new ApiObserver<AttentionBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(AttentionBean attentionBean) {

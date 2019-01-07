@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -210,20 +211,30 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
                 break;
             case R.id.img_view:
                 if (YoJiFragment.mList.size() != 0) {
-                    if (flag == false) {
-                        flag = true;
-                        imgView.setImageResource(R.mipmap.view2);
-                        recyclerYoji = getSupportFragmentManager().findFragmentById(R.id.frame_container).getView().findViewById(R.id.recycler_yoji);
-                        recyclerYoji.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-                        recyclerYoji.setAdapter(YoJiFragment.yoJiContentAdapter2);
-                        YoJiFragment.yoJiContentAdapter2.notifyDataSetChanged();
-                    } else {
-                        flag = false;
-                        imgView.setImageResource(R.mipmap.view1);
+                    recyclerYoji = getSupportFragmentManager().findFragmentById(R.id.frame_container).getView().findViewById(R.id.recycler_yoji);
+                    if (imgView.getDrawable().getCurrent().getConstantState().equals(ContextCompat.getDrawable(this, R.mipmap.view22).getConstantState())) {
+                        imgView.setImageResource(R.mipmap.view11);
                         recyclerYoji.setLayoutManager(new LinearLayoutManager(this));
                         recyclerYoji.setAdapter(YoJiFragment.yoJiCenterAdapter);
-                        YoJiFragment.yoJiCenterAdapter.notifyDataSetChanged();
+                    } else {
+                        imgView.setImageResource(R.mipmap.view22);
+                        recyclerYoji.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                        recyclerYoji.setAdapter(YoJiFragment.yoJiContentAdapter2);
                     }
+//                    if (flag == false) {
+//                        flag = true;
+//                        imgView.setImageResource(R.mipmap.view2);
+//                        recyclerYoji = getSupportFragmentManager().findFragmentById(R.id.frame_container).getView().findViewById(R.id.recycler_yoji);
+//                        recyclerYoji.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+//                        recyclerYoji.setAdapter(YoJiFragment.yoJiContentAdapter2);
+//                        YoJiFragment.yoJiContentAdapter2.notifyDataSetChanged();
+//                    } else {
+//                        flag = false;
+//                        imgView.setImageResource(R.mipmap.view1);
+//                        recyclerYoji.setLayoutManager(new LinearLayoutManager(this));
+//                        recyclerYoji.setAdapter(YoJiFragment.yoJiCenterAdapter);
+//                        YoJiFragment.yoJiCenterAdapter.notifyDataSetChanged();
+//                    }
                 }
                 break;
         }
@@ -429,53 +440,53 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
             imgSign.setImageResource(R.mipmap.sign_zero);
         }
 
-        final String pattern = "2";
-        if (Patterns.WEB_URL.matcher(data.getUser_logo()).matches()) {
-            final String url =
-                    data.getUser_logo();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    int scaleRatio = 0;
-                    if (TextUtils.isEmpty(pattern)) {
-                        scaleRatio = 0;
-                    } else if (scaleRatio < 0) {
-                        scaleRatio = 10;
-                    } else {
-                        scaleRatio = Integer.parseInt(pattern);
-                    }
-                    //                        下面的这个方法必须在子线程中执行
-                    final Bitmap blurBitmap2 = FastBlurUtil.GetUrlBitmap(url, scaleRatio);
-
-                    //                        刷新ui必须在主线程中执行
-                    runOnUiThread(new Runnable() {//这个是我自己封装的在主线程中刷新ui的方法。
-                        @Override
-                        public void run() {
-                            imgBg.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                            imgBg.setImageBitmap(blurBitmap2);
-                        }
-                    });
-                }
-            }).start();
-        } else {
-            int scaleRatio = 0;
-            if (TextUtils.isEmpty(pattern)) {
-                scaleRatio = 0;
-            } else if (scaleRatio < 0) {
-                scaleRatio = 10;
-            } else {
-                scaleRatio = Integer.parseInt(pattern);
-            }
-
-            //        获取需要被模糊的原图bitmap
-            Resources res = getResources();
-            Bitmap scaledBitmap = BitmapFactory.decodeResource(res, R.mipmap.default_touxiang);
-
-            //        scaledBitmap为目标图像，10是缩放的倍数（越大模糊效果越高）
-            Bitmap blurBitmap = FastBlurUtil.toBlur(scaledBitmap, scaleRatio);
-            imgBg.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imgBg.setImageBitmap(blurBitmap);
-        }
+//        final String pattern = "2";
+//        if (Patterns.WEB_URL.matcher(data.getUser_logo()).matches()) {
+//            final String url =
+//                    data.getUser_logo();
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    int scaleRatio = 0;
+//                    if (TextUtils.isEmpty(pattern)) {
+//                        scaleRatio = 0;
+//                    } else if (scaleRatio < 0) {
+//                        scaleRatio = 10;
+//                    } else {
+//                        scaleRatio = Integer.parseInt(pattern);
+//                    }
+//                    //                        下面的这个方法必须在子线程中执行
+//                    final Bitmap blurBitmap2 = FastBlurUtil.GetUrlBitmap(url, scaleRatio);
+//
+//                    //                        刷新ui必须在主线程中执行
+//                    runOnUiThread(new Runnable() {//这个是我自己封装的在主线程中刷新ui的方法。
+//                        @Override
+//                        public void run() {
+//                            imgBg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                            imgBg.setImageBitmap(blurBitmap2);
+//                        }
+//                    });
+//                }
+//            }).start();
+//        } else {
+//            int scaleRatio = 0;
+//            if (TextUtils.isEmpty(pattern)) {
+//                scaleRatio = 0;
+//            } else if (scaleRatio < 0) {
+//                scaleRatio = 10;
+//            } else {
+//                scaleRatio = Integer.parseInt(pattern);
+//            }
+//
+//            //        获取需要被模糊的原图bitmap
+//            Resources res = getResources();
+//            Bitmap scaledBitmap = BitmapFactory.decodeResource(res, R.mipmap.default_touxiang);
+//
+//            //        scaledBitmap为目标图像，10是缩放的倍数（越大模糊效果越高）
+//            Bitmap blurBitmap = FastBlurUtil.toBlur(scaledBitmap, scaleRatio);
+//            imgBg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//            imgBg.setImageBitmap(blurBitmap);
+//        }
     }
 
     @Override

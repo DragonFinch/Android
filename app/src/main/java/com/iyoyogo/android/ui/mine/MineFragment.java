@@ -41,6 +41,8 @@ import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.icondottextview.IconDotTextView;
 import com.iyoyogo.android.widget.CircleImageView;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -128,6 +130,26 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     @Override
     protected void initView() {
         super.initView();
+        final String pattern = "2";
+
+
+        int scaleRatio = 0;
+        if (TextUtils.isEmpty(pattern)) {
+            scaleRatio = 0;
+        } else if (scaleRatio < 0) {
+            scaleRatio = 10;
+        } else {
+            scaleRatio = Integer.parseInt(pattern);
+        }
+
+        //        获取需要被模糊的原图bitmap
+        Resources res = getResources();
+        Bitmap scaledBitmap = BitmapFactory.decodeResource(res, R.mipmap.img_bj);
+
+        //        scaledBitmap为目标图像，10是缩放的倍数（越大模糊效果越高）
+        Bitmap blurBitmap = FastBlurUtil.toBlur(scaledBitmap, scaleRatio);
+        myBgiIvId.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        myBgiIvId.setImageBitmap(blurBitmap);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色
             Window window = getActivity().getWindow();
@@ -192,7 +214,10 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
                 startActivity(new Intent(getContext(), Like_me_Activity.class));
                 break;
             case R.id.my_option_col_id:
-                startActivity(new Intent(getContext(), CollectionActivity.class));
+                Intent intent2 = new Intent(getContext(), CollectionActivity.class);
+                intent2.putExtra("collect", 2);
+                startActivity(intent2);
+//                startActivity(new Intent(getContext(), CollectionActivity.class));
                 break;
             case R.id.my_option_set_id:
                 startActivity(new Intent(getContext(), MineSettingActivity.class));
@@ -232,53 +257,8 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     public void getUserInfoSuccess(MineMessageBean.DataBean data) {
         //获取用户等级
         int user_level = data.getUser_level();
-        final String pattern = "2";
-        if (Patterns.WEB_URL.matcher(data.getUser_logo()).matches()) {
-            final String url =
-                    data.getUser_logo();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    int scaleRatio = 0;
-                    if (TextUtils.isEmpty(pattern)) {
-                        scaleRatio = 0;
-                    } else if (scaleRatio < 0) {
-                        scaleRatio = 10;
-                    } else {
-                        scaleRatio = Integer.parseInt(pattern);
-                    }
-                    //                        下面的这个方法必须在子线程中执行
-                    final Bitmap blurBitmap2 = FastBlurUtil.GetUrlBitmap(url, scaleRatio);
 
-                    //                        刷新ui必须在主线程中执行
-                    getActivity().runOnUiThread(new Runnable() {//这个是我自己封装的在主线程中刷新ui的方法。
-                        @Override
-                        public void run() {
-                            myBgiIvId.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                            myBgiIvId.setImageBitmap(blurBitmap2);
-                        }
-                    });
-                }
-            }).start();
-        } else {
-            int scaleRatio = 0;
-            if (TextUtils.isEmpty(pattern)) {
-                scaleRatio = 0;
-            } else if (scaleRatio < 0) {
-                scaleRatio = 10;
-            } else {
-                scaleRatio = Integer.parseInt(pattern);
-            }
 
-            //        获取需要被模糊的原图bitmap
-            Resources res = getResources();
-            Bitmap scaledBitmap = BitmapFactory.decodeResource(res, R.mipmap.default_touxiang);
-
-            //        scaledBitmap为目标图像，10是缩放的倍数（越大模糊效果越高）
-            Bitmap blurBitmap = FastBlurUtil.toBlur(scaledBitmap, scaleRatio);
-            myBgiIvId.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            myBgiIvId.setImageBitmap(blurBitmap);
-        }
 
         if (user_level == 1) {
             imgLevel.setVisibility(View.VISIBLE);
@@ -347,21 +327,4 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     public void punchClockSuccess(BaseBean baseBean) {
         mPresenter.getUserInfo(user_id, user_token);
     }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder1 = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder1.unbind();
-    }
-
-
 }

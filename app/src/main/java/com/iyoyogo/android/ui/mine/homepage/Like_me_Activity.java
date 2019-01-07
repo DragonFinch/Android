@@ -2,15 +2,18 @@ package com.iyoyogo.android.ui.mine.homepage;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -19,6 +22,7 @@ import com.iyoyogo.android.adapter.MineLikeAdapter;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.mine.PraiseBean;
 import com.iyoyogo.android.contract.MinePraiseContract;
+import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.presenter.MinePraisePresenter;
 import com.iyoyogo.android.ui.home.EditImageOrVideoActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
@@ -28,27 +32,33 @@ import com.iyoyogo.android.ui.mine.draft.DraftActivity;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.utils.imagepicker.activities.ImagesPickActivity;
+import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
 /**
  * 我的喜欢
  */
 public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter> implements MinePraiseContract.View {
 
+    @BindView(R.id.scroll)
+    ScrollView scroll;
     private Bitmap bitmap;
     @BindView(R.id.message_center_back_im_id)
     ImageView messageCenterBackImId;
@@ -76,12 +86,29 @@ public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter>
     LinearLayout likeLayout;
     private String user_id;
     private String user_token;
+    @BindView(R.id.refresh_layout)
+    SmartRefreshLayout refreshLayout;
+    MyRefreshAnimHeader mRefreshAnimHeader;
+    int currentPage = 1;
+    private MineLikeAdapter mineLikeAdapter;
+    private List<PraiseBean.DataBean.ListBean> mList;
+
+    /**
+     * 设置刷新header风格
+     *
+     * @param header
+     */
+    private void setHeader(RefreshHeader header) {
+        refreshLayout.setRefreshHeader(header);
+    }
 
     @Override
     protected void initView() {
         super.initView();
         StatusBarUtils.setWindowStatusBarColor(Like_me_Activity.this, R.color.white);
-
+        //初始化header
+        mRefreshAnimHeader = new MyRefreshAnimHeader(this);
+        setHeader(mRefreshAnimHeader);
     }
 
     @Override
@@ -92,10 +119,50 @@ public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter>
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        user_id = SpUtils.getString(Like_me_Activity.this, "user_id", null);
 
+        refreshLayout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
+        user_id = SpUtils.getString(Like_me_Activity.this, "user_id", null);
         user_token = SpUtils.getString(Like_me_Activity.this, "user_token", null);
-        mPresenter.getPraise(user_id, user_token, 1, 20);
+        mPresenter.getPraise(user_id, user_token, currentPage, 20);
+        //下拉刷新
+        refreshLayout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
+        refreshLayout.setEnableRefresh(true);
+        refreshLayout.setFooterHeight(1.0f);
+        refreshLayout.autoRefresh();
+        refreshLayout.finishRefresh(1050);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mList.clear();
+                refreshLayout.finishRefresh(1050);
+                mPresenter.getPraise(user_id, user_token, currentPage, 20);
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnRefreshLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                currentPage++;
+                Log.d("currentPage", "currentPage:" + currentPage);
+                DataManager.getFromRemote()
+                        .getPraise(user_id, user_token, currentPage, 20)
+                        .subscribe(new Consumer<PraiseBean>() {
+                            @Override
+                            public void accept(PraiseBean praiseBean) throws Exception {
+                                List<PraiseBean.DataBean.ListBean> list1 = praiseBean.getData().getList();
+                                mList.addAll(list1);
+                                if (mList != null) {
+                                    mineLikeAdapter.notifyItemInserted(mList.size());
+                                }
+                            }
+                        });
+
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+
+            }
+        });
     }
 
     @Override
@@ -107,7 +174,7 @@ public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter>
     @Override
     public void getPraiseSuccess(PraiseBean praiseBean) {
         List<PraiseBean.DataBean.ListBean> list = praiseBean.getData().getList();
-        List<PraiseBean.DataBean.ListBean> mList = new ArrayList<>();
+        mList = new ArrayList<>();
         if (list != null && list.size() > 0) {
             String file_path = list.get(0).getFile_path();
             int yo_type = list.get(0).getYo_type();
@@ -132,13 +199,12 @@ public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter>
                     }
                 }
             });
-
             Glide.with(this).load(file_path).into(img);
             for (int i = 1; i < list.size(); i++) {
                 mList.add(list.get(i));
             }
-            MineLikeAdapter mineLikeAdapter = new MineLikeAdapter(Like_me_Activity.this, mList);
-            likeMeRvId.setLayoutManager(new GridLayoutManager(Like_me_Activity.this, 3){
+            mineLikeAdapter = new MineLikeAdapter(Like_me_Activity.this, mList);
+            likeMeRvId.setLayoutManager(new GridLayoutManager(Like_me_Activity.this, 3) {
                 @Override
                 public boolean canScrollVertically() {
                     return false;
@@ -178,7 +244,6 @@ public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter>
             case R.id.message_center_back_im_id:
                 finish();
                 break;
-
             case R.id.publish_yoji:
                 PictureSelector.create(Like_me_Activity.this)
                         .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()

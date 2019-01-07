@@ -190,8 +190,8 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
                 }
             });
             ImageView imgView = getActivity().findViewById(R.id.img_view);
-            if (imgView.getDrawable().getCurrent().getConstantState().equals(ContextCompat.getDrawable(getContext(), R.mipmap.view2).getConstantState())) {
-                imgView.setImageResource(R.mipmap.view2);
+            if (imgView.getDrawable().getCurrent().getConstantState().equals(ContextCompat.getDrawable(getContext(), R.mipmap.view22).getConstantState())) {
+                imgView.setImageResource(R.mipmap.view22);
                 recyclerYoji.setAdapter(yoJiContentAdapter2);
                 recyclerYoji.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
                 yoJiContentAdapter2.setOnItemClickListener(new YoJiContentAdapter2.OnClickListener() {
@@ -204,7 +204,7 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
                     }
                 });
             }else {
-                imgView.setImageResource(R.mipmap.view1);
+                imgView.setImageResource(R.mipmap.view11);
                 recyclerYoji.setAdapter(yoJiCenterAdapter);
                 recyclerYoji.setLayoutManager(new LinearLayoutManager(getContext()));
                 yoJiCenterAdapter.setOnItemClickListener(new YoJiCenterAdapter.OnClickListener() {
@@ -249,7 +249,7 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
 
     @OnClick(R.id.tv_yoji)
     public void onViewClicked() {
-        PictureSelector.create(YoJiFragment.this)
+        PictureSelector.create(this)
                 .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
                 .maxSelectNum(9)// 最大图片选择数量 int
                 .minSelectNum(1)// 最小选择数量 int

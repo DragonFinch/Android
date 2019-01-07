@@ -410,53 +410,53 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
             tvGuanzhu.setTextColor(Color.parseColor("#888888"));
         }
 
-        final String pattern = "2";
-        if (Patterns.WEB_URL.matcher(data.getUser_logo()).matches()) {
-            final String url =
-                    data.getUser_logo();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    int scaleRatio = 0;
-                    if (TextUtils.isEmpty(pattern)) {
-                        scaleRatio = 0;
-                    } else if (scaleRatio < 0) {
-                        scaleRatio = 10;
-                    } else {
-                        scaleRatio = Integer.parseInt(pattern);
-                    }
-                    //                        下面的这个方法必须在子线程中执行
-                    final Bitmap blurBitmap2 = FastBlurUtil.GetUrlBitmap(url, scaleRatio);
-
-                    //                        刷新ui必须在主线程中执行
-                    runOnUiThread(new Runnable() {//这个是我自己封装的在主线程中刷新ui的方法。
-                        @Override
-                        public void run() {
-                            imgBg.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                            imgBg.setImageBitmap(blurBitmap2);
-                        }
-                    });
-                }
-            }).start();
-        } else {
-            int scaleRatio = 0;
-            if (TextUtils.isEmpty(pattern)) {
-                scaleRatio = 0;
-            } else if (scaleRatio < 0) {
-                scaleRatio = 10;
-            } else {
-                scaleRatio = Integer.parseInt(pattern);
-            }
-
-            //        获取需要被模糊的原图bitmap
-            Resources res = getResources();
-            Bitmap scaledBitmap = BitmapFactory.decodeResource(res, R.mipmap.default_touxiang);
-
-            //        scaledBitmap为目标图像，10是缩放的倍数（越大模糊效果越高）
-            Bitmap blurBitmap = FastBlurUtil.toBlur(scaledBitmap, scaleRatio);
-            imgBg.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imgBg.setImageBitmap(blurBitmap);
-        }
+//        final String pattern = "2";
+//        if (Patterns.WEB_URL.matcher(data.getUser_logo()).matches()) {
+//            final String url =
+//                    data.getUser_logo();
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    int scaleRatio = 0;
+//                    if (TextUtils.isEmpty(pattern)) {
+//                        scaleRatio = 0;
+//                    } else if (scaleRatio < 0) {
+//                        scaleRatio = 10;
+//                    } else {
+//                        scaleRatio = Integer.parseInt(pattern);
+//                    }
+//                    //                        下面的这个方法必须在子线程中执行
+//                    final Bitmap blurBitmap2 = FastBlurUtil.GetUrlBitmap(url, scaleRatio);
+//
+//                    //                        刷新ui必须在主线程中执行
+//                    runOnUiThread(new Runnable() {//这个是我自己封装的在主线程中刷新ui的方法。
+//                        @Override
+//                        public void run() {
+//                            imgBg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                            imgBg.setImageBitmap(blurBitmap2);
+//                        }
+//                    });
+//                }
+//            }).start();
+//        } else {
+//            int scaleRatio = 0;
+//            if (TextUtils.isEmpty(pattern)) {
+//                scaleRatio = 0;
+//            } else if (scaleRatio < 0) {
+//                scaleRatio = 10;
+//            } else {
+//                scaleRatio = Integer.parseInt(pattern);
+//            }
+//
+//            //        获取需要被模糊的原图bitmap
+//            Resources res = getResources();
+//            Bitmap scaledBitmap = BitmapFactory.decodeResource(res, R.mipmap.default_touxiang);
+//
+//            //        scaledBitmap为目标图像，10是缩放的倍数（越大模糊效果越高）
+//            Bitmap blurBitmap = FastBlurUtil.toBlur(scaledBitmap, scaleRatio);
+//            imgBg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//            imgBg.setImageBitmap(blurBitmap);
+//        }
     }
 
 
@@ -472,7 +472,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
     }
 
 
-    @OnClick({R.id.img_back, R.id.my_collection, R.id.get_hisFans, R.id.tv_guanzhu, R.id.collect, R.id.img_view})
+    @OnClick({R.id.img_back, R.id.my_collection, R.id.get_hisFans, R.id.tv_guanzhu, R.id.collect, R.id.img_view, R.id.img_share})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -516,12 +516,12 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
 //                    if (flag == false) {
 //                        flag = true;
                     recyclerYoji = getSupportFragmentManager().findFragmentById(R.id.frame_container).getView().findViewById(R.id.recycler_yoji);
-                    if (imgView.getDrawable().getCurrent().getConstantState().equals(ContextCompat.getDrawable(this, R.mipmap.view2).getConstantState())) {
-                        imgView.setImageResource(R.mipmap.view1);
+                    if (imgView.getDrawable().getCurrent().getConstantState().equals(ContextCompat.getDrawable(this, R.mipmap.view22).getConstantState())) {
+                        imgView.setImageResource(R.mipmap.view11);
                         recyclerYoji.setLayoutManager(new LinearLayoutManager(this));
                         recyclerYoji.setAdapter(YoJiFragment.yoJiCenterAdapter);
                     } else {
-                        imgView.setImageResource(R.mipmap.view2);
+                        imgView.setImageResource(R.mipmap.view22);
                         recyclerYoji.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
                         recyclerYoji.setAdapter(YoJiFragment.yoJiContentAdapter2);
                     }
@@ -547,9 +547,12 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
 //                        recyclerYoji.setAdapter(YoJiFragment.yoJiCenterAdapter);
 //                        YoJiFragment.yoJiCenterAdapter.notifyDataSetChanged();
 //                }
+                }
+                break;
+            case R.id.img_share:
+                share();
+                break;
         }
-        break;
     }
-}
 
 }

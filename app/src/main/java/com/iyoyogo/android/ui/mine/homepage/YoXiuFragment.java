@@ -183,7 +183,7 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
 
     @OnClick(R.id.tv_yoxiu)
     public void onViewClicked() {
-        PictureSelector.create(YoXiuFragment.this)
+        PictureSelector.create(this)
                 .openGallery(PictureMimeType.ofAll())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
                 .imageSpanCount(3)// 每行显示个数 int
                 .selectionMode(PictureConfig.SINGLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -38,42 +38,48 @@
         android:layout_below="@+id/bar"
         android:background="@color/F1F1F1" />
 
-    <ScrollView
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/line">
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/img"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_212"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/sea"
-        android:visibility="visible" />
+        android:background="@color/white">
 
-    <ImageView
-        android:id="@+id/ic_video"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="99dp"
-        android:src="@mipmap/ic_video"
-        android:visibility="visible" />
+        <ScrollView
+            android:id="@+id/scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/line">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/img"
-        android:id="@+id/like_me_rv_id"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+                <ImageView
+                    android:id="@+id/img"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_212"
+                    android:scaleType="centerCrop"
+                    android:visibility="visible" />
 
-</RelativeLayout>
+                <ImageView
+                    android:id="@+id/ic_video"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="99dp"
+                    android:visibility="visible" />
+                <!--android:src="@mipmap/ic_video"-->
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/like_me_rv_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/img" />
+            </RelativeLayout>
+        </ScrollView>
 
-    </ScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     <include
         android:id="@+id/like_layout"
@@ -83,4 +89,4 @@
         android:layout_below="@+id/bar"
         android:visibility="gone" />
 
-</RelativeLayout>
+</LinearLayout>

@@ -28,7 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/sea" />
+                    android:src="@mipmap/img_bg" />
 
                 <ImageView
                     android:id="@+id/img_back"
@@ -329,11 +329,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_15"
                 android:layout_marginRight="@dimen/dp_10"
-                android:background="@color/c888888"
                 android:padding="5dp"
-                android:src="@mipmap/view1" />
+                android:src="@mipmap/view11" />
             </RadioGroup>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#F1F1F1"/>
             <FrameLayout
                 android:id="@+id/frame_container"
                 android:layout_width="match_parent"

@@ -92,8 +92,6 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
         } else {
             RequestOptions requestOptions = new RequestOptions();
             requestOptions.placeholder(R.mipmap.default_touxiang).error(R.mipmap.default_touxiang);
-
-
             Log.d("YoJiListHorizontalAdapt", "mList.get(position).getUsers_praise().size():" + mList.get(position).getUsers_praise().size());
             if (mList.get(position).getUsers_praise().size() <= 10) {
                 List<String> user_icons = new ArrayList<>();
@@ -115,8 +113,8 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
                             context.startActivity(intent);
                         }
                     });
+                    Log.d("YoJiListHorizontalAdapt", "user_icons.size():" + user_icons.size());
                 }
-                Log.d("YoJiListHorizontalAdapt", "user_icons.size():" + user_icons.size());
             } else {
                 List<YoJiListBean.DataBean.ListBean.UsersPraiseBean> user_icons = new ArrayList<>();
                 user_icons.clear();
@@ -349,7 +347,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-        ImageView zuji_image, typeImageView, dt_like, index_look_icon, more_img,medal,img_level;
+        ImageView zuji_image, typeImageView, dt_like, index_look_icon, more_img, medal, img_level;
         CircleImageView user_icon;
         TextView num_look, location_end, user_name, title, tv_cost, location, tv_day, tv_num_like, tv_num_comment;
         RelativeLayout view_like;

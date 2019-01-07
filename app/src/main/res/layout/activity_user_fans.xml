@@ -69,6 +69,11 @@
                 android:text="@string/his_fans" />
         </RadioGroup>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F1F1F1" />
+
         <FrameLayout
             android:id="@+id/fragment"
             android:layout_width="match_parent"

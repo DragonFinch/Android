@@ -122,7 +122,7 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
         user_id = SpUtils.getString(this, "user_id", null);
         user_token = SpUtils.getString(this, "user_token", null);
         mPresenter.getCommentList(user_id, user_token, 1, id1, 0);
-//        mPresenter.getDetail(user_id, user_token, id1);
+        mPresenter.getDetail(user_id, user_token, id1);
         editComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             @Override
