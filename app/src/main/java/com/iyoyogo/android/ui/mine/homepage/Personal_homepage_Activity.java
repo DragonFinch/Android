@@ -344,7 +344,7 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
         yoXiuFragment.setArguments(bundle);
 //        fragments.add(yoJiFragment);
 //        fragments.add(yoXiuFragment);
-        switchContent(yoJiFragment,yoXiuFragment);
+        switchContent(yoXiuFragment,yoJiFragment);
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -352,11 +352,11 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
                 switch (checkedId){
                     case R.id.rb_yoji:
                         imgView.setVisibility(View.VISIBLE);
-                        switchContent(yoJiFragment,yoXiuFragment);
+                        switchContent(yoXiuFragment,yoJiFragment);
                         break;
                     case R.id.rb_yoxiu:
                         imgView.setVisibility(View.GONE);
-                        switchContent(yoXiuFragment,yoJiFragment);
+                        switchContent(yoJiFragment,yoXiuFragment);
                         break;
                 }
             }

@@ -303,7 +303,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
         yoXiuFragment.setArguments(bundle);
 //        fragments.add(yoJiFragment);
 //        fragments.add(yoXiuFragment);
-        switchContent(yoJiFragment,yoXiuFragment);
+        switchContent(yoXiuFragment,yoJiFragment);
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
