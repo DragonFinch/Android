@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -25,6 +26,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.search.SearchListViewAdapter;
 import com.iyoyogo.android.base.BaseActivity;
@@ -33,6 +35,7 @@ import com.iyoyogo.android.bean.search.User;
 import com.iyoyogo.android.contract.MapSearchContract;
 import com.iyoyogo.android.presenter.MapSearchPresenter;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.StatusBarUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -95,6 +98,8 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
     @Override
     protected void initView() {
         super.initView();
+        StatusBarUtil.setStatusBarLayoutStyle(DiTuActivity.this,true);
+        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.holo_orange_dark));
         InlandMapFragment inlandMapFragment = new InlandMapFragment();
         ForeignMapFragment foreignMapFragment = new ForeignMapFragment();
         list1.add(inlandMapFragment);
@@ -122,7 +127,7 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
 
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+   /*     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色
             Window window = getWindow();
             View decorView = window.getDecorView();
@@ -142,7 +147,7 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
             //int flagTranslucentNavigation = WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
             //attributes.flags |= flagTranslucentNavigation;
             window.setAttributes(attributes);
-        }
+        }*/
 
         initView1();
         initEvent();
@@ -303,19 +308,29 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
         ButterKnife.bind(this);
         //setSystemBarTransparent();
 
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            // 透明状态栏
-            getWindow().addFlags(
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            // 透明导航栏
-            getWindow().addFlags(
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            //隐藏状态栏
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            //5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色
+            Window window =getWindow();
+            View decorView = window.getDecorView();
+            //两个 flag 要结合使用，表示让应用的主体内容占用系统状态栏的空间
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+            //导航栏颜色也可以正常设置
+            //window.setNavigationBarColor(Color.TRANSPARENT);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = getWindow();
+            WindowManager.LayoutParams attributes = window.getAttributes();
+            int flagTranslucentStatus = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+            attributes.flags |= flagTranslucentStatus;
+            //int flagTranslucentNavigation = WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
+            //attributes.flags |= flagTranslucentNavigation;
+            window.setAttributes(attributes);
         }
+
+
 
     }
 

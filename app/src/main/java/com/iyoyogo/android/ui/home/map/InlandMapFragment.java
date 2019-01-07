@@ -73,7 +73,7 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
     @SuppressLint("HandlerLeak")
     private Handler handler;
     //文件名称
-    private final static String CityFileName = "allcity.json";
+    private final static String CityFileName = "allcitya.json";
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
 
@@ -287,15 +287,17 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
                 cityEntity.setPinyin(pinyin);
                 cityEntity.setFirst(first);
                 cityEntity.setCityCode(cityCode);
-
+                Log.e("qweqeqewqeqqqqq", "initTotalCityList: "+array.toString() );
                 if (key.equals("热门")) {
                     hotCityList.add(cityEntity);
+                    Log.e("tTotalCityList", "initTotalCityList: "+hotCityList.get(0).getName() );
                 } else {
-               /*  if (!cityEntity.getKey().equals("0") && !cityEntity.getKey().equals("1")) {
+                 if (!cityEntity.getKey().equals("0") && !cityEntity.getKey().equals("1")) {
                         curCityList.add(cityEntity);
-                    } */
+                     Log.e("tTotalCityList", "initTotalCityList: "+curCityList.get(0).getName() );
+                    }
                     totalCityList.add(cityEntity);
-//                    Log.e("initTotalCityList", "initTotalCityList: "+totalCityList.get(0).getName() );
+                   Log.e("tTotalCityList", "initTotalCityList: "+totalCityList.get(0).getName() );
                 }
             }
         } catch (JSONException e) {
@@ -306,7 +308,6 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
 
     private void initView1() {
         ViewBinder.bind(getActivity());
-
        /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             mToolbar.setPadding(0, 0, 0, 0);
         }*/

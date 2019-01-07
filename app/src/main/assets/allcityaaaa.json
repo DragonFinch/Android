@@ -1,20 +1,6 @@
 {
   "City": [
     {
-      "name": "定位",
-      "key": "0",
-      "first": "",
-      "full": "",
-      "code": ""
-    },
-    {
-      "name": "热门",
-      "key": "1",
-      "first": "",
-      "full": "",
-      "code": ""
-    },
-    {
       "name": "首尔",
       "key": "热门",
       "first": "se",
@@ -149,73 +135,31 @@
     },
     {
       "code": "3408",
-      "name": "阿德莱德",
+      "name": "艾达县",
       "key": "A",
       "first": "aqs",
       "full": "anqing"
     },
     {
       "code": "2103",
-      "name": "艾肯县",
+      "name": "阿尔马",
       "key": "A",
       "first": "ass",
       "full": "anshan"
     },
     {
       "code": "5204",
-      "name": "阿克伦市",
+      "name": "亚罗牙也",
       "key": "A",
       "first": "ass",
       "full": "anshun"
     },
     {
       "code": "4105",
-      "name": "阿拉米达市",
+      "name": "阿尔法利塔市",
       "key": "A",
       "first": "ays",
       "full": "anyang"
-    },
-    {
-      "code": "8200",
-      "name": "阿尔伯克基市",
-      "key": "A",
-      "first": "am",
-      "full": "aomen"
-    },
-    {
-      "code": "8200",
-      "name": "亚历山大市",
-      "key": "A",
-      "first": "am",
-      "full": "aomen"
-    },
-    {
-      "code": "8200",
-      "name": "阿罕布拉市",
-      "key": "A",
-      "first": "am",
-      "full": "aomen"
-    },
-    {
-      "code": "8200",
-      "name": "阿尔冈琴小镇",
-      "key": "A",
-      "first": "am",
-      "full": "aomen"
-    },
-    {
-      "code": "8200",
-      "name": "阿尔法利塔市",
-      "key": "A",
-      "first": "am",
-      "full": "aomen"
-    },
-    {
-      "code": "8200",
-      "name": "阿尔冈琴小镇",
-      "key": "A",
-      "first": "am",
-      "full": "aomen"
     },
     {
       "code": "8200",
@@ -233,6 +177,13 @@
     },
     {
       "code": "8200",
+      "name": "阿默斯特镇",
+      "key": "A",
+      "first": "am",
+      "full": "aomen"
+    },
+    {
+      "code": "8200",
       "name": "阿纳海姆市",
       "key": "A",
       "first": "am",
@@ -240,7 +191,7 @@
     },
     {
       "code": "8200",
-      "name": "安德森市",
+      "name": "安克雷奇市",
       "key": "A",
       "first": "am",
       "full": "aomen"
@@ -275,13 +226,6 @@
     },
     {
       "code": "8200",
-      "name": "安阿伯市",
-      "key": "A",
-      "first": "am",
-      "full": "aomen"
-    },
-    {
-      "code": "8200",
       "name": "阿内阿伦德尔县",
       "key": "A",
       "first": "am",
@@ -303,7 +247,21 @@
     },
     {
       "code": "8200",
+      "name": "安蒂戈尼什",
+      "key": "A",
+      "first": "am",
+      "full": "aomen"
+    },
+    {
+      "code": "8200",
       "name": "安条克市",
+      "key": "A",
+      "first": "am",
+      "full": "aomen"
+    },
+    {
+      "code": "8200",
+      "name": "安养市",
       "key": "A",
       "first": "am",
       "full": "aomen"
@@ -317,7 +275,35 @@
     },
     {
       "code": "8200",
+      "name": "阿普尔瓦利市",
+      "key": "A",
+      "first": "am",
+      "full": "aomen"
+    },
+    {
+      "code": "8200",
+      "name": "苹果谷镇",
+      "key": "A",
+      "first": "am",
+      "full": "aomen"
+    },
+    {
+      "code": "8200",
       "name": "阿普尔顿市",
+      "key": "A",
+      "first": "am",
+      "full": "aomen"
+    },
+    {
+      "code": "8200",
+      "name": "阿拉帕霍县",
+      "key": "A",
+      "first": "am",
+      "full": "aomen"
+    },
+    {
+      "code": "8200",
+      "name": "阿卡迪亚市",
       "key": "A",
       "first": "am",
       "full": "aomen"
@@ -366,84 +352,71 @@
     },
     {
       "code": "8200",
-      "name": "埃文小镇",
+      "name": "北极湾",
       "key": "A",
       "first": "am",
       "full": "aomen"
     },
     {
       "code": "8200",
-      "name": "埃文代尔市",
+      "name": "贝克湖",
       "key": "A",
       "first": "am",
       "full": "aomen"
     },
-    {
-      "code": "8200",
-      "name": "北极红河",
-      "key": "A",
-      "first": "am",
-      "full": "aomen"
-    },
-    {
-      "code": "8203",
-      "name": "埃文小镇",
-      "key": "A",
-      "first": "am",
-      "full": "aomen"
-    },
+
     {
       "code": "8204",
-      "name": "亚特兰大市",
+      "name": "贝克斯菲尔德市",
       "key": "A",
       "first": "am",
       "full": "yatelan"
     },
     {
       "code": "2208",
-      "name": "巴比伦镇",
+      "name": "鲍德温县",
       "key": "B",
       "first": "bcs",
       "full": "baicheng"
     },
     {
       "code": "4510",
-      "name": "登卓",
+      "name": "鲍德温公园市",
       "key": "B",
       "first": "bss",
       "full": "baise"
     },
     {
       "code": "2206",
-      "name": "贝克湖",
+      "name": "班戈",
       "key": "B",
       "first": "bss",
       "full": "baishan"
     },
     {
       "code": "6204",
-      "name": "贝克斯菲尔德市",
+      "name": "巴恩斯特布尔县",
       "key": "B",
       "first": "bys",
       "full": "baiyin"
     },
     {
       "code": "3403",
-      "name": "鲍德温县",
+      "name": "巴特利特市",
       "key": "B",
       "first": "bbs",
       "full": "bangbu"
     },
     {
       "code": "1306",
-      "name": "巴尔的摩市",
+      "name": "巴斯特罗普县",
       "key": "B",
       "first": "bds",
       "full": "baoding"
     },
     {
       "code": "6103",
-      "name": "巴特利特市",
+      "name": "巴约讷市",
       "key": "B",
       "first": "bjs",
       "full": "baoji"
@@ -562,7 +535,7 @@
     },
     {
       "code": "3416",
-      "name": "蓝泉市",
+      "name": "贝尔维尤市",
       "key": "B",
       "first": "bzs",
       "full": "bozhou"
@@ -679,7 +652,84 @@
       "first": "bzs",
       "full": "bozhou"
     },
+    {
+      "code": "3416",
+      "name": "本德市",
+      "key": "B",
+      "first": "bzs",
+      "full": "bozhou"
+    },
 
+    {
+      "code": "1309",
+      "name": "百乐",
+      "key": "B",
+      "first": "czs",
+      "full": "cangzhou"
+    },
+    {
+      "code": "1309",
+      "name": "柏克夏县",
+      "key": "B",
+      "first": "czs",
+      "full": "cangzhou"
+    },
+    {
+      "code": "1309",
+      "name": "伯温小镇",
+      "key": "B",
+      "first": "czs",
+      "full": "cangzhou"
+    },
+    {
+      "code": "1309",
+      "name": "伯明翰市",
+      "key": "B",
+      "first": "czs",
+      "full": "cangzhou"
+    },
+    {
+      "code": "1309",
+      "name": "保宁市",
+      "key": "B",
+      "first": "czs",
+      "full": "cangzhou"
+    },
+    {
+      "code": "1309",
+      "name": "鲍灵格林市",
+      "key": "B",
+      "first": "czs",
+      "full": "cangzhou"
+    },
+    {
+      "code": "1309",
+      "name": "布拉佐里亚县",
+      "key": "B",
+      "first": "czs",
+      "full": "cangzhou"
+    },
+    {
+      "code": "1309",
+      "name": "不来梅小镇",
+      "key": "B",
+      "first": "czs",
+      "full": "cangzhou"
+    },
+    {
+      "code": "1309",
+      "name": "布里克小镇",
+      "key": "B",
+      "first": "czs",
+      "full": "cangzhou"
+    },
+    {
+      "code": "1309",
+      "name": "布里奇波特市",
+      "key": "B",
+      "first": "czs",
+      "full": "cangzhou"
+    },
     {
       "code": "1309",
       "name": "查尔斯顿市",

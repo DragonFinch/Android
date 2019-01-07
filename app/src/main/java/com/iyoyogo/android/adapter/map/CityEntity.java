@@ -1,5 +1,7 @@
 package com.iyoyogo.android.adapter.map;
 
+import me.yokeyword.indexablerv.PinyinUtil;
+
 /**
  * Created by fySpring
  * Date : 2017/8/21
@@ -51,5 +53,7 @@ public class CityEntity {
 
     public void setCityCode(String cityCode) {
         this.cityCode = cityCode;
+
     }
+
 }

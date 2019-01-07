@@ -6,22 +6,24 @@
     android:orientation="vertical">
 
     <TextView
+        android:text="A"
         android:id="@+id/city_key_tv"
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="30dp"
         android:background="@color/mainGray"
         android:gravity="center_vertical"
-        android:paddingLeft="32dp"
+        android:paddingLeft="20dp"
         android:paddingRight="32dp"
         android:textColor="@color/gray_9"
         android:textSize="14sp" />
 
     <TextView
+        android:text="B"
         android:id="@+id/city_name_tv"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
         android:gravity="center_vertical"
-        android:paddingLeft="20dp"
+        android:paddingLeft="24dp"
         android:paddingRight="20dp"
         android:textColor="@color/gray_6"
         android:textSize="15sp" />

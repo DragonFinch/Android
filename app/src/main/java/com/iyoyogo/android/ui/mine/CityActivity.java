@@ -3,6 +3,7 @@ package com.iyoyogo.android.ui.mine;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -11,10 +12,13 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.MyAdapter;
 import com.iyoyogo.android.ui.mine.fragment.GuiJiFragment;
 import com.iyoyogo.android.ui.mine.fragment.GuoMeiFragment;
+import com.iyoyogo.android.utils.StatusBarUtil;
+import com.iyoyogo.android.utils.StatusBarUtils;
 
 import java.util.ArrayList;
 
@@ -45,7 +49,9 @@ public class CityActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chengshi);
+        //StatusBarUtils.setStatusBarLightMode(CityActivity.this);
         ButterKnife.bind(this);
+        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
 
         Intent intent = getIntent();
         name = intent.getStringExtra("name");

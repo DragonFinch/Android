@@ -285,6 +285,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EditPersonalMessageActivity.this, CityActivity.class);
+                intent.putExtra("name",citytextView.getText().toString());
                 startActivityForResult(intent, 1);
             }
         });

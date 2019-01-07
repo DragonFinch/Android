@@ -24,6 +24,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="AppTheme1" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#FA800A</item>
+        <item name="colorPrimaryDark">#FA800A</item>
+        <item name="colorAccent">#FA800A</item>
 
     </style>
     <style name="loginStyle">
@@ -42,6 +48,13 @@
     <style name="LauncherTheme">
         <item name="android:windowBackground">@drawable/welcome2</item>
     </style>
+    <style name="AppTheme12" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">#FA800A</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
     <!-- tab指示器的自定义参数 -->
     <declare-styleable name="PagerSlidingTabStrip" >
         <attr name="pstsIndicatorColor" format="color" />

@@ -43,7 +43,7 @@
       "code": "5101"
     },
     {
-      "name": "青岛",
+      "name": "青海",
       "key": "热门",
       "first": "hz",
       "full": "hangzhou",
@@ -56,20 +56,19 @@
       "full": "guangzhou",
       "code": "4401"
     },
-
     {
       "name": "南京",
-      "key": "热门",
-      "first": "nj",
-      "full": "nanjing",
-      "code": "3201"
-    },
-    {
-      "name": "杭州",
       "key": "热门",
       "first": "sz",
       "full": "suzhou",
       "code": "5132"
+    },
+    {
+      "name": "杭州",
+      "key": "热门",
+      "first": "nj",
+      "full": "nanjing",
+      "code": "3201"
     },
     {
       "name": "厦门",
@@ -191,85 +190,57 @@
       "full": "alidiqu"
     },
     {
-      "code": "6109",
-      "name": "安康",
-      "key": "A",
-      "first": "aks",
-      "full": "ankang"
-    },
-    {
-      "code": "3408",
-      "name": "安庆",
-      "key": "A",
-      "first": "aqs",
-      "full": "anqing"
-    },
-    {
-      "code": "2103",
-      "name": "鞍山",
-      "key": "A",
-      "first": "ass",
-      "full": "anshan"
-    },
-    {
-      "code": "5204",
-      "name": "安顺",
-      "key": "A",
-      "first": "ass",
-      "full": "anshun"
-    },
-    {
-      "code": "4105",
-      "name": "安阳",
-      "key": "A",
-      "first": "ays",
-      "full": "anyang"
-    },
-    {
       "code": "8200",
-      "name": "澳门",
+      "name": "阿拉尔市",
       "key": "A",
       "first": "am",
       "full": "aomen"
     },
     {
       "code": "2208",
-      "name": "白城",
+      "name": "白城市",
       "key": "B",
       "first": "bcs",
       "full": "baicheng"
     },
     {
       "code": "4510",
-      "name": "百色",
+      "name": "百色市",
       "key": "B",
       "first": "bss",
       "full": "baise"
     },
     {
       "code": "2206",
-      "name": "白山",
+      "name": "白沙黎族自治县",
       "key": "B",
       "first": "bss",
       "full": "baishan"
     },
     {
       "code": "6204",
-      "name": "白银",
+      "name": "白山市",
+      "key": "B",
+      "first": "bys",
+      "full": "baiyin"
+    },
+    {
+      "code": "6204",
+      "name": "白银市",
       "key": "B",
       "first": "bys",
       "full": "baiyin"
     },
     {
       "code": "3403",
-      "name": "蚌埠",
+      "name": "蚌埠市",
       "key": "B",
       "first": "bbs",
       "full": "bangbu"
     },
     {
       "code": "1306",
-      "name": "保定",
+      "name": "保定市",
       "key": "B",
       "first": "bds",
       "full": "baoding"
@@ -297,14 +268,14 @@
     },
     {
       "code": "1502",
-      "name": "包头",
+      "name": "包头市",
       "key": "B",
       "first": "bts",
       "full": "baotou"
     },
     {
       "code": "1508",
-      "name": "巴彦淖尔",
+      "name": "巴彦淖尔市",
       "key": "B",
       "first": "bynes",
       "full": "bayannaoer"
@@ -318,42 +289,42 @@
     },
     {
       "code": "5119",
-      "name": "巴中",
+      "name": "巴中市",
       "key": "B",
       "first": "bzs",
       "full": "bazhong"
     },
     {
       "code": "4505",
-      "name": "北海",
+      "name": "北海市",
       "key": "B",
       "first": "bhs",
       "full": "beihai"
     },
     {
       "code": "11",
-      "name": "北京",
+      "name": "北京市",
       "key": "B",
       "first": "bjs",
       "full": "beijing"
     },
     {
       "code": "2105",
-      "name": "本溪",
+      "name": "本溪市",
       "key": "B",
       "first": "bxs",
       "full": "benxi"
     },
     {
       "code": "5224",
-      "name": "毕节地区",
+      "name": "毕节市",
       "key": "B",
       "first": "bjdq",
       "full": "bijiediqu"
     },
     {
       "code": "3716",
-      "name": "滨州",
+      "name": "滨州市",
       "key": "B",
       "first": "bzs",
       "full": "binzhou"
@@ -367,28 +338,35 @@
     },
     {
       "code": "3416",
-      "name": "亳州",
+      "name": "亳州市",
       "key": "B",
       "first": "bzs",
       "full": "bozhou"
     },
     {
       "code": "1309",
-      "name": "沧州",
+      "name": "沧州市",
       "key": "C",
       "first": "czs",
       "full": "cangzhou"
     },
     {
       "code": "2201",
-      "name": "长春",
+      "name": "长春市",
       "key": "C",
       "first": "ccs",
       "full": "changchun"
     },
     {
       "code": "4307",
-      "name": "常德",
+      "name": "常德市",
+      "key": "C",
+      "first": "cds",
+      "full": "changde"
+    },
+    {
+      "code": "4307",
+      "name": "彰化县",
       "key": "C",
       "first": "cds",
       "full": "changde"
@@ -409,84 +387,91 @@
     },
     {
       "code": "4301",
-      "name": "长沙",
+      "name": "长沙市",
       "key": "C",
       "first": "css",
       "full": "changsha"
     },
     {
       "code": "1404",
-      "name": "长治",
+      "name": "长治市",
       "key": "C",
       "first": "czs",
       "full": "changzhi"
     },
     {
       "code": "3204",
-      "name": "常州",
+      "name": "常州市",
       "key": "C",
       "first": "czs",
       "full": "changzhou"
     },
     {
       "code": "2113",
-      "name": "朝阳",
+      "name": "朝阳市",
       "key": "C",
       "first": "cys",
       "full": "chaoyang"
     },
     {
       "code": "4451",
-      "name": "潮州",
+      "name": "潮州市",
       "key": "C",
       "first": "czs",
       "full": "chaozhou"
     },
     {
       "code": "1308",
-      "name": "承德",
+      "name": "承德市",
       "key": "C",
       "first": "cds",
       "full": "chengde"
     },
     {
       "code": "5101",
-      "name": "成都",
+      "name": "成都市",
+      "key": "C",
+      "first": "cds",
+      "full": "chengdu"
+    },
+    {
+      "code": "5101",
+      "name": "澄迈县",
       "key": "C",
       "first": "cds",
       "full": "chengdu"
     },
     {
       "code": "4310",
-      "name": "郴州",
+      "name": "郴州市",
       "key": "C",
       "first": "czs",
       "full": "chenzhou"
     },
     {
       "code": "1504",
-      "name": "赤峰",
+      "name": "赤峰市",
       "key": "C",
       "first": "cfs",
       "full": "chifeng"
     },
     {
       "code": "3417",
-      "name": "池州",
+      "name": "池州市",
       "key": "C",
       "first": "czs",
       "full": "chizhou"
     },
     {
       "code": "50",
-      "name": "重庆",
+      "name": "重庆市",
       "key": "C",
       "first": "cqs",
       "full": "chongqing"
     },
     {
       "code": "4514",
-      "name": "崇左",
+      "name": "崇左市",
       "key": "C",
       "first": "czs",
       "full": "chongzuo"
@@ -500,18 +485,19 @@
     },
     {
       "code": "3411",
-      "name": "滁州",
+      "name": "滁州市",
       "key": "C",
       "first": "czs",
       "full": "chuzhou"
     },
     {
-      "code": "2102",
-      "name": "大连",
-      "key": "D",
-      "first": "dls",
-      "full": "dalian"
+      "code": "3411",
+      "name": "大兴安岭地区",
+      "key": "C",
+      "first": "czs",
+      "full": "chuzhou"
     },
+
     {
       "code": "5329",
       "name": "大理白族自治州",
@@ -520,36 +506,36 @@
       "full": "dalibaizuzizhizhou"
     },
     {
+      "code": "2102",
+      "name": "大连市",
+      "key": "D",
+      "first": "dls",
+      "full": "dalian"
+    },
+    {
       "code": "2106",
-      "name": "丹东",
+      "name": "丹东市",
       "key": "D",
       "first": "dds",
       "full": "dandong"
     },
     {
       "code": "2306",
-      "name": "大庆",
+      "name": "大庆市",
       "key": "D",
       "first": "dqs",
       "full": "daqing"
     },
     {
       "code": "1402",
-      "name": "大同",
+      "name": "大同市",
       "key": "D",
       "first": "dts",
       "full": "datong"
     },
     {
-      "code": "2327",
-      "name": "大兴安岭地区",
-      "key": "D",
-      "first": "dxaldq",
-      "full": "daxinganlingdiqu"
-    },
-    {
       "code": "5117",
-      "name": "达州",
+      "name": "达州市",
       "key": "D",
       "first": "dzs",
       "full": "dazhou"
@@ -563,21 +549,21 @@
     },
     {
       "code": "5106",
-      "name": "德阳",
+      "name": "德阳市",
       "key": "D",
       "first": "dys",
       "full": "deyang"
     },
     {
       "code": "3714",
-      "name": "德州",
+      "name": "德州市",
       "key": "D",
       "first": "dzs",
       "full": "dezhou"
     },
     {
       "code": "6211",
-      "name": "定西",
+      "name": "定西市",
       "key": "D",
       "first": "dxs",
       "full": "dingxi"
@@ -590,18 +576,18 @@
       "full": "diqingzangzuzizhizhou"
     },
     {
+      "code": "5334",
+      "name": "东莞市",
+      "key": "D",
+      "first": "dqzzzzz",
+      "full": "diqingzangzuzizhizhou"
+    },
+    {
       "code": "3705",
-      "name": "东营",
+      "name": "东营市",
       "key": "D",
       "first": "dys",
       "full": "dongying"
-    },
-    {
-      "code": "4419",
-      "name": "东莞",
-      "key": "D",
-      "first": "dzs",
-      "full": "dongzuo"
     },
     {
       "code": "1506",
@@ -633,42 +619,42 @@
     },
     {
       "code": "4406",
-      "name": "佛山",
+      "name": "佛山市",
       "key": "F",
       "first": "fss",
       "full": "foshan"
     },
     {
       "code": "2104",
-      "name": "抚顺",
+      "name": "抚顺市",
       "key": "F",
       "first": "fss",
       "full": "fushun"
     },
     {
       "code": "2109",
-      "name": "阜新",
+      "name": "阜新市",
       "key": "F",
       "first": "fxs",
       "full": "fuxin"
     },
     {
       "code": "3412",
-      "name": "阜阳",
+      "name": "阜阳市",
       "key": "F",
       "first": "fys",
       "full": "fuyang"
     },
     {
       "code": "3501",
-      "name": "福州",
+      "name": "福州市",
       "key": "F",
       "first": "fzs",
       "full": "fuzhou"
     },
     {
       "code": "3610",
-      "name": "抚州",
+      "name": "抚州市",
       "key": "F",
       "first": "fzs",
       "full": "fuzhou"
@@ -682,7 +668,7 @@
     },
     {
       "code": "3607",
-      "name": "赣州",
+      "name": "赣州市",
       "key": "G",
       "first": "gzs",
       "full": "ganzhou"
@@ -696,21 +682,21 @@
     },
     {
       "code": "5116",
-      "name": "广安",
+      "name": "广安市",
       "key": "G",
       "first": "gas",
       "full": "guangan"
     },
     {
       "code": "5108",
-      "name": "广元",
+      "name": "广元市",
       "key": "G",
       "first": "gys",
       "full": "guangyuan"
     },
     {
       "code": "4401",
-      "name": "广州",
+      "name": "广州市",
       "key": "G",
       "first": "gzs",
       "full": "guangzhou"
@@ -724,14 +710,14 @@
     },
     {
       "code": "4503",
-      "name": "桂林",
+      "name": "桂林市",
       "key": "G",
       "first": "gls",
       "full": "guilin"
     },
     {
       "code": "5201",
-      "name": "贵阳",
+      "name": "贵阳市",
       "key": "G",
       "first": "gys",
       "full": "guiyang"
@@ -745,14 +731,14 @@
     },
     {
       "code": "6404",
-      "name": "固原",
+      "name": "固原市",
       "key": "G",
       "first": "gys",
       "full": "guyuan"
     },
     {
       "code": "2301",
-      "name": "哈尔滨",
+      "name": "哈尔滨市",
       "key": "H",
       "first": "hebs",
       "full": "haerbin"
@@ -773,7 +759,7 @@
     },
     {
       "code": "4601",
-      "name": "海口",
+      "name": "海口市",
       "key": "H",
       "first": "hks",
       "full": "haikou"
@@ -801,70 +787,70 @@
     },
     {
       "code": "1304",
-      "name": "邯郸",
+      "name": "邯郸市",
       "key": "H",
       "first": "hds",
       "full": "handan"
     },
     {
       "code": "3301",
-      "name": "杭州",
+      "name": "杭州市",
       "key": "H",
       "first": "hzs",
       "full": "hangzhou"
     },
     {
       "code": "6107",
-      "name": "汉中",
+      "name": "汉中市",
       "key": "H",
       "first": "hzs",
       "full": "hanzhong"
     },
     {
       "code": "4106",
-      "name": "鹤壁",
+      "name": "鹤壁市",
       "key": "H",
       "first": "hbs",
       "full": "hebi"
     },
     {
       "code": "4512",
-      "name": "河池",
+      "name": "河池市",
       "key": "H",
       "first": "hcs",
       "full": "hechi"
     },
     {
       "code": "3401",
-      "name": "合肥",
+      "name": "合肥市",
       "key": "H",
       "first": "hfs",
       "full": "hefei"
     },
     {
       "code": "2304",
-      "name": "鹤岗",
+      "name": "鹤岗市",
       "key": "H",
       "first": "hgs",
       "full": "hegang"
     },
     {
       "code": "2311",
-      "name": "黑河",
+      "name": "黑河市",
       "key": "H",
       "first": "hhs",
       "full": "heihe"
     },
     {
       "code": "1311",
-      "name": "衡水",
+      "name": "衡水市",
       "key": "H",
       "first": "hss",
       "full": "hengshui"
     },
     {
       "code": "4304",
-      "name": "衡阳",
+      "name": "衡阳市",
       "key": "H",
       "first": "hys",
       "full": "hengyang"
@@ -878,21 +864,21 @@
     },
     {
       "code": "4416",
-      "name": "河源",
+      "name": "河源市",
       "key": "H",
       "first": "hys",
       "full": "heyuan"
     },
     {
       "code": "3717",
-      "name": "菏泽",
+      "name": "菏泽市",
       "key": "H",
       "first": "hzs",
       "full": "heze"
     },
     {
       "code": "4511",
-      "name": "贺州",
+      "name": "贺州市",
       "key": "H",
       "first": "hzs",
       "full": "hezhou"
@@ -906,35 +892,35 @@
     },
     {
       "code": "3208",
-      "name": "淮安",
+      "name": "淮安市",
       "key": "H",
       "first": "has",
       "full": "huaian"
     },
     {
       "code": "3406",
-      "name": "淮北",
+      "name": "淮北市",
       "key": "H",
       "first": "hbs",
       "full": "huaibei"
     },
     {
       "code": "4312",
-      "name": "怀化",
+      "name": "怀化市",
       "key": "H",
       "first": "hhs",
       "full": "huaihua"
     },
     {
       "code": "3404",
-      "name": "淮南",
+      "name": "淮南市",
       "key": "H",
       "first": "hns",
       "full": "huainan"
     },
     {
       "code": "4211",
-      "name": "黄冈",
+      "name": "黄冈市",
       "key": "H",
       "first": "hgs",
       "full": "huanggang"
@@ -948,28 +934,28 @@
     },
     {
       "code": "3410",
-      "name": "黄山",
+      "name": "黄山市",
       "key": "H",
       "first": "hss",
       "full": "huangshan"
     },
     {
       "code": "4202",
-      "name": "黄石",
+      "name": "黄石市",
       "key": "H",
       "first": "hss",
       "full": "huangshi"
     },
     {
       "code": "1501",
-      "name": "呼和浩特",
+      "name": "呼和浩特市",
       "key": "H",
       "first": "hhhts",
       "full": "huhehaote"
     },
     {
       "code": "4413",
-      "name": "惠州",
+      "name": "惠州市",
       "key": "H",
       "first": "hzs",
       "full": "huizhou"
@@ -990,42 +976,42 @@
     },
     {
       "code": "3305",
-      "name": "湖州",
+      "name": "湖州市",
       "key": "H",
       "first": "hzs",
       "full": "huzhou"
     },
     {
       "code": "2308",
-      "name": "佳木斯",
+      "name": "佳木斯市",
       "key": "J",
       "first": "jmss",
       "full": "jiamusi"
     },
     {
       "code": "4407",
-      "name": "江门",
+      "name": "江门市",
       "key": "J",
       "first": "jms",
       "full": "jiangmen"
     },
     {
       "code": "3608",
-      "name": "吉安",
+      "name": "吉安市",
       "key": "J",
       "first": "jas",
       "full": "jian"
     },
     {
       "code": "4108",
-      "name": "焦作",
+      "name": "焦作市",
       "key": "J",
       "first": "jzs",
       "full": "jiaozuo"
     },
     {
       "code": "3304",
-      "name": "嘉兴",
+      "name": "嘉兴市",
       "key": "J",
       "first": "jxs",
       "full": "jiaxing"
@@ -1039,42 +1025,42 @@
     },
     {
       "code": "4452",
-      "name": "揭阳",
+      "name": "揭阳市",
       "key": "J",
       "first": "jys",
       "full": "jieyang"
     },
     {
       "code": "2202",
-      "name": "吉林",
+      "name": "吉林市",
       "key": "J",
       "first": "jls",
       "full": "jilin"
     },
     {
       "code": "7100",
-      "name": "基隆",
+      "name": "基隆市",
       "key": "J",
       "first": "jls",
       "full": "jilong"
     },
     {
       "code": "3701",
-      "name": "济南",
+      "name": "济南市",
       "key": "J",
       "first": "jns",
       "full": "jinan"
     },
     {
       "code": "6203",
-      "name": "金昌",
+      "name": "金昌市",
       "key": "J",
       "first": "jcs",
       "full": "jinchang"
     },
     {
       "code": "1405",
-      "name": "晋城",
+      "name": "晋城市",
       "key": "J",
       "first": "jcs",
       "full": "jincheng"
@@ -1088,63 +1074,63 @@
     },
     {
       "code": "4208",
-      "name": "荆门",
+      "name": "荆门市",
       "key": "J",
       "first": "jms",
       "full": "jingmen"
     },
     {
       "code": "4210",
-      "name": "荆州",
+      "name": "荆州市",
       "key": "J",
       "first": "jzs",
       "full": "jingzhou"
     },
     {
       "code": "3307",
-      "name": "金华",
+      "name": "金华市",
       "key": "J",
       "first": "jhs",
       "full": "jinhua"
     },
     {
       "code": "3708",
-      "name": "济宁",
+      "name": "济宁市",
       "key": "J",
       "first": "jns",
       "full": "jining"
     },
     {
       "code": "1407",
-      "name": "晋中",
+      "name": "晋中市",
       "key": "J",
       "first": "jzs",
       "full": "jinzhong"
     },
     {
       "code": "2107",
-      "name": "锦州",
+      "name": "锦州市",
       "key": "J",
       "first": "jzs",
       "full": "jinzhou"
     },
     {
       "code": "3604",
-      "name": "九江",
+      "name": "九江市",
       "key": "J",
       "first": "jjs",
       "full": "jiujiang"
     },
     {
       "code": "6209",
-      "name": "酒泉",
+      "name": "酒泉市",
       "key": "J",
       "first": "jqs",
       "full": "jiuquan"
     },
     {
       "code": "2303",
-      "name": "鸡西",
+      "name": "鸡西市",
       "key": "J",
       "first": "jxs",
       "full": "jixi"
@@ -1179,49 +1165,49 @@
     },
     {
       "code": "5301",
-      "name": "昆明",
+      "name": "昆明市",
       "key": "K",
       "first": "kms",
       "full": "kunming"
     },
     {
       "code": "4513",
-      "name": "来宾",
+      "name": "来宾市",
       "key": "L",
       "first": "lbs",
       "full": "laibin"
     },
     {
       "code": "3712",
-      "name": "莱芜",
+      "name": "莱芜市",
       "key": "L",
       "first": "lws",
       "full": "laiwu"
     },
     {
       "code": "1310",
-      "name": "廊坊",
+      "name": "廊坊市",
       "key": "L",
       "first": "lfs",
       "full": "langfang"
     },
     {
       "code": "6201",
-      "name": "兰州",
+      "name": "兰州市",
       "key": "L",
       "first": "lzs",
       "full": "lanzhou"
     },
     {
       "code": "5401",
-      "name": "拉萨",
+      "name": "拉萨市",
       "key": "L",
       "first": "lss",
       "full": "lasa"
     },
     {
       "code": "5111",
-      "name": "乐山",
+      "name": "乐山市",
       "key": "L",
       "first": "lss",
       "full": "leshan"
@@ -1249,35 +1235,35 @@
     },
     {
       "code": "2110",
-      "name": "辽阳",
+      "name": "辽阳市",
       "key": "L",
       "first": "lys",
       "full": "liaoyang"
     },
     {
       "code": "2204",
-      "name": "辽源",
+      "name": "辽源市",
       "key": "L",
       "first": "lys",
       "full": "liaoyuan"
     },
     {
       "code": "5307",
-      "name": "丽江",
+      "name": "丽江市",
       "key": "L",
       "first": "ljs",
       "full": "lijiang"
     },
     {
       "code": "5309",
-      "name": "临沧",
+      "name": "临沧市",
       "key": "L",
       "first": "lcs",
       "full": "lincang"
     },
     {
       "code": "1410",
-      "name": "临汾",
+      "name": "临汾市",
       "key": "L",
       "first": "lfs",
       "full": "linfen"
@@ -1291,7 +1277,7 @@
     },
     {
       "code": "3713",
-      "name": "临沂",
+      "name": "临沂市",
       "key": "L",
       "first": "lys",
       "full": "linyi"
@@ -1305,14 +1291,14 @@
     },
     {
       "code": "3311",
-      "name": "丽水",
+      "name": "丽水市",
       "key": "L",
       "first": "lss",
       "full": "lishui"
     },
     {
       "code": "3415",
-      "name": "六安",
+      "name": "六安市",
       "key": "L",
       "first": "las",
       "full": "liuan"
@@ -1326,56 +1312,56 @@
     },
     {
       "code": "4502",
-      "name": "柳州",
+      "name": "柳州市",
       "key": "L",
       "first": "lzs",
       "full": "liuzhou"
     },
     {
       "code": "6212",
-      "name": "陇南",
+      "name": "陇南市",
       "key": "L",
       "first": "lns",
       "full": "longnan"
     },
     {
       "code": "3508",
-      "name": "龙岩",
+      "name": "龙岩市",
       "key": "L",
       "first": "lys",
       "full": "longyan"
     },
     {
       "code": "4313",
-      "name": "娄底",
+      "name": "娄底市",
       "key": "L",
       "first": "lds",
       "full": "loudi"
     },
     {
       "code": "4111",
-      "name": "漯河",
+      "name": "漯河市",
       "key": "L",
       "first": "lhs",
       "full": "luohe"
     },
     {
       "code": "4103",
-      "name": "洛阳",
+      "name": "洛阳市",
       "key": "L",
       "first": "lys",
       "full": "luoyang"
     },
     {
       "code": "5105",
-      "name": "泸州",
+      "name": "泸州市",
       "key": "L",
       "first": "lzs",
       "full": "luzhou"
     },
     {
       "code": "1411",
-      "name": "吕梁",
+      "name": "吕梁市",
       "key": "L",
       "first": "lls",
       "full": "lvliang"
@@ -1389,28 +1375,28 @@
     },
     {
       "code": "4409",
-      "name": "茂名",
+      "name": "茂名市",
       "key": "M",
       "first": "mms",
       "full": "maoming"
     },
     {
       "code": "5114",
-      "name": "眉山",
+      "name": "眉山市",
       "key": "M",
       "first": "mss",
       "full": "meishan"
     },
     {
       "code": "4414",
-      "name": "梅州",
+      "name": "梅州市",
       "key": "M",
       "first": "mzs",
       "full": "meizhou"
     },
     {
       "code": "5107",
-      "name": "绵阳",
+      "name": "绵阳市",
       "key": "M",
       "first": "mys",
       "full": "mianyang"
@@ -1424,7 +1410,7 @@
     },
     {
       "code": "3601",
-      "name": "南昌",
+      "name": "南昌市",
       "key": "N",
       "first": "ncs",
       "full": "nanchang"
@@ -1438,7 +1424,7 @@
     },
     {
       "code": "3201",
-      "name": "南京",
+      "name": "南京市",
       "key": "N",
       "first": "njs",
       "full": "nanjing"
@@ -1487,14 +1473,14 @@
     },
     {
       "code": "3302",
-      "name": "宁波",
+      "name": "宁波市",
       "key": "N",
       "first": "nbs",
       "full": "ningbo"
     },
     {
       "code": "3509",
-      "name": "宁德",
+      "name": "宁德市",
       "key": "N",
       "first": "nds",
       "full": "ningde"
@@ -1508,7 +1494,7 @@
     },
     {
       "code": "2111",
-      "name": "盘锦",
+      "name": "盘锦市",
       "key": "P",
       "first": "pjs",
       "full": "panjin"
@@ -1543,14 +1529,14 @@
     },
     {
       "code": "3503",
-      "name": "莆田",
+      "name": "莆田市",
       "key": "P",
       "first": "pts",
       "full": "putian"
     },
     {
       "code": "4109",
-      "name": "濮阳",
+      "name": "濮阳市",
       "key": "P",
       "first": "pys",
       "full": "puyang"
@@ -1578,28 +1564,28 @@
     },
     {
       "code": "3702",
-      "name": "青岛",
+      "name": "青岛市",
       "key": "Q",
       "first": "qds",
       "full": "qingdao"
     },
     {
       "code": "6210",
-      "name": "庆阳",
+      "name": "庆阳市",
       "key": "Q",
       "first": "qys",
       "full": "qingyang"
     },
     {
       "code": "4418",
-      "name": "清远",
+      "name": "清远市",
       "key": "Q",
       "first": "qys",
       "full": "qingyuan"
     },
     {
       "code": "1303",
-      "name": "秦皇岛",
+      "name": "秦皇岛市",
       "key": "Q",
       "first": "qhds",
       "full": "qinhuangdao"
@@ -1613,21 +1599,21 @@
     },
     {
       "code": "2302",
-      "name": "齐齐哈尔",
+      "name": "齐齐哈尔市",
       "key": "Q",
       "first": "qqhes",
       "full": "qiqihaer"
     },
     {
       "code": "2309",
-      "name": "七台河",
+      "name": "七台河市",
       "key": "Q",
       "first": "qths",
       "full": "qitaihe"
     },
     {
       "code": "3505",
-      "name": "泉州",
+      "name": "泉州市",
       "key": "Q",
       "first": "qzs",
       "full": "quanzhou"
@@ -1641,7 +1627,7 @@
     },
     {
       "code": "3308",
-      "name": "衢州",
+      "name": "衢州市",
       "key": "Q",
       "first": "qzs",
       "full": "quzhou"
@@ -1662,7 +1648,7 @@
     },
     {
       "code": "4112",
-      "name": "三门峡",
+      "name": "三门峡市",
       "key": "S",
       "first": "smxs",
       "full": "sanmenxia"
@@ -1683,7 +1669,7 @@
     },
     {
       "code": "3101",
-      "name": "上海",
+      "name": "上海市",
       "key": "S",
       "first": "shs",
       "full": "shanghai"
@@ -1753,35 +1739,35 @@
     },
     {
       "code": "2101",
-      "name": "沈阳",
+      "name": "沈阳市",
       "key": "S",
       "first": "sys",
       "full": "shenyang"
     },
     {
       "code": "4403",
-      "name": "深圳",
+      "name": "深圳市",
       "key": "S",
       "first": "szs",
       "full": "shenzuo"
     },
     {
       "code": "1301",
-      "name": "石家庄",
+      "name": "石家庄市",
       "key": "S",
       "first": "sjzs",
       "full": "shijiazhuang"
     },
     {
       "code": "4203",
-      "name": "十堰",
+      "name": "十堰市",
       "key": "S",
       "first": "sys",
       "full": "shiyan"
     },
     {
       "code": "6402",
-      "name": "石嘴山",
+      "name": "石嘴山市",
       "key": "S",
       "first": "szss",
       "full": "shizuishan"
@@ -1795,7 +1781,7 @@
     },
     {
       "code": "1406",
-      "name": "朔州",
+      "name": "朔州市",
       "key": "S",
       "first": "szs",
       "full": "shuozhou"
@@ -1816,14 +1802,14 @@
     },
     {
       "code": "2207",
-      "name": "松原",
+      "name": "松原市",
       "key": "S",
       "first": "sys",
       "full": "songyuan"
     },
     {
       "code": "2312",
-      "name": "绥化",
+      "name": "绥化市",
       "key": "S",
       "first": "shs",
       "full": "suihua"
@@ -1837,21 +1823,21 @@
     },
     {
       "code": "4213",
-      "name": "随州",
+      "name": "随州市",
       "key": "S",
       "first": "szs",
       "full": "suizhou"
     },
     {
       "code": "3213",
-      "name": "宿迁",
+      "name": "宿迁市",
       "key": "S",
       "first": "sqs",
       "full": "suqian"
     },
     {
       "code": "3205",
-      "name": "苏州",
+      "name": "苏州市",
       "key": "S",
       "first": "szs",
       "full": "suzhou"
@@ -1879,21 +1865,21 @@
     },
     {
       "code": "7100",
-      "name": "台北",
+      "name": "台北市",
       "key": "T",
       "first": "tbs",
       "full": "taibei"
     },
     {
       "code": "1401",
-      "name": "太原",
+      "name": "太原市",
       "key": "T",
       "first": "tys",
       "full": "taiyuan"
     },
     {
       "code": "3310",
-      "name": "台州",
+      "name": "台州市",
       "key": "T",
       "first": "tzs",
       "full": "taizhou"
@@ -1907,28 +1893,28 @@
     },
     {
       "code": "1302",
-      "name": "唐山",
+      "name": "唐山市",
       "key": "T",
       "first": "tss",
       "full": "tangshan"
     },
     {
       "code": "12",
-      "name": "天津",
+      "name": "天津市",
       "key": "T",
       "first": "tjs",
       "full": "tianjin"
     },
     {
       "code": "6205",
-      "name": "天水",
+      "name": "天水市",
       "key": "T",
       "first": "tss",
       "full": "tianshui"
     },
     {
       "code": "2112",
-      "name": "铁岭",
+      "name": "铁岭市",
       "key": "T",
       "first": "tls",
       "full": "tieling"
@@ -1977,14 +1963,14 @@
     },
     {
       "code": "3707",
-      "name": "潍坊",
+      "name": "潍坊市",
       "key": "W",
       "first": "wfs",
       "full": "weifang"
     },
     {
       "code": "3710",
-      "name": "威海",
+      "name": "威海市",
       "key": "W",
       "first": "whs",
       "full": "weihai"
@@ -2012,14 +1998,14 @@
     },
     {
       "code": "1503",
-      "name": "乌海",
+      "name": "乌海市",
       "key": "W",
       "first": "whs",
       "full": "wuhai"
     },
     {
       "code": "4201",
-      "name": "武汉",
+      "name": "武汉市",
       "key": "W",
       "first": "whs",
       "full": "wuhan"
@@ -2040,7 +2026,7 @@
     },
     {
       "code": "6501",
-      "name": "乌鲁木齐",
+      "name": "乌鲁木齐市",
       "key": "W",
       "first": "wlmqs",
       "full": "wulumuqi"
@@ -2054,14 +2040,14 @@
     },
     {
       "code": "3202",
-      "name": "无锡",
+      "name": "无锡市",
       "key": "W",
       "first": "wxs",
       "full": "wuxi"
     },
     {
       "code": "6403",
-      "name": "吴忠",
+      "name": "吴忠市",
       "key": "W",
       "first": "wzs",
       "full": "wuzhong"
@@ -2075,7 +2061,7 @@
     },
     {
       "code": "3502",
-      "name": "厦门",
+      "name": "厦门市",
       "key": "X",
       "first": "xms",
       "full": "xiamen"
@@ -2117,7 +2103,7 @@
     },
     {
       "code": "6101",
-      "name": "西安",
+      "name": "西安市",
       "key": "X",
       "first": "xas",
       "full": "xian"
@@ -2152,14 +2138,14 @@
     },
     {
       "code": "1305",
-      "name": "邢台",
+      "name": "邢台市",
       "key": "X",
       "first": "xts",
       "full": "xingtai"
     },
     {
       "code": "6301",
-      "name": "西宁",
+      "name": "西宁市",
       "key": "X",
       "first": "xns",
       "full": "xining"
@@ -2201,14 +2187,14 @@
     },
     {
       "code": "3418",
-      "name": "宣城",
+      "name": "宣城市",
       "key": "X",
       "first": "xcs",
       "full": "xuancheng"
     },
     {
       "code": "4110",
-      "name": "许昌",
+      "name": "许昌市",
       "key": "X",
       "first": "xcs",
       "full": "xuchang"
@@ -2222,14 +2208,14 @@
     },
     {
       "code": "5118",
-      "name": "雅安",
+      "name": "雅安市",
       "key": "Y",
       "first": "yas",
       "full": "yaan"
     },
     {
       "code": "6106",
-      "name": "延安",
+      "name": "延安市",
       "key": "Y",
       "first": "yas",
       "full": "yanan"
@@ -2271,35 +2257,35 @@
     },
     {
       "code": "3706",
-      "name": "烟台",
+      "name": "烟台市",
       "key": "Y",
       "first": "yts",
       "full": "yantai"
     },
     {
       "code": "5115",
-      "name": "宜宾",
+      "name": "宜宾市",
       "key": "Y",
       "first": "ybs",
       "full": "yibin"
     },
     {
       "code": "4205",
-      "name": "宜昌",
+      "name": "宜昌市",
       "key": "Y",
       "first": "ycs",
       "full": "yichang"
     },
     {
       "code": "2307",
-      "name": "伊春",
+      "name": "伊春市",
       "key": "Y",
       "first": "ycs",
       "full": "yichun"
     },
     {
       "code": "3609",
-      "name": "宜春",
+      "name": "宜春市",
       "key": "Y",
       "first": "ycs",
       "full": "yichun"
@@ -2313,49 +2299,49 @@
     },
     {
       "code": "6401",
-      "name": "银川",
+      "name": "银川市",
       "key": "Y",
       "first": "ycs",
       "full": "yinchuan"
     },
     {
       "code": "2108",
-      "name": "营口",
+      "name": "营口市",
       "key": "Y",
       "first": "yks",
       "full": "yingkou"
     },
     {
       "code": "3606",
-      "name": "鹰潭",
+      "name": "鹰潭市",
       "key": "Y",
       "first": "yts",
       "full": "yingtan"
     },
     {
       "code": "4309",
-      "name": "益阳",
+      "name": "益阳市",
       "key": "Y",
       "first": "yys",
       "full": "yiyang"
     },
     {
       "code": "4311",
-      "name": "永州",
+      "name": "永州市",
       "key": "Y",
       "first": "yzs",
       "full": "yongzhou"
     },
     {
       "code": "4306",
-      "name": "岳阳",
+      "name": "岳阳市",
       "key": "Y",
       "first": "yys",
       "full": "yueyang"
     },
     {
       "code": "4509",
-      "name": "玉林",
+      "name": "玉林市",
       "key": "Y",
       "first": "yls",
       "full": "yulin"
@@ -2369,7 +2355,7 @@
     },
     {
       "code": "1408",
-      "name": "运城",
+      "name": "运城市",
       "key": "Y",
       "first": "ycs",
       "full": "yuncheng"
@@ -2390,28 +2376,28 @@
     },
     {
       "code": "5304",
-      "name": "玉溪",
+      "name": "玉溪市",
       "key": "Y",
       "first": "yxs",
       "full": "yuxi"
     },
     {
       "code": "3704",
-      "name": "枣庄",
+      "name": "枣庄市",
       "key": "Z",
       "first": "zzs",
       "full": "zaozhuang"
     },
     {
       "code": "4308",
-      "name": "张家界",
+      "name": "张家界市",
       "key": "Z",
       "first": "zjjs",
       "full": "zhangjiajie"
     },
     {
       "code": "1307",
-      "name": "张家口",
+      "name": "张家口市",
       "key": "Z",
       "first": "zjks",
       "full": "zhangjiakou"
@@ -2439,7 +2425,7 @@
     },
     {
       "code": "4412",
-      "name": "肇庆",
+      "name": "肇庆市",
       "key": "Z",
       "first": "zqs",
       "full": "zhaoqing"
@@ -2460,14 +2446,14 @@
     },
     {
       "code": "3211",
-      "name": "镇江",
+      "name": "镇江市",
       "key": "Z",
       "first": "zjs",
       "full": "zhenjiang"
     },
     {
       "code": "4420",
-      "name": "中山",
+      "name": "中山市",
       "key": "Z",
       "first": "zss",
       "full": "zhongshan"
@@ -2495,7 +2481,7 @@
     },
     {
       "code": "4404",
-      "name": "珠海",
+      "name": "珠海市",
       "key": "Z",
       "first": "zhs",
       "full": "zhuhai"
@@ -2509,35 +2495,35 @@
     },
     {
       "code": "4302",
-      "name": "株洲",
+      "name": "株洲市",
       "key": "Z",
       "first": "zzs",
       "full": "zhuzhou"
     },
     {
       "code": "3703",
-      "name": "淄博",
+      "name": "淄博市",
       "key": "Z",
       "first": "zbs",
       "full": "zibo"
     },
     {
       "code": "5103",
-      "name": "自贡",
+      "name": "自贡市",
       "key": "Z",
       "first": "zgs",
       "full": "zigong"
     },
     {
       "code": "5120",
-      "name": "资阳",
+      "name": "资阳市",
       "key": "Z",
       "first": "zys",
       "full": "ziyang"
     },
     {
       "code": "5203",
-      "name": "遵义",
+      "name": "遵义市",
       "key": "Z",
       "first": "zys",
       "full": "zunyi"
