@@ -197,7 +197,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
                 startActivity(new Intent(getContext(), Message_center_Activity.class));
                 break;
             case R.id.my_addfriend_im_id:
-
+                startActivity(new Intent(getContext(), AddCollectionActivity.class));
                 break;
             case R.id.my_clock_but_id:
                 mPresenter.punchClock(user_id, user_token);

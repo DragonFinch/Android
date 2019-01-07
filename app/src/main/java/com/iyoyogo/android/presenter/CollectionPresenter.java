@@ -49,7 +49,7 @@ public class CollectionPresenter extends BasePresenter<CollectionContract.View> 
 
                     @Override
                     protected boolean doOnFailure(int code, String message) {
-                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
                         return true;
                     }
                 });
