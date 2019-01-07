@@ -154,6 +154,7 @@ ChannelActivity extends BaseActivity<ChannelContract.Presenter> implements Chann
                 finish();
                 break;
             case R.id.create_complete:
+
                 Intent intent = new Intent();
 
                 ArrayList<String> integerList = adapter.selectPhoto();
@@ -161,6 +162,7 @@ ChannelActivity extends BaseActivity<ChannelContract.Presenter> implements Chann
                     Log.d("ChannelActivity", integerList.get(i));
                 }
                 ArrayList<String> strings = adapter.selectChannel();
+
                 if (integerList!=null){
                     int size = integerList.size();
                     Integer[] channel_ids=new Integer[size];

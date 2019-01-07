@@ -66,6 +66,56 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         return holder;
     }
 
+
+
+
+    public void backgroundAlpha(float bgAlpha) {
+
+        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+        lp.alpha = bgAlpha; // 0.0~1.0
+        activity.getWindow().setAttributes(lp); //act 是上下文context
+
+    }
+
+    //隐藏事件PopupWindow
+    private class poponDismissListener implements PopupWindow.OnDismissListener {
+        @Override
+        public void onDismiss() {
+            backgroundAlpha(1.0f);
+        }
+    }
+
+
+    public void comment() {
+        backgroundAlpha(0.6f);
+        tv_message.setText("Hi~");
+        tv_message.setTextColor(Color.parseColor("#FA800A"));
+        tv_message_two.setTextColor(Color.parseColor("#FA800A"));
+        tv_message_three.setTextColor(Color.parseColor("#FA800A"));
+        img_tip.setImageResource(R.mipmap.stamo_heart);
+        tv_message_two.setText("谢谢评论~");
+        tv_message_three.setText("给你小心心");
+        popup.showAtLocation(activity.findViewById(R.id.activity_yoxiu_detail), Gravity.CENTER, 0, 0);
+    }
+
+    public void report() {
+        tv_message.setText("举报成功");
+        tv_message.setTextColor(Color.parseColor("#333333"));
+        tv_message_two.setTextColor(Color.parseColor("#888888"));
+        tv_message_three.setTextColor(Color.parseColor("#888888"));
+        img_tip.setImageResource(R.mipmap.stamp_report);
+        tv_message_two.setText("打击恶势力小分队");
+        tv_message_three.setText("已前去为您扫清障碍~");
+        popup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        //点击空白处时，隐藏掉pop窗口
+
+        backgroundAlpha(0.6f);
+
+        //添加pop窗口关闭事件
+        popup.setOnDismissListener(new poponDismissListener());
+        popup.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
     public void loadMore(int comment_id) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_more, null);
         PopupWindow popup_more = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
@@ -80,8 +130,8 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         tv_advert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popup_more.dismiss();
                 report();
+                popup_more.dismiss();
 
                 DataManager.getFromRemote().report(user_id, user_token, 0, comment_id, tv_advert.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
@@ -174,56 +224,6 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         //添加pop窗口关闭事件
         popup_more.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
-
-
-    public void backgroundAlpha(float bgAlpha) {
-
-        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
-        lp.alpha = bgAlpha; // 0.0~1.0
-        activity.getWindow().setAttributes(lp); //act 是上下文context
-
-    }
-
-    //隐藏事件PopupWindow
-    private class poponDismissListener implements PopupWindow.OnDismissListener {
-        @Override
-        public void onDismiss() {
-            backgroundAlpha(1.0f);
-        }
-    }
-
-
-    public void comment() {
-        backgroundAlpha(0.6f);
-        tv_message.setText("Hi~");
-        tv_message.setTextColor(Color.parseColor("#FA800A"));
-        tv_message_two.setTextColor(Color.parseColor("#FA800A"));
-        tv_message_three.setTextColor(Color.parseColor("#FA800A"));
-        img_tip.setImageResource(R.mipmap.stamo_heart);
-        tv_message_two.setText("谢谢评论~");
-        tv_message_three.setText("给你小心心");
-        popup.showAtLocation(activity.findViewById(R.id.activity_yoxiu_detail), Gravity.CENTER, 0, 0);
-    }
-
-    public void report() {
-        tv_message.setText("举报成功");
-        tv_message.setTextColor(Color.parseColor("#333333"));
-        tv_message_two.setTextColor(Color.parseColor("#888888"));
-        tv_message_three.setTextColor(Color.parseColor("#888888"));
-        img_tip.setImageResource(R.mipmap.stamp_report);
-        tv_message_two.setText("打击恶势力小分队");
-        tv_message_three.setText("已前去为您扫清障碍~");
-        popup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
-        popup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        //点击空白处时，隐藏掉pop窗口
-
-        backgroundAlpha(0.6f);
-
-        //添加pop窗口关闭事件
-        popup.setOnDismissListener(new poponDismissListener());
-        popup.showAtLocation(view, Gravity.CENTER, 0, 0);
-    }
-
     public void initPopup() {
         view = LayoutInflater.from(context).inflate(R.layout.like_layout, null);
         popup = new PopupWindow(view, DensityUtil.dp2px(context, 300), DensityUtil.dp2px(context, 145), true);

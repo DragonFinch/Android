@@ -68,7 +68,27 @@
         android:layout_marginLeft="@dimen/dp_20"
         android:layout_marginTop="@dimen/dp_6"
         android:src="@mipmap/default_touxiang" />
+<ImageView
+    android:visibility="gone"
+    android:layout_width="wrap_content"
+    android:src="@mipmap/huiyuan"
+    android:id="@+id/medal"
+    android:layout_alignRight="@+id/user_icon"
+    android:layout_alignBottom="@+id/user_icon"
 
+    android:layout_height="wrap_content" />
+    <ImageView
+        android:layout_marginLeft="@dimen/dp_4"
+        android:layout_below="@+id/img_yoxiu"
+        android:layout_width="wrap_content"
+        android:src="@mipmap/lv1"
+        android:layout_marginTop="@dimen/dp_20"
+        android:visibility="gone"
+        android:id="@+id/img_level"
+        android:layout_toRightOf="@+id/tv_user_name"
+
+
+        android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/tv_user_name"
         android:layout_width="wrap_content"

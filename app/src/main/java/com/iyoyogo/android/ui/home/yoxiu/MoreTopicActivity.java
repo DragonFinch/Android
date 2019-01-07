@@ -308,6 +308,11 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_create:
+                Intent intent = new Intent();
+                intent.putExtra("topic", locationEdit.getText().toString().trim());
+                intent.putExtra("type_id", 1);
+                setResult(6, intent);
+                finish();
 //                mPresenter.getCreateTopic(user_id, user_token, locationEdit.getText().toString());
                 break;
             case R.id.clear:

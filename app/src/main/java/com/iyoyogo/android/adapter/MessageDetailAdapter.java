@@ -17,6 +17,7 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.mine.message.MessageBean;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.utils.DensityUtil;
+import com.iyoyogo.android.utils.KeyBoardUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 
 import java.util.List;
@@ -87,7 +88,7 @@ public class MessageDetailAdapter extends RecyclerView.Adapter<MessageDetailAdap
         } else {
             RequestOptions requestOptions = new RequestOptions();
             requestOptions.centerCrop();
-            requestOptions.override(DensityUtil.dp2px(context,50),DensityUtil.dp2px(context,50));
+            requestOptions.override(DensityUtil.dp2px(context, 50), DensityUtil.dp2px(context, 50));
             Glide.with(context).load(mList.get(position).getFile_path()).apply(requestOptions).into(holder.item_like_iv_id);
 
         }
@@ -96,7 +97,7 @@ public class MessageDetailAdapter extends RecyclerView.Adapter<MessageDetailAdap
         } else {
             holder.tv_time.setText(mList.get(position).getCreate_time());
         }
-        if (mList.get(position).getUser_logo().equals("")&&mList.get(position).getUser_nickname().equals("")&&mList.get(position).getTitle().equals("")&&mList.get(position).isIs_reply()){
+        if (mList.get(position).getUser_logo().equals("") && mList.get(position).getUser_nickname().equals("") && mList.get(position).getTitle().equals("") && mList.get(position).isIs_reply()) {
             holder.layout.setVisibility(View.GONE);
         }
         holder.user_icon.setOnClickListener(new View.OnClickListener() {
@@ -104,11 +105,29 @@ public class MessageDetailAdapter extends RecyclerView.Adapter<MessageDetailAdap
             public void onClick(View v) {
                 String yo_user_id = mList.get(position).getUser_id();
                 Intent intent = new Intent(context, Personal_homepage_Activity.class);
-                intent.putExtra("yo_user_id",yo_user_id);
+                intent.putExtra("yo_user_id", yo_user_id);
                 context.startActivity(intent);
             }
         });
+        holder.tv_reply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (replyOnClickListener != null) {
+                    replyOnClickListener.setReply(v, (Integer) v.getTag());
+                }
+            }
+        });
         holder.itemView.setTag(position);
+    }
+
+    public interface ReplyOnClickListener {
+        void setReply(View v, int position);
+    }
+
+    private ReplyOnClickListener replyOnClickListener;
+
+    public void setOnClickListener(ReplyOnClickListener replyOnClickListener) {
+        this.replyOnClickListener = replyOnClickListener;
     }
 
     @Override
