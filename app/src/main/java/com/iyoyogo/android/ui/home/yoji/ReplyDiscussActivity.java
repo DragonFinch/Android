@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -94,6 +95,12 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
             // imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//没有显示则显示
             imm.hideSoftInputFromWindow(editComment.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    @Override
+    protected void setSetting() {
+        super.setSetting();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     @Override
@@ -218,6 +225,7 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
     public void addCommentSuccess(BaseBean baseBean) {
         editComment.setText("");
         replyDiscussAdapter.notifyDataSetChanged();
+        mPresenter.getCommentList(user_id, user_token, 1, 0, listBean.getId());
     }
 
 

@@ -1,5 +1,6 @@
 package com.iyoyogo.android.ui.home.yoji;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -59,6 +61,7 @@ import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtil;
 import com.iyoyogo.android.widget.CircleImageView;
+import com.iyoyogo.android.widget.FlowGroupView;
 import com.iyoyogo.android.widget.MyNestedScrollView;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -71,6 +74,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
@@ -79,16 +83,6 @@ import io.reactivex.functions.Consumer;
  */
 public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presenter> implements YoJiDetailContract.View {
 
-    @BindView(R.id.tv_desc)
-    TextView tvDesc;
-    @BindView(R.id.activity_yoji_detail)
-    CoordinatorLayout activityYojiDetail;
-    @BindView(R.id.add_attention)
-    TextView addAttention;
-    private int open = 2;
-    private boolean isOpen;
-    public static int expendedtag = 2;
-    List<String> mList = new ArrayList<>();
     @BindView(R.id.bg)
     ImageView bg;
     @BindView(R.id.img_back)
@@ -97,6 +91,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     CircleImageView imgHead;
     @BindView(R.id.tv_user_name)
     TextView tvUserName;
+    @BindView(R.id.add_attention)
+    TextView addAttention;
     @BindView(R.id.img_message)
     RelativeLayout imgMessage;
     @BindView(R.id.img_share)
@@ -119,6 +115,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     TextView tvSee;
     @BindView(R.id.user_icon)
     CircleImageView userIcon;
+    @BindView(R.id.tv_user_nickname)
+    TextView tvUserNickname;
     @BindView(R.id.tv_yoji_count)
     TextView tvYojiCount;
     @BindView(R.id.tv_yoxiu_count)
@@ -153,6 +151,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     RelativeLayout userLayouts;
     @BindView(R.id.line)
     View line;
+    @BindView(R.id.tv_desc)
+    TextView tvDesc;
     @BindView(R.id.describe_relative)
     RelativeLayout describeRelative;
     @BindView(R.id.recycler_yoji)
@@ -167,8 +167,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     RecyclerView recyclerComment;
     @BindView(R.id.tv_more_comment)
     TextView tvMoreComment;
-    @BindView(R.id.line2)
-    View line2;
+    @BindView(R.id.shadow)
+    View shadow;
     @BindView(R.id.edit_comment)
     EditText editComment;
     @BindView(R.id.img_brow)
@@ -181,12 +181,18 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     ImageView sendEmoji;
     @BindView(R.id.comment_layout)
     RelativeLayout commentLayout;
-    @BindView(R.id.tv_user_nickname)
-    TextView tvUserNickname;
     @BindView(R.id.nested)
     MyNestedScrollView nested;
+    @BindView(R.id.activity_yoji_detail)
+    CoordinatorLayout activityYojiDetail;
+    private int open = 2;
+    private boolean isOpen;
+    private boolean isManager;
+    public static int expendedtag = 2;
+    List<String> mList = new ArrayList<>();
 
 
+    List<String> indexList = new ArrayList<>();
     private String user_token;
     private String user_id;
     private int is_my_attention;
@@ -194,7 +200,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     private int yo_id;
     private YoJiDetailCommentAdapter yoJiDetailCommentAdapter;
     private RecyclerView recycler_collection;
-    private int yo_user_id;
+    private String yo_user_id;
     private int add_collection_id;
     private int count_collect;
     private PopupWindow popup;
@@ -204,16 +210,46 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     private TextView tv_message_three;
     private TextView tv_message_two;
     private TextView tv_message;
-    private int index;
     private List<CollectionFolderBean.DataBean.ListBean> mList1;
     private int add_attention_id;
-    private int yo_attention_id;
-    private int yo_ids;
+    private String yo_attention_id;
+    private String yo_ids;
     private String logo;
     private String desc;
     private String title;
     private TranslateAnimation mShowAction;
     private TranslateAnimation mHiddenAction;
+    private RelativeLayout picture_count_one;
+    private RelativeLayout picture_count_two;
+    private RelativeLayout picture_count_three;
+    private RelativeLayout picture_count_four;
+    private RelativeLayout picture_count_five;
+    private FlowGroupView flowGroupView;
+    private ImageView img_count_one_one;
+    private ImageView img_count_three_three;
+    private TextView tv_pic_count;
+    private ImageView img_count_five_five;
+    private ImageView img_count_five_four;
+    private ImageView img_count_four_four;
+    private ImageView img_count_five_three;
+    private ImageView img_count_four_three;
+    private ImageView img_count_five_two;
+    private ImageView img_count_four_two;
+    private ImageView img_count_three_two;
+    private ImageView img_count_two_two;
+    private ImageView img_count_five_one;
+    private ImageView img_count_four_one;
+    private ImageView img_count_three_one;
+    private ImageView img_count_two_one;
+    private ArrayList<String> logos;
+    private ArrayList<String> logos_big;
+    private YoJiDetailAdapter yoJiDetailAdapter;
+
+    @Override
+    protected void setSetting() {
+        super.setSetting();
+//        StatusBarUtil.setTransparent(YoJiDetailActivity.this);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -223,7 +259,17 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     protected void initView() {
         super.initView();
-        StatusBarUtil.setTranslucent (this);//就这么一行代码
+
+      /*  RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+//                    layoutParams.setMargins(0, DensityUtil.dp2px(YoXiuDetailActivity.this, 20), 0, 0);
+        editComment.setLayoutParams(layoutParams);
+        tvCollection.setVisibility(View.VISIBLE);
+        tvLike.setVisibility(View.VISIBLE);
+        editComment.setHint("再不评论 , 你会被抓去写作业的~");
+        editComment.setHintTextColor(Color.parseColor("#888888"));
+        sendEmoji.setVisibility(View.GONE);
+        sendEmoji.setVisibility(View.GONE);
+        imgBrow.setVisibility(View.VISIBLE);*/
         mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
                 Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
                 -1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
@@ -263,7 +309,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 //                    StatusBarUtil.setStatusBarColor(YoJiDetailActivity.this,Color.parseColor("#ffffff"));
                 }
                 if (expendedtag == 2 && verticalOffset == 0) {
-                    statusbar();
+//                    statusbar();
+                    StatusBarUtil.setTransparent(YoJiDetailActivity.this);
                     //展开监听
                     MIUISetStatusBarLightMode(getWindow(), true);
                     imgBack.setImageResource(R.mipmap.back_icon);
@@ -293,25 +340,29 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                     editComment.setHint("码字不容易，留个评论鼓励下嘛~");
                     editComment.setHintTextColor(Color.parseColor("#888888"));
                     sendEmoji.setVisibility(View.VISIBLE);
+                    imgBrow.setVisibility(View.GONE);
 //                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
 ////                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 //
 //                    layoutParams.alignWithParent=true;
+                    RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//                    layoutParams1.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);
+                    editComment.setLayoutParams(layoutParams1);
 
-                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                    layoutParams.setMargins(0, 0, DensityUtil.dp2px(YoJiDetailActivity.this, 40), 0);
-                    editComment.setLayoutParams(layoutParams);
 
                 } else {
                     //失去焦点
-                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(DensityUtil.dp2px(YoJiDetailActivity.this, 230), ViewGroup.LayoutParams.WRAP_CONTENT);
-                    layoutParams.setMargins(0, DensityUtil.dp2px(YoJiDetailActivity.this, 20), 0, 0);
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+//                    layoutParams.setMargins(0, DensityUtil.dp2px(YoXiuDetailActivity.this, 20), 0, 0);
                     editComment.setLayoutParams(layoutParams);
                     tvCollection.setVisibility(View.VISIBLE);
                     tvLike.setVisibility(View.VISIBLE);
                     editComment.setHint("再不评论 , 你会被抓去写作业的~");
                     editComment.setHintTextColor(Color.parseColor("#888888"));
                     sendEmoji.setVisibility(View.GONE);
+                    sendEmoji.setVisibility(View.GONE);
+                    imgBrow.setVisibility(View.VISIBLE);
 
                 }
             }
@@ -373,6 +424,20 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         }
     }
 
+    protected void setStatusBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//5.0及以上
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {//4.4到5.0
+            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
+            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
+        }
+    }
+
+
     @Override
     protected YoJiDetailContract.Presenter createPresenter() {
         return new YoJiDetailPresenter(this);
@@ -405,13 +470,18 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
 
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
         user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
         mPresenter.getYoJiDetail(user_id, user_token, yo_id);
         mPresenter.getCommentList(user_id, user_token, 1, yo_id, 0);
-
     }
-
 
     @OnClick({R.id.add_attention, R.id.img_back, R.id.img_share, R.id.tv_attention, R.id.tv_load_more, R.id.tv_comment, R.id.tv_like, R.id.tv_collection, R.id.tv_more_comment})
     public void onViewClicked(View view) {
@@ -422,16 +492,32 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
             case R.id.add_attention:
                 mPresenter.getYoJiDetail(user_id, user_token, yo_id);
 
-                mPresenter.addAttention(user_id, user_token, yo_attention_id);
+                mPresenter.addAttention(user_id, user_token, Integer.parseInt(yo_attention_id));
                 break;
             case R.id.img_share:
                 share();
                 break;
             case R.id.tv_attention:
                 mPresenter.getYoJiDetail(user_id, user_token, yo_id);
-                mPresenter.addAttention(user_id, user_token, yo_attention_id);
+                mPresenter.addAttention(user_id, user_token, Integer.parseInt(yo_attention_id));
                 break;
             case R.id.tv_load_more:
+                    if (tvLoadMore.getText().toString().trim().equals("展开全部")){
+
+                        tvLoadMore.setText("收起全部");
+                        //为自定义方法--控制另外一个变量
+                        yoJiDetailAdapter.changetShowDelImage(true);
+
+
+                    }else {
+
+                        tvLoadMore.setText("展开全部");
+                        //为自定义方法--控制另外一个变量
+                        yoJiDetailAdapter.changetShowDelImage(false);
+                    }
+
+
+
 
                 break;
             case R.id.tv_comment:
@@ -443,32 +529,32 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 Drawable liked = getResources().getDrawable(
                         R.mipmap.yixihuan_xiangqing);
                 tvLike.setCompoundDrawablesWithIntrinsicBounds(null, dataBeans.get(0).getIs_my_praise() > 0 ? liked : like, null, null);
-                int count_praise = dataBeans.get(0).getCount_praise();
-
+                String count_praise = dataBeans.get(0).getCount_praise();
+                int count_praises = Integer.parseInt(count_praise);
                 Log.d("Test", "dataBeans.get(0).getIs_my_like():" + dataBeans.get(0).getIs_my_praise());
                 if (dataBeans.get(0).getIs_my_praise() > 0) {
                     //由喜欢变为不喜欢，亮变暗
                     tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
                             like, null, null);
-                    count_praise -= 1;
+                    count_praises -= 1;
                     //设置点赞的数量
-                    tvLike.setText(count_praise + "");
+                    tvLike.setText(count_praises + "");
                     dataBeans.get(0).setIs_my_praise(0);
-                    dataBeans.get(0).setCount_praise(count_praise);
+                    dataBeans.get(0).setCount_praise(String.valueOf(count_praises));
 
                 } else {
                     //由不喜欢变为喜欢，暗变亮
                     tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
                             liked, null, null);
-                    count_praise += 1;
+                    count_praises += 1;
                     //设置点赞的数量
-                    tvLike.setText(count_praise + "");
+                    tvLike.setText(count_praises + "");
                     dataBeans.get(0).setIs_my_praise(1);
-                    dataBeans.get(0).setCount_praise(count_praise);
+                    dataBeans.get(0).setCount_praise(String.valueOf(count_praises));
                     like();
                     popup.showAtLocation(findViewById(R.id.activity_yoji_detail), Gravity.CENTER, 0, 0);
                 }
-                DataManager.getFromRemote().praise(user_id, user_token, dataBeans.get(0).getYo_id(), 0)
+                DataManager.getFromRemote().praise(user_id, user_token, Integer.parseInt(dataBeans.get(0).getYo_id()), 0)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -617,7 +703,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         tvAddressEndFold.setText(data.getP_end());
 
         List<YoJiDetailBean.DataBean.ListBean> list = data.getList();
-        YoJiDetailAdapter yoJiDetailAdapter = new YoJiDetailAdapter(YoJiDetailActivity.this, list);
+        yoJiDetailAdapter = new YoJiDetailAdapter(YoJiDetailActivity.this, list);
 
         recyclerYoji.setAdapter(yoJiDetailAdapter);
         recyclerYoji.setLayoutManager(new LinearLayoutManager(YoJiDetailActivity.this));
@@ -628,46 +714,322 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
             }
         });
-        yoJiDetailAdapter.setOnItemDataListener(new YoJiDetailAdapter.OnPlayListener() {
+       /* yoJiDetailAdapter.setOnItemDataListener(new YoJiDetailAdapter.OnPlayListener() {
+
+
             @Override
             public void getData(YoJiDetailAdapter.Holder holder, int position) {
-                index = position;
-                RelativeLayout picture_count_one = holder.itemView.findViewById(R.id.picture_count_one);
-                RelativeLayout picture_count_two = holder.itemView.findViewById(R.id.picture_count_two);
-                RelativeLayout picture_count_three = holder.itemView.findViewById(R.id.picture_count_three);
-                RelativeLayout picture_count_four = holder.itemView.findViewById(R.id.picture_count_four);
-                RelativeLayout picture_count_five = holder.itemView.findViewById(R.id.picture_count_five);
-                List<String> logos = data.getList().get(position).getLogos();
+//                index = position;
+
+
+                Log.d("5656565", "indexList.size():" + indexList.size());
+                picture_count_one = holder.itemView.findViewById(R.id.picture_count_one);
+                picture_count_two = holder.itemView.findViewById(R.id.picture_count_two);
+                picture_count_three = holder.itemView.findViewById(R.id.picture_count_three);
+                picture_count_four = holder.itemView.findViewById(R.id.picture_count_four);
+                picture_count_five = holder.itemView.findViewById(R.id.picture_count_five);
+                flowGroupView = holder.itemView.findViewById(R.id.flow);
+                img_count_one_one = holder.itemView.findViewById(R.id.img_count_one_one);
+                img_count_two_one = holder.itemView.findViewById(R.id.img_count_two_one);
+                img_count_three_one = holder.itemView.findViewById(R.id.img_count_three_one);
+                img_count_four_one = holder.itemView.findViewById(R.id.img_count_four_one);
+                img_count_five_one = holder.itemView.findViewById(R.id.img_count_five_one);
+                img_count_two_two = holder.itemView.findViewById(R.id.img_count_two_two);
+                img_count_three_two = holder.itemView.findViewById(R.id.img_count_three_two);
+                img_count_four_two = holder.itemView.findViewById(R.id.img_count_four_two);
+                img_count_five_two = holder.itemView.findViewById(R.id.img_count_five_two);
+                img_count_three_three = holder.itemView.findViewById(R.id.img_count_three_three);
+                img_count_four_three = holder.itemView.findViewById(R.id.img_count_four_three);
+                img_count_five_three = holder.itemView.findViewById(R.id.img_count_five_three);
+                img_count_four_four = holder.itemView.findViewById(R.id.img_count_four_four);
+                img_count_five_four = holder.itemView.findViewById(R.id.img_count_five_four);
+                img_count_five_five = holder.itemView.findViewById(R.id.img_count_five_five);
+                tv_pic_count = holder.itemView.findViewById(R.id.tv_pic_count);
+                logos = (ArrayList<String>) data.getList().get(position).getLogos();
+                logos_big = (ArrayList<String>) data.getList().get(position).getLogos_big();
+
+                indexList.add(String.valueOf(position));
+
                 if (position > 0) {
+                    flowGroupView.setVisibility(View.GONE);
                     picture_count_one.setVisibility(View.GONE);
                     picture_count_two.setVisibility(View.GONE);
                     picture_count_three.setVisibility(View.GONE);
                     picture_count_four.setVisibility(View.GONE);
                     picture_count_five.setVisibility(View.GONE);
-                }
-                if (logos.size() == 1) {
-                    picture_count_one.setVisibility(View.VISIBLE);
 
-//                    visible(position, picture_count_one, picture_count_two, picture_count_three, picture_count_four, picture_count_five);
-                } else if (logos.size() == 2) {
-                    picture_count_two.setVisibility(View.VISIBLE);
-//                    visible(position, picture_count_one, picture_count_two, picture_count_three, picture_count_four, picture_count_five);
-                } else if (logos.size() == 3) {
-                    picture_count_three.setVisibility(View.VISIBLE);
-//                    visible(position, picture_count_one, picture_count_two, picture_count_three, picture_count_four, picture_count_five);
-                } else if (logos.size() == 4) {
-                    picture_count_four.setVisibility(View.VISIBLE);
-//                    visible(position, picture_count_one, picture_count_two, picture_count_three, picture_count_four, picture_count_five);
-                } else if (logos.size() == 5) {
-                    picture_count_five.setVisibility(View.VISIBLE);
-//                    visible(position, picture_count_one, picture_count_two, picture_count_three, picture_count_four, picture_count_five);
-                } else if (logos.size() > 5) {
-                    picture_count_five.setVisibility(View.VISIBLE);
-//                    visible(position, picture_count_one, picture_count_two, picture_count_three, picture_count_four, picture_count_five);
+                } else {
+                    int size = logos.size();
+                    if (size > 5) {
+                        loadData(logos, 6);
+                    } else if (size == 5) {
+                        loadData(logos, 5);
+                    } else if (size == 4) {
+                        loadData(logos, 4);
+                    } else if (size == 3) {
+                        loadData(logos, 3);
+                    } else if (size == 2) {
+                        loadData(logos, 2);
+                    } else if (size == 1) {
+                        loadData(logos, 1);
+                    }
+
                 }
+                String integer = indexList.get(position);
+                int index = Integer.parseInt(integer);
+                index = position;
 
             }
-        });
+        });*/
+    }
+
+    private void loadData(ArrayList<String> logos, int size) {
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.mipmap.default_ic)
+                .error(R.mipmap.default_ic);
+        if (size == 1) {
+            flowGroupView.setVisibility(View.VISIBLE);
+            picture_count_one.setVisibility(View.VISIBLE);
+            Glide.with(getApplicationContext()).load(logos.get(0)).apply(requestOptions).into(img_count_one_one);
+            img_count_one_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(YoJiDetailActivity.this, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", logos_big);
+                    intent.putExtra("position", 0);
+                    startActivity(intent);
+                }
+            });
+        } else if (size == 2) {
+            flowGroupView.setVisibility(View.VISIBLE);
+            picture_count_two.setVisibility(View.VISIBLE);
+            Glide.with(getApplicationContext()).load(logos.get(0)).apply(requestOptions).into(img_count_two_one);
+            Glide.with(getApplicationContext()).load(logos.get(1)).apply(requestOptions).into(img_count_two_two);
+            img_count_two_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(YoJiDetailActivity.this, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", logos_big);
+                    intent.putExtra("position", 0);
+                    startActivity(intent);
+                }
+            });
+            img_count_two_two.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(YoJiDetailActivity.this, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", logos_big);
+                    intent.putExtra("position", 1);
+                    startActivity(intent);
+                }
+            });
+        } else if (size == 3) {
+            flowGroupView.setVisibility(View.VISIBLE);
+            picture_count_three.setVisibility(View.VISIBLE);
+            Glide.with(getApplicationContext()).load(logos.get(0)).apply(requestOptions).into(img_count_three_one);
+            Glide.with(getApplicationContext()).load(logos.get(1)).apply(requestOptions).into(img_count_three_two);
+            Glide.with(getApplicationContext()).load(logos.get(2)).apply(requestOptions).into(img_count_three_three);
+            img_count_three_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(YoJiDetailActivity.this, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", logos_big);
+                    intent.putExtra("position", 0);
+                    startActivity(intent);
+                }
+            });
+            img_count_three_two.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(YoJiDetailActivity.this, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", logos_big);
+                    intent.putExtra("position", 1);
+                    startActivity(intent);
+                }
+            });
+            img_count_three_three.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(YoJiDetailActivity.this, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", logos_big);
+                    intent.putExtra("position", 2);
+                    startActivity(intent);
+                }
+            });
+        } else if (size == 4) {
+            flowGroupView.setVisibility(View.VISIBLE);
+            flowGroupView.setVisibility(View.VISIBLE);
+            picture_count_four.setVisibility(View.VISIBLE);
+            Glide.with(getApplicationContext()).load(logos.get(0)).apply(requestOptions).into(img_count_four_one);
+            Glide.with(getApplicationContext()).load(logos.get(1)).apply(requestOptions).into(img_count_four_two);
+            Glide.with(getApplicationContext()).load(logos.get(2)).apply(requestOptions).into(img_count_four_three);
+            Glide.with(getApplicationContext()).load(logos.get(3)).apply(requestOptions).into(img_count_four_four);
+            img_count_four_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(YoJiDetailActivity.this, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", logos_big);
+                    intent.putExtra("position", 0);
+                    startActivity(intent);
+                }
+            });
+            img_count_four_two.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(YoJiDetailActivity.this, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", logos_big);
+                    intent.putExtra("position", 1);
+                    startActivity(intent);
+                }
+            });
+            img_count_four_three.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+
+                    intent.setClass(YoJiDetailActivity.this, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", logos_big);
+                    intent.putExtra("position", 2);
+                    startActivity(intent);
+                }
+            });
+            img_count_four_four.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(YoJiDetailActivity.this, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", logos_big);
+                    intent.putExtra("position", 3);
+                    startActivity(intent);
+                }
+            });
+        } else if (size == 5) {
+            flowGroupView.setVisibility(View.VISIBLE);
+            picture_count_five.setVisibility(View.VISIBLE);
+            Glide.with(getApplicationContext()).load(logos.get(0)).apply(requestOptions).into(img_count_five_one);
+            Glide.with(getApplicationContext()).load(logos.get(1)).apply(requestOptions).into(img_count_five_two);
+            Glide.with(getApplicationContext()).load(logos.get(2)).apply(requestOptions).into(img_count_five_three);
+            Glide.with(getApplicationContext()).load(logos.get(3)).apply(requestOptions).into(img_count_five_four);
+            Glide.with(getApplicationContext()).load(logos.get(4)).apply(requestOptions).into(img_count_five_five);
+            img_count_five_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(YoJiDetailActivity.this, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", logos_big);
+                    intent.putExtra("position", 0);
+                    startActivity(intent);
+                }
+            });
+            img_count_five_two.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(YoJiDetailActivity.this, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", logos_big);
+                    intent.putExtra("position", 1);
+                    startActivity(intent);
+                }
+            });
+            img_count_five_three.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(YoJiDetailActivity.this, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", logos_big);
+                    intent.putExtra("position", 2);
+                    startActivity(intent);
+                }
+            });
+            img_count_five_four.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(YoJiDetailActivity.this, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", logos_big);
+                    intent.putExtra("position", 3);
+                    startActivity(intent);
+                }
+            });
+            img_count_five_five.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(YoJiDetailActivity.this, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", logos_big);
+                    intent.putExtra("position", 4);
+                    startActivity(intent);
+                }
+            });
+        } else if (size > 5) {
+            flowGroupView.setVisibility(View.VISIBLE);
+            picture_count_five.setVisibility(View.VISIBLE);
+            Glide.with(getApplicationContext()).load(logos.get(0)).apply(requestOptions).into(img_count_five_one);
+            Glide.with(getApplicationContext()).load(logos.get(1)).apply(requestOptions).into(img_count_five_two);
+            Glide.with(getApplicationContext()).load(logos.get(2)).apply(requestOptions).into(img_count_five_three);
+            Glide.with(getApplicationContext()).load(logos.get(3)).apply(requestOptions).into(img_count_five_four);
+            Glide.with(getApplicationContext()).load(logos.get(4)).apply(requestOptions).into(img_count_five_five);
+            tv_pic_count.setVisibility(View.VISIBLE);
+            tv_pic_count.setText(size + "");
+            img_count_five_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(YoJiDetailActivity.this, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", logos_big);
+                    intent.putExtra("position", 0);
+                    startActivity(intent);
+                }
+            });
+            img_count_five_two.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(YoJiDetailActivity.this, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", logos_big);
+                    intent.putExtra("position", 1);
+                    startActivity(intent);
+                }
+            });
+            img_count_five_three.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(YoJiDetailActivity.this, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", logos_big);
+                    intent.putExtra("position", 2);
+                    startActivity(intent);
+                }
+            });
+            img_count_five_four.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(YoJiDetailActivity.this, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", logos_big);
+                    intent.putExtra("position", 3);
+                    startActivity(intent);
+                }
+            });
+            img_count_five_five.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(YoJiDetailActivity.this, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", logos_big);
+                    intent.putExtra("position", 4);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     private void visible(int position, RelativeLayout picture_count_one, RelativeLayout picture_count_two, RelativeLayout picture_count_three, RelativeLayout picture_count_four, RelativeLayout picture_count_five) {
@@ -878,6 +1240,13 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
     //隐藏事件PopupWindow
     private class poponDismissListener implements PopupWindow.OnDismissListener {
         @Override
@@ -963,7 +1332,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 int folder_id = mList1.get(position).getFolder_id();
                 mPresenter.getYoJiDetail(user_id, user_token, yo_id);
                 if (is_my_attention == 0) {
-                    mPresenter.addCollection(user_id, user_token, folder_id, yo_user_id);
+                    mPresenter.addCollection(user_id, user_token, folder_id, Integer.parseInt(yo_user_id));
                     popup.dismiss();
 //                    Log.d("YoXiuDetailActivity", target_id);
 

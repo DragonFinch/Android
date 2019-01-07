@@ -31,6 +31,7 @@
             android:visibility="gone" />
 
         <TextView
+
             android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,6 +40,17 @@
             android:text="温暖的日子"
             android:textColor="#ff333333"
             android:textSize="12sp" />
+
+        <ImageView
+            android:layout_marginTop="@dimen/dp_3"
+            android:id="@+id/img_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/user"
+            android:layout_marginLeft="@dimen/dp_2"
+            android:layout_toRightOf="@+id/user_name"
+            android:src="@mipmap/lv1"
+            android:visibility="visible" />
 
         <LinearLayout
             android:id="@+id/look_ll"
@@ -168,6 +180,28 @@
                 android:singleLine="true"
                 android:text="巴黎"
                 android:textColor="@color/colorWhite" />
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:ellipsize="end"
+                android:maxLength="14"
+                android:singleLine="true"
+                android:text="-"
+                android:textColor="@color/colorWhite" />
+            <TextView
+                android:id="@+id/location_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:ellipsize="end"
+                android:maxLength="14"
+                android:singleLine="true"
+                android:text="巴黎"
+                android:textColor="@color/colorWhite" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -203,7 +237,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/dp_5"
-                android:text="| ￥3000"
+                android:text="| ￥3000ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss "
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/sp_12" />
         </LinearLayout>

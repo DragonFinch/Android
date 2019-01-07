@@ -78,7 +78,8 @@ public class YoXiuListActivity extends BaseActivity {
         super.initView();
         mLayoutManager = new LinearLayoutManager(YoXiuListActivity.this);
         shareImg.setVisibility(View.GONE);
-        StatusBarUtils.setWindowStatusBarColor(YoXiuListActivity.this, R.color.orange);
+        statusbar();
+//        StatusBarUtils.setWindowStatusBarColor(YoXiuListActivity.this, R.color.orange);
         mList = new ArrayList<>();
         //初始化header
         mRefreshAnimHeader = new MyRefreshAnimHeader(this);
@@ -96,7 +97,6 @@ public class YoXiuListActivity extends BaseActivity {
         return null;
     }
 
-    @SuppressLint("CheckResult")
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
@@ -108,7 +108,8 @@ public class YoXiuListActivity extends BaseActivity {
         user_token = SpUtils.getString(YoXiuListActivity.this, "user_token", null);
         recyclerYoxiuList.setLayoutManager(new LinearLayoutManager(YoXiuListActivity.this));
         refreshLayout.setEnableRefresh(true);
-        refreshLayout.setFooterHeight(1.0f);
+//        refreshLayout.setFooterMaxDragRate()
+//        refreshLayout.setFooterHeight(1.0f);
 //        refreshLayout.setFooterHeight(1.0f);
 //        refreshLayout.setEnableFooterFollowWhenLoadFinished(false);
         DataManager.getFromRemote().getYoXiuList(user_id, user_token, currentPage)

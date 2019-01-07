@@ -1,8 +1,12 @@
 package com.iyoyogo.android.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +22,9 @@ import java.util.List;
  */
 public class YoJiListInnerAdapter extends RecyclerView.Adapter<YoJiListInnerAdapter.ViewHolder> implements View.OnClickListener {
     private Context context;
-    List<YoJiListBean.DataBean.ListBean.CommentBean> mList;
+    List<YoJiListBean.DataBean.ListBean.CommentListBean> mList;
     private OnClickListener onClickListener;
-    public YoJiListInnerAdapter(Context context, List<YoJiListBean.DataBean.ListBean.CommentBean> comment_list) {
+    public YoJiListInnerAdapter(Context context, List<YoJiListBean.DataBean.ListBean.CommentListBean> comment_list) {
         this.context = context;
         this.mList = comment_list;
     }
@@ -36,8 +40,9 @@ public class YoJiListInnerAdapter extends RecyclerView.Adapter<YoJiListInnerAdap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        viewHolder.user_name.setText(mList.get(position).getUser_nickname());
-        viewHolder.tv_content.setText(mList.get(position).getContent());
+        SpannableString msp1 = new SpannableString(mList.get(position).getUser_nickname() + "  " + mList.get(position).getContent());
+        msp1.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), 0, mList.get(position).getUser_nickname().length()+2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
+        viewHolder.tv_content.setText(msp1);
         viewHolder.itemView.setTag(position);
     }
 
@@ -56,11 +61,10 @@ public class YoJiListInnerAdapter extends RecyclerView.Adapter<YoJiListInnerAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView user_name, tv_content;
+        TextView  tv_content;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            user_name = itemView.findViewById(R.id.user_name);
             tv_content = itemView.findViewById(R.id.tv_content);
         }
     }

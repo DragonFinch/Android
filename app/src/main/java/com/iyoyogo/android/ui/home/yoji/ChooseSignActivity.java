@@ -31,6 +31,8 @@ import com.iyoyogo.android.view.flowlayout.JLHorizontalScrollView;
 import com.iyoyogo.android.widget.flow.TagAdapter;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -393,6 +395,7 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
                     Log.d("ChooseSignActivity", list.get(i).getLabel());
                 }
                 Bundle bundle = new Bundle();
+                Collections.reverse(list);
                 bundle.putSerializable("sign_list", list);
                 intent.putExtras(bundle);
                 intent.putExtra("type", 1);

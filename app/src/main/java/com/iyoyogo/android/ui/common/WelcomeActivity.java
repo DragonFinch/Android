@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.WelcomeViewPagerAdapter;
+import com.iyoyogo.android.base.BaseActivity;
+import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.utils.SpUtils;
 
 import butterknife.BindView;
@@ -21,7 +23,7 @@ import butterknife.OnClick;
  * 欢迎页
  */
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends BaseActivity {
     int[] image_ids = {R.mipmap.welcome2, R.mipmap.welcome3, R.mipmap.welcome4};
     @BindView(R.id.viewpager)
     ViewPager viewPager;
@@ -33,16 +35,25 @@ public class WelcomeActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
-        ButterKnife.bind(this);
+    protected void initView() {
+        super.initView();
+        statusbar();
         boolean isTrue = SpUtils.getBoolean(WelcomeActivity.this, "isTrue", false);
         if (isTrue) {
             startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
             finish();
         }
         initViewPagerData();
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_welcome;
+    }
+
+    @Override
+    protected IBasePresenter createPresenter() {
+        return null;
     }
 
     private void initViewPagerData() {

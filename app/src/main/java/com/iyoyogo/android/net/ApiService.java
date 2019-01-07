@@ -669,32 +669,41 @@ public interface ApiService {
     Observable<SearchBean> search(@Field("user_id") String user_id, @Field("user_token") String user_token);
 
     //首页  搜索
-    @POST("/index.php/api/search/index")
+    @POST("index.php/api/search/index")
     @FormUrlEncoded
     Observable<KeywordBean> keyword(@Field("user_id")String user_id, @Field("user_token") String user_token , @Field("search") String search, @Field("type")String type);
 
 
     //首页  搜索
-    @POST("/index.php/api/attention/click")
+    @POST("index.php/api/attention/click")
     @FormUrlEncoded
     Observable<GuanZhuBean> keyword(@Field("user_id")String user_id, @Field("user_token") String user_token, @Field("target_id")String target_id);
 
     //首页  选择城市
-    @POST("/index.php/api/city/get_list")
+    @POST("index.php/api/city/get_list")
     @FormUrlEncoded
     Observable<MapBean> getChengShi(@Field("user_id")String user_id, @Field("user_token") String user_token, @Field("type")String type, @Field("search")String search);
     //首页  个人信息
-    @POST("/index.php/api/city/get_list")
+    @POST("index.php/api/city/get_list")
     @FormUrlEncoded
     Observable<MapBean> getChengShiLieBiao(@Field("user_id")String user_id, @Field("user_token") String user_token, @Field("type")String type, @Field("search")String search);
     //首页  个人信息
-    @POST("/index.php/api/city/get_list")
+    @POST("index.php/api/city/get_list")
     @FormUrlEncoded
     Observable<MapBean> getGps(@Field("user_id")String user_id, @Field("user_token") String user_token, @Field("type")String type, @Field("search")String search);
 
     //首页  搜索 关键字搜索
-    @POST("/index.php/api/search/get_keywords")
+    @POST("index.php/api/search/get_keywords")
     @FormUrlEncoded
     Observable<KeywordUserBean> getserarch(@Field("user_id")String user_id, @Field("user_token") String user_token, @Field("search")String search);
+
+    //index.php/api/yox/count_video_inc
+    //浏览量加1
+    @POST("index.php/api/yox/count_video_inc")
+    @FormUrlEncoded
+    Observable<BaseBean> browse(@Field("user_id")String user_id, @Field("user_token") String user_token, @Field("yo_id")String yo_id);
+    @POST("index.php/api/userposition/set")
+    @FormUrlEncoded
+    Observable<BaseBean>  setLocation(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("lng")String lng,@Field("lat")String lat);
 }
 

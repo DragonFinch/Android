@@ -2,6 +2,7 @@ package com.iyoyogo.android.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +23,7 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.home.HomeBean;
 import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
 import com.iyoyogo.android.utils.SpUtils;
@@ -97,10 +99,10 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
             holder.medal.setVisibility(View.INVISIBLE);
         } else if (partner_type == 1) {
             mList.get(position).setPartner_type(1);
-            holder.medal.setImageResource(R.mipmap.da);
+            holder.medal.setImageResource(R.mipmap.daren);
         } else if (partner_type == 2) {
             mList.get(position).setPartner_type(2);
-            holder.medal.setImageResource(R.mipmap.hong);
+            holder.medal.setImageResource(R.mipmap.hongren);
         } else if (partner_type == 3) {
             mList.get(position).setPartner_type(3);
             holder.medal.setImageResource(R.mipmap.kol);
@@ -190,7 +192,7 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        DataManager.getFromRemote().praise(user_id, user_token, 0, mList.get(position).getId())
+                        DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getId(),0 )
                                 .subscribe(new Consumer<BaseBean>() {
                                     @Override
                                     public void accept(BaseBean baseBean) throws Exception {
@@ -199,6 +201,14 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
                     }
                 }).start();
 
+            }
+        });
+        holder.user_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, UserHomepageActivity.class);
+                intent.putExtra("yo_user_id",String.valueOf(mList.get(position).getUser_id()));
+                context.startActivity(intent);
             }
         });
 

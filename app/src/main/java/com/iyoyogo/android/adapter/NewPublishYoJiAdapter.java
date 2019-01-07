@@ -1,5 +1,6 @@
 package com.iyoyogo.android.adapter;
 
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -64,6 +65,10 @@ public class NewPublishYoJiAdapter extends BaseQuickAdapter<PublishYoJiBean.Data
                 TextView     tv   = view.findViewById(R.id.tv);
                 LinearLayout llBg = view.findViewById(R.id.ll_bg);
                 tv.setText(labelsBean.getLabel());
+
+
+                tv.setCompoundDrawablesWithIntrinsicBounds(labelsBean.getType() == 1 ?   mContext.getResources().getDrawable(R.mipmap.make): labelsBean.getType() == 2 ?   mContext.getResources().getDrawable(R.mipmap.donot) :   mContext.getResources().getDrawable(R.mipmap.self),null, null, null);
+
                 tv.setTextColor(ContextCompat.getColor(mContext, labelsBean.getType() == 1 ? R.color.blue_color : labelsBean.getType() == 2 ? R.color.orgeen_color : R.color.color_exclusive));
                 llBg.setBackgroundResource(labelsBean.getType() == 1 ? R.drawable.label_bg_blue : labelsBean.getType() == 2 ? R.drawable.label_bg_orange : R.drawable.label_bg_red);
                 flexTag.addView(view);

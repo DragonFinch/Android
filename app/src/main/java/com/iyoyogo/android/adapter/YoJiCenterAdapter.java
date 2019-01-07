@@ -74,6 +74,7 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
         Log.d("YoJiAdapter", mList.get(position).getFile_path());
         Glide.with(context).load(mList.get(position).getFile_path()).apply(myOptions).into(holder.zuji_image);
         holder.location.setText(mList.get(position).getP_start());
+        holder.location_end.setText(mList.get(position).getP_end());
         holder.num_look.setText(mList.get(position).getCount_view() + "");
         Log.d("YoJiAdapter", "mList.get(position).getUsers_praise():" + mList.get(position).getUsers_praise());
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -231,13 +232,14 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
     public class Holder extends RecyclerView.ViewHolder {
         ImageView zuji_image, typeImageView, dt_like;
         CircleImageView user_icon;
-        TextView num_look, user_name, title, tv_cost, location, tv_day, tv_num_like, tv_num_comment;
+        TextView num_look, user_name, title, tv_cost, location, tv_day, tv_num_like, tv_num_comment,location_end;
         RelativeLayout view_like;
         PileLayout pile_layout;
         RecyclerView recycler_comment;
 
         public Holder(@NonNull View itemView) {
             super(itemView);
+            location_end = itemView.findViewById(R.id.location_end);
             zuji_image = itemView.findViewById(R.id.zuji_image);
             tv_num_comment = itemView.findViewById(R.id.tv_num_comment);
             recycler_comment = itemView.findViewById(R.id.recycler_comment);
