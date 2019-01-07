@@ -151,17 +151,17 @@ public class SearchYoXiuListAdapter extends RecyclerView.Adapter<SearchYoXiuList
                 int count_praise = mList.get(position).getCount_praise();
                 mList.get(position).setYo_id(mList.get(position).getYo_id() == 1 ? 0 : 1);
                 if (mList.get(position).getYo_id() == 1) {
-                    count_praise += 1;
-                    mList.get(position).setCount_praise(count_praise);
-                    viewHolder.num_like.setText(count_praise + "");
-                    viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == true ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
-
-                } else if (count_praise > 0) {
                     count_praise -= 1;
                     mList.get(position).setCount_praise(count_praise);
                     viewHolder.num_like.setText(count_praise + "");
                     viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == false ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
 
+
+                } else if (count_praise > 0) {
+                    count_praise += 1;
+                    mList.get(position).setCount_praise(count_praise);
+                    viewHolder.num_like.setText(count_praise + "");
+                    viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == true ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
                 }
 
                 new Thread(new Runnable() {

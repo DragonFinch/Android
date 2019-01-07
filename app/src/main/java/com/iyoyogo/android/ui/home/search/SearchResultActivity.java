@@ -59,8 +59,6 @@ import butterknife.ButterKnife;
  */
 public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter> implements View.OnClickListener, KeywordContract.View, SearchView.OnQueryTextListener {
 
-    /*   @BindView(R.id.table)
-       TextView table;*/
     @BindView(R.id.cancel)
     TextView cancel;
     @BindView(R.id.lv)
@@ -135,6 +133,40 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     View view5;
     @BindView(R.id.view6)
     View view6;
+  /*  @BindView(R.id.text_name2)
+    TextView textName2;*/
+    @BindView(R.id.text_name7)
+    TextView textName7;
+    @BindView(R.id.im_dizhi7)
+    ImageView imDizhi7;
+    @BindView(R.id.name7)
+    RelativeLayout name7;
+    @BindView(R.id.view7)
+    View view7;
+    @BindView(R.id.text_name8)
+    TextView textName8;
+    @BindView(R.id.im_dizhi8)
+    ImageView imDizhi8;
+    @BindView(R.id.name8)
+    RelativeLayout name8;
+    @BindView(R.id.view8)
+    View view8;
+    @BindView(R.id.text_name9)
+    TextView textName9;
+    @BindView(R.id.im_dizhi9)
+    ImageView imDizhi9;
+    @BindView(R.id.name9)
+    RelativeLayout name9;
+    @BindView(R.id.view9)
+    View view9;
+    @BindView(R.id.text_name10)
+    TextView textName10;
+    @BindView(R.id.im_dizhi10)
+    ImageView imDizhi10;
+    @BindView(R.id.name10)
+    RelativeLayout name10;
+    @BindView(R.id.view10)
+    View view10;
     private PopupWindow popupWindow;
     private List<KeywordBean.DataBean.UserListBean> mUser = new ArrayList<>();
     private List<KeywordBean.DataBean.YojListBean> myoj = new ArrayList<>();
@@ -153,7 +185,8 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     private int user_id1;
     private List<KeywordUserBean.DataBean.ListBean> list;
     private TextView tv_guanzhu1;
-    boolean fig  = false;
+    boolean fig = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -227,7 +260,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 Log.e("setOnClickListener", "setOnClickListener: " + user_id);
                 if (s.equals("已关注")) {
                     mPresenter.getGuanZhu(SearchResultActivity.this.user_id, user_token, user_id + "");
-            }
+                }
                 if (s.equals("+关注")) {
                     mPresenter.getGuanZhu(SearchResultActivity.this.user_id, user_token, user_id + "");
                 }
@@ -319,11 +352,11 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             @Override
             public void afterTextChanged(Editable s) {
                 if (!s.toString().isEmpty()) {
-                    if (fig){
+                    if (fig) {
                         mPresenter.getSearch(user_id, user_token, s.toString());
                         cancel.setVisibility(View.VISIBLE);
                         searchBtnBack.setVisibility(View.VISIBLE);
-                    }else{
+                    } else {
                         fig = true;
                     }
 
@@ -408,12 +441,12 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     public void guanZhu(GuanZhuBean keywordBean) {
         int status = keywordBean.getData().getStatus();
         if (status == 1) {
-           // mPresenter.getKeyWord(user_id, user_token, keyword, "user");
+            // mPresenter.getKeyWord(user_id, user_token, keyword, "user");
             tv_guanzhu1.setText("已关注");
 
         }
         if (status == 0) {
-          //  mPresenter.getKeyWord(user_id, user_token, keyword, "user");
+            //  mPresenter.getKeyWord(user_id, user_token, keyword, "user");
             tv_guanzhu1.setText("+关注");
         }
     }
@@ -442,75 +475,91 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i).getType() == 1) {
                     if (list.get(i).getUser_nickname() != null) {
-                            name1.setVisibility(View.VISIBLE);
-                            view1.setVisibility(View.VISIBLE);
-                            imDizhi.setImageResource(R.drawable.yonghu);
-                        String content= listBeans.get(i).getPosition_name();
-                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString())&&!TextUtils.isEmpty(content)) {
+                        name1.setVisibility(View.VISIBLE);
+                        imDizhi.setVisibility(View.VISIBLE);
+                        view1.setVisibility(View.VISIBLE);
+                        textName.setVisibility(View.VISIBLE);
+                        imDizhi.setImageResource(R.drawable.yonghu);
+                        String content = listBeans.get(i).getUser_nickname();
+                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString()) && !TextUtils.isEmpty(content)) {
                             int index = content.indexOf(searchGuanjiaci.getText().toString());
-                            if (index>=0) {
+                            if (index >= 0) {
                                 textName.setText(content.substring(0, index));
                                 textName.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
                                 String str = content.substring(searchGuanjiaci.getText().toString().length() + index, content.length());
                                 textName.append(str);
                             }
                         }
-                            int finalI = i;
-                            textName.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(SearchResultActivity.this, Personal_homepage_Activity.class);
-                                    intent.putExtra("yo_user_id", list.get(finalI).getUser_id());
-                                    Log.e("adadada", "onClick: "+list.get(finalI).getUser_id() );
-                                    startActivity(intent);
-                                }
-                            });
-                    }
-                }
-                if (list.get(i).getType() == 2) {
-                    Log.e("search", "search: "+list.get(i).getTitle() );
-                        name2.setVisibility(View.VISIBLE);
-                        view2.setVisibility(View.VISIBLE);
-                        imDizhi2.setImageResource(R.drawable.yoji_i);
-                        int finalI1 = i;
-                    String content= listBeans.get(i).getTitle();
-                    if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString())&&!TextUtils.isEmpty(content)) {
-                        int index = content.indexOf(searchGuanjiaci.getText().toString());
-                        if (index>=0) {
-                            textName2.setText(content.substring(0, index));
-                            textName2.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
-                            String str = content.substring(searchGuanjiaci.getText().toString().length() + index, content.length());
-                            textName2.append(str);
-                        }
-                    }
-
-                        textName2.setOnClickListener(new View.OnClickListener() {
+                        int finalI = i;
+                        textName.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(SearchResultActivity.this, UserHomepageActivity.class);
-                                intent.putExtra("yo_user_id", list.get(finalI1).getUser_id());
+                                Intent intent = new Intent(SearchResultActivity.this, Personal_homepage_Activity.class);
+                                intent.putExtra("yo_user_id", list.get(finalI).getUser_id());
+                                Log.e("adadada", "onClick: " + list.get(finalI).getUser_id());
                                 startActivity(intent);
                             }
                         });
-                }
+                    }
+                }/*else{
+                    name1.setVisibility(View.GONE);
+                    imDizhi.setVisibility(View.GONE);
+                    view1.setVisibility(View.GONE);
+                    textName.setVisibility(View.GONE);
+                }*/
+                if (list.get(i).getType() == 2) {
+                    Log.e("search", "search: " + list.get(i).getTitle());
+                    name2.setVisibility(View.VISIBLE);
+                    imDizhi1.setVisibility(View.VISIBLE);
+                    view2.setVisibility(View.VISIBLE);
+                    textName1.setVisibility(View.VISIBLE);
+                    imDizhi1.setImageResource(R.drawable.yoji_i);
+                    int finalI1 = i;
+                    String content = listBeans.get(i).getTitle();
+                    if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString()) && !TextUtils.isEmpty(content)) {
+                        int index = content.indexOf(searchGuanjiaci.getText().toString());
+                        if (index >= 0) {
+                            textName1.setText(content.substring(0, index));
+                            textName1.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
+                            String str = content.substring(searchGuanjiaci.getText().toString().length() + index, content.length());
+                            textName1.append(str);
+                        }
+                    }
+
+                    textName1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(SearchResultActivity.this, UserHomepageActivity.class);
+                            intent.putExtra("yo_user_id", list.get(finalI1).getUser_id());
+                            startActivity(intent);
+                        }
+                    });
+                }/*else{
+                    textName1.setVisibility(View.VISIBLE);
+                    name2.setVisibility(View.GONE);
+                    imDizhi1.setVisibility(View.GONE);
+                    view2.setVisibility(View.GONE);
+                }*/
 
                 if (list.get(i).getType() == 3) {
                     if (list.get(i).getFile_desc() != null) {
-                        name3.setVisibility(View.GONE);
-                        view3.setVisibility(View.GONE);
-                        imDizhi1.setImageResource(R.drawable.yoxiu_i);
-                        String content= listBeans.get(i).getFile_desc();
-                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString())&&!TextUtils.isEmpty(content)) {
+                        name3.setVisibility(View.VISIBLE);
+                        view3.setVisibility(View.VISIBLE);
+                        imDizhi2.setVisibility(View.VISIBLE);
+                        textName2.setVisibility(View.VISIBLE);
+                        imDizhi2.setImageResource(R.drawable.yoxiu_i);
+                        String content = listBeans.get(i).getFile_desc();
+                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString()) && !TextUtils.isEmpty(content)) {
                             int index = content.indexOf(searchGuanjiaci.getText().toString());
-                            if (index>=0) {
-                                textName1.setText(content.substring(0, index));
-                                textName1.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
+                            if (index >= 0) {
+                                textName2.setText(content.substring(0, index));
+                                textName2.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
                                 String str = content.substring(searchGuanjiaci.getText().toString().length() + index, content.length());
-                                textName1.append(str);
+                                textName2.append(str);
                             }
                         }
                         int finalI2 = i;
-                        textName1.setOnClickListener(new View.OnClickListener() {
+                        textName2.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent(SearchResultActivity.this, YoXiuDetailActivity.class);
@@ -519,17 +568,24 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                             }
                         });
                     }
-                }
+                }/*else{
+                    name3.setVisibility(View.GONE);
+                    view3.setVisibility(View.GONE);
+                    imDizhi2.setVisibility(View.GONE);
+                    textName2.setVisibility(View.GONE);
+                }*/
 
                 if (list.get(i).getType() == 4) {
                     if (list.get(i).getLabel() != null) {
+                        textName3.setVisibility(View.VISIBLE);
                         name4.setVisibility(View.VISIBLE);
                         view4.setVisibility(View.VISIBLE);
+                        imDizhi3.setVisibility(View.VISIBLE);
                         imDizhi3.setImageResource(R.drawable.biaoqian);
-                        String content= listBeans.get(i).getLabel();
-                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString())&&!TextUtils.isEmpty(content)) {
+                        String content = listBeans.get(i).getLabel();
+                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString()) && !TextUtils.isEmpty(content)) {
                             int index = content.indexOf(searchGuanjiaci.getText().toString());
-                            if (index>=0) {
+                            if (index >= 0) {
                                 textName3.setText(content.substring(0, index));
                                 textName3.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
                                 String str = content.substring(searchGuanjiaci.getText().toString().length() + index, content.length());
@@ -542,18 +598,23 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                             }
                         });
                     }
-                }
+                }/*else{
+                    name4.setVisibility(View.GONE);
+                    view4.setVisibility(View.GONE);
+                    imDizhi3.setVisibility(View.GONE);
+                    textName3.setVisibility(View.GONE);
+                }*/
                 if (list.get(i).getType() == 5) {
-
                     if (list.get(i).getPosition_name() != null) {
                         name5.setVisibility(View.VISIBLE);
                         view5.setVisibility(View.VISIBLE);
+                        imDizhi4.setVisibility(View.VISIBLE);
+                        textName4.setVisibility(View.VISIBLE);
                         imDizhi4.setImageResource(R.drawable.didian);
-
-                        String content= listBeans.get(i).getPosition_name();
-                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString())&&!TextUtils.isEmpty(content)) {
+                        String content = listBeans.get(i).getPosition_name();
+                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString()) && !TextUtils.isEmpty(content)) {
                             int index = content.indexOf(searchGuanjiaci.getText().toString());
-                            if (index>=0) {
+                            if (index >= 0) {
                                 textName4.setText(content.substring(0, index));
                                 textName4.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
                                 String str = content.substring(searchGuanjiaci.getText().toString().length() + index, content.length());
@@ -566,19 +627,25 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                             }
                         });
                     }
-                }
+                }/*else{
+                    name5.setVisibility(View.GONE);
+                    view5.setVisibility(View.GONE);
+                    imDizhi4.setVisibility(View.GONE);
+                    textName4.setVisibility(View.GONE);
+                }*/
 
                 if (list.get(i).getType() == 6) {
                     if (list.get(i).getChannel() != null) {
                         view6.setVisibility(View.VISIBLE);
                         name6.setVisibility(View.VISIBLE);
+                        imDizhi5.setVisibility(View.VISIBLE);
                         imDizhi5.setImageResource(R.drawable.pindao);
-                        textName5.setTextColor(R.color.blue);
+                        textName5.setVisibility(View.VISIBLE);
 
-                        String content= listBeans.get(i).getChannel();
-                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString())&&!TextUtils.isEmpty(content)) {
+                        String content = listBeans.get(i).getChannel();
+                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString()) && !TextUtils.isEmpty(content)) {
                             int index = content.indexOf(searchGuanjiaci.getText().toString());
-                            if (index>=0) {
+                            if (index >= 0) {
                                 textName5.setText(content.substring(0, index));
                                 textName5.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
                                 String str = content.substring(searchGuanjiaci.getText().toString().length() + index, content.length());
@@ -592,12 +659,120 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                             }
                         });
                     }
+                }/*else{
+                    textName5.setVisibility(View.GONE);
+                    view6.setVisibility(View.GONE);
+                    imDizhi5.setVisibility(View.GONE);
+                    name6.setVisibility(View.GONE);
+                }*/
+
+                if (list.get(i).getType() == 1) {
+                    if (list.get(i).getUser_nickname() != null) {
+                        view7.setVisibility(View.VISIBLE);
+                        name7.setVisibility(View.VISIBLE);
+                        imDizhi7.setVisibility(View.VISIBLE);
+                        imDizhi7.setImageResource(R.drawable.yonghu);
+                        textName7.setVisibility(View.VISIBLE);
+                        String content = listBeans.get(i).getUser_nickname();
+                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString()) && !TextUtils.isEmpty(content)) {
+                            int index = content.indexOf(searchGuanjiaci.getText().toString());
+                            if (index >= 0) {
+                                textName7.setText(content.substring(0, index));
+                                textName7.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
+                                String str = content.substring(searchGuanjiaci.getText().toString().length() + index, content.length());
+                                textName7.append(str);
+                            }
+                        }
+
+                        textName7.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                            }
+                        });
+                    }
                 }
+                if (list.get(i).getType() == 2) {
+                    if (list.get(i).getTitle() != null) {
+                        view8.setVisibility(View.VISIBLE);
+                        name8.setVisibility(View.VISIBLE);
+                        imDizhi8.setVisibility(View.VISIBLE);
+                        imDizhi8.setImageResource(R.drawable.yoji_i);
+                        textName8.setVisibility(View.VISIBLE);
+                        String content = listBeans.get(i).getTitle();
+                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString()) && !TextUtils.isEmpty(content)) {
+                            int index = content.indexOf(searchGuanjiaci.getText().toString());
+                            if (index >= 0) {
+                                textName8.setText(content.substring(0, index));
+                                textName8.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
+                                String str = content.substring(searchGuanjiaci.getText().toString().length() + index, content.length());
+                                textName8.append(str);
+                            }
+                        }
+
+                        textName8.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                            }
+                        });
+                    }
+                }
+                if (list.get(i).getType() == 3) {
+                    if (list.get(i).getFile_desc() != null) {
+                        view9.setVisibility(View.VISIBLE);
+                        name9.setVisibility(View.VISIBLE);
+                        imDizhi9.setVisibility(View.VISIBLE);
+                        imDizhi9.setImageResource(R.drawable.yoxiu_i);
+                        textName9.setVisibility(View.VISIBLE);
+                        String content = listBeans.get(i).getFile_desc();
+                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString()) && !TextUtils.isEmpty(content)) {
+                            int index = content.indexOf(searchGuanjiaci.getText().toString());
+                            if (index >= 0) {
+                                textName9.setText(content.substring(0, index));
+                                textName9.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
+                                String str = content.substring(searchGuanjiaci.getText().toString().length() + index, content.length());
+                                textName9.append(str);
+                            }
+                        }
+
+                        textName9.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                            }
+                        });
+                    }
+                }
+                if (list.get(i).getType() == 4) {
+                    if (list.get(i).getLabel() != null) {
+                        view10.setVisibility(View.VISIBLE);
+                        name10.setVisibility(View.VISIBLE);
+                        imDizhi10.setVisibility(View.VISIBLE);
+                        imDizhi10.setImageResource(R.drawable.biaoqian);
+                        textName10.setVisibility(View.VISIBLE);
+                        String content = listBeans.get(i).getLabel();
+                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString()) && !TextUtils.isEmpty(content)) {
+                            int index = content.indexOf(searchGuanjiaci.getText().toString());
+                            if (index >= 0) {
+                                textName10.setText(content.substring(0, index));
+                                textName10.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
+                                String str = content.substring(searchGuanjiaci.getText().toString().length() + index, content.length());
+                                textName10.append(str);
+                            }
+                        }
+
+                        textName10.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                            }
+                        });
+                    }
+                }
+
+
             }
-            if (list.size() == 0){
-             //   lv.setVisibility(View.VISIBLE);
+            if (list.size() == 0) {
+                //   lv.setVisibility(View.VISIBLE);
                 tvSetname.setVisibility(View.VISIBLE);
-                Toast.makeText(SearchResultActivity.this,"没有匹配到您要查询的关键字",Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchResultActivity.this, "没有匹配到您要查询的关键字", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -688,7 +863,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 @Override
                 public void set(int position) {
                     Intent intent = new Intent(SearchResultActivity.this, UserHomepageActivity.class);
-                    intent.putExtra("yo_user_id", myoj.get(position).getUsers_praise().get(position).getUser_id()+"");
+                    intent.putExtra("yo_user_id", myoj.get(position).getUsers_praise().get(position).getUser_id() + "");
                     startActivity(intent);
                 }
             });
