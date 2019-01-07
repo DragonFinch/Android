@@ -17,8 +17,10 @@
             android:layout_centerVertical="true"
             android:id="@+id/back"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_20"
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_20"
+            android:layout_height="match_parent"
+
             android:layout_marginTop="@dimen/dp_14"
             android:layout_marginBottom="@dimen/dp_17"
             android:src="@mipmap/back_icon" />

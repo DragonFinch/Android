@@ -75,6 +75,7 @@ public class CollectionActivity extends BaseActivity<CollectionContract.Presente
     @Override
     protected void onResume() {
         super.onResume();
+        managerCollectionFolder.setText("管理");
         user_id = SpUtils.getString(CollectionActivity.this, "user_id", null);
         user_token = SpUtils.getString(CollectionActivity.this, "user_token", null);
         Intent intent = getIntent();
@@ -140,11 +141,19 @@ public class CollectionActivity extends BaseActivity<CollectionContract.Presente
             for (int i = 0; i < idList.size(); i++) {
                 like[i] = Integer.valueOf(idList.get(i));
             }
-            mPresenter.deleteCollectionFolder(user_id, user_token, like);
-            managerCollectionFolder.setText("管理");
+            if (like.length > 0) {
+                mPresenter.deleteCollectionFolder(user_id, user_token, like);
+                managerCollectionFolder.setText("管理");
 
-            editorStatus = false;
-            clearAll();
+                editorStatus = false;
+                clearAll();
+            }else {
+                managerCollectionFolder.setText("管理");
+
+                editorStatus = false;
+                clearAll();
+            }
+
         }
         mineCollectionAdapter.setEditMode(mEditMode);
     }

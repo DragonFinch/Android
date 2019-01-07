@@ -85,9 +85,9 @@ public abstract class BaseActivity<T extends IBasePresenter> extends AppCompatAc
         setSetting();
         setScreenOrientation();
 //        setDefaultDisplayAdaptOrientation();
-//        setStatusBar();
+        setStatusBar();
         setSetting();
-        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
+//        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(getLayoutId());
         App.context = this;

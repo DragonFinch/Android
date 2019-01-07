@@ -426,9 +426,7 @@
         <activity android:name=".utils.select.SelectPhotoActivity" />
         <activity android:name=".ui.common.CropImageActivity" />
         <activity
-            android:name=".ui.home.yoji.YoJiDetailActivity"
-            android:theme="@style/AppTheme.Main"
-            android:windowSoftInputMode="adjustResize" />
+            android:name=".ui.home.yoji.YoJiDetailActivity" />
         <activity android:name=".ui.home.yoji.ChooseSignActivity" />
         <activity android:name=".ui.mine.draft.DraftActivity" />
         <activity android:name=".ui.mine.message.MessageDetailActivity" />

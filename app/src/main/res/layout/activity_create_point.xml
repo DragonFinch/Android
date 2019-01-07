@@ -28,6 +28,8 @@
             android:text="位置名称"
             />
         <EditText
+            android:singleLine="true"
+            android:ellipsize="end"
             android:id="@+id/edit_create_point"
             android:layout_marginTop="@dimen/dp_20"
           android:background="@color/transparent"

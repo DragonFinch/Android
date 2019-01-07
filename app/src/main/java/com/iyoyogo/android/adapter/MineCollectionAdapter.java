@@ -123,6 +123,7 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
                 intent.putExtra("title", name);
                 intent.putExtra("folder_id", folder_id);
                 intent.putExtra("open", open);
+
                 context.startActivity(intent);
             }
         });
