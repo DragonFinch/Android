@@ -33,13 +33,12 @@ public class SearchYoXiuAdapter extends RecyclerView.Adapter<SearchYoXiuAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        if (mList.get(position).getUser_nickname()!=null){
-            viewHolder.tv_content.setText(mList.get(position).getUser_nickname()+"");
+        if (mList.size() != 0) {
+            viewHolder.tv_content.setText(mList.get(position).getUser_nickname() + "   ");
+            viewHolder.user_name.setText(mList.get(position).getContent() + "");
+            viewHolder.user_name.setVisibility(View.VISIBLE);
+            viewHolder.itemView.setTag(position);
         }
-        if (mList.get(position).getContent()!=null){
-            viewHolder.user_name.setText(mList.get(position).getContent()+"");
-        }
-        viewHolder.itemView.setTag(position);
     }
 
     @Override

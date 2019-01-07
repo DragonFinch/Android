@@ -152,11 +152,32 @@
                     android:layout_height="wrap_content"
                     android:text="@string/shibai2"/>
             </LinearLayout>
-            <ListView
+        </LinearLayout>
+        <View
+            android:id="@+id/view_gson"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@color/line_nav_gray"></View>
+        <LinearLayout
+            android:id="@+id/gson1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:drawableLeft="@mipmap/jiantoucheng"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:text="热门城市"/>
 
-            </ListView>
+            <com.iyoyogo.android.view.MyGridLayout
+                android:layout_marginLeft="15dp"
+                android:id="@+id/my_gridlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp" />
+
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

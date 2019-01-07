@@ -33,9 +33,12 @@ public class SearchYoJiListInnerAdapter extends RecyclerView.Adapter<SearchYoJiL
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        viewHolder.user_name.setText(mList.get(position).getUser_nickname());
-        viewHolder.tv_content.setText(mList.get(position).getContent());
-        viewHolder.itemView.setTag(position);
+        if (mList.size() != 0){
+            viewHolder.user_name.setText(mList.get(position).getUser_nickname()+"  ");
+            viewHolder.tv_content.setText(mList.get(position).getContent());
+            viewHolder.itemView.setTag(position);
+            viewHolder.user_name.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

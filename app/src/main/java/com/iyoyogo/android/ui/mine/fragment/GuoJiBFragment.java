@@ -105,9 +105,9 @@ public class GuoJiBFragment extends BaseFragment<GeRenChengShiContract.Presenter
         List<MapBean.DataBean.ListBean> list1 = mapBean.getData().getList();
         /*Log.e("aboutMeSuccess", "aboutMeSuccess: " + list1.);
         */
-        for (int i = 0; i < list1.size(); i++) {
+   /*     for (int i = 0; i < list1.size(); i++) {
             Log.e("aboutMeSuccess", "aboutMeSuccess: " + list1.get(i).getChina_name());
-        }
+        }*/
         Collections.sort(list1);
         MyAdapter1 adapter = new MyAdapter1(getActivity(), list1);
         mLv.setAdapter(adapter);

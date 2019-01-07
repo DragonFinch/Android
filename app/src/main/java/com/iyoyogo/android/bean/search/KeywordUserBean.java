@@ -45,6 +45,7 @@ public class KeywordUserBean extends BaseBean {
              * position_name : 海南母瑞山革命根据地纪念园
              * channel_id : 6
              * channel : 地标打卡
+             * title  :  大连博物馆，不只是广场而已
              */
 
             private int type;
@@ -59,6 +60,20 @@ public class KeywordUserBean extends BaseBean {
             private String position_name;
             private int channel_id;
             private String channel;
+            private String title;
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public ListBean(String title) {
+
+                this.title = title;
+            }
 
             public int getType() {
                 return type;

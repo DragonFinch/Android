@@ -35,6 +35,10 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.map.CityEntity;
+import com.iyoyogo.android.base.BaseFragment;
+import com.iyoyogo.android.bean.map.MapBean;
+import com.iyoyogo.android.contract.MapContract;
+import com.iyoyogo.android.presenter.MapPresenter;
 import com.iyoyogo.android.ui.home.map.binding.Bind;
 import com.iyoyogo.android.ui.home.map.binding.ViewBinder;
 import com.iyoyogo.android.utils.map.JsonReadUtil;
@@ -53,13 +57,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class ForeignMapFragment extends Fragment implements AbsListView.OnScrollListener {
+public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> implements AbsListView.OnScrollListener,MapContract.View {
 
 
-    @BindView(R.id.search_locate_content_et)
-    EditText searchLocateContentEt;
-    @BindView(R.id.tool_bar_fl)
-    FrameLayout toolBarFl;
     @BindView(R.id.total_city_lv)
     ListView totalCityLv;
     @BindView(R.id.total_city_letters_lv)
@@ -87,14 +87,14 @@ public class ForeignMapFragment extends Fragment implements AbsListView.OnScroll
     private boolean isScroll = false;
 
     private HashMap<String, Integer> alphaIndexer;// 存放存在的汉语拼音首字母和与之对应的列表位置
-
+    private List<MapBean.DataBean.ListBean> mChengShi = new ArrayList<>();
     protected List<CityEntity> hotCityList = new ArrayList<>();
     protected List<CityEntity> totalCityList = new ArrayList<>();
     protected List<CityEntity> curCityList = new ArrayList<>();
     protected List<CityEntity> searchCityList = new ArrayList<>();
     protected CityListAdapter cityListAdapter;
     protected SearchCityListAdapter searchCityListAdapter;
-
+    private List<MapBean.DataBean.ListBean> mChengshi = new ArrayList<>();
     private String locationCity, curSelCity;
     private double lati;
     private double longa;
@@ -113,12 +113,17 @@ public class ForeignMapFragment extends Fragment implements AbsListView.OnScroll
         View inflate = inflater.inflate(R.layout.mapguoji, container, false);
         unbinder = ButterKnife.bind(this, inflate);
         initView1();
-        initData();
+        initData1();
         initListener1();
         initdiwei();
 
         return inflate;
 
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.mapguoji;
     }
 
     private void initdiwei() {
@@ -227,7 +232,7 @@ public class ForeignMapFragment extends Fragment implements AbsListView.OnScroll
         builder.create().show();
     }
 
-    private void initData() {
+    private void initData1() {
         initTotalCityList();
         cityListAdapter = new CityListAdapter(getActivity(), totalCityList, hotCityList);
         totalCityLv.setAdapter(cityListAdapter);
@@ -244,6 +249,11 @@ public class ForeignMapFragment extends Fragment implements AbsListView.OnScroll
         });
         totalCityLettersLv.setOnTouchingLetterChangedListener(new LetterListViewListener());
         initOverlay();
+    }
+
+    @Override
+    protected MapContract.Presenter createPresenter() {
+        return new MapPresenter(this);
     }
 
     /**
@@ -360,6 +370,11 @@ public class ForeignMapFragment extends Fragment implements AbsListView.OnScroll
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public void map(MapBean map) {
+        Log.e("qwe", "map: "+map.getData().getList().size() );
     }
 
     /**
@@ -498,7 +513,6 @@ public class ForeignMapFragment extends Fragment implements AbsListView.OnScroll
                 TextView getLocationTv = convertView.findViewById(R.id.cur_city_re_get_location_tv);
                 curCityNameTv = convertView.findViewById(R.id.cur_city_name_tv);
                 noSearchResultTv = convertView.findViewById(R.id.tt);
-
                 if (TextUtils.isEmpty(locationCity)) {
                     noLocationLl.setVisibility(View.VISIBLE);
                     curCityNameTv.setVisibility(View.GONE);
@@ -538,7 +552,6 @@ public class ForeignMapFragment extends Fragment implements AbsListView.OnScroll
                 GridView hotCityGv = convertView.findViewById(R.id.recent_city_gv);
                 hotCityGv.setAdapter(new HotCityListAdapter(context, this.hotCityList));
                 hotCityGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view,
                                             int position, long id) {

@@ -1,11 +1,13 @@
 package com.iyoyogo.android.ui.home.map;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -36,6 +38,7 @@ import com.iyoyogo.android.contract.MapSearchContract;
 import com.iyoyogo.android.presenter.MapSearchPresenter;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtil;
+import com.iyoyogo.android.view.MyGridLayout;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -50,7 +53,7 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
 
     @BindView(R.id.gson)
     LinearLayout gson;
-    @BindView( R.id.rb_yoji)
+    @BindView(R.id.rb_yoji)
     RadioButton rbYoji;
     @BindView(R.id.rb_yoxiu)
     RadioButton rbYoxiu;
@@ -64,6 +67,8 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
     TextView searchTvQuxiao;
     @BindView(R.id.search_listView_search_result)
     ListView searchListViewSearchResult;
+    @BindView(R.id.gson1)
+    LinearLayout gson1;
     private List<Fragment> list1 = new ArrayList<>();
     private List<MapBean.DataBean.ListBean> listBeans = new ArrayList<>();
     //返回按钮（关闭）
@@ -83,7 +88,7 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
     private SearchListViewAdapter mSearchListViewAdapter;
     private String content;
     private List<MapBean.DataBean.ListBean> list;
-
+    private List<String> mDragList;
 
     @Override
     protected int getLayoutId() {
@@ -98,7 +103,60 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
     @Override
     protected void initView() {
         super.initView();
-        StatusBarUtil.setStatusBarLayoutStyle(DiTuActivity.this,true);
+
+        final MyGridLayout myDragGridLayout = findViewById(R.id.my_gridlayout);
+        myDragGridLayout.setDragAble(true);
+        mDragList = new ArrayList<String>();
+        mDragList.add("北京");
+        mDragList.add("上海");
+        mDragList.add("天津");
+        mDragList.add("哈尔滨");
+        mDragList.add("青海");
+        mDragList.add("西安");
+        mDragList.add("南京");
+        mDragList.add("杭州");
+        mDragList.add("厦门");
+        mDragList.add("成都");
+        mDragList.add("深圳");
+        mDragList.add("广州");
+        myDragGridLayout.addItems(mDragList);
+
+        myDragGridLayout.setOnItemtClickListenner(new MyGridLayout.OnItemClickListenner() {
+            @Override
+            public void setOnItemClickListenner(View view) {
+                if (view instanceof TextView) {
+                    String strText = ((TextView) view).getText().toString().trim();
+                    for (int i = 0; i < mDragList.size(); i++) {
+                        if (mDragList.get(i).equals(strText)) {
+                           /* AlertDialog.Builder builder = new AlertDialog.Builder(DiTuActivity.this);  //先得到构造器
+                            builder.setTitle("提示"); //设置标题
+                            builder.setMessage("是否设置 " + mDragList.get(i).toString() + " 为您的当前城市？"); //设置内容
+
+                            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() { //设置确定按钮
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    //选中之后做你的方法
+                                    finish();
+                                }
+                            });
+                            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() { //设置取消按钮
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+
+                                }
+                            });*/
+                            finish();
+                        }
+                    }
+                }
+
+            }
+        });
+
+
+        StatusBarUtil.setStatusBarLayoutStyle(DiTuActivity.this, true);
         StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.holo_orange_dark));
         InlandMapFragment inlandMapFragment = new InlandMapFragment();
         ForeignMapFragment foreignMapFragment = new ForeignMapFragment();
@@ -310,7 +368,7 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色
-            Window window =getWindow();
+            Window window = getWindow();
             View decorView = window.getDecorView();
             //两个 flag 要结合使用，表示让应用的主体内容占用系统状态栏的空间
             int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -331,7 +389,6 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
         }
 
 
-
     }
 
     //成功的回调
@@ -343,6 +400,7 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
         if (list.size() != 0) {
             group1.setVisibility(View.GONE);
             gson.setVisibility(View.GONE);
+            gson1.setVisibility(View.GONE);
             frameContainer.setVisibility(View.GONE);
             mSearchListViewAdapter = new SearchListViewAdapter(DiTuActivity.this, list, content);
             mListViewSearchResult.setAdapter(mSearchListViewAdapter);
@@ -358,6 +416,7 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
         }
         if (list.size() <= 0) {
             gson.setVisibility(View.VISIBLE);
+            gson1.setVisibility(View.VISIBLE);
             frameContainer.setVisibility(View.GONE);
             mListViewSearchResult.setVisibility(View.GONE);
             group1.setVisibility(View.GONE);

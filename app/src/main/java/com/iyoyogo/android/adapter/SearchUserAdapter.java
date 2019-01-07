@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.iyoyogo.android.R;
@@ -67,7 +68,12 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Vi
                         holder.tv_guanzhu.setText("+关注");
                     }
                 }
-
+    /*            holder.tv_guanzhu.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                                Toast.makeText(context,"请在用户列表选择关注",Toast.LENGTH_SHORT).show();
+                    }
+                });*/
 
     }
 

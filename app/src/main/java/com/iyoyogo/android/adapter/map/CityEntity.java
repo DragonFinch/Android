@@ -1,5 +1,7 @@
 package com.iyoyogo.android.adapter.map;
 
+import java.io.Serializable;
+
 import me.yokeyword.indexablerv.PinyinUtil;
 
 /**
@@ -8,7 +10,7 @@ import me.yokeyword.indexablerv.PinyinUtil;
  * To do :
  */
 
-public class CityEntity {
+public class CityEntity implements Serializable {
     private String name;
     private String key;
     private String pinyin;  //全拼
@@ -56,4 +58,14 @@ public class CityEntity {
 
     }
 
+    @Override
+    public String toString() {
+        return "CityEntity{" +
+                "name='" + name + '\'' +
+                ", key='" + key + '\'' +
+                ", pinyin='" + pinyin + '\'' +
+                ", first='" + first + '\'' +
+                ", cityCode='" + cityCode + '\'' +
+                '}';
+    }
 }

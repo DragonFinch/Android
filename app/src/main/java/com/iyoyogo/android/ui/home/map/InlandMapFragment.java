@@ -3,6 +3,7 @@ package com.iyoyogo.android.ui.home.map;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,12 +40,14 @@ import com.iyoyogo.android.ui.home.map.binding.Bind;
 import com.iyoyogo.android.ui.home.map.binding.ViewBinder;
 import com.iyoyogo.android.utils.map.JsonReadUtil;
 import com.iyoyogo.android.utils.map.ToastUtils;
+import com.iyoyogo.android.utils.search.SharedPrefrenceUtils;
 import com.iyoyogo.android.view.LetterListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,10 +59,6 @@ import butterknife.Unbinder;
 public class InlandMapFragment extends Fragment implements AbsListView.OnScrollListener {
 
 
-    @BindView(R.id.search_locate_content_et)
-    EditText searchLocateContentEt;
-    @BindView(R.id.tool_bar_fl)
-    FrameLayout toolBarFl;
     @BindView(R.id.total_city_lv)
     ListView totalCityLv;
     @BindView(R.id.total_city_letters_lv)
@@ -112,7 +111,7 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View inflate = inflater.inflate(R.layout.mapguoji, container, false);
+        View inflate = inflater.inflate(R.layout.mapguomei, container, false);
         unbinder = ButterKnife.bind(this, inflate);
         initView1();
         initData();
@@ -155,36 +154,6 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
                 showSetCityDialog(cityEntity.getName(), cityEntity.getCityCode());
             }
         });
-       /* searchLocateContentEt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String content = searchLocateContentEt.getText().toString().trim().toLowerCase();
-                setSearchCityList(content);
-            }
-        });
-
-        searchLocateContentEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    hideSoftInput(searchLocateContentEt.getWindowToken());
-                    String content = searchLocateContentEt.getText().toString().trim().toLowerCase();
-                    setSearchCityList(content);
-                    return true;
-                }
-                return false;
-            }
-        });*/
     }
 
     /**
@@ -206,7 +175,7 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 //选中之后做你的方法
-                if (setData != null){
+                if (setData != null) {
                     setData.getData(name);
                 }
             }
@@ -267,7 +236,32 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
         hotCityList.clear();
         totalCityList.clear();
         curCityList.clear();
-
+       /* List<CityEntity> renmei = SharedPrefrenceUtils.getSerializableList(getActivity(), "renmei");
+        List<CityEntity> renmei1 = SharedPrefrenceUtils.getSerializableList(getActivity(), "renmei1");
+        List<CityEntity> renmei2 = SharedPrefrenceUtils.getSerializableList(getActivity(), "renmei2");
+        if (renmei != null){
+            if (renmei1 != null){
+                if (renmei2 != null){
+                    for (int i = 0; i < renmei.size(); i++) {
+                        for (int j = 0; j <renmei1.size() ; j++) {
+                            for (int k = 0; k < renmei2.size(); k++) {
+                                if (renmei.equals("热门")) {
+                                    hotCityList.addAll(renmei);
+                                } else {
+                                    if (renmei1.get(j).getKey().equals("0") && !renmei1.get(j).getKey().equals("1")) {
+                                        curCityList.addAll(renmei1);
+                                    }
+                                   // totalCityList.addAll(renmei2);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            Log.e("chengshi", "initTotalCityList11: "+renmei.size() );
+            Log.e("chengshi", "initTotalCityList22: "+renmei1.size() );
+            Log.e("chengshi", "initTotalCityList33: "+renmei2.size() );
+        }else{*/
         String cityListJson = JsonReadUtil.getJsonStr(getActivity(), CityFileName);
         JSONObject jsonObject;
         try {
@@ -287,19 +281,26 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
                 cityEntity.setPinyin(pinyin);
                 cityEntity.setFirst(first);
                 cityEntity.setCityCode(cityCode);
-                Log.e("qweqeqewqeqqqqq", "initTotalCityList: "+array.toString() );
-                if (key.equals("热门")) {
-                    hotCityList.add(cityEntity);
-                    Log.e("tTotalCityList", "initTotalCityList: "+hotCityList.get(0).getName() );
-                } else {
-                 if (!cityEntity.getKey().equals("0") && !cityEntity.getKey().equals("1")) {
-                        curCityList.add(cityEntity);
-                     Log.e("tTotalCityList", "initTotalCityList: "+curCityList.get(0).getName() );
+
+                if (cityEntity != null) {
+                    if (key.equals("热门")) {
+                        hotCityList.add(cityEntity);
+                    } else {
+                        if (!cityEntity.getKey().equals("0") && !cityEntity.getKey().equals("1")) {
+                            curCityList.add(cityEntity);
+                        }
+                        totalCityList.add(cityEntity);
                     }
-                    totalCityList.add(cityEntity);
-                   Log.e("tTotalCityList", "initTotalCityList: "+totalCityList.get(0).getName() );
+
                 }
+
             }
+       /*         SharedPrefrenceUtils.putSerializableList(getActivity(),"renmei",hotCityList);
+                SharedPrefrenceUtils.putSerializableList(getActivity(),"renmei1",curCityList);
+                SharedPrefrenceUtils.putSerializableList(getActivity(),"renmei2",totalCityList);
+                Log.e("chengshi", "initTotalCityList2: "+hotCityList.get(0).toString() );
+                Log.e("chengshi", "initTotalCityList3: "+curCityList.get(0).toString() );
+                Log.e("chengshi", "initTotalCityList4: "+totalCityList.get(0).toString() );*/
         } catch (JSONException e) {
             e.printStackTrace();
         }

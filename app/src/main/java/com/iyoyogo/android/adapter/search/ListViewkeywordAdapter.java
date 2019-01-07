@@ -59,6 +59,11 @@ public class ListViewkeywordAdapter extends BaseAdapter {
                 viewHolder.im_dizhi.setImageResource(R.drawable.yonghu);
                 Log.e("qweqeqeqwewqeqweq", "getView: "+listBeans.get(position).getUser_nickname());
             }
+            else{
+                viewHolder.txtv.setVisibility(View.GONE);
+                viewHolder.im_dizhi.setVisibility(View.GONE);
+            }
+
 
         }
         if (listBeans.get(position).getType() == 2){
@@ -66,6 +71,11 @@ public class ListViewkeywordAdapter extends BaseAdapter {
                 viewHolder.txtv.setText(listBeans.get(position).getPosition_name());
                 viewHolder.im_dizhi.setImageResource(R.drawable.yoji_i);
             }
+            else{
+                viewHolder.txtv.setVisibility(View.GONE);
+                viewHolder.im_dizhi.setVisibility(View.GONE);
+            }
+
 
         }
         if (listBeans.get(position).getType() == 3){
@@ -73,6 +83,9 @@ public class ListViewkeywordAdapter extends BaseAdapter {
                 viewHolder.txtv.setText(listBeans.get(position).getFile_desc());
                 viewHolder.im_dizhi.setImageResource(R.drawable.yoxiu_i);
                 Log.e("qweqeqeqwewqeqweq", "getView: "+listBeans.get(position).getFile_desc() );
+            }else{
+                viewHolder.txtv.setVisibility(View.GONE);
+                viewHolder.im_dizhi.setVisibility(View.GONE);
             }
 
         }

@@ -1,6 +1,7 @@
 package com.iyoyogo.android.adapter.search;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,13 +12,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.search.KeywordBean;
+import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
+import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 import com.iyoyogo.android.widget.PileLayout;
 
@@ -73,6 +77,8 @@ public class SearchYoJiListHorizontalAdapter extends RecyclerView.Adapter<Search
         holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
         //holder.tv_num_like.setVisibility(View.GONE);
         List<KeywordBean.DataBean.YojListBean.CommentListBeanX> comment_list = mList.get(position).getComment_list();
+       //Log.e("ada", "onBindViewHolder: "+comment_list.get(position).getContent());
+      //  Log.e("ada", "onBindViewHolder: "+comment_list.get(position).getUser_nickname());
         SearchYoJiListInnerAdapter adapter = new SearchYoJiListInnerAdapter(context, comment_list);
         Log.d("YoJiAdapter", "comment_list:" + comment_list.size());
         holder.recycler_comment.setLayoutManager(new LinearLayoutManager(context));
@@ -85,75 +91,52 @@ public class SearchYoJiListHorizontalAdapter extends RecyclerView.Adapter<Search
                 }
             }
         });
- /*if (mList.get(position).getUsers_praise().size() == 0) {
-            holder.pile_layout.setVisibility(View.GONE);
-        } else {
 
+        LayoutInflater inflater1 = LayoutInflater.from(context);
+        if (mList.get(position).getUsers_praise().size() == 0) {
+            holder.pile_layout.setVisibility(View.GONE);
+            holder.tv_num_like.setVisibility(View.GONE);
+        } else {
             for (int i = 0; i < mList.get(position).getUsers_praise().size(); i++) {
-                com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
+                com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater1.inflate(R.layout.item_head_image, holder.pile_layout, false);
                 Glide.with(context).load(mList.get(position).getUsers_praise().get(i).getUser_logo()).into(imageView);
                 holder.pile_layout.addView(imageView);
                 int finalI = i;
-//                int yo_user_id = mList.get(position).getUsers_praise().get(i).getUser_id();
-
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(context, Personal_homepage_Activity.class);
-                        intent.putExtra("yo_user_id", String.valueOf(yo_user_id));
+                        Intent intent = new Intent(context,Personal_homepage_Activity.class);
+                        intent.putExtra("yo_user_id",mList.get(position).getUser_info().getUser_id()+"");
                         context.startActivity(intent);
-                        Toast.makeText(context, "mList.get(position).getUsers_praise().get(i).getUser_id():" + mList.get(position).getUsers_praise().get(finalI).getUser_id(), Toast.LENGTH_SHORT).show();
                     }
                 });
-        }*/
+            }
+        }
+        holder.dt_like.setImageResource(mList.get(position).isIs_my_praise() == true ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+        int yo_id = mList.get(position).getYo_id();
 
-      holder.dt_like.setImageResource(mList.get(position).isIs_my_praise() == true ? R.mipmap.yixihuan_xiangqing : R.mipmap.datu_xihuan);
-      holder.dt_like.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              if (mList.get(position).isIs_my_praise()){
-                  holder.dt_like.setImageResource(R.mipmap.yixihuan_xiangqing);
-              }else{
-                  holder.dt_like.setImageResource(R.mipmap.datu_xihuan);
-              }
-
-          }
-      });
-        /*  holder.dt_like.setOnClickListener(new View.OnClickListener() {
+        holder.dt_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int count_praise = mList.get(position).getCount_praise();
-
-                Log.d("Test", "dataBeans.get(0).getIs_my_like():" + mList.get(position).getIs_my_praise());
-                if (mList.get(position).getIs_my_praise() > 0) {
-                    //由喜欢变为不喜欢，亮变暗
-                    holder.dt_like.setImageResource(R.mipmap.yixihuan_xiangqing);
-                    count_praise -= 1;
-                    //设置点赞的数量
-                    holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
-                    mList.get(position).setIs_my_praise(0);
-                    mList.get(position).setCount_praise(count_praise);
-                } else {
-                    //由不喜欢变为喜欢，暗变亮
-                    holder.dt_like.setImageResource(R.mipmap.datu_xihuan);
-                    count_praise += 1;
-                    //设置点赞的数量
-                    holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
-                    mList.get(position).setIs_my_praise(1);
-                    mList.get(position).setCount_praise(count_praise);
-                }
                 String user_id = SpUtils.getString(context, "user_id", null);
                 String user_token = SpUtils.getString(context, "user_token", null);
-                DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getYo_id(), 0)
-                        .subscribe(new Consumer<BaseBean>() {
-                            @Override
-                            public void accept(BaseBean baseBean) throws Exception {
-                            }
-                        });
+                int count_praise = mList.get(position).getCount_praise();
+                mList.get(position).setYo_id(mList.get(position).getYo_id() == 1 ? 0 : 1);
+                if (mList.get(position).getYo_id() == 1) {
+                    count_praise += 1;
+                    mList.get(position).setCount_praise(count_praise);
+                    holder.tv_num_like.setText("等("+count_praise + ")人喜欢过");
+                    holder.dt_like.setImageResource(mList.get(position).isIs_my_praise() == false ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+
+                } else if (count_praise > 0) {
+                    count_praise -= 1;
+                    mList.get(position).setCount_praise(count_praise);
+                    holder.tv_num_like.setText("等("+count_praise + ")人喜欢过");
+                    holder.dt_like.setImageResource(mList.get(position).isIs_my_praise() == true ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+
+                }
             }
         });
-        holder.itemView.setTag(position);
-*/
     }
 
     @Override

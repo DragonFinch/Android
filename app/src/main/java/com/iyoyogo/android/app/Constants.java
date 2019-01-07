@@ -6,7 +6,11 @@ import com.iyoyogo.android.camera.utils.asset.NvAsset;
 public class Constants {
     // http://app.iyoyogo.com
     //http://192.168.0.145
+<<<<<<< Updated upstream
     public static final String BASE_URL="http://192.168.0.104/";
+=======
+    public static final String BASE_URL="http://192.168.0.145";
+>>>>>>> Stashed changes
 
     //http://192.168.0.145        http://192.168.0.104
 

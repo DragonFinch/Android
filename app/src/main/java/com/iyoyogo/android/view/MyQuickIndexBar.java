@@ -83,8 +83,9 @@ public class MyQuickIndexBar extends View {
             case MotionEvent.ACTION_MOVE:
                 int index = (int) (event.getY() / mCellHeight);
                 if (mLastIndex != index) {
-                    Log.e("wew", mStrArr[index] + "");
                     if (mListenner != null) {
+                        Log.e("1onTouchEvent", "onTouchEvent: "+index);
+                        Log.e("1onTouchEvent", "onTouchEvent: "+mStrArr.length );
                         mListenner.getOnImtemPosition(mStrArr[index]);
                     }
                 }

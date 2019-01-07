@@ -21,6 +21,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.search.KeywordBean;
+import com.iyoyogo.android.bean.search.KeywordUserBean;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
@@ -102,18 +103,17 @@ public class SearchYoXiuListAdapter extends RecyclerView.Adapter<SearchYoXiuList
         viewHolder.user_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int id = mList.get(position).getYo_id();
+                int yo_id = mList.get(position).getYo_id();
                 Intent intent = new Intent(context, YoXiuDetailActivity.class);
-                intent.putExtra("id", id);
+                intent.putExtra("id", yo_id);
                 context.startActivity(intent);
             }
         });
         viewHolder.comment_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int id = mList.get(position).getYo_id();
                 Intent intent = new Intent(context, AllCommentActivity.class);
-                intent.putExtra("yo_id",id);
+                intent.putExtra("yo_id",mList.get(position).getUser_id());
                 context.startActivity(intent);
             }
         });
@@ -121,33 +121,35 @@ public class SearchYoXiuListAdapter extends RecyclerView.Adapter<SearchYoXiuList
         viewHolder.num_like.setText(mList.get(position).getCount_praise() + "");
      //   viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == true ?R.mipmap.yixihuan_xiangqing : R.mipmap.datu_xihuan);
 
-        if (mList.get(position).isIs_my_praise() ){
+/*        if (mList.get(position).isIs_my_praise() ){
             viewHolder.img_like.setImageResource(R.mipmap.datu_xihuan);
         } else {
             viewHolder.img_like.setImageResource(R.mipmap.yixihuan_xiangqing);
-        }
-//        viewHolder.img_like.setImageResource(mList.get(position).getId() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+        }*/
+        viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == true ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
         yo_id = mList.get(position).getYo_id();
-
 
         viewHolder.img_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String user_id = SpUtils.getString(context, "user_id", null);
                 String user_token = SpUtils.getString(context, "user_token", null);
-
                 int count_praise = mList.get(position).getCount_praise();
                 mList.get(position).setYo_id(mList.get(position).getYo_id() == 1 ? 0 : 1);
                 if (mList.get(position).getYo_id() == 1) {
                     count_praise += 1;
                     mList.get(position).setCount_praise(count_praise);
+                    viewHolder.num_like.setText(count_praise + "");
+                    viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == false ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+
                 } else if (count_praise > 0) {
                     count_praise -= 1;
                     mList.get(position).setCount_praise(count_praise);
+                    viewHolder.num_like.setText(count_praise + "");
+                    viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == true ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
 
                 }
-                viewHolder.num_like.setText(count_praise + "");
-                viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == false ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
