@@ -92,7 +92,7 @@
                 <TextView
                     android:id="@+id/tv_select_address"
                     android:layout_width="wrap_content"
-                    android:hint="选择地址"
+                    android:hint="添加位置"
                     android:drawableLeft="@mipmap/weizhi_yoxiu"
                     android:drawablePadding="4dp"
                     android:textColorHint="@color/white"

@@ -90,14 +90,29 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
     }
 
 
-
-
     @Override
     protected void initView() {
         super.initView();
         list = new ArrayList<>();
 
+        locationEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().length() > 0) {
+                    locationEdit.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
 
@@ -157,14 +172,15 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
         recyclerTopicMore.setAdapter(adapter);
         doChangeColor(s.toString().trim());
 
+
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
         Intent intent = getIntent();
-        yo_types = intent.getIntExtra("type",0);
-        Log.d("MoreTopicActivity", "sadasdasdasda"+yo_types+"");
+        yo_types = intent.getIntExtra("type", 0);
+        Log.d("MoreTopicActivity", "sadasdasdasda" + yo_types + "");
         mList = new ArrayList<>();
         type_list = new ArrayList<>();
         user_id = SpUtils.getString(MoreTopicActivity.this, "user_id", null);
@@ -208,7 +224,7 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().trim().length() != 0) {
-                relaCreate.setVisibility(View.VISIBLE);
+                    relaCreate.setVisibility(View.VISIBLE);
                     clearSearch.setVisibility(View.VISIBLE);
                     adapter.setSearchContent(s.toString().trim());
                     tvCreateMessage.setText(s.toString().trim());
@@ -232,9 +248,9 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
 
             @Override
             public void afterTextChanged(Editable s) {
-            if (s.toString().trim().length()==0){
+                if (s.toString().trim().length() == 0) {
 
-            }
+                }
             }
         });
 
@@ -245,11 +261,11 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
                 String topic = mList.get(position).getTopic();
                 int id = mList.get(position).getId();
 
-                    Intent intent = new Intent();
-                    intent.putExtra("topic", topic);
-                    intent.putExtra("type_id", id);
-                    setResult(6, intent);
-                    finish();
+                Intent intent = new Intent();
+                intent.putExtra("topic", topic);
+                intent.putExtra("type_id", id);
+                setResult(6, intent);
+                finish();
 
             }
         });

@@ -13,6 +13,7 @@
         android:layout_marginLeft="@dimen/dp_100"
         android:src="@mipmap/guanbi" />
 <LinearLayout
+    android:gravity="center"
     android:background="@color/white"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -124,10 +125,11 @@
         android:orientation="horizontal">
 
         <TextView
+            android:layout_marginLeft="@dimen/dp_14"
             android:id="@+id/dislike_this_item"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp_130"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+
             android:background="@drawable/blue_line_border"
             android:gravity="center"
             android:padding="@dimen/dp_10"
@@ -136,9 +138,9 @@
 
         <TextView
             android:id="@+id/dislike_this_kind"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp_130"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+android:layout_marginLeft="@dimen/dp_11"
             android:background="@drawable/yellow_border"
             android:gravity="center"
             android:padding="@dimen/dp_10"

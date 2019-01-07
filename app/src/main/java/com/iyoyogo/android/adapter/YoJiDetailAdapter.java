@@ -64,7 +64,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
         ViewGroup.MarginLayoutParams params =
                 new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT,
                         ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-        params.setMargins(15, 15, 15, 15);
+        params.setMargins(1, 15, 15, 15);
         child.setLayoutParams(params);
         if (type == 1) {
             child.setBackgroundResource(R.drawable.label_bg_fkzn);
@@ -125,7 +125,9 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
         }
         List<String> logos = mList.get(position).getLogos();
         int size = logos.size();
-        if (position == 0) {
+        holder.flow.setVisibility(View.VISIBLE);
+        loadData(holder, logos, size, position);
+     if (position == 0) {
             holder.flow.setVisibility(View.VISIBLE);
             loadData(holder, logos, size, position);
         } else {

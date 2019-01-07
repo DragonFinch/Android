@@ -142,6 +142,9 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
             Glide.with(context).load(mList.get(position).getFile_path())
                     .apply(myOptions).into(viewHolder.img_yoxiu);
         }
+        viewHolder.img_level.setVisibility(View.VISIBLE);
+        viewHolder.medal.setVisibility(View.VISIBLE);
+
         int partner_type = mList.get(position).getPartner_type();
         if (partner_type == 0) {
             mList.get(position).setPartner_type(0);
@@ -231,12 +234,12 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
                         R.mipmap.yixihuan_xiangqing);*/
                 String count_praise = mList.get(position).getCount_praise();
                 int count_praises = Integer.parseInt(count_praise);
-                viewHolder.img_like.setImageResource( mList.get(position).getIs_my_like()> 0 ? R.mipmap.yixihuan_xiangqing : R.mipmap.datu_xihuan);
+                viewHolder.img_like.setImageResource(mList.get(position).getIs_my_like() > 0 ? R.mipmap.yixihuan_xiangqing : R.mipmap.datu_xihuan);
 
                 Log.d("Test", "dataBeans.get(0).getIs_my_like():" + mList.get(position).getIs_my_like());
                 if (mList.get(position).getIs_my_like() > 0) {
                     //由喜欢变为不喜欢，亮变暗
-                    viewHolder.img_like.setImageResource(R.mipmap.yixihuan_xiangqing);
+                    viewHolder.img_like.setImageResource(R.mipmap.datu_xihuan);
                     count_praises -= 1;
                     //设置点赞的数量
                     viewHolder.num_like.setText(count_praises + "");
@@ -245,7 +248,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
 
                 } else {
                     //由不喜欢变为喜欢，暗变亮
-                    viewHolder.img_like.setImageResource(R.mipmap.datu_xihuan);
+                    viewHolder.img_like.setImageResource(R.mipmap.yixihuan_xiangqing);
                     count_praises += 1;
                     //设置点赞的数量
                     viewHolder.num_like.setText(count_praises + "");
@@ -451,7 +454,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_yoxiu_desc, num_like, user_name, comment_all;
-        ImageView img_yoxiu, img_like, img_more, img_video,medal,img_level;
+        ImageView img_yoxiu, img_like, img_more, img_video, medal, img_level;
         CircleImageView user_icon;
         RecyclerView recycler_comment;
 

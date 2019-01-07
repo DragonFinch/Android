@@ -74,61 +74,61 @@ import butterknife.OnClick;
 public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> implements BaseQuickAdapter.OnItemChildClickListener, PublishYoJiContract.View, TextChangeListener.TextChange, OssService.UploadImageListener, PublishOpenPopup.OpenPopupClick {
 
     @BindView(R.id.tv_title)
-    TextView      mTvTitle;
+    TextView mTvTitle;
     @BindView(R.id.iv_back)
-    ImageView     mIvBack;
+    ImageView mIvBack;
     @BindView(R.id.tv_publish)
-    TextView      mTvPublish;
+    TextView mTvPublish;
     @BindView(R.id.iv_cover)
-    ImageView     mIvCover;
+    ImageView mIvCover;
     @BindView(R.id.et_title)
-    EditText      mEtTitle;
+    EditText mEtTitle;
     @BindView(R.id.tv_title_length)
-    TextView      mTvTitleLength;
+    TextView mTvTitleLength;
     @BindView(R.id.et_info)
-    REditText     mEtInfo;
+    REditText mEtInfo;
     @BindView(R.id.tv_info_length)
-    TextView      mTvInfoLength;
+    TextView mTvInfoLength;
     @BindView(R.id.flex_topic)
     FlexboxLayout mFlexboxLayout;
     @BindView(R.id.et_money)
-    EditText      mEtMoney;
+    EditText mEtMoney;
     @BindView(R.id.recyclerView)
-    RecyclerView  mRecyclerView;
+    RecyclerView mRecyclerView;
     @BindView(R.id.flex_channel)
     FlexboxLayout mFlexChannel;
     @BindView(R.id.tv_channel)
-    TextView      mTvChannel;
+    TextView mTvChannel;
     @BindView(R.id.rbtn_friend_circle)
-    RadioButton   mRbtnFriendCircle;
+    RadioButton mRbtnFriendCircle;
     @BindView(R.id.rbtn_weibo)
-    RadioButton   mRbtnWeibo;
+    RadioButton mRbtnWeibo;
     @BindView(R.id.rbtn_qq)
-    RadioButton   mRbtnQq;
+    RadioButton mRbtnQq;
     @BindView(R.id.rbtn_wechat)
-    RadioButton   mRbtnWechat;
+    RadioButton mRbtnWechat;
     @BindView(R.id.tv_publish_type)
-    TextView      mTvPublishType;
+    TextView mTvPublishType;
     @BindView(R.id.ll_option)
-    LinearLayout  mLlOption;
+    LinearLayout mLlOption;
 
     private List<PublishYoJiBean.DataBean.ListBean> mData;
 
 
     private NewPublishYoJiAdapter mAdapter;
 
-    private int    optionIndex = 0;
+    private int optionIndex = 0;
     private String userId;
     private String token;
 
     private int uploadIndex = 0;
-    private int uploadSize  = 0;
+    private int uploadSize = 0;
 
     private OssService mOssService;
 
     private int id = 0;
 
-    private String coverUrl  = "";
+    private String coverUrl = "";
     private String coverPath = "";
 
     private int isOpen = 1;
@@ -137,9 +137,9 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
 
     private List<HotTopicBean.DataBean.ListBean> topicData;
 
-    private List<Integer>     channel_arrays;
+    private List<Integer> channel_arrays;
     private ArrayList<String> channel_list;
-    private PopupWindow       popMenu;
+    private PopupWindow popMenu;
 
     private PublishOpenPopup mPublishOpenPopup;
 
@@ -159,7 +159,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
         mEtTitle.addTextChangedListener(new TextChangeListener(mEtTitle, this));
         mEtInfo.addTextChangedListener(new TextChangeListener(mEtInfo, this));
 
-        mPublishOpenPopup=new PublishOpenPopup(this);
+        mPublishOpenPopup = new PublishOpenPopup(this);
         mPublishOpenPopup.setOpenPopupClick(this);
     }
 
@@ -348,11 +348,20 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
 
             case R.id.ll_location:
                 Intent intent = new Intent(this, SearchActivity.class);
-                intent.putExtra("latitude", "0");
-                intent.putExtra("yo_type", 2);
-                intent.putExtra("longitude", "0");
-                TextView tv_location =view.findViewById(R.id.tv_location);
-                intent.putExtra("place", tv_location.getText().toString());
+
+                TextView tv_location = view.findViewById(R.id.tv_location);
+                if (tv_location.getText().toString().trim().equals("")) {
+                    intent.putExtra("latitude", "0");
+                    intent.putExtra("yo_type", 2);
+                    intent.putExtra("longitude", "0");
+                    intent.putExtra("place", "添加位置");
+                } else {
+                    intent.putExtra("latitude", mData.get(optionIndex).getLat());
+                    intent.putExtra("yo_type", 2);
+                    intent.putExtra("longitude", mData.get(optionIndex).getLng());
+                    intent.putExtra("place", tv_location.getText().toString());
+
+                }
                 startActivityForResult(intent, 1);
                 break;
 
@@ -374,7 +383,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
                     mOssService.asyncPutImage(TextUtils.isEmpty(localMedia.getCompressPath()) ? localMedia.getPath() : localMedia.getCompressPath(), i);
                 }
             }
-        }else {
+        } else {
             mPresenter.publishYoJi(userId, token, id, coverUrl, mEtTitle.getText().toString(), mEtInfo.getText().toString(), Integer.valueOf(mEtMoney.getText().toString()), isOpen, saveType, channel_arrays.toString().replace("[", "").replace("]", ""), new Gson().toJson(setParams()));
         }
     }
@@ -409,7 +418,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
 
             if (requestCode == 2 && resultCode == 6) {
                 String topicName = data.getStringExtra("topic");
-                int    type_id   = data.getIntExtra("type_id", 0);
+                int type_id = data.getIntExtra("type_id", 0);
 
                 HotTopicBean.DataBean.ListBean bean = new HotTopicBean.DataBean.ListBean();
                 bean.setId(type_id);
@@ -421,8 +430,8 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
                 object.setObjectText(topicName);
                 mEtInfo.setObject(object);
             } else if (requestCode == 1 && resultCode == 3) {
-                double latitude  = data.getDoubleExtra("latitude", 0.0);
-                String title     = data.getStringExtra("title");
+                double latitude = data.getDoubleExtra("latitude", 0.0);
+                String title = data.getStringExtra("title");
                 double longitude = data.getDoubleExtra("longitude", 0.0);
                 mData.get(optionIndex).setPosition_areas(data.getStringExtra("area"));
                 mData.get(optionIndex).setPosition_address(data.getStringExtra("address"));
@@ -430,10 +439,9 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
                 mData.get(optionIndex).setLat(latitude + "");
                 mData.get(optionIndex).setLng(longitude + "");
                 mAdapter.notifyItemChanged(optionIndex);
-            }
-            else if (requestCode == 1 && resultCode == 2) {
-                double latitude  = data.getDoubleExtra("latitude", 0.0);
-                String title     = data.getStringExtra("title");
+            } else if (requestCode == 1 && resultCode == 2) {
+                double latitude = data.getDoubleExtra("latitude", 0.0);
+                String title = data.getStringExtra("title");
                 double longitude = data.getDoubleExtra("longitude", 0.0);
                 mData.get(optionIndex).setPosition_areas(data.getStringExtra("area"));
                 mData.get(optionIndex).setPosition_address(data.getStringExtra("address"));
@@ -441,9 +449,9 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
                 mData.get(optionIndex).setLat(latitude + "");
                 mData.get(optionIndex).setLng(longitude + "");
                 mAdapter.notifyItemChanged(optionIndex);
-            }else if (requestCode == 1 && resultCode == 55) {
-                ArrayList<Bean>                                    sign_list = (ArrayList<Bean>) data.getSerializableExtra("sign_list");
-                List<PublishYoJiBean.DataBean.ListBean.LabelsBean> list      = new ArrayList<>();
+            } else if (requestCode == 1 && resultCode == 55) {
+                ArrayList<Bean> sign_list = (ArrayList<Bean>) data.getSerializableExtra("sign_list");
+                List<PublishYoJiBean.DataBean.ListBean.LabelsBean> list = new ArrayList<>();
                 for (Bean bean : sign_list) {
                     PublishYoJiBean.DataBean.ListBean.LabelsBean labelsBean = new PublishYoJiBean.DataBean.ListBean.LabelsBean();
                     labelsBean.setLabel(bean.getLabel());
@@ -458,8 +466,8 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
                 channel_list = data.getStringArrayListExtra("channel_list");
                 if (channel_list != null && channel_list.size() > 0) {
                     for (String s : channel_list) {
-                        View     view = LayoutInflater.from(this).inflate(R.layout.item_publish_channel, null);
-                        TextView tv   = view.findViewById(R.id.tv);
+                        View view = LayoutInflater.from(this).inflate(R.layout.item_publish_channel, null);
+                        TextView tv = view.findViewById(R.id.tv);
                         tv.setText(s);
                         mFlexChannel.addView(view);
                     }
@@ -523,8 +531,8 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
     private void addTopic() {
         mFlexboxLayout.removeAllViews();
         for (HotTopicBean.DataBean.ListBean bean : topicData) {
-            View     view = LayoutInflater.from(this).inflate(R.layout.item_public_yo_ji_topic, null);
-            TextView tv   = view.findViewById(R.id.tv);
+            View view = LayoutInflater.from(this).inflate(R.layout.item_public_yo_ji_topic, null);
+            TextView tv = view.findViewById(R.id.tv);
             tv.setText(bean.getTopic());
             view.setOnClickListener(v -> {
                 //话题对象，可继承此类实现特定的业务逻辑
@@ -545,13 +553,13 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
         coverUrl = data.getData().getLogo();
         channel_arrays = new ArrayList<>();
         channel_list = new ArrayList<>();
-        mTvPublishType.setText(data.getData().getOpen()==1?"公开":"私密");
-        isOpen=data.getData().getOpen();
+        mTvPublishType.setText(data.getData().getOpen() == 1 ? "公开" : "私密");
+        isOpen = data.getData().getOpen();
         for (PublishYoJiBean.DataBean.ChannelsBean channelsBean : data.getData().getChannels()) {
             channel_list.add(channelsBean.getChannel());
             channel_arrays.add(channelsBean.getChannel_id());
-            View     view = LayoutInflater.from(this).inflate(R.layout.item_publish_channel, null);
-            TextView tv   = view.findViewById(R.id.tv);
+            View view = LayoutInflater.from(this).inflate(R.layout.item_publish_channel, null);
+            TextView tv = view.findViewById(R.id.tv);
             tv.setText(channelsBean.getChannel());
             mFlexChannel.addView(view);
         }
@@ -590,7 +598,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
             PictureFileUtils.deleteCacheDirFile(this);
             Log.d("NewPublishYoJiActivity", new Gson().toJson(mData));
 
-            runOnUiThread(() -> mPresenter.publishYoJi(userId, token, id, coverUrl, mEtTitle.getText().toString(), mEtInfo.getText().toString(), Integer.valueOf(mEtMoney.getText().toString()), isOpen, saveType, channel_arrays.toString().replace("[", "").replace("]", ""), new Gson().toJson( setParams())));
+            runOnUiThread(() -> mPresenter.publishYoJi(userId, token, id, coverUrl, mEtTitle.getText().toString(), mEtInfo.getText().toString(), Integer.valueOf(mEtMoney.getText().toString()), isOpen, saveType, channel_arrays.toString().replace("[", "").replace("]", ""), new Gson().toJson(setParams())));
         }
         Log.d("NewPublishYoJiActivity", "position:" + position);
         Log.d("NewPublishYoJiActivity", "uploadIndex:" + uploadIndex);
@@ -604,7 +612,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
 
     private void setTopic(String content) {
         Pattern TAG_PATTERN = Pattern.compile("#([^\\#|.]+)#");
-        Matcher m           = TAG_PATTERN.matcher(content);
+        Matcher m = TAG_PATTERN.matcher(content);
         while (m.find()) {
             String tagNameMatch = m.group();
             mEtInfo.setText(mEtInfo.getText().toString().replace(tagNameMatch, ""));
@@ -637,10 +645,10 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
         popMenu.setBackgroundDrawable(dw);//设置mPopupWindow背景颜色或图片，这里设置半透明
         popMenu.setOutsideTouchable(true); //设置可以通过点击mPopupWindow外部关闭mPopupWindow
 //        popMenu.setAnimationStyle(R.style.PopupAnimationAmount);//设置mPopupWindow的进出动画
-        Button   popup_no_id    = pop_view.findViewById(R.id.popup_no_id);
-        Button   popup_yes_id   = pop_view.findViewById(R.id.popup_yes_id);
+        Button popup_no_id = pop_view.findViewById(R.id.popup_no_id);
+        Button popup_yes_id = pop_view.findViewById(R.id.popup_yes_id);
         TextView pop_content_id = pop_view.findViewById(R.id.pop_content_id);
-        TextView pop_title_id   = pop_view.findViewById(R.id.pop_title_id);
+        TextView pop_title_id = pop_view.findViewById(R.id.pop_title_id);
         pop_title_id.setText("码字「不易」");
         pop_content_id.setText("退出前是否要保存到草稿？");
         popup_no_id.setText("放弃");
@@ -693,6 +701,6 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
     @Override
     public void onOpenClick(int type, String typeName) {
         mTvPublishType.setText(typeName);
-        isOpen=type;
+        isOpen = type;
     }
 }

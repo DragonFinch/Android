@@ -502,20 +502,19 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 mPresenter.addAttention(user_id, user_token, Integer.parseInt(yo_attention_id));
                 break;
             case R.id.tv_load_more:
-                    if (tvLoadMore.getText().toString().trim().equals("展开全部")){
+                if (tvLoadMore.getText().toString().trim().equals("展开全部")){
 
-                        tvLoadMore.setText("收起全部");
-                        //为自定义方法--控制另外一个变量
-                        yoJiDetailAdapter.changetShowDelImage(true);
+                    tvLoadMore.setText("收起全部");
+                    //为自定义方法--控制另外一个变量
+                    yoJiDetailAdapter.changetShowDelImage(false);
 
 
-                    }else {
+                }else {
 
-                        tvLoadMore.setText("展开全部");
-                        //为自定义方法--控制另外一个变量
-                        yoJiDetailAdapter.changetShowDelImage(false);
-                    }
-
+                    tvLoadMore.setText("展开全部");
+                    //为自定义方法--控制另外一个变量
+                    yoJiDetailAdapter.changetShowDelImage(true);
+                }
 
 
 
@@ -661,7 +660,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         if (TextUtils.isEmpty(desc)) {
             tvDesc.setVisibility(View.GONE);
         } else {
-            tvDesc.setText(desc);
+            tvDesc.setText("\u3000\u3000"+desc);
         }
         yo_user_id = data.getYo_id();
         count_collect = data.getCount_collect();
@@ -707,7 +706,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
         recyclerYoji.setAdapter(yoJiDetailAdapter);
         recyclerYoji.setLayoutManager(new LinearLayoutManager(YoJiDetailActivity.this));
-
+        yoJiDetailAdapter.changetShowDelImage(true);
         yoJiDetailAdapter.setOnItemClickListener(new YoJiDetailAdapter.OnClickListener() {
             @Override
             public void onClick(View v, int position) {

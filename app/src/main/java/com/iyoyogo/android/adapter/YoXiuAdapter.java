@@ -255,6 +255,8 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
         PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 300), DensityUtil.dp2px(context, 230), true);
         TextView dislike_this_kind = view.findViewById(R.id.dislike_this_kind);
         TextView dislike_this_item = view.findViewById(R.id.dislike_this_item);
+        ImageView pop_im_id = view.findViewById(R.id.pop_im_id);
+        pop_im_id.setImageResource(R.mipmap.stamp_shijian);
         backgroundAlpha(0.6f);
         dislike_this_item.setOnClickListener(new View.OnClickListener() {
             @Override
