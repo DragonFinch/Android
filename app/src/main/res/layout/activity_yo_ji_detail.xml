@@ -127,7 +127,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_yoji_list"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/tv_title"
@@ -160,6 +160,7 @@
                         android:text="创建"
                         android:textColor="#888888"
                         android:textSize="12sp"
+                        android:layout_marginLeft="5dp"
                         />
 
                     <TextView
@@ -185,6 +186,7 @@
                         android:text="观看"
                         android:textColor="#888888"
                         android:textSize="12sp"
+                        android:layout_marginLeft="5dp"
                         />
 
                     <com.iyoyogo.android.widget.CircleImageView
@@ -454,7 +456,8 @@
                     android:drawablePadding="@dimen/dp_3"
                     android:text="爱上大声地啊实打实大师大师的撒打算是打算打算打算打算打算"
                     android:textColor="#333333"
-                    android:textSize="@dimen/sp_15" />
+                    android:textSize="@dimen/sp_15"
+                    android:padding="@dimen/dp_10"/>
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView

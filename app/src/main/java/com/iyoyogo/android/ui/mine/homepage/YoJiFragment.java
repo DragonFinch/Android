@@ -279,4 +279,16 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
             }
         }
     }
+
+
+    public void refreshData(){
+        recyclerYoji.setAdapter(yoJiContentAdapter2);
+        recyclerYoji.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+    }
+
+    public void refreshData2(){
+        recyclerYoji.setAdapter(yoJiCenterAdapter);
+        recyclerYoji.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
 }
