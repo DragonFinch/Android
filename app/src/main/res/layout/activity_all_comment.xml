@@ -45,7 +45,7 @@
     <RelativeLayout
         android:id="@+id/comment_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -54,9 +54,11 @@
         <EditText
             android:id="@+id/edit_comment"
             android:layout_width="@dimen/dp_230"
-            android:layout_height="@dimen/dp_30"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:background="#00000000"
+            android:paddingTop="@dimen/dp_17"
+            android:paddingBottom="@dimen/dp_18"
             android:hint="再不评论 , 你会被抓去写作业的~"
             android:imeOptions="actionSend"
             android:paddingLeft="@dimen/dp_16"

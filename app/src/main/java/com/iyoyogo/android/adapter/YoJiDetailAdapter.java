@@ -127,7 +127,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
 
         List<String> logos = mList.get(position).getLogos();
         int size = logos.size();
-        
+
      if (position == 0) {
             holder.flow.setVisibility(View.VISIBLE);
             loadData(holder, logos, size, position);

@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.app.Constants;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.VipCenterBean;
 import com.iyoyogo.android.contract.VipCenterContract;
@@ -102,7 +103,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
 
     private void shareWeb(SHARE_MEDIA share_media) {
         /*80002/yo_id/4143*/
-        String url = "http://192.168.0.145/home/share/levelup/user_id/" + SpUtils.getString(getApplicationContext(), "user_id", null);
+        String url =Constants.BASE_URL+ "home/share/levelup/user_id/" + SpUtils.getString(getApplicationContext(), "user_id", null);
         UMWeb web = new UMWeb(url);
         web.setTitle("title");//标题
         UMImage thumb = new UMImage(getApplicationContext(), R.mipmap.logo);
