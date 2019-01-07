@@ -3,17 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
-<<<<<<< Updated upstream
-=======
-    <TextView
-        android:visibility="gone"
-        android:textColor="@color/orgeen_color"
-        android:layout_marginTop="@dimen/dp_11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/user_name"
-        android:text="1"/>
->>>>>>> Stashed changes
 
     <TextView
         android:id="@+id/tv_content"

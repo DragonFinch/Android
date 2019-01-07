@@ -20,12 +20,17 @@ import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.mine.PraiseBean;
 import com.iyoyogo.android.contract.MinePraiseContract;
 import com.iyoyogo.android.presenter.MinePraisePresenter;
+import com.iyoyogo.android.ui.home.EditImageOrVideoActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.ui.home.yoxiu.SourceChooseActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
+import com.iyoyogo.android.ui.mine.draft.DraftActivity;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.utils.imagepicker.activities.ImagesPickActivity;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -175,21 +180,54 @@ public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter>
                 break;
 
             case R.id.publish_yoji:
-                startActivity(new Intent(Like_me_Activity.this, ImagesPickActivity.class));
-                finish();
+                PictureSelector.create(Like_me_Activity.this)
+                        .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                        .maxSelectNum(9)// 最大图片选择数量 int
+                        .minSelectNum(1)// 最小选择数量 int
+                        .imageSpanCount(3)// 每行显示个数 int
+                        .selectionMode(PictureConfig.MULTIPLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
+                        .previewImage(true)// 是否可预览图片 true or false
+                        .isCamera(true)// 是否显示拍照按钮 true or false
+                        .imageFormat(PictureMimeType.PNG)// 拍照保存图片格式后缀,默认jpeg
+                        .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
+                        .sizeMultiplier(0.5f)// glide 加载图片大小 0~1之间 如设置 .glideOverride()无效
+                        .compress(true)// 是否压缩 true or false
+                        .isGif(true)// 是否显示gif图片 true or false
+                        .previewEggs(true)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
+                        .minimumCompressSize(800)// 小于100kb的图片不压缩
+                        .synOrAsy(false)//同步true或异步false 压缩 默认同步
+                        .forResult(PictureConfig.CHOOSE_REQUEST);
                 break;
             case R.id.publish_yoxiu:
-                startActivity(new Intent(Like_me_Activity.this, SourceChooseActivity.class));
-                finish();
+                PictureSelector.create(Like_me_Activity.this)
+                        .openGallery(PictureMimeType.ofAll())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                        .imageSpanCount(3)// 每行显示个数 int
+                        .selectionMode(PictureConfig.SINGLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
+                        .previewImage(true)// 是否可预览图片 true or false
+                        .isCamera(true)// 是否显示拍照按钮 true or false
+                        .imageFormat(PictureMimeType.PNG)// 拍照保存图片格式后缀,默认jpeg
+                        .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
+                        .sizeMultiplier(0.5f)// glide 加载图片大小 0~1之间 如设置 .glideOverride()无效
+                        .compress(true)// 是否压缩 true or false
+                        .isGif(true)// 是否显示gif图片 true or false
+                        .previewEggs(true)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
+                        .minimumCompressSize(800)// 小于100kb的图片不压缩
+                        .synOrAsy(false)//同步true或异步false 压缩 默认同步
+                        .forResult(201);
                 break;
         }
     }
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data!=null) {
+            if (requestCode == PictureConfig.CHOOSE_REQUEST) {
+                startActivity(data.setClass(Like_me_Activity.this, EditImageOrVideoActivity.class).putExtra("type", 1));
+            } else if (requestCode == 201) {
+                startActivity(data.setClass(Like_me_Activity.this, EditImageOrVideoActivity.class).putExtra("type", 2));
+            }
+        }
     }
+
 }

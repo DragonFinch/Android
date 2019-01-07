@@ -132,6 +132,9 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
             if (isShow) {
                 holder.flow.setVisibility(View.VISIBLE);
                 loadData(holder, logos, size, position);
+                if (position == mList.size() - 1) {
+                    holder.plane.setVisibility(View.GONE);
+                }
             } else {
                 holder.flow.setVisibility(View.GONE);
                 holder.picture_count_one.setVisibility(View.GONE);
@@ -139,17 +142,20 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 holder.picture_count_three.setVisibility(View.GONE);
                 holder.picture_count_four.setVisibility(View.GONE);
                 holder.picture_count_five.setVisibility(View.GONE);
+                if (position == mList.size() - 1) {
+                    holder.plane.setVisibility(View.GONE);
+                }
             }
         }
 
         if (OnPlayListener != null) {
             OnPlayListener.getData(holder, position);
         }
-
-        holder.itemView.setTag(position);
         if (position == mList.size() - 1) {
             holder.plane.setVisibility(View.GONE);
         }
+        holder.itemView.setTag(position);
+
     }
 
     private void loadData(@NonNull Holder holder, List<String> logos, int size, int position) {

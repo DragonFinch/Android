@@ -183,7 +183,7 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
 
     @OnClick(R.id.tv_yoxiu)
     public void onViewClicked() {
-        PictureSelector.create(getActivity())
+        PictureSelector.create(YoXiuFragment.this)
                 .openGallery(PictureMimeType.ofAll())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
                 .imageSpanCount(3)// 每行显示个数 int
                 .selectionMode(PictureConfig.SINGLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
@@ -197,6 +197,18 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
                 .previewEggs(true)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
                 .minimumCompressSize(800)// 小于100kb的图片不压缩
                 .synOrAsy(false)//同步true或异步false 压缩 默认同步
-                .forResult(201);
+                .forResult(PictureConfig.CHOOSE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            if (requestCode == PictureConfig.CHOOSE_REQUEST) {
+                startActivity(data.setClass(getContext(), EditImageOrVideoActivity.class).putExtra("type", 1));
+            } else if (requestCode == 201) {
+                startActivity(data.setClass(getContext(), EditImageOrVideoActivity.class).putExtra("type", 2));
+            }
+        }
     }
 }

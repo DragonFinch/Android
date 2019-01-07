@@ -249,7 +249,7 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
 
     @OnClick(R.id.tv_yoji)
     public void onViewClicked() {
-        PictureSelector.create(getActivity())
+        PictureSelector.create(YoJiFragment.this)
                 .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
                 .maxSelectNum(9)// 最大图片选择数量 int
                 .minSelectNum(1)// 最小选择数量 int

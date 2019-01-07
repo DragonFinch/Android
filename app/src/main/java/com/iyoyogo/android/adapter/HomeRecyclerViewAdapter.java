@@ -271,7 +271,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
-
+//
                             }
                         });
                 context.startActivity(intent);

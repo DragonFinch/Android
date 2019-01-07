@@ -40,4 +40,37 @@
         android:visibility="gone"
         android:layout_height="match_parent"
         android:layout_width="match_parent" />
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/edit_layout"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+        <EditText
+            android:singleLine="true"
+            android:id="@+id/edit_comment"
+            android:layout_marginRight="@dimen/dp_5"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_toLeftOf="@+id/input_expression"
+            android:layout_marginTop="@dimen/dp_18"
+            android:hint="码字不容易，留个评论鼓励下嘛~"
+            android:textColorHint="#888"
+            android:background="@color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:imeOptions="actionSend"
+            android:id="@+id/input_expression"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_18"
+            android:layout_marginBottom="@dimen/dp_18"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/input_biaoqing"
+            />
+    </RelativeLayout>
 </RelativeLayout>
