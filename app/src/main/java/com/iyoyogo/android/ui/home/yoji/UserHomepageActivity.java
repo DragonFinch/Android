@@ -426,7 +426,6 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
             tvGuanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
             tvGuanzhu.setTextColor(Color.parseColor("#888888"));
         }
-
 //        final String pattern = "2";
 //        if (Patterns.WEB_URL.matcher(data.getUser_logo()).matches()) {
 //            final String url =
@@ -476,9 +475,24 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
 //        }
     }
 
+    @Override
+    public void addAttention1(AttentionBean attentionBean) {
+        int status = attentionBean.getData().getStatus();
+        if (status == 1) {
+            tvGuanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
+            tvGuanzhu.setText("已关注");
+            tvGuanzhu.setTextColor(Color.parseColor("#888888"));
+            mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
+        }else {
+            tvGuanzhu.setBackgroundResource(R.drawable.bg_collection);
+            tvGuanzhu.setText("+关注");
+            tvGuanzhu.setTextColor(Color.parseColor("#ffffff"));
+            mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
+        }
+    }
 
     @Override
-    public void addAttention1(AttentionBean.DataBean data) {
+    public void deleteAttention(AttentionBean attentionBean) {
 
     }
 
@@ -508,19 +522,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
                 startActivity(intent);
                 break;
             case R.id.tv_guanzhu:
-                if (flag == false) {
-                    flag = true;
-                    mPresenter.addAttention1(user_id, user_token, yo_user_id);
-                    tvGuanzhu.setText("已关注");
-                    tvGuanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
-                    tvGuanzhu.setTextColor(Color.parseColor("#888888"));
-                } else {
-                    flag = false;
-                    mPresenter.addAttention1(user_id, user_token, yo_user_id);
-                    tvGuanzhu.setText("+关注");
-                    tvGuanzhu.setBackgroundResource(R.drawable.bg_continue);
-                    tvGuanzhu.setTextColor(Color.parseColor("#ffffff"));
-                }
+                mPresenter.addAttention1(user_id, user_token, yo_user_id);
                 break;
             case R.id.collect:
                 Intent intent1 = new Intent(this, CollectionActivity.class);

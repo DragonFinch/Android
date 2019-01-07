@@ -57,4 +57,21 @@ public class CommendAttentionPresenter extends BasePresenter<CommendAttentionCon
                     }
                 });
     }
+
+    @Override
+    public void deleteAttention(String user_id, String user_token, String target_id) {
+        DataManager.getFromRemote().addAttention1(user_id, user_token, target_id)
+                .subscribe(new ApiObserver<AttentionBean>(mView, this) {
+                    @Override
+                    protected void doOnSuccess(AttentionBean attentionBean) {
+                        mView.addAttentionSuccess(attentionBean);
+                    }
+
+                    @Override
+                    protected boolean doOnFailure(int code, String message) {
+                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+    }
 }

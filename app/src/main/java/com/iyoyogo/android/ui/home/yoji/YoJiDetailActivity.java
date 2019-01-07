@@ -491,7 +491,6 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 break;
             case R.id.add_attention:
                 mPresenter.getYoJiDetail(user_id, user_token, yo_id);
-
                 mPresenter.addAttention(user_id, user_token, Integer.parseInt(yo_attention_id));
                 break;
             case R.id.img_share:

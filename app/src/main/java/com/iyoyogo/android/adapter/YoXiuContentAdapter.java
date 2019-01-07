@@ -92,7 +92,7 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
             public void onClick(View v) {
                 int id = mList.get(position).getId();
                 Intent intent = new Intent(context, AllCommentActivity.class);
-                intent.putExtra("yo_id",id);
+                intent.putExtra("id",id);
                 context.startActivity(intent);
             }
         });
@@ -117,7 +117,7 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
                     count_praises += 1;
                     mList.get(position).setCount_praise(count_praise);
                 } else {
-                    count_praises -= 1;
+                    count_praises -= 0;
                     mList.get(position).setCount_praise(count_praise);
 
                 }

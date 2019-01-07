@@ -13,12 +13,14 @@ public interface CommendAttentionContract {
     interface View extends IBaseView {
         void getCommendAttentionSuccess(CommendAttentionBean commendAttentionBean);
         void addAttentionSuccess(AttentionBean attentionBean);
+        void deleteAttention(AttentionBean attentionBean);
     }
 
     interface Presenter extends IBasePresenter {
 
         void getCommendAttention(String user_id, String user_token);
         void addAttention1(String user_id, String user_token, String target_id);
+        void deleteAttention(String user_id, String user_token, String target_id);
 
     }
 }

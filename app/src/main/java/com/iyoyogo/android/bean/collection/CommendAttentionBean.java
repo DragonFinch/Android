@@ -53,7 +53,16 @@ public class CommendAttentionBean extends BaseBean {
             private int partner_type;
             private int count_yox;
             private int count_yoj;
+            private int status;
             private List<List4Bean> list_4;
+
+            public int getStatus() {
+                return status;
+            }
+
+            public void setStatus(int status) {
+                this.status = status;
+            }
 
             public String getUser_id() {
                 return user_id;

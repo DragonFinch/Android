@@ -492,7 +492,14 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
     }
 
     @Override
-    public void addAttention1(AttentionBean.DataBean data) {
+    public void addAttention1(AttentionBean attentionBean) {
+
+    }
+
+
+    @Override
+    public void deleteAttention(AttentionBean attentionBean) {
+
     }
 
 
