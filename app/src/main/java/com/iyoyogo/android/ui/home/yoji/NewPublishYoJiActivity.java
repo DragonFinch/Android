@@ -558,6 +558,44 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
         }
     }
 
+    private void shareWeb(String id, SHARE_MEDIA share_media) {
+        /*80002/yo_id/4143*/
+        String url = Constants.BASE_URL + "home/share/details_yoj/share_user_id/" + userId + "/yo_id/" + id;
+        UMWeb  web = new UMWeb(url);
+        web.setTitle(mEtTitle.getText().toString());//标题
+        UMImage thumb = new UMImage(getApplicationContext(), coverUrl);
+        web.setThumb(thumb);  //缩略图
+        if (!TextUtils.isEmpty(mEtInfo.getText().toString())) {
+            web.setDescription(mEtInfo.getText().toString());//描述
+        }
+
+        new ShareAction(NewPublishYoJiActivity.this)
+                .withMedia(web)
+                .setPlatform(share_media)
+                .setCallback(new UMShareListener() {
+                    @Override
+                    public void onStart(SHARE_MEDIA share_media) {
+
+                    }
+
+                    @Override
+                    public void onResult(SHARE_MEDIA share_media) {
+                        mSharePresenter.share(userId, token, id);
+                    }
+
+                    @Override
+                    public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+                        finish();
+                    }
+
+                    @Override
+                    public void onCancel(SHARE_MEDIA share_media) {
+                        finish();
+                    }
+                })
+                .share();
+    }
+
     @Override
     public void getRecommendTopicSuccess(List<HotTopicBean.DataBean.ListBean> list) {
         topicData = list;
@@ -753,46 +791,8 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
         isOpen = type;
     }
 
-    private void shareWeb(String id, SHARE_MEDIA share_media) {
-        /*80002/yo_id/4143*/
-        String url = Constants.BASE_URL + "home/share/details_yoj/share_user_id/" + userId + "/yo_id/" + id;
-        UMWeb  web = new UMWeb(url);
-        web.setTitle(mEtTitle.getText().toString());//标题
-        UMImage thumb = new UMImage(getApplicationContext(), coverUrl);
-        web.setThumb(thumb);  //缩略图
-        if (!TextUtils.isEmpty(mEtInfo.getText().toString())) {
-            web.setDescription(mEtInfo.getText().toString());//描述
-        }
-
-        new ShareAction(NewPublishYoJiActivity.this)
-                .withMedia(web)
-                .setPlatform(share_media)
-                .setCallback(new UMShareListener() {
-                    @Override
-                    public void onStart(SHARE_MEDIA share_media) {
-
-                    }
-
-                    @Override
-                    public void onResult(SHARE_MEDIA share_media) {
-                        mSharePresenter.share(userId, token, id);
-                    }
-
-                    @Override
-                    public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-                        finish();
-                    }
-
-                    @Override
-                    public void onCancel(SHARE_MEDIA share_media) {
-                        finish();
-                    }
-                })
-                .share();
-    }
-
     @Override
     public void onShareSuccess(BaseBean data) {
-        finish();
+
     }
 }
