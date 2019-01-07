@@ -215,7 +215,8 @@
                 android:layout_below="@+id/text_desc"
                 android:layout_marginTop="@dimen/dp_21"
                 android:layout_toRightOf="@+id/num_look"
-                android:text="人观看" />
+                android:text="人观看"
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/tv_time"
