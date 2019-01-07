@@ -137,14 +137,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:name">
         <activity android:name=".ui.mine.homepage.VipCenterActivity" />
+
         <provider
-            android:authorities="com.iyoyogo.android.DataProvider"
             android:name="cn.jpush.android.service.DataProvider"
-            android:exported="false"
-            />
+            android:authorities="com.iyoyogo.android.DataProvider"
+            android:exported="false" />
 
         <service
             android:name="cn.jpush.android.service.PushService"
@@ -175,20 +174,17 @@
             android:name=".camera.utils.permission.PermissionsActivity"
             android:theme="@style/TranslucentFullScreenTheme" />
         <activity android:name=".ui.common.SplashActivity">
-
-        </activity>
-        <activity android:name=".BadgeActivity" />
-        <activity android:name=".ui.common.WelcomeActivity" />
-        <activity
-            android:name=".ui.common.MainActivity"
-
-            android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".BadgeActivity" />
+        <activity android:name=".ui.common.WelcomeActivity" />
+        <activity
+            android:name=".ui.common.MainActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".ui.common.CaptureActivity" />
         <activity android:name=".camera.edit.clipEdit.trim.TrimActivity" />
 
@@ -413,10 +409,9 @@
         <activity android:name=".ui.home.yoxiu.AddAddressActivity" />
         <activity android:name=".ui.home.yoxiu.MoreTopicActivity" />
         <activity android:name=".ui.home.yoxiu.ChannelActivity" />
-        <activity android:name=".ui.home.yoxiu.YoXiuDetailActivity"
-
-            android:windowSoftInputMode="adjustResize"
-            />
+        <activity
+            android:name=".ui.home.yoxiu.YoXiuDetailActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.home.yoxiu.YoXiuListActivity" />
         <activity android:name=".ui.mine.EditPersonalMessageActivity" />
         <activity android:name=".ui.mine.CitySelectorActivity" />
@@ -430,23 +425,23 @@
         <activity android:name=".ui.home.yoji.YoJiListActivity" />
         <activity android:name=".utils.select.SelectPhotoActivity" />
         <activity android:name=".ui.common.CropImageActivity" />
-        <activity android:name=".ui.home.yoji.YoJiDetailActivity"
-            android:windowSoftInputMode="adjustResize"
-            />
+        <activity
+            android:name=".ui.home.yoji.YoJiDetailActivity"
+            android:theme="@style/AppTheme.Main" />
         <activity android:name=".ui.home.yoji.ChooseSignActivity" />
         <activity android:name=".ui.mine.draft.DraftActivity" />
         <activity android:name=".ui.mine.message.MessageDetailActivity" />
         <activity android:name=".ui.mine.AddCollectionActivity" />
         <activity android:name=".ui.mine.homepage.AddressBookFriendsActivity" />
-        <activity android:name=".ui.home.yoji.ReplyDiscussActivity" />
+        <activity android:name=".ui.home.yoji.ReplyDiscussActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            />
         <activity android:name=".ui.mine.homepage.MyFollowActivity" />
         <activity android:name=".ui.mine.homepage.HisFansActivity" />
-        <activity android:name=".ui.common.VideoActivity"
+        <activity
+            android:name=".ui.common.VideoActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait"
-            >
-
-        </activity>
+            android:screenOrientation="portrait" />
         <activity android:name=".ui.mine.homepage.UserFansActivity" />
         <activity android:name=".ui.home.yoji.UserHomepageActivity" />
         <activity android:name=".ui.common.Same_page_Activity" />
@@ -458,19 +453,24 @@
             android:name=".ui.home.yoji.NewPublishYoJiActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ui.home.yoxiu.NewPublishYoXiuActivity" />
-        <activity android:name=".ui.home.EditImageOrVideoActivity"></activity>
-        <activity android:name=".ui.home.map.DiTuActivity"></activity>
-        <activity android:name=".ui.mine.CityActivity"></activity>
-        <activity android:name=".ui.home.search.SearchActivity"></activity>
-        <activity android:name=".ui.home.search.SearchResultActivity"></activity>
         <activity android:name=".ui.home.EditImageOrVideoActivity" />
+        <activity android:name=".ui.home.map.DiTuActivity" />
+        <activity android:name=".ui.mine.CityActivity" />
+        <activity android:name=".ui.home.search.SearchActivity" />
+        <activity android:name=".ui.home.search.SearchResultActivity" />
         <activity
             android:name=".ui.home.CutImageActivity"
             android:theme="@style/AppTheme.Full" />
         <activity
             android:name=".ui.home.CutVideoActivity"
-            android:theme="@style/AppTheme.Full"></activity>
-        <activity android:name=".ui.home.EditImageOrVideoActivity" />
+            android:theme="@style/AppTheme.Full" />
+        <activity android:name=".AActivity" />
+        <activity
+            android:name=".ui.home.yoji.YoJiPictureActivity"
+            android:theme="@style/AppTheme.Full" />
+        <activity android:name=".ui.home.yoji.PhotoActivity"
+            android:theme="@style/AppTheme.Full"
+            ></activity>
     </application>
 
 </manifest>

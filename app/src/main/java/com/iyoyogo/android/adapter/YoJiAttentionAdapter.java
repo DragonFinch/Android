@@ -21,7 +21,9 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.home.HomeBean;
+import com.iyoyogo.android.bean.mine.center.YoJiContentBean;
 import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
@@ -31,6 +33,7 @@ import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 import com.iyoyogo.android.widget.PileLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.functions.Consumer;
@@ -59,6 +62,7 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
+        holder.location_end.setText(mList.get(position).getP_end());
         int yo_id = mList.get(position).getYo_id();
         user_id = SpUtils.getString(context, "user_id", null);
         user_token = SpUtils.getString(context, "user_token", null);
@@ -70,6 +74,14 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
                 .transform(new GlideRoundTransform(context, 8));
         Log.d("YoJiAttentionAdapter", "yo_id:" + yo_id);
         if (yo_id == 0) {
+            holder.attention_user_icon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, UserHomepageActivity.class);
+                    intent.putExtra("yo_user_id", String.valueOf(mList.get(position).getUser_id()));
+                    context.startActivity(intent);
+                }
+            });
             holder.rl_top_content.setVisibility(View.GONE);
             holder.relative_img.setVisibility(View.GONE);
             holder.ll_like_list.setVisibility(View.GONE);
@@ -101,6 +113,7 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
             if (list_4 == null) {
 
             } else {
+
                 if (list_4.size() == 1) {
                     Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_two);
                     Glide.with(context).load(R.mipmap.default_ic).apply(myOptions).into(holder.img_attention_three);
@@ -304,6 +317,54 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
             } else {
                 holder.user_name.setText("");
             }
+            holder.user_icon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, UserHomepageActivity.class);
+                    intent.putExtra("yo_user_id", String.valueOf(mList.get(position).getUser_info().getUser_id()));
+                    context.startActivity(intent);
+                }
+            });
+            holder.medal.setVisibility(View.VISIBLE);
+            holder.img_level.setVisibility(View.VISIBLE);
+            int partner_type = mList.get(position).getPartner_type();
+            if (partner_type == 0) {
+                mList.get(position).setPartner_type(0);
+                holder.medal.setVisibility(View.INVISIBLE);
+            } else if (partner_type == 1) {
+                mList.get(position).setPartner_type(1);
+                holder.medal.setImageResource(R.mipmap.daren);
+            } else if (partner_type == 2) {
+                mList.get(position).setPartner_type(2);
+                holder.medal.setImageResource(R.mipmap.hongren);
+            } else if (partner_type == 3) {
+                mList.get(position).setPartner_type(3);
+                holder.medal.setImageResource(R.mipmap.kol);
+            } else {
+                holder.medal.setVisibility(mList.get(position).getPartner_type() == 0 ? View.INVISIBLE : View.VISIBLE);
+            }
+            int user_level = mList.get(position).getUser_level();
+            if (user_level == 0) {
+                holder.img_level.setVisibility(View.INVISIBLE);
+            } else if (user_level == 1) {
+                mList.get(position).setUser_level(1);
+                holder.img_level.setImageResource(R.mipmap.lv1);
+
+            } else if (user_level == 2) {
+                mList.get(position).setUser_level(2);
+                holder.img_level.setImageResource(R.mipmap.lv2);
+            } else if (user_level == 3) {
+                mList.get(position).setUser_level(3);
+                holder.img_level.setImageResource(R.mipmap.lv3);
+            } else if (user_level == 4) {
+                mList.get(position).setUser_level(4);
+                holder.img_level.setImageResource(R.mipmap.lv4);
+            } else if (user_level == 5) {
+                mList.get(position).setUser_level(5);
+                holder.img_level.setImageResource(R.mipmap.lv5);
+            } else {
+                holder.img_level.setVisibility(View.INVISIBLE);
+            }
             holder.title.setText(mList.get(position).getTitle());
             holder.tv_cost.setText("￥" + mList.get(position).getCost() + "/人");
             holder.tv_day.setText(mList.get(position).getCount_dates() + "天");
@@ -332,17 +393,17 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
                         holder.dt_like.setImageResource(R.mipmap.datu_xihuan);
                         count_praise -= 1;
                         //设置点赞的数量
+                        mList.get(position).setCount_praise(count_praise);
                         holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
                         mList.get(position).setIs_my_praise(0);
-                        mList.get(position).setCount_praise(count_praise);
                     } else {
                         //由不喜欢变为喜欢，暗变亮
                         holder.dt_like.setImageResource(R.mipmap.yixihuan_xiangqing);
                         count_praise += 1;
                         //设置点赞的数量
+                        mList.get(position).setCount_praise(count_praise);
                         holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
                         mList.get(position).setIs_my_praise(1);
-                        mList.get(position).setCount_praise(count_praise);
                     }
                     String user_id = SpUtils.getString(context, "user_id", null);
                     String user_token = SpUtils.getString(context, "user_token", null);
@@ -380,19 +441,44 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
                 holder.pile_layout.setVisibility(View.GONE);
                 holder.tv_num_like.setVisibility(View.GONE);
             } else {
-                for (int i = 0; i < mList.get(position).getUsers_praise().size(); i++) {
-                    com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
-                    Glide.with(context).load(mList.get(position).getUsers_praise().get(i).getUser_logo()).into(imageView);
-                    holder.pile_layout.addView(imageView);
-                    int finalI = i;
-                    imageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Toast.makeText(context, "mList.get(position).getUsers_praise().get(i).getUser_id():" + mList.get(position).getUsers_praise().get(finalI).getUser_id(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                List<HomeBean.DataBean.YojListBean> user_icons = new ArrayList<>();
+                if (mList.get(position).getUsers_praise().size() <= 10) {
+                    for (int i = 0; i < mList.get(position).getUsers_praise().size(); i++) {
+                        user_icons.addAll(mList);
+                        com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
+                        Glide.with(context).load(user_icons.get(position).getUsers_praise().get(i).getUser_logo()).into(imageView);
+                        holder.pile_layout.addView(imageView);
+                        int finalI = i;
+                        imageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+//                            Toast.makeText(context, "mList.get(position).getUsers_praise().get(i).getUser_id():" + mList.get(position).getUsers_praise().get(finalI).getUser_id(), Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(context, UserHomepageActivity.class);
+                                intent.putExtra("yo_user_id", String.valueOf(mList.get(position).getUsers_praise().get(finalI).getUser_id()));
+                                context.startActivity(intent);
+                            }
+                        });
+                    }
+                } else {
+                    for (int i = 0; i < 10; i++) {
+                        user_icons.add(mList.get(position));
+                        com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
+                        Glide.with(context).load(user_icons.get(position).getUsers_praise().get(i).getUser_logo()).into(imageView);
+                        holder.pile_layout.addView(imageView);
+                        int finalI = i;
+                        imageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+//                            Toast.makeText(context, "mList.get(position).getUsers_praise().get(i).getUser_id():" + mList.get(position).getUsers_praise().get(finalI).getUser_id(), Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(context, UserHomepageActivity.class);
+                                intent.putExtra("yo_user_id", String.valueOf(mList.get(position).getUsers_praise().get(finalI).getUser_id()));
+                                context.startActivity(intent);
+                            }
+                        });
+                    }
                 }
             }
+
             RequestOptions requestOptions = new RequestOptions();
             requestOptions.placeholder(R.mipmap.default_touxiang)
                     .error(R.mipmap.default_touxiang);
@@ -434,9 +520,9 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-        ImageView zuji_image, typeImageView, dt_like, img_attention_one, img_attention_two, img_attention_three, img_attention_four;
+        ImageView zuji_image, typeImageView,medal,img_level, dt_like, img_attention_one, img_attention_two, img_attention_three, img_attention_four;
         CircleImageView user_icon, attention_user_icon;
-        TextView num_look, user_name, title, tv_cost, location, tv_day, tv_num_like, tv_num_comment, attention_user_name, attention_xiu_count, attention_ji_count, tv_attention;
+        TextView num_look, location_end, user_name, title, tv_cost, location, tv_day, tv_num_like, tv_num_comment, attention_user_name, attention_xiu_count, attention_ji_count, tv_attention;
         RelativeLayout view_like, rl_top_content, relative_img;
         LinearLayout layout_attention, layout_comment, ll_like_list;
         PileLayout pile_layout;
@@ -444,6 +530,9 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
 
         public Holder(@NonNull View itemView) {
             super(itemView);
+            medal = itemView.findViewById(R.id.medal);
+            img_level = itemView.findViewById(R.id.img_level);
+            location_end = itemView.findViewById(R.id.location_end);
             attention_user_name = itemView.findViewById(R.id.attention_user_name);
             attention_xiu_count = itemView.findViewById(R.id.attention_xiu_count);
             attention_ji_count = itemView.findViewById(R.id.attention_ji_count);

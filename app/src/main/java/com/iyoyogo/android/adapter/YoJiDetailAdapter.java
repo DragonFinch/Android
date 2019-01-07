@@ -1,6 +1,7 @@
 package com.iyoyogo.android.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -17,9 +18,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.yoji.detail.YoJiDetailBean;
+import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
+import com.iyoyogo.android.ui.home.yoji.YoJiPictureActivity;
 import com.iyoyogo.android.utils.RoundTransform;
 import com.iyoyogo.android.widget.FlowGroupView;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +33,13 @@ import java.util.List;
 public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Holder> implements View.OnClickListener {
     List<YoJiDetailBean.DataBean.ListBean> mList;
     private Context context;
+    private boolean isShow;
+
+    //改变显示删除的imageview，通过定义变量isShow去接收变量isManager
+    public void changetShowDelImage(boolean isShow) {
+        this.isShow = isShow;
+        notifyDataSetChanged();
+    }
 
     public YoJiDetailAdapter(Context context, List<YoJiDetailBean.DataBean.ListBean> data) {
         this.mList = data;
@@ -56,17 +68,17 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
         child.setLayoutParams(params);
         if (type == 1) {
             child.setBackgroundResource(R.drawable.label_bg_fkzn);
-            child.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.mipmap.make),null, null, null);
+            child.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.mipmap.make), null, null, null);
             child.setText(str);
             child.setTextColor(Color.parseColor("#5BCBF5"));
 
         } else if (type == 2) {
             child.setBackgroundResource(R.drawable.label_bg_deserve_to_do);
             child.setText(str);
-            child.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.mipmap.donot),null, null, null);
+            child.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.mipmap.donot), null, null, null);
             child.setTextColor(Color.parseColor("#E0FF6100"));
         } else if (type == 3) {
-            child.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.mipmap.self),null, null, null);
+            child.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.mipmap.self), null, null, null);
             child.setBackgroundResource(R.drawable.label_bg_exclusive);
             child.setText(str);
             child.setTextColor(Color.parseColor("#ff8484"));
@@ -105,7 +117,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
         int end_time = Integer.parseInt(end_date.replaceAll("-", ""));
         Log.d("YoJiDetailAdapter", "end_time:" + end_time);
         int time_date = end_time - start_time;
-        holder.tv_time.setText(time_date + "天");
+        holder.tv_time.setText(mList.get(position).getCount_dates() + "天");
         holder.create_time.setText(start_date);
         List<YoJiDetailBean.DataBean.ListBean.LabelsBean> labels = mList.get(position).getLabels();
         for (int i = 0; i < labels.size(); i++) {
@@ -113,42 +125,23 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
         }
         List<String> logos = mList.get(position).getLogos();
         int size = logos.size();
+        if (position == 0) {
+            holder.flow.setVisibility(View.VISIBLE);
+            loadData(holder, logos, size, position);
+        } else {
+            if (isShow) {
+                holder.flow.setVisibility(View.VISIBLE);
+                loadData(holder, logos, size, position);
+            } else {
+                holder.flow.setVisibility(View.GONE);
+                holder.picture_count_one.setVisibility(View.GONE);
+                holder.picture_count_two.setVisibility(View.GONE);
+                holder.picture_count_three.setVisibility(View.GONE);
+                holder.picture_count_four.setVisibility(View.GONE);
+                holder.picture_count_five.setVisibility(View.GONE);
+            }
+        }
 
-      /*  if (size == 1) {
-            holder.picture_count_one.setVisibility(View.VISIBLE);
-            Glide.with(context).load(logos.get(0)).into(holder.img_count_one_one);
-        } else if (size == 2) {
-            holder.picture_count_two.setVisibility(View.VISIBLE);
-            Glide.with(context).load(logos.get(0)).into(holder.img_count_two_one);
-            Glide.with(context).load(logos.get(1)).into(holder.img_count_two_two);
-        } else if (size == 3) {
-            holder.picture_count_three.setVisibility(View.VISIBLE);
-            Glide.with(context).load(logos.get(0)).into(holder.img_count_three_one);
-            Glide.with(context).load(logos.get(1)).into(holder.img_count_three_two);
-            Glide.with(context).load(logos.get(2)).into(holder.img_count_three_three);
-        } else if (size == 4) {
-            holder.picture_count_four.setVisibility(View.VISIBLE);
-            Glide.with(context).load(logos.get(0)).into(holder.img_count_four_one);
-            Glide.with(context).load(logos.get(1)).into(holder.img_count_four_two);
-            Glide.with(context).load(logos.get(2)).into(holder.img_count_four_three);
-            Glide.with(context).load(logos.get(3)).into(holder.img_count_four_four);
-        } else if (size == 5) {
-            holder.picture_count_five.setVisibility(View.VISIBLE);
-            Glide.with(context).load(logos.get(0)).into(holder.img_count_five_one);
-            Glide.with(context).load(logos.get(1)).into(holder.img_count_five_two);
-            Glide.with(context).load(logos.get(2)).into(holder.img_count_five_three);
-            Glide.with(context).load(logos.get(3)).into(holder.img_count_five_four);
-            Glide.with(context).load(logos.get(4)).into(holder.img_count_five_five);
-        } else if (size > 5) {
-            holder.picture_count_five.setVisibility(View.VISIBLE);
-            Glide.with(context).load(logos.get(0)).into(holder.img_count_five_one);
-            Glide.with(context).load(logos.get(1)).into(holder.img_count_five_two);
-            Glide.with(context).load(logos.get(3)).into(holder.img_count_five_three);
-            Glide.with(context).load(logos.get(4)).into(holder.img_count_five_four);
-            Glide.with(context).load(logos.get(5)).into(holder.img_count_five_five);
-            holder.tv_pic_count.setVisibility(View.VISIBLE);
-            holder.tv_pic_count.setText(size + "");
-        }*/
         if (OnPlayListener != null) {
             OnPlayListener.getData(holder, position);
         }
@@ -156,6 +149,256 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
         holder.itemView.setTag(position);
         if (position == mList.size() - 1) {
             holder.plane.setVisibility(View.GONE);
+        }
+    }
+
+    private void loadData(@NonNull Holder holder, List<String> logos, int size, int position) {
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.mipmap.default_ic)
+                .error(R.mipmap.default_ic);
+        if (size == 1) {
+            holder.flow.setVisibility(View.VISIBLE);
+            holder.picture_count_one.setVisibility(View.VISIBLE);
+            Glide.with(context).load(logos.get(0)).apply(requestOptions).into(holder.img_count_one_one);
+            holder.img_count_one_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos",  (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putExtra("position", 0);
+                    context.startActivity(intent);
+                }
+            });
+        } else if (size == 2) {
+            holder.flow.setVisibility(View.VISIBLE);
+            holder.picture_count_two.setVisibility(View.VISIBLE);
+            Glide.with(context).load(logos.get(0)).apply(requestOptions).into(holder.img_count_two_one);
+            Glide.with(context).load(logos.get(1)).apply(requestOptions).into(holder.img_count_two_two);
+            holder.img_count_two_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos",  (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putExtra("position", 0);
+                    context.startActivity(intent);
+                }
+            });
+            holder.img_count_two_two.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putExtra("position", 1);
+                    context.startActivity(intent);
+                }
+            });
+        } else if (size == 3) {
+            holder.flow.setVisibility(View.VISIBLE);
+            holder.picture_count_three.setVisibility(View.VISIBLE);
+            Glide.with(context).load(logos.get(0)).apply(requestOptions).into(holder.img_count_three_one);
+            Glide.with(context).load(logos.get(1)).apply(requestOptions).into(holder.img_count_three_two);
+            Glide.with(context).load(logos.get(2)).apply(requestOptions).into(holder.img_count_three_three);
+            holder.img_count_three_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putExtra("position", 0);
+                    context.startActivity(intent);
+                }
+            });
+            holder.img_count_three_two.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putExtra("position", 1);
+                    context.startActivity(intent);
+                }
+            });
+            holder.img_count_three_three.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putExtra("position", 2);
+                    context.startActivity(intent);
+                }
+            });
+        } else if (size == 4) {
+            holder.flow.setVisibility(View.VISIBLE);
+           holder.flow.setVisibility(View.VISIBLE);
+            holder.picture_count_four.setVisibility(View.VISIBLE);
+            Glide.with(context).load(logos.get(0)).apply(requestOptions).into(holder.img_count_four_one);
+            Glide.with(context).load(logos.get(1)).apply(requestOptions).into(holder.img_count_four_two);
+            Glide.with(context).load(logos.get(2)).apply(requestOptions).into(holder.img_count_four_three);
+            Glide.with(context).load(logos.get(3)).apply(requestOptions).into(holder.img_count_four_four);
+            holder.img_count_four_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putExtra("position", 0);
+                    context.startActivity(intent);
+                }
+            });
+            holder.img_count_four_two.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putExtra("position", 1);
+                    context.startActivity(intent);
+                }
+            });
+            holder.img_count_four_three.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+
+                    intent.setClass(context, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putExtra("position", 2);
+                    context.startActivity(intent);
+                }
+            });
+            holder.img_count_four_four.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putExtra("position", 3);
+                    context.startActivity(intent);
+                }
+            });
+        } else if (size == 5) {
+            holder.flow.setVisibility(View.VISIBLE);
+            holder.picture_count_five.setVisibility(View.VISIBLE);
+            Glide.with(context).load(logos.get(0)).apply(requestOptions).into( holder.img_count_five_one);
+            Glide.with(context).load(logos.get(1)).apply(requestOptions).into( holder.img_count_five_two);
+            Glide.with(context).load(logos.get(2)).apply(requestOptions).into( holder.img_count_five_three);
+            Glide.with(context).load(logos.get(3)).apply(requestOptions).into( holder.img_count_five_four);
+            Glide.with(context).load(logos.get(4)).apply(requestOptions).into( holder.img_count_five_five);
+            holder.img_count_five_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putExtra("position", 0);
+                    context.startActivity(intent);
+                }
+            });
+            holder.img_count_five_two.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putExtra("position", 1);
+                    context.startActivity(intent);
+                }
+            });
+            holder.img_count_five_three.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putExtra("position", 2);
+                    context.startActivity(intent);
+                }
+            });
+            holder.img_count_five_four.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putExtra("position", 3);
+                    context.startActivity(intent);
+                }
+            });
+            holder.img_count_five_five.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putExtra("position", 4);
+                    context.startActivity(intent);
+                }
+            });
+        } else if (size > 5) {
+            holder.flow.setVisibility(View.VISIBLE);
+            holder.picture_count_five.setVisibility(View.VISIBLE);
+            Glide.with(context).load(logos.get(0)).apply(requestOptions).into( holder.img_count_five_one);
+            Glide.with(context).load(logos.get(1)).apply(requestOptions).into( holder.img_count_five_two);
+            Glide.with(context).load(logos.get(2)).apply(requestOptions).into( holder.img_count_five_three);
+            Glide.with(context).load(logos.get(3)).apply(requestOptions).into( holder.img_count_five_four);
+            Glide.with(context).load(logos.get(4)).apply(requestOptions).into( holder.img_count_five_five);
+            holder.tv_pic_count.setVisibility(View.VISIBLE);
+            holder.tv_pic_count.setText(size + "");
+            holder.img_count_five_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+
+                    intent.setClass(context, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putExtra("position", 0);
+                    context.startActivity(intent);
+                }
+            });
+            holder.img_count_five_two.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putExtra("position", 1);
+                    context.startActivity(intent);
+                }
+            });
+            holder.img_count_five_three.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putExtra("position", 2);
+                    context.startActivity(intent);
+                }
+            });
+            holder.img_count_five_four.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putExtra("position", 3);
+                    context.startActivity(intent);
+                }
+            });
+            holder.img_count_five_five.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, YoJiPictureActivity.class);
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putExtra("position", 4);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 

@@ -26,6 +26,7 @@ import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.yoji.ReplyDiscussActivity;
+import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
@@ -314,6 +315,14 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
             @Override
             public void onClick(View v) {
                 initDelete(holder, String.valueOf(mList.get(position).getUser_id()), mList.get(position).getId(), mList.get(position).getYo_id());
+            }
+        });
+        holder.img_user_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, UserHomepageActivity.class);
+                intent.putExtra("yo_user_id",String.valueOf(mList.get(position).getUser_id()));
+                context.startActivity(intent);
             }
         });
     }

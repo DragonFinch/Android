@@ -51,7 +51,8 @@ public abstract class BaseActivity<T extends IBasePresenter> extends AppCompatAc
      */
     private PermissionListener mPermissionListener;
     public static final int REQUEST_PERMISSION_CODE = 101;
-    protected void statusbar(){
+
+    protected void statusbar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色
             Window window = getWindow();
@@ -74,16 +75,19 @@ public abstract class BaseActivity<T extends IBasePresenter> extends AppCompatAc
             window.setAttributes(attributes);
         }
     }
-protected void setSetting(){}
+
+    protected void setSetting() {
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-setSetting();
+        setSetting();
         setScreenOrientation();
 //        setDefaultDisplayAdaptOrientation();
 //        setStatusBar();
         setSetting();
-//        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
+        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(getLayoutId());
         App.context = this;
@@ -327,9 +331,9 @@ setSetting();
     @Override
     public void onUserTokenError() {
         shortToast("登录令牌失效");
-        SpUtils.remove(BaseActivity.this,"user_id");
-        SpUtils.remove(BaseActivity.this,"user_token");
-        SpUtils.remove(BaseActivity.this,"isLogin");
+        SpUtils.remove(BaseActivity.this, "user_id");
+        SpUtils.remove(BaseActivity.this, "user_token");
+        SpUtils.remove(BaseActivity.this, "isLogin");
         startActivity(new Intent(App.context, LoginActivity.class));
         finish();
     }

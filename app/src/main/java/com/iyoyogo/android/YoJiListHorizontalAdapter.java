@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.adapter.YoJiListInnerAdapter;
 import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.home.HomeBean;
 import com.iyoyogo.android.bean.yoji.list.YoJiListBean;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
@@ -36,6 +37,7 @@ import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 import com.iyoyogo.android.widget.PileLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.functions.Consumer;
@@ -53,6 +55,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
     private ImageView img_tip;
     private PopupWindow popup;
     private View view;
+
     public YoJiListHorizontalAdapter(Context context, List<YoJiListBean.DataBean.ListBean> data) {
         this.mList = data;
         this.context = context;
@@ -80,31 +83,69 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
                 .transform(new GlideRoundTransform(context, 8));
         Glide.with(context).load(mList.get(position).getFile_path()).apply(myOptions).into(holder.zuji_image);
         holder.location.setText(mList.get(position).getP_start());
+        holder.location_end.setText(mList.get(position).getP_end());
         holder.num_look.setText(mList.get(position).getCount_view() + "");
         LayoutInflater inflater = LayoutInflater.from(context);
         if (mList.get(position).getUsers_praise().size() == 0) {
             holder.pile_layout.setVisibility(View.GONE);
             holder.tv_num_like.setVisibility(View.GONE);
         } else {
-            for (int i = 0; i < mList.get(position).getUsers_praise().size(); i++) {
-                com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
-                Glide.with(context).load(mList.get(position).getUsers_praise().get(i).getUser_logo()).into(imageView);
-                holder.pile_layout.addView(imageView);
-                int finalI = i;
-                String yo_user_id = mList.get(position).getUsers_praise().get(i).getUser_id();
+            RequestOptions requestOptions = new RequestOptions();
+            requestOptions.placeholder(R.mipmap.default_touxiang).error(R.mipmap.default_touxiang);
 
-                imageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, Personal_homepage_Activity.class);
-                        intent.putExtra("yo_user_id", String.valueOf(yo_user_id));
-                        context.startActivity(intent);
-                        Toast.makeText(context, "mList.get(position).getUsers_praise().get(i).getUser_id():" + mList.get(position).getUsers_praise().get(finalI).getUser_id(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+
+            Log.d("YoJiListHorizontalAdapt", "mList.get(position).getUsers_praise().size():" + mList.get(position).getUsers_praise().size());
+            if (mList.get(position).getUsers_praise().size() <= 10) {
+                List<String> user_icons = new ArrayList<>();
+                user_icons.clear();
+                int size = mList.get(position).getUsers_praise().size();
+                for (int i = 0; i < size; i++) {
+                    user_icons.add(mList.get(position).getUsers_praise().get(i).getUser_logo());
+                    Log.e("YoJiListHorizontalAdapt", mList.get(position).getUsers_praise().get(i).getUser_logo());
+                    com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
+                    Glide.with(context).load(user_icons.get(i)).apply(requestOptions).into(imageView);
+                    holder.pile_layout.addView(imageView);
+                    int finalI = i;
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+//                            Toast.makeText(context, "mList.get(position).getUsers_praise().get(i).getUser_id():" + mList.get(position).getUsers_praise().get(finalI).getUser_id(), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(context, UserHomepageActivity.class);
+                            intent.putExtra("yo_user_id", String.valueOf(mList.get(finalI).getUser_info().getUser_id()));
+                            context.startActivity(intent);
+                        }
+                    });
+                }
+                Log.d("YoJiListHorizontalAdapt", "user_icons.size():" + user_icons.size());
+            } else {
+                List<YoJiListBean.DataBean.ListBean.UsersPraiseBean> user_icons = new ArrayList<>();
+                user_icons.clear();
+                for (int i = 0; i < 10; i++) {
+                    user_icons.add(mList.get(position).getUsers_praise().get(i));
+                    com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
+                    Glide.with(context).load(user_icons.get(i).getUser_logo()).apply(requestOptions).into(imageView);
+                    holder.pile_layout.addView(imageView);
+                    int finalI = i;
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+//                            Toast.makeText(context, "mList.get(position).getUsers_praise().get(i).getUser_id():" + mList.get(position).getUsers_praise().get(finalI).getUser_id(), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(context, UserHomepageActivity.class);
+                            intent.putExtra("yo_user_id", String.valueOf(mList.get(position).getUsers_praise().get(finalI).getUser_id()));
+                            context.startActivity(intent);
+                        }
+                    });
+                }
+                Log.d("YoJiListHorizontalAdapt", "user_icons.size():" + user_icons.size());
             }
+
         }
-        Glide.with(context).load(mList.get(position).getUser_info().getUser_logo()).into(holder.user_icon);
+
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.error(R.mipmap.default_touxiang).placeholder(R.mipmap.default_touxiang);
+        Glide.with(context).load(mList.get(position).getUser_info().getUser_logo())
+                .apply(requestOptions)
+                .into(holder.user_icon);
         holder.user_name.setText(mList.get(position).getUser_info().getUser_nickname());
         holder.title.setText(mList.get(position).getTitle());
         holder.tv_cost.setText(" ￥" + mList.get(position).getCost() + "/人");
@@ -151,6 +192,46 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
                         });
             }
         });
+        holder.medal.setVisibility(View.VISIBLE);
+        holder.img_level.setVisibility(View.VISIBLE);
+        int partner_type = mList.get(position).getQuality_type();
+        if (partner_type == 0) {
+            mList.get(position).setQuality_type(0);
+            holder.medal.setVisibility(View.INVISIBLE);
+        } else if (partner_type == 1) {
+            mList.get(position).setQuality_type(1);
+            holder.medal.setImageResource(R.mipmap.daren);
+        } else if (partner_type == 2) {
+            mList.get(position).setQuality_type(2);
+            holder.medal.setImageResource(R.mipmap.hongren);
+        } else if (partner_type == 3) {
+            mList.get(position).setQuality_type(3);
+            holder.medal.setImageResource(R.mipmap.kol);
+        } else {
+            holder.medal.setVisibility(mList.get(position).getQuality_type() == 0 ? View.INVISIBLE : View.VISIBLE);
+        }
+        int user_level = mList.get(position).getUser_info().getUser_level();
+        if (user_level == 0) {
+            holder.img_level.setVisibility(View.INVISIBLE);
+        } else if (user_level == 1) {
+            mList.get(position).getUser_info().setUser_level(1);
+            holder.img_level.setImageResource(R.mipmap.lv1);
+
+        } else if (user_level == 2) {
+            mList.get(position).getUser_info().setUser_level(2);
+            holder.img_level.setImageResource(R.mipmap.lv2);
+        } else if (user_level == 3) {
+            mList.get(position).getUser_info().setUser_level(3);
+            holder.img_level.setImageResource(R.mipmap.lv3);
+        } else if (user_level == 4) {
+            mList.get(position).getUser_info().setUser_level(4);
+            holder.img_level.setImageResource(R.mipmap.lv4);
+        } else if (user_level == 5) {
+            mList.get(position).getUser_info().setUser_level(5);
+            holder.img_level.setImageResource(R.mipmap.lv5);
+        } else {
+            holder.img_level.setVisibility(View.INVISIBLE);
+        }
         holder.itemView.setTag(position);
 
         //点赞
@@ -224,7 +305,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
         holder.more_img.setOnClickListener(new View.OnClickListener() {//...
             @Override
             public void onClick(View v) {
-                initDelete(holder,String.valueOf(mList.get(position).getUser_info().getUser_id()),mList.get(position).getYo_id());
+                initDelete(holder, String.valueOf(mList.get(position).getUser_info().getUser_id()), mList.get(position).getYo_id());
             }
         });
         holder.tv_num_comment.setOnClickListener(new View.OnClickListener() {//全部评论
@@ -239,7 +320,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
         holder.view_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initDelete(holder,String.valueOf(mList.get(position).getUser_info().getUser_id()),mList.get(position).getYo_id());
+                initDelete(holder, String.valueOf(mList.get(position).getUser_info().getUser_id()), mList.get(position).getYo_id());
             }
         });
 
@@ -268,15 +349,17 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-        ImageView zuji_image, typeImageView, dt_like, index_look_icon, more_img;
+        ImageView zuji_image, typeImageView, dt_like, index_look_icon, more_img,medal,img_level;
         CircleImageView user_icon;
-        TextView num_look, user_name, title, tv_cost, location, tv_day, tv_num_like, tv_num_comment;
+        TextView num_look, location_end, user_name, title, tv_cost, location, tv_day, tv_num_like, tv_num_comment;
         RelativeLayout view_like;
         PileLayout pile_layout;
         RecyclerView recycler_comment;
 
         public Holder(@NonNull View itemView) {
             super(itemView);
+            img_level = itemView.findViewById(R.id.img_level);
+            medal = itemView.findViewById(R.id.medal);
             zuji_image = itemView.findViewById(R.id.zuji_image);
             tv_num_comment = itemView.findViewById(R.id.tv_num_comment);
             recycler_comment = itemView.findViewById(R.id.recycler_comment);
@@ -294,9 +377,11 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
             dt_like = itemView.findViewById(R.id.dt_like);
             index_look_icon = itemView.findViewById(R.id.index_look_icon);
             more_img = itemView.findViewById(R.id.more_img);
+            location_end = itemView.findViewById(R.id.location_end);
         }
     }
-    private void initDelete(Holder holder, String yo_user_id,  int yo_id) {
+
+    private void initDelete(Holder holder, String yo_user_id, int yo_id) {
         View view = LayoutInflater.from(context).inflate(R.layout.popup_delete_or_report, null);
         PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 125), ViewGroup.LayoutParams.WRAP_CONTENT, true);
         String user_id = SpUtils.getString(context, "user_id", null);
@@ -337,6 +422,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
         popupWindow.setOnDismissListener(new poponDismissListener());
         popupWindow.showAsDropDown(holder.view_like, 0, 0);
     }
+
     public void initPopup() {
         view = LayoutInflater.from(context).inflate(R.layout.like_layout, null);
         popup = new PopupWindow(view, DensityUtil.dp2px(context, 300), DensityUtil.dp2px(context, 145), true);
@@ -356,6 +442,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
         //添加pop窗口关闭事件
         popup.setOnDismissListener(new poponDismissListener());
     }
+
     public void report() {
 
         tv_message.setText("举报成功");
@@ -375,6 +462,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
         popup.setOnDismissListener(new poponDismissListener());
         popup.showAtLocation(activity.findViewById(R.id.activity_yo_ji_list), Gravity.CENTER, 0, 0);
     }
+
     public void loadMore(int yo_id) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_more, null);
         PopupWindow popup_more = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);

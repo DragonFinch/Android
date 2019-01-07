@@ -304,7 +304,7 @@ public class Model {
      * @param file_type
      * @param file_desc
      * @param channel_ids
-     * @param topic_ids
+     * @param
      * @param open
      * @param valid
      * @param position_name
@@ -638,7 +638,7 @@ public class Model {
      * @param cost
      * @param open
      * @param valid
-     * @param topic_ids
+     * @param
      * @param channel_ids
      * @param json
      * @return
@@ -1097,5 +1097,14 @@ public class Model {
         return HttpClient.getApiService()
                 .getserarch(user_id, user_token,seatch)
                 .compose(this.switchThread());
+    }
+    public Observable<BaseBean> browse(String user_id,  String user_token, String yo_id){
+        return HttpClient.getApiService().browse(user_id,user_token,yo_id)
+                .compose(this.switchThread());
+    }
+    public Observable<BaseBean> setLocation(String user_id,String user_token,String lng,String lat){
+        return HttpClient.getApiService().setLocation(user_id,user_token,lng,lat)
+                .compose(this.switchThread());
+
     }
 }

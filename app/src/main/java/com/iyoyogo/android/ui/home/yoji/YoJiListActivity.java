@@ -104,7 +104,7 @@ public class YoJiListActivity extends BaseActivity {
         //下拉刷新
         recyclerYojiList.setLayoutManager(linearLayoutManager);
         refreshLayout1.setEnableRefresh(true);
-        refreshLayout1.setFooterHeight(1.0f);
+//        refreshLayout1.setFooterHeight(1.0f);
 
         recyclerYojiListTwo.setLayoutManager(staggeredGridLayoutManager);
         refreshLayout2.setEnableRefresh(true);

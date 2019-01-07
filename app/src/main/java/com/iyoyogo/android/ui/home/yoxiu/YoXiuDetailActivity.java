@@ -45,6 +45,7 @@ import com.iyoyogo.android.bean.yoxiu.YoXiuDetailBean;
 import com.iyoyogo.android.contract.YoXiuDetailContract;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.presenter.YoXiuDetailPresenter;
+import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
@@ -188,7 +189,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                     if (editComment.getText().toString().length() > 0) {
                         mPresenter.addComment(user_id, user_token, 0, id, editComment.getText().toString().trim());
                         closeInputMethod();
-                        mPresenter.getCommentList(user_id, user_token, 1, id, 0);
+//                        mPresenter.getCommentList(user_id, user_token, 1, id, 0);
                         editComment.clearFocus();
                         editComment.setFocusable(false);
 //                        yoXiuDetailAdapter.notifyItemInserted(dataBeans.size());
@@ -219,9 +220,15 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     protected void initData(Bundle savedInstanceState) {
 
         super.initData(savedInstanceState);
-        dataBeans = new ArrayList<>();
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        dataBeans = new ArrayList<>();
+
 
         user_id = SpUtils.getString(YoXiuDetailActivity.this, "user_id", null);
         user_token = SpUtils.getString(YoXiuDetailActivity.this, "user_token", null);
@@ -465,9 +472,10 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                         is_my_attention=0;
                     }
                 }*/
-                mPresenter.getDetail(user_id, user_token, id);
+
 
                 mPresenter.addAttention(user_id, user_token, yo_attention_id);
+
 //                    Log.d("YoXiuDetailActivity", target_id);
 
                 break;
@@ -650,6 +658,14 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         RequestOptions requestOption = new RequestOptions();
         requestOption.error(R.mipmap.default_touxiang).placeholder(R.mipmap.default_touxiang);
         Glide.with(this).load(user_logo).apply(requestOption).into(imgUserIcon);
+        imgUserIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(YoXiuDetailActivity.this, UserHomepageActivity.class);
+                intent.putExtra("yo_user_id", String.valueOf(data.getUser_id()));
+                startActivity(intent);
+            }
+        });
         String position_name = data.getPosition_name();
         tvDesc.setText(position_name);
         String user_nickname = data.getUser_nickname();
@@ -786,6 +802,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         editComment.setText("");
         yoXiuDetailAdapter.notifyDataSetChanged();
+        mPresenter.getCommentList(user_id, user_token, 1, id, 0);
     }
 
     @Override
@@ -793,14 +810,11 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
       /*  String target_id = data.getId();
         add_attention_id = Integer.parseInt(target_id);
         Log.d("YoXiuDetailActivity", target_id);*/
-        collection.setText("已关注");
-        Toast.makeText(this, "关注成功", Toast.LENGTH_SHORT).show();
+        mPresenter.getDetail(user_id, user_token, id);
     }
 
     @Override
     public void deleteAttentionSuccess(BaseBean baseBean) {
-        collection.setText("+ 关注");
-        Toast.makeText(this, "取消关注", Toast.LENGTH_SHORT).show();
     }
 
     @Override

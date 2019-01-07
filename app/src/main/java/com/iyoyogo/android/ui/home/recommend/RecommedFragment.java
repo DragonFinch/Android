@@ -95,8 +95,8 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
     }
 
     @Override
-    protected void initData() {
-        super.initData();
+    public void onStart() {
+        super.onStart();
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
         MyRefreshAnimHeader mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
@@ -114,8 +114,6 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
                 mPresenter.banner(user_id, user_token, "commend");
             }
         });
-//        mPresenter.banner(user_id, user_token, "commend");
-
     }
 
     @Override
@@ -263,13 +261,6 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
         });
         String registrationID = JPushInterface.getRegistrationID(getContext());
         Log.d("龙雀", registrationID);
-        DataManager.getFromRemote().push(user_id, user_token, "and", registrationID)
-                .subscribe(new Consumer<BaseBean>() {
-                    @Override
-                    public void accept(BaseBean baseBean) throws Exception {
-//                        Toast.makeText(mActivity, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
-                    }
-                });
         DataManager.getFromRemote().getVersionMessage(user_id, user_token, "and").subscribe(new Observer<VersionBean>() {
             @Override
             public void onSubscribe(Disposable d) {

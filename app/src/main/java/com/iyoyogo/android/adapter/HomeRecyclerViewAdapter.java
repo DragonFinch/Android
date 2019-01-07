@@ -19,16 +19,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.home.HomeBean;
+import com.iyoyogo.android.camera.utils.SpUtil;
+import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiListActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuListActivity;
+import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.view.CardTransformer;
 import com.iyoyogo.android.view.MyViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.functions.Consumer;
 
 /**
  * 首页数据的适配器
@@ -74,13 +80,17 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     };
 
     private String type;
-//开始轮循
+    private String user_token;
+    private String user_id;
+
+    //开始轮循
     public void startLoop() {
         if (viewpager != null && !isLoop) {
             mHandler.postDelayed(runnableForViewPager, TIME);
             isLoop = true;
         }
     }
+
     //停止轮循
     public void stopLoop() {
         if (viewpager != null) {
@@ -254,18 +264,27 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             public void onClick(View v, int position) {
                 Intent intent = new Intent(context, YoXiuDetailActivity.class);
                 intent.putExtra("id", yox_list.get(position).getId());
+                user_id = SpUtils.getString(context, "user_id", null);
+                user_token = SpUtils.getString(context, "user_token", null);
+                Log.d("HomeRecyclerViewAdapter", "yox_list.get(position).getId():" + yox_list.get(position).getId());
+                DataManager.getFromRemote().browse(user_id, user_token, String.valueOf(yox_list.get(position).getId()))
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+
+                            }
+                        });
                 context.startActivity(intent);
             }
         });
         yoXiuAdapter.setOnRetryClickListener(new YoXiuAdapter.OnRetryClickListener() {
             @Override
             public void onretry() {
-                if (onRetryClickListener!=null){
+                if (onRetryClickListener != null) {
                     onRetryClickListener.onretry();
                 }
             }
         });
-
 
 
     }
@@ -290,6 +309,15 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             yoJiAttentionAdapter.setOnItemClickListener(new YoJiAttentionAdapter.OnClickListener() {
                 @Override
                 public void onClick(View v, int position) {
+                    user_id = SpUtils.getString(context, "user_id", null);
+                    user_token = SpUtils.getString(context, "user_token", null);
+                    DataManager.getFromRemote().browse(user_id, user_token, String.valueOf(yoj_list.get(position).getYo_id()))
+                            .subscribe(new Consumer<BaseBean>() {
+                                @Override
+                                public void accept(BaseBean baseBean) throws Exception {
+
+                                }
+                            });
                     int yo_id = yoj_list.get(position).getYo_id();
                     Intent intent = new Intent(context, YoJiDetailActivity.class);
                     intent.putExtra("yo_id", yo_id);
@@ -315,6 +343,15 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 @Override
                 public void onClick(View v, int position) {
                     int yo_id = yoj_list.get(position).getYo_id();
+                    user_id = SpUtils.getString(context, "user_id", null);
+                    user_token = SpUtils.getString(context, "user_token", null);
+                    DataManager.getFromRemote().browse(user_id, user_token, String.valueOf(yoj_list.get(position).getYo_id()))
+                            .subscribe(new Consumer<BaseBean>() {
+                                @Override
+                                public void accept(BaseBean baseBean) throws Exception {
+
+                                }
+                            });
                     Intent intent = new Intent(context, YoJiDetailActivity.class);
                     intent.putExtra("yo_id", yo_id);
                     context.startActivity(intent);

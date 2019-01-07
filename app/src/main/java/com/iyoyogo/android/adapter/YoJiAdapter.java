@@ -24,6 +24,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.home.HomeBean;
+import com.iyoyogo.android.bean.yoji.list.YoJiListBean;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
@@ -33,6 +34,7 @@ import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 import com.iyoyogo.android.widget.PileLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.functions.Consumer;
@@ -75,16 +77,16 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
         } else {
             holder.typeImageView.setVisibility(View.INVISIBLE);
         }
-       holder.user_icon.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               int yo_user_id = mList.get(position).getUser_info().getUser_id();
-               Intent intent = new Intent(context, UserHomepageActivity.class);
+        holder.user_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int yo_user_id = mList.get(position).getUser_info().getUser_id();
+                Intent intent = new Intent(context, UserHomepageActivity.class);
 //               Intent intent = new Intent(context, Personal_homepage_Activity.class);
-               intent.putExtra("yo_user_id", String.valueOf(yo_user_id));
-               context.startActivity(intent);
-           }
-       });
+                intent.putExtra("yo_user_id", String.valueOf(yo_user_id));
+                context.startActivity(intent);
+            }
+        });
         holder.user_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +97,47 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
                 context.startActivity(intent);
             }
         });
+        holder.medal.setVisibility(View.VISIBLE);
+        holder.img_level.setVisibility(View.VISIBLE);
+        int partner_type = mList.get(position).getPartner_type();
+        if (partner_type == 0) {
+            mList.get(position).setPartner_type(0);
+            holder.medal.setVisibility(View.INVISIBLE);
+        } else if (partner_type == 1) {
+            mList.get(position).setPartner_type(1);
+            holder.medal.setImageResource(R.mipmap.daren);
+        } else if (partner_type == 2) {
+            mList.get(position).setPartner_type(2);
+            holder.medal.setImageResource(R.mipmap.hongren);
+        } else if (partner_type == 3) {
+            mList.get(position).setPartner_type(3);
+            holder.medal.setImageResource(R.mipmap.kol);
+        } else {
+            holder.medal.setVisibility(mList.get(position).getPartner_type() == 0 ? View.INVISIBLE : View.VISIBLE);
+        }
+        int user_level = mList.get(position).getUser_level();
+        if (user_level == 0) {
+            holder.img_level.setVisibility(View.INVISIBLE);
+        } else if (user_level == 1) {
+            mList.get(position).setUser_level(1);
+            holder.img_level.setImageResource(R.mipmap.lv1);
+
+        } else if (user_level == 2) {
+            mList.get(position).setUser_level(2);
+            holder.img_level.setImageResource(R.mipmap.lv2);
+        } else if (user_level == 3) {
+            mList.get(position).setUser_level(3);
+            holder.img_level.setImageResource(R.mipmap.lv3);
+        } else if (user_level == 4) {
+            mList.get(position).setUser_level(4);
+            holder.img_level.setImageResource(R.mipmap.lv4);
+        } else if (user_level == 5) {
+            mList.get(position).setUser_level(5);
+            holder.img_level.setImageResource(R.mipmap.lv5);
+        } else {
+            holder.img_level.setVisibility(View.INVISIBLE);
+        }
+        holder.location_end.setText(mList.get(position).getP_end());
         RequestOptions myOptions = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.mipmap.default_ic)
@@ -111,31 +154,51 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
             holder.pile_layout.setVisibility(View.GONE);
             holder.tv_num_like.setVisibility(View.GONE);
         } else {
-            for (int i = 0; i < mList.get(position).getUsers_praise().size(); i++) {
-                com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
-                Glide.with(context).load(mList.get(position).getUsers_praise().get(i).getUser_logo()).into(imageView);
-                holder.pile_layout.addView(imageView);
-                int finalI = i;
-                int yo_user_id = mList.get(position).getUsers_praise().get(i).getUser_id();
-
-                imageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, Personal_homepage_Activity.class);
-                        intent.putExtra("yo_user_id", String.valueOf(yo_user_id));
-                        context.startActivity(intent);
-                        Toast.makeText(context, "mList.get(position).getUsers_praise().get(i).getUser_id():" + mList.get(position).getUsers_praise().get(finalI).getUser_id(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+            List<HomeBean.DataBean.YojListBean> user_icons = new ArrayList<>();
+            if (mList.get(position).getUsers_praise().size() <= 10) {
+                for (int i = 0; i < mList.get(position).getUsers_praise().size(); i++) {
+                    user_icons.addAll(mList);
+                    com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
+                    Glide.with(context).load(user_icons.get(position).getUsers_praise().get(i).getUser_logo()).into(imageView);
+                    holder.pile_layout.addView(imageView);
+                    int finalI = i;
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+//                            Toast.makeText(context, "mList.get(position).getUsers_praise().get(i).getUser_id():" + mList.get(position).getUsers_praise().get(finalI).getUser_id(), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(context, UserHomepageActivity.class);
+                            intent.putExtra("yo_user_id", String.valueOf(mList.get(position).getUsers_praise().get(finalI).getUser_id()));
+                            context.startActivity(intent);
+                        }
+                    });
+                }
+            } else {
+                for (int i = 0; i < 10; i++) {
+                    user_icons.add(mList.get(position));
+                    com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
+                    Glide.with(context).load(user_icons.get(position).getUsers_praise().get(i).getUser_logo()).into(imageView);
+                    holder.pile_layout.addView(imageView);
+                    int finalI = i;
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+//                            Toast.makeText(context, "mList.get(position).getUsers_praise().get(i).getUser_id():" + mList.get(position).getUsers_praise().get(finalI).getUser_id(), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(context, UserHomepageActivity.class);
+                            intent.putExtra("yo_user_id", String.valueOf(mList.get(position).getUsers_praise().get(finalI).getUser_id()));
+                            context.startActivity(intent);
+                        }
+                    });
+                }
             }
+
         }
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.mipmap.default_touxiang);
         requestOptions.error(R.mipmap.default_touxiang);
 
-            Glide.with(context).load(mList.get(position).getUser_info().getUser_logo())
-                    .apply(requestOptions)
-                    .into(holder.user_icon);
+        Glide.with(context).load(mList.get(position).getUser_info().getUser_logo())
+                .apply(requestOptions)
+                .into(holder.user_icon);
 
         holder.user_name.setText(mList.get(position).getUser_info().getUser_nickname());
         holder.title.setText(mList.get(position).getTitle());
@@ -148,7 +211,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
         Log.d("YoJiAdapter", "comment_list:" + comment_list.size());
         holder.recycler_comment.setLayoutManager(new LinearLayoutManager(context));
         holder.recycler_comment.setAdapter(adapter);
-        holder.dt_like.setImageResource(mList.get(position).getIs_my_praise() > 0 ? R.mipmap.yixihuan_xiangqing : R.mipmap.datu_xihuan);
+        holder.dt_like.setImageResource(mList.get(position).getIs_my_praise()> 0 ? R.mipmap.yixihuan_xiangqing : R.mipmap.datu_xihuan);
 
         holder.dt_like.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,17 +224,17 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
                     holder.dt_like.setImageResource(R.mipmap.datu_xihuan);
                     count_praise -= 1;
                     //设置点赞的数量
+                    mList.get(position).setCount_praise(count_praise);
                     holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
                     mList.get(position).setIs_my_praise(0);
-                    mList.get(position).setCount_praise(count_praise);
                 } else {
                     //由不喜欢变为喜欢，暗变亮
                     holder.dt_like.setImageResource(R.mipmap.yixihuan_xiangqing);
+                    mList.get(position).setCount_praise(count_praise);
                     count_praise += 1;
                     //设置点赞的数量
                     holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
                     mList.get(position).setIs_my_praise(1);
-                    mList.get(position).setCount_praise(count_praise);
                 }
                 String user_id = SpUtils.getString(context, "user_id", null);
                 String user_token = SpUtils.getString(context, "user_token", null);
@@ -190,6 +253,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
                 initPopup(holder);
             }
         });
+
         holder.itemView.setTag(position);
 
     }
@@ -322,15 +386,18 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-        ImageView zuji_image, typeImageView, dt_like;
+        ImageView zuji_image, typeImageView, dt_like,medal,img_level;
         CircleImageView user_icon;
-        TextView num_look, user_name, title, tv_cost, location, tv_day, tv_num_like, tv_num_comment;
+        TextView num_look, user_name, title, tv_cost, location, tv_day, tv_num_like, tv_num_comment,location_end;
         RelativeLayout view_like;
         PileLayout pile_layout;
         RecyclerView recycler_comment;
 
         public Holder(@NonNull View itemView) {
             super(itemView);
+            medal = itemView.findViewById(R.id.medal);
+            img_level = itemView.findViewById(R.id.img_level);
+            location_end = itemView.findViewById(R.id.location_end);
             zuji_image = itemView.findViewById(R.id.zuji_image);
             tv_num_comment = itemView.findViewById(R.id.tv_num_comment);
             recycler_comment = itemView.findViewById(R.id.recycler_comment);

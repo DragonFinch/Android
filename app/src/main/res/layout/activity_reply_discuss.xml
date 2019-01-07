@@ -29,6 +29,11 @@
            android:textSize="@dimen/sp_15"
            android:gravity="center"/>
    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ScrollView>
     <RelativeLayout
         android:id="@+id/discuss_layout"
         android:layout_below="@+id/bar"

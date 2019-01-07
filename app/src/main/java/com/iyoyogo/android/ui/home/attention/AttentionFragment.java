@@ -47,21 +47,7 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
     @Override
     protected void initView() {
         super.initView();
-        MyRefreshAnimHeader mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
-        setHeader(mRefreshAnimHeader);
-        refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
-        //下拉刷新
-        refreshLayout.setEnableRefresh(true);
-        refreshLayout.setFooterHeight(1.0f);
-        refreshLayout.autoRefresh();
-        refreshLayout.finishRefresh(1050);
-        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                refreshLayout.finishRefresh(1050);
-                mPresenter.banner(user_id, user_token, "attention");
-            }
-        });
+
     }
 
     private void setHeader(RefreshHeader header) {
@@ -82,7 +68,23 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
         super.onResume();
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
-        mPresenter.banner(user_id, user_token, "attention");
+        MyRefreshAnimHeader mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
+        setHeader(mRefreshAnimHeader);
+        refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
+        //下拉刷新
+        refreshLayout.setEnableRefresh(true);
+        refreshLayout.setFooterHeight(1.0f);
+        refreshLayout.autoRefresh();
+        refreshLayout.finishRefresh(1050);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                refreshLayout.finishRefresh(1050);
+                mPresenter.banner(user_id, user_token, "attention");
+            }
+        });
+
+
     }
 
     @Override
