@@ -437,19 +437,21 @@
                 android:layout_marginTop="@dimen/dp_16">
 
                 <TextView
+                   android:lineSpacingMultiplier="1.1"
+                    android:lineSpacingExtra="@dimen/dp_8"
                     android:id="@+id/tv_desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_20"
+                    android:layout_marginRight="@dimen/dp_20"
                     android:background="@drawable/yoji_detail_discribe"
-                    android:drawableLeft="@mipmap/huati_xiangqing"
                     android:drawablePadding="@dimen/dp_3"
-                    android:text="大理周末玩什么"
-                    android:textColor="#fffa800a"
+                    android:text="爱上大声地啊实打实大师大师的撒打算是打算打算打算打算打算"
+                    android:textColor="#333333"
                     android:textSize="@dimen/sp_15" />
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
+                android:layout_marginTop="@dimen/dp_16"
                 android:id="@+id/recycler_yoji"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

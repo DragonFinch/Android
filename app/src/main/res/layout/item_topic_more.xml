@@ -12,6 +12,7 @@
         android:visibility="gone">
 
         <ImageView
+            android:layout_centerVertical="true"
             android:id="@+id/img_one"
             android:layout_width="@dimen/dp_9"
             android:layout_height="@dimen/dp_12"
@@ -19,6 +20,7 @@
             />
 
         <TextView
+            android:layout_centerVertical="true"
             android:id="@+id/tv_message_one"
             android:layout_width="@dimen/dp_100"
             android:layout_height="@dimen/dp_16"
@@ -31,13 +33,13 @@
             android:text="热门话题"
             android:textColor="#ff333333"
             />
-
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_1"
-            android:layout_below="@+id/tv_message_one"
+           android:layout_alignParentBottom="true"
             android:layout_marginTop="@dimen/dp_6"
-            android:background="#e7e3e3" />
+            android:background="#E1E1E1" />
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -48,6 +50,7 @@
         android:layout_marginLeft="@dimen/dp_20">
 
         <TextView
+            android:layout_centerVertical="true"
             android:id="@+id/tv_normal"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_20"
@@ -57,6 +60,7 @@
             />
 
         <TextView
+            android:layout_centerVertical="true"
             android:id="@+id/tv_normal_message"
             android:layout_width="@dimen/dp_100"
             android:layout_height="@dimen/dp_16"
@@ -73,8 +77,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_1"
-            android:layout_below="@+id/tv_normal_message"
+          android:layout_alignParentBottom="true"
             android:layout_marginTop="@dimen/dp_6"
-            android:background="#e7e3e3" />
+            android:background="#E1E1E1" />
     </RelativeLayout>
 </RelativeLayout>

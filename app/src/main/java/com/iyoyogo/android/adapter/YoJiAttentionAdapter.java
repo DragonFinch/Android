@@ -99,7 +99,7 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
                         retryConnection.on_retry();
                         holder.tv_attention.setText("已关注");
                     }
-                    DataManager.getFromRemote().addAttention(user_id, user_token, mList.get(position).getUser_id()).subscribe(new Consumer<AttentionBean>() {
+                    DataManager.getFromRemote().addAttention(user_id, user_token, mList.get(position).getUser_info().getUser_id()).subscribe(new Consumer<AttentionBean>() {
                         @Override
                         public void accept(AttentionBean attentionBean) throws Exception {
 
@@ -382,31 +382,47 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
             }
 
             holder.dt_like.setImageResource(mList.get(position).getIs_my_praise() > 0 ? R.mipmap.yixihuan_xiangqing : R.mipmap.datu_xihuan);
+            if (mList.get(position).getIs_my_praise() == 0) {
+                holder.dt_like.setImageResource(R.mipmap.datu_xihuan);
+            } else {
+                holder.dt_like.setImageResource(R.mipmap.yixihuan_xiangqing);
+            }
+            holder.dt_like.setImageResource(mList.get(position).getIs_my_praise() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+            yo_id = mList.get(position).getYo_id();
             holder.dt_like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int count_praise = mList.get(position).getCount_praise();
+                    String user_id = SpUtils.getString(context, "user_id", null);
+                    String user_token = SpUtils.getString(context, "user_token", null);
+
+               /* Drawable like = getResources().getDrawable(
+                        R.mipmap.xihuan_xiangqing);
+                Drawable liked = getResources().getDrawable(
+                        R.mipmap.yixihuan_xiangqing);*/
+                    String count_praise = mList.get(position).getCount_praise();
+                    int count_praises = Integer.parseInt(count_praise);
+                    holder.dt_like.setImageResource(mList.get(position).getIs_my_praise() > 0 ? R.mipmap.yixihuan_xiangqing : R.mipmap.datu_xihuan);
 
                     Log.d("Test", "dataBeans.get(0).getIs_my_like():" + mList.get(position).getIs_my_praise());
                     if (mList.get(position).getIs_my_praise() > 0) {
                         //由喜欢变为不喜欢，亮变暗
                         holder.dt_like.setImageResource(R.mipmap.datu_xihuan);
-                        count_praise -= 1;
+                        count_praises -= 1;
                         //设置点赞的数量
-                        mList.get(position).setCount_praise(count_praise);
-                        holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
+                        holder.tv_num_like.setText("等" + count_praises + "人喜欢过");
                         mList.get(position).setIs_my_praise(0);
+                        mList.get(position).setCount_praise(String.valueOf(count_praises));
+
                     } else {
                         //由不喜欢变为喜欢，暗变亮
                         holder.dt_like.setImageResource(R.mipmap.yixihuan_xiangqing);
-                        count_praise += 1;
+                        count_praises += 1;
                         //设置点赞的数量
-                        mList.get(position).setCount_praise(count_praise);
-                        holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
+                        holder.tv_num_like.setText("等" + count_praises + "人喜欢过");
                         mList.get(position).setIs_my_praise(1);
+                        mList.get(position).setCount_praise(String.valueOf(count_praises));
+
                     }
-                    String user_id = SpUtils.getString(context, "user_id", null);
-                    String user_token = SpUtils.getString(context, "user_token", null);
                     DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getYo_id(), 0)
                             .subscribe(new Consumer<BaseBean>() {
                                 @Override
@@ -520,7 +536,7 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-        ImageView zuji_image, typeImageView,medal,img_level, dt_like, img_attention_one, img_attention_two, img_attention_three, img_attention_four;
+        ImageView zuji_image, typeImageView, medal, img_level, dt_like, img_attention_one, img_attention_two, img_attention_three, img_attention_four;
         CircleImageView user_icon, attention_user_icon;
         TextView num_look, location_end, user_name, title, tv_cost, location, tv_day, tv_num_like, tv_num_comment, attention_user_name, attention_xiu_count, attention_ji_count, tv_attention;
         RelativeLayout view_like, rl_top_content, relative_img;

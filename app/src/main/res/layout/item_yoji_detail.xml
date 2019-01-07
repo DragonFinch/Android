@@ -55,7 +55,8 @@
 
         <com.iyoyogo.android.widget.FlowGroupView
             android:id="@+id/flow"
-            android:visibility="gone"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_position_name" />

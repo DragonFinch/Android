@@ -211,33 +211,47 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
         Log.d("YoJiAdapter", "comment_list:" + comment_list.size());
         holder.recycler_comment.setLayoutManager(new LinearLayoutManager(context));
         holder.recycler_comment.setAdapter(adapter);
-        holder.dt_like.setImageResource(mList.get(position).getIs_my_praise()> 0 ? R.mipmap.yixihuan_xiangqing : R.mipmap.datu_xihuan);
-
+        if (mList.get(position).getIs_my_praise() == 0) {
+            holder.dt_like.setImageResource(R.mipmap.datu_xihuan);
+        } else {
+            holder.dt_like.setImageResource(R.mipmap.yixihuan_xiangqing);
+        }
+        holder.dt_like.setImageResource(mList.get(position).getIs_my_praise() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+        yo_id = mList.get(position).getYo_id();
         holder.dt_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int count_praise = mList.get(position).getCount_praise();
+                String user_id = SpUtils.getString(context, "user_id", null);
+                String user_token = SpUtils.getString(context, "user_token", null);
+
+               /* Drawable like = getResources().getDrawable(
+                        R.mipmap.xihuan_xiangqing);
+                Drawable liked = getResources().getDrawable(
+                        R.mipmap.yixihuan_xiangqing);*/
+                String count_praise = mList.get(position).getCount_praise();
+                int count_praises = Integer.parseInt(count_praise);
+                holder.dt_like.setImageResource(mList.get(position).getIs_my_praise() > 0 ? R.mipmap.yixihuan_xiangqing : R.mipmap.datu_xihuan);
 
                 Log.d("Test", "dataBeans.get(0).getIs_my_like():" + mList.get(position).getIs_my_praise());
                 if (mList.get(position).getIs_my_praise() > 0) {
                     //由喜欢变为不喜欢，亮变暗
                     holder.dt_like.setImageResource(R.mipmap.datu_xihuan);
-                    count_praise -= 1;
+                    count_praises -= 1;
                     //设置点赞的数量
-                    mList.get(position).setCount_praise(count_praise);
-                    holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
+                    holder.tv_num_like.setText("等"+count_praises + "人喜欢过");
                     mList.get(position).setIs_my_praise(0);
+                    mList.get(position).setCount_praise(String.valueOf(count_praises));
+
                 } else {
                     //由不喜欢变为喜欢，暗变亮
                     holder.dt_like.setImageResource(R.mipmap.yixihuan_xiangqing);
-                    mList.get(position).setCount_praise(count_praise);
-                    count_praise += 1;
+                    count_praises += 1;
                     //设置点赞的数量
-                    holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
+                    holder.tv_num_like.setText("等"+count_praises + "人喜欢过");
                     mList.get(position).setIs_my_praise(1);
+                    mList.get(position).setCount_praise(String.valueOf(count_praises));
+
                 }
-                String user_id = SpUtils.getString(context, "user_id", null);
-                String user_token = SpUtils.getString(context, "user_token", null);
                 DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getYo_id(), 0)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
