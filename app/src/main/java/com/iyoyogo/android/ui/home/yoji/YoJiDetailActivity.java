@@ -45,6 +45,7 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.YoJiDetailCommentAdapter;
 import com.iyoyogo.android.adapter.CollectionFolderAdapter;
 import com.iyoyogo.android.adapter.YoJiDetailAdapter;
+import com.iyoyogo.android.app.Constants;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.attention.AttentionBean;
@@ -458,10 +459,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
-        user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
-        mPresenter.getYoJiDetail(user_id, user_token, yo_id);
-        mPresenter.getCommentList(user_id, user_token, 1, yo_id, 0);
+
 
 
     }
@@ -469,7 +467,11 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     protected void onResume() {
         super.onResume();
-
+        user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
+        user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
+        mPresenter.getYoJiDetail(user_id, user_token, yo_id);
+        mPresenter.getCommentList(user_id, user_token, 1, yo_id, 0);
+        tvLoadMore.setText("收起全部");
     }
 
     @OnClick({R.id.add_attention, R.id.img_back, R.id.img_share, R.id.tv_attention, R.id.tv_load_more, R.id.tv_comment, R.id.tv_like, R.id.tv_collection, R.id.tv_more_comment})
@@ -490,18 +492,20 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 mPresenter.addAttention(user_id, user_token, Integer.parseInt(yo_attention_id));
                 break;
             case R.id.tv_load_more:
-                if (tvLoadMore.getText().toString().trim().equals("展开全部")) {
 
+
+                if (tvLoadMore.getText().toString().trim().equals("展开全部")) {
+                    yoJiDetailAdapter.changetShowDelImage(true);
                     tvLoadMore.setText("收起全部");
                     //为自定义方法--控制另外一个变量
-                    yoJiDetailAdapter.changetShowDelImage(false);
+
 //                    mPresenter.getYoJiDetail(user_id, user_token, yo_id);
 
                 } else {
-
+                    yoJiDetailAdapter.changetShowDelImage(false);
                     tvLoadMore.setText("展开全部");
                     //为自定义方法--控制另外一个变量
-                    yoJiDetailAdapter.changetShowDelImage(true);
+
 //                    mPresenter.getYoJiDetail(user_id, user_token, yo_id);
                 }
 
@@ -1206,7 +1210,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     private void shareWeb(SHARE_MEDIA share_media) {
         /*80002/yo_id/4143*/
-        String url = "http://192.168.0.145/home/share/details_yoj/share_user_id/" + user_id + "/yo_id/" + yo_id;
+        String url = Constants.BASE_URL+ "home/share/details_yoj/share_user_id/" + user_id + "/yo_id/" + yo_id;
         UMWeb web = new UMWeb(url);
         web.setTitle(title);//标题
         UMImage thumb = new UMImage(getApplicationContext(), logo);

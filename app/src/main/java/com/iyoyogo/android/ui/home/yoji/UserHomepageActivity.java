@@ -38,6 +38,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.app.App;
+import com.iyoyogo.android.app.Constants;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.mine.center.UserCenterBean;
@@ -263,7 +264,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
 
     private void shareWeb(SHARE_MEDIA share_media) {
         /*80002/yo_id/4143*/
-        String url = "http://192.168.0.104/home/share/center_yoj/share_user_id/" + user_id + "/his_id/" + yo_user_id;
+        String url = Constants.BASE_URL+ "home/share/center_yoj/share_user_id/" + user_id + "/his_id/" + yo_user_id;
         UMWeb web = new UMWeb(url);
         web.setTitle(user_nickname);//标题
         UMImage thumb = new UMImage(getApplicationContext(), user_logo);
