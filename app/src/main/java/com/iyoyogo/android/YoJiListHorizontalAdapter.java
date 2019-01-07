@@ -97,6 +97,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
                 List<String> user_icons = new ArrayList<>();
                 user_icons.clear();
                 int size = mList.get(position).getUsers_praise().size();
+                holder.pile_layout.removeAllViews();
                 for (int i = 0; i < size; i++) {
                     user_icons.add(mList.get(position).getUsers_praise().get(i).getUser_logo());
                     Log.e("YoJiListHorizontalAdapt", mList.get(position).getUsers_praise().get(i).getUser_logo());
@@ -118,6 +119,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
             } else {
                 List<YoJiListBean.DataBean.ListBean.UsersPraiseBean> user_icons = new ArrayList<>();
                 user_icons.clear();
+                holder.pile_layout.removeAllViews();
                 for (int i = 0; i < 10; i++) {
                     user_icons.add(mList.get(position).getUsers_praise().get(i));
                     com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
