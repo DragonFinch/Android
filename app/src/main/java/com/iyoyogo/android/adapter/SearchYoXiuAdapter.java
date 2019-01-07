@@ -3,6 +3,7 @@ package com.iyoyogo.android.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,9 +35,12 @@ public class SearchYoXiuAdapter extends RecyclerView.Adapter<SearchYoXiuAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         if (mList.size() != 0) {
-            viewHolder.tv_content.setText(mList.get(position).getUser_nickname() + "   ");
-            viewHolder.user_name.setText(mList.get(position).getContent() + "");
             viewHolder.user_name.setVisibility(View.VISIBLE);
+            Log.e("ccccc", "onBindViewHolder: "+mList.get(position).getUser_nickname() );
+            Log.e("ccccc", "onBindViewHolder: "+mList.get(position).getContent() );
+            viewHolder.tv_content.setText(mList.get(position).getContent() + "");
+            viewHolder.user_name.setText(mList.get(position).getUser_nickname() + "  ");
+
             viewHolder.itemView.setTag(position);
         }
     }

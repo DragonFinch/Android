@@ -122,6 +122,18 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     RelativeLayout name5;
     @BindView(R.id.name6)
     RelativeLayout name6;
+    @BindView(R.id.view1)
+    View view1;
+    @BindView(R.id.view2)
+    View view2;
+    @BindView(R.id.view3)
+    View view3;
+    @BindView(R.id.view4)
+    View view4;
+    @BindView(R.id.view5)
+    View view5;
+    @BindView(R.id.view6)
+    View view6;
     private PopupWindow popupWindow;
     private List<KeywordBean.DataBean.UserListBean> mUser = new ArrayList<>();
     private List<KeywordBean.DataBean.YojListBean> myoj = new ArrayList<>();
@@ -153,7 +165,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
         });*/
 
         String key = getIntent().getStringExtra("key");
-       // searchGuanjiaci.setText(key);
+        // searchGuanjiaci.setText(key);
 //        ImageView magImage = (ImageView) searchGuanjiaci.findViewById(magId);
 //        magImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         lv.setLayoutManager(new LinearLayoutManager(this));
@@ -283,6 +295,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        int i = 0;
         super.initData(savedInstanceState);
         user_id = SpUtils.getString(SearchResultActivity.this, "user_id", null);
         user_token = SpUtils.getString(SearchResultActivity.this, "user_token", null);
@@ -294,17 +307,16 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String s1 =  String.valueOf(s);
-                tvSetname.setVisibility(View.VISIBLE);
+                String s1 = String.valueOf(s);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!s.toString().isEmpty()){
+                if (!s.toString().isEmpty()) {
                     mPresenter.getSearch(user_id, user_token, s.toString());
                     cancel.setVisibility(View.VISIBLE);
+                    searchBtnBack.setVisibility(View.VISIBLE);
                 }
-
             }
         });
 
@@ -412,9 +424,9 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             hit.setVisibility(View.GONE);
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i).getType() == 1) {
-
                     if (list.get(i).getUser_nickname() != null) {
                             name1.setVisibility(View.VISIBLE);
+                            view1.setVisibility(View.VISIBLE);
                             textName.setText(list.get(i).getUser_nickname());
                             imDizhi.setImageResource(R.drawable.yonghu);
                             int finalI = i;
@@ -423,93 +435,98 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                                 public void onClick(View v) {
                                     Intent intent = new Intent(SearchResultActivity.this, Personal_homepage_Activity.class);
                                     intent.putExtra("yo_user_id", list.get(finalI).getUser_id());
+                                    Log.e("adadada", "onClick: "+list.get(finalI).getUser_id() );
                                     startActivity(intent);
                                 }
                             });
                     }
                 }
                 if (list.get(i).getType() == 2) {
-                    if (list.get(i).getTitle() != null) {
-                            name2.setVisibility(View.VISIBLE);
-                            textName2.setText(list.get(i).getTitle());
-                            imDizhi2.setImageResource(R.drawable.yoji_i);
-                            int finalI1 = i;
-                            textName2.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(SearchResultActivity.this, UserHomepageActivity.class);
-                                    intent.putExtra("yo_user_id", list.get(finalI1).getUser_id());
-                                    startActivity(intent);
-                                }
-                            });
-                    }
+                    Log.e("search", "search: "+list.get(i).getTitle() );
+                        name2.setVisibility(View.VISIBLE);
+                        view2.setVisibility(View.VISIBLE);
+                        textName2.setText(list.get(i).getTitle());
+                        imDizhi2.setImageResource(R.drawable.yoji_i);
+                        int finalI1 = i;
+                        textName2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(SearchResultActivity.this, UserHomepageActivity.class);
+                                intent.putExtra("yo_user_id", list.get(finalI1).getUser_id());
+                                startActivity(intent);
+                            }
+                        });
                 }
 
                 if (list.get(i).getType() == 3) {
                     if (list.get(i).getFile_desc() != null) {
-                            name3.setVisibility(View.GONE);
-                            textName1.setText(list.get(i).getFile_desc());
-                            imDizhi1.setImageResource(R.drawable.yoxiu_i);
-                            int finalI2 = i;
-                            textName1.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(SearchResultActivity.this, YoXiuDetailActivity.class);
-                                    intent.putExtra("id", list.get(finalI2).getYo_id());
-                                    startActivity(intent);
-                                }
-                            });
+                        name3.setVisibility(View.GONE);
+                        view3.setVisibility(View.GONE);
+                        textName1.setText(list.get(i).getFile_desc());
+                        imDizhi1.setImageResource(R.drawable.yoxiu_i);
+                        int finalI2 = i;
+                        textName1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(SearchResultActivity.this, YoXiuDetailActivity.class);
+                                intent.putExtra("id", list.get(finalI2).getYo_id());
+                                startActivity(intent);
+                            }
+                        });
                     }
                 }
 
                 if (list.get(i).getType() == 4) {
                     if (list.get(i).getLabel() != null) {
-                            name4.setVisibility(View.VISIBLE);
-                            textName3.setTextColor(R.color.blue);
-                            textName3.setText(list.get(i).getLabel());
-                            imDizhi3.setImageResource(R.drawable.biaoqian);
-                            textName3.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Toast.makeText(SearchResultActivity.this, "开发中标签", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                        name4.setVisibility(View.VISIBLE);
+                        view4.setVisibility(View.VISIBLE);
+                        textName3.setText(list.get(i).getLabel());
+                        imDizhi3.setImageResource(R.drawable.biaoqian);
+                        textName3.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(SearchResultActivity.this, "开发中标签", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 }
                 if (list.get(i).getType() == 5) {
 
                     if (list.get(i).getPosition_name() != null) {
-                            name5.setVisibility(View.VISIBLE);
-                            textName4.setTextColor(R.color.blue);
-                            textName4.setText(list.get(i).getPosition_name());
-                            imDizhi4.setImageResource(R.drawable.didian);
-                            textName4.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Toast.makeText(SearchResultActivity.this, "开发中位置", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                        name5.setVisibility(View.VISIBLE);
+                        view5.setVisibility(View.VISIBLE);
+                        textName4.setText(list.get(i).getPosition_name());
+                        imDizhi4.setImageResource(R.drawable.didian);
+                        textName4.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(SearchResultActivity.this, "开发中位置", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 }
 
                 if (list.get(i).getType() == 6) {
                     if (list.get(i).getChannel() != null) {
+                        view6.setVisibility(View.VISIBLE);
                         name6.setVisibility(View.VISIBLE);
-                            textName5.setText(list.get(i).getChannel());
-                            imDizhi5.setImageResource(R.drawable.pindao);
-                            textName5.setTextColor(R.color.blue);
-                            textName5.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Toast.makeText(SearchResultActivity.this, "开发中频道", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                        textName5.setText(list.get(i).getChannel());
+                        imDizhi5.setImageResource(R.drawable.pindao);
+                        textName5.setTextColor(R.color.blue);
+                        textName5.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(SearchResultActivity.this, "开发中频道", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 }
             }
-        /*    ListViewkeywordAdapter adapter = new ListViewkeywordAdapter(SearchResultActivity.this, listBeans);
-            listViewLv.setAdapter(adapter);
-            adapter.notifyDataSetChanged();*/
+            if (list.size() == 0){
+             //   lv.setVisibility(View.VISIBLE);
+                tvSetname.setVisibility(View.VISIBLE);
+                Toast.makeText(SearchResultActivity.this,"没有匹配到您要查询的关键字",Toast.LENGTH_SHORT).show();
+            }
         }
 
     }
