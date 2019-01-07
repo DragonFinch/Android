@@ -120,7 +120,7 @@ public class SearchYoXiuListAdapter extends RecyclerView.Adapter<SearchYoXiuList
             public void onClick(View v) {
                 Intent intent = new Intent(context, AllCommentActivity.class);
                 intent.putExtra("yo_id",mList.get(position).getYo_id());
-                context.startActivity(intent);
+              //  context.startActivity(intent);
             }
         });
     viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

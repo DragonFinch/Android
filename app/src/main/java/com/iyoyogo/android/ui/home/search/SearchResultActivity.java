@@ -385,7 +385,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
 
                 break;
             case R.id.youji:
-                Toast.makeText(SearchResultActivity.this, "正在开发中", Toast.LENGTH_SHORT).show();
                 tvSetname.setText("yo记");
                 popupWindow.dismiss();
                 mPresenter.getKeyWord(user_id, user_token, keyword, "yoj");
@@ -540,7 +539,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                         textName3.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Toast.makeText(SearchResultActivity.this, "开发中标签", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -565,7 +563,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                         textName4.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Toast.makeText(SearchResultActivity.this, "暂时不支持位置", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
