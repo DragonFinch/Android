@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -11,12 +12,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.YoJiListHorizontalAdapter;
 import com.iyoyogo.android.adapter.YoJiCenterAdapter;
+import com.iyoyogo.android.adapter.YoJiContentAdapter2;
 import com.iyoyogo.android.adapter.YoJiListAdapter;
 import com.iyoyogo.android.base.BaseFragment;
 import com.iyoyogo.android.bean.mine.center.YoJiContentBean;
@@ -25,6 +28,7 @@ import com.iyoyogo.android.contract.YoJiContentContract;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.presenter.YoJiContentPresenter;
 import com.iyoyogo.android.ui.home.EditImageOrVideoActivity;
+import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiListActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuListActivity;
@@ -40,7 +44,9 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
+import com.umeng.debug.log.I;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +62,7 @@ import io.reactivex.functions.Consumer;
 /**
  * yo记内容
  */
-public class YoJiFragment extends BaseFragment {
+public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> implements YoJiContentContract.View {
 
     int currentPage = 1;
     @BindView(R.id.recycler_yoji)
@@ -72,10 +78,11 @@ public class YoJiFragment extends BaseFragment {
     Unbinder unbinder;
     private String user_id;
     private String user_token;
-    private String yo_user_id;
+    public static String yo_user_id;
     MyRefreshAnimHeader mRefreshAnimHeader;
     public static YoJiCenterAdapter yoJiCenterAdapter;
-    public List<YoJiContentBean.DataBean.ListBean> list;
+    public static YoJiContentAdapter2 yoJiContentAdapter2;
+    private List<YoJiContentBean.DataBean.ListBean> list;
     public static List<YoJiContentBean.DataBean.ListBean> mList;
 
     /**
@@ -86,6 +93,7 @@ public class YoJiFragment extends BaseFragment {
     private void setHeader(RefreshHeader header) {
         refreshLayout.setRefreshHeader(header);
     }
+
 
     @SuppressLint("ResourceType")
     @Override
@@ -100,48 +108,25 @@ public class YoJiFragment extends BaseFragment {
     @Override
     protected void initData() {
         super.initData();
-
-        refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
-
         Bundle bundle = getArguments();
         yo_user_id = bundle.getString("yo_user_id");
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
-
-        recyclerYoji.setLayoutManager(new LinearLayoutManager(getContext()));
+        //下拉刷新
+        refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
         refreshLayout.setEnableRefresh(true);
         refreshLayout.setFooterHeight(1.0f);
-
-        DataManager.getFromRemote()
-                .getYoJiContent(user_id, user_token, yo_user_id, currentPage + "", 20 + "")
-                .subscribe(new Observer<YoJiContentBean>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(YoJiContentBean yoJiContentBean) {
-                        mList = yoJiContentBean.getData().getList();
-                        yoJiCenterAdapter = new YoJiCenterAdapter(getContext(), mList);
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                        recyclerYoji.setLayoutManager(linearLayoutManager);
-                        recyclerYoji.setAdapter(yoJiCenterAdapter);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        shortToast(e.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-
-
-        refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+        refreshLayout.autoRefresh();
+        refreshLayout.finishRefresh(1050);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mList.clear();
+                refreshLayout.finishRefresh(1050);
+                mPresenter.getYoJiContent(user_id, user_token, yo_user_id, "1", "20");
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 currentPage++;
@@ -155,6 +140,7 @@ public class YoJiFragment extends BaseFragment {
                                 mList.addAll(list1);
                                 if (mList != null) {
                                     yoJiCenterAdapter.notifyItemInserted(mList.size());
+                                    yoJiContentAdapter2.notifyItemInserted(mList.size());
                                 }
                             }
                         });
@@ -163,33 +149,7 @@ public class YoJiFragment extends BaseFragment {
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mList.clear();
-                DataManager.getFromRemote().getYoJiContent(user_id, user_token, yo_user_id, currentPage + "", 20 + "")
-                        .subscribe(new Observer<YoJiContentBean>() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
 
-                            }
-
-                            @Override
-                            public void onNext(YoJiContentBean yoJiContentBean) {
-                                List<YoJiContentBean.DataBean.ListBean> list1 = yoJiContentBean.getData().getList();
-                                mList.addAll(list1);
-                                yoJiCenterAdapter = new YoJiCenterAdapter(getContext(), mList);
-                                recyclerYoji.setAdapter(yoJiCenterAdapter);
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.d("YoJiFragment", e.getMessage());
-                            }
-
-                            @Override
-                            public void onComplete() {
-
-                            }
-                        });
-                refreshLayout.finishRefresh();
             }
         });
     }
@@ -201,9 +161,8 @@ public class YoJiFragment extends BaseFragment {
 
     @Override
     protected YoJiContentContract.Presenter createPresenter() {
-        return null;
+        return new YoJiContentPresenter(this);
     }
-
 
     public void getYoJiContentSuccess(YoJiContentBean.DataBean data) {
         list = data.getList();
@@ -218,8 +177,9 @@ public class YoJiFragment extends BaseFragment {
             }
         } else {
             yoJiCenterAdapter = new YoJiCenterAdapter(getContext(), mList);
-            recyclerYoji.setLayoutManager(new LinearLayoutManager(getContext()));
+            yoJiContentAdapter2 = new YoJiContentAdapter2(getContext(), mList);
             recyclerYoji.setAdapter(yoJiCenterAdapter);
+            recyclerYoji.setLayoutManager(new LinearLayoutManager(getContext()));
             yoJiCenterAdapter.setOnItemClickListener(new YoJiCenterAdapter.OnClickListener() {
                 @Override
                 public void onClick(View v, int position) {
@@ -229,6 +189,61 @@ public class YoJiFragment extends BaseFragment {
                     startActivity(intent);
                 }
             });
+            ImageView imgView = getActivity().findViewById(R.id.img_view);
+            if (imgView.getDrawable().getCurrent().getConstantState().equals(ContextCompat.getDrawable(getContext(), R.mipmap.view2).getConstantState())) {
+                imgView.setImageResource(R.mipmap.view2);
+                recyclerYoji.setAdapter(yoJiContentAdapter2);
+                recyclerYoji.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                yoJiContentAdapter2.setOnItemClickListener(new YoJiContentAdapter2.OnClickListener() {
+                    @Override
+                    public void setOnClickListener(View v, int position) {
+                        int yo_id = mList.get(position).getYo_id();
+                        Intent intent = new Intent(getContext(), YoJiDetailActivity.class);
+                        intent.putExtra("yo_id", yo_id);
+                        startActivity(intent);
+                    }
+                });
+            }else {
+                imgView.setImageResource(R.mipmap.view1);
+                recyclerYoji.setAdapter(yoJiCenterAdapter);
+                recyclerYoji.setLayoutManager(new LinearLayoutManager(getContext()));
+                yoJiCenterAdapter.setOnItemClickListener(new YoJiCenterAdapter.OnClickListener() {
+                    @Override
+                    public void onClick(View v, int position) {
+                        int yo_id = mList.get(position).getYo_id();
+                        Intent intent = new Intent(getContext(), YoJiDetailActivity.class);
+                        intent.putExtra("yo_id", yo_id);
+                        startActivity(intent);
+                    }
+                });
+            }
+//            if (UserHomepageActivity.flag == true || Personal_homepage_Activity.flag == true) {
+//                imgView.setImageResource(R.mipmap.view2);
+//                recyclerYoji.setAdapter(yoJiContentAdapter2);
+//                recyclerYoji.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+//                yoJiContentAdapter2.setOnItemClickListener(new YoJiContentAdapter2.OnClickListener() {
+//                    @Override
+//                    public void setOnClickListener(View v, int position) {
+//                        int yo_id = mList.get(position).getYo_id();
+//                        Intent intent = new Intent(getContext(), YoJiDetailActivity.class);
+//                        intent.putExtra("yo_id", yo_id);
+//                        startActivity(intent);
+//                    }
+//                });
+//            } else {
+//                imgView.setImageResource(R.mipmap.view1);
+//                recyclerYoji.setAdapter(yoJiCenterAdapter);
+//                recyclerYoji.setLayoutManager(new LinearLayoutManager(getContext()));
+//                yoJiCenterAdapter.setOnItemClickListener(new YoJiCenterAdapter.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v, int position) {
+//                        int yo_id = mList.get(position).getYo_id();
+//                        Intent intent = new Intent(getContext(), YoJiDetailActivity.class);
+//                        intent.putExtra("yo_id", yo_id);
+//                        startActivity(intent);
+//                    }
+//                });
+//            }
         }
     }
 

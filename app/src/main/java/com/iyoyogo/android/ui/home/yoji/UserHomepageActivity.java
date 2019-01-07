@@ -8,12 +8,15 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.Gravity;
@@ -28,15 +31,19 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.mine.center.UserCenterBean;
 import com.iyoyogo.android.bean.mine.center.YoJiContentBean;
 import com.iyoyogo.android.contract.PersonalCenterContract;
+import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.net.ApiObserver;
 import com.iyoyogo.android.presenter.PersonalCenterPresenter;
 import com.iyoyogo.android.ui.mine.collection.CollectionActivity;
 import com.iyoyogo.android.ui.mine.homepage.UserFansActivity;
@@ -46,6 +53,9 @@ import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.FastBlurUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
@@ -62,6 +72,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 /**
  * 用户中心
@@ -118,9 +130,11 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
     private String user_logo;
     private String user_nickname;
     private String user_nickName;
-    private boolean flag = false;
+    public static boolean flag = false;
     private int is_my_attention;
     private RecyclerView recyclerYoji;
+    private SmartRefreshLayout refreshLayout;
+    private SmartRefreshLayout refreshLayout2;
 
     @Override
     protected int getLayoutId() {
@@ -393,7 +407,6 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
             tvGuanzhu.setTextColor(Color.parseColor("#888888"));
         }
 
-
         final String pattern = "2";
         if (Patterns.WEB_URL.matcher(data.getUser_logo()).matches()) {
             final String url =
@@ -497,21 +510,43 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
                 break;
             case R.id.img_view:
                 if (YoJiFragment.mList.size() != 0) {
-                    if (flag == false) {
-                        flag = true;
-                        imgView.setImageResource(R.mipmap.view2);
-                        recyclerYoji = getSupportFragmentManager().findFragmentById(R.id.frame_container).getView().findViewById(R.id.recycler_yoji);
-                        recyclerYoji.setLayoutManager(new GridLayoutManager(this, 2));
-                        YoJiFragment.yoJiCenterAdapter.notifyDataSetChanged();
-                    } else {
-                        flag = false;
+//                    if (flag == false) {
+//                        flag = true;
+                    recyclerYoji = getSupportFragmentManager().findFragmentById(R.id.frame_container).getView().findViewById(R.id.recycler_yoji);
+                    if (imgView.getDrawable().getCurrent().getConstantState().equals(ContextCompat.getDrawable(this, R.mipmap.view2).getConstantState())) {
                         imgView.setImageResource(R.mipmap.view1);
                         recyclerYoji.setLayoutManager(new LinearLayoutManager(this));
-                        YoJiFragment.yoJiCenterAdapter.notifyDataSetChanged();
+                        recyclerYoji.setAdapter(YoJiFragment.yoJiCenterAdapter);
+                    } else {
+                        imgView.setImageResource(R.mipmap.view2);
+                        recyclerYoji.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                        recyclerYoji.setAdapter(YoJiFragment.yoJiContentAdapter2);
                     }
-                }
-                break;
+//                        imgView.setImageResource(R.mipmap.view2);
+//                        recyclerYoji = getSupportFragmentManager().findFragmentById(R.id.frame_container).getView().findViewById(R.id.recycler_yoji);
+//                        recyclerYoji.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+//                        recyclerYoji.setAdapter(YoJiFragment.yoJiContentAdapter2);
+//                        YoJiFragment.yoJiContentAdapter2.notifyDataSetChanged();
+//                    }
+//                    else {
+//                        flag = false;
+//                        if (imgView.getDrawable().getCurrent().getConstantState().equals(ContextCompat.getDrawable(this, R.mipmap.view1).getConstantState())) {
+//                            imgView.setImageResource(R.mipmap.view2);
+//                            recyclerYoji.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+//                            recyclerYoji.setAdapter(YoJiFragment.yoJiContentAdapter2);
+//                        } else {
+//                            imgView.setImageResource(R.mipmap.view1);
+//                            recyclerYoji.setLayoutManager(new LinearLayoutManager(this));
+//                            recyclerYoji.setAdapter(YoJiFragment.yoJiCenterAdapter);
+//                        }
+//                        imgView.setImageResource(R.mipmap.view1);
+//                        recyclerYoji.setLayoutManager(new LinearLayoutManager(this));
+//                        recyclerYoji.setAdapter(YoJiFragment.yoJiCenterAdapter);
+//                        YoJiFragment.yoJiCenterAdapter.notifyDataSetChanged();
+//                }
         }
+        break;
     }
+}
 
 }

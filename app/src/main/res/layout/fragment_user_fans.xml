@@ -11,4 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <include layout="@layout/fans_null" android:id="@+id/fans_null" android:visibility="gone"/>
+
 </FrameLayout>

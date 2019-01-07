@@ -66,7 +66,8 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         holder.itemView.setTag(position);
         holder.tv_addr_cover.setText(mList.get(position).getPosition_name());
-
+        user_id = SpUtils.getString(context, "user_id", null);
+        user_token = SpUtils.getString(context, "user_token", null);
         RequestOptions requestOptions = new RequestOptions().centerCrop()
                 .transform(new GlideRoundTransform(context, 8));
         requestOptions.placeholder(R.mipmap.default_ic);
@@ -140,12 +141,12 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
         });
 
         int is_video = mList.get(position).getIs_video();
-        if (is_video==1){
+        if (is_video == 1) {
             Glide.with(context).load(mList.get(position).getFile_path())
                     .apply(requestOptions)
                     .into(holder.imageView);
             holder.img_video.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             Glide.with(context).load(mList.get(position).getFile_path())
                     .apply(requestOptions)
                     .into(holder.imageView);
@@ -153,13 +154,13 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
         RequestOptions requestOption = new RequestOptions();
         requestOption.placeholder(R.mipmap.default_touxiang);
         requestOption.error(R.mipmap.default_touxiang);
-       if (mList.get(position).getUser_logo().equals("")){
-           Glide.with(context).load(R.mipmap.default_touxiang)
-                   .apply(requestOption)
-                   .into(holder.user_icon);
-       }else {
-           Glide.with(context).load(mList.get(position).getUser_logo()) .apply(requestOption).into(holder.user_icon);
-       }
+        if (mList.get(position).getUser_logo().equals("")) {
+            Glide.with(context).load(R.mipmap.default_touxiang)
+                    .apply(requestOption)
+                    .into(holder.user_icon);
+        } else {
+            Glide.with(context).load(mList.get(position).getUser_logo()).apply(requestOption).into(holder.user_icon);
+        }
         holder.user_name.setText(mList.get(position).getUser_nickname());
         holder.num_like.setText(mList.get(position).getCount_praise() + "");
         holder.num_see.setText(mList.get(position).getCount_view() + "");
@@ -170,13 +171,17 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
         }
         holder.iv_like.setImageResource(mList.get(position).getIs_my_like() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
 
-
+        holder.user_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, UserHomepageActivity.class);
+                intent.putExtra("yo_user_id",mList.get(position).getUser_id()+"");
+                context.startActivity(intent);
+            }
+        });
         holder.iv_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String user_id = SpUtils.getString(context, "user_id", null);
-                String user_token = SpUtils.getString(context, "user_token", null);
-
                 int count_praise = mList.get(position).getCount_praise();
                 mList.get(position).setIs_my_like(mList.get(position).getIs_my_like() == 1 ? 0 : 1);
                 if (mList.get(position).getIs_my_like() == 1) {
@@ -227,8 +232,6 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
         line.setVisibility(View.GONE);
         TextView tv_report = view.findViewById(R.id.tv_report);
         tv_report.setVisibility(View.GONE);
-        user_id = SpUtils.getString(context, "user_id", null);
-        user_token = SpUtils.getString(context, "user_token", null);
         tv_dislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -249,7 +252,7 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
 
     private void initDislike() {
         View view = LayoutInflater.from(context).inflate(R.layout.item_popwindow_not_like, null);
-        PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context,300), DensityUtil.dp2px(context, 230), true);
+        PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 300), DensityUtil.dp2px(context, 230), true);
         TextView dislike_this_kind = view.findViewById(R.id.dislike_this_kind);
         TextView dislike_this_item = view.findViewById(R.id.dislike_this_item);
         backgroundAlpha(0.6f);
@@ -262,7 +265,7 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
                                 popupWindow.dismiss();
-                                if (onRetryClickListener!=null){
+                                if (onRetryClickListener != null) {
                                     onRetryClickListener.onretry();
                                 }
                             }
@@ -278,7 +281,7 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
                                 popupWindow.dismiss();
-                                if (onRetryClickListener!=null){
+                                if (onRetryClickListener != null) {
                                     onRetryClickListener.onretry();
                                 }
                             }
@@ -444,11 +447,14 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
             img_level = itemView.findViewById(R.id.img_level);
         }
     }
-    public interface  OnRetryClickListener{
+
+    public interface OnRetryClickListener {
         void onretry();
     }
+
     private OnRetryClickListener onRetryClickListener;
-    public void setOnRetryClickListener(OnRetryClickListener onRetryClickListener){
-        this.onRetryClickListener=onRetryClickListener;
+
+    public void setOnRetryClickListener(OnRetryClickListener onRetryClickListener) {
+        this.onRetryClickListener = onRetryClickListener;
     }
 }

@@ -869,13 +869,6 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
     }
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
     class MyTopic extends RObject {
         private String id;
 

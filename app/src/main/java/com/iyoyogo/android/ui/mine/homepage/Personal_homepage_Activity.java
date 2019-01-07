@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.Gravity;
@@ -118,7 +119,7 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
     private String yo_user_id;
     private String user_logo;
     private String user_nickName;
-    private boolean flag = false;
+    public static boolean flag = false;
     private RecyclerView recyclerYoji;
 
 
@@ -213,12 +214,14 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
                         flag = true;
                         imgView.setImageResource(R.mipmap.view2);
                         recyclerYoji = getSupportFragmentManager().findFragmentById(R.id.frame_container).getView().findViewById(R.id.recycler_yoji);
-                        recyclerYoji.setLayoutManager(new GridLayoutManager(this, 2));
-                        YoJiFragment.yoJiCenterAdapter.notifyDataSetChanged();
+                        recyclerYoji.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                        recyclerYoji.setAdapter(YoJiFragment.yoJiContentAdapter2);
+                        YoJiFragment.yoJiContentAdapter2.notifyDataSetChanged();
                     } else {
                         flag = false;
                         imgView.setImageResource(R.mipmap.view1);
                         recyclerYoji.setLayoutManager(new LinearLayoutManager(this));
+                        recyclerYoji.setAdapter(YoJiFragment.yoJiCenterAdapter);
                         YoJiFragment.yoJiCenterAdapter.notifyDataSetChanged();
                     }
                 }

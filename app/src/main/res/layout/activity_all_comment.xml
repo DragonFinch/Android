@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="10"
             android:gravity="center"
-            android:text="@string/all_reply"
+            android:text="@string/all_comment"
             android:textColor="@color/color333333"
             />
 

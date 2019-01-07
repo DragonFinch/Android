@@ -60,7 +60,7 @@ import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
 /**
- * 所有评论  R.layout.item_recyclerview_all_comment
+ * 所有评论
  */
 public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Presenter> implements YoXiuDetailContract.View {
 

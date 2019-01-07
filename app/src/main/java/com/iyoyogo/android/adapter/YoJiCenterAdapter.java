@@ -1,15 +1,21 @@
 package com.iyoyogo.android.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +27,7 @@ import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.mine.center.YoJiContentBean;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
+import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
@@ -38,10 +45,22 @@ import io.reactivex.functions.Consumer;
 public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Holder> implements View.OnClickListener {
     private List<YoJiContentBean.DataBean.ListBean> mList;
     private Context context;
+    private Activity activity;
+    private String user_id;
+    private String user_token;
+    private int yo_user_id;
+    private TextView tv_message;
+    private TextView tv_message_two;
+    private TextView tv_message_three;
+    private ImageView img_tip;
+    private PopupWindow popup;
+    private View view;
 
     public YoJiCenterAdapter(Context context, List<YoJiContentBean.DataBean.ListBean> mList) {
         this.mList = mList;
         this.context = context;
+        activity = (Activity) context;
+        initPopup();
     }
 
     @NonNull
@@ -97,11 +116,17 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
         holder.user_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int yo_user_id = mList.get(position).getUser_info().getUser_id();
+                yo_user_id = mList.get(position).getUser_info().getUser_id();
                 Intent intent = new Intent(context, UserHomepageActivity.class);
 //               Intent intent = new Intent(context, Personal_homepage_Activity.class);
                 intent.putExtra("yo_user_id", String.valueOf(yo_user_id));
                 context.startActivity(intent);
+            }
+        });
+        holder.view_like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initDelete(holder, String.valueOf(mList.get(position).getUser_info().getUser_id()), mList.get(position).getComment_list().get(position).getId(), mList.get(position).getYo_id());
             }
         });
 
@@ -146,7 +171,6 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
         Glide.with(context).load(mList.get(position).getUser_info().getUser_logo())
                 .apply(requestOptions)
                 .into(holder.user_icon);
-
 
 
         String user_logo = mList.get(position).getUser_info().getUser_logo();
@@ -203,8 +227,225 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
                         });
             }
         });
+        holder.tv_num_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, AllCommentActivity.class);
+                int yo_id = mList.get(position).getYo_id();
+                intent.putExtra("id", yo_id);
+                context.startActivity(intent);
+            }
+        });
         holder.itemView.setTag(position);
 
+    }
+
+    private void initDelete(Holder holder, String yo_user_id, int comment_id, int yo_id) {
+        View view = LayoutInflater.from(context).inflate(R.layout.popup_delete_or_report, null);
+        PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 125), ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        String user_id = SpUtils.getString(context, "user_id", null);
+        String user_token = SpUtils.getString(context, "user_token", null);
+        TextView tv_delete = view.findViewById(R.id.tv_delete);
+        TextView tv_report = view.findViewById(R.id.tv_report);
+        Log.d("YoXiuDetailAdapter", yo_user_id);
+        if (yo_user_id.equals(yo_id)) {
+            tv_delete.setVisibility(View.VISIBLE);
+            tv_report.setVisibility(View.GONE);
+        } else {
+            tv_delete.setVisibility(View.GONE);
+            tv_report.setVisibility(View.VISIBLE);
+        }
+        tv_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataManager.getFromRemote().deleteYo(user_id, user_token, yo_id)
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                                if (deleteOnClickListener != null) {
+                                    deleteOnClickListener.delete();
+                                }
+                            }
+                        });
+                popupWindow.dismiss();
+            }
+        });
+        tv_report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadMore(comment_id);
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+        popupWindow.setOutsideTouchable(true);
+        backgroundAlpha(0.6f);
+        popupWindow.setOnDismissListener(new poponDismissListener());
+        popupWindow.showAsDropDown(holder.view_like, 0, 0);
+    }
+
+    public void loadMore(int comment_id) {
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_more, null);
+        PopupWindow popup_more = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popup_more.setBackgroundDrawable(new ColorDrawable());
+        popup_more.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popup_more.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        //点击空白处时，隐藏掉pop窗口
+        //广告信息
+        TextView tv_advert = view.findViewById(R.id.tv_advert);
+        user_id = SpUtils.getString(context, "user_id", null);
+        user_token = SpUtils.getString(context, "user_token", null);
+        tv_advert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_more.dismiss();
+                report();
+
+                DataManager.getFromRemote().report(user_id, user_token, 0, comment_id, tv_advert.getText().toString())
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                                if (baseBean.getMsg().equals("success")) {
+
+                                } else {
+                                    Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+                        });
+            }
+        });
+        //有害信息
+        TextView tv_harm = view.findViewById(R.id.tv_harm);
+        tv_harm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_more.dismiss();
+                report();
+                DataManager.getFromRemote().report(user_id, user_token, 0, comment_id, tv_harm.getText().toString())
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                                if (baseBean.getMsg().equals("success")) {
+
+                                } else {
+                                    Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+                        });
+            }
+        });
+        //违法违规
+        TextView tv_violate = view.findViewById(R.id.tv_violate);
+        tv_violate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_more.dismiss();
+                report();
+                DataManager.getFromRemote().report(user_id, user_token, 0, comment_id, tv_violate.getText().toString())
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                                if (baseBean.getMsg().equals("success")) {
+
+                                } else {
+                                    Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+                        });
+            }
+        });
+        //其他
+        TextView tv_else = view.findViewById(R.id.tv_else);
+        tv_else.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_more.dismiss();
+                report();
+
+                DataManager.getFromRemote().report(user_id, user_token, 0, comment_id, tv_else.getText().toString())
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                                if (baseBean.getMsg().equals("success")) {
+
+                                } else {
+                                    Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+                        });
+            }
+        });
+        //取消
+        TextView tv_cancel = view.findViewById(R.id.tv_cancel);
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_more.dismiss();
+            }
+        });
+        backgroundAlpha(0.6f);
+        popup_more.setOnDismissListener(new poponDismissListener());
+        //添加pop窗口关闭事件
+        popup_more.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+    }
+
+    public void backgroundAlpha(float bgAlpha) {
+
+        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+        lp.alpha = bgAlpha; // 0.0~1.0
+        activity.getWindow().setAttributes(lp); //act 是上下文context
+
+    }
+
+    //隐藏事件PopupWindow
+    private class poponDismissListener implements PopupWindow.OnDismissListener {
+        @Override
+        public void onDismiss() {
+            backgroundAlpha(1.0f);
+        }
+    }
+
+    public void report() {
+        tv_message.setText("举报成功");
+        tv_message.setTextColor(Color.parseColor("#333333"));
+        tv_message_two.setTextColor(Color.parseColor("#888888"));
+        tv_message_three.setTextColor(Color.parseColor("#888888"));
+        img_tip.setImageResource(R.mipmap.stamp_report);
+        tv_message_two.setText("打击恶势力小分队");
+        tv_message_three.setText("已前去为您扫清障碍~");
+        popup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        //点击空白处时，隐藏掉pop窗口
+
+        backgroundAlpha(0.6f);
+
+        //添加pop窗口关闭事件
+        popup.setOnDismissListener(new poponDismissListener());
+        popup.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
+
+    public void initPopup() {
+        view = LayoutInflater.from(context).inflate(R.layout.like_layout, null);
+        popup = new PopupWindow(view, DensityUtil.dp2px(context, 300), DensityUtil.dp2px(context, 145), true);
+        popup.setOutsideTouchable(true);
+        popup.setBackgroundDrawable(new ColorDrawable());
+        tv_message = view.findViewById(R.id.tv_message);
+        tv_message_two = view.findViewById(R.id.tv_message_two);
+
+        tv_message_three = view.findViewById(R.id.tv_message_three);
+        img_tip = view.findViewById(R.id.tip_img);
+
+        popup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        //点击空白处时，隐藏掉pop窗口
+
+
+        //添加pop窗口关闭事件
+        popup.setOnDismissListener(new poponDismissListener());
     }
 
     @Override
@@ -256,5 +497,15 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
             user_icon = itemView.findViewById(R.id.user_icon);
             dt_like = itemView.findViewById(R.id.dt_like);
         }
+    }
+
+    public interface DeleteOnClickListener {
+        void delete();
+    }
+
+    DeleteOnClickListener deleteOnClickListener;
+
+    public void setDeleteOnClickListener(DeleteOnClickListener deleteOnClickListener) {
+        this.deleteOnClickListener = deleteOnClickListener;
     }
 }

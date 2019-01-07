@@ -4,20 +4,20 @@ package com.iyoyogo.android.ui.mine.homepage;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Message;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.iyoyogo.android.R;
-import com.iyoyogo.android.adapter.AttentionsAdapter;
 import com.iyoyogo.android.adapter.HisFansAdapter;
 import com.iyoyogo.android.base.BaseFragment;
 import com.iyoyogo.android.bean.HisFansBean;
@@ -29,6 +29,8 @@ import com.iyoyogo.android.utils.SpUtils;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,6 +41,10 @@ public class UserFansFragment extends BaseFragment<HisHansContract.Presenter> im
 
     @BindView(R.id.myRecyclerView)
     RecyclerView myRecyclerView;
+    @BindView(R.id.tv_tips)
+    TextView tvTips;
+    @BindView(R.id.fans_null)
+    LinearLayout fansNull;
     private String user_id;
     private String user_token;
     private String yo_user_id;
@@ -102,31 +108,36 @@ public class UserFansFragment extends BaseFragment<HisHansContract.Presenter> im
     @Override
     public void getHisHansSuccess(HisFansBean hisFansBean) {
         List<HisFansBean.DataBean.ListBean> list = hisFansBean.getData().getList();
-        HisFansAdapter adapter = new HisFansAdapter(R.layout.item_addconcern_recycleview, list);
-        myRecyclerView.setAdapter(adapter);
-        myRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        if (list.size() == 0) {
+            myRecyclerView.setVisibility(View.GONE);
+            fansNull.setVisibility(View.VISIBLE);
+        } else {
+            HisFansAdapter adapter = new HisFansAdapter(R.layout.item_addconcern_recycleview, list);
+            myRecyclerView.setAdapter(adapter);
+            myRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                @Override
+                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 //                setUserVisibleHint(true);
-                TextView btu_guanzhu = view.findViewById(R.id.tv_guanzhu);
-                int status = list.get(position).getStatus();
-                if (status == 0) {//未关注
-                    mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
-                    btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
-                    btu_guanzhu.setText("已关注");
-                    btu_guanzhu.setTextColor(Color.parseColor("#888888"));
+                    TextView btu_guanzhu = view.findViewById(R.id.tv_guanzhu);
+                    int status = list.get(position).getStatus();
+                    if (status == 0) {//未关注
+                        mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
+                        btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
+                        btu_guanzhu.setText("已关注");
+                        btu_guanzhu.setTextColor(Color.parseColor("#888888"));
+                    }
+                    if (status == 1) {//已关注
+                        mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
+                        btu_guanzhu.setBackgroundResource(R.drawable.bg_collection);
+                        btu_guanzhu.setText("+关注");
+                        btu_guanzhu.setTextColor(Color.parseColor("#ffffff"));
+                    }
+                    mPresenter.getHisHans(user_id, user_token, yo_user_id, 1 + "", 20 + "");
+                    adapter.notifyDataSetChanged();
                 }
-                if (status == 1) {//已关注
-                    mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
-                    btu_guanzhu.setBackgroundResource(R.drawable.bg_collection);
-                    btu_guanzhu.setText("+关注");
-                    btu_guanzhu.setTextColor(Color.parseColor("#ffffff"));
-                }
-                mPresenter.getHisHans(user_id, user_token, yo_user_id, 1 + "", 20 + "");
-                adapter.notifyDataSetChanged();
-            }
-        });
+            });
+        }
     }
 
     @Override

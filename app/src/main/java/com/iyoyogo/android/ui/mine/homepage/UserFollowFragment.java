@@ -4,13 +4,17 @@ package com.iyoyogo.android.ui.mine.homepage;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -26,6 +30,8 @@ import com.iyoyogo.android.utils.SpUtils;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,9 +42,13 @@ public class UserFollowFragment extends BaseFragment<AttentionsContract.Presente
 
     @BindView(R.id.myRecyclerView)
     RecyclerView myRecyclerView;
+    @BindView(R.id.follow_null)
+    LinearLayout FollowNull;
     private String user_id;
     private String user_token;
     private String yo_user_id;
+    @BindView(R.id.tv_tips)
+    TextView tv_tips;
 
     public UserFollowFragment() {
         // Required empty public constructor
@@ -99,37 +109,41 @@ public class UserFollowFragment extends BaseFragment<AttentionsContract.Presente
     @Override
     public void getAttentionsSuccess(AttentionsBean attentionsBean) {
         List<AttentionsBean.DataBean.ListBean> list = attentionsBean.getData().getList();
-        AttentionsAdapter adapter = new AttentionsAdapter(R.layout.item_addconcern_recycleview, list);
-        myRecyclerView.setAdapter(adapter);
-        myRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                TextView btu_guanzhu = view.findViewById(R.id.tv_guanzhu);
-                int status = list.get(position).getStatus();
-                Log.d("id", Integer.getInteger(list.get(position).getUser_id()) + "///--++//");
-                if (status == 0) {//未关注
-                    mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
-                    btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
-                    btu_guanzhu.setText("已关注");
-                    btu_guanzhu.setTextColor(Color.parseColor("#888888"));
-                }
-                if (status == 1) {//已关注
-                    mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
-                    btu_guanzhu.setBackgroundResource(R.drawable.bg_collection);
-                    btu_guanzhu.setText("+关注");
-                    btu_guanzhu.setTextColor(Color.parseColor("#ffffff"));
-                }
-                mPresenter.getAttentions(user_id, user_token, yo_user_id, 1 + "", 20 + "");
-                adapter.notifyDataSetChanged();
+        if (list.size() == 0) {
+            myRecyclerView.setVisibility(View.GONE);
+            FollowNull.setVisibility(View.VISIBLE);
+        } else {
+            AttentionsAdapter adapter = new AttentionsAdapter(R.layout.item_addconcern_recycleview, list);
+            myRecyclerView.setAdapter(adapter);
+            myRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                @Override
+                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                    TextView btu_guanzhu = view.findViewById(R.id.tv_guanzhu);
+                    int status = list.get(position).getStatus();
+                    Log.d("id", Integer.getInteger(list.get(position).getUser_id()) + "///--++//");
+                    if (status == 0) {//未关注
+                        mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
+                        btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
+                        btu_guanzhu.setText("已关注");
+                        btu_guanzhu.setTextColor(Color.parseColor("#888888"));
+                    }
+                    if (status == 1) {//已关注
+                        mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
+                        btu_guanzhu.setBackgroundResource(R.drawable.bg_collection);
+                        btu_guanzhu.setText("+关注");
+                        btu_guanzhu.setTextColor(Color.parseColor("#ffffff"));
+                    }
+                    mPresenter.getAttentions(user_id, user_token, yo_user_id, 1 + "", 20 + "");
+                    adapter.notifyDataSetChanged();
 
-            }
-        });
+                }
+            });
+        }
     }
 
     @Override
     public void addAttentionSuccess(AttentionBean attentionBean) {
 
     }
-
 }

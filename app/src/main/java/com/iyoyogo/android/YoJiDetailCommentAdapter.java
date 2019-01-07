@@ -25,6 +25,8 @@ import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.yoji.ReplyDiscussActivity;
+import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
+import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
@@ -44,6 +46,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
     private List<CommentBean.DataBean.ListBean> mList;
     private String user_id;
     private String user_token;
+    private int yo_user_id;
 
     public YoJiDetailCommentAdapter(Context context, List<CommentBean.DataBean.ListBean> mList) {
         this.context = context;
@@ -286,7 +289,6 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
         }
         holder.img_comment_like.setImageResource(mList.get(position).getIs_my_praise() == 0 ? R.mipmap.zan_select : R.mipmap.zan_selected);
 
-
         holder.img_comment_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -320,7 +322,24 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
         holder.img_function.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initDelete(holder, String.valueOf(mList.get(position).getUser_id()), mList.get(position).getId(), mList.get(position).getYo_id(),position);
+                initDelete(holder, String.valueOf(mList.get(position).getUser_id()), mList.get(position).getId(), mList.get(position).getYo_id(), position);
+            }
+        });
+
+        holder.img_user_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                yo_user_id = mList.get(position).getUser_id();
+                String yo_id = yo_user_id+"";
+                if (yo_id.equals(user_id)){
+                    Intent intent = new Intent(context, Personal_homepage_Activity.class);
+                    intent.putExtra("yo_user_id", String.valueOf(yo_user_id));
+                    context.startActivity(intent);
+                }else {
+                    Intent intent = new Intent(context, UserHomepageActivity.class);
+                    intent.putExtra("yo_user_id", String.valueOf(yo_user_id));
+                    context.startActivity(intent);
+                }
             }
         });
     }
@@ -345,11 +364,11 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
-                        if (deleteOnClickListener!=null){
-                            deleteOnClickListener.delete();
-                            mList.remove(position);
-                            notifyDataSetChanged();
-                        }
+                                if (deleteOnClickListener != null) {
+                                    deleteOnClickListener.delete();
+                                    mList.remove(position);
+                                    notifyDataSetChanged();
+                                }
                             }
                         });
                 popupWindow.dismiss();
