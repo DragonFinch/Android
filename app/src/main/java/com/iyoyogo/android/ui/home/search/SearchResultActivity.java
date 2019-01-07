@@ -666,7 +666,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                     name6.setVisibility(View.GONE);
                 }*/
 
-                if (list.get(i).getType() == 1) {
+    /*            if (list.get(i).getType() == 1) {
                     if (list.get(i).getUser_nickname() != null) {
                         view7.setVisibility(View.VISIBLE);
                         name7.setVisibility(View.VISIBLE);
@@ -765,7 +765,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                             }
                         });
                     }
-                }
+                }*/
 
 
             }
