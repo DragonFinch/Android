@@ -153,7 +153,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
         });*/
 
         String key = getIntent().getStringExtra("key");
-        searchGuanjiaci.setText(key);
+       // searchGuanjiaci.setText(key);
 //        ImageView magImage = (ImageView) searchGuanjiaci.findViewById(magId);
 //        magImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         lv.setLayoutManager(new LinearLayoutManager(this));
@@ -294,16 +294,15 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                String s1 =  String.valueOf(s);
+                tvSetname.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s != null && s.length() >= 0){
+                if (!s.toString().isEmpty()){
                     mPresenter.getSearch(user_id, user_token, s.toString());
                     cancel.setVisibility(View.VISIBLE);
-                }else{
-
                 }
 
             }
