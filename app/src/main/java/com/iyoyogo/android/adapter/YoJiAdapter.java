@@ -75,7 +75,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
         } else {
             holder.typeImageView.setVisibility(View.INVISIBLE);
         }
-       holder.user_icon.setOnClickListener(new View.OnClickListener() {
+        holder.user_icon.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
                int yo_user_id = mList.get(position).getUser_info().getUser_id();

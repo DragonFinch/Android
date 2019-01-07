@@ -751,7 +751,7 @@ public class Model {
      * @param page_size
      * @return
      */
-    public Observable<YoJiContentBean> getYoJiContent(String user_id, String user_token, String his_id, int page, String page_size) {
+    public Observable<YoJiContentBean> getYoJiContent(String user_id, String user_token, String his_id, String page, String page_size) {
         return HttpClient.getApiService().getYoJiContent(user_id, user_token, his_id, page, page_size)
                 .compose(this.switchThread());
     }

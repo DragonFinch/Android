@@ -1,6 +1,7 @@
 package com.iyoyogo.android.ui.mine.homepage;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,16 +14,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.iyoyogo.android.R;
-import com.iyoyogo.android.adapter.YoJiCenterAdapter;
 import com.iyoyogo.android.adapter.YoXiuContentAdapter;
 import com.iyoyogo.android.base.BaseFragment;
-import com.iyoyogo.android.bean.mine.center.YoJiContentBean;
 import com.iyoyogo.android.bean.mine.center.YoXiuContentBean;
 import com.iyoyogo.android.contract.YoXiuContentContract;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.presenter.YoXiuContentPresenter;
+import com.iyoyogo.android.ui.home.EditImageOrVideoActivity;
+import com.iyoyogo.android.ui.mine.draft.DraftActivity;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimHeader;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -30,11 +34,11 @@ import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -61,12 +65,13 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
     TextView tvTips;
     @BindView(R.id.refresh_layout)
     SmartRefreshLayout refreshLayout;
+    Unbinder unbinder1;
     private String user_id;
     private String user_token;
     private String yo_user_id;
     MyRefreshAnimHeader mRefreshAnimHeader;
-    private  List<YoXiuContentBean.DataBean.ListBean> mList;
     private YoXiuContentAdapter yoXiuContentAdapter;
+    private List<YoXiuContentBean.DataBean.ListBean> list;
 
     /**
      * 设置刷新header风格
@@ -85,7 +90,6 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
     @Override
     protected void initData() {
         super.initData();
-        mList = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         //初始化header
         mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
@@ -103,13 +107,15 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
                 currentPage++;
                 Log.d("currentPage", "currentPage:" + currentPage);
                 DataManager.getFromRemote()
-                        .getYoXiuContent(user_id, user_token, yo_user_id, currentPage+"", 20 + "")
+                        .getYoXiuContent(user_id, user_token, yo_user_id, currentPage + "", 20 + "")
                         .subscribe(new Consumer<YoXiuContentBean>() {
                             @Override
                             public void accept(YoXiuContentBean yoXiuContentBean) throws Exception {
-                                List<YoXiuContentBean.DataBean.ListBean> list = yoXiuContentBean.getData().getList();
-                                mList.addAll(list);
-                                yoXiuContentAdapter.notifyItemInserted(mList.size());
+                                List<YoXiuContentBean.DataBean.ListBean> list1 = yoXiuContentBean.getData().getList();
+                                list.addAll(list1);
+                                if (list.size() != 0) {
+                                    yoXiuContentAdapter.notifyItemInserted(list.size());
+                                }
                             }
                         });
                 refreshLayout.finishLoadMore(2000);
@@ -117,8 +123,8 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mList.clear();
-                DataManager.getFromRemote().getYoXiuContent(user_id, user_token, yo_user_id,currentPage+"",20+"")
+                list.clear();
+                DataManager.getFromRemote().getYoXiuContent(user_id, user_token, yo_user_id, currentPage + "", 20 + "")
                         .subscribe(new Observer<YoXiuContentBean>() {
                             @Override
                             public void onSubscribe(Disposable d) {
@@ -127,9 +133,9 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
 
                             @Override
                             public void onNext(YoXiuContentBean yoXiuContentBean) {
-                                List<YoXiuContentBean.DataBean.ListBean> list = yoXiuContentBean.getData().getList();
-                                mList.addAll(list);
-                                yoXiuContentAdapter = new YoXiuContentAdapter(getContext(), mList);
+                                List<YoXiuContentBean.DataBean.ListBean> list1 = yoXiuContentBean.getData().getList();
+                                list.addAll(list1);
+                                yoXiuContentAdapter = new YoXiuContentAdapter(getContext(), list);
                                 recyclerYoxiu.setAdapter(yoXiuContentAdapter);
                             }
 
@@ -155,8 +161,7 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
 
     @Override
     public void getYoXiuContentSuccess(YoXiuContentBean.DataBean data) {
-        List<YoXiuContentBean.DataBean.ListBean> list = data.getList();
-
+        list = data.getList();
         if (list.size() == 0) {
             if (yo_user_id.equals(user_id)) {
                 listBlankMe.setVisibility(View.VISIBLE);
@@ -176,4 +181,22 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
 
     }
 
+    @OnClick(R.id.tv_yoxiu)
+    public void onViewClicked() {
+        PictureSelector.create(getActivity())
+                .openGallery(PictureMimeType.ofAll())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                .imageSpanCount(3)// 每行显示个数 int
+                .selectionMode(PictureConfig.SINGLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
+                .previewImage(true)// 是否可预览图片 true or false
+                .isCamera(true)// 是否显示拍照按钮 true or false
+                .imageFormat(PictureMimeType.PNG)// 拍照保存图片格式后缀,默认jpeg
+                .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
+                .sizeMultiplier(0.5f)// glide 加载图片大小 0~1之间 如设置 .glideOverride()无效
+                .compress(true)// 是否压缩 true or false
+                .isGif(true)// 是否显示gif图片 true or false
+                .previewEggs(true)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
+                .minimumCompressSize(800)// 小于100kb的图片不压缩
+                .synOrAsy(false)//同步true或异步false 压缩 默认同步
+                .forResult(201);
+    }
 }

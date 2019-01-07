@@ -95,12 +95,6 @@ public class DraftActivity extends BaseActivity<DraftContract.Presenter> impleme
     }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 
     @OnClick({R.id.back, R.id.yoxiu_tv, R.id.tv_yoji})
     public void onViewClicked(View view) {

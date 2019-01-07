@@ -1,5 +1,6 @@
 package com.iyoyogo.android.ui.home.yoji;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,6 +25,7 @@ import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuListActivity;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
@@ -32,6 +34,7 @@ import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -91,15 +94,12 @@ public class YoJiListActivity extends BaseActivity {
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        //初始化header
-        mRefreshAnimHeader1 = new MyRefreshAnimHeader(this);
-        setHeader1(mRefreshAnimHeader1);
-
-        mRefreshAnimHeader2 = new MyRefreshAnimHeader(this);
-        setHeader2(mRefreshAnimHeader2);
 
         refreshLayout1.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
         refreshLayout2.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
+
+        user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
+        user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
 
         //下拉刷新
         recyclerYojiList.setLayoutManager(linearLayoutManager);
@@ -109,10 +109,6 @@ public class YoJiListActivity extends BaseActivity {
         recyclerYojiListTwo.setLayoutManager(staggeredGridLayoutManager);
         refreshLayout2.setEnableRefresh(true);
         refreshLayout2.setFooterHeight(1.0f);
-
-        user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
-        user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
-
         DataManager.getFromRemote()
                 .getYoJiList(user_id, user_token, currentPage, 20)
                 .subscribe(new Observer<YoJiListBean>() {
@@ -287,6 +283,12 @@ public class YoJiListActivity extends BaseActivity {
     protected void initView() {
         super.initView();
         statusbar();
+        //初始化header
+        mRefreshAnimHeader1 = new MyRefreshAnimHeader(this);
+        setHeader1(mRefreshAnimHeader1);
+
+        mRefreshAnimHeader2 = new MyRefreshAnimHeader(this);
+        setHeader2(mRefreshAnimHeader2);
     }
 
     @Override

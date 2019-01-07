@@ -63,7 +63,7 @@ public class YoJiContentBean extends BaseBean {
             private int count_praise;
             private int count_comment;
             private UserInfoBean user_info;
-            private List<?> users_praise;
+            private List<UsersPraiseBean> users_praise;
             private List<CommentListBean> comment_list;
 
             public int getYo_id() {
@@ -170,11 +170,11 @@ public class YoJiContentBean extends BaseBean {
                 this.user_info = user_info;
             }
 
-            public List<?> getUsers_praise() {
+            public List<UsersPraiseBean> getUsers_praise() {
                 return users_praise;
             }
 
-            public void setUsers_praise(List<?> users_praise) {
+            public void setUsers_praise(List<UsersPraiseBean> users_praise) {
                 this.users_praise = users_praise;
             }
 
@@ -185,7 +185,41 @@ public class YoJiContentBean extends BaseBean {
             public void setComment_list(List<CommentListBean> comment_list) {
                 this.comment_list = comment_list;
             }
+            public static class UsersPraiseBean {
+                /**
+                 * user_id : 62545
+                 * user_nickname : 述禾
+                 * user_logo : https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/user/Pr_200001742.jpg?x-oss-process=image/resize,w_50
+                 */
 
+                private String user_id;
+                private String user_nickname;
+                private String user_logo;
+
+                public String getUser_id() {
+                    return user_id;
+                }
+
+                public void setUser_id(String user_id) {
+                    this.user_id = user_id;
+                }
+
+                public String getUser_nickname() {
+                    return user_nickname;
+                }
+
+                public void setUser_nickname(String user_nickname) {
+                    this.user_nickname = user_nickname;
+                }
+
+                public String getUser_logo() {
+                    return user_logo;
+                }
+
+                public void setUser_logo(String user_logo) {
+                    this.user_logo = user_logo;
+                }
+            }
             public static class UserInfoBean {
                 /**
                  * user_id : 60001

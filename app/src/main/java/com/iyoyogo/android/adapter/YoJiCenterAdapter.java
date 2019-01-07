@@ -1,6 +1,7 @@
 package com.iyoyogo.android.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -18,6 +20,8 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.mine.center.YoJiContentBean;
 import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
+import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
 import com.iyoyogo.android.utils.SpUtils;
@@ -89,6 +93,61 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
                 });
             }
         }*/
+        holder.user_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int yo_user_id = mList.get(position).getUser_info().getUser_id();
+                Intent intent = new Intent(context, UserHomepageActivity.class);
+//               Intent intent = new Intent(context, Personal_homepage_Activity.class);
+                intent.putExtra("yo_user_id", String.valueOf(yo_user_id));
+                context.startActivity(intent);
+            }
+        });
+
+        RequestOptions myOptions1 = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.default_ic)
+                .error(R.mipmap.default_ic)
+                .override(DensityUtil.dp2px(context, ViewGroup.LayoutParams.MATCH_PARENT), DensityUtil.dp2px(context, 200))
+                .transform(new GlideRoundTransform(context, 8));
+        Log.d("YoJiAdapter", mList.get(position).getFile_path());
+        Glide.with(context).load(mList.get(position).getFile_path()).apply(myOptions1).into(holder.zuji_image);
+        holder.location.setText(mList.get(position).getP_start());
+        holder.num_look.setText(mList.get(position).getCount_view() + "");
+        Log.d("YoJiAdapter", "mList.get(position).getUsers_praise():" + mList.get(position).getUsers_praise());
+        LayoutInflater inflater1 = LayoutInflater.from(context);
+        if (mList.get(position).getUsers_praise().size() == 0) {
+            holder.pile_layout.setVisibility(View.GONE);
+            holder.tv_num_like.setVisibility(View.GONE);
+        } else {
+            for (int i = 0; i < mList.get(position).getUsers_praise().size(); i++) {
+                com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
+                Glide.with(context).load(mList.get(position).getUsers_praise().get(i).getUser_logo()).into(imageView);
+                holder.pile_layout.addView(imageView);
+                int finalI = i;
+                String yo_user_id = mList.get(position).getUsers_praise().get(i).getUser_id();
+
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, Personal_homepage_Activity.class);
+                        intent.putExtra("yo_user_id", String.valueOf(yo_user_id));
+                        context.startActivity(intent);
+                        Toast.makeText(context, "mList.get(position).getUsers_praise().get(i).getUser_id():" + mList.get(position).getUsers_praise().get(finalI).getUser_id(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.mipmap.default_touxiang);
+        requestOptions.error(R.mipmap.default_touxiang);
+
+        Glide.with(context).load(mList.get(position).getUser_info().getUser_logo())
+                .apply(requestOptions)
+                .into(holder.user_icon);
+
+
+
         String user_logo = mList.get(position).getUser_info().getUser_logo();
         if (user_logo.isEmpty()) {
             Glide.with(context).load(R.mipmap.default_ic).into(holder.user_icon);
@@ -97,7 +156,7 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
             Glide.with(context).load(mList.get(position).getUser_info().getUser_logo()).into(holder.user_icon);
 
         }
-        holder.tv_num_like.setVisibility(View.GONE);
+        holder.tv_num_like.setVisibility(View.VISIBLE);
         holder.user_name.setText(mList.get(position).getUser_info().getUser_nickname());
         holder.title.setText(mList.get(position).getTitle());
         holder.tv_cost.setText(" ￥" + mList.get(position).getCost() + "/人");

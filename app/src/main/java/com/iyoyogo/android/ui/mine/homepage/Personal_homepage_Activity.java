@@ -9,6 +9,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.Gravity;
@@ -16,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -63,6 +67,10 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
 
     @BindView(R.id.img_bg)
     ImageView imgBg;
+    @BindView(R.id.img_sign)
+    ImageView imgSign;
+    @BindView(R.id.img_view)
+    ImageView imgView;
     @BindView(R.id.img_back)
     ImageView imgBack;
     @BindView(R.id.img_share)
@@ -110,6 +118,8 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
     private String yo_user_id;
     private String user_logo;
     private String user_nickName;
+    private boolean flag = false;
+    private RecyclerView recyclerYoji;
 
 
     protected void initView() {
@@ -159,6 +169,7 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
         Intent intent = getIntent();
         yo_user_id = intent.getStringExtra("yo_user_id");
         mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
+
     }
 
     @Override
@@ -172,7 +183,7 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
     }
 
 
-    @OnClick({R.id.img_back, R.id.img_share, R.id.my_collection, R.id.get_hisFans, R.id.collect})
+    @OnClick({R.id.img_back, R.id.img_share, R.id.my_collection, R.id.get_hisFans, R.id.collect, R.id.img_view})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -193,8 +204,24 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
                 break;
             case R.id.collect:
                 Intent intent2 = new Intent(this, CollectionActivity.class);
-                intent2.putExtra("collect",2);
+                intent2.putExtra("collect", 2);
                 startActivity(intent2);
+                break;
+            case R.id.img_view:
+                if (YoJiFragment.mList.size() != 0) {
+                    if (flag == false) {
+                        flag = true;
+                        imgView.setImageResource(R.mipmap.view2);
+                        recyclerYoji = getSupportFragmentManager().findFragmentById(R.id.frame_container).getView().findViewById(R.id.recycler_yoji);
+                        recyclerYoji.setLayoutManager(new GridLayoutManager(this, 2));
+                        YoJiFragment.yoJiCenterAdapter.notifyDataSetChanged();
+                    } else {
+                        flag = false;
+                        imgView.setImageResource(R.mipmap.view1);
+                        recyclerYoji.setLayoutManager(new LinearLayoutManager(this));
+                        YoJiFragment.yoJiCenterAdapter.notifyDataSetChanged();
+                    }
+                }
                 break;
         }
     }
@@ -318,9 +345,11 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
                 switch (checkedId) {
                     case R.id.rb_yoji:
                         switchFragment(yoJiFragment);
+                        imgView.setVisibility(View.VISIBLE);
                         break;
                     case R.id.rb_yoxiu:
                         switchFragment(yoXiuFragment);
+                        imgView.setVisibility(View.GONE);
                         break;
                 }
             }
@@ -370,25 +399,31 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
             imgLevel.setVisibility(View.VISIBLE);
             imgLevel.setImageResource(R.mipmap.lv1);
             imgVipSign.setImageResource(R.mipmap.level_one);
+            imgSign.setImageResource(R.mipmap.sign_one);
         } else if (user_level == 2) {
             imgLevel.setVisibility(View.VISIBLE);
             imgLevel.setImageResource(R.mipmap.lv2);
             imgVipSign.setImageResource(R.mipmap.level_two);
+            imgSign.setImageResource(R.mipmap.sign_two);
         } else if (user_level == 3) {
             imgLevel.setVisibility(View.VISIBLE);
             imgLevel.setImageResource(R.mipmap.lv3);
             imgVipSign.setImageResource(R.mipmap.level_three);
+            imgSign.setImageResource(R.mipmap.sign_three);
         } else if (user_level == 4) {
             imgLevel.setVisibility(View.VISIBLE);
             imgLevel.setImageResource(R.mipmap.lv4);
             imgVipSign.setImageResource(R.mipmap.level_four);
+            imgSign.setImageResource(R.mipmap.sign_four);
         } else if (user_level == 5) {
             imgLevel.setVisibility(View.VISIBLE);
             imgLevel.setImageResource(R.mipmap.lv5);
             imgVipSign.setImageResource(R.mipmap.level_five);
+            imgSign.setImageResource(R.mipmap.sign_five);
         } else {
             imgLevel.setVisibility(View.GONE);
             imgVipSign.setImageResource(R.mipmap.level_zero);
+            imgSign.setImageResource(R.mipmap.sign_zero);
         }
 
         final String pattern = "2";

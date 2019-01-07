@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.Gravity;
@@ -32,6 +35,7 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.mine.center.UserCenterBean;
+import com.iyoyogo.android.bean.mine.center.YoJiContentBean;
 import com.iyoyogo.android.contract.PersonalCenterContract;
 import com.iyoyogo.android.presenter.PersonalCenterPresenter;
 import com.iyoyogo.android.ui.mine.collection.CollectionActivity;
@@ -65,6 +69,10 @@ import butterknife.OnClick;
 public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Presenter> implements PersonalCenterContract.View {
     @BindView(R.id.img_bg)
     ImageView imgBg;
+    @BindView(R.id.img_sign)
+    ImageView imgSign;
+    @BindView(R.id.img_view)
+    ImageView imgView;
     @BindView(R.id.img_back)
     ImageView imgBack;
     @BindView(R.id.img_share)
@@ -112,6 +120,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
     private String user_nickName;
     private boolean flag = false;
     private int is_my_attention;
+    private RecyclerView recyclerYoji;
 
     @Override
     protected int getLayoutId() {
@@ -291,9 +300,11 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_yoji:
+                        imgView.setVisibility(View.VISIBLE);
                         switchFragment(yoJiFragment);
                         break;
                     case R.id.rb_yoxiu:
+                        imgView.setVisibility(View.GONE);
                         switchFragment(yoXiuFragment);
                         break;
                 }
@@ -344,25 +355,31 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
             imgLevel.setVisibility(View.VISIBLE);
             imgLevel.setImageResource(R.mipmap.lv1);
             imgVipSign.setImageResource(R.mipmap.level_one);
+            imgSign.setImageResource(R.mipmap.sign_one);
         } else if (user_level == 2) {
             imgLevel.setVisibility(View.VISIBLE);
             imgLevel.setImageResource(R.mipmap.lv2);
             imgVipSign.setImageResource(R.mipmap.level_two);
+            imgSign.setImageResource(R.mipmap.sign_two);
         } else if (user_level == 3) {
             imgLevel.setVisibility(View.VISIBLE);
             imgLevel.setImageResource(R.mipmap.lv3);
             imgVipSign.setImageResource(R.mipmap.level_three);
+            imgSign.setImageResource(R.mipmap.sign_three);
         } else if (user_level == 4) {
             imgLevel.setVisibility(View.VISIBLE);
             imgLevel.setImageResource(R.mipmap.lv4);
             imgVipSign.setImageResource(R.mipmap.level_four);
+            imgSign.setImageResource(R.mipmap.sign_four);
         } else if (user_level == 5) {
             imgLevel.setVisibility(View.VISIBLE);
             imgLevel.setImageResource(R.mipmap.lv5);
             imgVipSign.setImageResource(R.mipmap.level_five);
+            imgSign.setImageResource(R.mipmap.sign_five);
         } else {
             imgLevel.setVisibility(View.GONE);
             imgVipSign.setImageResource(R.mipmap.level_zero);
+            imgSign.setImageResource(R.mipmap.sign_zero);
         }
 
         is_my_attention = data.getIs_my_attention();
@@ -439,7 +456,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
     }
 
 
-    @OnClick({R.id.img_back, R.id.my_collection, R.id.get_hisFans, R.id.tv_guanzhu, R.id.collect})
+    @OnClick({R.id.img_back, R.id.my_collection, R.id.get_hisFans, R.id.tv_guanzhu, R.id.collect, R.id.img_view})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -473,11 +490,28 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
                 }
                 break;
             case R.id.collect:
-                Intent intent1 = new Intent(this,CollectionActivity.class);
-                intent1.putExtra("collect",1);
-                intent1.putExtra("id",yo_user_id);
+                Intent intent1 = new Intent(this, CollectionActivity.class);
+                intent1.putExtra("collect", 1);
+                intent1.putExtra("id", yo_user_id);
                 startActivity(intent1);
+                break;
+            case R.id.img_view:
+                if (YoJiFragment.mList.size() != 0) {
+                    if (flag == false) {
+                        flag = true;
+                        imgView.setImageResource(R.mipmap.view2);
+                        recyclerYoji = getSupportFragmentManager().findFragmentById(R.id.frame_container).getView().findViewById(R.id.recycler_yoji);
+                        recyclerYoji.setLayoutManager(new GridLayoutManager(this, 2));
+                        YoJiFragment.yoJiCenterAdapter.notifyDataSetChanged();
+                    } else {
+                        flag = false;
+                        imgView.setImageResource(R.mipmap.view1);
+                        recyclerYoji.setLayoutManager(new LinearLayoutManager(this));
+                        YoJiFragment.yoJiCenterAdapter.notifyDataSetChanged();
+                    }
+                }
                 break;
         }
     }
+
 }
