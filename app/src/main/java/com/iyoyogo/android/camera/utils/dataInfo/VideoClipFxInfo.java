@@ -10,6 +10,11 @@ public class VideoClipFxInfo {
     private String m_fxId;
     private float m_fxIntensity;
 
+    // 用于特殊的滤镜
+    private boolean m_isCartoon = false;
+    private boolean m_isStrokenOnly = true;
+    private boolean m_isGrayScale = true;
+
     public VideoClipFxInfo() {
         m_fxId = null;
         m_fxMode = FXMODE_BUILTIN;
@@ -42,5 +47,28 @@ public class VideoClipFxInfo {
 
     public float getFxIntensity() {
         return m_fxIntensity;
+    }
+    public void setStrokenOnly(boolean strokenOnly){
+        m_isStrokenOnly = strokenOnly;
+    }
+
+    public boolean getStrokenOnly(){
+        return m_isStrokenOnly;
+    }
+
+    public void setGrayScale(boolean grayScale){
+        m_isGrayScale = grayScale;
+    }
+
+    public boolean getGrayScale(){
+        return m_isGrayScale;
+    }
+
+    public void setIsCartoon(boolean isCartoon){
+        m_isCartoon = isCartoon;
+    }
+
+    public boolean getIsCartoon(){
+        return m_isCartoon;
     }
 }

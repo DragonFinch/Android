@@ -4,6 +4,7 @@ package com.iyoyogo.android.net;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.HisFansBean;
 import com.iyoyogo.android.bean.HisPositionBean;
+import com.iyoyogo.android.bean.PublishSucessBean;
 import com.iyoyogo.android.bean.VipCenterBean;
 import com.iyoyogo.android.bean.collection.AttentionsBean;
 import com.iyoyogo.android.bean.collection.CommendAttentionBean;
@@ -240,7 +241,7 @@ public interface ApiService {
      * lat	是	string	纬度
      * size	是	string	比例参数 例如 4:9
      */
-    Observable<BaseBean> publish_yoXiu(@Field("user_id") String user_id,
+    Observable<PublishSucessBean> publish_yoXiu(@Field("user_id") String user_id,
                                        @Field("user_token") String user_token,
                                        @Field("yo_id") int yo_id,
                                        @Field("file_path") String file_path,
@@ -455,7 +456,7 @@ public interface ApiService {
     //发布yo记
     @POST("index.php/api/yoj/save")
     @FormUrlEncoded
-    Observable<BaseBean> publish_yoji(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id, @Field("logo") String logo, @Field("title") String title, @Field("desc") String desc, @Field("cost") int cost, @Field("open") int open, @Field("valid") int valid,  @Field("channel_ids") String channel_ids, @Field("list") String list);
+    Observable<PublishSucessBean> publish_yoji(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id, @Field("logo") String logo, @Field("title") String title, @Field("desc") String desc, @Field("cost") int cost, @Field("open") int open, @Field("valid") int valid, @Field("channel_ids") String channel_ids, @Field("list") String list);
 
     //获取草稿列表
     @POST("index.php/api/draft/get_list")
@@ -554,6 +555,10 @@ public interface ApiService {
     @POST("index.php/api/message/get_message_view")
     @FormUrlEncoded
     Observable<MessageBean> getMessage(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("type") int type, @Field("page") int page);
+
+    @POST("index.php/api/yo/inc_count_share")
+    @FormUrlEncoded
+    Observable<BaseBean> share(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") String id);
 
     @POST("index.php/api/message/center")
     @FormUrlEncoded

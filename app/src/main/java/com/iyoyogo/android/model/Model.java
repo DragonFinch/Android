@@ -6,6 +6,7 @@ import android.util.Log;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.HisFansBean;
 import com.iyoyogo.android.bean.HisPositionBean;
+import com.iyoyogo.android.bean.PublishSucessBean;
 import com.iyoyogo.android.bean.VipCenterBean;
 import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.collection.AddCollectionBean;
@@ -310,7 +311,7 @@ public class Model {
      * @param filter_id
      * @return
      */
-    public Observable<BaseBean> publish_yoXiu(String user_id,
+    public Observable<PublishSucessBean> publish_yoXiu(String user_id,
                                               String user_token,
                                               int yo_id,
                                               String file_path,
@@ -640,7 +641,7 @@ public class Model {
      * @param json
      * @return
      */
-    public Observable<BaseBean> publishYoJi(String user_id, String user_token, int yo_id, String logo, String title, String desc, int cost, int open, int valid, String channel_ids, String json) {
+    public Observable<PublishSucessBean> publishYoJi(String user_id, String user_token, int yo_id, String logo, String title, String desc, int cost, int open, int valid, String channel_ids, String json) {
 
         Log.e("Gson", json);
         return HttpClient.getApiService().publish_yoji(user_id, user_token, yo_id, logo, title, desc, cost, open, valid, channel_ids, json)
@@ -855,6 +856,16 @@ public class Model {
      */
     public Observable<AboutMeBean> aboutme() {
         return HttpClient.getApiService().aboutMe()
+                .compose(this.switchThread());
+    }
+
+    /**
+     * 分享
+     *
+     * @return
+     */
+    public Observable<BaseBean> share(String user_id, String user_token, String id) {
+        return HttpClient.getApiService().share(user_id,user_token,id)
                 .compose(this.switchThread());
     }
 

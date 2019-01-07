@@ -3,6 +3,7 @@ package com.iyoyogo.android.contract;
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.PublishSucessBean;
 import com.iyoyogo.android.bean.yoji.publish.PublishYoJiBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
 
@@ -12,11 +13,13 @@ import java.util.List;
  */
 public interface PublishYoJiContract {
     interface View extends IBaseView {
-        void publishYoJiSuccess(BaseBean baseBean);
+        void publishYoJiSuccess(PublishSucessBean baseBean);
 
         void getRecommendTopicSuccess(List<HotTopicBean.DataBean.ListBean> list);
 
         void onYoJiData(PublishYoJiBean data);
+
+        void onError(String message);
     }
 
     interface Presenter extends IBasePresenter {

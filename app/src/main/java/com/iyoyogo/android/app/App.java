@@ -11,7 +11,10 @@ import android.util.Log;
 
 import com.iyoyogo.android.bean.yoji.publish.MessageBean;
 import com.iyoyogo.android.camera.utils.CrashHandler;
+import com.iyoyogo.android.camera.utils.asset.NvAssetManager;
+import com.iyoyogo.android.ui.common.MainActivity;
 import com.iyoyogo.android.utils.GdLocationUtil;
+import com.meicam.sdk.NvsStreamingContext;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.LogStrategy;
 import com.orhanobut.logger.Logger;
@@ -72,6 +75,11 @@ public class App extends Application {
         CrashHandler.getInstance().init(mContext);
         //防止方法数
         MultiDex.install(this);
+
+        //初始化
+        String licensePath = "assets:/meishe.lic";
+        NvsStreamingContext.init(this, licensePath, NvsStreamingContext.STREAMING_CONTEXT_FLAG_SUPPORT_4K_EDIT);
+        NvAssetManager.init(this);//素材管理器初始化
     }
     public static Context getmContext() {
         return context;

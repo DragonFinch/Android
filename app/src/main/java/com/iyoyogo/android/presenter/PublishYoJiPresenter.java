@@ -5,6 +5,7 @@ import android.widget.Toast;
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BasePresenter;
 import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.PublishSucessBean;
 import com.iyoyogo.android.bean.yoji.publish.PublishYoJiBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
 import com.iyoyogo.android.contract.PublishYoJiContract;
@@ -33,6 +34,7 @@ public class PublishYoJiPresenter extends BasePresenter<PublishYoJiContract.View
 
                     @Override
                     protected boolean doOnFailure(int code, String message) {
+                        mView.onError(message);
                         Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
                         return true;
                     }
@@ -43,14 +45,15 @@ public class PublishYoJiPresenter extends BasePresenter<PublishYoJiContract.View
     public void publishYoJi(String user_id, String user_token, int yo_id, String logo, String title, String desc, int cost, int open, int valid, String channel_ids, String json) {
         DataManager.getFromRemote()
                 .publishYoJi(user_id, user_token, yo_id, logo, title, desc, cost, open, valid, channel_ids, json)
-                .subscribe(new ApiObserver<BaseBean>(mView, this) {
+                .subscribe(new ApiObserver<PublishSucessBean>(mView, this) {
                     @Override
-                    protected void doOnSuccess(BaseBean baseBean) {
+                    protected void doOnSuccess(PublishSucessBean baseBean) {
                         mView.publishYoJiSuccess(baseBean);
                     }
 
                     @Override
                     protected boolean doOnFailure(int code, String message) {
+                        mView.onError(message);
                         Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
                         return true;
                     }
@@ -69,6 +72,7 @@ public class PublishYoJiPresenter extends BasePresenter<PublishYoJiContract.View
 
                     @Override
                     protected boolean doOnFailure(int code, String message) {
+                        mView.onError(message);
                         Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
                         return true;
                     }

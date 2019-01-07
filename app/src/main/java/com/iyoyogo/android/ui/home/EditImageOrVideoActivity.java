@@ -2,6 +2,7 @@ package com.iyoyogo.android.ui.home;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -12,10 +13,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.EditImageOrVideoAdapter;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
+import com.iyoyogo.android.camera.edit.filter.FilterActivity;
+import com.iyoyogo.android.camera.selectmedia.bean.MediaData;
+import com.iyoyogo.android.camera.utils.dataInfo.ClipInfo;
+import com.iyoyogo.android.camera.utils.dataInfo.TimelineData;
 import com.iyoyogo.android.ui.home.yoji.NewPublishYoJiActivity;
 import com.iyoyogo.android.ui.home.yoxiu.NewPublishYoXiuActivity;
 import com.iyoyogo.android.utils.StatusBarUtil;
@@ -24,6 +30,7 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.yalantis.ucrop.model.CutInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -68,6 +75,7 @@ public class EditImageOrVideoActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
+        StatusBarCompat.setStatusBarColor(this,Color.WHITE);
         localMedia = PictureSelector.obtainMultipleResult(getIntent());
         mViewPager.setCanScroll(true);
         mViewPager.setAdapter(new EditImageOrVideoAdapter(localMedia, this));
@@ -110,7 +118,8 @@ public class EditImageOrVideoActivity extends BaseActivity {
                 break;
 
             case R.id.iv_filter:
-
+                String filePath = TextUtils.isEmpty(localMedia.get(mViewPager.getCurrentItem()).getCompressPath()) ? localMedia.get(mViewPager.getCurrentItem()).getPath() : localMedia.get(mViewPager.getCurrentItem()).getCompressPath();
+                startActivityForResult(new Intent(this, AddFilterActivity.class).putExtra("data", filePath), 0);
                 break;
             case R.id.iv_coup:
                 String path = TextUtils.isEmpty(localMedia.get(mViewPager.getCurrentItem()).getCompressPath()) ? localMedia.get(mViewPager.getCurrentItem()).getPath() : localMedia.get(mViewPager.getCurrentItem()).getCompressPath();

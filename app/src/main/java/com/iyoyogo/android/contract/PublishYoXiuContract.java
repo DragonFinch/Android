@@ -2,6 +2,7 @@ package com.iyoyogo.android.contract;
 
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
+import com.iyoyogo.android.bean.PublishSucessBean;
 import com.iyoyogo.android.bean.yoji.publish.PublishYoJiBean;
 import com.iyoyogo.android.bean.yoxiu.PublishYoXiuBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
@@ -15,9 +16,11 @@ public interface PublishYoXiuContract {
 
         void getRecommendTopicSuccess(List<HotTopicBean.DataBean.ListBean> list);
 
-        void publishYoXiuSuccess();
+        void publishYoXiuSuccess(PublishSucessBean data);
 
         void onYoXiuData(PublishYoXiuBean data);
+
+        void onError(String message);
     }
 
     interface Presenter extends IBasePresenter {

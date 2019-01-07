@@ -52,6 +52,7 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.ChannelMessageAdapter;
 import com.iyoyogo.android.app.Constant;
 import com.iyoyogo.android.base.BaseActivity;
+import com.iyoyogo.android.bean.PublishSucessBean;
 import com.iyoyogo.android.bean.yoxiu.PublishYoXiuBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
 import com.iyoyogo.android.contract.PublishYoXiuContract;
@@ -744,13 +745,18 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
     }
 
     @Override
-    public void publishYoXiuSuccess() {
+    public void publishYoXiuSuccess(PublishSucessBean data) {
         initPopup();
         like();
     }
 
     @Override
     public void onYoXiuData(PublishYoXiuBean data) {
+
+    }
+
+    @Override
+    public void onError(String message) {
 
     }
 

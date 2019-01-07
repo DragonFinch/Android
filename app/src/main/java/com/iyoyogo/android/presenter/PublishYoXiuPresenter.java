@@ -5,12 +5,14 @@ import android.widget.Toast;
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BasePresenter;
 import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.PublishSucessBean;
 import com.iyoyogo.android.bean.yoji.publish.PublishYoJiBean;
 import com.iyoyogo.android.bean.yoxiu.PublishYoXiuBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
 import com.iyoyogo.android.contract.PublishYoXiuContract;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.net.ApiObserver;
+import com.iyoyogo.android.view.LoadingDialog;
 
 import java.util.List;
 
@@ -35,6 +37,7 @@ public class PublishYoXiuPresenter extends BasePresenter<PublishYoXiuContract.Vi
                     @Override
                     protected boolean doOnFailure(int code, String message) {
                         Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                        mView.onError(message);
                         return true;
                     }
                 });
@@ -58,15 +61,16 @@ public class PublishYoXiuPresenter extends BasePresenter<PublishYoXiuContract.Vi
                              String lat,
                              String filter_id,String size) {
         DataManager.getFromRemote().publish_yoXiu(user_id, user_token, yo_id, file_path, file_type, file_desc, channel_ids, open, valid, position_name, position_areas, position_address, position_city, lng, lat, filter_id, size)
-                .subscribe(new ApiObserver<BaseBean>(mView, this) {
+                .subscribe(new ApiObserver<PublishSucessBean>(mView, this) {
                     @Override
-                    protected void doOnSuccess(BaseBean baseBean) {
-                                mView.publishYoXiuSuccess();
+                    protected void doOnSuccess(PublishSucessBean baseBean) {
+                                mView.publishYoXiuSuccess(baseBean);
                     }
 
                     @Override
                     protected boolean doOnFailure(int code, String message) {
                         Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                        mView.onError(message);
                         return true;
                     }
                 });
@@ -84,6 +88,7 @@ public class PublishYoXiuPresenter extends BasePresenter<PublishYoXiuContract.Vi
 
                     @Override
                     protected boolean doOnFailure(int code, String message) {
+                        mView.onError(message);
                         Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
                         return true;
                     }

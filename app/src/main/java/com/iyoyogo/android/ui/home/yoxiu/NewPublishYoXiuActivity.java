@@ -22,9 +22,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.alibaba.sdk.android.oss.ServiceException;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -33,17 +33,23 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.google.gson.Gson;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.Bean;
+import com.iyoyogo.android.app.Constants;
 import com.iyoyogo.android.base.BaseActivity;
+import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.PublishSucessBean;
 import com.iyoyogo.android.bean.yoji.publish.PublishYoJiBean;
 import com.iyoyogo.android.bean.yoxiu.PublishYoXiuBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
 import com.iyoyogo.android.contract.PublishYoXiuContract;
+import com.iyoyogo.android.contract.ShareContract;
 import com.iyoyogo.android.model.RObject;
 import com.iyoyogo.android.net.OssService;
 import com.iyoyogo.android.presenter.PublishYoXiuPresenter;
+import com.iyoyogo.android.presenter.SharePresenter;
 import com.iyoyogo.android.ui.common.SearchActivity;
 import com.iyoyogo.android.ui.home.HomeFragment;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.TextChangeListener;
 import com.iyoyogo.android.utils.VideoUtil;
 import com.iyoyogo.android.utils.util.UiUtils;
 import com.iyoyogo.android.view.LoadingDialog;
@@ -54,6 +60,11 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.PictureFileUtils;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,65 +77,66 @@ import butterknife.OnClick;
 import razerdp.basepopup.QuickPopupBuilder;
 import razerdp.basepopup.QuickPopupConfig;
 
-public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter> implements PublishYoXiuContract.View, OssService.UploadImageListener, PublishOpenPopup.OpenPopupClick {
+public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter> implements PublishYoXiuContract.View, OssService.UploadImageListener, PublishOpenPopup.OpenPopupClick, TextChangeListener.TextChange, ShareContract.View {
 
 
     @BindView(R.id.tv_title)
-    TextView mTvTitle;
+    TextView      mTvTitle;
     @BindView(R.id.iv_back)
-    ImageView mIvBack;
+    ImageView     mIvBack;
     @BindView(R.id.tv_publish)
-    TextView mTvPublish;
+    TextView      mTvPublish;
     @BindView(R.id.iv_cover)
-    ImageView mIvCover;
+    ImageView     mIvCover;
     @BindView(R.id.et_title)
-    REditText mEtTitle;
+    REditText     mEtTitle;
     @BindView(R.id.tv_title_length)
-    TextView mTvTitleLength;
+    TextView      mTvTitleLength;
     @BindView(R.id.more_topic)
-    TextView mMoreTopic;
+    TextView      mMoreTopic;
     @BindView(R.id.flex_topic)
     FlexboxLayout mFlexTopic;
     @BindView(R.id.tv_channel)
-    TextView mTvChannel;
+    TextView      mTvChannel;
     @BindView(R.id.flex_channel)
     FlexboxLayout mFlexChannel;
     @BindView(R.id.rbtn_friend_circle)
-    RadioButton mRbtnFriendCircle;
+    RadioButton  mRbtnFriendCircle;
     @BindView(R.id.rbtn_weibo)
-    RadioButton mRbtnWeibo;
+    RadioButton  mRbtnWeibo;
     @BindView(R.id.rbtn_qq)
-    RadioButton mRbtnQq;
+    RadioButton  mRbtnQq;
     @BindView(R.id.rbtn_wechat)
-    RadioButton mRbtnWechat;
+    RadioButton  mRbtnWechat;
     @BindView(R.id.tv_publish_type)
-    TextView mTvPublishType;
+    TextView     mTvPublishType;
     @BindView(R.id.tv_select_address)
-    TextView mTvAddress;
+    TextView     mTvAddress;
     @BindView(R.id.iv_video)
-    ImageView mIvVideo;
+    ImageView    mIvVideo;
     @BindView(R.id.ll_option)
     LinearLayout mLlOption;
+    @BindView(R.id.rg_share)
+    RadioGroup   mRgShare;
 
 
     private OssService mOssService;
-    private String userId;
-    private String token;
-    private int id = 0;
-    private String coverPath;
-    private String coverUrl;
+    private String     userId;
+    private String     token;
+    private int        id = 0;
+    private String     coverPath;
+    private String     coverUrl;
 
     private List<HotTopicBean.DataBean.ListBean> topicData;
 
-    private List<Integer> channel_arrays;
-    private ArrayList<String> channel_list;
+    private ArrayList<Integer> channel_arrays;
+    private ArrayList<String>  channel_list;
 
     private PublishYoXiuBean.DataBean mData;
 
     private int isOpen = 1;
 
-
-    private int saveType = 1;
+    private int    saveType = 1;
     private String filterId = "0";
 
     private String scale = "9:16";
@@ -132,6 +144,8 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
     PopupWindow popMenu;
 
     private PublishOpenPopup mPublishOpenPopup;
+
+    private SharePresenter mSharePresenter;
 
     @Override
     protected int getLayoutId() {
@@ -149,11 +163,13 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
         StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
         mPublishOpenPopup = new PublishOpenPopup(this);
         mPublishOpenPopup.setOpenPopupClick(this);
+        mEtTitle.addTextChangedListener(new TextChangeListener(mEtTitle, this));
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
+        mSharePresenter = new SharePresenter(this);
         mData = new PublishYoXiuBean.DataBean();
         mOssService = new OssService(this);
         userId = SpUtils.getString(this, "user_id", null);
@@ -173,9 +189,29 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
     }
 
     @Override
-    public void publishYoXiuSuccess() {
+    public void publishYoXiuSuccess(PublishSucessBean bean) {
         LoadingDialog.get().close();
-        finish();
+        if (saveType == 1) {
+            switch (mRgShare.getCheckedRadioButtonId()) {
+                case R.id.rbtn_friend_circle:
+                    shareWeb(bean.getData().getYo_id(), SHARE_MEDIA.WEIXIN_CIRCLE);
+                    break;
+                case R.id.rbtn_weibo:
+                    shareWeb(bean.getData().getYo_id(), SHARE_MEDIA.SINA);
+                    break;
+                case R.id.rbtn_qq:
+                    shareWeb(bean.getData().getYo_id(), SHARE_MEDIA.QQ);
+                    break;
+                case R.id.rbtn_wechat:
+                    shareWeb(bean.getData().getYo_id(), SHARE_MEDIA.WEIXIN);
+                    break;
+                default:
+                    finish();
+                    break;
+            }
+        } else {
+            finish();
+        }
     }
 
     @Override
@@ -189,8 +225,8 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
         for (PublishYoXiuBean.DataBean.ChannelsBean channelsBean : data.getData().getChannels()) {
             channel_list.add(channelsBean.getChannel());
             channel_arrays.add(channelsBean.getChannel_id());
-            View view = LayoutInflater.from(this).inflate(R.layout.item_publish_channel, null);
-            TextView tv = view.findViewById(R.id.tv);
+            View     view = LayoutInflater.from(this).inflate(R.layout.item_publish_channel, null);
+            TextView tv   = view.findViewById(R.id.tv);
             tv.setText(channelsBean.getChannel());
             mFlexChannel.addView(view);
         }
@@ -200,6 +236,11 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
         mEtTitle.setText(data.getData().getFile_desc());
         setTopic(data.getData().getFile_desc());
         mTvAddress.setText(data.getData().getPosition_name());
+    }
+
+    @Override
+    public void onError(String message) {
+        LoadingDialog.get().close();
     }
 
     @OnClick({R.id.iv_back, R.id.tv_publish, R.id.tv_publish_type, R.id.tv_select_address, R.id.tv_change_image, R.id.ll_channel, R.id.more_topic, R.id.rbtn_friend_circle, R.id.rbtn_weibo, R.id.rbtn_qq, R.id.rbtn_wechat})
@@ -266,7 +307,8 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
                 break;
 
             case R.id.ll_channel:
-                startActivityForResult(new Intent(this, ChannelActivity.class), 1);
+                startActivityForResult(new Intent(this, ChannelActivity.class)
+                        .putIntegerArrayListExtra("data", channel_arrays), 1);
                 break;
             case R.id.tv_publish_type:
                 mPublishOpenPopup.showPopupWindow(mLlOption);
@@ -300,10 +342,11 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
                 if (path != null && path.size() >= 0) {
                     coverPath = TextUtils.isEmpty(path.get(0).getCompressPath()) ? path.get(0).getPath() : path.get(0).getCompressPath();
                     Glide.with(this).load(coverPath).apply(new RequestOptions().centerCrop()).into(mIvCover);
+                    mIvVideo.setVisibility(coverPath.contains(".mp4") ? View.VISIBLE : View.GONE);
                 }
             } else if (requestCode == 2 && resultCode == 6) {
                 String topicName = data.getStringExtra("topic");
-                int type_id = data.getIntExtra("type_id", 0);
+                int    type_id   = data.getIntExtra("type_id", 0);
 
                 HotTopicBean.DataBean.ListBean bean = new HotTopicBean.DataBean.ListBean();
                 bean.setId(type_id);
@@ -315,8 +358,8 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
                 object.setObjectText(topicName);
                 mEtTitle.setObject(object);
             } else if (requestCode == 1 && resultCode == 3) {
-                double latitude = data.getDoubleExtra("latitude", 0.0);
-                String title = data.getStringExtra("title");
+                double latitude  = data.getDoubleExtra("latitude", 0.0);
+                String title     = data.getStringExtra("title");
                 double longitude = data.getDoubleExtra("longitude", 0.0);
                 mData.setPosition_areas(data.getStringExtra("area"));
                 mData.setPosition_address(data.getStringExtra("address"));
@@ -326,8 +369,8 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
                 mData.setLng(longitude + "");
                 mTvAddress.setText(title);
             } else if (requestCode == 1 && resultCode == 2) {
-                double latitude = data.getDoubleExtra("latitude", 0.0);
-                String title = data.getStringExtra("title");
+                double latitude  = data.getDoubleExtra("latitude", 0.0);
+                String title     = data.getStringExtra("title");
                 double longitude = data.getDoubleExtra("longitude", 0.0);
                 mData.setPosition_areas(data.getStringExtra("area"));
                 mData.setPosition_address(data.getStringExtra("address"));
@@ -337,12 +380,13 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
                 mData.setLng(longitude + "");
                 mTvAddress.setText(title);
             } else if (requestCode == 1 && resultCode == 1) {
+                mFlexChannel.removeAllViews();
                 channel_arrays = data.getIntegerArrayListExtra("channel_array");
                 channel_list = data.getStringArrayListExtra("channel_list");
                 if (channel_list != null && channel_list.size() > 0) {
                     for (String s : channel_list) {
-                        View view = LayoutInflater.from(this).inflate(R.layout.item_publish_channel, null);
-                        TextView tv = view.findViewById(R.id.tv);
+                        View     view = LayoutInflater.from(this).inflate(R.layout.item_publish_channel, null);
+                        TextView tv   = view.findViewById(R.id.tv);
                         tv.setText(s);
                         mFlexChannel.addView(view);
                     }
@@ -355,8 +399,8 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
     private void addTopic() {
         mFlexTopic.removeAllViews();
         for (HotTopicBean.DataBean.ListBean bean : topicData) {
-            View view = LayoutInflater.from(this).inflate(R.layout.item_public_yo_ji_topic, null);
-            TextView tv = view.findViewById(R.id.tv);
+            View     view = LayoutInflater.from(this).inflate(R.layout.item_public_yo_ji_topic, null);
+            TextView tv   = view.findViewById(R.id.tv);
             tv.setText(bean.getTopic());
             view.setOnClickListener(v -> {
                 //话题对象，可继承此类实现特定的业务逻辑
@@ -389,8 +433,8 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
     public void getRecommendTopicSuccess(List<HotTopicBean.DataBean.ListBean> list) {
         topicData = list;
         for (HotTopicBean.DataBean.ListBean bean : list) {
-            View view = LayoutInflater.from(this).inflate(R.layout.item_public_yo_ji_topic, null);
-            TextView tv = view.findViewById(R.id.tv);
+            View     view = LayoutInflater.from(this).inflate(R.layout.item_public_yo_ji_topic, null);
+            TextView tv   = view.findViewById(R.id.tv);
             tv.setText(bean.getTopic());
             view.setOnClickListener(v -> {
                 //话题对象，可继承此类实现特定的业务逻辑
@@ -407,7 +451,7 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
 
     private void setTopic(String content) {
         Pattern TAG_PATTERN = Pattern.compile("#([^\\#|.]+)#");
-        Matcher m = TAG_PATTERN.matcher(content);
+        Matcher m           = TAG_PATTERN.matcher(content);
         while (m.find()) {
             String tagNameMatch = m.group();
             mEtTitle.setText(mEtTitle.getText().toString().replace(tagNameMatch, ""));
@@ -440,10 +484,10 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
         popMenu.setBackgroundDrawable(dw);//设置mPopupWindow背景颜色或图片，这里设置半透明
         popMenu.setOutsideTouchable(true); //设置可以通过点击mPopupWindow外部关闭mPopupWindow
 //        popMenu.setAnimationStyle(R.style.PopupAnimationAmount);//设置mPopupWindow的进出动画
-        Button popup_no_id = pop_view.findViewById(R.id.popup_no_id);
-        Button popup_yes_id = pop_view.findViewById(R.id.popup_yes_id);
+        Button   popup_no_id    = pop_view.findViewById(R.id.popup_no_id);
+        Button   popup_yes_id   = pop_view.findViewById(R.id.popup_yes_id);
         TextView pop_content_id = pop_view.findViewById(R.id.pop_content_id);
-        TextView pop_title_id = pop_view.findViewById(R.id.pop_title_id);
+        TextView pop_title_id   = pop_view.findViewById(R.id.pop_title_id);
         pop_title_id.setText("码字「不易」");
         pop_content_id.setText("退出前是否要保存到草稿？");
         popup_no_id.setText("放弃");
@@ -502,5 +546,64 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
     public void onOpenClick(int type, String typeName) {
         mTvPublishType.setText(typeName);
         isOpen = type;
+    }
+
+    private int oldTextLength = 0;
+
+    @Override
+    public void onTextChange(View view, String s) {
+        mTvTitleLength.setText(s.length() + "/200");
+        if (!TextUtils.isEmpty(s) && s.substring(s.length() - 1, s.length()).equals("#") && s.length() - oldTextLength == 1) {
+            startActivityForResult(new Intent(this, MoreTopicActivity.class).putExtra("type", 2), 2);
+            mEtTitle.setText(s.substring(0, s.length() - 1));
+            mEtTitle.setSelection(mEtTitle.getText().length());
+            oldTextLength = s.length() - 1;
+        } else {
+            oldTextLength = s.length();
+        }
+    }
+
+
+    private void shareWeb(String id, SHARE_MEDIA share_media) {
+        /*80002/yo_id/4143*/
+        String url = Constants.BASE_URL + "home/share/details_yoj/share_user_id/" + userId + "/yo_id/" + id;
+        UMWeb  web = new UMWeb(url);
+        web.setTitle(mEtTitle.getText().toString());//标题
+        UMImage thumb = new UMImage(getApplicationContext(), coverUrl);
+        web.setThumb(thumb);  //缩略图
+//        if (!TextUtils.isEmpty(mEtInfo.getText().toString())) {
+//            web.setDescription(mEtInfo.getText().toString());//描述
+//        }
+        new ShareAction(NewPublishYoXiuActivity.this)
+                .withMedia(web)
+                .setPlatform(share_media)
+                .setCallback(new UMShareListener() {
+                    @Override
+                    public void onStart(SHARE_MEDIA share_media) {
+
+                    }
+
+                    @Override
+                    public void onResult(SHARE_MEDIA share_media) {
+                        mSharePresenter.share(userId, token, id);
+                    }
+
+                    @Override
+                    public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+                        finish();
+                    }
+
+                    @Override
+                    public void onCancel(SHARE_MEDIA share_media) {
+                        finish();
+                    }
+                })
+                .share();
+    }
+
+
+    @Override
+    public void onShareSuccess(BaseBean data) {
+        finish();
     }
 }

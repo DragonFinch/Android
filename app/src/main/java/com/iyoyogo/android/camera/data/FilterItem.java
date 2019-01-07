@@ -17,6 +17,12 @@ public class FilterItem implements Serializable{
     private String m_packageId;
     private String m_assetDescription;
 
+
+    // 用于特殊漫画的字段
+    private boolean isCartoon = false;
+    private boolean isStrokenOnly = true;
+    private boolean isGrayScale = true;
+
     public FilterItem() {
         m_filterId = null;
         m_filterName = null;
@@ -85,6 +91,30 @@ public class FilterItem implements Serializable{
 
     public void setAssetDescription(String m_assetDescription) {
         this.m_assetDescription = m_assetDescription;
+    }
+
+    public void setStrokenOnly(boolean strokenOnly){
+        isStrokenOnly = strokenOnly;
+    }
+
+    public boolean getStrokenOnly(){
+        return isStrokenOnly;
+    }
+
+    public void setGrayScale(boolean grayScale){
+        isGrayScale = grayScale;
+    }
+
+    public boolean getGrayScale(){
+        return isGrayScale;
+    }
+
+    public void setIsCartoon(boolean isCartoon){
+        this.isCartoon = isCartoon;
+    }
+
+    public boolean getIsCartoon(){
+        return isCartoon;
     }
 
     @Override

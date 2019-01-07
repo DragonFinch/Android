@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -23,6 +24,8 @@ import com.iyoyogo.android.model.RObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class REditText extends EditText {
     //
@@ -146,7 +149,7 @@ public class REditText extends EditText {
                         for (int i = 0; i < mRObjectsList.size(); i++) {
                             RObject object = mRObjectsList.get(i);
                             if (tagetText.equals(object.getObjectText())) {
-                                mRObjectsList.remove(object);
+                                mRObjectsList.remove(i);
                             }
                         }
                         return false;
@@ -217,13 +220,16 @@ public class REditText extends EditText {
         for (int i = 0; i < mRObjectsList.size(); i++) {
             final RObject object     = mRObjectsList.get(i);
             String        objectText = object.getObjectText();// 文本
-            findPosition = content.indexOf(objectText);// 获取文本开始下标
 
-            if (findPosition != -1) {// 设置话题内容前景色高亮
-                ForegroundColorSpan colorSpan = new ForegroundColorSpan(
-                        mForegroundColor);
-                editable.setSpan(colorSpan, findPosition, findPosition + objectText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            Matcher slashMatcher = Pattern.compile(objectText).matcher(getText().toString());
+            while (slashMatcher.find()) {
+                findPosition = slashMatcher.start();// 获取文本开始下标
+                if (findPosition != -1) {// 设置话题内容前景色高亮
+                    ForegroundColorSpan colorSpan = new ForegroundColorSpan(mForegroundColor);
+                    editable.setSpan(colorSpan, findPosition, findPosition + objectText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
             }
+
         }
 
     }
@@ -289,6 +295,5 @@ public class REditText extends EditText {
         }
         return objectsList;
     }
-
 }
 
