@@ -214,7 +214,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
-                finish();
+                onBackPressed();
                 break;
             case R.id.tv_change_image:
                 PictureSelector.create(this)
