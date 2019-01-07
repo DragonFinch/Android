@@ -25,6 +25,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.mine.center.YoJiContentBean;
+import com.iyoyogo.android.bean.yoji.list.YoJiListBean;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
@@ -35,6 +36,7 @@ import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 import com.iyoyogo.android.widget.PileLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.functions.Consumer;
@@ -113,6 +115,59 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
                 });
             }
         }*/
+        if (mList.get(position).getUsers_praise().size() == 0) {
+            holder.pile_layout.setVisibility(View.GONE);
+            holder.tv_num_like.setVisibility(View.GONE);
+        } else {
+            RequestOptions requestOptions = new RequestOptions();
+            requestOptions.placeholder(R.mipmap.default_touxiang).error(R.mipmap.default_touxiang);
+            Log.d("YoJiListHorizontalAdapt", "mList.get(position).getUsers_praise().size():" + mList.get(position).getUsers_praise().size());
+            if (mList.get(position).getUsers_praise().size() <= 10) {
+                List<String> user_icons = new ArrayList<>();
+                user_icons.clear();
+                int size = mList.get(position).getUsers_praise().size();
+                for (int i = 0; i < size; i++) {
+                    user_icons.add(mList.get(position).getUsers_praise().get(i).getUser_logo());
+                    Log.e("YoJiListHorizontalAdapt", mList.get(position).getUsers_praise().get(i).getUser_logo());
+                    com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
+                    Glide.with(context).load(user_icons.get(i)).apply(requestOptions).into(imageView);
+                    holder.pile_layout.addView(imageView);
+                    int finalI = i;
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+//                            Toast.makeText(context, "mList.get(position).getUsers_praise().get(i).getUser_id():" + mList.get(position).getUsers_praise().get(finalI).getUser_id(), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(context, UserHomepageActivity.class);
+                            intent.putExtra("yo_user_id", String.valueOf(mList.get(finalI).getUser_info().getUser_id()));
+                            context.startActivity(intent);
+                        }
+                    });
+                    Log.d("YoJiListHorizontalAdapt", "user_icons.size():" + user_icons.size());
+                }
+            } else {
+                List<YoJiContentBean.DataBean.ListBean.UsersPraiseBean> user_icons = new ArrayList<>();
+                user_icons.clear();
+                for (int i = 0; i < 10; i++) {
+                    user_icons.add(mList.get(position).getUsers_praise().get(i));
+                    com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
+                    Glide.with(context).load(user_icons.get(i).getUser_logo()).apply(requestOptions).into(imageView);
+                    holder.pile_layout.addView(imageView);
+                    int finalI = i;
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+//                            Toast.makeText(context, "mList.get(position).getUsers_praise().get(i).getUser_id():" + mList.get(position).getUsers_praise().get(finalI).getUser_id(), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(context, UserHomepageActivity.class);
+                            intent.putExtra("yo_user_id", String.valueOf(mList.get(position).getUsers_praise().get(finalI).getUser_id()));
+                            context.startActivity(intent);
+                        }
+                    });
+                }
+                Log.d("YoJiListHorizontalAdapt", "user_icons.size():" + user_icons.size());
+            }
+
+        }
+
         holder.user_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

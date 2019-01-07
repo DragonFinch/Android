@@ -45,7 +45,28 @@ public class PersonalCenterPresenter extends BasePresenter<PersonalCenterContrac
                     protected void doOnSuccess(AttentionBean attentionBean) {
                         AttentionBean.DataBean data = attentionBean.getData();
                         if (data != null) {
-                            mView.addAttention1(data);
+                            mView.addAttention1(attentionBean);
+                        }
+                    }
+
+                    @Override
+                    protected boolean doOnFailure(int code, String message) {
+                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+    }
+
+    @Override
+    public void deleteAttention(String user_id, String user_token, String target_id) {
+        DataManager.getFromRemote()
+                .addAttention1(user_id, user_token, target_id)
+                .subscribe(new ApiObserver<AttentionBean>(mView, this) {
+                    @Override
+                    protected void doOnSuccess(AttentionBean attentionBean) {
+                        AttentionBean.DataBean data = attentionBean.getData();
+                        if (data != null) {
+                            mView.addAttention1(attentionBean);
                         }
                     }
 

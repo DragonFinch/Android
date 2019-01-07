@@ -508,7 +508,8 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
         String name = "yoyogo/user_logo/image" + System.currentTimeMillis() + ".jpg";
         PutObjectRequest put = new PutObjectRequest(bucketName, name, path);
         put.setMetadata(objectMeta);
-
+        url = "https://" + bucketName + "." + endpoint + "/" + name;
+        Log.d("PublishYoXiuActivity", url);
 
         try {
             PutObjectResult result = ossClient.putObject(put);

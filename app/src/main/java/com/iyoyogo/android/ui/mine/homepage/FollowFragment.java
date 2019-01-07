@@ -50,6 +50,7 @@ public class FollowFragment extends BaseFragment<AttentionsContract.Presenter> i
     private String user_token;
     private String yo_user_id;
     private boolean falg = false;
+    private TextView btu_guanzhu;
 
     @Override
     protected int getLayoutId() {
@@ -113,42 +114,28 @@ public class FollowFragment extends BaseFragment<AttentionsContract.Presenter> i
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                TextView btu_guanzhu = view.findViewById(R.id.tv_guanzhu);
-                int status = list.get(position).getStatus();
-
-                if (falg == false){
-                    falg = true;
-                    mPresenter.addAttention1(user_id, user_token, (list.get(position).getUser_id()));
-                    btu_guanzhu.setBackgroundResource(R.drawable.bg_collection);
-                    btu_guanzhu.setText("+关注");
-                    btu_guanzhu.setTextColor(Color.parseColor("#ffffff"));
-                }else {
-                    falg = false;
-                    mPresenter.addAttention1(user_id, user_token, (list.get(position).getUser_id()));
-                    btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
-                    btu_guanzhu.setText("已关注");
-                    btu_guanzhu.setTextColor(Color.parseColor("#888888"));
-                }
-//                if (status == 0) {//未关注
-//                    mPresenter.addAttention1(user_id, user_token, (list.get(position).getUser_id()));
-//                    btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
-//                    btu_guanzhu.setText("已关注");
-//                    btu_guanzhu.setTextColor(Color.parseColor("#888888"));
-//                    adapter.notifyDataSetChanged();
-//                }
-//                if (status == 1) {//已关注
-//                    mPresenter.addAttention1(user_id, user_token, (list.get(position).getUser_id()));
-//                    btu_guanzhu.setBackgroundResource(R.drawable.bg_collection);
-//                    btu_guanzhu.setText("+关注");
-//                    btu_guanzhu.setTextColor(Color.parseColor("#ffffff"));
-//                }
+                btu_guanzhu = view.findViewById(R.id.tv_guanzhu);
+                mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
             }
         });
     }
 
     @Override
     public void addAttentionSuccess(AttentionBean attentionBean) {
+        int status = attentionBean.getData().getStatus();
+        if (status == 1) {
+            btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
+            btu_guanzhu.setText("已关注");
+            btu_guanzhu.setTextColor(Color.parseColor("#888888"));
+        }else {
+            btu_guanzhu.setBackgroundResource(R.drawable.bg_collection);
+            btu_guanzhu.setText("+关注");
+            btu_guanzhu.setTextColor(Color.parseColor("#ffffff"));
+        }
+    }
 
+    @Override
+    public void deleteAttention(AttentionBean attentionBean) {
     }
 
 }

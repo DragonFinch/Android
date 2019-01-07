@@ -258,8 +258,6 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         //获取用户等级
         int user_level = data.getUser_level();
 
-
-
         if (user_level == 1) {
             imgLevel.setVisibility(View.VISIBLE);
             imgVipSign.setImageResource(R.mipmap.level_one);

@@ -24,6 +24,15 @@ public class AttentionBean extends BaseBean {
          */
 
         private String id;
+        private int status;
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
 
         public String getId() {
             return id;

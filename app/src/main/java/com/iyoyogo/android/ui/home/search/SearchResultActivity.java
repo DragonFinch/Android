@@ -165,7 +165,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
         });*/
 
         String key = getIntent().getStringExtra("key");
-        // searchGuanjiaci.setText(key);
+        //searchGuanjiaci.setText(key);
 //        ImageView magImage = (ImageView) searchGuanjiaci.findViewById(magId);
 //        magImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         lv.setLayoutManager(new LinearLayoutManager(this));
@@ -177,8 +177,8 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             //放到网络请求上面
             //2searchGuanjiaci.setText(keyword);
             // table.setQueryHint(keyword);
-
         }
+
      /*   List<KeywordBean.DataBean.UserListBean> user1 = SharedPrefrenceUtils.getSerializableList(SearchResultActivity.this, "user111");
         if (user1 != null) {
             List<KeywordBean.DataBean.UserListBean> listBeans = new ArrayList<>();
@@ -616,7 +616,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 @Override
                 public void set(int position) {
                     Intent intent = new Intent(SearchResultActivity.this, UserHomepageActivity.class);
-                    intent.putExtra("yo_user_id", myoj.get(position).getUser_info().getUser_id() + "");
+                    intent.putExtra("yo_user_id", myoj.get(position).getUsers_praise().get(position).getUser_id()+"");
                     startActivity(intent);
                 }
             });

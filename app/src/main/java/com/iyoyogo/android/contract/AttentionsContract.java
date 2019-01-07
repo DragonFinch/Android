@@ -12,6 +12,9 @@ public interface AttentionsContract {
         void getAttentionsSuccess(AttentionsBean attentionsBean);
 
         void addAttentionSuccess(AttentionBean attentionBean);
+
+        void deleteAttention(AttentionBean attentionBean);
+
     }
 
     interface Presenter extends IBasePresenter {
@@ -19,5 +22,8 @@ public interface AttentionsContract {
         void getAttentions(String user_id, String user_token, String his_id, String page, String page_size);
 
         void addAttention1(String user_id, String user_token, String target_id);
+
+        void deleteAttention(String user_id, String user_token, String target_id);
+
     }
 }

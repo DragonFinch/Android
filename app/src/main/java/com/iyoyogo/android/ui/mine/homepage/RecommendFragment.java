@@ -50,7 +50,8 @@ public class RecommendFragment extends BaseFragment<CommendAttentionContract.Pre
     private String user_id;
     private String user_token;
     private boolean falg = false;
-//    MyRefreshAnimHeader mRefreshAnimHeader;
+    private TextView btu_guanzhu;
+    //    MyRefreshAnimHeader mRefreshAnimHeader;
 
     /**
      * 设置刷新header风格
@@ -124,20 +125,8 @@ public class RecommendFragment extends BaseFragment<CommendAttentionContract.Pre
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                TextView btu_guanzhu = view.findViewById(R.id.btu_guanzhu);
-                if (falg == false) {
-                    falg = true;
-                    mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
-                    btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
-                    btu_guanzhu.setText("已关注");
-                    btu_guanzhu.setTextColor(Color.parseColor("#888888"));
-                } else {
-                    falg = false;
-                    mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
-                    btu_guanzhu.setBackgroundResource(R.drawable.bg_collection);
-                    btu_guanzhu.setText("+关注");
-                    btu_guanzhu.setTextColor(Color.parseColor("#ffffff"));
-                }
+                btu_guanzhu = view.findViewById(R.id.btu_guanzhu);
+                mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
             }
         });
 
@@ -145,6 +134,21 @@ public class RecommendFragment extends BaseFragment<CommendAttentionContract.Pre
 
     @Override
     public void addAttentionSuccess(AttentionBean attentionBean) {
+        int status = attentionBean.getData().getStatus();
+        if (status == 1) {
+            btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
+            btu_guanzhu.setText("已关注");
+            btu_guanzhu.setTextColor(Color.parseColor("#888888"));
+        }else {
+            btu_guanzhu.setBackgroundResource(R.drawable.bg_collection);
+            btu_guanzhu.setText("+关注");
+            btu_guanzhu.setTextColor(Color.parseColor("#ffffff"));
+        }
+    }
+
+    @Override
+    public void deleteAttention(AttentionBean attentionBean) {
+
     }
 
 }

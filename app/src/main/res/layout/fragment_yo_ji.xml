@@ -16,7 +16,6 @@
             android:id="@+id/recycler_yoji"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/dp_20"
             />
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     <include
