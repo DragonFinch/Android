@@ -426,16 +426,15 @@
         <activity android:name=".utils.select.SelectPhotoActivity" />
         <activity android:name=".ui.common.CropImageActivity" />
         <activity
-            android:name=".ui.home.yoji.YoJiDetailActivity"
-            android:theme="@style/AppTheme.Main" />
+            android:name=".ui.home.yoji.YoJiDetailActivity" />
         <activity android:name=".ui.home.yoji.ChooseSignActivity" />
         <activity android:name=".ui.mine.draft.DraftActivity" />
         <activity android:name=".ui.mine.message.MessageDetailActivity" />
         <activity android:name=".ui.mine.AddCollectionActivity" />
         <activity android:name=".ui.mine.homepage.AddressBookFriendsActivity" />
-        <activity android:name=".ui.home.yoji.ReplyDiscussActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"
-            />
+        <activity
+            android:name=".ui.home.yoji.ReplyDiscussActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".ui.mine.homepage.MyFollowActivity" />
         <activity android:name=".ui.mine.homepage.HisFansActivity" />
         <activity
@@ -453,7 +452,6 @@
             android:name=".ui.home.yoji.NewPublishYoJiActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ui.home.yoxiu.NewPublishYoXiuActivity" />
-        <activity android:name=".ui.home.EditImageOrVideoActivity" />
         <activity android:name=".ui.home.map.DiTuActivity" />
         <activity android:name=".ui.mine.CityActivity" />
         <activity android:name=".ui.home.search.SearchActivity" />
@@ -464,13 +462,15 @@
         <activity
             android:name=".ui.home.CutVideoActivity"
             android:theme="@style/AppTheme.Full" />
+        <activity android:name=".ui.home.EditImageOrVideoActivity" />
+        <activity android:name=".ui.home.AddFilterActivity" />
         <activity android:name=".AActivity" />
         <activity
             android:name=".ui.home.yoji.YoJiPictureActivity"
             android:theme="@style/AppTheme.Full" />
-        <activity android:name=".ui.home.yoji.PhotoActivity"
-            android:theme="@style/AppTheme.Full"
-            ></activity>
+        <activity
+            android:name=".ui.home.yoji.PhotoActivity"
+            android:theme="@style/AppTheme.Full" />
     </application>
 
 </manifest>

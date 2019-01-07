@@ -377,8 +377,8 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
         tv_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadMore(comment_id);
                 popupWindow.dismiss();
+                loadMore(comment_id);
             }
         });
         popupWindow.setBackgroundDrawable(new ColorDrawable());

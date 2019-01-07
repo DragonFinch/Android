@@ -104,7 +104,7 @@
         android:layout_toLeftOf="@+id/img_more"
         android:drawableLeft="@mipmap/see"
         android:drawablePadding="@dimen/dp_6"
-        android:text="1089"
+        android:text="0"
         android:textColor="#ff888888"
         android:textSize="@dimen/dp_10"
 

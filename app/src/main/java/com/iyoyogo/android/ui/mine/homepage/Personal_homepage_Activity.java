@@ -123,6 +123,7 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
     private String user_nickName;
     public static boolean flag = false;
     private RecyclerView recyclerYoji;
+    private YoJiFragment yoJiFragment;
 
 
     protected void initView() {
@@ -185,6 +186,11 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
         return new PersonalCenterPresenter(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
+    }
 
     @OnClick({R.id.img_back, R.id.img_share, R.id.my_collection, R.id.get_hisFans, R.id.collect, R.id.img_view})
     public void onViewClicked(View view) {
@@ -215,12 +221,16 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
                     recyclerYoji = getSupportFragmentManager().findFragmentById(R.id.frame_container).getView().findViewById(R.id.recycler_yoji);
                     if (imgView.getDrawable().getCurrent().getConstantState().equals(ContextCompat.getDrawable(this, R.mipmap.view22).getConstantState())) {
                         imgView.setImageResource(R.mipmap.view11);
-                        recyclerYoji.setLayoutManager(new LinearLayoutManager(this));
-                        recyclerYoji.setAdapter(YoJiFragment.yoJiCenterAdapter);
+                        yoJiFragment.refreshData2();
+//                        YoJiFragment.yoJiCenterAdapter.notifyDataSetChanged();
+//                        recyclerYoji.setLayoutManager(new LinearLayoutManager(this));
+//                        recyclerYoji.setAdapter(YoJiFragment.yoJiCenterAdapter);
                     } else {
                         imgView.setImageResource(R.mipmap.view22);
-                        recyclerYoji.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-                        recyclerYoji.setAdapter(YoJiFragment.yoJiContentAdapter2);
+                        yoJiFragment.refreshData();
+//                        YoJiFragment.yoJiContentAdapter2.notifyDataSetChanged();
+//                        recyclerYoji.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+//                        recyclerYoji.setAdapter(YoJiFragment.yoJiContentAdapter2);
                     }
 //                    if (flag == false) {
 //                        flag = true;
@@ -337,7 +347,7 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
     public void getPersonalCenterSuccess(UserCenterBean.DataBean data) {
         List<Fragment> fragments = new ArrayList<>();
         YoXiuFragment yoXiuFragment = new YoXiuFragment();
-        YoJiFragment yoJiFragment = new YoJiFragment();
+        yoJiFragment = new YoJiFragment();
         Bundle bundle = new Bundle();
         bundle.putString("yo_user_id", yo_user_id);
         yoJiFragment.setArguments(bundle);
@@ -492,7 +502,14 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
     }
 
     @Override
-    public void addAttention1(AttentionBean.DataBean data) {
+    public void addAttention1(AttentionBean attentionBean) {
+
+    }
+
+
+    @Override
+    public void deleteAttention(AttentionBean attentionBean) {
+
     }
 
 

@@ -120,13 +120,14 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
         holder.tv_time.setText(mList.get(position).getCount_dates() + "天");
         holder.create_time.setText(start_date);
         List<YoJiDetailBean.DataBean.ListBean.LabelsBean> labels = mList.get(position).getLabels();
+        holder.flow.removeAllViews();
         for (int i = 0; i < labels.size(); i++) {
             addTextView(holder.flow, labels.get(i).getLabel(), labels.get(i).getType());
         }
+
         List<String> logos = mList.get(position).getLogos();
         int size = logos.size();
-        holder.flow.setVisibility(View.VISIBLE);
-        loadData(holder, logos, size, position);
+        
      if (position == 0) {
             holder.flow.setVisibility(View.VISIBLE);
             loadData(holder, logos, size, position);

@@ -5,9 +5,10 @@
 
     <RelativeLayout
         android:id="@+id/relative"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/dp_355"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/dp_20"
+        android:background="@drawable/yoji_detail_recycler_bg"
         android:visibility="visible">
 
         <ImageView

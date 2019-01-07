@@ -136,6 +136,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
     private RecyclerView recyclerYoji;
     private SmartRefreshLayout refreshLayout;
     private SmartRefreshLayout refreshLayout2;
+    private YoJiFragment yoJiFragment;
 
     @Override
     protected int getLayoutId() {
@@ -281,6 +282,9 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
         lp.alpha = bgAlpha; // 0.0~1.0
         getWindow().setAttributes(lp); //act 是上下文context
 
+
+
+
     }
 
 
@@ -296,7 +300,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
     public void getPersonalCenterSuccess(UserCenterBean.DataBean data) {
         List<Fragment> fragments = new ArrayList<>();
         YoXiuFragment yoXiuFragment = new YoXiuFragment();
-        YoJiFragment yoJiFragment = new YoJiFragment();
+         yoJiFragment = new YoJiFragment();
         Bundle bundle = new Bundle();
         bundle.putString("yo_user_id", yo_user_id);
         yoJiFragment.setArguments(bundle);
@@ -311,11 +315,13 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
                 switch (checkedId){
                     case R.id.rb_yoji:
                         imgView.setVisibility(View.VISIBLE);
-                        switchContent(yoJiFragment,yoXiuFragment);
+                        switchContent(yoXiuFragment,yoJiFragment);
+//                        switchContent(yoJiFragment,yoXiuFragment);
                         break;
                     case R.id.rb_yoxiu:
                         imgView.setVisibility(View.GONE);
-                        switchContent(yoXiuFragment,yoJiFragment);
+                        switchContent(yoJiFragment,yoXiuFragment);
+//                        switchContent(yoXiuFragment,yoJiFragment);
                         break;
                 }
             }
@@ -329,21 +335,6 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
         requestOptions.placeholder(R.mipmap.default_touxiang)
                 .error(R.mipmap.default_touxiang);
         Glide.with(this).load(data.getUser_logo()).apply(requestOptions).into(imgUserIcon);
-        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.rb_yoji:
-                        imgView.setVisibility(View.VISIBLE);
-                        switchFragment(yoJiFragment);
-                        break;
-                    case R.id.rb_yoxiu:
-                        imgView.setVisibility(View.GONE);
-                        switchFragment(yoXiuFragment);
-                        break;
-                }
-            }
-        });
         String user_sex = data.getUser_sex();
         String user_birthday = data.getUser_birthday();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -426,7 +417,6 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
             tvGuanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
             tvGuanzhu.setTextColor(Color.parseColor("#888888"));
         }
-
 //        final String pattern = "2";
 //        if (Patterns.WEB_URL.matcher(data.getUser_logo()).matches()) {
 //            final String url =
@@ -476,9 +466,24 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
 //        }
     }
 
+    @Override
+    public void addAttention1(AttentionBean attentionBean) {
+        int status = attentionBean.getData().getStatus();
+        if (status == 1) {
+            tvGuanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
+            tvGuanzhu.setText("已关注");
+            tvGuanzhu.setTextColor(Color.parseColor("#888888"));
+            mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
+        }else {
+            tvGuanzhu.setBackgroundResource(R.drawable.bg_collection);
+            tvGuanzhu.setText("+关注");
+            tvGuanzhu.setTextColor(Color.parseColor("#ffffff"));
+            mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
+        }
+    }
 
     @Override
-    public void addAttention1(AttentionBean.DataBean data) {
+    public void deleteAttention(AttentionBean attentionBean) {
 
     }
 
@@ -508,19 +513,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
                 startActivity(intent);
                 break;
             case R.id.tv_guanzhu:
-                if (flag == false) {
-                    flag = true;
-                    mPresenter.addAttention1(user_id, user_token, yo_user_id);
-                    tvGuanzhu.setText("已关注");
-                    tvGuanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
-                    tvGuanzhu.setTextColor(Color.parseColor("#888888"));
-                } else {
-                    flag = false;
-                    mPresenter.addAttention1(user_id, user_token, yo_user_id);
-                    tvGuanzhu.setText("+关注");
-                    tvGuanzhu.setBackgroundResource(R.drawable.bg_continue);
-                    tvGuanzhu.setTextColor(Color.parseColor("#ffffff"));
-                }
+                mPresenter.addAttention1(user_id, user_token, yo_user_id);
                 break;
             case R.id.collect:
                 Intent intent1 = new Intent(this, CollectionActivity.class);
@@ -535,12 +528,16 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
                     recyclerYoji = getSupportFragmentManager().findFragmentById(R.id.frame_container).getView().findViewById(R.id.recycler_yoji);
                     if (imgView.getDrawable().getCurrent().getConstantState().equals(ContextCompat.getDrawable(this, R.mipmap.view22).getConstantState())) {
                         imgView.setImageResource(R.mipmap.view11);
-                        recyclerYoji.setLayoutManager(new LinearLayoutManager(this));
-                        recyclerYoji.setAdapter(YoJiFragment.yoJiCenterAdapter);
+                        yoJiFragment.refreshData2();
+//                        YoJiFragment.yoJiCenterAdapter.notifyDataSetChanged();
+//                        recyclerYoji.setAdapter(YoJiFragment.yoJiCenterAdapter);
+//                        recyclerYoji.setLayoutManager(new LinearLayoutManager(this));
                     } else {
                         imgView.setImageResource(R.mipmap.view22);
-                        recyclerYoji.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-                        recyclerYoji.setAdapter(YoJiFragment.yoJiContentAdapter2);
+                        yoJiFragment.refreshData();
+//                        YoJiFragment.yoJiContentAdapter2.notifyDataSetChanged();
+//                        recyclerYoji.setAdapter(YoJiFragment.yoJiContentAdapter2);
+//                        recyclerYoji.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
                     }
 //                        imgView.setImageResource(R.mipmap.view2);
 //                        recyclerYoji = getSupportFragmentManager().findFragmentById(R.id.frame_container).getView().findViewById(R.id.recycler_yoji);

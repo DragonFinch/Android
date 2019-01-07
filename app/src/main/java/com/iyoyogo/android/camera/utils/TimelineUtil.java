@@ -341,6 +341,46 @@ public class TimelineUtil {
         return true;
     }
 
+
+    public static boolean buildTimelineFilters(NvsTimeline timeline, VideoClipFxInfo videoClipFxData) {
+        if(timeline == null) {
+            return false;
+        }
+
+        NvsVideoTrack videoTrack = timeline.getVideoTrackByIndex(0);
+        if(videoTrack == null) {
+            return false;
+        }
+
+        if(videoClipFxData == null)
+            return false;
+
+        int videoClipCount = videoTrack.getClipCount();
+        for(int i = 0;i<videoClipCount;i++) {
+            NvsVideoClip clip = videoTrack.getClipByIndex(i);
+            if(clip == null)
+                continue;
+
+            removeAllVideoFx(clip);
+
+            String name = videoClipFxData.getFxId();
+            if(TextUtils.isEmpty(name)) {
+                continue;
+            }
+            int mode = videoClipFxData.getFxMode();
+            float fxIntensity = videoClipFxData.getFxIntensity();
+            if(mode == FilterItem.FILTERMODE_BUILTIN){//内建特效
+                NvsVideoFx fx = clip.appendBuiltinFx(name);
+                fx.setFilterIntensity(fxIntensity);
+            }else {////添加包裹特效
+                NvsVideoFx fx = clip.appendPackagedFx(name);
+                fx.setFilterIntensity(fxIntensity);
+            }
+        }
+
+        return true;
+    }
+
     public static boolean applyTheme(NvsTimeline timeline, String themeId) {
         if(timeline == null)
             return false;

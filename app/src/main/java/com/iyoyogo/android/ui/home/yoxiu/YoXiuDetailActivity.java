@@ -249,10 +249,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                     editComment.setHintTextColor(Color.parseColor("#888888"));
                     sendEmoji.setVisibility(View.VISIBLE);
                     imgBrow.setVisibility(View.GONE);
-//                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
-////                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//
-//                    layoutParams.alignWithParent=true;
+
                     RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
                     RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 //                    layoutParams1.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);

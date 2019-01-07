@@ -25,12 +25,10 @@ import java.util.List;
  */
 public class ChannelAdapter extends BaseRecyclerAdapter {
 
-    private int count = 0;
-    private int maxNum = 1;
-    private Context context;
-    private List<ChannelBean.DataBean.ListBean> list;
-    private static ArrayList<String> mSelectImg = new ArrayList<>();
-    private static ArrayList<String> mSelectChannel = new ArrayList<>();
+    private        int                                 count          = 0;
+    private        int                                 maxNum         = 1;
+    private        Context                             context;
+    private        List<ChannelBean.DataBean.ListBean> list;
 
     public ChannelAdapter(Context context, List<ChannelBean.DataBean.ListBean> list) {
         this.context = context;
@@ -55,23 +53,29 @@ public class ChannelAdapter extends BaseRecyclerAdapter {
     }
 
     public ArrayList<String> selectPhoto() {
-        if (!mSelectImg.isEmpty()) {
-            return mSelectImg;
+        ArrayList<String> str=new ArrayList<>();
+        for (ChannelBean.DataBean.ListBean listBean : list) {
+            if (listBean.isChoose()){
+                str.add(listBean.getChannel());
+            }
         }
-        return null;
+        return str;
     }
 
-    public ArrayList<String> selectChannel() {
-        if (!mSelectChannel.isEmpty()) {
-            return mSelectChannel;
+    public ArrayList<Integer> selectChannelIds() {
+        ArrayList<Integer> ids=new ArrayList<>();
+        for (ChannelBean.DataBean.ListBean listBean : list) {
+            if (listBean.isChoose()){
+                ids.add(listBean.getId());
+            }
         }
-        return null;
+        return ids;
     }
 
     private class MyViewHolder extends BaseViewHolder {
         private ImageView mImageSrc;
         private ImageView mImageChoose;
-        private TextView tv_name;
+        private TextView  tv_name;
 
         private MyViewHolder(View itemView) {
             super(itemView);
@@ -80,27 +84,21 @@ public class ChannelAdapter extends BaseRecyclerAdapter {
         @Override
         public void intOnItemChooseCallback(final OnItemChooseCallback chooseCallback, final int position) {
 
-            int id = list.get(position).getId();
-            String filePath = String.valueOf(id);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    count=selectChannelIds().size();
                     if (count < maxNum) {
-                        if (!list.get(position).isChoose() && !mSelectImg.contains(filePath)) {
+                        if (!list.get(position).isChoose()) {
                             mImageChoose.setImageResource(R.mipmap.zp_xz);
-                            mSelectImg.add(filePath);
                             mImageSrc.setColorFilter(Color.parseColor("#77000000"));
-                            mSelectChannel.add(list.get(position).getChannel());
                             list.get(position).setChoose(true);
                             chooseCallback.chooseState(position, true);
-                            count++;
                         } else {
-                            mSelectImg.remove(filePath);
-                            mSelectChannel.remove(list.get(position).getChannel());
                             mImageChoose.setImageResource(R.color.transparent);
                             list.get(position).setChoose(false);
                             chooseCallback.chooseState(position, false);
-                            count--;
+                            mImageSrc.setColorFilter(Color.TRANSPARENT);
                         }
 
                     } else { //count >= maxNum
@@ -109,6 +107,7 @@ public class ChannelAdapter extends BaseRecyclerAdapter {
                         } else {
                             mImageChoose.setImageResource(R.color.transparent);
                             list.get(position).setChoose(false);
+                            mImageSrc.setColorFilter(Color.TRANSPARENT);
                             chooseCallback.chooseState(position, false);
                         }
                     }
@@ -118,8 +117,8 @@ public class ChannelAdapter extends BaseRecyclerAdapter {
         }
 
         @Override
-        public void initOnItemClickListener(OnItemChooseCallback chooseCallback,final OnRecyclerViewItemClickListener listener, final int position) {
-            int id = list.get(position).getId();
+        public void initOnItemClickListener(OnItemChooseCallback chooseCallback, final OnRecyclerViewItemClickListener listener, final int position) {
+            int    id       = list.get(position).getId();
             String filePath = String.valueOf(id);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -147,8 +146,10 @@ public class ChannelAdapter extends BaseRecyclerAdapter {
         public void onBind(int position) {
             if (list.get(position).isChoose()) {
                 mImageChoose.setImageResource(R.mipmap.zp_xz);
+                mImageSrc.setColorFilter(Color.parseColor("#77000000"));
             } else {
                 mImageChoose.setImageResource(R.color.transparent);
+                mImageSrc.setColorFilter(Color.TRANSPARENT);
             }
             tv_name.setText(list.get(position).getChannel());
             Glide.with(context)

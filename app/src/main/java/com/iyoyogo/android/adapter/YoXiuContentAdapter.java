@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,30 +111,41 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
                 String user_id = SpUtils.getString(context, "user_id", null);
                 String user_token = SpUtils.getString(context, "user_token", null);
 
+               /* Drawable like = getResources().getDrawable(
+                        R.mipmap.xihuan_xiangqing);
+                Drawable liked = getResources().getDrawable(
+                        R.mipmap.yixihuan_xiangqing);*/
                 String count_praise = mList.get(position).getCount_praise();
                 int count_praises = Integer.parseInt(count_praise);
-                mList.get(position).setIs_my_like(mList.get(position).getIs_my_like() == 1 ? 0 : 1);
-                if (mList.get(position).getIs_my_like() == 1) {
-                    count_praises += 1;
-                    mList.get(position).setCount_praise(count_praise);
-                } else {
+                viewHolder.img_like.setImageResource(mList.get(position).getIs_my_like() > 0 ? R.mipmap.yixihuan_xiangqing : R.mipmap.datu_xihuan);
+
+                Log.d("Test", "dataBeans.get(0).getIs_my_like():" + mList.get(position).getIs_my_like());
+                if (mList.get(position).getIs_my_like() > 0) {
+                    //由喜欢变为不喜欢，亮变暗
+                    viewHolder.img_like.setImageResource(R.mipmap.datu_xihuan);
                     count_praises -= 1;
-                    mList.get(position).setCount_praise(count_praise);
+                    //设置点赞的数量
+                    viewHolder.num_like.setText(count_praises + "");
+                    mList.get(position).setIs_my_like(0);
+                    mList.get(position).setCount_praise(String.valueOf(count_praises));
+
+                } else {
+                    //由不喜欢变为喜欢，暗变亮
+                    viewHolder.img_like.setImageResource(R.mipmap.yixihuan_xiangqing);
+                    count_praises += 1;
+                    //设置点赞的数量
+                    viewHolder.num_like.setText(count_praises + "");
+                    mList.get(position).setIs_my_like(1);
+                    mList.get(position).setCount_praise(String.valueOf(count_praises));
 
                 }
-                viewHolder.num_like.setText(count_praises + "");
-                viewHolder.img_like.setImageResource(mList.get(position).getIs_my_like() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        DataManager.getFromRemote().praise(user_id, user_token, 0, mList.get(position).getId())
-                                .subscribe(new Consumer<BaseBean>() {
-                                    @Override
-                                    public void accept(BaseBean baseBean) throws Exception {
-                                    }
-                                });
-                    }
-                }).start();
+                DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getId(), 0)
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                            }
+                        });
+
             }
         });
     }

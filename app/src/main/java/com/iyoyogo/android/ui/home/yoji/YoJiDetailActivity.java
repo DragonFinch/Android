@@ -248,7 +248,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     protected void setSetting() {
         super.setSetting();
-//        StatusBarUtil.setTransparent(YoJiDetailActivity.this);
+
     }
 
     @Override
@@ -259,18 +259,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     protected void initView() {
         super.initView();
-
-      /*  RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
-//                    layoutParams.setMargins(0, DensityUtil.dp2px(YoXiuDetailActivity.this, 20), 0, 0);
-        editComment.setLayoutParams(layoutParams);
-        tvCollection.setVisibility(View.VISIBLE);
-        tvLike.setVisibility(View.VISIBLE);
-        editComment.setHint("再不评论 , 你会被抓去写作业的~");
-        editComment.setHintTextColor(Color.parseColor("#888888"));
-        sendEmoji.setVisibility(View.GONE);
-        sendEmoji.setVisibility(View.GONE);
-        imgBrow.setVisibility(View.VISIBLE);*/
-        mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+       /* mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
                 Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
                 -1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
         mShowAction.setDuration(500);
@@ -278,7 +267,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
                 Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
                 -1.0f);
-        mHiddenAction.setDuration(500);
+        mHiddenAction.setDuration(500);*/
         Intent intent = getIntent();
         yo_id = intent.getIntExtra("yo_id", 0);
         setSupportActionBar(toolbar);
@@ -301,16 +290,16 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                     imgBack.setImageResource(R.mipmap.fanhui_black);
                     imgShare.setImageResource(R.mipmap.fenxiang_hei);
                     imgMessage.setVisibility(View.VISIBLE);
-                    imgMessage.startAnimation(mShowAction);
-                    messageTrip.startAnimation(mShowAction);
-                    realtive.startAnimation(mHiddenAction);
+//                    imgMessage.startAnimation(mShowAction);
+//                    messageTrip.startAnimation(mShowAction);
+//                    realtive.startAnimation(mHiddenAction);
                     messageTrip.setVisibility(View.VISIBLE);
                     realtive.setVisibility(View.GONE);
 //                    StatusBarUtil.setStatusBarColor(YoJiDetailActivity.this,Color.parseColor("#ffffff"));
                 }
                 if (expendedtag == 2 && verticalOffset == 0) {
 //                    statusbar();
-                    StatusBarUtil.setTransparent(YoJiDetailActivity.this);
+//                    StatusBarUtil.setTransparent(YoJiDetailActivity.this);
                     //展开监听
                     MIUISetStatusBarLightMode(getWindow(), true);
                     imgBack.setImageResource(R.mipmap.back_icon);
@@ -318,9 +307,9 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                     imgMessage.setVisibility(View.GONE);
                     messageTrip.setVisibility(View.GONE);
                     realtive.setVisibility(View.VISIBLE);
-                    imgMessage.startAnimation(mHiddenAction);
-                    messageTrip.startAnimation(mHiddenAction);
-                    realtive.startAnimation(mShowAction);
+//                    imgMessage.startAnimation(mHiddenAction);
+//                    messageTrip.startAnimation(mHiddenAction);
+//                    realtive.startAnimation(mShowAction);
 //                    StatusBarUtil.setStatusBarColor(YoJiDetailActivity.this,Color.parseColor("#00000000"));
 
                 }
@@ -469,7 +458,10 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-
+        user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
+        user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
+        mPresenter.getYoJiDetail(user_id, user_token, yo_id);
+        mPresenter.getCommentList(user_id, user_token, 1, yo_id, 0);
 
 
     }
@@ -477,10 +469,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     protected void onResume() {
         super.onResume();
-        user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
-        user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
-        mPresenter.getYoJiDetail(user_id, user_token, yo_id);
-        mPresenter.getCommentList(user_id, user_token, 1, yo_id, 0);
+
     }
 
     @OnClick({R.id.add_attention, R.id.img_back, R.id.img_share, R.id.tv_attention, R.id.tv_load_more, R.id.tv_comment, R.id.tv_like, R.id.tv_collection, R.id.tv_more_comment})
@@ -491,7 +480,6 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 break;
             case R.id.add_attention:
                 mPresenter.getYoJiDetail(user_id, user_token, yo_id);
-
                 mPresenter.addAttention(user_id, user_token, Integer.parseInt(yo_attention_id));
                 break;
             case R.id.img_share:
@@ -502,20 +490,20 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 mPresenter.addAttention(user_id, user_token, Integer.parseInt(yo_attention_id));
                 break;
             case R.id.tv_load_more:
-                if (tvLoadMore.getText().toString().trim().equals("展开全部")){
+                if (tvLoadMore.getText().toString().trim().equals("展开全部")) {
 
                     tvLoadMore.setText("收起全部");
                     //为自定义方法--控制另外一个变量
                     yoJiDetailAdapter.changetShowDelImage(false);
+//                    mPresenter.getYoJiDetail(user_id, user_token, yo_id);
 
-
-                }else {
+                } else {
 
                     tvLoadMore.setText("展开全部");
                     //为自定义方法--控制另外一个变量
                     yoJiDetailAdapter.changetShowDelImage(true);
+//                    mPresenter.getYoJiDetail(user_id, user_token, yo_id);
                 }
-
 
 
                 break;
@@ -660,7 +648,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         if (TextUtils.isEmpty(desc)) {
             tvDesc.setVisibility(View.GONE);
         } else {
-            tvDesc.setText("\u3000\u3000"+desc);
+            tvDesc.setText("\u3000\u3000" + desc);
         }
         yo_user_id = data.getYo_id();
         count_collect = data.getCount_collect();

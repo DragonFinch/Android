@@ -47,6 +47,7 @@ import com.iyoyogo.android.adapter.PublishYoJiAdapter;
 import com.iyoyogo.android.app.AeDITEXT;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.PublishSucessBean;
 import com.iyoyogo.android.bean.yoji.publish.MessageBean;
 import com.iyoyogo.android.bean.yoji.publish.PublishYoJiBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
@@ -850,10 +851,15 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         }
     }
 
+//
+//    @Override
+//    public void publishYoJiSuccess(BaseBean baseBean) {
+//        Toast.makeText(this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
-    public void publishYoJiSuccess(BaseBean baseBean) {
-        Toast.makeText(this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+    public void publishYoJiSuccess(PublishSucessBean baseBean) {
+
     }
 
     @Override
@@ -866,6 +872,11 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
     @Override
     public void onYoJiData(PublishYoJiBean data) {
+
+    }
+
+    @Override
+    public void onError(String message) {
 
     }
 

@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,21 +38,27 @@ import com.google.gson.Gson;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.Bean;
 import com.iyoyogo.android.adapter.NewPublishYoJiAdapter;
+import com.iyoyogo.android.app.Constants;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.PublishSucessBean;
 import com.iyoyogo.android.bean.yoji.publish.MessageBean;
 import com.iyoyogo.android.bean.yoji.publish.PublishYoJiBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
 import com.iyoyogo.android.contract.PublishYoJiContract;
+import com.iyoyogo.android.contract.ShareContract;
 import com.iyoyogo.android.model.RObject;
 import com.iyoyogo.android.net.OssService;
 import com.iyoyogo.android.presenter.PublishYoJiPresenter;
+import com.iyoyogo.android.presenter.SharePresenter;
 import com.iyoyogo.android.ui.common.SearchActivity;
 import com.iyoyogo.android.ui.home.yoxiu.ChannelActivity;
 import com.iyoyogo.android.ui.home.yoxiu.MoreTopicActivity;
 import com.iyoyogo.android.ui.home.yoxiu.NewPublishYoXiuActivity;
 import com.iyoyogo.android.ui.home.yoxiu.PublishOpenPopup;
+import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.utils.TextChangeListener;
 import com.iyoyogo.android.utils.util.DateUtils;
 import com.iyoyogo.android.view.LoadingDialog;
@@ -61,6 +68,11 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.PictureFileUtils;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -71,64 +83,66 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> implements BaseQuickAdapter.OnItemChildClickListener, PublishYoJiContract.View, TextChangeListener.TextChange, OssService.UploadImageListener, PublishOpenPopup.OpenPopupClick {
+public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> implements BaseQuickAdapter.OnItemChildClickListener, PublishYoJiContract.View, TextChangeListener.TextChange, OssService.UploadImageListener, PublishOpenPopup.OpenPopupClick, ShareContract.View {
 
     @BindView(R.id.tv_title)
-    TextView mTvTitle;
+    TextView      mTvTitle;
     @BindView(R.id.iv_back)
-    ImageView mIvBack;
+    ImageView     mIvBack;
     @BindView(R.id.tv_publish)
-    TextView mTvPublish;
+    TextView      mTvPublish;
     @BindView(R.id.iv_cover)
-    ImageView mIvCover;
+    ImageView     mIvCover;
     @BindView(R.id.et_title)
-    EditText mEtTitle;
+    EditText      mEtTitle;
     @BindView(R.id.tv_title_length)
-    TextView mTvTitleLength;
+    TextView      mTvTitleLength;
     @BindView(R.id.et_info)
-    REditText mEtInfo;
+    REditText     mEtInfo;
     @BindView(R.id.tv_info_length)
-    TextView mTvInfoLength;
+    TextView      mTvInfoLength;
     @BindView(R.id.flex_topic)
     FlexboxLayout mFlexboxLayout;
     @BindView(R.id.et_money)
-    EditText mEtMoney;
+    EditText      mEtMoney;
     @BindView(R.id.recyclerView)
-    RecyclerView mRecyclerView;
+    RecyclerView  mRecyclerView;
     @BindView(R.id.flex_channel)
     FlexboxLayout mFlexChannel;
     @BindView(R.id.tv_channel)
-    TextView mTvChannel;
+    TextView      mTvChannel;
     @BindView(R.id.rbtn_friend_circle)
-    RadioButton mRbtnFriendCircle;
+    RadioButton   mRbtnFriendCircle;
     @BindView(R.id.rbtn_weibo)
-    RadioButton mRbtnWeibo;
+    RadioButton   mRbtnWeibo;
     @BindView(R.id.rbtn_qq)
-    RadioButton mRbtnQq;
+    RadioButton   mRbtnQq;
     @BindView(R.id.rbtn_wechat)
-    RadioButton mRbtnWechat;
+    RadioButton   mRbtnWechat;
+    @BindView(R.id.rg_share)
+    RadioGroup    mRgShare;
     @BindView(R.id.tv_publish_type)
-    TextView mTvPublishType;
+    TextView      mTvPublishType;
     @BindView(R.id.ll_option)
-    LinearLayout mLlOption;
+    LinearLayout  mLlOption;
 
     private List<PublishYoJiBean.DataBean.ListBean> mData;
 
 
     private NewPublishYoJiAdapter mAdapter;
 
-    private int optionIndex = 0;
+    private int    optionIndex = 0;
     private String userId;
     private String token;
 
     private int uploadIndex = 0;
-    private int uploadSize = 0;
+    private int uploadSize  = 0;
 
     private OssService mOssService;
 
     private int id = 0;
 
-    private String coverUrl = "";
+    private String coverUrl  = "";
     private String coverPath = "";
 
     private int isOpen = 1;
@@ -137,11 +151,14 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
 
     private List<HotTopicBean.DataBean.ListBean> topicData;
 
-    private List<Integer> channel_arrays;
-    private ArrayList<String> channel_list;
-    private PopupWindow popMenu;
+    private ArrayList<Integer> channel_arrays;
+    private ArrayList<String>  channel_list;
+    private PopupWindow        popMenu;
 
     private PublishOpenPopup mPublishOpenPopup;
+    private int              oldTextLength = 0;
+
+    private SharePresenter mSharePresenter;
 
     @Override
     protected int getLayoutId() {
@@ -150,7 +167,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
 
     @Override
     protected void initView() {
-//        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
+        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new NewPublishYoJiAdapter(R.layout.item_publish_yo_ji);
         mAdapter.setOnItemChildClickListener(this);
@@ -167,6 +184,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
         mData = new ArrayList<>();
+        mSharePresenter = new SharePresenter(this);
         mOssService = new OssService(this);
         userId = SpUtils.getString(this, "user_id", null);
         token = SpUtils.getString(this, "user_token", null);
@@ -174,8 +192,10 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
 
         id = getIntent().getIntExtra("id", 0);
         if (id == 0) {
-            List<LocalMedia> localMedia = PictureSelector.obtainMultipleResult(getIntent());
-            addDataToRecycler(localMedia);
+            List<LocalMedia>                  localMedia = PictureSelector.obtainMultipleResult(getIntent());
+            PublishYoJiBean.DataBean.ListBean bean       = new PublishYoJiBean.DataBean.ListBean();
+            bean.setLocalMedia(localMedia);
+            mData.add(bean);
             mAdapter.setNewData(mData);
             coverPath = TextUtils.isEmpty(localMedia.get(0).getCompressPath()) ? localMedia.get(0).getPath() : localMedia.get(0).getCompressPath();
             Glide.with(this).load(coverPath).apply(new RequestOptions().centerCrop()).into(mIvCover);
@@ -194,7 +214,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
-                finish();
+                onBackPressed();
                 break;
             case R.id.tv_change_image:
                 PictureSelector.create(this)
@@ -238,8 +258,8 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
                 mPublishOpenPopup.showPopupWindow(mLlOption);
                 break;
             case R.id.ll_channel:
-                Intent intent = new Intent(this, ChannelActivity.class);
-                startActivityForResult(intent, 1);
+                startActivityForResult(new Intent(this, ChannelActivity.class)
+                        .putIntegerArrayListExtra("data", channel_arrays), 1);
                 break;
         }
     }
@@ -280,8 +300,10 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
             data.setPosition_areas(datum.getPosition_areas());
             data.setLogos((ArrayList<String>) datum.getLogos());
             List<Integer> ids = new ArrayList<>();
-            for (PublishYoJiBean.DataBean.ListBean.LabelsBean labelsBean : datum.getLabels()) {
-                ids.add(labelsBean.getLabel_id());
+            if (datum.getLabels() != null && datum.getLabels().size() > 0) {
+                for (PublishYoJiBean.DataBean.ListBean.LabelsBean labelsBean : datum.getLabels()) {
+                    ids.add(labelsBean.getLabel_id());
+                }
             }
             data.setLabel_ids(ids);
             list.add(data);
@@ -395,16 +417,15 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
             switch (requestCode) {
                 case PictureConfig.CHOOSE_REQUEST:
                     List<LocalMedia> localMedia = PictureSelector.obtainMultipleResult(data);
-                    addDataToRecycler(localMedia);
+                    PublishYoJiBean.DataBean.ListBean bean = new PublishYoJiBean.DataBean.ListBean();
+                    bean.setLocalMedia(localMedia);
+                    mData.add(optionIndex + 1, bean);
                     mAdapter.notifyDataSetChanged();
                     break;
 
                 case 100:
                     List<LocalMedia> local = PictureSelector.obtainMultipleResult(data);
-                    mData.get(optionIndex).getLogos().clear();
-                    for (LocalMedia media : local) {
-                        mData.get(optionIndex).getLogos().add(TextUtils.isEmpty(media.getCompressPath()) ? media.getPath() : media.getCompressPath());
-                    }
+                    mData.get(optionIndex).setLocalMedia(local);
                     mAdapter.notifyItemChanged(optionIndex);
                     break;
                 case 200:
@@ -418,7 +439,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
 
             if (requestCode == 2 && resultCode == 6) {
                 String topicName = data.getStringExtra("topic");
-                int type_id = data.getIntExtra("type_id", 0);
+                int    type_id   = data.getIntExtra("type_id", 0);
 
                 HotTopicBean.DataBean.ListBean bean = new HotTopicBean.DataBean.ListBean();
                 bean.setId(type_id);
@@ -430,8 +451,8 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
                 object.setObjectText(topicName);
                 mEtInfo.setObject(object);
             } else if (requestCode == 1 && resultCode == 3) {
-                double latitude = data.getDoubleExtra("latitude", 0.0);
-                String title = data.getStringExtra("title");
+                double latitude  = data.getDoubleExtra("latitude", 0.0);
+                String title     = data.getStringExtra("title");
                 double longitude = data.getDoubleExtra("longitude", 0.0);
                 mData.get(optionIndex).setPosition_areas(data.getStringExtra("area"));
                 mData.get(optionIndex).setPosition_address(data.getStringExtra("address"));
@@ -440,8 +461,8 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
                 mData.get(optionIndex).setLng(longitude + "");
                 mAdapter.notifyItemChanged(optionIndex);
             } else if (requestCode == 1 && resultCode == 2) {
-                double latitude = data.getDoubleExtra("latitude", 0.0);
-                String title = data.getStringExtra("title");
+                double latitude  = data.getDoubleExtra("latitude", 0.0);
+                String title     = data.getStringExtra("title");
                 double longitude = data.getDoubleExtra("longitude", 0.0);
                 mData.get(optionIndex).setPosition_areas(data.getStringExtra("area"));
                 mData.get(optionIndex).setPosition_address(data.getStringExtra("address"));
@@ -450,8 +471,8 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
                 mData.get(optionIndex).setLng(longitude + "");
                 mAdapter.notifyItemChanged(optionIndex);
             } else if (requestCode == 1 && resultCode == 55) {
-                ArrayList<Bean> sign_list = (ArrayList<Bean>) data.getSerializableExtra("sign_list");
-                List<PublishYoJiBean.DataBean.ListBean.LabelsBean> list = new ArrayList<>();
+                ArrayList<Bean>                                    sign_list = (ArrayList<Bean>) data.getSerializableExtra("sign_list");
+                List<PublishYoJiBean.DataBean.ListBean.LabelsBean> list      = new ArrayList<>();
                 for (Bean bean : sign_list) {
                     PublishYoJiBean.DataBean.ListBean.LabelsBean labelsBean = new PublishYoJiBean.DataBean.ListBean.LabelsBean();
                     labelsBean.setLabel(bean.getLabel());
@@ -462,12 +483,13 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
                 mData.get(optionIndex).setLabels(list);
                 mAdapter.notifyItemChanged(optionIndex);
             } else if (requestCode == 1 && resultCode == 1) {
+                mFlexChannel.removeAllViews();
                 channel_arrays = data.getIntegerArrayListExtra("channel_array");
                 channel_list = data.getStringArrayListExtra("channel_list");
                 if (channel_list != null && channel_list.size() > 0) {
                     for (String s : channel_list) {
-                        View view = LayoutInflater.from(this).inflate(R.layout.item_publish_channel, null);
-                        TextView tv = view.findViewById(R.id.tv);
+                        View     view = LayoutInflater.from(this).inflate(R.layout.item_publish_channel, null);
+                        TextView tv   = view.findViewById(R.id.tv);
                         tv.setText(s);
                         mFlexChannel.addView(view);
                     }
@@ -475,12 +497,6 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
                 mTvChannel.setVisibility(channel_list != null && channel_list.size() > 0 ? View.GONE : View.VISIBLE);
             }
         }
-    }
-
-    private void addDataToRecycler(List<LocalMedia> localMedia) {
-        PublishYoJiBean.DataBean.ListBean bean = new PublishYoJiBean.DataBean.ListBean();
-        bean.setLocalMedia(localMedia);
-        mData.add(bean);
     }
 
     public void selectTime(int position, int type) {
@@ -517,9 +533,67 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
     }
 
     @Override
-    public void publishYoJiSuccess(BaseBean baseBean) {
+    public void publishYoJiSuccess(PublishSucessBean baseBean) {
         LoadingDialog.get().close();
-        finish();
+        if (saveType == 1) {
+            switch (mRgShare.getCheckedRadioButtonId()) {
+                case R.id.rbtn_friend_circle:
+                    shareWeb(baseBean.getData().getYo_id(), SHARE_MEDIA.WEIXIN_CIRCLE);
+                    break;
+                case R.id.rbtn_weibo:
+                    shareWeb(baseBean.getData().getYo_id(), SHARE_MEDIA.SINA);
+                    break;
+                case R.id.rbtn_qq:
+                    shareWeb(baseBean.getData().getYo_id(), SHARE_MEDIA.QQ);
+                    break;
+                case R.id.rbtn_wechat:
+                    shareWeb(baseBean.getData().getYo_id(), SHARE_MEDIA.WEIXIN);
+                    break;
+                default:
+                    finish();
+                    break;
+            }
+        } else {
+            finish();
+        }
+    }
+
+    private void shareWeb(String id, SHARE_MEDIA share_media) {
+        /*80002/yo_id/4143*/
+        String url = Constants.BASE_URL + "home/share/details_yoj/share_user_id/" + userId + "/yo_id/" + id;
+        UMWeb  web = new UMWeb(url);
+        web.setTitle(mEtTitle.getText().toString());//标题
+        UMImage thumb = new UMImage(getApplicationContext(), coverUrl);
+        web.setThumb(thumb);  //缩略图
+        if (!TextUtils.isEmpty(mEtInfo.getText().toString())) {
+            web.setDescription(mEtInfo.getText().toString());//描述
+        }
+
+        new ShareAction(NewPublishYoJiActivity.this)
+                .withMedia(web)
+                .setPlatform(share_media)
+                .setCallback(new UMShareListener() {
+                    @Override
+                    public void onStart(SHARE_MEDIA share_media) {
+
+                    }
+
+                    @Override
+                    public void onResult(SHARE_MEDIA share_media) {
+                        mSharePresenter.share(userId, token, id);
+                    }
+
+                    @Override
+                    public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+                        finish();
+                    }
+
+                    @Override
+                    public void onCancel(SHARE_MEDIA share_media) {
+                        finish();
+                    }
+                })
+                .share();
     }
 
     @Override
@@ -531,8 +605,8 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
     private void addTopic() {
         mFlexboxLayout.removeAllViews();
         for (HotTopicBean.DataBean.ListBean bean : topicData) {
-            View view = LayoutInflater.from(this).inflate(R.layout.item_public_yo_ji_topic, null);
-            TextView tv = view.findViewById(R.id.tv);
+            View     view = LayoutInflater.from(this).inflate(R.layout.item_public_yo_ji_topic, null);
+            TextView tv   = view.findViewById(R.id.tv);
             tv.setText(bean.getTopic());
             view.setOnClickListener(v -> {
                 //话题对象，可继承此类实现特定的业务逻辑
@@ -558,8 +632,8 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
         for (PublishYoJiBean.DataBean.ChannelsBean channelsBean : data.getData().getChannels()) {
             channel_list.add(channelsBean.getChannel());
             channel_arrays.add(channelsBean.getChannel_id());
-            View view = LayoutInflater.from(this).inflate(R.layout.item_publish_channel, null);
-            TextView tv = view.findViewById(R.id.tv);
+            View     view = LayoutInflater.from(this).inflate(R.layout.item_publish_channel, null);
+            TextView tv   = view.findViewById(R.id.tv);
             tv.setText(channelsBean.getChannel());
             mFlexChannel.addView(view);
         }
@@ -574,6 +648,11 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
     }
 
     @Override
+    public void onError(String message) {
+        LoadingDialog.get().close();
+    }
+
+    @Override
     public void onTextChange(View view, String s) {
         switch (view.getId()) {
             case R.id.et_title:
@@ -581,6 +660,14 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
                 break;
             case R.id.et_info:
                 mTvInfoLength.setText(s.length() + "/200");
+                if (!TextUtils.isEmpty(s) && s.substring(s.length() - 1, s.length()).equals("#") && s.length() - oldTextLength == 1) {
+                    startActivityForResult(new Intent(this, MoreTopicActivity.class).putExtra("type", 2), 2);
+                    mEtInfo.setText(s.substring(0, s.length() - 1));
+                    mEtInfo.setSelection(mEtTitle.getText().length());
+                    oldTextLength = s.length() - 1;
+                } else {
+                    oldTextLength = s.length();
+                }
                 break;
         }
     }
@@ -612,7 +699,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
 
     private void setTopic(String content) {
         Pattern TAG_PATTERN = Pattern.compile("#([^\\#|.]+)#");
-        Matcher m = TAG_PATTERN.matcher(content);
+        Matcher m           = TAG_PATTERN.matcher(content);
         while (m.find()) {
             String tagNameMatch = m.group();
             mEtInfo.setText(mEtInfo.getText().toString().replace(tagNameMatch, ""));
@@ -645,10 +732,10 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
         popMenu.setBackgroundDrawable(dw);//设置mPopupWindow背景颜色或图片，这里设置半透明
         popMenu.setOutsideTouchable(true); //设置可以通过点击mPopupWindow外部关闭mPopupWindow
 //        popMenu.setAnimationStyle(R.style.PopupAnimationAmount);//设置mPopupWindow的进出动画
-        Button popup_no_id = pop_view.findViewById(R.id.popup_no_id);
-        Button popup_yes_id = pop_view.findViewById(R.id.popup_yes_id);
+        Button   popup_no_id    = pop_view.findViewById(R.id.popup_no_id);
+        Button   popup_yes_id   = pop_view.findViewById(R.id.popup_yes_id);
         TextView pop_content_id = pop_view.findViewById(R.id.pop_content_id);
-        TextView pop_title_id = pop_view.findViewById(R.id.pop_title_id);
+        TextView pop_title_id   = pop_view.findViewById(R.id.pop_title_id);
         pop_title_id.setText("码字「不易」");
         pop_content_id.setText("退出前是否要保存到草稿？");
         popup_no_id.setText("放弃");
@@ -702,5 +789,10 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
     public void onOpenClick(int type, String typeName) {
         mTvPublishType.setText(typeName);
         isOpen = type;
+    }
+
+    @Override
+    public void onShareSuccess(BaseBean data) {
+
     }
 }

@@ -495,9 +495,7 @@
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_3"
-        android:layout_marginLeft="20dp"
         android:layout_marginTop="@dimen/dp_15"
-        android:layout_marginRight="20dp"
         android:background="#f1f1f1"
         />
 </LinearLayout>

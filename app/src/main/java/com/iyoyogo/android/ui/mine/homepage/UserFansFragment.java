@@ -48,6 +48,7 @@ public class UserFansFragment extends BaseFragment<HisHansContract.Presenter> im
     private String user_id;
     private String user_token;
     private String yo_user_id;
+    private TextView btu_guanzhu;
 
     public UserFansFragment() {
         // Required empty public constructor
@@ -119,22 +120,22 @@ public class UserFansFragment extends BaseFragment<HisHansContract.Presenter> im
                 @Override
                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 //                setUserVisibleHint(true);
-                    TextView btu_guanzhu = view.findViewById(R.id.tv_guanzhu);
-                    int status = list.get(position).getStatus();
-                    if (status == 0) {//未关注
+                    btu_guanzhu = view.findViewById(R.id.tv_guanzhu);
+//                    int status = list.get(position).getStatus();
+//                    if (status == 0) {//未关注
                         mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
-                        btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
-                        btu_guanzhu.setText("已关注");
-                        btu_guanzhu.setTextColor(Color.parseColor("#888888"));
-                    }
-                    if (status == 1) {//已关注
-                        mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
-                        btu_guanzhu.setBackgroundResource(R.drawable.bg_collection);
-                        btu_guanzhu.setText("+关注");
-                        btu_guanzhu.setTextColor(Color.parseColor("#ffffff"));
-                    }
-                    mPresenter.getHisHans(user_id, user_token, yo_user_id, 1 + "", 20 + "");
-                    adapter.notifyDataSetChanged();
+//                        btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
+//                        btu_guanzhu.setText("已关注");
+//                        btu_guanzhu.setTextColor(Color.parseColor("#888888"));
+//                    }
+//                    if (status == 1) {//已关注
+//                        mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
+//                        btu_guanzhu.setBackgroundResource(R.drawable.bg_collection);
+//                        btu_guanzhu.setText("+关注");
+//                        btu_guanzhu.setTextColor(Color.parseColor("#ffffff"));
+//                    }
+//                    mPresenter.getHisHans(user_id, user_token, yo_user_id, 1 + "", 20 + "");
+//                    adapter.notifyDataSetChanged();
                 }
             });
         }
@@ -142,6 +143,15 @@ public class UserFansFragment extends BaseFragment<HisHansContract.Presenter> im
 
     @Override
     public void addAttentionSuccess(AttentionBean attentionBean) {
-
+        int status = attentionBean.getData().getStatus();
+        if (status == 1) {
+            btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
+            btu_guanzhu.setText("已关注");
+            btu_guanzhu.setTextColor(Color.parseColor("#888888"));
+        }else {
+            btu_guanzhu.setBackgroundResource(R.drawable.bg_collection);
+            btu_guanzhu.setText("+关注");
+            btu_guanzhu.setTextColor(Color.parseColor("#ffffff"));
+        }
     }
 }

@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Gravity;
@@ -37,23 +38,32 @@ import com.alibaba.sdk.android.oss.OSSClient;
 import com.alibaba.sdk.android.oss.ServiceException;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
+import com.alibaba.sdk.android.oss.common.utils.OSSUtils;
 import com.alibaba.sdk.android.oss.model.ObjectMetadata;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.bigkoo.pickerview.TimePickerView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.mine.GetUserInfoBean;
 import com.iyoyogo.android.contract.EditPersonalContract;
+import com.iyoyogo.android.net.OssService;
 import com.iyoyogo.android.presenter.EditPersonalPresenter;
 import com.iyoyogo.android.ui.common.LikePrefencesActivity;
+import com.iyoyogo.android.ui.home.HomeFragment;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.view.LoadingDialog;
 import com.iyoyogo.android.widget.CircleImageView;
 import com.iyoyogo.android.widget.flow.FlowLayout;
 import com.iyoyogo.android.widget.flow.TagAdapter;
 import com.iyoyogo.android.widget.flow.TagFlowLayout;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -72,109 +82,78 @@ import butterknife.ButterKnife;
 /**
  * 修改用户信息
  */
-public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContract.Presenter> implements EditPersonalContract.View {
+public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContract.Presenter> implements EditPersonalContract.View, OssService.UploadImageListener {
     private static String path = "/sdcard/myHead/";//sd路径
     @BindView(R.id.back_iv_id)
-    ImageView backIvId;
+    ImageView       backIvId;
     @BindView(R.id.preservation_tv_id)
-    TextView preservationTvId;
+    TextView        preservationTvId;
     @BindView(R.id.head_im_id)
     CircleImageView headImId;
     @BindView(R.id.nick_name)
-    EditText nickName;
+    EditText        nickName;
     @BindView(R.id.girl)
-    RadioButton girl;
+    RadioButton     girl;
     @BindView(R.id.boy)
-    RadioButton boy;
+    RadioButton     boy;
     @BindView(R.id.group_sex)
-    RadioGroup groupSex;
+    RadioGroup      groupSex;
     @BindView(R.id.brith_tv_id)
-    TextView brithTvId;
+    TextView        brithTvId;
     @BindView(R.id.brith_rl_id)
-    RelativeLayout brithRlId;
+    RelativeLayout  brithRlId;
     @BindView(R.id.tv_start_seat)
-    TextView tvStartSeat;
+    TextView        tvStartSeat;
     @BindView(R.id.tv_interest)
-    TextView tvInterest;
+    TextView        tvInterest;
     @BindView(R.id.flow_interest)
-    TagFlowLayout flow_interest;
+    TagFlowLayout   flow_interest;
     @BindView(R.id.tv_phone)
-    TextView tvPhone;
+    TextView        tvPhone;
     @BindView(R.id.city_tv_id)
-    TextView cityTvId;
+    TextView        cityTvId;
     @BindView(R.id.city_rl_id)
-    RelativeLayout cityRlId;
+    RelativeLayout  cityRlId;
     @BindView(R.id.user_id)
-    TextView userId;
+    TextView        userId;
     @BindView(R.id.main_llayout_id)
-    LinearLayout mainLlayoutId;
+    LinearLayout    mainLlayoutId;
     @BindView(R.id.interest_layout)
-    RelativeLayout interestLayout;
+    RelativeLayout  interestLayout;
 
-    private RelativeLayout relativeLayout;
-    private TextView textView;
-    private RelativeLayout cityLayout;
-    private TextView citytextView;
-    private TextView preser;
-    private View pop_view;
-    private PopupWindow popMenu;
+    private RelativeLayout  relativeLayout;
+    private TextView        textView;
+    private RelativeLayout  cityLayout;
+    private TextView        citytextView;
+    private TextView        preser;
+    private View            pop_view;
+    private PopupWindow     popMenu;
     private CircleImageView headimage;
     String url;
-    private static final int ACTION_TYPE_PHOTO = 0;
-    private final int CAMERA = 10;
-    private final int ALBUM = 20;
-    private final int CUPREQUEST = 50;
-    private String picPath;
-    private File mOutImage;
-    private Uri mImageUri;
-    private Uri uritempFile;
+    private static final int    ACTION_TYPE_PHOTO = 0;
+    private final        int    CAMERA            = 10;
+    private final        int    ALBUM             = 20;
+    private final        int    CUPREQUEST        = 50;
+    private              String picPath;
+    private              File   mOutImage;
+    private              Uri    mImageUri;
+    private              Uri    uritempFile;
 
     // 声明PopupWindow
-    private PopupWindow popupWindow;
+    private PopupWindow        popupWindow;
     // 声明PopupWindow对应的视图
-    private View popupView;
-    private String sex = "女";
+    private View               popupView;
+    private String             sex = "女";
     // 声明平移动画
     private TranslateAnimation animation;
-    private ImageView back;
-    private String user_id;
-    private String user_token;
-    private File file;
-    private String user_logo;
+    private ImageView          back;
+    private String             user_id;
+    private String             user_token;
+    private File               file;
+    private String             user_logo;
 
-    private void setLocalPhoto() {
-        if (popupWindow != null && popupWindow.isShowing()) {
-            popupWindow.dismiss();
-        }
-        Intent albumIntent = new Intent(Intent.ACTION_PICK, null);
-        albumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-        startActivityForResult(albumIntent, ALBUM);
-    }
+    private OssService mOssService;
 
-    private void setMobilePhones() {
-        if (popupWindow != null && popupWindow.isShowing()) {
-            popupWindow.dismiss();
-        }
-        //获得项目缓存路径
-        String sdPath = getExternalCacheDir().getPath();
-        //根据时间随机生成图片名
-        String photoName = new DateFormat().format("yyyyMMddhhmmss",
-                Calendar.getInstance(Locale.CHINA)) + ".jpg";
-        picPath = sdPath + "/" + photoName;
-        mOutImage = new File(picPath);
-        //如果是7.0以上 那么就把uir包装
-        if (Build.VERSION.SDK_INT >= 24) {
-            mImageUri = FileProvider.getUriForFile(EditPersonalMessageActivity.this, "com.test.FileProvider", mOutImage);
-        } else {
-            //否则就用老系统的默认模式
-            mImageUri = Uri.fromFile(mOutImage);
-        }
-        //启动相机
-        Intent intent = new Intent();
-        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
-        startActivityForResult(intent, CAMERA);
-    }
 
     @Override
     protected void initView() {
@@ -285,7 +264,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EditPersonalMessageActivity.this, CityActivity.class);
-                intent.putExtra("name",citytextView.getText().toString());
+                intent.putExtra("name", citytextView.getText().toString());
                 startActivityForResult(intent, 1);
             }
         });
@@ -310,6 +289,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
         back = (ImageView) findViewById(R.id.back_iv_id);
         //返回
 
+        mOssService = new OssService(this);
     }
 
     private void MyTiem() {
@@ -318,8 +298,8 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             public void onTimeSelect(Date date, View v) {
 
                 textView.setText(getTime(date));
-                int month = date.getMonth();
-                int day = date.getDay();
+                int    month    = date.getMonth();
+                int    day      = date.getDay();
                 String starSeat = getStarSeat(month, day);
                 tvStartSeat.setText(starSeat);
             }
@@ -379,6 +359,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             @Override
             public void onDismiss() {
 //                Toast.makeText(getContext(), "退出", Toast.LENGTH_SHORT).show();
+                finish();
                 Toast.makeText(EditPersonalMessageActivity.this, "保存成功!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -389,6 +370,17 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PictureConfig.CHOOSE_REQUEST) {
+            List<LocalMedia> localMedia = PictureSelector.obtainMultipleResult(data);
+            if (localMedia != null && localMedia.size() > 0) {
+                LoadingDialog.get().create(this).show();
+                String path = TextUtils.isEmpty(localMedia.get(0).getCompressPath()) ? localMedia.get(0).getPath() : localMedia.get(0).getCompressPath();
+                Glide.with(this).load(path).apply(new RequestOptions().circleCrop()).into(headimage);
+                mOssService.asyncPutImage(path, -1);
+            }
+            return;
+        }
+
         if (requestCode == 1) {
             if (resultCode == 6) {
                 String city_name = data.getStringExtra("city_name");
@@ -404,8 +396,8 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
                 TagAdapter<String> tagAdapter = new TagAdapter<String>(interestList) {
                     @Override
                     public View getView(FlowLayout parent, int position, String s) {
-                        View contentView = getLayoutInflater().inflate(R.layout.item_interest_person, flow_interest, false);
-                        TextView tv = contentView.findViewById(R.id.tv_interest);
+                        View     contentView = getLayoutInflater().inflate(R.layout.item_interest_person, flow_interest, false);
+                        TextView tv          = contentView.findViewById(R.id.tv_interest);
                         tv.setText(interestList.get(position));
                         return contentView;
                     }
@@ -414,117 +406,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
                 flow_interest.setAdapter(tagAdapter);
             }
         }
-        switch (requestCode) {
-            case 1:
-                if (resultCode == RESULT_OK) {
-                    cropPhoto(data.getData());//裁剪图片
-                }
-                break;
-            case 2:
-                if (resultCode == RESULT_OK) {
-                    File temp = new File(Environment.getExternalStorageDirectory()
-                            + "/head.jpg");
-                    String absolutePath = temp.getAbsolutePath();
-                    uploadYoXiuImage(absolutePath);
-                    cropPhoto(Uri.fromFile(temp));//裁剪图片
-                }
-                break;
-            case 3:
-                if (data != null) {
-                    Bundle extras = data.getExtras();
-                    Bitmap head = extras.getParcelable("data");
-                    if (head != null) {
-                        /**
-                         * 上传服务器代码
-                         */
-                        setPicToView(head);//保存在SD卡中
-                        headimage.setImageBitmap(head);//用ImageView显示出来
-                    }
-                }
-                break;
-            default:
-                break;
-
-        }
-
     }
-
-    public void cropPhoto(Uri uri) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        intent.putExtra("crop", "true");
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        // outputX outputY 是裁剪图片宽高
-        intent.putExtra("outputX", 150);
-        intent.putExtra("outputY", 150);
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent, 3);
-
-    }
-
-    private void setPicToView(Bitmap mBitmap) {
-        String sdStatus = Environment.getExternalStorageState();
-        if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
-            return;
-        }
-        FileOutputStream b = null;
-        File file = new File(path);
-        file.mkdirs();// 创建文件夹
-        String fileName = path + "head.jpg";//图片名字
-        uploadYoXiuImage(fileName);
-        try {
-            b = new FileOutputStream(fileName);
-            mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                //关闭流
-                b.flush();
-                b.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private String uploadYoXiuImage(String path) {
-        final String endpoint = "oss-cn-beijing.aliyuncs.com";
-        final String bucketName = "xzdtest";
-        final String accessKeyId = "LTAInRzzjv0TZcA5";
-        final String accessKeySecret = "jQZXJDYzAU7Ki0DfZvfIoU3PxazsLy";
-        OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(accessKeyId, accessKeySecret);
-        ClientConfiguration conf = new ClientConfiguration();
-        conf.setConnectionTimeout(15 * 1000);
-        conf.setSocketTimeout(15 * 1000);
-        conf.setMaxConcurrentRequest(8);
-        conf.setMaxErrorRetry(2);
-        OSSClient ossClient = new OSSClient(EditPersonalMessageActivity.this, endpoint, credentialProvider, conf);
-        ObjectMetadata objectMeta = new ObjectMetadata();
-        objectMeta.setContentType("image/jpeg");
-        String name = "yoyogo/user_logo/image" + System.currentTimeMillis() + ".jpg";
-        PutObjectRequest put = new PutObjectRequest(bucketName, name, path);
-        put.setMetadata(objectMeta);
-
-
-        try {
-            PutObjectResult result = ossClient.putObject(put);
-            if (result != null && result.getStatusCode() == 200) {
-                url = "https://" + bucketName + "." + endpoint + "/" + name;
-                Log.d("PublishYoXiuActivity", url);
-                Log.d("PublishYoXiuActivity", path);
-            }
-        } catch (ClientException e) {
-            e.printStackTrace();
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
-        return url;
-    }
-
 
     /**
      * 弹出popupWindow更改头像
@@ -558,9 +440,31 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
                 @Override
                 public void onClick(View v) {
                     // 打开系统拍照程
-                    Intent intent1 = new Intent(Intent.ACTION_PICK, null);
-                    intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                    startActivityForResult(intent1, 1);
+//                    Intent intent1 = new Intent(Intent.ACTION_PICK, null);
+//                    intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+//                    startActivityForResult(intent1, 1);
+                    PictureSelector.create(EditPersonalMessageActivity.this)
+                            .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                            .selectionMode(PictureConfig.SINGLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
+                            .previewImage(true)// 是否可预览图片 true or false
+                            .isCamera(true)// 是否显示拍照按钮 true or false
+                            .imageFormat(PictureMimeType.PNG)// 拍照保存图片格式后缀,默认jpeg
+                            .enableCrop(true)// 是否裁剪 true or false
+                            .compress(true)// 是否压缩 true or false
+                            .imageSpanCount(3)// 每行显示个数 int
+                            .withAspectRatio(1, 1)// int 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
+                            .hideBottomControls(true)// 是否显示uCrop工具栏，默认不显示 true or false
+                            .freeStyleCropEnabled(true)// 裁剪框是否可拖拽 true or false
+                            .showCropFrame(false)// 是否显示裁剪矩形边框 圆形裁剪时建议设为false   true or false
+                            .showCropGrid(true)// 是否显示裁剪矩形网格 圆形裁剪时建议设为false    true or false
+                            .openClickSound(false)// 是否开启点击声音 true or false
+                            .previewEggs(true)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
+                            .minimumCompressSize(500)// 小于100kb的图片不压缩
+                            .synOrAsy(false)//同步true或异步false 压缩 默认同步
+                            .rotateEnabled(false) // 裁剪是否可旋转图片 true or false
+                            .scaleEnabled(false)// 裁剪是否可放大缩小图片 true or false
+                            .isDragFrame(true)// 是否可拖动裁剪框(固定)
+                            .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
                     popupWindow.dismiss();
                 }
             });
@@ -663,8 +567,8 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             TagAdapter<GetUserInfoBean.DataBean.InterestListBean> tagAdapter = new TagAdapter<GetUserInfoBean.DataBean.InterestListBean>(interest_list) {
                 @Override
                 public View getView(FlowLayout parent, int position, GetUserInfoBean.DataBean.InterestListBean interestListBean) {
-                    View contentView = getLayoutInflater().inflate(R.layout.item_interest_person, flow_interest, false);
-                    TextView tv = contentView.findViewById(R.id.tv_interest);
+                    View     contentView = getLayoutInflater().inflate(R.layout.item_interest_person, flow_interest, false);
+                    TextView tv          = contentView.findViewById(R.id.tv_interest);
                     tv.setText(interest_list.get(position).getInterest());
                     return contentView;
                 }
@@ -681,10 +585,16 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
         initPopuptWindow();
     }
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    public void onUploadSuccess(String url, int position) {
+        LoadingDialog.get().close();
+        this.url = url;
+    }
+
+    @Override
+    public void onUploadError(ServiceException e) {
+        LoadingDialog.get().close();
+        Toast.makeText(this, "图片上传失败", Toast.LENGTH_SHORT).show();
     }
 }

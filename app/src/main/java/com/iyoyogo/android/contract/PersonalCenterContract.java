@@ -11,7 +11,10 @@ public interface PersonalCenterContract {
     interface View extends IBaseView {
         void getPersonalCenterSuccess(UserCenterBean.DataBean data);
 
-        void addAttention1(AttentionBean.DataBean data);
+        void addAttention1(AttentionBean attentionBean);
+
+        void deleteAttention(AttentionBean attentionBean);
+
 
     }
 
@@ -19,5 +22,8 @@ public interface PersonalCenterContract {
         void getPersonalCenter(String user_id, String user_token, String his_id);
 
         void addAttention1(String user_id, String user_token, String target_id);
+
+        void deleteAttention(String user_id, String user_token, String target_id);
+
     }
 }

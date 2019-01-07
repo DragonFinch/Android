@@ -124,6 +124,8 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         popup_more.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         //点击空白处时，隐藏掉pop窗口
         //广告信息
+        backgroundAlpha(0.6f);
+        popup_more.setBackgroundDrawable(new ColorDrawable());
         TextView tv_advert = view.findViewById(R.id.tv_advert);
         user_id = SpUtils.getString(context, "user_id", null);
         user_token = SpUtils.getString(context, "user_token", null);
@@ -219,7 +221,7 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
                 popup_more.dismiss();
             }
         });
-        backgroundAlpha(0.6f);
+
         popup_more.setOnDismissListener(new poponDismissListener());
         //添加pop窗口关闭事件
         popup_more.showAtLocation(view, Gravity.BOTTOM, 0, 0);
@@ -334,6 +336,8 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         String user_token = SpUtils.getString(context, "user_token", null);
         TextView tv_delete = view.findViewById(R.id.tv_delete);
         TextView tv_report = view.findViewById(R.id.tv_report);
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+        backgroundAlpha(0.6f);
         Log.d("YoXiuDetailAdapter", yo_user_id);
         if (yo_user_id.equals(user_id)) {
             tv_delete.setVisibility(View.VISIBLE);
@@ -360,13 +364,13 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         tv_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadMore(comment_id);
                 popupWindow.dismiss();
+                loadMore(comment_id);
             }
         });
-        popupWindow.setBackgroundDrawable(new ColorDrawable());
+
         popupWindow.setOutsideTouchable(true);
-        backgroundAlpha(0.6f);
+
         popupWindow.setOnDismissListener(new poponDismissListener());
         popupWindow.showAsDropDown(holder.img_function, 0, 0);
     }

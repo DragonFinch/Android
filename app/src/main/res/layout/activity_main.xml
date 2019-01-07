@@ -109,6 +109,7 @@
             android:id="@+id/today_tab"
             style="@style/Custom.TabRadioButton"
             android:checked="true"
+            android:layout_marginRight="@dimen/dp_60"
             android:drawableEnd="@drawable/index_home_selector"
             />
 
