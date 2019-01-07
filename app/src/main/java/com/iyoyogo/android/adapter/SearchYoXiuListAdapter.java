@@ -66,6 +66,12 @@ public class SearchYoXiuListAdapter extends RecyclerView.Adapter<SearchYoXiuList
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         viewHolder.tv_yoxiu_desc.setText(mList.get(position).getPosition_name());
+        viewHolder.tv_yoxiu_desc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
      /*   viewHolder.img_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,11 +119,19 @@ public class SearchYoXiuListAdapter extends RecyclerView.Adapter<SearchYoXiuList
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, AllCommentActivity.class);
-                intent.putExtra("yo_id",mList.get(position).getUser_id());
+                intent.putExtra("yo_id",mList.get(position).getYo_id());
                 context.startActivity(intent);
             }
         });
-
+    viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int yo_id = mList.get(position).getYo_id();
+            Intent intent = new Intent(context, YoXiuDetailActivity.class);
+            intent.putExtra("id", yo_id);
+            context.startActivity(intent);
+        }
+    });
         viewHolder.num_like.setText(mList.get(position).getCount_praise() + "");
      //   viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == true ?R.mipmap.yixihuan_xiangqing : R.mipmap.datu_xihuan);
 
@@ -140,13 +154,13 @@ public class SearchYoXiuListAdapter extends RecyclerView.Adapter<SearchYoXiuList
                     count_praise += 1;
                     mList.get(position).setCount_praise(count_praise);
                     viewHolder.num_like.setText(count_praise + "");
-                    viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == false ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+                    viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == true ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
 
                 } else if (count_praise > 0) {
                     count_praise -= 1;
                     mList.get(position).setCount_praise(count_praise);
                     viewHolder.num_like.setText(count_praise + "");
-                    viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == true ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+                    viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == false ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
 
                 }
 

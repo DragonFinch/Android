@@ -106,7 +106,7 @@ public class SearchYoJiListHorizontalAdapter extends RecyclerView.Adapter<Search
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context,Personal_homepage_Activity.class);
-                        intent.putExtra("yo_user_id",mList.get(position).getUsers_praise().get(position).getUser_id()+"");
+                        intent.putExtra("yo_user_id", String.valueOf(mList.get(position).getUsers_praise().get(finalI).getUser_id()));
                         context.startActivity(intent);
                     }
                 });

@@ -2,6 +2,8 @@ package com.iyoyogo.android.adapter.search;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +22,11 @@ import java.util.List;
 public class ListViewkeywordAdapter extends BaseAdapter {
     private Context context;
     private List<KeywordUserBean.DataBean.ListBean> listBeans;
-
-    public ListViewkeywordAdapter(SearchResultActivity searchResultActivity, List<KeywordUserBean.DataBean.ListBean> listBeans) {
+    private String s = "";
+    public ListViewkeywordAdapter(SearchResultActivity searchResultActivity, List<KeywordUserBean.DataBean.ListBean> listBeans, String s) {
         this.context = searchResultActivity;
         this.listBeans = listBeans;
+        this.s = s;
     }
 
     @Override
@@ -53,55 +56,16 @@ public class ListViewkeywordAdapter extends BaseAdapter {
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        if (listBeans.get(position).getType() == 1){
-            if (listBeans.get(position).getUser_nickname()!=null){
-                viewHolder.txtv.setText(listBeans.get(position).getUser_nickname());
-                viewHolder.im_dizhi.setImageResource(R.drawable.yonghu);
-                Log.e("qweqeqeqwewqeqweq", "getView: "+listBeans.get(position).getUser_nickname());
-            }
-            else{
-                viewHolder.txtv.setVisibility(View.GONE);
-                viewHolder.im_dizhi.setVisibility(View.GONE);
-            }
 
-
-        }
-        if (listBeans.get(position).getType() == 2){
-            if (listBeans.get(position).getPosition_name() != null){
-                viewHolder.txtv.setText(listBeans.get(position).getPosition_name());
-                viewHolder.im_dizhi.setImageResource(R.drawable.yoji_i);
+       String content= listBeans.get(position).getPosition_name();
+        if (!TextUtils.isEmpty(s)&&!TextUtils.isEmpty(content)) {
+            int index = content.indexOf(s);
+            if (index>=0) {
+                viewHolder.txtv.setText(content.substring(0, index));
+                viewHolder.txtv.append(Html.fromHtml("<font color='#FA800A'>" + s + "</font>"));
+                String str = content.substring(s.length() + index, content.length());
+                viewHolder.txtv.append(str);
             }
-            else{
-                viewHolder.txtv.setVisibility(View.GONE);
-                viewHolder.im_dizhi.setVisibility(View.GONE);
-            }
-
-
-        }
-        if (listBeans.get(position).getType() == 3){
-            if (listBeans.get(position).getFile_desc()!= null){
-                viewHolder.txtv.setText(listBeans.get(position).getFile_desc());
-                viewHolder.im_dizhi.setImageResource(R.drawable.yoxiu_i);
-                Log.e("qweqeqeqwewqeqweq", "getView: "+listBeans.get(position).getFile_desc() );
-            }else{
-                viewHolder.txtv.setVisibility(View.GONE);
-                viewHolder.im_dizhi.setVisibility(View.GONE);
-            }
-
-        }
-        if (listBeans.get(position).getType() == 4){
-            viewHolder.txtv.setText(listBeans.get(position).getLabel());
-            viewHolder.im_dizhi.setImageResource(R.drawable.biaoqian);
-        }
-        if (listBeans.get(position).getType() == 5){
-            viewHolder.txtv.setText(listBeans.get(position).getPosition_name());
-            viewHolder.im_dizhi.setImageResource(R.drawable.didian);
-        }
-        if (listBeans.get(position).getType() == 6){
-            viewHolder.txtv.setText(listBeans.get(position).getUser_nickname());
-            viewHolder.im_dizhi.setImageResource(R.drawable.pindao);
-        }else{
-            viewHolder.txtv.setText(listBeans.get(position).getPosition_name());
         }
 
         return convertView;

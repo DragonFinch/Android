@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.iyoyogo.android.R;
@@ -57,17 +56,17 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Vi
             holder.count_yoj.setText(userListBean.getCount_yoj()+"");
             holder.count_yox.setText(userListBean.getCount_yox()+"");
                 if (mUser.get(position).getAttention_status().equals("0")) {
-                    holder.tv_guanzhu.setText("已关注");
+                    holder.tv_guanzhu.setText("+关注");
                     Log.e("qq12", "keyWordMessage: 11111" + mUser.get(position).getAttention_status());
-                    if (mUser.get(position).getAttention_status().equals("1")) {
-                        Log.e("qq", "keyWordMessage:22222 " + mUser.get(position).getAttention_status());
-                        holder.tv_guanzhu.setText("互相关注");
-                    }
-                    if (mUser.get(position).getAttention_status().equals("2")) {
-                        Log.e("qq", "keyWordMessage:33333 " + mUser.get(position).getAttention_status());
-                        holder.tv_guanzhu.setText("+关注");
-                    }
                 }
+        if (mUser.get(position).getAttention_status().equals("1")) {
+            Log.e("qq", "keyWordMessage:22222 " + mUser.get(position).getAttention_status());
+            holder.tv_guanzhu.setText("互相关注");
+        }
+        if (mUser.get(position).getAttention_status().equals("2")) {
+            Log.e("qq", "keyWordMessage: " + mUser.get(position).getAttention_status());
+            holder.tv_guanzhu.setText("已关注");
+        }
     /*            holder.tv_guanzhu.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
