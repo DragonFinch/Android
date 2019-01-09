@@ -708,8 +708,13 @@ public interface ApiService {
     @POST("index.php/api/yox/count_video_inc")
     @FormUrlEncoded
     Observable<BaseBean> browse(@Field("user_id")String user_id, @Field("user_token") String user_token, @Field("yo_id")String yo_id);
+    //设置位置
     @POST("index.php/api/userposition/set")
     @FormUrlEncoded
     Observable<BaseBean>  setLocation(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("lng")String lng,@Field("lat")String lat);
+    //获取yo秀相同位置的列表
+    @POST("index.php/api/clicksearch/get_yo_position_list")
+    @FormUrlEncoded
+    Observable<YouXiuListBean> getYoXiuPosition(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("position")String position,@Field("type")int type,@Field("page")int page,@Field("page_size")String page_size);
 }
 

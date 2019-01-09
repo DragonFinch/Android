@@ -5,7 +5,7 @@
     android:id="@+id/rl_like"
     android:layout_width="@dimen/dp_125"
     android:layout_height="@dimen/dp_50"
-    android:background="@color/F1F1F1">
+    android:background="@mipmap/dislike_bg">
 
     <TextView
         android:id="@+id/tv_dislike"

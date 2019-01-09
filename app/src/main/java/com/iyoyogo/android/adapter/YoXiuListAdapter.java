@@ -29,6 +29,7 @@ import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
+import com.iyoyogo.android.ui.home.yoxiu.YoXiuListActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
 import com.iyoyogo.android.utils.SpUtils;
@@ -142,6 +143,14 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
             Glide.with(context).load(mList.get(position).getFile_path())
                     .apply(myOptions).into(viewHolder.img_yoxiu);
         }
+        viewHolder.tv_yoxiu_desc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,YoXiuListActivity.class);
+                intent.putExtra("position",mList.get(position).getPosition_name());
+                context.startActivity(intent);
+            }
+        });
         viewHolder.img_level.setVisibility(View.VISIBLE);
         viewHolder.medal.setVisibility(View.VISIBLE);
 

@@ -410,7 +410,7 @@
         <activity android:name=".ui.home.yoxiu.ChannelActivity" />
         <activity
             android:name=".ui.home.yoxiu.YoXiuDetailActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".ui.home.yoxiu.YoXiuListActivity" />
         <activity android:name=".ui.mine.EditPersonalMessageActivity" />
         <activity android:name=".ui.mine.CitySelectorActivity" />

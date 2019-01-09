@@ -20,8 +20,10 @@ import com.iyoyogo.android.contract.YoXiuListContract;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtils;
+import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimFooter;
 import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
@@ -62,6 +64,8 @@ public class YoXiuListActivity extends BaseActivity {
     private List<YouXiuListBean.DataBean.ListBean> mList;
 
     MyRefreshAnimHeader mRefreshAnimHeader;
+    private MyRefreshAnimFooter mRefreshAnimFooter;
+    private String position;
 
     /**
      * 设置刷新header风格
@@ -70,6 +74,12 @@ public class YoXiuListActivity extends BaseActivity {
      */
     private void setHeader(RefreshHeader header) {
         refreshLayout.setRefreshHeader(header);
+
+    }
+
+    private void setFooter(RefreshFooter footer) {
+
+        refreshLayout.setRefreshFooter(footer);
     }
 
     @SuppressLint("ResourceType")
@@ -83,7 +93,10 @@ public class YoXiuListActivity extends BaseActivity {
         mList = new ArrayList<>();
         //初始化header
         mRefreshAnimHeader = new MyRefreshAnimHeader(this);
+        mRefreshAnimFooter = new MyRefreshAnimFooter(this);
         setHeader(mRefreshAnimHeader);
+        setFooter(mRefreshAnimFooter);
+
 
     }
 
@@ -112,103 +125,206 @@ public class YoXiuListActivity extends BaseActivity {
 //        refreshLayout.setFooterHeight(1.0f);
 //        refreshLayout.setFooterHeight(1.0f);
 //        refreshLayout.setEnableFooterFollowWhenLoadFinished(false);
-        DataManager.getFromRemote().getYoXiuList(user_id, user_token, currentPage)
-                .subscribe(new Observer<YouXiuListBean>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+        Intent intent = getIntent();
+        position = intent.getStringExtra("position");
+        if (position.equals("")) {
+            DataManager.getFromRemote().getYoXiuList(user_id, user_token, currentPage)
+                    .subscribe(new Observer<YouXiuListBean>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onNext(YouXiuListBean youXiuListBean) {
-                        List<YouXiuListBean.DataBean.ListBean> list = youXiuListBean.getData().getList();
-                        mList.addAll(list);
+                        @Override
+                        public void onNext(YouXiuListBean youXiuListBean) {
+                            List<YouXiuListBean.DataBean.ListBean> list = youXiuListBean.getData().getList();
+                            mList.addAll(list);
 
-                        yoXiuListAdapter = new YoXiuListAdapter(YoXiuListActivity.this, mList);
-                        recyclerYoxiuList.setAdapter(yoXiuListAdapter);
-                        yoXiuListAdapter.setOnItemClickListener(new YoXiuListAdapter.OnClickListener() {
-                            @Override
-                            public void setOnClickListener(View v, int position) {
-                                int id = mList.get(position).getId();
-                                Intent intent = new Intent(YoXiuListActivity.this, YoXiuDetailActivity.class);
-                                intent.putExtra("id", id);
-                                startActivity(intent);
-                            }
-                        });
-                    }
+                            yoXiuListAdapter = new YoXiuListAdapter(YoXiuListActivity.this, mList);
+                            recyclerYoxiuList.setAdapter(yoXiuListAdapter);
+                            yoXiuListAdapter.setOnItemClickListener(new YoXiuListAdapter.OnClickListener() {
+                                @Override
+                                public void setOnClickListener(View v, int position) {
+                                    int id = mList.get(position).getId();
+                                    Intent intent = new Intent(YoXiuListActivity.this, YoXiuDetailActivity.class);
+                                    intent.putExtra("id", id);
+                                    startActivity(intent);
+                                }
+                            });
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("YoXiuListActivity", e.getMessage());
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.d("YoXiuListActivity", e.getMessage());
+                        }
 
-                    @Override
-                    public void onComplete() {
+                        @Override
+                        public void onComplete() {
 
-                    }
-                });
+                        }
+                    });
 
-        refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                currentPage++;
-                Log.d("currentPage", "currentPage:" + currentPage);
-                DataManager.getFromRemote().getYoXiuList(user_id, user_token, currentPage)
-                        .subscribe(new Consumer<YouXiuListBean>() {
-                            @Override
-                            public void accept(YouXiuListBean youXiuListBean) throws Exception {
-                                List<YouXiuListBean.DataBean.ListBean> list = youXiuListBean.getData().getList();
-                                mList.addAll(list);
-                                yoXiuListAdapter.notifyItemInserted(mList.size());
-                            }
-                        });
+            refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+                @Override
+                public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                    currentPage++;
+                    Log.d("currentPage", "currentPage:" + currentPage);
+                    DataManager.getFromRemote().getYoXiuList(user_id, user_token, currentPage)
+                            .subscribe(new Consumer<YouXiuListBean>() {
+                                @Override
+                                public void accept(YouXiuListBean youXiuListBean) throws Exception {
+                                    List<YouXiuListBean.DataBean.ListBean> list = youXiuListBean.getData().getList();
+                                    mList.addAll(list);
+                                    yoXiuListAdapter.notifyItemInserted(mList.size());
+                                }
+                            });
 
 //                yoXiuListAdapter.notifyItemInserted(mList.size());
-                refreshLayout.finishLoadMore(2000);
-            }
+                    refreshLayout.finishLoadMore(2000);
+                }
 
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mList.clear();
-                DataManager.getFromRemote().getYoXiuList(user_id, user_token, 1)
-                        .subscribe(new Observer<YouXiuListBean>() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
+                @Override
+                public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                    mList.clear();
+                    DataManager.getFromRemote().getYoXiuList(user_id, user_token, 1)
+                            .subscribe(new Observer<YouXiuListBean>() {
+                                @Override
+                                public void onSubscribe(Disposable d) {
 
-                            }
+                                }
 
-                            @Override
-                            public void onNext(YouXiuListBean youXiuListBean) {
-                                List<YouXiuListBean.DataBean.ListBean> list = youXiuListBean.getData().getList();
-                                mList.addAll(list);
+                                @Override
+                                public void onNext(YouXiuListBean youXiuListBean) {
+                                    List<YouXiuListBean.DataBean.ListBean> list = youXiuListBean.getData().getList();
+                                    mList.addAll(list);
 
-                                yoXiuListAdapter = new YoXiuListAdapter(YoXiuListActivity.this, mList);
-                                recyclerYoxiuList.setAdapter(yoXiuListAdapter);
+                                    yoXiuListAdapter = new YoXiuListAdapter(YoXiuListActivity.this, mList);
+                                    recyclerYoxiuList.setAdapter(yoXiuListAdapter);
 
-                                yoXiuListAdapter.setOnItemClickListener(new YoXiuListAdapter.OnClickListener() {
-                                    @Override
-                                    public void setOnClickListener(View v, int position) {
-                                        int id = mList.get(position).getId();
-                                        Intent intent = new Intent(YoXiuListActivity.this, YoXiuDetailActivity.class);
-                                        intent.putExtra("id", id);
-                                        startActivity(intent);
-                                    }
-                                });
-                            }
+                                    yoXiuListAdapter.setOnItemClickListener(new YoXiuListAdapter.OnClickListener() {
+                                        @Override
+                                        public void setOnClickListener(View v, int position) {
+                                            int id = mList.get(position).getId();
+                                            Intent intent = new Intent(YoXiuListActivity.this, YoXiuDetailActivity.class);
+                                            intent.putExtra("id", id);
+                                            startActivity(intent);
+                                        }
+                                    });
+                                }
 
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.d("YoXiuListActivity", e.getMessage());
-                            }
+                                @Override
+                                public void onError(Throwable e) {
+                                    Log.d("YoXiuListActivity", e.getMessage());
+                                }
 
-                            @Override
-                            public void onComplete() {
+                                @Override
+                                public void onComplete() {
 
-                            }
-                        });
-                refreshLayout.finishRefresh();
-            }
-        });
+                                }
+                            });
+                    refreshLayout.finishRefresh();
+                }
+            });
+        } else {
+            tvMessage.setText(position);
+            DataManager.getFromRemote().getYoXiuPosition(user_id, user_token, position, 1, currentPage, "20")
+                    .subscribe(new Observer<YouXiuListBean>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(YouXiuListBean youXiuListBean) {
+                            List<YouXiuListBean.DataBean.ListBean> list = youXiuListBean.getData().getList();
+                            mList.addAll(list);
+
+                            yoXiuListAdapter = new YoXiuListAdapter(YoXiuListActivity.this, mList);
+                            recyclerYoxiuList.setAdapter(yoXiuListAdapter);
+                            yoXiuListAdapter.setOnItemClickListener(new YoXiuListAdapter.OnClickListener() {
+                                @Override
+                                public void setOnClickListener(View v, int position) {
+                                    int id = mList.get(position).getId();
+                                    Intent intent = new Intent(YoXiuListActivity.this, YoXiuDetailActivity.class);
+                                    intent.putExtra("id", id);
+                                    startActivity(intent);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.d("YoXiuListActivity", e.getMessage());
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+
+            refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+                @Override
+                public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                    currentPage++;
+                    Log.d("currentPage", "currentPage:" + currentPage);
+                    DataManager.getFromRemote().getYoXiuPosition(user_id, user_token, position, 1, currentPage, "20")
+                            .subscribe(new Consumer<YouXiuListBean>() {
+                                @Override
+                                public void accept(YouXiuListBean youXiuListBean) throws Exception {
+                                    List<YouXiuListBean.DataBean.ListBean> list = youXiuListBean.getData().getList();
+                                    mList.addAll(list);
+                                    yoXiuListAdapter.notifyItemInserted(mList.size());
+                                }
+                            });
+
+//                yoXiuListAdapter.notifyItemInserted(mList.size());
+                    refreshLayout.finishLoadMore(2000);
+                }
+
+                @Override
+                public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                    mList.clear();
+                    DataManager.getFromRemote().getYoXiuPosition(user_id, user_token, position, 1, 1, "")
+                            .subscribe(new Observer<YouXiuListBean>() {
+                                @Override
+                                public void onSubscribe(Disposable d) {
+
+                                }
+
+                                @Override
+                                public void onNext(YouXiuListBean youXiuListBean) {
+                                    List<YouXiuListBean.DataBean.ListBean> list = youXiuListBean.getData().getList();
+                                    mList.addAll(list);
+
+                                    yoXiuListAdapter = new YoXiuListAdapter(YoXiuListActivity.this, mList);
+                                    recyclerYoxiuList.setAdapter(yoXiuListAdapter);
+
+                                    yoXiuListAdapter.setOnItemClickListener(new YoXiuListAdapter.OnClickListener() {
+                                        @Override
+                                        public void setOnClickListener(View v, int position) {
+                                            int id = mList.get(position).getId();
+                                            Intent intent = new Intent(YoXiuListActivity.this, YoXiuDetailActivity.class);
+                                            intent.putExtra("id", id);
+                                            startActivity(intent);
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Log.d("YoXiuListActivity", e.getMessage());
+                                }
+
+                                @Override
+                                public void onComplete() {
+
+                                }
+                            });
+                    refreshLayout.finishRefresh();
+                }
+            });
+        }
 
 
     }

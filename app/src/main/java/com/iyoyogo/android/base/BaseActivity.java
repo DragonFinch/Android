@@ -77,6 +77,7 @@ public abstract class BaseActivity<T extends IBasePresenter> extends AppCompatAc
     }
 
     protected void setSetting() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     @Override
