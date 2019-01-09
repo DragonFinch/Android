@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.search.KeywordBean;
 import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
+import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
@@ -97,7 +98,9 @@ public class SearchYoJiListHorizontalAdapter extends RecyclerView.Adapter<Search
         holder.tv_num_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"qe",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, AllCommentActivity.class);
+                intent.putExtra("id", mList.get(position).getYo_id());
+                context.startActivity(intent);
             }
         });
 

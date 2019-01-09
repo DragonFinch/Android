@@ -106,6 +106,8 @@ public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHo
             viewHolder.num_like.setText(mList.get(position).getCount_praise() + "");
             viewHolder.user_name.setText(mList.get(position).getUser_info().getUser_nickname());
             viewHolder.num_see.setText(mList.get(position).getCount_view() + "");
+            viewHolder.num_see.setVisibility(View.VISIBLE);
+
             Glide.with(context).load(mList.get(position).getUser_info().getUser_logo()).apply(requestOptions1).into(viewHolder.user_icon);
             viewHolder.tv_title.setText(mList.get(position).getTitle());
 
@@ -118,6 +120,7 @@ public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHo
                     context.startActivity(intent);
                 }
             });
+            viewHolder.index_look_icon.setVisibility(View.VISIBLE);
             viewHolder.index_look_icon.setOnClickListener(new View.OnClickListener() {//眼睛
                 @Override
                 public void onClick(View v) {
@@ -127,6 +130,7 @@ public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHo
                     context.startActivity(intent);
                 }
             });
+            viewHolder.more_img.setVisibility(View.VISIBLE);
             viewHolder.imageView.setOnClickListener(new View.OnClickListener() {//背景图
                 @Override
                 public void onClick(View v) {
