@@ -63,7 +63,6 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/bar"
         android:layout_marginTop="@dimen/dp_15"
-
         android:background="@color/white"/>
 
 
@@ -80,9 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/bar"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_marginTop="@dimen/dp_15"
-            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_5"
              />
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
