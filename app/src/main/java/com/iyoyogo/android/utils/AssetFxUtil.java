@@ -31,7 +31,7 @@ public class AssetFxUtil {
         ArrayList<FilterItem> filterList = new ArrayList<>();
         FilterItem            filterItem = new FilterItem();
         filterItem.setFilterName("原图");
-        filterItem.setImageId(R.mipmap.no);
+        filterItem.setImageId(R.mipmap.filter_default);
         filterList.add(filterItem);
 
 //        if (isAddCartoon) {
@@ -89,22 +89,23 @@ public class AssetFxUtil {
 
         //暂时先注掉内建滤镜特效
         int[] resImags = {
-                R.mipmap.sage,
-                R.mipmap.maid,
-                R.mipmap.mace,
-                R.mipmap.lace,
-                R.mipmap.mall,
-                R.mipmap.sap,
-                R.mipmap.sara,
-                R.mipmap.pinky,
-                R.mipmap.sweet,
-                R.mipmap.fresh
+                R.mipmap.filter_mk,
+                R.mipmap.filter_jz,
+                R.mipmap.filter_qx,
+                R.mipmap.filter_ls,
+                R.mipmap.filter_zg,
+                R.mipmap.filter_yq,
+                R.mipmap.filter_bh,
+                R.mipmap.filter_cm,
+                R.mipmap.filter_fn,
+                R.mipmap.filter_ql
         };
         if (builtinVideoFxList != null) {
             for (int i = 0; i < builtinVideoFxList.size(); i++) {
                 String     transitionName = builtinVideoFxList.get(i);
                 FilterItem newFilterItem  = new FilterItem();
-                newFilterItem.setFilterName(transitionName);
+                newFilterItem.setFilterName(getBuiltinName(i));
+                newFilterItem.setFilterId(transitionName);
                 if (i < resImags.length) {
                     newFilterItem.setImageId(resImags[i]);
                 }
@@ -114,6 +115,42 @@ public class AssetFxUtil {
         }
 
         return filterList;
+    }
+
+    private static String getBuiltinName(int i) {
+        switch (i) {
+            case 0:
+
+                return "明快";
+            case 1:
+
+                return "精致";
+            case 2:
+
+                return "清晰";
+            case 3:
+
+                return "蕾丝";
+            case 4:
+
+                return "质感";
+            case 5:
+
+                return "元气";
+            case 6:
+
+                return "薄荷";
+            case 7:
+
+                return "草莓";
+            case 8:
+
+                return "粉嫩";
+            case 9:
+
+                return "清凉";
+        }
+        return "";
     }
 
 
@@ -149,35 +186,35 @@ public class AssetFxUtil {
 
 
     public static boolean getBundleFilterInfo(Context context, ArrayList<NvAsset> assetArrayList, String bundlePath) {
-        if(context == null)
+        if (context == null)
             return false;
 
-        if(TextUtils.isEmpty(bundlePath))
+        if (TextUtils.isEmpty(bundlePath))
             return false;
 
         try {
             InputStream    nameListStream = context.getAssets().open(bundlePath);
-            BufferedReader nameListBuffer = new BufferedReader(new InputStreamReader(nameListStream,"GBK"));
+            BufferedReader nameListBuffer = new BufferedReader(new InputStreamReader(nameListStream, "GBK"));
 
             String strLine;
             while ((strLine = nameListBuffer.readLine()) != null) {
                 String[] strNameArray = strLine.split(",");
-                if(strNameArray.length < 3)
+                if (strNameArray.length < 3)
                     continue;
 
-                for (int i = 0; i < assetArrayList.size();++i){
+                for (int i = 0; i < assetArrayList.size(); ++i) {
                     NvAsset assetItem = assetArrayList.get(i);
-                    if(assetItem == null)
+                    if (assetItem == null)
                         continue;
 
-                    if(!assetItem.isReserved)
+                    if (!assetItem.isReserved)
                         continue;
 
                     String packageId = assetItem.uuid;
-                    if(TextUtils.isEmpty(packageId))
+                    if (TextUtils.isEmpty(packageId))
                         continue;
 
-                    if(packageId.equals(strNameArray[0])){
+                    if (packageId.equals(strNameArray[0])) {
                         assetItem.name = strNameArray[1];
                         assetItem.aspectRatio = Integer.parseInt(strNameArray[2]);
                         break;

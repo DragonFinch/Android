@@ -425,4 +425,5 @@ public class FilterActivity extends BaseActivity implements View.OnClickListener
         super.onResume();
         mDownloadMoreBtn.setClickable(true);
     }
+
 }

@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
@@ -125,7 +126,7 @@ public class CutImageActivity extends BaseActivity {
         imageW = options.outWidth;
 
         Uri inputPath  = Uri.fromFile(new File(path));
-        Uri outputPath = Uri.fromFile(new File(getExternalCacheDir().getPath()+"/cut_"+System.currentTimeMillis()+".png"));
+        Uri outputPath = Uri.fromFile(new File(Environment.getExternalStorageDirectory()+"/Yoyogo/Image/cut_"+System.currentTimeMillis()+".png"));
         try {
             mGestureCropImageView.setImageUri(inputPath, outputPath);
         } catch (Exception e) {

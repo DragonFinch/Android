@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".ui.home.AddFilterActivity">
 
     <RelativeLayout
@@ -42,9 +42,9 @@
 
     <com.meicam.sdk.NvsLiveWindow
         android:id="@+id/liveWindow"
-        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_gravity="center"
         android:layout_weight="1" />
 
 
@@ -55,10 +55,12 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/ll_seek"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:visibility="invisible"
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
 
@@ -80,8 +82,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:overScrollMode="never"
-            android:paddingBottom="20dp"
-            android:paddingLeft="20dp" />
+            android:paddingLeft="20dp"
+            android:paddingBottom="20dp" />
     </LinearLayout>
 
 </LinearLayout>

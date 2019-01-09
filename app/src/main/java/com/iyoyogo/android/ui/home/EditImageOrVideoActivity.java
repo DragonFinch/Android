@@ -3,6 +3,8 @@ package com.iyoyogo.android.ui.home;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -30,6 +32,7 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.yalantis.ucrop.model.CutInfo;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,6 +98,19 @@ public class EditImageOrVideoActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
+        File foder = new File(Environment.getExternalStorageDirectory()+"/Yoyogo/Image");
+        if (!foder.exists()) {
+            foder.mkdirs();
+        }
+        File video = new File(Environment.getExternalStorageDirectory()+"/Yoyogo/Video");
+        if (!video.exists()) {
+            video.mkdirs();
+        }
+    }
+
     @OnClick({R.id.iv_back, R.id.tv_edit, R.id.btn_done, R.id.iv_filter, R.id.iv_coup})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -150,6 +166,11 @@ public class EditImageOrVideoActivity extends BaseActivity {
         } else if (resultCode == 100) {
             String path = data.getStringExtra("data");
             localMedia.get(mViewPager.getCurrentItem()).setPath(path);
+            mViewPager.setAdapter(new EditImageOrVideoAdapter(localMedia, this));
+        }else if (resultCode == 300) {
+            String path = data.getStringExtra("data");
+            localMedia.get(mViewPager.getCurrentItem()).setPath(path);
+            localMedia.get(mViewPager.getCurrentItem()).setCompressPath(path);
             mViewPager.setAdapter(new EditImageOrVideoAdapter(localMedia, this));
         }
     }

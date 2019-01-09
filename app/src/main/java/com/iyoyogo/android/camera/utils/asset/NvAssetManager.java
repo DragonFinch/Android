@@ -552,7 +552,8 @@ public class NvAssetManager implements NvHttpRequest.NvHttpRequestListener, NvsA
             }
         } else if(assetType != NvAsset.ASSET_FACE_BUNDLE_STICKER){
             if (isSyncInstallAsset) {
-                int error = manager.installAssetPackage(filePath, null, asset.getPackageType(), true, packageId);
+                String licPath = filePath.substring(0,filePath.indexOf("."))+".lic";
+                int error = manager.installAssetPackage(filePath, licPath, asset.getPackageType(), true, packageId);
                 if (error == NvsAssetPackageManager.ASSET_PACKAGE_MANAGER_ERROR_NO_ERROR) {
                     asset.downloadStatus = NvAsset.DownloadStatusFinished;
                     asset.version = manager.getAssetPackageVersion(asset.uuid, asset.getPackageType());
@@ -583,7 +584,8 @@ public class NvAssetManager implements NvHttpRequest.NvHttpRequestListener, NvsA
                         }
                     }
                 } else {
-                    manager.installAssetPackage(filePath, null, asset.getPackageType(), false, packageId);
+                    String licPath = filePath.substring(0,filePath.indexOf("."))+".lic";
+                    manager.installAssetPackage(filePath, licPath, asset.getPackageType(), false, packageId);
                 }
             }
         }

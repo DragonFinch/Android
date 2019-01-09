@@ -72,21 +72,21 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.bar)
     YoyogoTopBarView bar;
     @BindView(R.id.frame_container_home)
-    FrameLayout frameContainerHome;
+    FrameLayout      frameContainerHome;
     Unbinder unbinder;
-    private RecommedFragment recommedFragment;
-    private AttentionFragment attentionFragment;
+    private              RecommedFragment         recommedFragment;
+    private              AttentionFragment        attentionFragment;
     //声明AMapLocationClient类对象
-    public AMapLocationClient mLocationClient = null;
+    public               AMapLocationClient       mLocationClient           = null;
     //声明AMapLocationClientOption对象
-    public AMapLocationClientOption mLocationOption = null;
+    public               AMapLocationClientOption mLocationOption           = null;
     //初始化AMapLocationClientOption对象
-    private static final String NOTIFICATION_CHANNEL_NAME = "BackgroundLocation";
-    private NotificationManager notificationManager = null;
+    private static final String                   NOTIFICATION_CHANNEL_NAME = "BackgroundLocation";
+    private              NotificationManager      notificationManager       = null;
     boolean isCreateChannel = false;
     private LinearLayout publish_yoxiu;
     private LinearLayout publish_yoji;
-    private ImageView publish_close;
+    private ImageView    publish_close;
     @BindView(R.id.publish_home)
     ImageView publish_home;
     private String name1;
@@ -97,10 +97,10 @@ public class HomeFragment extends BaseFragment {
         try {
             PackageInfo info = context.getPackageManager().getPackageInfo(
                     context.getPackageName(), PackageManager.GET_SIGNATURES);
-            byte[] cert = info.signatures[0].toByteArray();
-            MessageDigest md = MessageDigest.getInstance("SHA1");
-            byte[] publicKey = md.digest(cert);
-            StringBuffer hexString = new StringBuffer();
+            byte[]        cert      = info.signatures[0].toByteArray();
+            MessageDigest md        = MessageDigest.getInstance("SHA1");
+            byte[]        publicKey = md.digest(cert);
+            StringBuffer  hexString = new StringBuffer();
             for (int i = 0; i < publicKey.length; i++) {
                 String appendString = Integer.toHexString(0xFF & publicKey[i])
                         .toUpperCase(Locale.US);
@@ -150,8 +150,8 @@ public class HomeFragment extends BaseFragment {
                     amapLocation.getFloor();//获取当前室内定位的楼层
                     amapLocation.getGpsAccuracyStatus();//获取GPS的当前状态
 //获取定位时间
-                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    Date date = new Date(amapLocation.getTime());
+                    SimpleDateFormat df   = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date             date = new Date(amapLocation.getTime());
                     df.format(date);
                 } else {
                     //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
@@ -206,7 +206,7 @@ public class HomeFragment extends BaseFragment {
                         .openGallery(PictureMimeType.ofAll())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
                         .imageSpanCount(3)// 每行显示个数 int
                         .selectionMode(PictureConfig.SINGLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
-                        .previewImage(false)// 是否可预览图片 true or false
+                        .previewImage(true)// 是否可预览图片 true or false
                         .isCamera(true)// 是否显示拍照按钮 true or false
                         .imageFormat(PictureMimeType.PNG)// 拍照保存图片格式后缀,默认jpeg
                         .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
@@ -216,6 +216,7 @@ public class HomeFragment extends BaseFragment {
                         .previewEggs(true)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
                         .minimumCompressSize(800)// 小于100kb的图片不压缩
                         .synOrAsy(false)//同步true或异步false 压缩 默认同步
+                        .videoMaxSecond(15)
                         .forResult(201);
                 popup.dismiss();
             }
@@ -230,7 +231,7 @@ public class HomeFragment extends BaseFragment {
                         .minSelectNum(1)// 最小选择数量 int
                         .imageSpanCount(3)// 每行显示个数 int
                         .selectionMode(PictureConfig.MULTIPLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
-                        .previewImage(false)// 是否可预览图片 true or false
+                        .previewImage(true)// 是否可预览图片 true or false
                         .isCamera(true)// 是否显示拍照按钮 true or false
                         .imageFormat(PictureMimeType.PNG)// 拍照保存图片格式后缀,默认jpeg
                         .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
@@ -267,7 +268,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data!=null) {
+        if (data != null) {
             if (requestCode == PictureConfig.CHOOSE_REQUEST) {
                 startActivity(data.setClass(getActivity(), EditImageOrVideoActivity.class).putExtra("type", 1));
             } else if (requestCode == 201) {
@@ -289,8 +290,8 @@ public class HomeFragment extends BaseFragment {
         initLocation();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色
-            Window window = getActivity().getWindow();
-            View decorView = window.getDecorView();
+            Window window    = getActivity().getWindow();
+            View   decorView = window.getDecorView();
             //两个 flag 要结合使用，表示让应用的主体内容占用系统状态栏的空间
             int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
@@ -300,9 +301,9 @@ public class HomeFragment extends BaseFragment {
             //导航栏颜色也可以正常设置
             //window.setNavigationBarColor(Color.TRANSPARENT);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window window = getActivity().getWindow();
-            WindowManager.LayoutParams attributes = window.getAttributes();
-            int flagTranslucentStatus = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+            Window                     window                = getActivity().getWindow();
+            WindowManager.LayoutParams attributes            = window.getAttributes();
+            int                        flagTranslucentStatus = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
             attributes.flags |= flagTranslucentStatus;
             //int flagTranslucentNavigation = WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
             //attributes.flags |= flagTranslucentNavigation;
@@ -326,14 +327,13 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onSearchClick() {
                 //
-                startActivity(new Intent(getActivity(),SearchActivity.class));
+                startActivity(new Intent(getActivity(), SearchActivity.class));
 
             }
 
             @Override
             public void onLocationClick() {
-                startActivity(new Intent(getActivity(),DiTuActivity.class));
-
+                startActivity(new Intent(getActivity(), DiTuActivity.class));
             }
 
             @Override
@@ -341,6 +341,7 @@ public class HomeFragment extends BaseFragment {
 //                getFragmentManager().beginTransaction()
 //                        .add(R.id.frame_container_home, recommedFragment)
 //                        .commitAllowingStateLoss();
+
 
                 switchFragment(recommedFragment).commit();
 
@@ -367,11 +368,11 @@ public class HomeFragment extends BaseFragment {
         EventBus.getDefault().register(this);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN ,sticky = true)
-    public void Token(String name){
-        if (name!=null){
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void Token(String name) {
+        if (name != null) {
             name1 = name;
-            Log.e("Token", "Token: "+name );
+            Log.e("Token", "Token: " + name);
         }
 
         bar.setLocationResult(name1);
