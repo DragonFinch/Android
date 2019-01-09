@@ -18,10 +18,10 @@ tools:context="com.iyoyogo.android.ui.common.CameraActivity">
 
         <ImageView
             android:id="@+id/back"
-            android:layout_width="@dimen/dp_10"
-            android:layout_height="@dimen/dp_17"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:src="@mipmap/back_black" />
 
         <TextView

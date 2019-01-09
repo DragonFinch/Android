@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
    >
 
     <RelativeLayout
@@ -15,7 +16,9 @@
         <ImageView
             android:id="@+id/back_iv_id"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_20"
             android:src="@mipmap/fanhui_hei" />
@@ -43,15 +46,21 @@
         android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_150"
-        android:layout_marginTop="@dimen/sp_15">
+        android:layout_marginTop="@dimen/sp_15"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_30"
+            android:src="@mipmap/biaoqing"
+            android:paddingLeft="@dimen/dp_15"
+            android:paddingRight="@dimen/dp15"
+            />
 
         <EditText
             android:id="@+id/edit_feed_back"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_height="@dimen/dp_30"
             android:background="@null"
-            android:drawableLeft="@mipmap/biaoqing"
             android:hint="@string/opiniontext"
             android:maxLength="150"
             android:textSize="@dimen/sp_15" />

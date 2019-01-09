@@ -16,9 +16,10 @@
 
         <ImageView
             android:id="@+id/all_comment_back_id"
-            android:layout_width="@dimen/dp_9"
-            android:layout_height="@dimen/dp_15"
-            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_40"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:src="@mipmap/back_black" />
 
         <TextView

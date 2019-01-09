@@ -22,7 +22,6 @@ public class FeedBackPresenter extends BasePresenter<FeedBackContract.View> impl
 
                     @Override
                     protected boolean doOnFailure(int code, String message) {
-
                         return true;
                     }
                 });

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.login.interest.InterestBean;
+import com.iyoyogo.android.bean.yoxiu.channel.ChannelBean;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -22,17 +23,20 @@ import java.util.List;
 /**
  * 选择兴趣
  */
-public class InterestsAdapter  extends BaseAdapter {
+public class InterestsAdapter extends BaseAdapter {
 
     private Context context;
     private List<InterestBean.DataBean.ListBean> mList;
     private LayoutInflater mInflater;
-    private static List<Integer> mSelectImg=new LinkedList<>();
-    private static ArrayList<String> titleList=new ArrayList<>();
+    private static List<Integer> mSelectImg = new LinkedList<>();
+    private static ArrayList<String> titleList = new ArrayList<>();
+    private int count = 0;
+    private int maxNum = 1;
+
     public InterestsAdapter(Context context, List<InterestBean.DataBean.ListBean> mDatas) {
-        this.context=context;
-        this.mList=mDatas;
-        mInflater=LayoutInflater.from(context);
+        this.context = context;
+        this.mList = mDatas;
+        mInflater = LayoutInflater.from(context);
     }
 
     @Override
@@ -52,15 +56,15 @@ public class InterestsAdapter  extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder vh=null;
-        if (convertView==null){
-            convertView=  mInflater.inflate(R.layout.item_classify,parent,false);
-            vh=new ViewHolder();
-            vh.mImg=convertView.findViewById(R.id.img);
-            vh.tag_name=convertView.findViewById(R.id.tag_name);
-            vh.mSelect=convertView.findViewById(R.id.choice_icon);
+        ViewHolder vh = null;
+        if (convertView == null) {
+            convertView = mInflater.inflate(R.layout.item_classify, parent, false);
+            vh = new ViewHolder();
+            vh.mImg = convertView.findViewById(R.id.img);
+            vh.tag_name = convertView.findViewById(R.id.tag_name);
+            vh.mSelect = convertView.findViewById(R.id.choice_icon);
             convertView.setTag(vh);
-        }else {
+        } else {
             vh = (ViewHolder) convertView.getTag();
         }
         vh.tag_name.setText(mList.get(position).getInterest());
@@ -79,14 +83,13 @@ public class InterestsAdapter  extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //已经被选择
-
-                if (mSelectImg.contains(id)){
+                if (mSelectImg.contains(id)) {
                     String s = String.valueOf(id);
                     mSelectImg.remove(s);
                     titleList.remove(interest);
                     finalVh.mImg.setColorFilter(null);
                     finalVh.mSelect.setImageResource(R.color.transparent);
-                }else{
+                } else {
                     //未被选中
                     mSelectImg.add(id);
                     titleList.add(interest);
@@ -106,20 +109,32 @@ public class InterestsAdapter  extends BaseAdapter {
         return convertView;
     }
 
+    public ArrayList<Integer> selectChannelIds() {
+        ArrayList<Integer> ids = new ArrayList<>();
+        for (InterestBean.DataBean.ListBean listBean : mList) {
+            if (listBean.isChoose()) {
+                ids.add(listBean.getId());
+            }
+        }
+        return ids;
+    }
 
 
-    public List<Integer> selectPhoto(){
-        if (!mSelectImg.isEmpty()){
+    public List<Integer> selectPhoto() {
+        if (!mSelectImg.isEmpty()) {
             return mSelectImg;
         }
         return null;
-    } public ArrayList<String> selectInterest(){
-        if (!mSelectImg.isEmpty()){
+    }
+
+    public ArrayList<String> selectInterest() {
+        if (!mSelectImg.isEmpty()) {
             return titleList;
         }
         return null;
     }
-    private  class  ViewHolder{
+
+    private class ViewHolder {
         ImageView mImg;
         TextView tag_name;
         ImageButton mSelect;

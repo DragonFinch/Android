@@ -14,17 +14,20 @@
             android:id="@+id/back"
             android:layout_marginLeft="@dimen/dp_20"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dp_40"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:src="@mipmap/back_icon"
             />
         <TextView
             android:id="@+id/tv_count"
             android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dp_40"
             android:text="2/6"
             android:textColor="#ffffffff"
             android:textSize="15sp"
+            android:gravity="center"
             />
     </RelativeLayout>
 <android.support.v4.view.ViewPager

@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
@@ -70,6 +71,10 @@ public class FeedBackActivity extends BaseActivity<FeedBackContract.Presenter> i
 
     @Override
     public void addFeedBackSuccess(BaseBean baseBean) {
-        finish();
+        if (baseBean.getCode() == 200) {
+            editFeedBack.setText("");
+            Toast.makeText(this, "反馈成功", Toast.LENGTH_SHORT).show();
+        }
+//        finish();
     }
 }

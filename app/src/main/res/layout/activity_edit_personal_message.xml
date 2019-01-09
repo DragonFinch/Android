@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_llayout_id"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_llayout_id"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,16 +17,18 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_40">
+                android:layout_height="@dimen/dp_40"
+                android:background="@color/white">
 
                 <ImageView
-                    android:layout_marginLeft="@dimen/dp_20"
-                    android:layout_centerVertical="true"
                     android:id="@+id/back_iv_id"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
                     android:src="@mipmap/back_black" />
 
                 <TextView
@@ -37,14 +38,26 @@
                     android:text="个人信息" />
 
                 <TextView
-                    android:id="@+id/preservation_tv_id"
+                    android:id="@+id/name_tv_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:text="完成"
                     android:textColor="@color/FA800A"
+                    android:layout_toLeftOf="@+id/preservation_tv_id"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/preservation_tv_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dp_20"
-                    android:text="保存" />
+                    android:text="保存"
+                    android:textColor="@color/FA800A"
+                    />
             </RelativeLayout>
 
             <LinearLayout
@@ -62,27 +75,27 @@
                     android:src="@mipmap/default_touxiang" />
 
                 <TextView
-                    android:textSize="@dimen/sp_15"
-                    android:textColor="@color/c333333"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="点击上传" />
+                    android:text="点击上传"
+                    android:textColor="@color/c333333"
+                    android:textSize="@dimen/sp_15" />
 
                 <TextView
-                    android:textSize="@dimen/sp_12"
-                    android:layout_marginTop="@dimen/dp_5"
-                    android:textColor="@color/c888888"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="花点时间,让大家更懂你!~" />
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:text="花点时间,让大家更懂你!~"
+                    android:textColor="@color/c888888"
+                    android:textSize="@dimen/sp_12" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/white"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -106,12 +119,12 @@
 
 
                 <RelativeLayout
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/dp_10"
-                    android:layout_marginTop="@dimen/dp_10">
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -121,11 +134,11 @@
                         android:textSize="@dimen/sp_15" />
 
                     <EditText
-                        android:background="@color/transparent"
                         android:id="@+id/nick_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+                        android:background="@color/transparent"
                         android:text="我还是个宝宝"
                         android:textSize="@dimen/sp_15" />
 
@@ -154,33 +167,33 @@
 
                     <RadioGroup
                         android:id="@+id/group_sex"
-                        android:weightSum="2"
-                        android:layout_alignParentRight="true"
-                        android:orientation="horizontal"
                         android:layout_width="@dimen/dp_120"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/sp_15" >
+                        android:layout_alignParentRight="true"
+                        android:orientation="horizontal"
+                        android:textSize="@dimen/sp_15"
+                        android:weightSum="2">
+
                         <RadioButton
-                            android:drawablePadding="@dimen/dp_10"
+                            android:id="@+id/girl"
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:button="@null"
                             android:checked="true"
-                            android:text="女"
-                            android:id="@+id/girl"
                             android:drawableLeft="@drawable/girl_selector"
-                            />
-                       <RadioButton
-                           android:drawablePadding="@dimen/dp_10"
-                           android:layout_width="0dp"
-                           android:layout_weight="1"
-                           android:layout_height="wrap_content"
-                           android:button="@null"
-                           android:text="男"
-                           android:id="@+id/boy"
-                           android:drawableLeft="@drawable/boy_selector"
-                           />
+                            android:drawablePadding="@dimen/dp_10"
+                            android:text="女" />
+
+                        <RadioButton
+                            android:id="@+id/boy"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:button="@null"
+                            android:drawableLeft="@drawable/boy_selector"
+                            android:drawablePadding="@dimen/dp_10"
+                            android:text="男" />
 
 
                     </RadioGroup>
@@ -258,7 +271,7 @@
                 <RelativeLayout
                     android:id="@+id/interest_layout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_margin="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_10">
 
@@ -277,15 +290,16 @@
 
                         android:layout_marginRight="20dp"
                         android:text="更懂你~" />
-<com.iyoyogo.android.widget.flow.TagFlowLayout
-    android:id="@+id/flow_interest"
-    android:visibility="gone"
-    android:layout_alignParentRight="true"
-    android:layout_marginRight="@dimen/dp_20"
-    android:layout_width="wrap_content"
-    android:layout_height="@dimen/dp_20"
 
-    />
+                    <com.iyoyogo.android.widget.flow.TagFlowLayout
+                        android:id="@+id/flow_interest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/dp_20"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/dp_20"
+                        android:visibility="gone"
+
+                        />
                 </RelativeLayout>
 
                 <View
@@ -298,10 +312,10 @@
 
 
             <LinearLayout
-                android:layout_marginTop="@dimen/dp_5"
-                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_5"
+                android:background="@color/white"
                 android:orientation="vertical">
 
                 <LinearLayout
