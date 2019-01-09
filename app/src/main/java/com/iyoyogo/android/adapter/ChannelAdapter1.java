@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,10 +27,14 @@ import java.util.List;
  */
 public class ChannelAdapter1 extends BaseRecyclerAdapter {
 
-    private        int                                 count          = 0;
-    private        int                                 maxNum         = 1;
-    private        Context                             context;
-    private        List<InterestBean.DataBean.ListBean> list;
+    private int count = 0;
+    private int maxNum = 1;
+    private Context context;
+    private List<InterestBean.DataBean.ListBean> list;
+    private ArrayList<String> str = new ArrayList<>();
+    private ArrayList<Integer> ids = new ArrayList<>();
+    private int id;
+    private String interest;
 
     public ChannelAdapter1(Context context, List<InterestBean.DataBean.ListBean> list) {
         this.context = context;
@@ -54,9 +59,9 @@ public class ChannelAdapter1 extends BaseRecyclerAdapter {
     }
 
     public ArrayList<String> selectPhoto() {
-        ArrayList<String> str=new ArrayList<>();
+        str = new ArrayList<>();
         for (InterestBean.DataBean.ListBean listBean : list) {
-            if (listBean.isChoose()){
+            if (listBean.isChoose()) {
                 str.add(listBean.getInterest());
             }
         }
@@ -64,9 +69,9 @@ public class ChannelAdapter1 extends BaseRecyclerAdapter {
     }
 
     public ArrayList<Integer> selectChannelIds() {
-        ArrayList<Integer> ids=new ArrayList<>();
+        ids = new ArrayList<>();
         for (InterestBean.DataBean.ListBean listBean : list) {
-            if (listBean.isChoose()){
+            if (listBean.isChoose()) {
                 ids.add(listBean.getId());
             }
         }
@@ -74,9 +79,9 @@ public class ChannelAdapter1 extends BaseRecyclerAdapter {
     }
 
     private class MyViewHolder extends BaseViewHolder {
-        private ImageView mImageSrc;
-        private ImageView mImageChoose;
-        private TextView  tv_name;
+        ImageView mImg;
+        TextView tag_name;
+        ImageButton mSelect;
 
         private MyViewHolder(View itemView) {
             super(itemView);
@@ -88,27 +93,29 @@ public class ChannelAdapter1 extends BaseRecyclerAdapter {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    count=selectChannelIds().size();
+                    id = list.get(position).getId();
+                    interest = list.get(position).getInterest();
+                    count = selectChannelIds().size();
                     if (count < maxNum) {
                         if (!list.get(position).isChoose()) {
-                            mImageChoose.setImageResource(R.mipmap.zp_xz);
-                            mImageSrc.setColorFilter(Color.parseColor("#77000000"));
+                            mImg.setColorFilter(Color.parseColor("#77000000"));
+                            mSelect.setImageResource(R.mipmap.xz);
                             list.get(position).setChoose(true);
                             chooseCallback.chooseState(position, true);
                         } else {
-                            mImageChoose.setImageResource(R.color.transparent);
+                            mImg.setColorFilter(null);
+                            mSelect.setImageResource(R.color.transparent);
                             list.get(position).setChoose(false);
                             chooseCallback.chooseState(position, false);
-                            mImageSrc.setColorFilter(Color.TRANSPARENT);
                         }
 
-                    } else { //count >= maxNum
+                    } else if (count >= maxNum) { //count >= maxNum
                         if (!list.get(position).isChoose()) {
-                            chooseCallback.countWarning(count);
+                            ids.remove(interest);
                         } else {
-                            mImageChoose.setImageResource(R.color.transparent);
+                            mImg.setColorFilter(null);
+                            mSelect.setImageResource(R.color.transparent);
                             list.get(position).setChoose(false);
-                            mImageSrc.setColorFilter(Color.TRANSPARENT);
                             chooseCallback.chooseState(position, false);
                         }
                     }
@@ -119,7 +126,7 @@ public class ChannelAdapter1 extends BaseRecyclerAdapter {
 
         @Override
         public void initOnItemClickListener(OnItemChooseCallback chooseCallback, final OnRecyclerViewItemClickListener listener, final int position) {
-            int    id       = list.get(position).getId();
+            int id = list.get(position).getId();
             String filePath = String.valueOf(id);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -138,24 +145,24 @@ public class ChannelAdapter1 extends BaseRecyclerAdapter {
 
         @Override
         protected void findViewById(View itemView) {
-            mImageSrc = itemView.findViewById(R.id.image_src);
-            mImageChoose = itemView.findViewById(R.id.image_choose);
-            tv_name = itemView.findViewById(R.id.tv_name);
+            mImg = itemView.findViewById(R.id.img);
+            tag_name = itemView.findViewById(R.id.tag_name);
+            mSelect = itemView.findViewById(R.id.choice_icon);
         }
 
         @Override
         public void onBind(int position) {
             if (list.get(position).isChoose()) {
-                mImageChoose.setImageResource(R.mipmap.zp_xz);
-                mImageSrc.setColorFilter(Color.parseColor("#77000000"));
+                mImg.setColorFilter(Color.parseColor("#77000000"));
+                mSelect.setImageResource(R.mipmap.xz);
             } else {
-                mImageChoose.setImageResource(R.color.transparent);
-                mImageSrc.setColorFilter(Color.TRANSPARENT);
+                mImg.setColorFilter(null);
+                mSelect.setImageResource(R.color.transparent);
             }
-            tv_name.setText(list.get(position).getInterest());
+            tag_name.setText(list.get(position).getInterest());
             Glide.with(context)
                     .load(list.get(position).getLogo())
-                    .into(mImageSrc);
+                    .into(mImg);
         }
     }
 

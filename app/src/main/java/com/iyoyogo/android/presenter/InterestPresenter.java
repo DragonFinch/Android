@@ -47,7 +47,7 @@ public class InterestPresenter extends BasePresenter<InterestContract.View> impl
     }
 
     @Override
-    public void addInterest(Integer[] ids, String user_id, String user_token) {
+    public void addInterest(String[] ids, String user_id, String user_token) {
         DataManager.getFromRemote()
                 .addInterest(ids,user_id,user_token)
                 .subscribe(new ApiObserver<BaseBean>(mView,this) {

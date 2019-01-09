@@ -16,6 +16,6 @@ public interface InterestContract  {
     }
     interface Presenter extends IBasePresenter {
         void getInterestSign(String user_id, String user_token);
-        void addInterest(Integer[] interest_ids, String user_id, String user_token);
+        void addInterest(String[] interest_ids, String user_id, String user_token);
     }
 }

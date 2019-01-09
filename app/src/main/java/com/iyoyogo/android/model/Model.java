@@ -129,7 +129,7 @@ public class Model {
      * @param user_token
      * @return
      */
-    public Observable<BaseBean> addInterest(Integer[] interest_ids, String user_id, String user_token) {
+    public Observable<BaseBean> addInterest(String[] interest_ids, String user_id, String user_token) {
         AddInterestRequest request = new AddInterestRequest();
 
         return HttpClient.getApiService().addInterest(interest_ids, user_id, user_token)

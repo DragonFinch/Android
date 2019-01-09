@@ -1,14 +1,18 @@
 package com.iyoyogo.android.ui.common;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +27,10 @@ import com.iyoyogo.android.bean.yoxiu.channel.ChannelBean;
 import com.iyoyogo.android.contract.InterestContract;
 import com.iyoyogo.android.presenter.InterestPresenter;
 import com.iyoyogo.android.ui.home.yoxiu.ChannelActivity;
+import com.iyoyogo.android.utils.GridSpacingItemDecoration;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.imagepicker.component.OnItemChooseCallback;
+import com.iyoyogo.android.utils.imagepicker.component.OnRecyclerViewItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +51,7 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
     @BindView(R.id.tv_least)
     TextView tvLeast;
     @BindView(R.id.gv_interest)
-    GridView gv_interest;
+    RecyclerView gv_interest;
     @BindView(R.id.confirm_btn)
     Button confirmBtn;
     private int[] ids = new int[]{};
@@ -59,6 +66,10 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
     private int type;
     private ArrayList<Integer> chosenList = new ArrayList<>();
     private InterestsAdapter adapter;
+    private ChannelAdapter1 adapter1;
+    private ArrayList<String> integerList;
+    private String[] strings;
+
 
     @Override
     protected int getLayoutId() {
@@ -79,7 +90,6 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
         Log.d("LikePrefencesActivity", user_token);
         mPresenter.getInterestSign(user_id, user_token);
 
-
     }
 
     @Override
@@ -89,14 +99,43 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
 
     @Override
     public void loadDataSuccess(List<InterestBean.DataBean.ListBean> list) {
-        data = new ArrayList<>();
-        data.addAll(list);
-
-//        MyOnItemClickListener listener = new MyOnItemClickListener();
-        adapter = new InterestsAdapter(LikePrefencesActivity.this, data);
 
 
-        gv_interest.setAdapter(adapter);
+        ArrayList<Integer> data = getIntent().getIntegerArrayListExtra("data");
+        if (data != null && data.size() > 0) {
+            for (InterestBean.DataBean.ListBean listBean : list) {
+                for (Integer datum : data) {
+                    if (datum == listBean.getId()) {
+                        listBean.setChoose(true);
+                    }
+                }
+            }
+        }
+        adapter1 = new ChannelAdapter1(LikePrefencesActivity.this, list);
+        int spanCount = 4; // 3 columns
+        int spacing = 24; // 50px
+        boolean includeEdge = false;
+        gv_interest.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
+        MyChooseCallback callback = new MyChooseCallback();
+        MyOnItemClickListener listener = new MyOnItemClickListener();
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 4);
+        adapter1.setMaxNum(3);
+        adapter1.setChooseCallback(callback);
+        adapter1.setOnRecyclerViewItemClickListener(listener);
+        gv_interest.setLayoutManager(layoutManager);
+        gv_interest.setAdapter(adapter1);
+
+
+//        data = new ArrayList<>();
+//        data.addAll(list);
+//
+////        MyOnItemClickListener listener = new MyOnItemClickListener();
+//        adapter = new InterestsAdapter(LikePrefencesActivity.this, data);
+//
+//
+//        gv_interest.setAdapter(adapter);
+
+
 //        recyclerInterest.setLayoutManager(new GridLayoutManager(this, 4));
        /* InterestsAdapter interestAdapter = new InterestsAdapter(LikePrefencesActivity.this, data);
         gv_interest.setAdapter(interestAdapter);
@@ -154,7 +193,7 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
 
     @Override
     public void addInterestSuccess() {
-        startActivity(new Intent(LikePrefencesActivity.this, MainActivity.class));
+//        startActivity(new Intent(LikePrefencesActivity.this, MainActivity.class));
         finish();
         Log.d("LikePrefencesActivity", "添加成功");
     }
@@ -169,38 +208,46 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
                 break;
 
             case R.id.confirm_btn:
-                List<Integer> integerList = adapter.selectPhoto();
-                if (integerList != null) {
-                    int size = integerList.size();
-                    Integer[] integers = integerList.toArray(new Integer[size]);
-                    for (int i = 0; i < integers.length; i++) {
-                        Log.d("AAA", "integers[i]:" + integers[i]);
-                    }
-                    if (type == 6) {
-                        ArrayList<String> strings = adapter.selectInterest();
-                        Intent intent = new Intent();
-                        intent.putStringArrayListExtra("interestList", strings);
-                        for (int i = 0; i < strings.size(); i++) {
-                            Log.d("LikePrefencesActivity", "interestList" + strings.get(i));
-                        }
-                        setResult(4, intent);
-                        finish();
-                    } else {
-                        if (integers.length < 3) {
-                            Toast.makeText(this, "亲，兴趣少于三条哦", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Log.d("LikePrefencesActivity", "array.length:" + integers.length);
-                            Integer[] objects = (Integer[]) ifRepeat(integers);
-                            for (int i = 0; i < objects.length; i++) {
-                                Log.d("LikePrefencesActivity", "objects[i]:" + objects[i]);
-                            }
-                            mPresenter.addInterest(integers, user_id, user_token);
-                        }
-                    }
-                } else {
-
-                }
-
+                Intent intent = new Intent();
+                integerList = adapter1.selectPhoto();
+                ArrayList<Integer> ids = adapter1.selectChannelIds();
+                strings = integerList.toArray(new String[size]);
+                intent.putIntegerArrayListExtra("channel_array", ids);
+                intent.putStringArrayListExtra("channel_list", integerList);
+                mPresenter.addInterest(strings, user_id, user_token);
+                setResult(4, intent);
+                finish();
+//                List<Integer> integerList = adapter.selectPhoto();
+//                if (integerList != null) {
+//                    int size = integerList.size();
+//                    Integer[] integers = integerList.toArray(new Integer[size]);
+//                    for (int i = 0; i < integers.length; i++) {
+//                        Log.d("AAA", "integers[i]:" + integers[i]);
+//                    }
+//                    if (type == 6) {
+//                        ArrayList<String> strings = adapter.selectInterest();
+//                        Intent intent = new Intent();
+//                        intent.putStringArrayListExtra("interestList", strings);
+//                        for (int i = 0; i < strings.size(); i++) {
+//                            Log.d("LikePrefencesActivity", "interestList" + strings.get(i));
+//                        }
+//                        setResult(4, intent);
+//                        finish();
+//                    } else {
+//                        if (integers.length < 3) {
+//                            Toast.makeText(this, "亲，兴趣少于三条哦", Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            Log.d("LikePrefencesActivity", "array.length:" + integers.length);
+//                            Integer[] objects = (Integer[]) ifRepeat(integers);
+//                            for (int i = 0; i < objects.length; i++) {
+//                                Log.d("LikePrefencesActivity", "objects[i]:" + objects[i]);
+//                            }
+//                            mPresenter.addInterest(integers, user_id, user_token);
+//                        }
+//                    }
+//                } else {
+//
+//                }
                 break;
         }
     }
@@ -211,9 +258,50 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        List<Integer> integerList = adapter.selectPhoto();
-        if (integerList != null) {
-            integerList.clear();
+        ArrayList<String> strings = adapter1.selectPhoto();
+        if (strings != null) {
+            strings.clear();
         }
+    }
+
+
+    /**
+     * Item点击事件的监听类
+     */
+    private class MyOnItemClickListener implements OnRecyclerViewItemClickListener {
+
+        @Override
+        public void onItemClick(int position) {
+
+        }
+    }
+
+    /**
+     * Item选则事件的监听类
+     */
+    private class MyChooseCallback implements OnItemChooseCallback {
+
+        @Override
+        public void chooseState(int position, boolean isChosen) {
+
+        }
+
+        @Override
+        public void countNow(int countNow) {
+//            btnContinue.setText("继续" + "（" + countNow + "）");
+        }
+
+        @Override
+        public void countWarning(int count) {
+//            Toast.makeText(ChannelActivity.this, "最多选择" + count + "张图片", Toast.LENGTH_SHORT).show();
+//            initPopup();
+            report();
+        }
+
+    }
+
+    //数量限制
+    public void report() {
+        Toast.makeText(this, "亲，兴趣少于三条哦", Toast.LENGTH_SHORT).show();
     }
 }

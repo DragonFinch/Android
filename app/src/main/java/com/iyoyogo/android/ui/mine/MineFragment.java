@@ -110,6 +110,8 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     private String user_token;
     private Intent intent2;
     private Intent intent3;
+    String user_logo1;
+    String user_nickname;
 
     @Override
     protected int getLayoutId() {
@@ -191,7 +193,10 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
                 startActivity(intent);
                 break;
             case R.id.vip_center_img:
-                startActivity(new Intent(getContext(), VipCenterActivity.class));
+                Intent intent4 = new Intent(getContext(), VipCenterActivity.class);
+                intent4.putExtra("user_logo1",user_logo1);
+                intent4.putExtra("user_nickname",user_nickname);
+                startActivity(intent4);
                 break;
             case R.id.my_messge_im_id:
                 startActivity(new Intent(getContext(), Message_center_Activity.class));
@@ -257,7 +262,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     public void getUserInfoSuccess(MineMessageBean.DataBean data) {
         //获取用户等级
         int user_level = data.getUser_level();
-
+         user_logo1 = data.getUser_logo();
         if (user_level == 1) {
             imgLevel.setVisibility(View.VISIBLE);
             imgVipSign.setImageResource(R.mipmap.level_one);
@@ -282,7 +287,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
             imgVipSign.setImageResource(R.mipmap.level_zero);
         }
 
-        String user_nickname = data.getUser_nickname();
+        user_nickname = data.getUser_nickname();
         myBasicNameTvId.setText(user_nickname);
         String user_logo = data.getUser_logo();
 

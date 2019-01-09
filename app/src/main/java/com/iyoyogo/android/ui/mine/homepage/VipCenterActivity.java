@@ -13,15 +13,20 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.app.Constants;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.VipCenterBean;
+import com.iyoyogo.android.bean.mine.GetUserInfoBean;
+import com.iyoyogo.android.bean.mine.MineMessageBean;
 import com.iyoyogo.android.contract.VipCenterContract;
 import com.iyoyogo.android.presenter.VipCenterPresenter;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtils;
+import com.iyoyogo.android.widget.CircleImageView;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
@@ -30,6 +35,7 @@ import com.umeng.socialize.media.UMWeb;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 会员中心
@@ -40,6 +46,16 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
     ImageView myIcon;
     @BindView(R.id.tv_vip)
     TextView tvVip;
+    @BindView(R.id.tv_name)
+    TextView tvName;
+    @BindView(R.id.tv_flag)
+    TextView tvFlag;
+    @BindView(R.id.img_logo)
+    CircleImageView imgLogo;
+    @BindView(R.id.img_vip_sign)
+    ImageView imgVipSign;
+    @BindView(R.id.img_level)
+    ImageView imgLevel;
     //会员中心
     private View pop_view;
     private PopupWindow popMenu;
@@ -103,7 +119,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
 
     private void shareWeb(SHARE_MEDIA share_media) {
         /*80002/yo_id/4143*/
-        String url =Constants.BASE_URL+ "home/share/levelup/user_id/" + SpUtils.getString(getApplicationContext(), "user_id", null);
+        String url = Constants.BASE_URL + "home/share/levelup/user_id/" + SpUtils.getString(getApplicationContext(), "user_id", null);
         UMWeb web = new UMWeb(url);
         web.setTitle("title");//标题
         UMImage thumb = new UMImage(getApplicationContext(), R.mipmap.logo);
@@ -125,6 +141,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
 
     }
 
+
     //隐藏事件PopupWindow
     private class poponDismissListener implements PopupWindow.OnDismissListener {
         @Override
@@ -139,6 +156,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
         String user_id = SpUtils.getString(this, "user_id", null);
         String user_token = SpUtils.getString(this, "user_token", null);
         mPresenter.getVipCenter(user_id, user_token);
+        mPresenter.getUserInfo(user_id, user_token);
     }
 
     @Override
@@ -190,34 +208,71 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
         List<VipCenterBean.DataBean.LevelBean> list = vipCenterBean.getData().getLevel();
         for (int i = 0; i < list.size(); i++) {
             int level = list.get(i).getLevel();
+            String name = list.get(i).getName();
             if (level == 0) {
                 myIcon.setBackgroundResource(R.mipmap.mem_foxi);
+                tvFlag.setText(name);
+//                tvVip.setText("入门");
+//                imgLevel.setVisibility(View.GONE);
+//                imgVipSign.setImageResource(R.mipmap.level_zero);
             } else if (level == 1) {
                 myIcon.setBackgroundResource(R.mipmap.mem_xiansan);
+                tvFlag.setText(name);
+//                tvVip.setText("Lv1");
+//                imgLevel.setVisibility(View.VISIBLE);
+//                imgLevel.setImageResource(R.mipmap.lv1);
+//                imgVipSign.setImageResource(R.mipmap.level_one);
                 initVipLevelUp();
             } else if (level == 2) {
                 myIcon.setBackgroundResource(R.mipmap.mem_gongcheng);
+                tvFlag.setText(name);
+//                tvVip.setText("Lv2");
+//                imgLevel.setVisibility(View.VISIBLE);
+//                imgLevel.setImageResource(R.mipmap.lv2);
+//                imgVipSign.setImageResource(R.mipmap.level_two);
             } else if (level == 3) {
                 myIcon.setBackgroundResource(R.mipmap.mem_mingri);
+                tvFlag.setText(name);
+//                tvVip.setText("Lv3");
+//                imgLevel.setVisibility(View.VISIBLE);
+//                imgLevel.setImageResource(R.mipmap.lv3);
+//                imgVipSign.setImageResource(R.mipmap.level_three);
             } else if (level == 4) {
                 myIcon.setBackgroundResource(R.mipmap.mem_shouxi);
+                tvFlag.setText(name);
+//                tvVip.setText("Lv4");
+//                imgLevel.setVisibility(View.VISIBLE);
+//                imgLevel.setImageResource(R.mipmap.lv4);
+//                imgVipSign.setImageResource(R.mipmap.level_four);
             } else if (level == 5) {
                 myIcon.setBackgroundResource(R.mipmap.mem_lvxingjia);
+                tvFlag.setText(name);
+//                tvVip.setText("Lv5");
+//                imgLevel.setVisibility(View.VISIBLE);
+//                imgLevel.setImageResource(R.mipmap.lv5);
+//                imgVipSign.setImageResource(R.mipmap.level_five);
             }
-            int score = list.get(i).getScore();
-            if (score >= 0 && score < 99) {
-                tvVip.setText("入门");
-            } else if (score >= 100 && score < 199) {
-                tvVip.setText("Lv1");
-            } else if (score >= 200 && score < 499) {
-                tvVip.setText("Lv2");
-            } else if (score >= 500 && score < 1999) {
-                tvVip.setText("Lv3");
-            } else if (score >= 2000 && score < 7999) {
-                tvVip.setText("Lv4");
-            } else if (score == 5000) {
-                tvVip.setText("Lv5");
-            }
+
+            VipCenterBean.DataBean.UserInfoBean user_info = vipCenterBean.getData().getUser_info();
+            tvName.setText(user_info.getUser_nickname());
+            RequestOptions requestOptions = new RequestOptions();
+            requestOptions.error(R.mipmap.default_touxiang).placeholder(R.mipmap.default_touxiang);
+            Glide.with(this).load(user_info.getUser_logo()).apply(requestOptions).into(imgLogo);
+
+//            int score = list.get(i).getScore();
+//            if (score >= 0 && score < 99) {
+//                tvVip.setText("入门");
+//            } else if (score >= 100 && score < 199) {
+//                tvVip.setText("Lv1");
+//            } else if (score >= 200 && score < 499) {
+//                tvVip.setText("Lv2");
+//            } else if (score >= 500 && score < 1999) {
+//                tvVip.setText("Lv3");
+//            } else if (score >= 2000 && score < 7999) {
+//                tvVip.setText("Lv4");
+//            } else if (score == 5000) {
+//                tvVip.setText("Lv5");
+//            }
 
 //            int score0 = list.get(0).getScore();
 //            int score1 = list.get(1).getScore();
@@ -234,6 +289,47 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
 
 
         }
+    }
+
+    @Override
+    public void getUserInfoSuccess(MineMessageBean.DataBean data) {
+        //获取用户等级
+        int user_level = data.getUser_level();
+        if (user_level == 1) {
+            imgLevel.setVisibility(View.VISIBLE);
+            imgVipSign.setImageResource(R.mipmap.level_one);
+            tvVip.setText("Lv1");
+        } else if (user_level == 2) {
+            imgLevel.setVisibility(View.VISIBLE);
+            imgLevel.setImageResource(R.mipmap.lv2);
+            imgVipSign.setImageResource(R.mipmap.level_two);
+            tvVip.setText("Lv2");
+        } else if (user_level == 3) {
+            imgLevel.setVisibility(View.VISIBLE);
+            imgLevel.setImageResource(R.mipmap.lv3);
+            imgVipSign.setImageResource(R.mipmap.level_three);
+            tvVip.setText("Lv3");
+        } else if (user_level == 4) {
+            imgLevel.setVisibility(View.VISIBLE);
+            imgLevel.setImageResource(R.mipmap.lv4);
+            imgVipSign.setImageResource(R.mipmap.level_four);
+            tvVip.setText("Lv4");
+        } else if (user_level == 5) {
+            imgLevel.setVisibility(View.VISIBLE);
+            imgLevel.setImageResource(R.mipmap.lv5);
+            imgVipSign.setImageResource(R.mipmap.level_five);
+            tvVip.setText("Lv5");
+        } else {
+            imgLevel.setVisibility(View.GONE);
+            imgVipSign.setImageResource(R.mipmap.level_zero);
+            tvVip.setText("入门");
+        }
+
+//        String user_nickname = data.getUser_nickname();
+//        tvName.setText(user_nickname);
+//        RequestOptions requestOptions = new RequestOptions();
+//        requestOptions.error(R.mipmap.default_touxiang).placeholder(R.mipmap.default_touxiang);
+//        Glide.with(this).load(data.getUser_logo()).apply(requestOptions).into(imgLogo);
     }
 
     @Override

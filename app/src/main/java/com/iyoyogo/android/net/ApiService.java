@@ -99,7 +99,7 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("index.php/api/interest/update")
-    Observable<BaseBean> addInterest(@Field("interest_ids") Integer[] interest_ids, @Field("user_id") String user_id, @Field("user_token") String user_token);
+    Observable<BaseBean> addInterest(@Field("interest_ids") String[] interest_ids, @Field("user_id") String user_id, @Field("user_token") String user_token);
 
     /**
      * 登录

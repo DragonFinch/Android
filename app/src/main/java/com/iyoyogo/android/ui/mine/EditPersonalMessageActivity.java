@@ -14,10 +14,13 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -56,6 +59,8 @@ import com.iyoyogo.android.net.OssService;
 import com.iyoyogo.android.presenter.EditPersonalPresenter;
 import com.iyoyogo.android.ui.common.LikePrefencesActivity;
 import com.iyoyogo.android.ui.home.HomeFragment;
+import com.iyoyogo.android.ui.home.yoxiu.ChannelActivity;
+import com.iyoyogo.android.utils.KeyBoardUtils;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.view.LoadingDialog;
 import com.iyoyogo.android.widget.CircleImageView;
@@ -160,7 +165,10 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
     private String user_logo;
 
     private OssService mOssService;
+    private ArrayList<Integer> channel_arrays;
+    private ArrayList<String> channel_list;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void initView() {
         super.initView();
@@ -176,13 +184,20 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
                 }
             }
         });
-        nickName.setFocusable(false);
-        nickName.setOnClickListener(new View.OnClickListener() {
+
+        nickName.setOnTouchListener(new View.OnTouchListener() {
+            //按住和松开的标识
+            int touch_flag = 0;
+
             @Override
-            public void onClick(View v) {
-                nickName.setFocusable(true);
-                nameTvId.setVisibility(View.VISIBLE);
-                nickName.setFocusable(true);
+            public boolean onTouch(View v, MotionEvent event) {
+                touch_flag++;
+                if (touch_flag == 2) {
+                    //自己业务
+                    nameTvId.setVisibility(View.VISIBLE);
+                    KeyBoardUtils.openKeybord(nickName,EditPersonalMessageActivity.this);//调用数字键盘
+                }
+                return false;
             }
         });
         nameTvId.setOnClickListener(new View.OnClickListener() {
@@ -190,7 +205,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             public void onClick(View v) {
                 nickName.setText(nickName.getText().toString());
                 nameTvId.setVisibility(View.GONE);
-                nickName.setFocusable(false);
+                KeyBoardUtils.closeKeybord(nickName,EditPersonalMessageActivity.this);//关闭软键盘
             }
         });
     }
@@ -209,9 +224,8 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
         interestLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EditPersonalMessageActivity.this, LikePrefencesActivity.class);
-                intent.putExtra("type", 6);
-                startActivityForResult(intent, 1);
+                startActivityForResult(new Intent(EditPersonalMessageActivity.this, LikePrefencesActivity.class)
+                        .putIntegerArrayListExtra("data", channel_arrays).putExtra("type", 6), 1);
             }
         });
     }
@@ -389,9 +403,6 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
         });
     }
 
-
-
-
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -415,23 +426,40 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             }
         }
         if (requestCode == 1 && resultCode == 4) {
-            ArrayList<String> interestList = data.getStringArrayListExtra("interestList");
-            if (interestList != null) {
+            channel_arrays = data.getIntegerArrayListExtra("channel_array");
+            channel_list = data.getStringArrayListExtra("channel_list");
+            if (channel_list != null && channel_list.size() > 0) {
                 tvInterest.setVisibility(View.GONE);
                 flow_interest.setVisibility(View.VISIBLE);
-                TagAdapter<String> tagAdapter = new TagAdapter<String>(interestList) {
+                TagAdapter<String> tagAdapter = new TagAdapter<String>(channel_list) {
                     @Override
                     public View getView(FlowLayout parent, int position, String s) {
                         View contentView = getLayoutInflater().inflate(R.layout.item_interest_person, flow_interest, false);
                         TextView tv = contentView.findViewById(R.id.tv_interest);
-
-                        tv.setText(interestList.get(position));
+                        tv.setText(channel_list.get(position));
                         return contentView;
                     }
                 };
-
                 flow_interest.setAdapter(tagAdapter);
             }
+
+//            ArrayList<String> interestList = data.getStringArrayListExtra("interestList");
+//            if (interestList != null) {
+//                tvInterest.setVisibility(View.GONE);
+//                flow_interest.setVisibility(View.VISIBLE);
+//                TagAdapter<String> tagAdapter = new TagAdapter<String>(interestList) {
+//                    @Override
+//                    public View getView(FlowLayout parent, int position, String s) {
+//                        View contentView = getLayoutInflater().inflate(R.layout.item_interest_person, flow_interest, false);
+//                        TextView tv = contentView.findViewById(R.id.tv_interest);
+//
+//                        tv.setText(interestList.get(position));
+//                        return contentView;
+//                    }
+//                };
+//
+//                flow_interest.setAdapter(tagAdapter);
+//            }
         }
     }
 
