@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.search.KeywordBean;
+import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
@@ -86,9 +87,17 @@ public class SearchYoJiListHorizontalAdapter extends RecyclerView.Adapter<Search
         holder.user_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (setoncli!=null){
-                    setoncli.set(position);
-                }
+                Intent intent = new Intent();
+                intent.setClass(context,UserHomepageActivity.class);
+                intent.putExtra("yo_user_id",String.valueOf(mList.get(position).getUser_info().getUser_id()));
+                context.startActivity(intent);
+            }
+        });
+        //全部评论的接口
+        holder.tv_num_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context,"qe",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -114,7 +123,6 @@ public class SearchYoJiListHorizontalAdapter extends RecyclerView.Adapter<Search
         }
         holder.dt_like.setImageResource(mList.get(position).isIs_my_praise() == true ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
         int yo_id = mList.get(position).getYo_id();
-
         holder.dt_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

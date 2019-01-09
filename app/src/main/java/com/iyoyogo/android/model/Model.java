@@ -62,6 +62,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.http.Field;
 
 
 public class Model {
@@ -312,21 +313,21 @@ public class Model {
      * @return
      */
     public Observable<PublishSucessBean> publish_yoXiu(String user_id,
-                                              String user_token,
-                                              int yo_id,
-                                              String file_path,
-                                              int file_type,
-                                              String file_desc,
-                                              String channel_ids,
-                                              int open,
-                                              int valid,
-                                              String position_name,
-                                              String position_areas,
-                                              String position_address,
-                                              String position_city,
-                                              String lng,
-                                              String lat,
-                                              String filter_id, String size) {
+                                                       String user_token,
+                                                       int yo_id,
+                                                       String file_path,
+                                                       int file_type,
+                                                       String file_desc,
+                                                       String channel_ids,
+                                                       int open,
+                                                       int valid,
+                                                       String position_name,
+                                                       String position_areas,
+                                                       String position_address,
+                                                       String position_city,
+                                                       String lng,
+                                                       String lat,
+                                                       String filter_id, String size) {
         return HttpClient.getApiService().publish_yoXiu(user_id, user_token, yo_id, file_path, file_type, file_desc, channel_ids, open, valid, position_name, position_areas, position_address, position_city, lng, lat, filter_id, size)
                 .compose(this.switchThread());
     }
@@ -865,7 +866,7 @@ public class Model {
      * @return
      */
     public Observable<BaseBean> share(String user_id, String user_token, String id) {
-        return HttpClient.getApiService().share(user_id,user_token,id)
+        return HttpClient.getApiService().share(user_id, user_token, id)
                 .compose(this.switchThread());
     }
 
@@ -1062,57 +1063,69 @@ public class Model {
                 .compose(this.switchThread());
     }
 
-    public Observable<searchInfo> search(String user_id, String user_token){
+    public Observable<searchInfo> search(String user_id, String user_token) {
         return HttpClient.getApiService()
                 .search(user_id, user_token)
                 .compose(this.switchThread());
     }
 
-    public Observable<KeywordBean> keyword(String user_id, String user_token, String search, String type){
+    public Observable<KeywordBean> keyword(String user_id, String user_token, String search, String type) {
         return HttpClient.getApiService()
-                .keyword(user_id, user_token,search,type)
+                .keyword(user_id, user_token, search, type)
                 .compose(this.switchThread());
     }
-    public Observable<GuanZhuBean> guanzhu(String user_id, String user_token, String target){
+
+    public Observable<GuanZhuBean> guanzhu(String user_id, String user_token, String target) {
         return HttpClient.getApiService()
-                .keyword(user_id, user_token,target)
+                .keyword(user_id, user_token, target)
                 .compose(this.switchThread());
     }
+
     /*    public Observable<MapBean> mapDiTu(String user_id, String user_token, String type, String search){
             return HttpClient.getApiService()
                     .getChengShi(user_id, user_token,type,search)
                     .compose(this.switchThread());
         }*/
-    public Observable<MapBean> mapDiTu(String user_id, String user_token, String type, String seatch){
+    public Observable<MapBean> mapDiTu(String user_id, String user_token, String type, String seatch) {
         return HttpClient.getApiService()
-                .getChengShi(user_id, user_token,type,seatch)
+                .getChengShi(user_id, user_token, type, seatch)
                 .compose(this.switchThread());
     }
+
     //个人信息 城市的选择
-    public Observable<MapBean> chengShi(String user_id, String user_token, String type,String seatch){
+    public Observable<MapBean> chengShi(String user_id, String user_token, String type, String seatch) {
         return HttpClient.getApiService()
-                .getChengShiLieBiao(user_id, user_token,type,seatch)
+                .getChengShiLieBiao(user_id, user_token, type, seatch)
                 .compose(this.switchThread());
     }
+
     //首页地图定位
-    public Observable<MapBean> CPS(String user_id, String user_token, String type,String seatch){
+    public Observable<MapBean> CPS(String user_id, String user_token, String type, String seatch) {
         return HttpClient.getApiService()
-                .getGps(user_id, user_token,type,seatch)
+                .getGps(user_id, user_token, type, seatch)
                 .compose(this.switchThread());
     }
+
     //首页搜索  关键字  搜索
-    public Observable<KeywordUserBean> srarch(String user_id, String user_token, String seatch){
+    public Observable<KeywordUserBean> srarch(String user_id, String user_token, String seatch) {
         return HttpClient.getApiService()
-                .getserarch(user_id, user_token,seatch)
+                .getserarch(user_id, user_token, seatch)
                 .compose(this.switchThread());
     }
-    public Observable<BaseBean> browse(String user_id,  String user_token, String yo_id){
-        return HttpClient.getApiService().browse(user_id,user_token,yo_id)
+
+    public Observable<BaseBean> browse(String user_id, String user_token, String yo_id) {
+        return HttpClient.getApiService().browse(user_id, user_token, yo_id)
                 .compose(this.switchThread());
     }
-    public Observable<BaseBean> setLocation(String user_id,String user_token,String lng,String lat){
-        return HttpClient.getApiService().setLocation(user_id,user_token,lng,lat)
+
+    public Observable<BaseBean> setLocation(String user_id, String user_token, String lng, String lat) {
+        return HttpClient.getApiService().setLocation(user_id, user_token, lng, lat)
                 .compose(this.switchThread());
 
+    }
+
+    public Observable<YouXiuListBean> getYoXiuPosition(String user_id, String user_token, String position, int type, int page, String page_size) {
+        return HttpClient.getApiService().getYoXiuPosition(user_id, user_token, position, type, page, page_size)
+                .compose(this.switchThread());
     }
 }

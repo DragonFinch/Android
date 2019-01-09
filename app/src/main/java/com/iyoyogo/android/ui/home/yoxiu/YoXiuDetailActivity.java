@@ -47,6 +47,8 @@ import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.presenter.YoXiuDetailPresenter;
 import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.utils.DensityUtil;
+import com.iyoyogo.android.utils.KeyBoardUtils;
+import com.iyoyogo.android.utils.SoftKeyboardStateHelper;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -65,7 +67,7 @@ import io.reactivex.functions.Consumer;
 /**
  * yo秀详情
  */
-public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presenter> implements YoXiuDetailContract.View {
+public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presenter> implements YoXiuDetailContract.View, SoftKeyboardStateHelper.SoftKeyboardStateListener {
     private int open = 2;
     private boolean isOpen;
     @BindView(R.id.back)
@@ -161,9 +163,15 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     private String path;
 
     @Override
+    protected void setSetting() {
+        super.setSetting();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+    }
+
+    @Override
     protected void initView() {
         super.initView();
-
+        new SoftKeyboardStateHelper(findViewById(R.id.activity_yoxiu_detail)).addSoftKeyboardStateListener(this);
         editComment.setImeOptions(EditorInfo.IME_ACTION_SEND);
         editComment.addTextChangedListener(new TextWatcher() {
             @Override
@@ -207,6 +215,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                 editComment.setFocusable(true);
                 editComment.setFocusableInTouchMode(true);
                 editComment.requestFocus();
+                KeyBoardUtils.openKeybord(editComment, getApplicationContext());
             }
         });
     }
@@ -237,41 +246,13 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         Log.d("YoXiuDetailActivity", "user_token:" + user_token);
         mPresenter.getDetail(user_id, user_token, id);
         mPresenter.getCommentList(user_id, user_token, 1, id, 0);
-        editComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      /*  editComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    //获得焦点
-                    tvCollection.setVisibility(View.GONE);
-                    tvLike.setVisibility(View.GONE);
-                    editComment.setHint("码字不容易，留个评论鼓励下嘛~");
-                    editComment.setHintTextColor(Color.parseColor("#888888"));
-                    sendEmoji.setVisibility(View.VISIBLE);
-                    imgBrow.setVisibility(View.GONE);
 
-                    RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
-                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//                    layoutParams1.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);
-                    editComment.setLayoutParams(layoutParams1);
-
-
-                } else {
-                    //失去焦点
-                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
-//                    layoutParams.setMargins(0, DensityUtil.dp2px(YoXiuDetailActivity.this, 20), 0, 0);
-                    editComment.setLayoutParams(layoutParams);
-                    tvCollection.setVisibility(View.VISIBLE);
-                    tvLike.setVisibility(View.VISIBLE);
-                    editComment.setHint("再不评论 , 你会被抓去写作业的~");
-                    editComment.setHintTextColor(Color.parseColor("#888888"));
-                    sendEmoji.setVisibility(View.GONE);
-                    sendEmoji.setVisibility(View.GONE);
-                    imgBrow.setVisibility(View.VISIBLE);
-
-                }
             }
-        });
+        });*/
         tvCollection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -441,7 +422,10 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
                 break;
             case R.id.tv_desc:
-
+//TODO
+                Intent intent = new Intent(getApplicationContext(), YoXiuListActivity.class);
+                intent.putExtra("position", tvDesc.getText().toString().trim());
+                startActivity(intent);
                 break;
             case R.id.img_go:
 
@@ -486,9 +470,9 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
                 break;
             case R.id.tv_more_comment:
-                Intent intent = new Intent(this, AllCommentActivity.class);
-                intent.putExtra("id", id);
-                startActivity(intent);
+                Intent intent1 = new Intent(this, AllCommentActivity.class);
+                intent1.putExtra("id", id);
+                startActivity(intent1);
                 break;
         }
     }
@@ -499,6 +483,9 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         PopupWindow popup = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(YoXiuDetailActivity.this, 300), true);
         popup.setOutsideTouchable(true);
         popup.setBackgroundDrawable(new ColorDrawable());
+//        popup.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
         EditText edit_title_collection = view.findViewById(R.id.edit_title_collection);
         TextView tv_sure = view.findViewById(R.id.sure);
         ImageView clear = view.findViewById(R.id.clear);
@@ -888,6 +875,40 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         tvCollection.setCompoundDrawablesWithIntrinsicBounds(null,
                 dataBeans.get(0).getIs_my_collect() == 0 ? collection : collectioned, null, null);
         tvCollection.setText(count_collect + "");
+    }
+
+    @Override
+    public void onSoftKeyboardOpened(int keyboardHeightInPx) {
+        //获得焦点
+        tvCollection.setVisibility(View.GONE);
+        tvLike.setVisibility(View.GONE);
+        editComment.setHint("码字不容易，留个评论鼓励下嘛~");
+        editComment.setHintTextColor(Color.parseColor("#888888"));
+        sendEmoji.setVisibility(View.VISIBLE);
+        imgBrow.setVisibility(View.GONE);
+
+        RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//                    layoutParams1.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);
+        editComment.setLayoutParams(layoutParams1);
+        editComment.setLayoutParams(layoutParams1);
+
+
+    }
+
+    @Override
+    public void onSoftKeyboardClosed() {
+        //失去焦点
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+//                    layoutParams.setMargins(0, DensityUtil.dp2px(YoXiuDetailActivity.this, 20), 0, 0);
+        editComment.setLayoutParams(layoutParams);
+        tvCollection.setVisibility(View.VISIBLE);
+        tvLike.setVisibility(View.VISIBLE);
+        editComment.setHint("再不评论 , 你会被抓去写作业的~");
+        editComment.setHintTextColor(Color.parseColor("#888888"));
+        sendEmoji.setVisibility(View.GONE);
+        sendEmoji.setVisibility(View.GONE);
+        imgBrow.setVisibility(View.VISIBLE);
     }
 
 

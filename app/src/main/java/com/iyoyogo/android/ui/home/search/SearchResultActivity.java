@@ -191,13 +191,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-   /*     lv.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                sl.requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });*/
 
         String key = getIntent().getStringExtra("key");
         //searchGuanjiaci.setText(key);
@@ -214,22 +207,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             // table.setQueryHint(keyword);
         }
 
-     /*   List<KeywordBean.DataBean.UserListBean> user1 = SharedPrefrenceUtils.getSerializableList(SearchResultActivity.this, "user111");
-        if (user1 != null) {
-            List<KeywordBean.DataBean.UserListBean> listBeans = new ArrayList<>();
-            for (int i = 0; i < user1.size(); i++) {
-                listBeans.addAll(user1);
-            }
-
-            adapter.notifyDataSetChanged();
-            lv.setVisibility(View.VISIBLE);
-            lvUser.setVisibility(View.GONE);
-            lvContent.setVisibility(View.GONE);
-
-            Log.e("Tafff", "onCreate: " + "qweqeqe1111111111111" + listBeans.size());
-        } else {
-            Log.e("Tafff", "onCreate: " + "qweqeqe");*/
-        mPresenter.getKeyWord(user_id, user_token, keyword, "user");
+        mPresenter.getKeyWord(user_id, user_token, keyword, "all");
         //}
 
         tvSetname.setOnClickListener(new View.OnClickListener() {
@@ -253,10 +231,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 tv_guanzhu1 = tv_guanzhu;
                 s = tv_guanzhu.getText().toString();
                 int user_id = mUser.get(po).getUser_id();
-           /*     for (int i = 0; i < mUser.size(); i++) {
-                    user_id1 = mUser.get(po).getUser_id();
-                    Log.e("setOnClickListener", "setOnClickListener11111111111111111: "+user_id1 );
-                }*/
                 Log.e("setOnClickListener", "setOnClickListener: " + user_id);
                 if (s.equals("已关注")) {
                     mPresenter.getGuanZhu(SearchResultActivity.this.user_id, user_token, user_id + "");
@@ -271,29 +245,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             }
         });
     }
-/*
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
-    public void Token(TextView tv_guanzhu){
-        if (tv_guanzhu != null){
-            tv_guanzhu1 = tv_guanzhu;
-        }
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-        EventBus.getDefault().removeAllStickyEvents();
-    }
-*/
 
     @Override
     protected int getLayoutId() {
@@ -363,22 +314,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 }
             }
         });
-
-
- /*       searchGuanjiaci.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                Toast.makeText(SearchResultActivity.this, "qwe", Toast.LENGTH_SHORT).show();
-                Log.e("afterTextChanged", "afterTextChanged: " + s);
-                mPresenter.getSearch(user_id, user_token, s + "");
-                return true;
-            }
-        });*/
     }
 
     @Override
@@ -387,34 +322,8 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             case R.id.select_all:
                 tvSetname.setText("全部");
                 popupWindow.dismiss();
-                //切换进行网络请求   调用BaseActivity
-          /*      List<KeywordBean.DataBean.UserListBean> list = SharedPrefrenceUtils.getSerializableList(SearchResultActivity.this, "all");
-                List<KeywordBean.DataBean.YojListBean> yoji = SharedPrefrenceUtils.getSerializableList(SearchResultActivity.this, "yoji");
-                List<KeywordBean.DataBean.YoxListBeanX> yoxiu = SharedPrefrenceUtils.getSerializableList(SearchResultActivity.this, "yoxiu");
-                List<KeywordBean.DataBean.UserListBean> listBeans = new ArrayList<>();
-                List<KeywordBean.DataBean.YojListBean> yojListBeans = new ArrayList<>();
-                List<KeywordBean.DataBean.YoxListBeanX> yoxListBeanXES = new ArrayList<>();
-                if (list != null) {
-                    if (yoji != null) {
-                        if (yoxiu != null) {
-                            for (int i = 0; i < list.size(); i++) {
-                                listBeans.addAll(list);
-                                adapter.notifyDataSetChanged();
-                            }
-                            for (int i = 0; i < yoji.size(); i++) {
-                                yojListBeans.addAll(yoji);
-                                adapter1.notifyDataSetChanged();
-                            }
-                            for (int i = 0; i < yoxiu.size(); i++) {
-                                yoxListBeanXES.addAll(yoxiu);
-                                adapter3.notifyDataSetChanged();
-                            }
-
-                        }
-                    }
-                } else {*/
+                //切换进行网络请求   调用BaseActivit
                 mPresenter.getKeyWord(user_id, user_token, keyword, "all");
-                //   }
 
                 break;
             case R.id.youji:
@@ -436,7 +345,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
         }
     }
 
-    //网络请求成功的回调，
+    //网络请求成功的回调用户关注，
     @Override
     public void guanZhu(GuanZhuBean keywordBean) {
         int status = keywordBean.getData().getStatus();
@@ -495,8 +404,8 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent(SearchResultActivity.this, Personal_homepage_Activity.class);
-                                intent.putExtra("yo_user_id", list.get(finalI).getUser_id());
-                                Log.e("adadada", "onClick: " + list.get(finalI).getUser_id());
+                                intent.putExtra("yo_user_id", list.get(finalI).getUser_id()+"");
+                                //Log.e("adadada", "onClick: " + list.get(finalI).getUser_id()+"");
                                 startActivity(intent);
                             }
                         });
@@ -529,8 +438,8 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                     textName1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(SearchResultActivity.this, UserHomepageActivity.class);
-                            intent.putExtra("yo_user_id", list.get(finalI1).getUser_id());
+                            Intent intent = new Intent(SearchResultActivity.this, YoJiDetailActivity.class);
+                            intent.putExtra("yo_id", list.get(finalI1).getYo_id());
                             startActivity(intent);
                         }
                     });
@@ -862,9 +771,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
 
                 @Override
                 public void set(int position) {
-                    Intent intent = new Intent(SearchResultActivity.this, UserHomepageActivity.class);
-                    intent.putExtra("yo_user_id", myoj.get(position).getUsers_praise().get(position).getUser_id() + "");
-                    startActivity(intent);
                 }
             });
         }

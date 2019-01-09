@@ -14,24 +14,24 @@
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
         android:paddingRight="32dp"
-        android:textColor="@color/gray_9"
-        android:textSize="14sp" />
+        android:textColor="#333333"
+        android:textSize="@dimen/sp_12" />
 
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:layout_margin="10dp"
             android:text="B"
             android:id="@+id/city_name_tv"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/dp_40"
             android:gravity="center_vertical"
-            android:paddingLeft="24dp"
+            android:paddingLeft="@dimen/dp20"
             android:paddingRight="20dp"
-            android:textColor="@color/gray_6"
-            android:textSize="15sp" />
+            android:textColor="#333333"
+            android:textSize="@dimen/sp_15" />
 
     </LinearLayout>
     <View

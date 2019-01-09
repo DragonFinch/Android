@@ -42,6 +42,8 @@ public class YoyogoTopBarView extends RelativeLayout {
         void onRecommendClick();
 
         void onAttentionClick();
+
+        void setOnClickListener();
     }
 
     public YoyogoTopBarView(Context context) {
@@ -130,6 +132,14 @@ public class YoyogoTopBarView extends RelativeLayout {
             public void onClick(View v) {
                 if (yoyotopBarClickCallback != null) {
                     yoyotopBarClickCallback.onLocationClick();
+                }
+            }
+        });
+        loacktionTv.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (yoyotopBarClickCallback != null){
+                    yoyotopBarClickCallback.setOnClickListener();
                 }
             }
         });

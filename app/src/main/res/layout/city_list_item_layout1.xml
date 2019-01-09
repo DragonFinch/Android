@@ -10,15 +10,14 @@
         android:id="@+id/city_key_tv"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="@color/mainGray"
+        android:background="#F1F1F1"
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
         android:paddingRight="32dp"
         android:textColor="#333333"
-        android:textSize="14sp" />
+        android:textSize="@dimen/sp_12" />
 
     <LinearLayout
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -29,12 +28,13 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:gravity="center_vertical"
-            android:paddingLeft="24dp"
-            android:textColor="@color/gray_6"
-            android:textSize="@dimen/dp_16" />
+            android:paddingLeft="@dimen/dp20"
+            android:textColor="#333333"
+            android:textSize="@dimen/sp_15" />
         <TextView
-            android:maxLines="1"
-            android:textSize="@dimen/dp_16"
+            android:singleLine="true"
+            android:textColor="#333333"
+            android:textSize="@dimen/sp_15"
             android:id="@+id/name_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

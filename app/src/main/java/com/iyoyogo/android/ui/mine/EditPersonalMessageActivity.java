@@ -8,7 +8,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
@@ -75,6 +77,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,75 +89,77 @@ import butterknife.ButterKnife;
 public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContract.Presenter> implements EditPersonalContract.View, OssService.UploadImageListener {
     private static String path = "/sdcard/myHead/";//sd路径
     @BindView(R.id.back_iv_id)
-    ImageView       backIvId;
+    ImageView backIvId;
     @BindView(R.id.preservation_tv_id)
-    TextView        preservationTvId;
+    TextView preservationTvId;
+
+    @BindView(R.id.name_tv_id)
+    TextView nameTvId;
     @BindView(R.id.head_im_id)
     CircleImageView headImId;
     @BindView(R.id.nick_name)
-    EditText        nickName;
+    EditText nickName;
     @BindView(R.id.girl)
-    RadioButton     girl;
+    RadioButton girl;
     @BindView(R.id.boy)
-    RadioButton     boy;
+    RadioButton boy;
     @BindView(R.id.group_sex)
-    RadioGroup      groupSex;
+    RadioGroup groupSex;
     @BindView(R.id.brith_tv_id)
-    TextView        brithTvId;
+    TextView brithTvId;
     @BindView(R.id.brith_rl_id)
-    RelativeLayout  brithRlId;
+    RelativeLayout brithRlId;
     @BindView(R.id.tv_start_seat)
-    TextView        tvStartSeat;
+    TextView tvStartSeat;
     @BindView(R.id.tv_interest)
-    TextView        tvInterest;
+    TextView tvInterest;
     @BindView(R.id.flow_interest)
-    TagFlowLayout   flow_interest;
+    TagFlowLayout flow_interest;
     @BindView(R.id.tv_phone)
-    TextView        tvPhone;
+    TextView tvPhone;
     @BindView(R.id.city_tv_id)
-    TextView        cityTvId;
+    TextView cityTvId;
     @BindView(R.id.city_rl_id)
-    RelativeLayout  cityRlId;
+    RelativeLayout cityRlId;
     @BindView(R.id.user_id)
-    TextView        userId;
+    TextView userId;
     @BindView(R.id.main_llayout_id)
-    LinearLayout    mainLlayoutId;
+    LinearLayout mainLlayoutId;
     @BindView(R.id.interest_layout)
-    RelativeLayout  interestLayout;
+    RelativeLayout interestLayout;
 
-    private RelativeLayout  relativeLayout;
-    private TextView        textView;
-    private RelativeLayout  cityLayout;
-    private TextView        citytextView;
-    private TextView        preser;
-    private View            pop_view;
-    private PopupWindow     popMenu;
+    private RelativeLayout relativeLayout;
+    private TextView textView;
+    private RelativeLayout cityLayout;
+    private TextView citytextView;
+    private TextView preser;
+    private View pop_view;
+    private PopupWindow popMenu;
     private CircleImageView headimage;
     String url;
-    private static final int    ACTION_TYPE_PHOTO = 0;
-    private final        int    CAMERA            = 10;
-    private final        int    ALBUM             = 20;
-    private final        int    CUPREQUEST        = 50;
-    private              String picPath;
-    private              File   mOutImage;
-    private              Uri    mImageUri;
-    private              Uri    uritempFile;
+    private static final int ACTION_TYPE_PHOTO = 0;
+    private final int CAMERA = 10;
+    private final int ALBUM = 20;
+    private final int CUPREQUEST = 50;
+    private String picPath;
+    private File mOutImage;
+    private Uri mImageUri;
+    private Uri uritempFile;
 
     // 声明PopupWindow
-    private PopupWindow        popupWindow;
+    private PopupWindow popupWindow;
     // 声明PopupWindow对应的视图
-    private View               popupView;
-    private String             sex = "女";
+    private View popupView;
+    private String sex = "女";
     // 声明平移动画
     private TranslateAnimation animation;
-    private ImageView          back;
-    private String             user_id;
-    private String             user_token;
-    private File               file;
-    private String             user_logo;
+    private ImageView back;
+    private String user_id;
+    private String user_token;
+    private File file;
+    private String user_logo;
 
     private OssService mOssService;
-
 
     @Override
     protected void initView() {
@@ -168,6 +174,23 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
                 } else if (checkedId == R.id.girl) {
                     sex = "女";
                 }
+            }
+        });
+        nickName.setFocusable(false);
+        nickName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nickName.setFocusable(true);
+                nameTvId.setVisibility(View.VISIBLE);
+                nickName.setFocusable(true);
+            }
+        });
+        nameTvId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nickName.setText(nickName.getText().toString());
+                nameTvId.setVisibility(View.GONE);
+                nickName.setFocusable(false);
             }
         });
     }
@@ -298,8 +321,8 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             public void onTimeSelect(Date date, View v) {
 
                 textView.setText(getTime(date));
-                int    month    = date.getMonth();
-                int    day      = date.getDay();
+                int month = date.getMonth();
+                int day = date.getDay();
                 String starSeat = getStarSeat(month, day);
                 tvStartSeat.setText(starSeat);
             }
@@ -351,6 +374,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
         popMenu.setBackgroundDrawable(dw);//设置mPopupWindow背景颜色或图片，这里设置半透明
         popMenu.setOutsideTouchable(true); //设置可以通过点击mPopupWindow外部关闭mPopupWindow
 //        popMenu.setAnimationStyle(R.style.PopupAnimationAmount);//设置mPopupWindow的进出动画
+        backgroundAlpha(0.6f);
         popMenu.showAsDropDown(pop_view, Gravity.CENTER, 0, 0);//mPopupWindow显示的位置
         /**
          * PopupWindow消失监听方法
@@ -364,6 +388,8 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             }
         });
     }
+
+
 
 
     @SuppressLint("ResourceAsColor")
@@ -396,8 +422,9 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
                 TagAdapter<String> tagAdapter = new TagAdapter<String>(interestList) {
                     @Override
                     public View getView(FlowLayout parent, int position, String s) {
-                        View     contentView = getLayoutInflater().inflate(R.layout.item_interest_person, flow_interest, false);
-                        TextView tv          = contentView.findViewById(R.id.tv_interest);
+                        View contentView = getLayoutInflater().inflate(R.layout.item_interest_person, flow_interest, false);
+                        TextView tv = contentView.findViewById(R.id.tv_interest);
+
                         tv.setText(interestList.get(position));
                         return contentView;
                     }
@@ -567,8 +594,8 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             TagAdapter<GetUserInfoBean.DataBean.InterestListBean> tagAdapter = new TagAdapter<GetUserInfoBean.DataBean.InterestListBean>(interest_list) {
                 @Override
                 public View getView(FlowLayout parent, int position, GetUserInfoBean.DataBean.InterestListBean interestListBean) {
-                    View     contentView = getLayoutInflater().inflate(R.layout.item_interest_person, flow_interest, false);
-                    TextView tv          = contentView.findViewById(R.id.tv_interest);
+                    View contentView = getLayoutInflater().inflate(R.layout.item_interest_person, flow_interest, false);
+                    TextView tv = contentView.findViewById(R.id.tv_interest);
                     tv.setText(interest_list.get(position).getInterest());
                     return contentView;
                 }

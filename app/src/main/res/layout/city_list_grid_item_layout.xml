@@ -12,7 +12,6 @@
         android:ellipsize="end"
         android:gravity="center"
         android:singleLine="true"
-        android:textColor="@color/gray_9"
-        android:textSize="10sp" />
-
+        android:textColor="#4F4F4F"
+        android:textSize="@dimen/sp_12" />
 </LinearLayout>

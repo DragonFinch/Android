@@ -249,7 +249,9 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         youXiuHolder.youxiu_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, YoXiuListActivity.class));
+                Intent intent = new Intent(context, YoXiuListActivity.class);
+                intent.putExtra("position","");
+                context.startActivity(intent);
             }
         });
 

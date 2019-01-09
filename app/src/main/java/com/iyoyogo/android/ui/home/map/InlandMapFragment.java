@@ -210,14 +210,12 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
         initOverlay();
     }
 
-    /**
-     * 初始化汉语拼音首字母弹出提示框
-     */
+
     private void initOverlay() {
         mReady = true;
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         overlay = (TextView) inflater.inflate(R.layout.overlay, null);
-        overlay.setVisibility(View.INVISIBLE);
+        overlay.setVisibility(View.GONE);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.TYPE_APPLICATION,
@@ -226,11 +224,11 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
                 PixelFormat.TRANSLUCENT);
         WindowManager windowManager = (WindowManager) this
                 .getActivity().getSystemService(Context.WINDOW_SERVICE);
-        windowManager.addView(overlay, lp);
+           windowManager.addView(overlay, lp);
     }
 
     /**
-     * 初始化全部城市列表
+     * 初始化全部城市列表2
      */
     public void initTotalCityList() {
         hotCityList.clear();
@@ -291,7 +289,6 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
                         }
                         totalCityList.add(cityEntity);
                     }
-
                 }
 
             }
@@ -734,8 +731,8 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
             if (alphaIndexer.get(s) != null) {
                 int position = alphaIndexer.get(s);
                 totalCityLv.setSelection(position);
-                overlay.setText(s);
-                overlay.setVisibility(View.VISIBLE);
+                overlay.setText("");
+                overlay.setVisibility(View.GONE);
                 handler.removeCallbacks(overlayThread);
                 // 延迟让overlay为不可见
                 handler.postDelayed(overlayThread, 700);

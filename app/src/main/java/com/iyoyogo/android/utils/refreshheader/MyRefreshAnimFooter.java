@@ -113,6 +113,6 @@ public class MyRefreshAnimFooter extends LinearLayout implements RefreshFooter {
 
     @Override
     public boolean setNoMoreData(boolean noMoreData) {
-        return false;
+        return true;
     }
 }

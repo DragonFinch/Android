@@ -1,6 +1,20 @@
 {
   "City": [
     {
+      "name": "定位",
+      "key": "0",
+      "first": "",
+      "full": "",
+      "code": ""
+    },
+    {
+      "name": "热门",
+      "key": "1",
+      "first": "",
+      "full": "",
+      "code": ""
+    },
+    {
       "name": "首尔",
       "key": "热门",
       "first": "se",
@@ -88,14 +102,14 @@
       "code": "5132",
       "name": "阿伯茨福德",
       "key": "A",
-      "first": "abzzqzzzz",
-      "full": "abazangzuqiangzuzizhizhou"
+      "first": "CA British Columbia_Abbotsford",
+      "full": "abazangzuqia"
     },
     {
       "code": "6529",
       "name": "阿伯丁",
       "key": "A",
-      "first": "aksdq",
+      "first": "GB Scotland_Aberdeen",
       "full": "akesudiqu"
     },
     {

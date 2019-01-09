@@ -24,8 +24,10 @@ import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.home.HomeBean;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
+import com.iyoyogo.android.ui.home.yoxiu.YoXiuListActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
+import com.iyoyogo.android.utils.PopupWindowUtil;
 import com.iyoyogo.android.utils.SpUtils;
 
 import java.util.List;
@@ -66,6 +68,14 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         holder.itemView.setTag(position);
         holder.tv_addr_cover.setText(mList.get(position).getPosition_name());
+        holder.tv_addr_cover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,YoXiuListActivity.class);
+                intent.putExtra("position",mList.get(position).getPosition_name());
+                context.startActivity(intent);
+            }
+        });
         user_id = SpUtils.getString(context, "user_id", null);
         user_token = SpUtils.getString(context, "user_token", null);
         RequestOptions requestOptions = new RequestOptions().centerCrop()
@@ -247,7 +257,8 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
                 loadMore();
             }
         });
-        popupWindow.showAsDropDown(holder.view_like, DensityUtil.dp2px(context, 30), DensityUtil.dp2px(context, 10));
+
+        popupWindow.showAsDropDown(holder.view_like,  -155, 0);
     }
 
     private void initDislike() {
