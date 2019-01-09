@@ -333,6 +333,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onLocationClick() {
                 startActivity(new Intent(getActivity(),DiTuActivity.class));
+
             }
 
             @Override
@@ -340,7 +341,6 @@ public class HomeFragment extends BaseFragment {
 //                getFragmentManager().beginTransaction()
 //                        .add(R.id.frame_container_home, recommedFragment)
 //                        .commitAllowingStateLoss();
-
 
                 switchFragment(recommedFragment).commit();
 
@@ -352,6 +352,11 @@ public class HomeFragment extends BaseFragment {
 //                        .add(R.id.frame_container_home, attentionFragment)
 //                        .commitAllowingStateLoss();
                 switchFragment(attentionFragment).commit();
+            }
+
+            @Override
+            public void setOnClickListener() {
+                startActivity(new Intent(getActivity(),DiTuActivity.class));
             }
         });
     }

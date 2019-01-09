@@ -144,7 +144,6 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
-
                                 }
                             });*/
                             finish();

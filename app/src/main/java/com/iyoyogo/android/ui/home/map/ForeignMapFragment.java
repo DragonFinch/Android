@@ -311,8 +311,6 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
                         curCityList.add(cityEntity);
                     }
                     totalCityList.add(cityEntity);
-                    Log.e("initTotalCityList", "initTotalCityList: "+totalCityList.get(0).getName() );
-
                 }
             }
 

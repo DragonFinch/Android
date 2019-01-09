@@ -72,11 +72,14 @@
         android:layout_marginRight="@dimen/dp_70"
         android:background="@color/c888888" />
     <ListView
+        android:overScrollMode="never"
+        android:scrollbars="none"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/list_view_lv"></ListView>
     <ScrollView
+        android:scrollbars="none"
         android:id="@+id/sl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -94,6 +97,8 @@
         android:src="@mipmap/user_title"/>
 
     <android.support.v7.widget.RecyclerView
+        android:overScrollMode="never"
+        android:scrollbars="none"
         android:visibility="gone"
         android:nestedScrollingEnabled="false"
         android:layout_marginTop="20dp"
@@ -110,6 +115,8 @@
             android:src="@mipmap/content_title"/>
 
         <android.support.v7.widget.RecyclerView
+            android:overScrollMode="never"
+            android:scrollbars="none"
             android:layout_marginTop="20dp"
             android:visibility="gone"
             android:layout_width="match_parent"
@@ -117,6 +124,8 @@
             android:id="@+id/lv_content"
             android:nestedScrollingEnabled="false"></android.support.v7.widget.RecyclerView>
         <android.support.v7.widget.RecyclerView
+            android:scrollbars="none"
+            android:overScrollMode="never"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:visibility="gone"
