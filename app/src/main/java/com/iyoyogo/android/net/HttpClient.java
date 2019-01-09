@@ -30,6 +30,8 @@ public class HttpClient {
 //                .addInterceptor(new RequestInterceptor())
                 .addInterceptor(new HttpLogInterceptor())
                 .connectTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.MINUTES) // write timeout
+                .readTimeout(30, TimeUnit.MINUTES)// read timeout
                 .build();
 
 
