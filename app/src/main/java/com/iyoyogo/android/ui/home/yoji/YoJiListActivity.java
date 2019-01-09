@@ -100,9 +100,6 @@ public class YoJiListActivity extends BaseActivity {
         mRefreshAnimHeader2 = new MyRefreshAnimHeader(this);
         setHeader2(mRefreshAnimHeader2);
 
-        refreshLayout1.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
-        refreshLayout2.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
-
         //下拉刷新
         recyclerYojiList.setLayoutManager(linearLayoutManager);
         refreshLayout1.setEnableRefresh(true);

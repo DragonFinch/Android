@@ -258,7 +258,7 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
             }
         });
 
-        popupWindow.showAsDropDown(holder.view_like,  -155, 0);
+        popupWindow.showAsDropDown(holder.view_like,  DensityUtil.dp2px(context,-95), 0);
     }
 
     private void initDislike() {
