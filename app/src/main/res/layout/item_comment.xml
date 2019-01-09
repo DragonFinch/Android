@@ -47,7 +47,7 @@
         android:layout_toLeftOf="@+id/tv_show_hide"
         android:layout_toRightOf="@+id/img_user_icon"
         android:ellipsize="end"
-        android:text="lsdasdasdjasdaasdasdasdasdasdasdasdasdasdasdasdasdadasdasdasdasdasdasdasdadsdasdasdasdasdadsadasda"
+        android:text="我dasdasdjasdaasdasdasdasdasdasdasdasdasdasdasdasdadasdasdasdasdasdasdasdadsdasdasdasdasdadsadasda"
         android:textColor="#ff333333"
         android:textSize="@dimen/sp_12"
 

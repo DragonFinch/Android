@@ -24,6 +24,7 @@ import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuListActivity;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimFooter;
 import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
@@ -94,7 +95,8 @@ public class YoJiListActivity extends BaseActivity {
         //初始化header
         mRefreshAnimHeader1 = new MyRefreshAnimHeader(this);
         setHeader1(mRefreshAnimHeader1);
-
+        refreshLayout1.setRefreshFooter(new MyRefreshAnimFooter(this));
+        refreshLayout2.setRefreshFooter(new MyRefreshAnimFooter(this));
         mRefreshAnimHeader2 = new MyRefreshAnimHeader(this);
         setHeader2(mRefreshAnimHeader2);
 

@@ -35,6 +35,7 @@ import com.iyoyogo.android.ui.home.yoxiu.YoXiuListActivity;
 import com.iyoyogo.android.ui.mine.draft.DraftActivity;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtils;
+import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimFooter;
 import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimHeader;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -101,6 +102,7 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
         super.initView();
         mList = new ArrayList<>();
         //初始化header
+        refreshLayout.setRefreshFooter(new MyRefreshAnimFooter(getContext()));
         mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
         setHeader(mRefreshAnimHeader);
     }
@@ -115,7 +117,6 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
         //下拉刷新
         refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
         refreshLayout.setEnableRefresh(true);
-        refreshLayout.setFooterHeight(1.0f);
         refreshLayout.autoRefresh();
         refreshLayout.finishRefresh(1050);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -203,7 +204,7 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
                         startActivity(intent);
                     }
                 });
-            }else {
+            } else {
                 imgView.setImageResource(R.mipmap.view11);
                 recyclerYoji.setAdapter(yoJiCenterAdapter);
                 recyclerYoji.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -281,12 +282,12 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
     }
 
 
-    public void refreshData(){
+    public void refreshData() {
         recyclerYoji.setAdapter(yoJiContentAdapter2);
         recyclerYoji.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
     }
 
-    public void refreshData2(){
+    public void refreshData2() {
         recyclerYoji.setAdapter(yoJiCenterAdapter);
         recyclerYoji.setLayoutManager(new LinearLayoutManager(getContext()));
     }

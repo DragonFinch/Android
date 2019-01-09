@@ -25,6 +25,7 @@ import com.iyoyogo.android.presenter.YoXiuContentPresenter;
 import com.iyoyogo.android.ui.home.EditImageOrVideoActivity;
 import com.iyoyogo.android.ui.mine.draft.DraftActivity;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimFooter;
 import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimHeader;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -104,7 +105,7 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
         //下拉刷新
         refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
         refreshLayout.setEnableRefresh(true);
-        refreshLayout.setFooterHeight(1.0f);
+        refreshLayout.setRefreshFooter(new MyRefreshAnimFooter(getContext()));
         refreshLayout.autoRefresh();
         refreshLayout.finishRefresh(1050);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {

@@ -299,7 +299,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
                 popupWindow.dismiss();
             }
         });
-        popupWindow.showAsDropDown(holder.view_like, DensityUtil.dp2px(context, 30), DensityUtil.dp2px(context, 10));
+        popupWindow.showAsDropDown(holder.view_like, -155, DensityUtil.dp2px(context, 10));
     }
 
     private void initDislike() {
