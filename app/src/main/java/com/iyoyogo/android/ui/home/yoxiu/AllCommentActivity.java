@@ -181,18 +181,19 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
                 Drawable liked = getResources().getDrawable(
                         R.mipmap.yixihuan_xiangqing);
                 tvLike.setCompoundDrawablesWithIntrinsicBounds(null, dataBeans.get(0).getIs_my_like() > 0 ? liked : like, null, null);
-                int count_praise = dataBeans.get(0).getCount_praise();
+                String count_praise = dataBeans.get(0).getCount_praise();
+                int count_praises = Integer.parseInt(count_praise);
 
                 Log.d("Test", "dataBeans.get(0).getIs_my_like():" + dataBeans.get(0).getIs_my_like());
                 if (dataBeans.get(0).getIs_my_like() > 0) {
                     //由喜欢变为不喜欢，亮变暗
                     tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
                             like, null, null);
-                    count_praise -= 1;
+                    count_praises -= 1;
                     //设置点赞的数量
-                    tvLike.setText(count_praise + "");
+                    tvLike.setText(count_praises + "");
                     dataBeans.get(0).setIs_my_like(0);
-                    dataBeans.get(0).setCount_praise(count_praise);
+                    dataBeans.get(0).setCount_praise(count_praises+"");
 
                 } else {
                     //由不喜欢变为喜欢，暗变亮
@@ -205,7 +206,7 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
                     dataBeans.get(0).setIs_my_like(1);
                     dataBeans.get(0).setCount_praise(count_praise);
                 }
-                DataManager.getFromRemote().praise(user_id, user_token, dataBeans.get(0).getId(), 0)
+                DataManager.getFromRemote().praise(user_id, user_token, Integer.valueOf(dataBeans.get(0).getId()), 0)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -402,11 +403,13 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
     @Override
     public void getDetailSuccess(YoXiuDetailBean.DataBean data) {
         initPopup();
-        yo_id = data.getId();
+        String id = data.getId();
+        yo_id = Integer.parseInt(id);
         collection_list = new ArrayList<>();
         collection_list.add(data);
-        yo_user_id = data.getId();
-        yo_attention_id = data.getUser_id();
+        yo_user_id = Integer.parseInt(id);
+        String user_ids = data.getUser_id();
+        yo_attention_id = Integer.parseInt(user_ids);
         dataBeans.add(data);
         tvLike.setText(data.getCount_praise() + "");
 //        tvCollection.setText(data.getCount_collect() + "");
@@ -418,7 +421,7 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
 //        int count_collect = data.getCount_collect();
 //        tvCollection.setText(count_collect + "");
         if (editComment.getText().toString().length() > 0) {
-            mPresenter.addComment(user_id, user_token, 0, id1, editComment.getText().toString().trim());
+            mPresenter.addComment(this.user_id, user_token, 0, id1, editComment.getText().toString().trim());
             closeInputMethod();
             yoXiuDetailAdapter.notifyDataSetChanged();
             refresh();

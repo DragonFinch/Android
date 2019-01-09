@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
+    android:id="@+id/activity_yoji_picture"
     tools:context=".ui.home.yoji.YoJiPictureActivity">
     <RelativeLayout
         android:layout_marginTop="@dimen/dp_35"
@@ -50,6 +51,8 @@
             android:background="@mipmap/home_l_shadow"
             android:layout_height="@dimen/dp_5"/>
         <EditText
+            android:textCursorDrawable="@null"
+            android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:layout_below="@+id/shadow"
             android:paddingBottom="@dimen/dp_8"

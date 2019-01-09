@@ -9,7 +9,7 @@
     android:id="@+id/photo"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_500"
-    android:scaleType="centerCrop"
+    android:scaleType="centerInside"
     android:src="@drawable/welcome2"
     />
 </android.support.constraint.ConstraintLayout>

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/location_rl"
         android:background="#fff"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/tv_create_message"
@@ -40,25 +40,25 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:id="@+id/location_rl"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/colorFFFFFF">
+        android:background="@color/colorFFFFFF"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <EditText
-            android:textCursorDrawable="@null"
-            android:drawablePadding="@dimen/dp_10"
             android:id="@+id/location_edit"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="15dp"
             android:layout_toLeftOf="@+id/location_cancelTV_id"
-            android:drawableLeft="@mipmap/sousuo_grey"
-            android:hint="请输入喜欢的话题yo~"
             android:background="@color/transparent"
+            android:drawableLeft="@mipmap/sousuo_grey"
+            android:drawablePadding="@dimen/dp_10"
+            android:hint="请输入喜欢的话题yo~"
+            android:textCursorDrawable="@null"
             android:textSize="15sp" />
 
         <ImageView
@@ -71,119 +71,133 @@
             android:visibility="gone" />
 
         <TextView
-            android:layout_marginRight="@dimen/dp_20"
-            android:textColor="#ff333333"
-            android:textSize="@dimen/sp_15"
             android:id="@+id/location_cancelTV_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
-            android:text="取消" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/relative_more"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:layout_centerVertical="true"
-        android:layout_below="@+id/rela_create"
-        android:layout_marginTop="@dimen/dp_4"
-        android:background="@color/white"
-        android:paddingLeft="@dimen/dp_20"
-        android:visibility="visible">
-
-        <ImageView
-            android:id="@+id/img_hot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-          android:layout_centerVertical="true"
-            android:scaleType="centerCrop"
-
-            android:src="@mipmap/hot" />
-
-        <TextView
-            android:textStyle="bold"
-            android:textSize="@dimen/sp_15"
-            android:id="@+id/tv_message_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_8"
-          android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/img_hot"
-            android:text="热门话题"
-            android:textColor="#ff333333"
-
-            />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_1"
-          android:layout_alignParentBottom="true"
-            android:layout_marginTop="@dimen/dp_6"
-            android:background="#e7e3e3" />
-    </RelativeLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_topic_more"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/relative_more"
-        android:background="@color/white" />
-
-    <RelativeLayout
-        android:id="@+id/relative_near"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:layout_below="@+id/recycler_topic_more"
-        android:layout_marginTop="@dimen/dp_4"
-        android:background="@color/white"
-        android:paddingLeft="@dimen/dp_20"
-        android:visibility="visible">
-
-        <ImageView
-            android:id="@+id/img_near"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-          android:layout_centerVertical="true"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/his" />
-
-        <TextView
-            android:textStyle="bold"
-            android:id="@+id/tv_message_near"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_8"
-         android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/img_near"
-            android:text="最近使用"
-            android:textColor="#ff333333"
-            android:textSize="@dimen/sp_15"
-            />
-
-        <TextView
-            android:id="@+id/clear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-          android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_20"
-            android:text="清空" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_1"
-         android:layout_alignParentBottom="true"
-            android:layout_marginTop="@dimen/dp_6"
-            android:background="#e7e3e3" />
+            android:text="取消"
+            android:textColor="#ff333333"
+            android:textSize="@dimen/sp_15" />
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_topic_near"
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_below="@+id/rela_create"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/relative_near"
-        android:background="@color/white" />
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_alignParentTop="true"
+                android:id="@+id/relative_more"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/dp_4"
+                android:background="@color/white"
+                android:paddingLeft="@dimen/dp_20"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/img_hot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerCrop"
+
+                    android:src="@mipmap/hot" />
+
+                <TextView
+                    android:id="@+id/tv_message_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_8"
+                    android:layout_toRightOf="@+id/img_hot"
+                    android:text="热门话题"
+                    android:textColor="#ff333333"
+                    android:textSize="@dimen/sp_15"
+                    android:textStyle="bold"
+
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_1"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="@dimen/dp_6"
+                    android:background="#e7e3e3" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_topic_more"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relative_more"
+                android:background="@color/white" />
+
+            <RelativeLayout
+                android:id="@+id/relative_near"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+                android:layout_below="@+id/recycler_topic_more"
+                android:layout_marginTop="@dimen/dp_4"
+                android:background="@color/white"
+                android:paddingLeft="@dimen/dp_20"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/img_near"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/his" />
+
+                <TextView
+                    android:id="@+id/tv_message_near"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_8"
+                    android:layout_toRightOf="@+id/img_near"
+                    android:text="最近使用"
+                    android:textColor="#ff333333"
+                    android:textSize="@dimen/sp_15"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/clear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_20"
+                    android:text="清空" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_1"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="@dimen/dp_6"
+                    android:background="#e7e3e3" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_topic_near"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relative_near"
+                android:background="@color/white" />
+        </RelativeLayout>
+    </ScrollView>
+
 </RelativeLayout>

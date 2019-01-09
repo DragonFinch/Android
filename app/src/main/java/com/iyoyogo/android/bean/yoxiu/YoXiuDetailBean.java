@@ -2,12 +2,10 @@ package com.iyoyogo.android.bean.yoxiu;
 
 import com.iyoyogo.android.bean.BaseBean;
 
-import java.util.List;
-
 public class YoXiuDetailBean extends BaseBean {
 
     /**
-     * data : {"id":1,"user_id":60622,"file_type":1,"file_path":"https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/st/st_1000013028.jpg?x-oss-process=image/resize,w_1242","file_desc":"3787","position_name":"铁道博物馆","create_time":"2018-02-19 14:35:26","count_view":1339,"count_comment":3,"count_praise":595,"count_collect":0,"user_nickname":"jason","user_logo":"https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/user/Pr_200000074.jpg?x-oss-process=image/resize,w_50","is_my_like":77365,"is_my_attention":0,"is_my_collect":0,"topic_list":[{"id":1,"topic":"话题1"},{"id":3,"topic":"话题3"}]}
+     * data : {"id":"1878","filter_id":"","size":"","file_type":"1","file_path":"https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/st/st_1000009734.jpg?x-oss-process=image/resize,w_1200","file_desc":"花果山万莲花洞","position_name":"花果山","create_time":"2018-10-29 04:16:50","count_view":"1274","count_comment":"4","count_praise":"138","count_collect":"0","user_id":"70412","user_nickname":"朱迪","user_logo":"https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/user/Pr_200010214.jpg?x-oss-process=image/resize,w_50","user_city":"北京,北京","is_my_like":0,"is_my_attention":0,"is_my_collect":0}
      */
 
     private DataBean data;
@@ -22,64 +20,76 @@ public class YoXiuDetailBean extends BaseBean {
 
     public static class DataBean {
         /**
-         * id : 1
-         * user_id : 60622
+         * id : 1878
+         * filter_id :
+         * size :
          * file_type : 1
-         * file_path : https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/st/st_1000013028.jpg?x-oss-process=image/resize,w_1242
-         * file_desc : 3787
-         * position_name : 铁道博物馆
-         * create_time : 2018-02-19 14:35:26
-         * count_view : 1339
-         * count_comment : 3
-         * count_praise : 595
+         * file_path : https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/st/st_1000009734.jpg?x-oss-process=image/resize,w_1200
+         * file_desc : 花果山万莲花洞
+         * position_name : 花果山
+         * create_time : 2018-10-29 04:16:50
+         * count_view : 1274
+         * count_comment : 4
+         * count_praise : 138
          * count_collect : 0
-         * user_nickname : jason
-         * user_logo : https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/user/Pr_200000074.jpg?x-oss-process=image/resize,w_50
-         * is_my_like : 77365
+         * user_id : 70412
+         * user_nickname : 朱迪
+         * user_logo : https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/user/Pr_200010214.jpg?x-oss-process=image/resize,w_50
+         * user_city : 北京,北京
+         * is_my_like : 0
          * is_my_attention : 0
          * is_my_collect : 0
-         * topic_list : [{"id":1,"topic":"话题1"},{"id":3,"topic":"话题3"}]
          */
 
-        private int id;
-        private int user_id;
-        private int file_type;
+        private String id;
+        private String filter_id;
+        private String size;
+        private String file_type;
         private String file_path;
         private String file_desc;
         private String position_name;
         private String create_time;
-        private int count_view;
-        private int count_comment;
-        private int count_praise;
-        private int count_collect;
+        private String count_view;
+        private String count_comment;
+        private String count_praise;
+        private String count_collect;
+        private String user_id;
         private String user_nickname;
         private String user_logo;
+        private String user_city;
         private int is_my_like;
         private int is_my_attention;
         private int is_my_collect;
-        private List<TopicListBean> topic_list;
 
-        public int getId() {
+        public String getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
 
-        public int getUser_id() {
-            return user_id;
+        public String getFilter_id() {
+            return filter_id;
         }
 
-        public void setUser_id(int user_id) {
-            this.user_id = user_id;
+        public void setFilter_id(String filter_id) {
+            this.filter_id = filter_id;
         }
 
-        public int getFile_type() {
+        public String getSize() {
+            return size;
+        }
+
+        public void setSize(String size) {
+            this.size = size;
+        }
+
+        public String getFile_type() {
             return file_type;
         }
 
-        public void setFile_type(int file_type) {
+        public void setFile_type(String file_type) {
             this.file_type = file_type;
         }
 
@@ -115,36 +125,44 @@ public class YoXiuDetailBean extends BaseBean {
             this.create_time = create_time;
         }
 
-        public int getCount_view() {
+        public String getCount_view() {
             return count_view;
         }
 
-        public void setCount_view(int count_view) {
+        public void setCount_view(String count_view) {
             this.count_view = count_view;
         }
 
-        public int getCount_comment() {
+        public String getCount_comment() {
             return count_comment;
         }
 
-        public void setCount_comment(int count_comment) {
+        public void setCount_comment(String count_comment) {
             this.count_comment = count_comment;
         }
 
-        public int getCount_praise() {
+        public String getCount_praise() {
             return count_praise;
         }
 
-        public void setCount_praise(int count_praise) {
+        public void setCount_praise(String count_praise) {
             this.count_praise = count_praise;
         }
 
-        public int getCount_collect() {
+        public String getCount_collect() {
             return count_collect;
         }
 
-        public void setCount_collect(int count_collect) {
+        public void setCount_collect(String count_collect) {
             this.count_collect = count_collect;
+        }
+
+        public String getUser_id() {
+            return user_id;
+        }
+
+        public void setUser_id(String user_id) {
+            this.user_id = user_id;
         }
 
         public String getUser_nickname() {
@@ -161,6 +179,14 @@ public class YoXiuDetailBean extends BaseBean {
 
         public void setUser_logo(String user_logo) {
             this.user_logo = user_logo;
+        }
+
+        public String getUser_city() {
+            return user_city;
+        }
+
+        public void setUser_city(String user_city) {
+            this.user_city = user_city;
         }
 
         public int getIs_my_like() {
@@ -185,40 +211,6 @@ public class YoXiuDetailBean extends BaseBean {
 
         public void setIs_my_collect(int is_my_collect) {
             this.is_my_collect = is_my_collect;
-        }
-
-        public List<TopicListBean> getTopic_list() {
-            return topic_list;
-        }
-
-        public void setTopic_list(List<TopicListBean> topic_list) {
-            this.topic_list = topic_list;
-        }
-
-        public static class TopicListBean {
-            /**
-             * id : 1
-             * topic : 话题1
-             */
-
-            private int id;
-            private String topic;
-
-            public int getId() {
-                return id;
-            }
-
-            public void setId(int id) {
-                this.id = id;
-            }
-
-            public String getTopic() {
-                return topic;
-            }
-
-            public void setTopic(String topic) {
-                this.topic = topic;
-            }
         }
     }
 }

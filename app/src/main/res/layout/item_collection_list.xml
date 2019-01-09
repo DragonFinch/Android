@@ -15,9 +15,10 @@
         />
 
     <RelativeLayout
+        android:layout_above="@+id/create_folder"
         android:id="@+id/share_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/close_img"
         android:background="@color/white"
         android:focusable="true"

@@ -168,7 +168,12 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
                             recyclerAddAddress.setVisibility(View.GONE);
                         }*/
 
-        recyclerTopicMore.setLayoutManager(new LinearLayoutManager(MoreTopicActivity.this));
+        recyclerTopicMore.setLayoutManager(new LinearLayoutManager(MoreTopicActivity.this) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
         recyclerTopicMore.setAdapter(adapter);
         doChangeColor(s.toString().trim());
 
@@ -213,7 +218,12 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
         Log.d("MoreTopicActivity", "mList.size():" + mList.size());
 
         adapter = new HotTopicAdapter(MoreTopicActivity.this, mList);
-        recyclerTopicMore.setLayoutManager(new LinearLayoutManager(MoreTopicActivity.this));
+        recyclerTopicMore.setLayoutManager(new LinearLayoutManager(MoreTopicActivity.this) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
         recyclerTopicMore.setAdapter(adapter);
         locationEdit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -277,7 +287,10 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
         HotTopicBean.DataBean.ListBean listBean = new HotTopicBean.DataBean.ListBean();
         mList.addAll(list);
         Log.d("MoreTopicActivity", "mList.size():" + mList.size());
-
+        if (list.size() == 0) {
+            recyclerTopicNear.setVisibility(View.GONE);
+            relativeNear.setVisibility(View.GONE);
+        }
         HotTopicAdapter hotTopicAdapter = new HotTopicAdapter(MoreTopicActivity.this, mList);
         recyclerTopicNear.setLayoutManager(new LinearLayoutManager(MoreTopicActivity.this));
         recyclerTopicNear.setAdapter(hotTopicAdapter);

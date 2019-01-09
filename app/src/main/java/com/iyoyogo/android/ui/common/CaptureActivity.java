@@ -107,12 +107,11 @@ public class CaptureActivity extends BaseActivity implements NvsStreamingContext
     private static final String TAG = "Capture";
 
 
-
     private RelativeLayout filterLayout;
     private static final int REQUEST_CAMERA_PERMISSION_CODE = 0;
     private static final int REQUEST_RECORD_AUDIO_PERMISSION_CODE = 1;
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION_CODE = 2;
-    private ImageView bili_one,bili_four,bili_sixteen,bili_three,bili_full;
+    private ImageView bili_one, bili_four, bili_sixteen, bili_three, bili_full;
     public static final int CAPTURE_TYPE_ZOOM = 2;
     public static final int CAPTURE_TYPE_EXPOSE = 3;
     private static final int FILTERREQUESTLIST = 110;
@@ -123,7 +122,7 @@ public class CaptureActivity extends BaseActivity implements NvsStreamingContext
     private PermissionsChecker mPermissionsChecker; // 权限检测器
     private NvsLiveWindow mLiveWindow;
     private NvsStreamingContext mStreamingContext;
-private boolean isTrue=false;
+    private boolean isTrue = false;
     private LinearLayout mFunctionButtonLayout;
     private ImageView btnCameraSwitch;
     private ImageView flash;
@@ -151,7 +150,7 @@ private boolean isTrue=false;
     private LinearLayout mRecordTypeLayout;
     private View mTypeRightView;
     private Button mTypePictureBtn, mTypeVideoBtn, mPictureCancel, mPictureOk;
-    private int mRecordType = Constants.RECORD_TYPE_VIDEO;
+    private int mRecordType = Constants.RECORD_TYPE_PICTURE;
     private ImageView mPictureImage;
     private Bitmap mPictureBitmap;
 
@@ -181,9 +180,9 @@ private boolean isTrue=false;
     private View mFilterView;
     private RecyclerView mFilterRecyclerView;
     private FilterAdapter mFilterAdapter;
-//    private RelativeLayout mMoreFilterLayout;
+    //    private RelativeLayout mMoreFilterLayout;
     private ArrayList<FilterItem> mFilterItemArrayList = new ArrayList<>();
-//    private ImageButton mMoreFilterButton;
+    //    private ImageButton mMoreFilterButton;
     private RelativeLayout intensity_layout;
     private SeekBar mFilterIntensitySeekBar;
     private View mFilterIntensitySeekBarClickView;
@@ -200,9 +199,6 @@ private boolean isTrue=false;
     //
 
 
-
-
-
     @Override
     protected int getLayoutId() {
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
@@ -217,43 +213,41 @@ private boolean isTrue=false;
         mStreamingContext = NvsStreamingContext.getInstance();
         return R.layout.activity_capture;
     }
+
     //生成圆角图片
     public Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
 
-            Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
-                    bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(output);
-            final Paint paint = new Paint();
-            final Rect rect = new Rect(0, 0, bitmap.getWidth(),
-                    bitmap.getHeight());
-            final RectF rectF = new RectF(new Rect(0, 0, bitmap.getWidth(),
-                    bitmap.getHeight()));
-            final float roundPx = 14;
-            paint.setAntiAlias(true);
-            canvas.drawARGB(0, 0, 0, 0);
-            paint.setColor(Color.BLACK);
-            canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(),
+                bitmap.getHeight());
+        final RectF rectF = new RectF(new Rect(0, 0, bitmap.getWidth(),
+                bitmap.getHeight()));
+        final float roundPx = 14;
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(Color.BLACK);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
 
-            final Rect src = new Rect(0, 0, bitmap.getWidth(),
-                    bitmap.getHeight());
+        final Rect src = new Rect(0, 0, bitmap.getWidth(),
+                bitmap.getHeight());
 
-            canvas.drawBitmap(bitmap, src, rect, paint);
-            return output;
-        }
-
-
-
-
+        canvas.drawBitmap(bitmap, src, rect, paint);
+        return output;
+    }
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     protected void initView() {
+        statusbar();
         mContentResolver = getContentResolver();
         animator = ValueAnimator.ofInt(0, 100);
         checkAllPermission();
-        back= (ImageView) findViewById(R.id.back);
+        back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -261,7 +255,7 @@ private boolean isTrue=false;
             }
         });
         captureResolutionGrade = ParameterSettingValues.instance().getCaptureResolutionGrade();
-        List<String> mPhoto=new ArrayList<>();
+        List<String> mPhoto = new ArrayList<>();
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
@@ -277,30 +271,30 @@ private boolean isTrue=false;
         }
 
 
-        samePara= (ImageView) findViewById(R.id.same_para);
-        intensity_layout= (RelativeLayout) findViewById(R.id.intensity_layout);
+        samePara = (ImageView) findViewById(R.id.same_para);
+        intensity_layout = (RelativeLayout) findViewById(R.id.intensity_layout);
         /*滤镜dialog*/
-        bili_one= (ImageView) findViewById(R.id.bili_one);
-        bili_four= (ImageView) findViewById(R.id.bili_four);
-        bili_sixteen= (ImageView) findViewById(R.id.bili_sixteen);
-        bili_three= (ImageView) findViewById(R.id.bili_three);
-        bili_full= (ImageView) findViewById(R.id.bili_full);
-        album= (ImageView) findViewById(R.id.album);
+        bili_one = (ImageView) findViewById(R.id.bili_one);
+        bili_four = (ImageView) findViewById(R.id.bili_four);
+        bili_sixteen = (ImageView) findViewById(R.id.bili_sixteen);
+        bili_three = (ImageView) findViewById(R.id.bili_three);
+        bili_full = (ImageView) findViewById(R.id.bili_full);
+        album = (ImageView) findViewById(R.id.album);
         album.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CaptureActivity.this,PictureEditActivity.class));
+                startActivity(new Intent(CaptureActivity.this, PictureEditActivity.class));
             }
         });
         photoLayout = (RelativeLayout) findViewById(R.id.photo_layout);
-        filterLayout= (RelativeLayout) findViewById(R.id.filter_layout);
+        filterLayout = (RelativeLayout) findViewById(R.id.filter_layout);
 //        LayoutInflater filterInflater = LayoutInflater.from(this);
 //        mFilterView = filterInflater.inflate(R.layout.filter_view, null);
         mFilterRecyclerView = (RecyclerView) findViewById(R.id.filterBar);
 //        mMoreFilterLayout = (RelativeLayout) findViewById(R.id.more_filter_layout);
 //        mMoreFilterButton = (ImageButton) mFilterView.findViewById(R.id.download_more_btn);
         mFilterIntensitySeekBar = (SeekBar) findViewById(R.id.intensitySeekBar);
-        mFilterIntensitySeekBarClickView =findViewById(R.id.seekbar_enable_click_view);
+        mFilterIntensitySeekBarClickView = findViewById(R.id.seekbar_enable_click_view);
         mFilterIntensitySeekBar.setEnabled(false);
         mFilterIntensitySeekBar.setMax(100);
         mFilterIntensitySeekBar.setProgress(100);
@@ -360,7 +354,8 @@ private boolean isTrue=false;
 //        Bitmap bitmap1 = setImgSize(BitmapFactory.decodeFile(lastPhotoByPath), DensityUtil.dp2px(CaptureActivity.this, 44), DensityUtil.dp2px(CaptureActivity.this, 44));
 //        Glide.with(this).load(bitmap1).into(album);
     }
-    public Bitmap setImgSize(Bitmap bm, int newWidth ,int newHeight){
+
+    public Bitmap setImgSize(Bitmap bm, int newWidth, int newHeight) {
         // 获得图片的宽高.
         int width = bm.getWidth();
         int height = bm.getHeight();
@@ -418,7 +413,7 @@ private boolean isTrue=false;
 
         getFilter(filterList, bundlePath);
 
-       List<String> builtinFilterList = mStreamingContext.getAllBuiltinCaptureVideoFxNames();
+        List<String> builtinFilterList = mStreamingContext.getAllBuiltinCaptureVideoFxNames();
         //明快、精致、清晰、蕾丝、质感、元气、薄荷、草莓、粉嫩、清凉
         for (int i = 0; i < builtinFilterList.size(); i++) {
             String filterName = builtinFilterList.get(i);
@@ -483,12 +478,12 @@ private boolean isTrue=false;
                     if (filterMode == FilterItem.FILTERMODE_BUILTIN) {
                         String filterName = filterItem.getFilterName();
                         Log.d("aaa", filterName);
-                            mCurCaptureVideoFx = mStreamingContext.appendBuiltinCaptureVideoFx(filterName);
+                        mCurCaptureVideoFx = mStreamingContext.appendBuiltinCaptureVideoFx(filterName);
 
                     } else {
                         String filterPackageId = filterItem.getPackageId();
 
-                            mCurCaptureVideoFx = mStreamingContext.appendPackagedCaptureVideoFx(filterPackageId);
+                        mCurCaptureVideoFx = mStreamingContext.appendPackagedCaptureVideoFx(filterPackageId);
 
                     }
                     //
@@ -686,9 +681,9 @@ private boolean isTrue=false;
                 int screenWidth = ScreenUtils.getScreenWidth(CaptureActivity.this);
 
 
-                RelativeLayout.LayoutParams layoutParams =new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,screenWidth);
+                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, screenWidth);
                 layoutParams.height = screenWidth;
-              layoutParams.setMargins(0,100,0,100);
+                layoutParams.setMargins(0, 100, 0, 100);
 //                layoutParams.width = width;
                 mLiveWindow.setLayoutParams(layoutParams);
 
@@ -698,7 +693,7 @@ private boolean isTrue=false;
                         captureResolutionGrade,
                         NvsStreamingContext.STREAMING_ENGINE_CAPTURE_FLAG_DONT_USE_SYSTEM_RECORDER |
                                 NvsStreamingContext.STREAMING_ENGINE_CAPTURE_FLAG_CAPTURE_BUDDY_HOST_VIDEO_FRAME
-                                | NvsStreamingContext.STREAMING_ENGINE_CAPTURE_FLAG_STRICT_PREVIEW_VIDEO_SIZE, new NvsRational(1,1));
+                                | NvsStreamingContext.STREAMING_ENGINE_CAPTURE_FLAG_STRICT_PREVIEW_VIDEO_SIZE, new NvsRational(1, 1));
                 bili_three.setVisibility(View.GONE);
                 bili_four.setVisibility(View.GONE);
                 bili_sixteen.setVisibility(View.GONE);
@@ -708,12 +703,12 @@ private boolean isTrue=false;
             @Override
             public void onClick(View v) {
                 int screenWidth = ScreenUtils.getScreenWidth(CaptureActivity.this);
-                int screenHeight=screenWidth*4/3;
+                int screenHeight = screenWidth * 4 / 3;
 
-                RelativeLayout.LayoutParams layoutParams =new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,screenHeight);
+                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, screenHeight);
                 layoutParams.height = screenHeight;
 //                layoutParams.width = width;
-                layoutParams.setMargins(0,100,0,0);
+                layoutParams.setMargins(0, 100, 0, 0);
                 mLiveWindow.setLayoutParams(layoutParams);
 
                 bili_full.setVisibility(View.GONE);
@@ -723,7 +718,7 @@ private boolean isTrue=false;
                         captureResolutionGrade,
                         NvsStreamingContext.STREAMING_ENGINE_CAPTURE_FLAG_DONT_USE_SYSTEM_RECORDER |
                                 NvsStreamingContext.STREAMING_ENGINE_CAPTURE_FLAG_CAPTURE_BUDDY_HOST_VIDEO_FRAME
-                                | NvsStreamingContext.STREAMING_ENGINE_CAPTURE_FLAG_STRICT_PREVIEW_VIDEO_SIZE, new NvsRational(4,3));
+                                | NvsStreamingContext.STREAMING_ENGINE_CAPTURE_FLAG_STRICT_PREVIEW_VIDEO_SIZE, new NvsRational(4, 3));
                 bili_four.setVisibility(View.VISIBLE);
                 bili_sixteen.setVisibility(View.GONE);
             }
@@ -732,7 +727,7 @@ private boolean isTrue=false;
             @Override
             public void onClick(View v) {
                 int width = CaptureActivity.this.getResources().getDisplayMetrics().widthPixels / 4;
-                int height =  CaptureActivity.this.getResources().getDisplayMetrics().heightPixels / 3;
+                int height = CaptureActivity.this.getResources().getDisplayMetrics().heightPixels / 3;
                 ViewGroup.LayoutParams layoutParams = mLiveWindow.getLayoutParams();
                 layoutParams.height = height;
 //                layoutParams.width = width;
@@ -748,14 +743,14 @@ private boolean isTrue=false;
         bili_four.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RelativeLayout.LayoutParams layoutParams =new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.MATCH_PARENT);
+                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 //                layoutParams.width = width;
                 mLiveWindow.setLayoutParams(layoutParams);
                 mStreamingContext.startCapturePreview(mCurrentDeviceIndex,
                         captureResolutionGrade,
                         NvsStreamingContext.STREAMING_ENGINE_CAPTURE_FLAG_DONT_USE_SYSTEM_RECORDER |
                                 NvsStreamingContext.STREAMING_ENGINE_CAPTURE_FLAG_CAPTURE_BUDDY_HOST_VIDEO_FRAME
-                                | NvsStreamingContext.STREAMING_ENGINE_CAPTURE_FLAG_STRICT_PREVIEW_VIDEO_SIZE, new NvsRational(9,16));
+                                | NvsStreamingContext.STREAMING_ENGINE_CAPTURE_FLAG_STRICT_PREVIEW_VIDEO_SIZE, new NvsRational(9, 16));
                 bili_full.setVisibility(View.VISIBLE);
                 bili_one.setVisibility(View.GONE);
                 bili_three.setVisibility(View.GONE);
@@ -768,7 +763,7 @@ private boolean isTrue=false;
             @Override
             public void onClick(View v) {
                 ViewGroup.LayoutParams layoutParams = mLiveWindow.getLayoutParams();
-                layoutParams.height=ViewGroup.LayoutParams.MATCH_PARENT;
+                layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
 
                 mLiveWindow.setLayoutParams(layoutParams);
                 bili_full.setVisibility(View.GONE);
@@ -851,7 +846,7 @@ private boolean isTrue=false;
             @Override
             public void onClick(View v) {
                 int visibility = filterLayout.getVisibility();
-                if (visibility==View.VISIBLE){
+                if (visibility == View.VISIBLE) {
                     startAnimation(photoLayout);
                     endAnimation(filterLayout);
 
@@ -998,9 +993,6 @@ private boolean isTrue=false;
 //                popupWindow.setAnimationStyle(R.style.popwin_anim_style);
 
 
-
-
-
 //                mStartLayout.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,DensityUtil.dp2px(CaptureActivity.this,200)));
                /* AnimationSet aset_3 = new AnimationSet(true);
                 ScaleAnimation aa_3 = new ScaleAnimation(1, 1f, 1, 0.8f, Animation.RELATIVE_TO_SELF, 1f, Animation.RELATIVE_TO_SELF, 1f);
@@ -1008,14 +1000,14 @@ private boolean isTrue=false;
                 aset_3.addAnimation(aa_3);
                 photoLayout.startAnimation(aset_3);*/
                 int visibility = filterLayout.getVisibility();
-                    if (visibility==View.VISIBLE){
-                        startAnimation(photoLayout);
-                        endAnimation(filterLayout);
+                if (visibility == View.VISIBLE) {
+                    startAnimation(photoLayout);
+                    endAnimation(filterLayout);
 
-                        mStartLayout.setBackgroundResource(R.color.transparent);
-                        filterLayout.setVisibility(View.GONE);
-                        intensity_layout.setVisibility(View.GONE);
-                    }else {
+                    mStartLayout.setBackgroundResource(R.color.transparent);
+                    filterLayout.setVisibility(View.GONE);
+                    intensity_layout.setVisibility(View.GONE);
+                } else {
                     startAnimation(filterLayout);
                     endAnimation(photoLayout);
                     mStartLayout.setBackgroundResource(R.color.white);
@@ -1111,23 +1103,17 @@ private boolean isTrue=false;
         mTypePictureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                selectRecordType(false);;
+            }
+        });
+
+        mTypeVideoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 selectRecordType(true);
             }
         });
 
-//        mTypeVideoBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                selectRecordType(false);
-//            }
-//        });
-
-        mTypeRightView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectRecordType(false);
-            }
-        });
 
 //        mPictureCancel.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -1370,7 +1356,7 @@ private boolean isTrue=false;
                     captureResolutionGrade,
                     NvsStreamingContext.STREAMING_ENGINE_CAPTURE_FLAG_DONT_USE_SYSTEM_RECORDER |
                             NvsStreamingContext.STREAMING_ENGINE_CAPTURE_FLAG_CAPTURE_BUDDY_HOST_VIDEO_FRAME
-                            | NvsStreamingContext.STREAMING_ENGINE_CAPTURE_FLAG_STRICT_PREVIEW_VIDEO_SIZE, new NvsRational(6,19))) {
+                            | NvsStreamingContext.STREAMING_ENGINE_CAPTURE_FLAG_STRICT_PREVIEW_VIDEO_SIZE, new NvsRational(6, 19))) {
                 Log.e(TAG, "Failed to start capture preview!");
                 return false;
             }
@@ -1643,6 +1629,11 @@ private boolean isTrue=false;
     @Override
     protected void onResume() {
         super.onResume();
+        if (mRecordTimeList!=null){
+        mRecordTimeList.clear();
+
+        }
+        mRecordTime.setVisibility(View.GONE);
         Intent intent = getIntent();
         type = intent.getIntExtra("type", 1);
         mRecordTimeList = new ArrayList<Long>();
@@ -1684,7 +1675,7 @@ private boolean isTrue=false;
     protected void onPause() {
         super.onPause();
         mRecordTimeList.clear();
-        mRecordTimeList=null;
+        mRecordTimeList = null;
         animator.removeAllUpdateListeners();
         if (getCurrentEngineState() == mStreamingContext.STREAMING_ENGINE_STATE_CAPTURERECORDING) {
             stopRecording();
@@ -1765,8 +1756,8 @@ private boolean isTrue=false;
                     intent.putExtra("latitude", "0");
                     intent.putExtra("longitude", "0");
                     intent.putExtra("path", jpgPath);
-                  setResult(66);
-                  finish();
+                    setResult(66);
+                    finish();
 //                    showPictureLayout(true);
                 }
             }
@@ -1800,19 +1791,23 @@ private boolean isTrue=false;
 
     private void selectRecordType(boolean left_to_right) {
         TranslateAnimation ani;
+        //图片点击
         if (left_to_right) {
-            if (mRecordType == Constants.RECORD_TYPE_PICTURE) {
+            if (mRecordType == Constants.RECORD_TYPE_VIDEO) {
                 return;
             }
             ani = new TranslateAnimation(mTypePictureBtn.getX(), mTypeVideoBtn.getX(), 0, 0);
-            mTypePictureBtn.setTextColor(ContextCompat.getColor(CaptureActivity.this, R.color.ms_red));
+
+            mTypePictureBtn.setTextColor(ContextCompat.getColor(CaptureActivity.this, R.color.orange));
             mTypeVideoBtn.setTextColor(ContextCompat.getColor(CaptureActivity.this, R.color.white));
             mRecordType = Constants.RECORD_TYPE_PICTURE;
+
         } else {
+            //视频点击
             ani = new TranslateAnimation(mTypeVideoBtn.getX(), mTypePictureBtn.getX(), 0, 0);
             mTypePictureBtn.setTextColor(ContextCompat.getColor(CaptureActivity.this, R.color.white));
-            mTypeVideoBtn.setTextColor(ContextCompat.getColor(CaptureActivity.this, R.color.ms_red));
-            mRecordType = Constants.RECORD_TYPE_VIDEO;
+            mTypeVideoBtn.setTextColor(ContextCompat.getColor(CaptureActivity.this, R.color.orange));
+            mRecordType = Constants.RECORD_TYPE_PICTURE;
         }
         ani.setDuration(300);
         ani.setFillAfter(true);
@@ -1895,7 +1890,8 @@ private boolean isTrue=false;
 
         }
     }
-    private void startAnimation (RelativeLayout relativeLayout){
+
+    private void startAnimation(RelativeLayout relativeLayout) {
         Animation animation = AnimationUtils.loadAnimation(CaptureActivity.this, R.anim.pop_enter_anim);
         relativeLayout.startAnimation(animation);
         animation.setAnimationListener(new Animation.AnimationListener() {
@@ -1915,7 +1911,8 @@ private boolean isTrue=false;
             }
         });
     }
-    private void endAnimation (RelativeLayout relativeLayout){
+
+    private void endAnimation(RelativeLayout relativeLayout) {
         Animation animation = AnimationUtils.loadAnimation(CaptureActivity.this, R.anim.pop_exit_anim);
         relativeLayout.startAnimation(animation);
         animation.setAnimationListener(new Animation.AnimationListener() {

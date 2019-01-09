@@ -34,16 +34,22 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
     List<YoJiDetailBean.DataBean.ListBean> mList;
     private Context context;
     private boolean isShow;
-
+    String count_praise;
+    String count_comment;
+    int is_my_praise; int is_my_collect;
     //改变显示删除的imageview，通过定义变量isShow去接收变量isManager
     public void changetShowDelImage(boolean isShow) {
         this.isShow = isShow;
         notifyDataSetChanged();
     }
 
-    public YoJiDetailAdapter(Context context, List<YoJiDetailBean.DataBean.ListBean> data) {
+    public YoJiDetailAdapter(Context context, List<YoJiDetailBean.DataBean.ListBean> data, String count_praise, String count_comment, int is_my_praise, int is_my_collect) {
         this.mList = data;
         this.context = context;
+        this.count_praise = count_praise;
+        this.count_comment = count_comment;
+        this.is_my_praise = is_my_praise;
+        this.is_my_collect = is_my_collect;
     }
 
     @NonNull
@@ -108,6 +114,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.transform(new RoundTransform(context, 8));
+
 //        Glide.with(context).load(mList.get(i).getThumbnail_pic_s()).apply(requestOptions).into(holder.zuji_image);
         holder.tv_position_name.setText(mList.get(position).getPosition_name());
         String start_date = mList.get(position).getStart_date();
@@ -119,20 +126,33 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
         int time_date = end_time - start_time;
         holder.tv_time.setText(mList.get(position).getCount_dates() + "天");
         holder.create_time.setText(start_date);
-        List<YoJiDetailBean.DataBean.ListBean.LabelsBean> labels = mList.get(position).getLabels();
-        holder.flow.removeAllViews();
-        for (int i = 0; i < labels.size(); i++) {
-            addTextView(holder.flow, labels.get(i).getLabel(), labels.get(i).getType());
-        }
+
 
         List<String> logos = mList.get(position).getLogos();
         int size = logos.size();
 
-     if (position == 0) {
+        if (position == 0) {
             holder.flow.setVisibility(View.VISIBLE);
             loadData(holder, logos, size, position);
+
         } else {
+            holder.img_water_mark.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!isShow) {
+                        changetShowDelImage(true);
+
+                    } else {
+                        changetShowDelImage(false);
+                    }
+                }
+            });
             if (isShow) {
+                List<YoJiDetailBean.DataBean.ListBean.LabelsBean> labels = mList.get(position).getLabels();
+                holder.flow.removeAllViews();
+                for (int i = 0; i < labels.size(); i++) {
+                    addTextView(holder.flow, labels.get(i).getLabel(), labels.get(i).getType());
+                }
                 holder.flow.setVisibility(View.VISIBLE);
                 loadData(holder, logos, size, position);
                 if (position == mList.size() - 1) {
@@ -165,6 +185,13 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.mipmap.default_ic)
                 .error(R.mipmap.default_ic);
+        List<YoJiDetailBean.DataBean.ListBean.LabelsBean> labels = mList.get(position).getLabels();
+        holder.flow.removeAllViews();
+        for (int i = 0; i < labels.size(); i++) {
+            String label = labels.get(i).getLabel();
+            Log.d("YoJiDetailAdapter", label);
+            addTextView(holder.flow, labels.get(i).getLabel(), labels.get(i).getType());
+        }
         if (size == 1) {
             holder.flow.setVisibility(View.VISIBLE);
             holder.picture_count_one.setVisibility(View.VISIBLE);
@@ -174,8 +201,15 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 public void onClick(View v) {
                     Intent intent = new Intent();
                     intent.setClass(context, YoJiPictureActivity.class);
-                    intent.putStringArrayListExtra("logos",  (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 0);
+                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("is_my_collect", is_my_collect);
+                    intent.putExtra("count_praise", is_my_praise);
+                    intent.putExtra("is_my_collect", is_my_collect);
+                    intent.putExtra("count_praise", is_my_praise);
+                    intent.putExtra("count_praise", count_praise);
+                    intent.putExtra("count_collect", count_comment);
                     context.startActivity(intent);
                 }
             });
@@ -189,8 +223,13 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 public void onClick(View v) {
                     Intent intent = new Intent();
                     intent.setClass(context, YoJiPictureActivity.class);
-                    intent.putStringArrayListExtra("logos",  (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 0);
+                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("is_my_collect", is_my_collect);
+                    intent.putExtra("count_praise", is_my_praise);
+                    intent.putExtra("count_praise", count_praise);
+                    intent.putExtra("count_collect", count_comment);
                     context.startActivity(intent);
                 }
             });
@@ -198,14 +237,20 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
+                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("is_my_collect", is_my_collect);
+                    intent.putExtra("count_praise", is_my_praise);
+                    intent.putExtra("count_praise", count_praise);
+                    intent.putExtra("count_collect", count_comment);
                     intent.setClass(context, YoJiPictureActivity.class);
-                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 1);
                     context.startActivity(intent);
                 }
             });
         } else if (size == 3) {
             holder.flow.setVisibility(View.VISIBLE);
+
             holder.picture_count_three.setVisibility(View.VISIBLE);
             Glide.with(context).load(logos.get(0)).apply(requestOptions).into(holder.img_count_three_one);
             Glide.with(context).load(logos.get(1)).apply(requestOptions).into(holder.img_count_three_two);
@@ -215,8 +260,13 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 public void onClick(View v) {
                     Intent intent = new Intent();
                     intent.setClass(context, YoJiPictureActivity.class);
-                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 0);
+                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("is_my_collect", is_my_collect);
+                    intent.putExtra("count_praise", is_my_praise);
+                    intent.putExtra("count_praise", count_praise);
+                    intent.putExtra("count_collect", count_comment);
                     context.startActivity(intent);
                 }
             });
@@ -225,8 +275,13 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 public void onClick(View v) {
                     Intent intent = new Intent();
                     intent.setClass(context, YoJiPictureActivity.class);
-                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 1);
+                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("is_my_collect", is_my_collect);
+                    intent.putExtra("count_praise", is_my_praise);
+                    intent.putExtra("count_praise", count_praise);
+                    intent.putExtra("count_collect", count_comment);
                     context.startActivity(intent);
                 }
             });
@@ -235,14 +290,14 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 public void onClick(View v) {
                     Intent intent = new Intent();
                     intent.setClass(context, YoJiPictureActivity.class);
-                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 2);
                     context.startActivity(intent);
                 }
             });
         } else if (size == 4) {
             holder.flow.setVisibility(View.VISIBLE);
-           holder.flow.setVisibility(View.VISIBLE);
+            holder.flow.setVisibility(View.VISIBLE);
             holder.picture_count_four.setVisibility(View.VISIBLE);
             Glide.with(context).load(logos.get(0)).apply(requestOptions).into(holder.img_count_four_one);
             Glide.with(context).load(logos.get(1)).apply(requestOptions).into(holder.img_count_four_two);
@@ -252,8 +307,13 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
+                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("is_my_collect", is_my_collect);
+                    intent.putExtra("count_praise", is_my_praise);
+                    intent.putExtra("count_praise", count_praise);
+                    intent.putExtra("count_collect", count_comment);
                     intent.setClass(context, YoJiPictureActivity.class);
-                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 0);
                     context.startActivity(intent);
                 }
@@ -262,8 +322,13 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
+                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("is_my_collect", is_my_collect);
+                    intent.putExtra("count_praise", is_my_praise);
+                    intent.putExtra("count_praise", count_praise);
+                    intent.putExtra("count_collect", count_comment);
                     intent.setClass(context, YoJiPictureActivity.class);
-                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 1);
                     context.startActivity(intent);
                 }
@@ -272,9 +337,14 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
+                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("is_my_collect", is_my_collect);
+                    intent.putExtra("count_praise", is_my_praise);
+                    intent.putExtra("count_praise", count_praise);
+                    intent.putExtra("count_collect", count_comment);
 
                     intent.setClass(context, YoJiPictureActivity.class);
-                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 2);
                     context.startActivity(intent);
                 }
@@ -283,8 +353,13 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
+                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("is_my_collect", is_my_collect);
+                    intent.putExtra("count_praise", is_my_praise);
+                    intent.putExtra("count_praise", count_praise);
+                    intent.putExtra("count_collect", count_comment);
                     intent.setClass(context, YoJiPictureActivity.class);
-                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 3);
                     context.startActivity(intent);
                 }
@@ -292,17 +367,22 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
         } else if (size == 5) {
             holder.flow.setVisibility(View.VISIBLE);
             holder.picture_count_five.setVisibility(View.VISIBLE);
-            Glide.with(context).load(logos.get(0)).apply(requestOptions).into( holder.img_count_five_one);
-            Glide.with(context).load(logos.get(1)).apply(requestOptions).into( holder.img_count_five_two);
-            Glide.with(context).load(logos.get(2)).apply(requestOptions).into( holder.img_count_five_three);
-            Glide.with(context).load(logos.get(3)).apply(requestOptions).into( holder.img_count_five_four);
-            Glide.with(context).load(logos.get(4)).apply(requestOptions).into( holder.img_count_five_five);
+            Glide.with(context).load(logos.get(0)).apply(requestOptions).into(holder.img_count_five_one);
+            Glide.with(context).load(logos.get(1)).apply(requestOptions).into(holder.img_count_five_two);
+            Glide.with(context).load(logos.get(2)).apply(requestOptions).into(holder.img_count_five_three);
+            Glide.with(context).load(logos.get(3)).apply(requestOptions).into(holder.img_count_five_four);
+            Glide.with(context).load(logos.get(4)).apply(requestOptions).into(holder.img_count_five_five);
             holder.img_count_five_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
+                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("is_my_collect", is_my_collect);
+                    intent.putExtra("count_praise", is_my_praise);
+                    intent.putExtra("count_praise", count_praise);
+                    intent.putExtra("count_collect", count_comment);
                     intent.setClass(context, YoJiPictureActivity.class);
-                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 0);
                     context.startActivity(intent);
                 }
@@ -311,8 +391,13 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
+                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("is_my_collect", is_my_collect);
+                    intent.putExtra("count_praise", is_my_praise);
+                    intent.putExtra("count_praise", count_praise);
+                    intent.putExtra("count_collect", count_comment);
                     intent.setClass(context, YoJiPictureActivity.class);
-                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 1);
                     context.startActivity(intent);
                 }
@@ -321,8 +406,13 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
+                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("is_my_collect", is_my_collect);
+                    intent.putExtra("count_praise", is_my_praise);
+                    intent.putExtra("count_praise", count_praise);
+                    intent.putExtra("count_collect", count_comment);
                     intent.setClass(context, YoJiPictureActivity.class);
-                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 2);
                     context.startActivity(intent);
                 }
@@ -331,8 +421,13 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
+                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("is_my_collect", is_my_collect);
+                    intent.putExtra("count_praise", is_my_praise);
+                    intent.putExtra("count_praise", count_praise);
+                    intent.putExtra("count_collect", count_comment);
                     intent.setClass(context, YoJiPictureActivity.class);
-                    intent.putStringArrayListExtra("logos", (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 3);
                     context.startActivity(intent);
                 }
@@ -341,8 +436,13 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
+                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("is_my_collect", is_my_collect);
+                    intent.putExtra("count_praise", is_my_praise);
+                    intent.putExtra("count_praise", count_praise);
+                    intent.putExtra("count_collect", count_comment);
                     intent.setClass(context, YoJiPictureActivity.class);
-                    intent.putStringArrayListExtra("logos", (ArrayList<String>) (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 4);
                     context.startActivity(intent);
                 }
@@ -350,20 +450,26 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
         } else if (size > 5) {
             holder.flow.setVisibility(View.VISIBLE);
             holder.picture_count_five.setVisibility(View.VISIBLE);
-            Glide.with(context).load(logos.get(0)).apply(requestOptions).into( holder.img_count_five_one);
-            Glide.with(context).load(logos.get(1)).apply(requestOptions).into( holder.img_count_five_two);
-            Glide.with(context).load(logos.get(2)).apply(requestOptions).into( holder.img_count_five_three);
-            Glide.with(context).load(logos.get(3)).apply(requestOptions).into( holder.img_count_five_four);
-            Glide.with(context).load(logos.get(4)).apply(requestOptions).into( holder.img_count_five_five);
+            Glide.with(context).load(logos.get(0)).apply(requestOptions).into(holder.img_count_five_one);
+            Glide.with(context).load(logos.get(1)).apply(requestOptions).into(holder.img_count_five_two);
+            Glide.with(context).load(logos.get(2)).apply(requestOptions).into(holder.img_count_five_three);
+            Glide.with(context).load(logos.get(3)).apply(requestOptions).into(holder.img_count_five_four);
+            Glide.with(context).load(logos.get(4)).apply(requestOptions).into(holder.img_count_five_five);
             holder.tv_pic_count.setVisibility(View.VISIBLE);
             holder.tv_pic_count.setText(size + "");
             holder.img_count_five_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-
+                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("is_my_collect", is_my_collect);
+                    intent.putExtra("count_praise", is_my_praise);
+                    intent.putExtra("count_praise", count_praise);
+                    intent.putExtra("count_collect", count_comment);
+                    intent.putExtra("count_praise", count_praise);
+                    intent.putExtra("count_collect", count_comment);
                     intent.setClass(context, YoJiPictureActivity.class);
-                    intent.putStringArrayListExtra("logos", (ArrayList<String>) (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 0);
                     context.startActivity(intent);
                 }
@@ -373,7 +479,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 public void onClick(View v) {
                     Intent intent = new Intent();
                     intent.setClass(context, YoJiPictureActivity.class);
-                    intent.putStringArrayListExtra("logos", (ArrayList<String>) (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 1);
                     context.startActivity(intent);
                 }
@@ -382,8 +488,13 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
+                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("is_my_collect", is_my_collect);
+                    intent.putExtra("count_praise", is_my_praise);
+                    intent.putExtra("count_praise", count_praise);
+                    intent.putExtra("count_collect", count_comment);
                     intent.setClass(context, YoJiPictureActivity.class);
-                    intent.putStringArrayListExtra("logos", (ArrayList<String>) (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 2);
                     context.startActivity(intent);
                 }
@@ -392,8 +503,13 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
+                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("is_my_collect", is_my_collect);
+                    intent.putExtra("count_praise", is_my_praise);
+                    intent.putExtra("count_praise", count_praise);
+                    intent.putExtra("count_collect", count_comment);
                     intent.setClass(context, YoJiPictureActivity.class);
-                    intent.putStringArrayListExtra("logos", (ArrayList<String>) (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 3);
                     context.startActivity(intent);
                 }
@@ -402,8 +518,13 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
+                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("is_my_collect", is_my_collect);
+                    intent.putExtra("count_praise", is_my_praise);
+                    intent.putExtra("count_praise", count_praise);
+                    intent.putExtra("count_collect", count_comment);
                     intent.setClass(context, YoJiPictureActivity.class);
-                    intent.putStringArrayListExtra("logos", (ArrayList<String>) (ArrayList<String>)mList.get(position).getLogos_big());
+                    intent.putStringArrayListExtra("logos", (ArrayList<String>) (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 4);
                     context.startActivity(intent);
                 }
@@ -447,7 +568,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
     public class Holder extends RecyclerView.ViewHolder {
         FlowGroupView flow;
 
-        ImageView zuji_image, plane,
+        ImageView zuji_image, plane, img_water_mark,
                 img_count_one_one, img_count_two_one, img_count_three_one, img_count_four_one, img_count_five_one,
                 img_count_two_two, img_count_three_two, img_count_four_two, img_count_five_two,
                 img_count_three_three, img_count_four_three, img_count_five_three,
@@ -457,6 +578,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
 
         public Holder(@NonNull View itemView) {
             super(itemView);
+            img_water_mark = itemView.findViewById(R.id.img_water_mark);
             flow = itemView.findViewById(R.id.flow);
             tv_pic_count = itemView.findViewById(R.id.tv_pic_count);
             tv_time = itemView.findViewById(R.id.tv_time);

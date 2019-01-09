@@ -126,12 +126,13 @@ public class AllReplyActivity extends BaseActivity<YoXiuDetailContract.Presenter
     @Override
     public void getDetailSuccess(YoXiuDetailBean.DataBean data) {
         initPopup();
-        yo_id = data.getId();
+        String id = data.getId();
+        yo_id = Integer.parseInt(id);
         allReplyTv.setText("评论" + "(" + data.getCount_comment() + ")");
         collection_list = new ArrayList<>();
         collection_list.add(data);
-        yo_user_id = data.getId();
-        yo_attention_id = data.getUser_id();
+        yo_user_id = Integer.parseInt(id);
+        yo_attention_id = Integer.parseInt(data.getUser_id());
         dataBeans.add(data);
         collections();
         is_my_collect = data.getIs_my_collect();
@@ -140,11 +141,11 @@ public class AllReplyActivity extends BaseActivity<YoXiuDetailContract.Presenter
         String create_time = data.getCreate_time();
         String time = create_time.replaceAll("-", ".");
 //        tvTime.setText(time);
-        int count_collect = data.getCount_collect();
+        String count_collect = data.getCount_collect();
         tvCollection.setText(count_collect + "");
-        int count_praise = data.getCount_praise();
+        String count_praise = data.getCount_praise();
         tvLike.setText(count_praise + "");
-        int count_view = data.getCount_view();
+        String count_view = data.getCount_view();
 //        numLook.setText(count_view + "");
 //        file_desc = data.getFile_desc();
 //        textDesc.setText(file_desc);
@@ -369,31 +370,32 @@ public class AllReplyActivity extends BaseActivity<YoXiuDetailContract.Presenter
                 Drawable liked = getResources().getDrawable(
                         R.mipmap.yixihuan_xiangqing);
                 tvLike.setCompoundDrawablesWithIntrinsicBounds(null, dataBeans.get(0).getIs_my_like() > 0 ? liked : like, null, null);
-                int count_praise = dataBeans.get(0).getCount_praise();
+                String count_praise = dataBeans.get(0).getCount_praise();
+                Integer count_praises = Integer.valueOf(count_praise);
 
                 Log.d("Test", "dataBeans.get(0).getIs_my_like():" + dataBeans.get(0).getIs_my_like());
                 if (dataBeans.get(0).getIs_my_like() > 0) {
                     //由喜欢变为不喜欢，亮变暗
                     tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
                             like, null, null);
-                    count_praise -= 1;
+                    count_praises -= 1;
                     //设置点赞的数量
-                    tvLike.setText(count_praise + "");
+                    tvLike.setText(count_praises + "");
                     dataBeans.get(0).setIs_my_like(0);
-                    dataBeans.get(0).setCount_praise(count_praise);
+                    dataBeans.get(0).setCount_praise(count_praises+"");
                     like();
                     popup.showAtLocation(findViewById(R.id.activity_yoxiu_detail), Gravity.CENTER, 0, 0);
                 } else {
                     //由不喜欢变为喜欢，暗变亮
                     tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
                             liked, null, null);
-                    count_praise += 1;
+                    count_praises += 1;
                     //设置点赞的数量
-                    tvLike.setText(count_praise + "");
+                    tvLike.setText(count_praises + "");
                     dataBeans.get(0).setIs_my_like(1);
-                    dataBeans.get(0).setCount_praise(count_praise);
+                    dataBeans.get(0).setCount_praise(count_praises+"");
                 }
-                DataManager.getFromRemote().praise(user_id, user_token, dataBeans.get(0).getId(), 0)
+                DataManager.getFromRemote().praise(user_id, user_token, Integer.parseInt(dataBeans.get(0).getId()), 0)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {

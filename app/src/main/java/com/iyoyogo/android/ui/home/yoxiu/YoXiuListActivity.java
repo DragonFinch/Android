@@ -95,7 +95,7 @@ public class YoXiuListActivity extends BaseActivity {
         mRefreshAnimHeader = new MyRefreshAnimHeader(this);
         mRefreshAnimFooter = new MyRefreshAnimFooter(this);
         setHeader(mRefreshAnimHeader);
-        setFooter(mRefreshAnimFooter);
+//        setFooter(mRefreshAnimFooter);
 
 
     }
@@ -115,7 +115,7 @@ public class YoXiuListActivity extends BaseActivity {
         super.initData(savedInstanceState);
 
 
-        refreshLayout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
+        refreshLayout.setRefreshFooter(new MyRefreshAnimFooter(this));
         //下拉刷新
         user_id = SpUtils.getString(YoXiuListActivity.this, "user_id", null);
         user_token = SpUtils.getString(YoXiuListActivity.this, "user_token", null);

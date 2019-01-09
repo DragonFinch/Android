@@ -59,6 +59,7 @@ import com.iyoyogo.android.presenter.YoJiDetailPresenter;
 import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
 import com.iyoyogo.android.ui.home.yoxiu.MoreTopicActivity;
 import com.iyoyogo.android.utils.DensityUtil;
+import com.iyoyogo.android.utils.SoftKeyboardStateHelper;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtil;
 import com.iyoyogo.android.widget.CircleImageView;
@@ -82,7 +83,7 @@ import io.reactivex.functions.Consumer;
 /**
  * yo记详情
  */
-public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presenter> implements YoJiDetailContract.View {
+public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presenter> implements YoJiDetailContract.View, SoftKeyboardStateHelper.SoftKeyboardStateListener {
 
     @BindView(R.id.bg)
     ImageView bg;
@@ -260,6 +261,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     protected void initView() {
         super.initView();
+        new SoftKeyboardStateHelper(findViewById(R.id.activity_yoji_detail)).addSoftKeyboardStateListener(this);
        /* mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
                 Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
                 -1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
@@ -319,44 +321,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 }
             }
         });
-        editComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    //获得焦点
-                    tvCollection.setVisibility(View.GONE);
-                    tvLike.setVisibility(View.GONE);
-                    editComment.setHint("码字不容易，留个评论鼓励下嘛~");
-                    editComment.setHintTextColor(Color.parseColor("#888888"));
-                    sendEmoji.setVisibility(View.VISIBLE);
-                    imgBrow.setVisibility(View.GONE);
-//                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
-////                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//
-//                    layoutParams.alignWithParent=true;
-                    RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
-                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//                    layoutParams1.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);
-                    editComment.setLayoutParams(layoutParams1);
-
-
-                } else {
-                    //失去焦点
-                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
-//                    layoutParams.setMargins(0, DensityUtil.dp2px(YoXiuDetailActivity.this, 20), 0, 0);
-                    editComment.setLayoutParams(layoutParams);
-                    tvCollection.setVisibility(View.VISIBLE);
-                    tvLike.setVisibility(View.VISIBLE);
-                    editComment.setHint("再不评论 , 你会被抓去写作业的~");
-                    editComment.setHintTextColor(Color.parseColor("#888888"));
-                    sendEmoji.setVisibility(View.GONE);
-                    sendEmoji.setVisibility(View.GONE);
-                    imgBrow.setVisibility(View.VISIBLE);
-
-                }
-            }
-        });
         editComment.setImeOptions(EditorInfo.IME_ACTION_SEND);
         editComment.addTextChangedListener(new TextWatcher() {
             @Override
@@ -461,7 +426,6 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         super.initData(savedInstanceState);
 
 
-
     }
 
     @Override
@@ -481,14 +445,12 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 finish();
                 break;
             case R.id.add_attention:
-                mPresenter.getYoJiDetail(user_id, user_token, yo_id);
                 mPresenter.addAttention(user_id, user_token, Integer.parseInt(yo_attention_id));
                 break;
             case R.id.img_share:
                 share();
                 break;
             case R.id.tv_attention:
-                mPresenter.getYoJiDetail(user_id, user_token, yo_id);
                 mPresenter.addAttention(user_id, user_token, Integer.parseInt(yo_attention_id));
                 break;
             case R.id.tv_load_more:
@@ -664,10 +626,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         is_my_attention = data.getIs_my_attention();
         if (is_my_attention == 0) {
             tvAttention.setText("+ 关注");
-            addAttention.setVisibility(View.VISIBLE);
         } else {
             tvAttention.setText("已关注");
-            addAttention.setVisibility(View.GONE);
         }
         logo = data.getLogo();
         RequestOptions requestOptions = new RequestOptions();
@@ -694,7 +654,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         tvAddressEndFold.setText(data.getP_end());
 
         List<YoJiDetailBean.DataBean.ListBean> list = data.getList();
-        yoJiDetailAdapter = new YoJiDetailAdapter(YoJiDetailActivity.this, list);
+        yoJiDetailAdapter = new YoJiDetailAdapter(YoJiDetailActivity.this, list,data.getCount_praise(),String.valueOf(data.getCount_collect()),data.getIs_my_praise(),data.getIs_my_collect());
 
         recyclerYoji.setAdapter(yoJiDetailAdapter);
         recyclerYoji.setLayoutManager(new LinearLayoutManager(YoJiDetailActivity.this));
@@ -1046,6 +1006,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         popup = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(YoJiDetailActivity.this, 300), true);
         popup.setOutsideTouchable(true);
         popup.setBackgroundDrawable(new ColorDrawable());
+        popup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         EditText edit_title_collection = view.findViewById(R.id.edit_title_collection);
         TextView tv_sure = view.findViewById(R.id.sure);
         ImageView clear = view.findViewById(R.id.clear);
@@ -1210,7 +1171,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     private void shareWeb(SHARE_MEDIA share_media) {
         /*80002/yo_id/4143*/
-        String url = Constants.BASE_URL+ "home/share/details_yoj/share_user_id/" + user_id + "/yo_id/" + yo_id;
+        String url = Constants.BASE_URL + "home/share/details_yoj/share_user_id/" + user_id + "/yo_id/" + yo_id;
         UMWeb web = new UMWeb(url);
         web.setTitle(title);//标题
         UMImage thumb = new UMImage(getApplicationContext(), logo);
@@ -1236,6 +1197,45 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void onSoftKeyboardOpened(int keyboardHeightInPx) {
+
+        //获得焦点
+        tvCollection.setVisibility(View.GONE);
+        tvLike.setVisibility(View.GONE);
+        editComment.setHint("码字不容易，留个评论鼓励下嘛~");
+        editComment.setHintTextColor(Color.parseColor("#888888"));
+        sendEmoji.setVisibility(View.VISIBLE);
+        imgBrow.setVisibility(View.GONE);
+//                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+////                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//
+//                    layoutParams.alignWithParent=true;
+        RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//                    layoutParams1.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);
+        editComment.setLayoutParams(layoutParams1);
+
+
+        //失去焦点
+
+
+    }
+
+    @Override
+    public void onSoftKeyboardClosed() {
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+//                    layoutParams.setMargins(0, DensityUtil.dp2px(YoXiuDetailActivity.this, 20), 0, 0);
+        editComment.setLayoutParams(layoutParams);
+        tvCollection.setVisibility(View.VISIBLE);
+        tvLike.setVisibility(View.VISIBLE);
+        editComment.setHint("再不评论 , 你会被抓去写作业的~");
+        editComment.setHintTextColor(Color.parseColor("#888888"));
+        sendEmoji.setVisibility(View.GONE);
+        sendEmoji.setVisibility(View.GONE);
+        imgBrow.setVisibility(View.VISIBLE);
     }
 
     //隐藏事件PopupWindow
@@ -1364,12 +1364,17 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     @Override
     public void addAttentionSuccess(AttentionBean.DataBean data) {
-        tvAttention.setText("已关注");
+        int status = data.getStatus();
+        if (status == 0) {
+            tvAttention.setText("+ 关注");
+        } else {
+            tvAttention.setText("已关注");
+        }
     }
 
     @Override
     public void deleteAttentionSuccess(BaseBean baseBean) {
-        tvAttention.setText("+ 关注");
+
     }
 
 

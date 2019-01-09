@@ -149,7 +149,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     private String collection_id;
     private int yo_id;
     private PopupWindow popup;
-    private int count_collect;
+    private String count_collect;
     TextView tv_message;
     ImageView img_tip;
     TextView tv_message_two;
@@ -161,6 +161,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     private int yo_attention_id;
     private String file_desc;
     private String path;
+    private int count_collects;
 
     @Override
     protected void setSetting() {
@@ -382,31 +383,31 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                 Drawable liked = getResources().getDrawable(
                         R.mipmap.yixihuan_xiangqing);
                 tvLike.setCompoundDrawablesWithIntrinsicBounds(null, dataBeans.get(0).getIs_my_like() > 0 ? liked : like, null, null);
-                int count_praise = dataBeans.get(0).getCount_praise();
-
+                String count_praise = dataBeans.get(0).getCount_praise();
+                int count_praises = Integer.parseInt(count_praise);
                 Log.d("Test", "dataBeans.get(0).getIs_my_like():" + dataBeans.get(0).getIs_my_like());
                 if (dataBeans.get(0).getIs_my_like() > 0) {
                     //由喜欢变为不喜欢，亮变暗
                     tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
                             like, null, null);
-                    count_praise -= 1;
+                    count_praises -= 1;
                     //设置点赞的数量
-                    tvLike.setText(count_praise + "");
                     dataBeans.get(0).setIs_my_like(0);
-                    dataBeans.get(0).setCount_praise(count_praise);
+                    dataBeans.get(0).setCount_praise(count_praises + "");
+                    tvLike.setText(count_praise + "");
 
                 } else {
                     //由不喜欢变为喜欢，暗变亮
                     tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
                             liked, null, null);
-                    count_praise += 1;
+                    count_praises += 1;
                     //设置点赞的数量
                     like();
-                    tvLike.setText(count_praise + "");
                     dataBeans.get(0).setIs_my_like(1);
-                    dataBeans.get(0).setCount_praise(count_praise);
+                    dataBeans.get(0).setCount_praise(count_praises + "");
+                    tvLike.setText(count_praises + "");
                 }
-                DataManager.getFromRemote().praise(user_id, user_token, dataBeans.get(0).getId(), 0)
+                DataManager.getFromRemote().praise(user_id, user_token, Integer.parseInt(dataBeans.get(0).getId()), 0)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -589,12 +590,15 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     @Override
     public void getDetailSuccess(YoXiuDetailBean.DataBean data) {
         initPopup();
-        yo_id = data.getId();
+        String id = data.getId();
+        yo_id = Integer.parseInt(id);
         tvComment.setText("评论" + "(" + data.getCount_comment() + ")");
         collection_list = new ArrayList<>();
         collection_list.add(data);
-        yo_user_id = data.getId();
-        yo_attention_id = data.getUser_id();
+        String id1 = data.getId();
+        yo_user_id = Integer.parseInt(id1);
+        String user_ids = data.getUser_id();
+        yo_attention_id = Integer.parseInt(user_ids);
         dataBeans.add(data);
         collections();
         is_my_collect = data.getIs_my_collect();
@@ -610,9 +614,9 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         tvTime.setText(time);
         count_collect = data.getCount_collect();
         tvCollection.setText(count_collect + "");
-        int count_praise = data.getCount_praise();
+        String count_praise = data.getCount_praise();
         tvLike.setText(count_praise + "");
-        int count_view = data.getCount_view();
+        String count_view = data.getCount_view();
         numLook.setText(count_view + "");
         file_desc = data.getFile_desc();
         textDesc.setText(file_desc);
@@ -632,10 +636,10 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         Glide.with(this).load(path)
                 .apply(requestOptions)
                 .into(imgLogo);
-        int file_type = data.getFile_type();
-        if (file_type == 2) {
+        String file_type = data.getFile_type();
+        if (file_type.equals("2")) {
             imgVideo.setVisibility(View.VISIBLE);
-        } else if (file_type == 1) {
+        } else if (file_type.equals("1")) {
             imgVideo.setVisibility(View.GONE);
         }
         String user_logo = data.getUser_logo();
@@ -794,7 +798,12 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
       /*  String target_id = data.getId();
         add_attention_id = Integer.parseInt(target_id);
         Log.d("YoXiuDetailActivity", target_id);*/
-        mPresenter.getDetail(user_id, user_token, id);
+        int status = data.getStatus();
+        if (status == 0) {
+            collection.setText("+ 关注");
+        } else {
+            collection.setText("已关注");
+        }
     }
 
     @Override
@@ -851,7 +860,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     public void addCollectionSuccess(AddCollectionBean.DataBean data) {
         String collection_id = data.getId();
         add_collection_id = Integer.parseInt(collection_id);
-        count_collect += 1;
+        count_collects = Integer.parseInt(count_collect);
+        count_collects += 1;
         Drawable collection = getResources().getDrawable(
                 R.mipmap.shoucang_xiangqing);
         Drawable collectioned = getResources().getDrawable(
@@ -860,13 +870,13 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         tvCollection.setCompoundDrawablesWithIntrinsicBounds(null,
                 dataBeans.get(0).getIs_my_collect() == 0 ? collection : collectioned, null, null);
 
-        tvCollection.setText(count_collect + "");
+        tvCollection.setText(count_collects + "");
     }
 
     @Override
     public void deleteCollectionSuccess(BaseBean baseBean) {
         Toast.makeText(this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
-        count_collect -= 1;
+        count_collects -= 1;
         Drawable collection = getResources().getDrawable(
                 R.mipmap.shoucang_xiangqing);
         Drawable collectioned = getResources().getDrawable(
@@ -874,7 +884,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         dataBeans.get(0).setIs_my_collect(0);
         tvCollection.setCompoundDrawablesWithIntrinsicBounds(null,
                 dataBeans.get(0).getIs_my_collect() == 0 ? collection : collectioned, null, null);
-        tvCollection.setText(count_collect + "");
+        tvCollection.setText(count_collects + "");
     }
 
     @Override
