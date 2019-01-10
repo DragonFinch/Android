@@ -407,12 +407,14 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
             uploadIndex = 0;
             uploadSize = getImageSize() + 1;
             mOssService.asyncPutImage(coverPath, -1);
+
             for (int i = 0; i < mData.size(); i++) {
                 for (LocalMedia localMedia : mData.get(i).getLocalMedia()) {
                     mOssService.asyncPutImage(TextUtils.isEmpty(localMedia.getCompressPath()) ? localMedia.getPath() : localMedia.getCompressPath(), i);
                 }
             }
         } else {
+            Log.d("NewPublishYoJiActivity", new Gson().toJson(setParams()).toString());
             mPresenter.publishYoJi(userId, token, id, coverUrl, mEtTitle.getText().toString(), mEtInfo.getText().toString(), Integer.valueOf(mEtMoney.getText().toString()), isOpen, saveType, channel_arrays.toString().replace("[", "").replace("]", ""), new Gson().toJson(setParams()));
         }
     }
