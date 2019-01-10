@@ -58,10 +58,17 @@ import com.iyoyogo.android.model.en.SendMessageRequest;
 import com.iyoyogo.android.net.AddInterestRequest;
 import com.iyoyogo.android.net.HttpClient;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.Field;
 
 
@@ -129,10 +136,14 @@ public class Model {
      * @param user_token
      * @return
      */
-    public Observable<BaseBean> addInterest(String[] interest_ids, String user_id, String user_token) {
-        AddInterestRequest request = new AddInterestRequest();
-
-        return HttpClient.getApiService().addInterest(interest_ids, user_id, user_token)
+    public Observable<BaseBean> addInterest(ArrayList<Integer> interest_ids, String user_id, String user_token) {
+        Map<String, Object> map=new HashMap<>();
+        map.put("user_id",user_id);
+        map.put("user_token",user_token);
+        for (int i = 0; i < interest_ids.size(); i++) {
+            map.put("interest_ids["+i+"]",interest_ids.get(i));
+        }
+        return HttpClient.getApiService().addInterest(map)
                 .compose(this.switchThread());
     }
 

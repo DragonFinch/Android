@@ -55,9 +55,13 @@ import com.iyoyogo.android.bean.yoxiu.topic.CreateTopicBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
 
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -99,7 +103,7 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("index.php/api/interest/update")
-    Observable<BaseBean> addInterest(@Field("interest_ids") String[] interest_ids, @Field("user_id") String user_id, @Field("user_token") String user_token);
+    Observable<BaseBean> addInterest(@FieldMap Map<String,Object> map);
 
     /**
      * 登录

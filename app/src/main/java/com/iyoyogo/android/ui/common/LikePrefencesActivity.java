@@ -214,7 +214,7 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
                 strings = integerList.toArray(new String[size]);
                 intent.putIntegerArrayListExtra("channel_array", ids);
                 intent.putStringArrayListExtra("channel_list", integerList);
-                mPresenter.addInterest(strings, user_id, user_token);
+                mPresenter.addInterest(ids, user_id, user_token);
                 setResult(4, intent);
                 finish();
 //                List<Integer> integerList = adapter.selectPhoto();

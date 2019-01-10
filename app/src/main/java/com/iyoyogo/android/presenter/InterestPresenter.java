@@ -13,6 +13,7 @@ import com.iyoyogo.android.contract.InterestContract;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.net.ApiObserver;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InterestPresenter extends BasePresenter<InterestContract.View> implements InterestContract.Presenter {
@@ -47,7 +48,7 @@ public class InterestPresenter extends BasePresenter<InterestContract.View> impl
     }
 
     @Override
-    public void addInterest(String[] ids, String user_id, String user_token) {
+    public void addInterest(ArrayList<Integer> ids, String user_id, String user_token) {
         DataManager.getFromRemote()
                 .addInterest(ids,user_id,user_token)
                 .subscribe(new ApiObserver<BaseBean>(mView,this) {
