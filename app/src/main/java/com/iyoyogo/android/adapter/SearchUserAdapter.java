@@ -1,6 +1,8 @@
 package com.iyoyogo.android.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -40,6 +42,7 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Vi
         return new ViewHolder(view);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         KeywordBean.DataBean.UserListBean userListBean = mUser.get(position);
@@ -57,15 +60,21 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Vi
             holder.count_yox.setText(userListBean.getCount_yox()+"");
                 if (mUser.get(position).getAttention_status().equals("0")) {
                     holder.tv_guanzhu.setText("+关注");
+                    holder.tv_guanzhu.setBackgroundResource(R.drawable.orange_fillet);
+                    holder.tv_guanzhu.setTextColor(Color.parseColor("#ffffff"));
                     Log.e("qq12", "keyWordMessage: 11111" + mUser.get(position).getAttention_status());
                 }
         if (mUser.get(position).getAttention_status().equals("1")) {
             Log.e("qq", "keyWordMessage:22222 " + mUser.get(position).getAttention_status());
             holder.tv_guanzhu.setText("互相关注");
+            holder.tv_guanzhu.setTextColor(Color.parseColor("#888888"));
+            holder.tv_guanzhu.setBackgroundResource(R.drawable.orange_fillet_yiguanzhu);
         }
         if (mUser.get(position).getAttention_status().equals("2")) {
             Log.e("qq", "keyWordMessage: " + mUser.get(position).getAttention_status());
             holder.tv_guanzhu.setText("已关注");
+            holder.tv_guanzhu.setTextColor(Color.parseColor("#888888"));
+            holder.tv_guanzhu.setBackgroundResource(R.drawable.orange_fillet_yiguanzhu);
         }
     /*            holder.tv_guanzhu.setOnClickListener(new View.OnClickListener() {
                     @Override

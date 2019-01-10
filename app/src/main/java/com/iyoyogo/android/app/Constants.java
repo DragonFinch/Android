@@ -12,7 +12,7 @@ public class Constants {
 
    // public static final String BASE_URL="http://app.iyoyogo.com/";
 
-    //http://192.168.0.145        http://192.168.0.104
+    //http://192.168.0.145        http://192.168.0.105
 
     /**
      * 美摄使用

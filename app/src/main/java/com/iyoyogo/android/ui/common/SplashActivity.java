@@ -54,7 +54,7 @@ public class SplashActivity extends AppCompatActivity {
         public void onLocationChanged(AMapLocation amapLocation) {
             if (amapLocation != null) {
                 if (amapLocation.getErrorCode() == 0) {
-//可在其中解析amapLocation获取相应内容。
+                    //可在其中解析amapLocation获取相应内容。
                     mLocationOption.setNeedAddress(true);
                     amapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
                     //获取纬度

@@ -66,6 +66,14 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
     @Override
     public void onResume() {
         super.onResume();
+
+
+
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
         MyRefreshAnimHeader mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
@@ -83,8 +91,6 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
                 mPresenter.banner(user_id, user_token, "attention");
             }
         });
-
-
     }
 
     @Override
