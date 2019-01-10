@@ -1037,6 +1037,10 @@ public class Model {
         return HttpClient.getApiService().deleteYo(user_id, user_token, yo_id)
                 .compose(this.switchThread());
     }
+ public Observable<BaseBean> deleteComment(String user_id, String user_token, int comment_id) {
+        return HttpClient.getApiService().deleteComment(user_id, user_token, comment_id)
+                .compose(this.switchThread());
+    }
 
     public Observable<PublishYoJiBean> getYoJiData(String user_id, String user_token, String yo_id) {
         return HttpClient.getApiService().getYoJiData(user_id, user_token, yo_id)

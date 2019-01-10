@@ -1,6 +1,7 @@
 package com.iyoyogo.android.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.collection.CollectionFolderContentBean;
+import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
+import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +93,21 @@ public class CollectionFolderContentAdapter extends RecyclerView.Adapter<Collect
 
             }
         }
-
+        holder.img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int yo_type = mList.get(position).getYo_type();
+                if (yo_type==1){
+                    Intent intent = new Intent(context, YoXiuDetailActivity.class);
+                    intent.putExtra("id",mList.get(position).getYo_id());
+                    context.startActivity(intent);
+                }else if (yo_type==2){
+                    Intent intent = new Intent(context, YoJiDetailActivity.class);
+                    intent.putExtra("yo_id",mList.get(position).getYo_id());
+                    context.startActivity(intent);
+                }
+            }
+        });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

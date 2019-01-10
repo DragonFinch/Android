@@ -390,10 +390,10 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
         TextView tv_report = view.findViewById(R.id.tv_report);
         Log.d("YoXiuDetailAdapter", yo_user_id);
         if (yo_user_id.equals(user_id)) {
-            tv_delete.setVisibility(View.VISIBLE);
+//            tv_delete.setVisibility(View.VISIBLE);
             tv_report.setVisibility(View.GONE);
         } else {
-            tv_delete.setVisibility(View.GONE);
+//            tv_delete.setVisibility(View.GONE);
             tv_report.setVisibility(View.VISIBLE);
         }
         tv_delete.setOnClickListener(new View.OnClickListener() {
@@ -412,15 +412,15 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
         tv_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadMore(yo_id);
                 popupWindow.dismiss();
+                loadMore(yo_id);
             }
         });
         popupWindow.setBackgroundDrawable(new ColorDrawable());
         popupWindow.setOutsideTouchable(true);
         backgroundAlpha(0.6f);
         popupWindow.setOnDismissListener(new poponDismissListener());
-        popupWindow.showAsDropDown(holder.view_like, 0, 0);
+        popupWindow.showAsDropDown(holder.view_like, DensityUtil.dp2px(context,-95),  DensityUtil.dp2px(context,5));
     }
 
     public void initPopup() {

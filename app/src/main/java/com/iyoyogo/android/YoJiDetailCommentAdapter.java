@@ -8,10 +8,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -47,12 +49,23 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
     private String user_id;
     private String user_token;
     private int yo_user_id;
+    private final int MAX_LINE_COUNT = 7;//最大显示行数
 
+    private final int STATE_UNKNOW = -1;//未知状态
+
+    private final int STATE_NOT_OVERFLOW = 1;//文本行数小于最大可显示行数
+
+    private final int STATE_COLLAPSED = 2;//折叠状态
+
+    private final int STATE_EXPANDED = 3;//展开状态
+
+    private SparseArray<Integer> mTextStateList;//保存文本状态集合
     public YoJiDetailCommentAdapter(Context context, List<CommentBean.DataBean.ListBean> mList) {
         this.context = context;
         this.mList = mList;
         activity = (Activity) context;
         initPopup();
+        mTextStateList=new SparseArray<>();
     }
 
     @NonNull
@@ -252,7 +265,62 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         CommentBean.DataBean.ListBean listBean = mList.get(position);
-        holder.tv_content.setText(listBean.getContent());
+        int state = mTextStateList.get(position, STATE_UNKNOW);
+
+        if (state == STATE_UNKNOW) {
+            holder.tv_content.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    //这个回掉会调用多次，获取玩行数后记得注销监听
+                    holder.tv_content.getViewTreeObserver().removeOnPreDrawListener(this);
+                    //如果内容显示的行数大于限定显示行数
+                    if (holder.tv_content.getLineCount() > MAX_LINE_COUNT) {
+                        holder.tv_content.setMaxLines(MAX_LINE_COUNT);//设置最大显示行数
+                        holder.homeShowOrHide.setVisibility(View.VISIBLE);//让其显示全文的文本框状态为显示
+                        holder.homeShowOrHide.setText("全文");//设置其文字为全文
+                        mTextStateList.put(position, STATE_COLLAPSED);
+                    } else {
+                        holder.homeShowOrHide.setVisibility(View.INVISIBLE);//显示全文隐藏
+                        mTextStateList.put(position, STATE_NOT_OVERFLOW);//让其不能超过限定的行数
+                    }
+                    return true;
+                }
+            });
+        } else {
+            //            如果之前已经初始化过了，则使用保存的状态，无需在获取一次
+            switch (state) {
+                case STATE_NOT_OVERFLOW:
+                    holder.homeShowOrHide.setVisibility(View.INVISIBLE);
+                    break;
+                case STATE_COLLAPSED:
+                    holder.tv_content.setMaxLines(MAX_LINE_COUNT);
+                    holder.homeShowOrHide.setVisibility(View.VISIBLE);
+                    holder.homeShowOrHide.setText("全文");
+                    break;
+                case STATE_EXPANDED:
+                    holder.tv_content.setMaxLines(Integer.MAX_VALUE);
+                    holder.homeShowOrHide.setVisibility(View.VISIBLE);
+                    holder.homeShowOrHide.setText("收起");
+                    break;
+            }
+        }
+
+
+        holder.homeShowOrHide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int state = mTextStateList.get(position, STATE_UNKNOW);
+                if (state == STATE_COLLAPSED) {
+                    holder.tv_content.setMaxLines(Integer.MAX_VALUE);
+                    holder.homeShowOrHide.setText("收起");
+                    mTextStateList.put(position, STATE_EXPANDED);
+                } else if (state == STATE_EXPANDED) {
+                    holder.tv_content.setMaxLines(MAX_LINE_COUNT);
+                    holder.homeShowOrHide.setText("全文");
+                    mTextStateList.put(position, STATE_COLLAPSED);
+                }
+            }
+        });
         holder.tv_comment_like_num.setText(listBean.getCount_praise() + "");
         holder.tv_huifu_num.setText(listBean.getCount_comment() + "");
         holder.tv_time.setText(listBean.getCreate_time());
@@ -322,7 +390,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
         holder.img_function.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initDelete(holder, String.valueOf(mList.get(position).getUser_id()), mList.get(position).getId(), mList.get(position).getYo_id(), position);
+                initDelete(holder, String.valueOf(mList.get(position).getUser_id()), mList.get(position).getId(),  position);
             }
         });
 
@@ -344,7 +412,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
         });
     }
 
-    private void initDelete(Holder holder, String yo_user_id, int comment_id, int yo_id, int position) {
+    private void initDelete(Holder holder, String yo_user_id, int comment_id,  int position) {
         View view = LayoutInflater.from(context).inflate(R.layout.popup_delete_or_report, null);
         PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 125), ViewGroup.LayoutParams.WRAP_CONTENT, true);
         String user_id = SpUtils.getString(context, "user_id", null);
@@ -360,7 +428,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
         tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DataManager.getFromRemote().deleteYo(user_id, user_token, yo_id)
+                DataManager.getFromRemote().deleteComment(user_id, user_token, comment_id)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -385,7 +453,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
         popupWindow.setOutsideTouchable(true);
         backgroundAlpha(0.6f);
         popupWindow.setOnDismissListener(new poponDismissListener());
-        popupWindow.showAsDropDown(holder.img_function, 0, 0);
+        popupWindow.showAsDropDown(holder.img_function, DensityUtil.dp2px(context,-95),  DensityUtil.dp2px(context,5));
     }
 
     @Override
@@ -395,11 +463,12 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
 
     public class Holder extends RecyclerView.ViewHolder {
         CircleImageView img_user_icon;
-        TextView tv_content, tv_time, user_name, tv_comment_like_num, tv_huifu_num;
+        TextView tv_content, tv_time, user_name, tv_comment_like_num, tv_huifu_num,homeShowOrHide;
         ImageView img_comment_like, img_huifu, img_function;
 
         public Holder(@NonNull View itemView) {
             super(itemView);
+            homeShowOrHide = itemView.findViewById(R.id.tv_show_hide);
             tv_comment_like_num = itemView.findViewById(R.id.tv_comment_like_num);
             tv_huifu_num = itemView.findViewById(R.id.tv_huifu_num);
             img_user_icon = itemView.findViewById(R.id.img_user_icon);

@@ -1,16 +1,21 @@
 package com.iyoyogo.android.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,10 +49,13 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
     private String user_id;
     private String user_token;
     private RecyclerView recyclerView;
+    private final Activity activity;
+    private int yo_id;
 
     public YoJiAttentionAdapter(Context context, List<HomeBean.DataBean.YojListBean> mList) {
         this.mList = mList;
         this.context = context;
+        activity = (Activity) context;
 
     }
 
@@ -62,8 +70,9 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
+
         holder.location_end.setText(mList.get(position).getP_end());
-        int yo_id = mList.get(position).getYo_id();
+        yo_id = mList.get(position).getYo_id();
         user_id = SpUtils.getString(context, "user_id", null);
         user_token = SpUtils.getString(context, "user_token", null);
         RequestOptions myOptions = new RequestOptions()
@@ -99,7 +108,7 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
                         retryConnection.on_retry();
                         holder.tv_attention.setText("已关注");
                     }
-                    DataManager.getFromRemote().addAttention(user_id, user_token, mList.get(position).getUser_info().getUser_id()).subscribe(new Consumer<AttentionBean>() {
+                    DataManager.getFromRemote().addAttention(user_id, user_token, mList.get(position).getUser_id()).subscribe(new Consumer<AttentionBean>() {
                         @Override
                         public void accept(AttentionBean attentionBean) throws Exception {
 
@@ -431,6 +440,12 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
                             });
                 }
             });
+            holder.view_like.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    initPopup(holder);
+                }
+            });
             holder.rl_top_content.setVisibility(View.VISIBLE);
             holder.relative_img.setVisibility(View.VISIBLE);
             holder.ll_like_list.setVisibility(View.VISIBLE);
@@ -581,8 +596,113 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
         }
     }
 
+    private void initPopup(Holder holder) {
+        View view = LayoutInflater.from(context).inflate(R.layout.popwindow_like, null);
+        PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 125), DensityUtil.dp2px(context, 50), true);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+        popupWindow.setOutsideTouchable(true);
+        TextView tv_dislike = view.findViewById(R.id.tv_dislike);
+        View line = view.findViewById(R.id.line);
+        line.setVisibility(View.GONE);
+        TextView tv_report = view.findViewById(R.id.tv_report);
+        tv_report.setVisibility(View.GONE);
+        user_id = SpUtils.getString(context, "user_id", null);
+        user_token = SpUtils.getString(context, "user_token", null);
+        tv_dislike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                initDislike();
+
+            }
+        });
+        tv_report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow.showAsDropDown(holder.view_like, DensityUtil.dp2px(context, -95), DensityUtil.dp2px(context, 10));
+    }
+
+    private void initDislike() {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_popwindow_not_like, null);
+        PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 300), DensityUtil.dp2px(context, 230), true);
+        TextView dislike_this_kind = view.findViewById(R.id.dislike_this_kind);
+        TextView dislike_this_item = view.findViewById(R.id.dislike_this_item);
+        backgroundAlpha(0.6f);
+        dislike_this_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataManager.getFromRemote()
+                        .dislike(user_id, user_token, yo_id, 1)
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                                popupWindow.dismiss();
+                                if (onRetryClickListener != null) {
+                                    onRetryClickListener.onretry();
+                                }
+
+                            }
+                        });
+            }
+        });
+        dislike_this_kind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataManager.getFromRemote()
+                        .dislike(user_id, user_token, yo_id, 2)
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                                popupWindow.dismiss();
+                                if (onRetryClickListener != null) {
+                                    onRetryClickListener.onretry();
+                                }
+                            }
+                        });
+
+            }
+        });
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1.0f);
+            }
+        });
+        popupWindow.showAtLocation(activity.findViewById(R.id.activity_main), Gravity.CENTER, 0, 0);
+    }
+
+    public void backgroundAlpha(float bgAlpha) {
+
+        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+        lp.alpha = bgAlpha; // 0.0~1.0
+        activity.getWindow().setAttributes(lp); //act 是上下文context
+
+    }
+
+    //隐藏事件PopupWindow
+    private class poponDismissListener implements PopupWindow.OnDismissListener {
+        @Override
+        public void onDismiss() {
+            backgroundAlpha(1.0f);
+        }
+    }
+
     interface OnRetryConnection {
         void on_retry();
+    }
+
+    public interface OnRetryClickListener {
+        void onretry();
+    }
+
+    private OnRetryClickListener onRetryClickListener;
+
+    public void setOnRetryClickListener(OnRetryClickListener onRetryClickListener) {
+        this.onRetryClickListener = onRetryClickListener;
     }
 
     OnRetryConnection retryConnection;

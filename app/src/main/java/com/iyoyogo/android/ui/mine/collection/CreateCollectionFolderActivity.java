@@ -91,10 +91,10 @@ public class CreateCollectionFolderActivity extends BaseActivity<EditCollectionC
         });
         int type = intent.getIntExtra("type", 0);
         if (type == 1) {
-            tvTitle.setText("创建文件夹");
+            tvTitle.setText("创建收藏夹");
             tvDelete.setVisibility(View.GONE);
         } else if (type == 2) {
-            tvTitle.setText("编辑文件夹");
+            tvTitle.setText("编辑收藏夹");
             title = intent.getStringExtra("name");
             folder_id = intent.getIntExtra("folder_id", 0);
             editTitle.setText(title);

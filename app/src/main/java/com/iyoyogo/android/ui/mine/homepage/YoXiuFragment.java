@@ -103,7 +103,6 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
         mPresenter.getYoXiuContent(user_id, user_token, yo_user_id, 1 + "", 20 + "");
 
         //下拉刷新
-        refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
         refreshLayout.setEnableRefresh(true);
         refreshLayout.setRefreshFooter(new MyRefreshAnimFooter(getContext()));
         refreshLayout.autoRefresh();

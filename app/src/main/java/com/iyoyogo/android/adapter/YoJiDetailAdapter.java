@@ -18,7 +18,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.yoji.detail.YoJiDetailBean;
-import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiPictureActivity;
 import com.iyoyogo.android.utils.RoundTransform;
 import com.iyoyogo.android.widget.FlowGroupView;
@@ -36,7 +35,9 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
     private boolean isShow;
     String count_praise;
     String count_comment;
-    int is_my_praise; int is_my_collect;
+    int is_my_praise;
+    int is_my_collect;
+
     //改变显示删除的imageview，通过定义变量isShow去接收变量isManager
     public void changetShowDelImage(boolean isShow) {
         this.isShow = isShow;
@@ -132,10 +133,26 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
         int size = logos.size();
 
         if (position == 0) {
-            holder.flow.setVisibility(View.VISIBLE);
-            loadData(holder, logos, size, position);
+            List<YoJiDetailBean.DataBean.ListBean.LabelsBean> labels = mList.get(position).getLabels();
+            Log.d("222", "labels.size():" + labels.size());
+            holder.flow.removeAllViews();
+            if (labels.size() <= 10) {
+                loadData(holder, logos, size, position, labels);
+                holder.flow.setVisibility(View.VISIBLE);
+            } else if (labels.size() > 10) {
+                List<YoJiDetailBean.DataBean.ListBean.LabelsBean> label = new ArrayList<>();
+
+                for (int i = 0; i < 10; i++) {
+                    label.add(labels.get(i));
+                }
+                loadData(holder, logos, size, position, label);
+                Log.d("222", "label.size():" + label.size());
+                holder.flow.setVisibility(View.VISIBLE);
+            }
+
 
         } else {
+            holder.flow.removeAllViews();
             holder.img_water_mark.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -150,11 +167,20 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
             if (isShow) {
                 List<YoJiDetailBean.DataBean.ListBean.LabelsBean> labels = mList.get(position).getLabels();
                 holder.flow.removeAllViews();
-                for (int i = 0; i < labels.size(); i++) {
-                    addTextView(holder.flow, labels.get(i).getLabel(), labels.get(i).getType());
+                Log.d("222", "labels.size():" + labels.size());
+                if (labels.size() <= 10) {
+                    loadData(holder, logos, size, position, labels);
+                    holder.flow.setVisibility(View.VISIBLE);
+                } else if (labels.size() > 10) {
+                    List<YoJiDetailBean.DataBean.ListBean.LabelsBean> label = new ArrayList<>();
+
+                    for (int i = 0; i < 10; i++) {
+                        label.add(labels.get(i));
+                    }
+                    loadData(holder, logos, size, position, label);
+                    Log.d("222", "label.size():" + label.size());
+                    holder.flow.setVisibility(View.VISIBLE);
                 }
-                holder.flow.setVisibility(View.VISIBLE);
-                loadData(holder, logos, size, position);
                 if (position == mList.size() - 1) {
                     holder.plane.setVisibility(View.GONE);
                 }
@@ -181,11 +207,11 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
 
     }
 
-    private void loadData(@NonNull Holder holder, List<String> logos, int size, int position) {
+    private void loadData(@NonNull Holder holder, List<String> logos, int size, int position, List<YoJiDetailBean.DataBean.ListBean.LabelsBean> labels) {
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.mipmap.default_ic)
                 .error(R.mipmap.default_ic);
-        List<YoJiDetailBean.DataBean.ListBean.LabelsBean> labels = mList.get(position).getLabels();
+
         holder.flow.removeAllViews();
         for (int i = 0; i < labels.size(); i++) {
             String label = labels.get(i).getLabel();
@@ -203,7 +229,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                     intent.setClass(context, YoJiPictureActivity.class);
                     intent.putStringArrayListExtra("logos", (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 0);
-                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("yo_id", mList.get(position).getYo_id() + "");
                     intent.putExtra("is_my_collect", is_my_collect);
                     intent.putExtra("count_praise", is_my_praise);
                     intent.putExtra("is_my_collect", is_my_collect);
@@ -225,7 +251,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                     intent.setClass(context, YoJiPictureActivity.class);
                     intent.putStringArrayListExtra("logos", (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 0);
-                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("yo_id", mList.get(position).getYo_id() + "");
                     intent.putExtra("is_my_collect", is_my_collect);
                     intent.putExtra("count_praise", is_my_praise);
                     intent.putExtra("count_praise", count_praise);
@@ -237,7 +263,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("yo_id", mList.get(position).getYo_id() + "");
                     intent.putExtra("is_my_collect", is_my_collect);
                     intent.putExtra("count_praise", is_my_praise);
                     intent.putExtra("count_praise", count_praise);
@@ -262,7 +288,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                     intent.setClass(context, YoJiPictureActivity.class);
                     intent.putStringArrayListExtra("logos", (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 0);
-                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("yo_id", mList.get(position).getYo_id() + "");
                     intent.putExtra("is_my_collect", is_my_collect);
                     intent.putExtra("count_praise", is_my_praise);
                     intent.putExtra("count_praise", count_praise);
@@ -277,7 +303,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                     intent.setClass(context, YoJiPictureActivity.class);
                     intent.putStringArrayListExtra("logos", (ArrayList<String>) mList.get(position).getLogos_big());
                     intent.putExtra("position", 1);
-                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("yo_id", mList.get(position).getYo_id() + "");
                     intent.putExtra("is_my_collect", is_my_collect);
                     intent.putExtra("count_praise", is_my_praise);
                     intent.putExtra("count_praise", count_praise);
@@ -307,7 +333,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("yo_id", mList.get(position).getYo_id() + "");
                     intent.putExtra("is_my_collect", is_my_collect);
                     intent.putExtra("count_praise", is_my_praise);
                     intent.putExtra("count_praise", count_praise);
@@ -322,7 +348,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("yo_id", mList.get(position).getYo_id() + "");
                     intent.putExtra("is_my_collect", is_my_collect);
                     intent.putExtra("count_praise", is_my_praise);
                     intent.putExtra("count_praise", count_praise);
@@ -337,7 +363,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("yo_id", mList.get(position).getYo_id() + "");
                     intent.putExtra("is_my_collect", is_my_collect);
                     intent.putExtra("count_praise", is_my_praise);
                     intent.putExtra("count_praise", count_praise);
@@ -353,7 +379,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("yo_id", mList.get(position).getYo_id() + "");
                     intent.putExtra("is_my_collect", is_my_collect);
                     intent.putExtra("count_praise", is_my_praise);
                     intent.putExtra("count_praise", count_praise);
@@ -376,7 +402,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("yo_id", mList.get(position).getYo_id() + "");
                     intent.putExtra("is_my_collect", is_my_collect);
                     intent.putExtra("count_praise", is_my_praise);
                     intent.putExtra("count_praise", count_praise);
@@ -391,7 +417,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("yo_id", mList.get(position).getYo_id() + "");
                     intent.putExtra("is_my_collect", is_my_collect);
                     intent.putExtra("count_praise", is_my_praise);
                     intent.putExtra("count_praise", count_praise);
@@ -406,7 +432,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("yo_id", mList.get(position).getYo_id() + "");
                     intent.putExtra("is_my_collect", is_my_collect);
                     intent.putExtra("count_praise", is_my_praise);
                     intent.putExtra("count_praise", count_praise);
@@ -421,7 +447,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("yo_id", mList.get(position).getYo_id() + "");
                     intent.putExtra("is_my_collect", is_my_collect);
                     intent.putExtra("count_praise", is_my_praise);
                     intent.putExtra("count_praise", count_praise);
@@ -436,7 +462,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("yo_id", mList.get(position).getYo_id() + "");
                     intent.putExtra("is_my_collect", is_my_collect);
                     intent.putExtra("count_praise", is_my_praise);
                     intent.putExtra("count_praise", count_praise);
@@ -461,7 +487,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("yo_id", mList.get(position).getYo_id() + "");
                     intent.putExtra("is_my_collect", is_my_collect);
                     intent.putExtra("count_praise", is_my_praise);
                     intent.putExtra("count_praise", count_praise);
@@ -488,7 +514,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("yo_id", mList.get(position).getYo_id() + "");
                     intent.putExtra("is_my_collect", is_my_collect);
                     intent.putExtra("count_praise", is_my_praise);
                     intent.putExtra("count_praise", count_praise);
@@ -503,7 +529,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("yo_id", mList.get(position).getYo_id() + "");
                     intent.putExtra("is_my_collect", is_my_collect);
                     intent.putExtra("count_praise", is_my_praise);
                     intent.putExtra("count_praise", count_praise);
@@ -518,7 +544,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                   intent.putExtra("yo_id", mList.get(position).getYo_id()+"");
+                    intent.putExtra("yo_id", mList.get(position).getYo_id() + "");
                     intent.putExtra("is_my_collect", is_my_collect);
                     intent.putExtra("count_praise", is_my_praise);
                     intent.putExtra("count_praise", count_praise);

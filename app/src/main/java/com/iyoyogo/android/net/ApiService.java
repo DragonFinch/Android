@@ -639,6 +639,9 @@ public interface ApiService {
     @POST("index.php/api/yo/delete")
     @FormUrlEncoded
     Observable<BaseBean> deleteYo(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id);
+    @POST("index.php/api/comment/delete")
+    @FormUrlEncoded
+    Observable<BaseBean> deleteComment(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("comment_id") int yo_id);
 
     //用户等级页
     @POST("index.php/api/userlevel/get")

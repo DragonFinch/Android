@@ -397,11 +397,16 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
                 Bundle bundle = new Bundle();
                 Collections.reverse(list);
                 bundle.putSerializable("sign_list", list);
-                intent.putExtras(bundle);
-                intent.putExtra("type", 1);
-                Log.d("ChooseSignActivity", "list.size():" + list.size());
-                setResult(55, intent);
-                finish();
+                if (list.size()>10){
+                    Toast.makeText(this, "标签最多选择10个", Toast.LENGTH_SHORT).show();
+                }else{
+                    intent.putExtras(bundle);
+                    intent.putExtra("type", 1);
+                    Log.d("ChooseSignActivity", "list.size():" + list.size());
+                    setResult(55, intent);
+                    finish();
+                }
+
                 break;
             case R.id.add_make_worth:
                 initPopup(1, "什么值得做");
