@@ -2348,7 +2348,7 @@
     },
     {
       "code": "6108",
-      "name": "榆林",
+      "name": "榆林市",
       "key": "Y",
       "first": "yls",
       "full": "yulin"
@@ -2362,7 +2362,7 @@
     },
     {
       "code": "4453",
-      "name": "云浮",
+      "name": "云浮市",
       "key": "Y",
       "first": "yfs",
       "full": "yunfu"
@@ -2404,21 +2404,21 @@
     },
     {
       "code": "6207",
-      "name": "张掖",
+      "name": "张掖市",
       "key": "Z",
       "first": "zys",
       "full": "zhangye"
     },
     {
       "code": "3506",
-      "name": "漳州",
+      "name": "漳州市",
       "key": "Z",
       "first": "zzs",
       "full": "zhangzhou"
     },
     {
       "code": "4408",
-      "name": "湛江",
+      "name": "湛江市",
       "key": "Z",
       "first": "zjs",
       "full": "zhanjiang"
@@ -2432,14 +2432,14 @@
     },
     {
       "code": "5306",
-      "name": "昭通",
+      "name": "昭通市",
       "key": "Z",
       "first": "zts",
       "full": "zhaotong"
     },
     {
       "code": "4101",
-      "name": "郑州",
+      "name": "郑州市",
       "key": "Z",
       "first": "zzs",
       "full": "zhengzhou"
@@ -2460,21 +2460,21 @@
     },
     {
       "code": "6405",
-      "name": "中卫",
+      "name": "中卫市",
       "key": "Z",
       "first": "zws",
       "full": "zhongwei"
     },
     {
       "code": "4116",
-      "name": "周口",
+      "name": "周口市",
       "key": "Z",
       "first": "zks",
       "full": "zhoukou"
     },
     {
       "code": "3309",
-      "name": "舟山",
+      "name": "舟山市",
       "key": "Z",
       "first": "zss",
       "full": "zhoushan"

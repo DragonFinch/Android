@@ -1,6 +1,7 @@
 package com.iyoyogo.android.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -76,8 +77,8 @@ public class MyAdapter1 extends BaseAdapter {
             tv_letter = convertView.findViewById(R.id.tv_letter);
             tv_name = convertView.findViewById(R.id.tv_name);
             tv_name1 = convertView.findViewById(R.id.tv_name1);
-        }
 
+        }
         public static ViewHolder getViewHolder(View convertView) {
             ViewHolder viewHolder = (ViewHolder) convertView.getTag();
             if (viewHolder == null) {

@@ -106,9 +106,9 @@ public class GuiJiFragment extends BaseFragment<GeRenChengShiContract.Presenter>
         List<MapBean.DataBean.ListBean> list1 = mapBean.getData().getList();
         /*Log.e("aboutMeSuccess", "aboutMeSuccess: " + list1.);
         */
-    /*    for (int i = 0; i < list1.size(); i++) {
-            Log.e("aboutMeSuccess", "aboutMeSuccess: " + list1.get(i).getChina_name());
-            Log.e("aboutMeSuccess", "aboutMeSuccess: " + list1.size());
+      /*  for (int i = 0; i < list1.size(); i++) {
+         //   Log.e("aboutMeSuccess", "aboutMeSuccess: " + list1.get(i).getChina_name()+"+++++"+list1.get(i).getCode());
+           // Log.e("aboutMeSuccess", "aboutMeSuccess: " + list1.get(i).getCode());
         }*/
         Collections.sort(list1);
         MyAdapter1 adapter = new MyAdapter1(getActivity(), list1);
@@ -120,9 +120,10 @@ public class GuiJiFragment extends BaseFragment<GeRenChengShiContract.Presenter>
                     String strLetter = list1.get(i).getEnglish_name().charAt(0) + "";
                     if (letter.equalsIgnoreCase(strLetter)) {
                         mLv.setSelection(i);
-                        for (int j = 0; j <list1.size() ; j++) {
+                       /* for (int j = 0; j <list1.size() ; j++) {
                             Log.e("getOnImtemPosition", "getOnImtemPosition: "+list1.get(j).getChina_name()+"==="+list1.get(j).getCode() );
-                        }
+                            Log.e("qw", "ViewHolder: "+tv_name.toString()+"++++++++"+tv_name1.toString() );
+                        }*/
                       /*  mLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
