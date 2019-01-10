@@ -115,6 +115,12 @@
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
+    <View
+        android:layout_marginLeft="@dimen/dp_20"
+
+        android:layout_width="match_parent"
+        android:layout_height="1pt"
+        android:background="@color/colorF1F1F1"></View>
 </LinearLayout>
 <!--
 

@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -42,6 +43,7 @@ import com.iyoyogo.android.bean.search.KeywordUserBean;
 import com.iyoyogo.android.contract.KeywordContract;
 import com.iyoyogo.android.presenter.KeywordPresenter;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
+import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.utils.SpUtils;
@@ -83,92 +85,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     ScrollView sl;
     @BindView(R.id.search_guanjiaci)
     EditText searchGuanjiaci;
-    @BindView(R.id.text_name)
-    TextView textName;
-    @BindView(R.id.im_dizhi)
-    ImageView imDizhi;
-    @BindView(R.id.text_name1)
-    TextView textName1;
-    @BindView(R.id.im_dizhi1)
-    ImageView imDizhi1;
-    /*    @BindView(R.id.search_btn_back)
-        Button searchBtnBack;*/
-    /*    @BindView(R.id.cancel)
-        TextView cancel;*/
-    @BindView(R.id.text_name2)
-    TextView textName2;
-    @BindView(R.id.im_dizhi2)
-    ImageView imDizhi2;
-    @BindView(R.id.text_name3)
-    TextView textName3;
-    @BindView(R.id.im_dizhi3)
-    ImageView imDizhi3;
-    @BindView(R.id.text_name4)
-    TextView textName4;
-    @BindView(R.id.im_dizhi4)
-    ImageView imDizhi4;
-    @BindView(R.id.text_name5)
-    TextView textName5;
-    @BindView(R.id.im_dizhi5)
-    ImageView imDizhi5;
-    @BindView(R.id.name1)
-    RelativeLayout name1;
-    @BindView(R.id.name2)
-    RelativeLayout name2;
-    @BindView(R.id.name3)
-    RelativeLayout name3;
-    @BindView(R.id.name4)
-    RelativeLayout name4;
-    @BindView(R.id.name5)
-    RelativeLayout name5;
-    @BindView(R.id.name6)
-    RelativeLayout name6;
-    @BindView(R.id.view1)
-    View view1;
-    @BindView(R.id.view2)
-    View view2;
-    @BindView(R.id.view3)
-    View view3;
-    @BindView(R.id.view4)
-    View view4;
-    @BindView(R.id.view5)
-    View view5;
-    @BindView(R.id.view6)
-    View view6;
-    /*  @BindView(R.id.text_name2)
-      TextView textName2;*/
-    @BindView(R.id.text_name7)
-    TextView textName7;
-    @BindView(R.id.im_dizhi7)
-    ImageView imDizhi7;
-    @BindView(R.id.name7)
-    RelativeLayout name7;
-    @BindView(R.id.view7)
-    View view7;
-    @BindView(R.id.text_name8)
-    TextView textName8;
-    @BindView(R.id.im_dizhi8)
-    ImageView imDizhi8;
-    @BindView(R.id.name8)
-    RelativeLayout name8;
-    @BindView(R.id.view8)
-    View view8;
-    @BindView(R.id.text_name9)
-    TextView textName9;
-    @BindView(R.id.im_dizhi9)
-    ImageView imDizhi9;
-    @BindView(R.id.name9)
-    RelativeLayout name9;
-    @BindView(R.id.view9)
-    View view9;
-    @BindView(R.id.text_name10)
-    TextView textName10;
-    @BindView(R.id.im_dizhi10)
-    ImageView imDizhi10;
-    @BindView(R.id.name10)
-    RelativeLayout name10;
-    @BindView(R.id.view10)
-    View view10;
     @BindView(R.id.tv_gson)
     TextView tvGson;
     @BindView(R.id.tv_gson1)
@@ -187,8 +103,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     private String s;
     private List<KeywordBean.DataBean.UserListBean> user_list;
     private List<KeywordUserBean.DataBean.ListBean> listBeans = new ArrayList<>();
-    private ListViewkeywordAdapter searchadapter;
-    private int user_id1;
     private List<KeywordUserBean.DataBean.ListBean> list;
     private TextView tv_guanzhu1;
     boolean fig = false;
@@ -197,11 +111,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-
         String key = getIntent().getStringExtra("key");
-        //searchGuanjiaci.setText(key);
-//        ImageView magImage = (ImageView) searchGuanjiaci.findViewById(magId);
-//        magImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         lv.setLayoutManager(new LinearLayoutManager(this));
         lvUser.setLayoutManager(new LinearLayoutManager(this));
         lvContent.setLayoutManager(new LinearLayoutManager(this));
@@ -210,11 +120,9 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             keyword = in.getStringExtra("key");
             //放到网络请求上面
             searchGuanjiaci.setText(keyword);
-            // table.setQueryHint(keyword);
         }
 
         mPresenter.getKeyWord(user_id, user_token, keyword, "all");
-        //}
 
         tvSetname.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,15 +134,9 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* if (cancel.getText().toString().equals("搜索")){
-                    mPresenter.getSearch(user_id, user_token, s.toString());
-                }else{*/
                 finish();
-                //   }
-
             }
         });
-
 
         adapter.setSetOnClickListener(new SearchUserAdapter.SetOnClickListener() {
             @Override
@@ -242,7 +144,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 tv_guanzhu1 = tv_guanzhu;
                 s = tv_guanzhu.getText().toString();
                 int user_id = mUser.get(po).getUser_id();
-                Log.e("setOnClickListener", "setOnClickListener: " + user_id);
                 if (s.equals("已关注")) {
                     mPresenter.getGuanZhu(SearchResultActivity.this.user_id, user_token, user_id + "");
                 }
@@ -252,7 +153,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 if (s.equals("互相关注")) {
                     mPresenter.getGuanZhu(SearchResultActivity.this.user_id, user_token, user_id + "");
                 }
-
             }
         });
     }
@@ -308,10 +208,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String s1 = String.valueOf(s);
-      /*          if (s1 != null){
-                    cancel.setText("搜索");
-                }*/
+
             }
 
             @Override
@@ -320,11 +217,9 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                     if (fig) {
                         mPresenter.getSearch(user_id, user_token, s.toString());
                         cancel.setVisibility(View.VISIBLE);
-                        // cancel.setText("搜索");
                     } else {
                         fig = true;
                     }
-
                 }
             }
         });
@@ -352,7 +247,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 popupWindow.dismiss();
                 //切换进行网络请求   调用BaseActivit
                 mPresenter.getKeyWord(user_id, user_token, keyword, "all");
-
                 break;
             case R.id.youji:
                 tvSetname.setText("yo记");
@@ -378,13 +272,14 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     public void guanZhu(GuanZhuBean keywordBean) {
         int status = keywordBean.getData().getStatus();
         if (status == 1) {
-            // mPresenter.getKeyWord(user_id, user_token, keyword, "user");
             tv_guanzhu1.setText("已关注");
-
+            tv_guanzhu1.setTextColor(Color.parseColor("#888888"));
+            tv_guanzhu1.setBackgroundResource(R.drawable.orange_fillet_yiguanzhu);
         }
         if (status == 0) {
-            //  mPresenter.getKeyWord(user_id, user_token, keyword, "user");
             tv_guanzhu1.setText("+关注");
+            tv_guanzhu1.setBackgroundResource(R.drawable.orange_fillet);
+            tv_guanzhu1.setTextColor(Color.parseColor("#ffffff"));
         }
     }
 
@@ -395,7 +290,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
         //清空集合
         listBeans.clear();
         if (keywordBean.getData().getList() != null) {
-            Log.e("关键字搜索", "search: " + keywordBean.getData().getList().size());
             list = keywordBean.getData().getList();
             listBeans.addAll(list);
             listViewLv.setVisibility(View.VISIBLE);
@@ -409,283 +303,56 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
 
             tvGson.setVisibility(View.GONE);
             tvGson1.setVisibility(View.GONE);
-          /*  ListViewkeywordAdapter adapter = new ListViewkeywordAdapter(SearchResultActivity.this, listBeans, searchGuanjiaci.getText().toString());
-            listViewLv.setAdapter(adapter);*/
-            for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).getType() == 1) {
-                    if (list.get(i).getUser_nickname() != null) {
-                        name1.setVisibility(View.VISIBLE);
-                        imDizhi.setVisibility(View.VISIBLE);
-                        view1.setVisibility(View.VISIBLE);
-                        textName.setVisibility(View.VISIBLE);
-                        imDizhi.setImageResource(R.drawable.yonghu);
-                        String content = listBeans.get(i).getUser_nickname();
-                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString()) && !TextUtils.isEmpty(content)) {
-                            int index = content.indexOf(searchGuanjiaci.getText().toString());
-                            if (index >= 0) {
-                                textName.setText(content.substring(0, index));
-                                textName.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
-                                String str = content.substring(searchGuanjiaci.getText().toString().length() + index, content.length());
-                                textName.append(str);
-                            }
-                        }
-
-                        int finalI = i;
-                        textName.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(SearchResultActivity.this, Personal_homepage_Activity.class);
-                                intent.putExtra("yo_user_id", list.get(finalI).getUser_id() + "");
-                                //Log.e("adadada", "onClick: " + list.get(finalI).getUser_id()+"");
-                                startActivity(intent);
-                            }
-                        });
-                    }
-                }
-                if (list.get(i).getType() == 2) {
-                    Log.e("search", "search: " + list.get(i).getTitle());
-                    name2.setVisibility(View.VISIBLE);
-                    imDizhi1.setVisibility(View.VISIBLE);
-                    view2.setVisibility(View.VISIBLE);
-                    textName1.setVisibility(View.VISIBLE);
-                    imDizhi1.setImageResource(R.drawable.yoji_i);
-                    int finalI1 = i;
-                    String content = listBeans.get(i).getTitle();
-                    if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString()) && !TextUtils.isEmpty(content)) {
-                        int index = content.indexOf(searchGuanjiaci.getText().toString());
-                        if (index >= 0) {
-                            textName1.setText(content.substring(0, index));
-                            textName1.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
-                            String str = content.substring(searchGuanjiaci.getText().toString().length() + index, content.length());
-                            textName1.append(str);
-                        }
-                    }
-
-                    textName1.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(SearchResultActivity.this, YoJiDetailActivity.class);
-                            intent.putExtra("yo_id", list.get(finalI1).getYo_id());
+            ListViewkeywordAdapter adapter = new ListViewkeywordAdapter(SearchResultActivity.this, listBeans, searchGuanjiaci.getText().toString());
+            listViewLv.setAdapter(adapter);
+            listViewLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    int type = list.get(position).getType();
+                    switch (type){
+                        //个人信息
+                        case 1:
+                            Intent intent = new Intent(SearchResultActivity.this, Personal_homepage_Activity.class);
+                            intent.putExtra("yo_user_id", list.get(position).getUser_id() + "");
                             startActivity(intent);
-                        }
-                    });
-                }
-                if (list.get(i).getType() == 3) {
-                    if (list.get(i).getFile_desc() != null) {
-                        name3.setVisibility(View.VISIBLE);
-                        view3.setVisibility(View.VISIBLE);
-                        imDizhi2.setVisibility(View.VISIBLE);
-                        textName2.setVisibility(View.VISIBLE);
-                        imDizhi2.setImageResource(R.drawable.yoxiu_i);
-                        String content = listBeans.get(i).getFile_desc();
-                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString()) && !TextUtils.isEmpty(content)) {
-                            int index = content.indexOf(searchGuanjiaci.getText().toString());
-                            if (index >= 0) {
-                                textName2.setText(content.substring(0, index));
-                                textName2.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
-                                String str = content.substring(searchGuanjiaci.getText().toString().length() + index, content.length());
-                                textName2.append(str);
-                            }
-                        }
-                        int finalI2 = i;
-                        textName2.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(SearchResultActivity.this, YoXiuDetailActivity.class);
-                                intent.putExtra("id", list.get(finalI2).getYo_id());
-                                startActivity(intent);
-                            }
-                        });
+                            break;
+                         //有记
+                        case 2:
+                            Intent intent1 = new Intent(SearchResultActivity.this, YoJiDetailActivity.class);
+                            intent1.putExtra("yo_id", list.get(position).getYo_id());
+                            startActivity(intent1);
+                            break;
+                            //有修
+                        case 3:
+                            Intent intent2 = new Intent(SearchResultActivity.this, YoXiuDetailActivity.class);
+                            intent2.putExtra("id", list.get(position).getYo_id());
+                            startActivity(intent2);
+                            break;
+                            //标签
+                        case 4:
+                            mPresenter.getKeyWord(user_id,user_token,listBeans.get(position).getLabel(),"all");
+                            break;
+                            //定位
+                        case 5:
+                            mPresenter.getKeyWord(user_id,user_token,listBeans.get(position).getPosition_name(),"all");
+                            break;
+                            //频道
+                        case 6:
+                            mPresenter.getKeyWord(user_id,user_token,listBeans.get(position).getChannel(),"all");
+                            break;
+                            //搜索全部
+                        case 7:
+                            mPresenter.getKeyWord(user_id,user_token,searchGuanjiaci.getText().toString(),"all");
+                            break;
                     }
                 }
+            });
 
-                if (list.get(i).getType() == 4) {
-                    if (list.get(i).getLabel() != null) {
-                        textName3.setVisibility(View.VISIBLE);
-                        name4.setVisibility(View.VISIBLE);
-                        view4.setVisibility(View.VISIBLE);
-                        imDizhi3.setVisibility(View.VISIBLE);
-                        imDizhi3.setImageResource(R.drawable.biaoqian);
-                        String content = listBeans.get(i).getLabel();
-                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString()) && !TextUtils.isEmpty(content)) {
-                            int index = content.indexOf(searchGuanjiaci.getText().toString());
-                            if (index >= 0) {
-                                textName3.setText(content.substring(0, index));
-                                textName3.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
-                                String str = content.substring(searchGuanjiaci.getText().toString().length() + index, content.length());
-                                textName3.append(str);
-                            }
-                        }
-                        textName3.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                mPresenter.getKeyWord(user_id,user_token,content,"all");
-                            }
-                        });
-                    }
-                }
-                if (list.get(i).getType() == 5) {
-                    if (list.get(i).getPosition_name() != null) {
-                        name5.setVisibility(View.VISIBLE);
-                        view5.setVisibility(View.VISIBLE);
-                        imDizhi4.setVisibility(View.VISIBLE);
-                        textName4.setVisibility(View.VISIBLE);
-                        imDizhi4.setImageResource(R.drawable.didian);
-                        String content = listBeans.get(i).getPosition_name();
-                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString()) && !TextUtils.isEmpty(content)) {
-                            int index = content.indexOf(searchGuanjiaci.getText().toString());
-                            if (index >= 0) {
-                                textName4.setText(content.substring(0, index));
-                                textName4.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
-                                String str = content.substring(searchGuanjiaci.getText().toString().length() + index, content.length());
-                                textName4.append(str);
-                            }
-                        }
-                        textName4.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                mPresenter.getKeyWord(user_id,user_token,content,"all");
-                            }
-                        });
-                    }
-                }
-
-                if (list.get(i).getType() == 6) {
-                    if (list.get(i).getChannel() != null) {
-                        view6.setVisibility(View.VISIBLE);
-                        name6.setVisibility(View.VISIBLE);
-                        imDizhi5.setVisibility(View.VISIBLE);
-                        imDizhi5.setImageResource(R.drawable.pindao);
-                        textName5.setVisibility(View.VISIBLE);
-
-                        String content = listBeans.get(i).getChannel();
-                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString()) && !TextUtils.isEmpty(content)) {
-                            int index = content.indexOf(searchGuanjiaci.getText().toString());
-                            if (index >= 0) {
-                                textName5.setText(content.substring(0, index));
-                                textName5.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
-                                String str = content.substring(searchGuanjiaci.getText().toString().length() + index, content.length());
-                                textName5.append(str);
-                            }
-                        }
-
-                        textName5.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                mPresenter.getKeyWord(user_id,user_token,content,"all");
-                            }
-                        });
-                    }
-                }
+            if (list.size() == 0) {
+                tvSetname.setVisibility(View.VISIBLE);
+                hit.setVisibility(View.VISIBLE);
+                Toast.makeText(SearchResultActivity.this, "没有匹配到您要查询的关键字", Toast.LENGTH_SHORT).show();
             }
-    /*            if (list.get(i).getType() == 1) {
-                    if (list.get(i).getUser_nickname() != null) {
-                        view7.setVisibility(View.VISIBLE);
-                        name7.setVisibility(View.VISIBLE);
-                        imDizhi7.setVisibility(View.VISIBLE);
-                        imDizhi7.setImageResource(R.drawable.yonghu);
-                        textName7.setVisibility(View.VISIBLE);
-                        String content = listBeans.get(i).getUser_nickname();
-                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString()) && !TextUtils.isEmpty(content)) {
-                            int index = content.indexOf(searchGuanjiaci.getText().toString());
-                            if (index >= 0) {
-                                textName7.setText(content.substring(0, index));
-                                textName7.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
-                                String str = content.substring(searchGuanjiaci.getText().toString().length() + index, content.length());
-                                textName7.append(str);
-                            }
-                        }
-
-                        textName7.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                            }
-                        });
-                    }
-                }
-                if (list.get(i).getType() == 2) {
-                    if (list.get(i).getTitle() != null) {
-                        view8.setVisibility(View.VISIBLE);
-                        name8.setVisibility(View.VISIBLE);
-                        imDizhi8.setVisibility(View.VISIBLE);
-                        imDizhi8.setImageResource(R.drawable.yoji_i);
-                        textName8.setVisibility(View.VISIBLE);
-                        String content = listBeans.get(i).getTitle();
-                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString()) && !TextUtils.isEmpty(content)) {
-                            int index = content.indexOf(searchGuanjiaci.getText().toString());
-                            if (index >= 0) {
-                                textName8.setText(content.substring(0, index));
-                                textName8.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
-                                String str = content.substring(searchGuanjiaci.getText().toString().length() + index, content.length());
-                                textName8.append(str);
-                            }
-                        }
-
-                        textName8.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                            }
-                        });
-                    }
-                }
-                if (list.get(i).getType() == 3) {
-                    if (list.get(i).getFile_desc() != null) {
-                        view9.setVisibility(View.VISIBLE);
-                        name9.setVisibility(View.VISIBLE);
-                        imDizhi9.setVisibility(View.VISIBLE);
-                        imDizhi9.setImageResource(R.drawable.yoxiu_i);
-                        textName9.setVisibility(View.VISIBLE);
-                        String content = listBeans.get(i).getFile_desc();
-                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString()) && !TextUtils.isEmpty(content)) {
-                            int index = content.indexOf(searchGuanjiaci.getText().toString());
-                            if (index >= 0) {
-                                textName9.setText(content.substring(0, index));
-                                textName9.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
-                                String str = content.substring(searchGuanjiaci.getText().toString().length() + index, content.length());
-                                textName9.append(str);
-                            }
-                        }
-
-                        textName9.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                            }
-                        });
-                    }
-                }
-                if (list.get(i).getType() == 4) {
-                    if (list.get(i).getLabel() != null) {
-                        view10.setVisibility(View.VISIBLE);
-                        name10.setVisibility(View.VISIBLE);
-                        imDizhi10.setVisibility(View.VISIBLE);
-                        imDizhi10.setImageResource(R.drawable.biaoqian);
-                        textName10.setVisibility(View.VISIBLE);
-                        String content = listBeans.get(i).getLabel();
-                        if (!TextUtils.isEmpty(searchGuanjiaci.getText().toString()) && !TextUtils.isEmpty(content)) {
-                            int index = content.indexOf(searchGuanjiaci.getText().toString());
-                            if (index >= 0) {
-                                textName10.setText(content.substring(0, index));
-                                textName10.append(Html.fromHtml("<font color='#FA800A'>" + searchGuanjiaci.getText().toString() + "</font>"));
-                                String str = content.substring(searchGuanjiaci.getText().toString().length() + index, content.length());
-                                textName10.append(str);
-                            }
-                        }
-
-                        textName10.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                            }
-                        });
-                    }
-                }*/
-
-
-        }
-        if (list.size() == 0) {
-            //   lv.setVisibility(View.VISIBLE);
-            tvSetname.setVisibility(View.VISIBLE);
-            hit.setVisibility(View.VISIBLE);
-            Toast.makeText(SearchResultActivity.this, "没有匹配到您要查询的关键字", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -729,8 +396,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 lvContent.setVisibility(View.GONE);
                 cancel.setVisibility(View.VISIBLE);
             }
-
-//            SharedPrefrenceUtils.putSerializableList(SearchResultActivity.this,"user111",mUser);
         }
         if (keywordBean.getData().getType().equals("yox")) {
             myox.clear();
@@ -795,7 +460,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             lvUser.setAdapter(adapter1);
             adapter1.notifyDataSetChanged();
             SharedPrefrenceUtils.putSerializableList(SearchResultActivity.this, "yoji", myox);
-            //有机
+            //有记
             List<KeywordBean.DataBean.YojListBean> yoj_list = keywordBean.getData().getYoj_list();
             myoj.addAll(yoj_list);
             lvContent.setAdapter(adapter3);
@@ -806,40 +471,15 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             lvContent.setVisibility(View.VISIBLE);
             content.setVisibility(View.VISIBLE);
             hit.setVisibility(View.GONE);
+            tvGson.setVisibility(View.GONE);
+            tvGson1.setVisibility(View.GONE);
+            listViewLv.setVisibility(View.GONE);
             if (mUser.size() == 0){
                 tvGson.setVisibility(View.VISIBLE);
                 if (myoj.size() == 0 && myox.size() == 0){
                     tvGson.setVisibility(View.VISIBLE);
                     tvGson1.setVisibility(View.VISIBLE);
-                    name1.setVisibility(View.GONE);
-                    imDizhi.setVisibility(View.GONE);
-                    view1.setVisibility(View.GONE);
-                    textName.setVisibility(View.GONE);
 
-                    name2.setVisibility(View.GONE);
-                    imDizhi1.setVisibility(View.GONE);
-                    view2.setVisibility(View.GONE);
-                    textName1.setVisibility(View.GONE);
-
-                    name3.setVisibility(View.GONE);
-                    view3.setVisibility(View.GONE);
-                    imDizhi2.setVisibility(View.GONE);
-                    textName2.setVisibility(View.GONE);
-
-                    textName3.setVisibility(View.GONE);
-                    name4.setVisibility(View.GONE);
-                    view4.setVisibility(View.GONE);
-                    imDizhi3.setVisibility(View.GONE);
-
-                    name5.setVisibility(View.GONE);
-                    view5.setVisibility(View.GONE);
-                    imDizhi4.setVisibility(View.GONE);
-                    textName4.setVisibility(View.GONE);
-
-                    view6.setVisibility(View.GONE);
-                    name6.setVisibility(View.GONE);
-                    imDizhi5.setVisibility(View.GONE);
-                    textName5.setVisibility(View.GONE);
                 }
             }
         }
@@ -848,7 +488,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     /**
      * 隐藏软键盘
      *
-     * @param :上下文环境，一般为Activity实例
+     * @param : Context上下文环境，一般为Activity实例
      * @param view                 :一般为EditText
      */
     public static void hideKeyboard(View view) {

@@ -202,7 +202,6 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
     @Override
     public void getRecommendTopicSuccess(searchInfo list) {
         List<String> list_hot = list.getData().getList_hot();
-        Log.e("h", "publishYoJiSuccess: " +list_hot.size());
         initKeyword(list_hot);
         initHistory();
         String[] data = SPUtils.getInstance(this).getHistoryList();
