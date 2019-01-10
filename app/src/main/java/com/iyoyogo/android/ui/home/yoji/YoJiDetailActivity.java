@@ -1355,11 +1355,12 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     @Override
     public void addAttentionSuccess(AttentionBean.DataBean data) {
-        int status = data.getStatus();
-        if (status == 0) {
+        if (data.getStatus() == 0) {
             tvAttention.setText("+ 关注");
+            Toast.makeText(this, "取消关注", Toast.LENGTH_SHORT).show();
         } else {
             tvAttention.setText("已关注");
+            Toast.makeText(this, "关注成功", Toast.LENGTH_SHORT).show();
         }
     }
 

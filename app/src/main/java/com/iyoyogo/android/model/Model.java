@@ -1143,4 +1143,11 @@ public class Model {
         return HttpClient.getApiService().getYoXiuPosition(user_id, user_token, position, type, page, page_size)
                 .compose(this.switchThread());
     }
+    /**
+     *
+     */
+    public Observable<BaseBean> update_bind(String user_id,String user_token,int type,String openid,String nickname,String logo){
+        return HttpClient.getApiService().update_bind(user_id, user_token, type, openid, nickname, logo)
+                .compose(this.switchThread());
+    }
 }
