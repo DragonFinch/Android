@@ -4,12 +4,17 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical">
+    <View
+        android:layout_marginTop="4dp"
+        android:id="@+id/view_gson"
+        android:layout_width="match_parent"
+        android:layout_height="5.0dp"
+        android:background="#F1F1F1"></View>
 
     <TextView
         android:id="@+id/city_item_hint_tv"
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:background="@color/mainGray"
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
@@ -18,6 +23,7 @@
         android:text="当前位置"
         android:textColor="@color/gray_9"
         android:textSize="14sp" />
+
 
     <TextView
         android:visibility="gone"
@@ -60,8 +66,12 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:gravity="center"
-            android:text="重新获取"
+            android:text="重新定位"
             android:textColor="#FA800A" />
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5.0dp"
+        android:background="#F1F1F1"></View>
 </LinearLayout>

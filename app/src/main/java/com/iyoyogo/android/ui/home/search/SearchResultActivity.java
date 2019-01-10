@@ -1,6 +1,7 @@
 package com.iyoyogo.android.ui.home.search;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -12,10 +13,12 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,7 +41,6 @@ import com.iyoyogo.android.bean.search.KeywordBean;
 import com.iyoyogo.android.bean.search.KeywordUserBean;
 import com.iyoyogo.android.contract.KeywordContract;
 import com.iyoyogo.android.presenter.KeywordPresenter;
-import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
@@ -89,8 +91,8 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     TextView textName1;
     @BindView(R.id.im_dizhi1)
     ImageView imDizhi1;
-    @BindView(R.id.search_btn_back)
-    Button searchBtnBack;
+    /*    @BindView(R.id.search_btn_back)
+        Button searchBtnBack;*/
     /*    @BindView(R.id.cancel)
         TextView cancel;*/
     @BindView(R.id.text_name2)
@@ -133,8 +135,8 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     View view5;
     @BindView(R.id.view6)
     View view6;
-  /*  @BindView(R.id.text_name2)
-    TextView textName2;*/
+    /*  @BindView(R.id.text_name2)
+      TextView textName2;*/
     @BindView(R.id.text_name7)
     TextView textName7;
     @BindView(R.id.im_dizhi7)
@@ -167,6 +169,10 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     RelativeLayout name10;
     @BindView(R.id.view10)
     View view10;
+    @BindView(R.id.tv_gson)
+    TextView tvGson;
+    @BindView(R.id.tv_gson1)
+    TextView tvGson1;
     private PopupWindow popupWindow;
     private List<KeywordBean.DataBean.UserListBean> mUser = new ArrayList<>();
     private List<KeywordBean.DataBean.YojListBean> myoj = new ArrayList<>();
@@ -220,7 +226,12 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               /* if (cancel.getText().toString().equals("搜索")){
+                    mPresenter.getSearch(user_id, user_token, s.toString());
+                }else{*/
                 finish();
+                //   }
+
             }
         });
 
@@ -298,6 +309,9 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String s1 = String.valueOf(s);
+      /*          if (s1 != null){
+                    cancel.setText("搜索");
+                }*/
             }
 
             @Override
@@ -306,7 +320,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                     if (fig) {
                         mPresenter.getSearch(user_id, user_token, s.toString());
                         cancel.setVisibility(View.VISIBLE);
-                        searchBtnBack.setVisibility(View.VISIBLE);
+                        // cancel.setText("搜索");
                     } else {
                         fig = true;
                     }
@@ -314,6 +328,20 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 }
             }
         });
+        //软键盘的搜索点击时间
+        searchGuanjiaci.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    //关闭软件盘
+                    hideKeyboard(searchGuanjiaci);
+                    Toast.makeText(SearchResultActivity.this, "全部", Toast.LENGTH_SHORT).show();
+                    mPresenter.getKeyWord(user_id, user_token, searchGuanjiaci.getText().toString(), "all");
+                }
+                return false;
+            }
+        });
+
     }
 
     @Override
@@ -379,7 +407,9 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             content.setVisibility(View.GONE);
             hit.setVisibility(View.GONE);
 
-          /*  ListViewkeywordAdapter adapter  = new ListViewkeywordAdapter(SearchResultActivity.this,listBeans,searchGuanjiaci.getText().toString());
+            tvGson.setVisibility(View.GONE);
+            tvGson1.setVisibility(View.GONE);
+          /*  ListViewkeywordAdapter adapter = new ListViewkeywordAdapter(SearchResultActivity.this, listBeans, searchGuanjiaci.getText().toString());
             listViewLv.setAdapter(adapter);*/
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i).getType() == 1) {
@@ -399,23 +429,19 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                                 textName.append(str);
                             }
                         }
+
                         int finalI = i;
                         textName.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent(SearchResultActivity.this, Personal_homepage_Activity.class);
-                                intent.putExtra("yo_user_id", list.get(finalI).getUser_id()+"");
+                                intent.putExtra("yo_user_id", list.get(finalI).getUser_id() + "");
                                 //Log.e("adadada", "onClick: " + list.get(finalI).getUser_id()+"");
                                 startActivity(intent);
                             }
                         });
                     }
-                }/*else{
-                    name1.setVisibility(View.GONE);
-                    imDizhi.setVisibility(View.GONE);
-                    view1.setVisibility(View.GONE);
-                    textName.setVisibility(View.GONE);
-                }*/
+                }
                 if (list.get(i).getType() == 2) {
                     Log.e("search", "search: " + list.get(i).getTitle());
                     name2.setVisibility(View.VISIBLE);
@@ -443,13 +469,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                             startActivity(intent);
                         }
                     });
-                }/*else{
-                    textName1.setVisibility(View.VISIBLE);
-                    name2.setVisibility(View.GONE);
-                    imDizhi1.setVisibility(View.GONE);
-                    view2.setVisibility(View.GONE);
-                }*/
-
+                }
                 if (list.get(i).getType() == 3) {
                     if (list.get(i).getFile_desc() != null) {
                         name3.setVisibility(View.VISIBLE);
@@ -477,12 +497,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                             }
                         });
                     }
-                }/*else{
-                    name3.setVisibility(View.GONE);
-                    view3.setVisibility(View.GONE);
-                    imDizhi2.setVisibility(View.GONE);
-                    textName2.setVisibility(View.GONE);
-                }*/
+                }
 
                 if (list.get(i).getType() == 4) {
                     if (list.get(i).getLabel() != null) {
@@ -504,15 +519,11 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                         textName3.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                mPresenter.getKeyWord(user_id,user_token,content,"all");
                             }
                         });
                     }
-                }/*else{
-                    name4.setVisibility(View.GONE);
-                    view4.setVisibility(View.GONE);
-                    imDizhi3.setVisibility(View.GONE);
-                    textName3.setVisibility(View.GONE);
-                }*/
+                }
                 if (list.get(i).getType() == 5) {
                     if (list.get(i).getPosition_name() != null) {
                         name5.setVisibility(View.VISIBLE);
@@ -533,15 +544,11 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                         textName4.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                mPresenter.getKeyWord(user_id,user_token,content,"all");
                             }
                         });
                     }
-                }/*else{
-                    name5.setVisibility(View.GONE);
-                    view5.setVisibility(View.GONE);
-                    imDizhi4.setVisibility(View.GONE);
-                    textName4.setVisibility(View.GONE);
-                }*/
+                }
 
                 if (list.get(i).getType() == 6) {
                     if (list.get(i).getChannel() != null) {
@@ -565,16 +572,12 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                         textName5.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                mPresenter.getKeyWord(user_id,user_token,content,"all");
                             }
                         });
                     }
-                }/*else{
-                    textName5.setVisibility(View.GONE);
-                    view6.setVisibility(View.GONE);
-                    imDizhi5.setVisibility(View.GONE);
-                    name6.setVisibility(View.GONE);
-                }*/
-
+                }
+            }
     /*            if (list.get(i).getType() == 1) {
                     if (list.get(i).getUser_nickname() != null) {
                         view7.setVisibility(View.VISIBLE);
@@ -677,14 +680,13 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 }*/
 
 
-            }
-            if (list.size() == 0) {
-                //   lv.setVisibility(View.VISIBLE);
-                tvSetname.setVisibility(View.VISIBLE);
-                Toast.makeText(SearchResultActivity.this, "没有匹配到您要查询的关键字", Toast.LENGTH_SHORT).show();
-            }
         }
-
+        if (list.size() == 0) {
+            //   lv.setVisibility(View.VISIBLE);
+            tvSetname.setVisibility(View.VISIBLE);
+            hit.setVisibility(View.VISIBLE);
+            Toast.makeText(SearchResultActivity.this, "没有匹配到您要查询的关键字", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -804,6 +806,54 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             lvContent.setVisibility(View.VISIBLE);
             content.setVisibility(View.VISIBLE);
             hit.setVisibility(View.GONE);
+            if (mUser.size() == 0){
+                tvGson.setVisibility(View.VISIBLE);
+                if (myoj.size() == 0 && myox.size() == 0){
+                    tvGson.setVisibility(View.VISIBLE);
+                    tvGson1.setVisibility(View.VISIBLE);
+                    name1.setVisibility(View.GONE);
+                    imDizhi.setVisibility(View.GONE);
+                    view1.setVisibility(View.GONE);
+                    textName.setVisibility(View.GONE);
+
+                    name2.setVisibility(View.GONE);
+                    imDizhi1.setVisibility(View.GONE);
+                    view2.setVisibility(View.GONE);
+                    textName1.setVisibility(View.GONE);
+
+                    name3.setVisibility(View.GONE);
+                    view3.setVisibility(View.GONE);
+                    imDizhi2.setVisibility(View.GONE);
+                    textName2.setVisibility(View.GONE);
+
+                    textName3.setVisibility(View.GONE);
+                    name4.setVisibility(View.GONE);
+                    view4.setVisibility(View.GONE);
+                    imDizhi3.setVisibility(View.GONE);
+
+                    name5.setVisibility(View.GONE);
+                    view5.setVisibility(View.GONE);
+                    imDizhi4.setVisibility(View.GONE);
+                    textName4.setVisibility(View.GONE);
+
+                    view6.setVisibility(View.GONE);
+                    name6.setVisibility(View.GONE);
+                    imDizhi5.setVisibility(View.GONE);
+                    textName5.setVisibility(View.GONE);
+                }
+            }
         }
+    }
+
+    /**
+     * 隐藏软键盘
+     *
+     * @param :上下文环境，一般为Activity实例
+     * @param view                 :一般为EditText
+     */
+    public static void hideKeyboard(View view) {
+        InputMethodManager manager = (InputMethodManager) view.getContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

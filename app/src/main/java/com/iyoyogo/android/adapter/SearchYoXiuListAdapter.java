@@ -80,7 +80,7 @@ public class SearchYoXiuListAdapter extends RecyclerView.Adapter<SearchYoXiuList
         });*/
         viewHolder.num_browse.setText(mList.get(position).getCount_view()+"");
         viewHolder.user_name.setText(mList.get(position).getUser_info().getUser_nickname());
-        viewHolder.comment_all.setText("全部评论(" + mList.get(position).getCount_view() + ")");
+        viewHolder.comment_all.setText("全部评论(" + mList.get(position).getCount_comment() + ")");
         int file_type = mList.get(position).getFile_type();
         if (file_type == 2) {
             Glide.with(context).load(mList.get(position).getUser_info().getUser_logo()).into(viewHolder.user_icon);
@@ -115,12 +115,13 @@ public class SearchYoXiuListAdapter extends RecyclerView.Adapter<SearchYoXiuList
                 context.startActivity(intent);
             }
         });
+        //优秀的全部评论跳转
         viewHolder.comment_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, AllCommentActivity.class);
-                intent.putExtra("yo_id",mList.get(position).getYo_id());
-              //  context.startActivity(intent);
+                intent.putExtra("id",mList.get(position).getYo_id());
+                context.startActivity(intent);
             }
         });
     viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

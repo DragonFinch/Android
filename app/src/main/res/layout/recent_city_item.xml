@@ -8,7 +8,7 @@
     <TextView
     android:layout_width="match_parent"
     android:layout_height="25dp"
-    android:background="@color/mainGray"
+    android:background="@color/white"
     android:drawableLeft="@mipmap/jiantoucheng"
     android:drawablePadding="5dp"
     android:gravity="center_vertical"

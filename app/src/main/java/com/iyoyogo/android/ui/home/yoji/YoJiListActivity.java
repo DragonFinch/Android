@@ -3,6 +3,7 @@ package com.iyoyogo.android.ui.home.yoji;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -105,6 +106,8 @@ public class YoJiListActivity extends BaseActivity {
         refreshLayout1.setEnableRefresh(true);
 //        refreshLayout1.setFooterHeight(1.0f);
 
+        //流式布局
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
         recyclerYojiListTwo.setLayoutManager(staggeredGridLayoutManager);
         refreshLayout2.setEnableRefresh(true);
 //        refreshLayout2.setFooterHeight(1.0f);
@@ -138,7 +141,6 @@ public class YoJiListActivity extends BaseActivity {
                         recyclerYojiListTwo.setLayoutManager(staggeredGridLayoutManager);
                         recyclerYojiListTwo.setAdapter(yoJiListAdapter);
                     }
-
                     @Override
                     public void onError(Throwable e) {
                         shortToast(e.getMessage());

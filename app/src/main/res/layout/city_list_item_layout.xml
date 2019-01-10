@@ -8,7 +8,7 @@
     <TextView
         android:text="A"
         android:id="@+id/city_key_tv"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/dp_335"
         android:layout_height="30dp"
         android:background="@color/mainGray"
         android:gravity="center_vertical"
