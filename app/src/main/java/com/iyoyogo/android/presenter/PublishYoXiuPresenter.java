@@ -29,15 +29,17 @@ public class PublishYoXiuPresenter extends BasePresenter<PublishYoXiuContract.Vi
                     @Override
                     protected void doOnSuccess(HotTopicBean hotTopicBean) {
                         List<HotTopicBean.DataBean.ListBean> list = hotTopicBean.getData().getList();
-                        if (list != null) {
+                        if (list != null&&mView!=null) {
                             mView.getRecommendTopicSuccess(list);
                         }
                     }
 
                     @Override
                     protected boolean doOnFailure(int code, String message) {
-                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
-                        mView.onError(message);
+                        if (mView!=null) {
+                            Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                            mView.onError(message);
+                        }
                         return true;
                     }
                 });

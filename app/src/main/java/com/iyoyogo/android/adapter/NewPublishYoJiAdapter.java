@@ -59,6 +59,7 @@ public class NewPublishYoJiAdapter extends BaseQuickAdapter<PublishYoJiBean.Data
 
         helper.setGone(R.id.tv_tag, item.getLabels() == null || item.getLabels().size() == 0);
         FlexboxLayout flexTag = helper.getView(R.id.flex_tag);
+        flexTag.removeAllViews();
         if (item.getLabels() != null && item.getLabels().size() > 0) {
             for (PublishYoJiBean.DataBean.ListBean.LabelsBean labelsBean : item.getLabels()) {
                 View         view = LayoutInflater.from(mContext).inflate(R.layout.item_public_yo_ji_tag, null);
