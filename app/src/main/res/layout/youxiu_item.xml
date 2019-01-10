@@ -7,14 +7,11 @@
 
     <ImageView
         android:id="@+id/img_youxiu"
-        android:layout_width="@dimen/dp_80"
-        android:layout_height="@dimen/dp_30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_20"
         android:layout_marginBottom="@dimen/dp_24"
-
-        android:scaleType="centerCrop"
-
-        android:src="@mipmap/ic_yoxiu" />
+        android:src="@mipmap/yoxiu_title" />
 
     <ImageView
         android:id="@+id/youxiu_all"

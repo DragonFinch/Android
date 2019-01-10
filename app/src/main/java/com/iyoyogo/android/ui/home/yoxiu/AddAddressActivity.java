@@ -214,7 +214,6 @@ public class AddAddressActivity extends BaseActivity {
         aMap.setOnMapLongClickListener(new AMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                Toast.makeText(AddAddressActivity.this, "latLng:" + latLng, Toast.LENGTH_SHORT).show();
 
                 aMap.clear();
 
@@ -302,7 +301,7 @@ public class AddAddressActivity extends BaseActivity {
         //关闭键盘
 //        KeyBoardUtils.closeKeybord(poiSearchInMaps, BaseApplication.mContext);
         if (TextUtils.isEmpty(s.toString().trim())) {
-            Toast.makeText(this, "内容为空!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
             mapAddAddress.setVisibility(View.VISIBLE);
             recyclerAddAddress.setVisibility(View.GONE);
             mapAddAddress.invalidate();

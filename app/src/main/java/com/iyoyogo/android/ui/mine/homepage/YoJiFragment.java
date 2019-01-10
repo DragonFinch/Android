@@ -115,7 +115,6 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
         //下拉刷新
-        refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
         refreshLayout.setEnableRefresh(true);
         refreshLayout.autoRefresh();
         refreshLayout.finishRefresh(1050);

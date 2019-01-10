@@ -394,7 +394,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                     //设置点赞的数量
                     dataBeans.get(0).setIs_my_like(0);
                     dataBeans.get(0).setCount_praise(count_praises + "");
-                    tvLike.setText(count_praise + "");
+                    tvLike.setText(count_praises + "");
 
                 } else {
                     //由不喜欢变为喜欢，暗变亮
@@ -801,8 +801,10 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         int status = data.getStatus();
         if (status == 0) {
             collection.setText("+ 关注");
+            Toast.makeText(this, "取消关注", Toast.LENGTH_SHORT).show();
         } else {
             collection.setText("已关注");
+            Toast.makeText(this, "关注成功", Toast.LENGTH_SHORT).show();
         }
     }
 

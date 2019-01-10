@@ -277,7 +277,7 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
                         holder.homeShowOrHide.setText("全文");//设置其文字为全文
                         mTextStateList.put(position, STATE_COLLAPSED);
                     } else {
-                        holder.homeShowOrHide.setVisibility(View.GONE);//显示全文隐藏
+                        holder.homeShowOrHide.setVisibility(View.INVISIBLE);//显示全文隐藏
                         mTextStateList.put(position, STATE_NOT_OVERFLOW);//让其不能超过限定的行数
                     }
                     return true;
@@ -287,17 +287,17 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
             //            如果之前已经初始化过了，则使用保存的状态，无需在获取一次
             switch (state) {
                 case STATE_NOT_OVERFLOW:
-                    holder.homeShowOrHide.setVisibility(View.GONE);
+                    holder.homeShowOrHide.setVisibility(View.INVISIBLE);
                     break;
                 case STATE_COLLAPSED:
                     holder.tv_content.setMaxLines(MAX_LINE_COUNT);
                     holder.homeShowOrHide.setVisibility(View.VISIBLE);
-                    holder.homeShowOrHide.setText("[全文]");
+                    holder.homeShowOrHide.setText("全文");
                     break;
                 case STATE_EXPANDED:
                     holder.tv_content.setMaxLines(Integer.MAX_VALUE);
                     holder.homeShowOrHide.setVisibility(View.VISIBLE);
-                    holder.homeShowOrHide.setText("[收起]");
+                    holder.homeShowOrHide.setText("收起");
                     break;
             }
         }
@@ -420,12 +420,19 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DataManager.getFromRemote().deleteYo(user_id, user_token, yo_id)
+                DataManager.getFromRemote().deleteComment(user_id, user_token, comment_id)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
                                 if (deleteOnClickListener != null) {
                                     deleteOnClickListener.delete();
+                                    DataManager.getFromRemote().getComment(user_id, user_token, 1, yo_id, 0)
+                                            .subscribe(new Consumer<CommentBean>() {
+                                                @Override
+                                                public void accept(CommentBean commentBean) throws Exception {
+                                                    notifyDataSetChanged();
+                                                }
+                                            });
                                 }
                             }
                         });
@@ -443,7 +450,7 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         popupWindow.setOutsideTouchable(true);
 
         popupWindow.setOnDismissListener(new poponDismissListener());
-        popupWindow.showAsDropDown(holder.img_function, 0, 0);
+        popupWindow.showAsDropDown(holder.img_function, DensityUtil.dp2px(context,-95),  DensityUtil.dp2px(context,5));
     }
 
     @Override

@@ -122,18 +122,19 @@ public class AddFilterActivity extends BaseActivity implements BaseQuickAdapter.
             }
         }
         videoEditRes.imagePAR = new NvsRational(1, 1); /*像素比，设为1:1*/
-        NvsRational videoFps = new NvsRational(25, 1); /*帧速率，代表1秒播出多少帧画面，一般设25帧，也可设为30 */
-
-        NvsAudioResolution audioEditRes = new NvsAudioResolution();
-        audioEditRes.sampleRate = 44100; /*音频采样率，可以是44100，或者48000*/
-        audioEditRes.channelCount = 2; /*音频通道数,一般是2*/
 
         /*创建时间线*/
-        mTimeline = mStreamingContext.createTimeline(videoEditRes, videoFps, audioEditRes);
+        mTimeline =  TimelineUtil.newTimeline(videoEditRes);
+
         //将timeline连接到LiveWindow控件
         mStreamingContext.connectTimelineWithLiveWindow(mTimeline, mLiveWindow);
         mStreamingContext.setCompileCallback(this);//设置生成回调接口
 
+        if (mTimeline==null){
+            Toast.makeText(this, "图片有误，请重新选择图片", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
         /*添加视频轨道，如果不做画中画，添加一条视频轨道即可*/
         mVideoTrack = mTimeline.appendVideoTrack();
         NvsVideoClip clip = mVideoTrack.appendClip(path);

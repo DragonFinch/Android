@@ -1037,6 +1037,10 @@ public class Model {
         return HttpClient.getApiService().deleteYo(user_id, user_token, yo_id)
                 .compose(this.switchThread());
     }
+ public Observable<BaseBean> deleteComment(String user_id, String user_token, int comment_id) {
+        return HttpClient.getApiService().deleteComment(user_id, user_token, comment_id)
+                .compose(this.switchThread());
+    }
 
     public Observable<PublishYoJiBean> getYoJiData(String user_id, String user_token, String yo_id) {
         return HttpClient.getApiService().getYoJiData(user_id, user_token, yo_id)
@@ -1137,6 +1141,13 @@ public class Model {
 
     public Observable<YouXiuListBean> getYoXiuPosition(String user_id, String user_token, String position, int type, int page, String page_size) {
         return HttpClient.getApiService().getYoXiuPosition(user_id, user_token, position, type, page, page_size)
+                .compose(this.switchThread());
+    }
+    /**
+     *
+     */
+    public Observable<BaseBean> update_bind(String user_id,String user_token,int type,String openid,String nickname,String logo){
+        return HttpClient.getApiService().update_bind(user_id, user_token, type, openid, nickname, logo)
                 .compose(this.switchThread());
     }
 }

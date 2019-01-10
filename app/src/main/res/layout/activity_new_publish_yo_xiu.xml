@@ -133,6 +133,7 @@
                     android:hint="照片这么美，标题也不能马虎呦~"
                     android:maxLength="200"
                     android:textColor="#333333"
+                    android:maxLines="6"
                     android:textColorHint="#888888"
                     android:textSize="15sp" />
 

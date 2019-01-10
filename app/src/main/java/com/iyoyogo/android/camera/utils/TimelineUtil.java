@@ -671,7 +671,7 @@ public class TimelineUtil {
             newCaption.setCaptionTranslation(translation);
     }
 
-    private static NvsTimeline newTimeline(NvsVideoResolution videoResolution) {
+    public static NvsTimeline newTimeline(NvsVideoResolution videoResolution) {
         NvsStreamingContext context = NvsStreamingContext.getInstance();
         if (context == null) {
             Log.e(TAG, "failed to get streamingContext");

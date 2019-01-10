@@ -78,7 +78,7 @@ public class EditImageOrVideoActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
-        StatusBarCompat.setStatusBarColor(this,Color.WHITE);
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         localMedia = PictureSelector.obtainMultipleResult(getIntent());
         mViewPager.setCanScroll(true);
         mViewPager.setAdapter(new EditImageOrVideoAdapter(localMedia, this));
@@ -101,11 +101,11 @@ public class EditImageOrVideoActivity extends BaseActivity {
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        File foder = new File(Environment.getExternalStorageDirectory()+"/Yoyogo/Image");
+        File foder = new File(Environment.getExternalStorageDirectory() + "/Yoyogo/Image");
         if (!foder.exists()) {
             foder.mkdirs();
         }
-        File video = new File(Environment.getExternalStorageDirectory()+"/Yoyogo/Video");
+        File video = new File(Environment.getExternalStorageDirectory() + "/Yoyogo/Video");
         if (!video.exists()) {
             video.mkdirs();
         }
@@ -125,10 +125,13 @@ public class EditImageOrVideoActivity extends BaseActivity {
                 mLlOptionImage.setVisibility(isEdit ? View.VISIBLE : View.GONE);
                 break;
             case R.id.btn_done:
-                if (getIntent().getIntExtra("type", 1) == 1) {
+                int type = getIntent().getIntExtra("type", 1);
+                if (type == 1) {
                     startActivity(getIntent().setClass(this, NewPublishYoJiActivity.class));
-                } else {
+                } else if (type == 2) {
                     startActivity(getIntent().setClass(this, NewPublishYoXiuActivity.class));
+                } else {
+                    setResult(200, getIntent());
                 }
                 finish();
                 break;
@@ -152,10 +155,10 @@ public class EditImageOrVideoActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        int position = mViewPager.getCurrentItem();
         if (resultCode == RESULT_OK) {
-            int        position = mViewPager.getCurrentItem();
-            CutInfo    cutInfo  = (CutInfo) data.getSerializableExtra("data");
-            LocalMedia local    = this.localMedia.get(position);
+            CutInfo    cutInfo = (CutInfo) data.getSerializableExtra("data");
+            LocalMedia local   = this.localMedia.get(position);
             local.setCutPath(cutInfo.getCutPath());
             local.setCompressPath(cutInfo.getCutPath());
             local.setCut(cutInfo.isCut());
@@ -167,11 +170,13 @@ public class EditImageOrVideoActivity extends BaseActivity {
             String path = data.getStringExtra("data");
             localMedia.get(mViewPager.getCurrentItem()).setPath(path);
             mViewPager.setAdapter(new EditImageOrVideoAdapter(localMedia, this));
-        }else if (resultCode == 300) {
+            mViewPager.setCurrentItem(position);
+        } else if (resultCode == 300) {
             String path = data.getStringExtra("data");
             localMedia.get(mViewPager.getCurrentItem()).setPath(path);
             localMedia.get(mViewPager.getCurrentItem()).setCompressPath(path);
             mViewPager.setAdapter(new EditImageOrVideoAdapter(localMedia, this));
+            mViewPager.setCurrentItem(position);
         }
     }
 }

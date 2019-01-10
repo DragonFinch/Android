@@ -335,6 +335,14 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                     }
                 }
             });
+            yoJiAttentionAdapter.setOnRetryClickListener(new YoJiAttentionAdapter.OnRetryClickListener() {
+                @Override
+                public void onretry() {
+                    if (onRetryClickListener != null) {
+                        onRetryClickListener.onretry();
+                    }
+                }
+            });
 
         } else {
             Log.d("Size", "yoj_list.size():" + yoj_list.size());

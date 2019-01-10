@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/location_rl"
         android:background="#fff"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_create_message"

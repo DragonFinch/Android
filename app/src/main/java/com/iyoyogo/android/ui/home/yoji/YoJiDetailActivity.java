@@ -262,15 +262,6 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     protected void initView() {
         super.initView();
         new SoftKeyboardStateHelper(findViewById(R.id.activity_yoji_detail)).addSoftKeyboardStateListener(this);
-       /* mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
-                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
-                -1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
-        mShowAction.setDuration(500);
-        mHiddenAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF,
-                0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
-                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
-                -1.0f);
-        mHiddenAction.setDuration(500);*/
         Intent intent = getIntent();
         yo_id = intent.getIntExtra("yo_id", 0);
         setSupportActionBar(toolbar);
@@ -1364,11 +1355,12 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     @Override
     public void addAttentionSuccess(AttentionBean.DataBean data) {
-        int status = data.getStatus();
-        if (status == 0) {
+        if (data.getStatus() == 0) {
             tvAttention.setText("+ 关注");
+            Toast.makeText(this, "取消关注", Toast.LENGTH_SHORT).show();
         } else {
             tvAttention.setText("已关注");
+            Toast.makeText(this, "关注成功", Toast.LENGTH_SHORT).show();
         }
     }
 

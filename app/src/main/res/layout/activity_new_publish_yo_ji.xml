@@ -231,7 +231,7 @@
                     android:background="@color/white"
                     android:hint="9999"
                     android:inputType="number"
-                    android:maxLength="36"
+                    android:maxLength="7"
                     android:textColor="#333333"
                     android:textColorHint="#888888"
                     android:textSize="15sp" />

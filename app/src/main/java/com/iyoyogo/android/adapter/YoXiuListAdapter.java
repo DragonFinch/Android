@@ -125,7 +125,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
         });
         viewHolder.num_like.setText(mList.get(position).getCount_praise() + "");
         viewHolder.user_name.setText(mList.get(position).getUser_nickname());
-        viewHolder.comment_all.setText("全部评论(" + mList.get(position).getCount_view() + ")");
+        viewHolder.comment_all.setText("全部评论(" + mList.get(position).getCount_comment() + ")");
         int file_type = mList.get(position).getFile_type();
         if (file_type == 2) {
             Glide.with(context).load(mList.get(position).getUser_logo()).into(viewHolder.user_icon);
@@ -146,8 +146,8 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
         viewHolder.tv_yoxiu_desc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context,YoXiuListActivity.class);
-                intent.putExtra("position",mList.get(position).getPosition_name());
+                Intent intent = new Intent(context, YoXiuListActivity.class);
+                intent.putExtra("position", mList.get(position).getPosition_name());
                 context.startActivity(intent);
             }
         });

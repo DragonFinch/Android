@@ -120,13 +120,15 @@
         />
 
     <ImageView
+        android:paddingRight="@dimen/dp_20"
+        android:paddingLeft="@dimen/dp_20"
         android:id="@+id/img_more"
-        android:layout_width="@dimen/dp_15"
-        android:layout_height="@dimen/dp_5"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_15"
         android:layout_below="@+id/img_yoxiu"
         android:layout_alignRight="@+id/img_yoxiu"
-        android:layout_marginTop="21dp"
-        android:layout_marginRight="-1dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="1dp"
         android:src="@mipmap/gengduo" />
 
     <android.support.v7.widget.RecyclerView

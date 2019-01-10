@@ -52,6 +52,7 @@ import com.iyoyogo.android.net.OssService;
 import com.iyoyogo.android.presenter.PublishYoJiPresenter;
 import com.iyoyogo.android.presenter.SharePresenter;
 import com.iyoyogo.android.ui.common.SearchActivity;
+import com.iyoyogo.android.ui.home.EditImageOrVideoActivity;
 import com.iyoyogo.android.ui.home.yoxiu.ChannelActivity;
 import com.iyoyogo.android.ui.home.yoxiu.MoreTopicActivity;
 import com.iyoyogo.android.ui.home.yoxiu.NewPublishYoXiuActivity;
@@ -69,6 +70,7 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
@@ -184,6 +186,8 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
         mData = new ArrayList<>();
+        channel_arrays = new ArrayList<>();
+        channel_list = new ArrayList<>();
         mSharePresenter = new SharePresenter(this);
         mOssService = new OssService(this);
         userId = SpUtils.getString(this, "user_id", null);
@@ -195,6 +199,9 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
             List<LocalMedia>                  localMedia = PictureSelector.obtainMultipleResult(getIntent());
             PublishYoJiBean.DataBean.ListBean bean       = new PublishYoJiBean.DataBean.ListBean();
             bean.setLocalMedia(localMedia);
+            String time = DateUtils.stampToDate(new Date(), "yyyy-MM-dd");
+            bean.setStart_date(time);
+            bean.setEnd_date(time);
             mData.add(bean);
             mAdapter.setNewData(mData);
             coverPath = TextUtils.isEmpty(localMedia.get(0).getCompressPath()) ? localMedia.get(0).getPath() : localMedia.get(0).getCompressPath();
@@ -413,26 +420,42 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             switch (requestCode) {
                 case PictureConfig.CHOOSE_REQUEST:
-                    List<LocalMedia> localMedia = PictureSelector.obtainMultipleResult(data);
-                    PublishYoJiBean.DataBean.ListBean bean = new PublishYoJiBean.DataBean.ListBean();
-                    bean.setLocalMedia(localMedia);
-                    mData.add(optionIndex + 1, bean);
-                    mAdapter.notifyDataSetChanged();
+                    if (resultCode == 200) {
+                        List<LocalMedia>                  localMedia = PictureSelector.obtainMultipleResult(data);
+                        PublishYoJiBean.DataBean.ListBean bean       = new PublishYoJiBean.DataBean.ListBean();
+                        bean.setLocalMedia(localMedia);
+                        String time = DateUtils.stampToDate(new Date(), "yyyy-MM-dd");
+                        bean.setStart_date(time);
+                        bean.setEnd_date(time);
+                        mData.add(optionIndex + 1, bean);
+                        mAdapter.notifyDataSetChanged();
+                    } else {
+                        startActivityForResult(data.setClass(this, EditImageOrVideoActivity.class).putExtra("type", 3), PictureConfig.CHOOSE_REQUEST);
+                    }
                     break;
 
                 case 100:
-                    List<LocalMedia> local = PictureSelector.obtainMultipleResult(data);
-                    mData.get(optionIndex).setLocalMedia(local);
-                    mAdapter.notifyItemChanged(optionIndex);
+                    if (resultCode == 200) {
+                        List<LocalMedia> local = PictureSelector.obtainMultipleResult(data);
+                        mData.get(optionIndex).setLocalMedia(local);
+                        mAdapter.notifyItemChanged(optionIndex);
+                    } else {
+                        startActivityForResult(data.setClass(this, EditImageOrVideoActivity.class).putExtra("type", 3), 100);
+                    }
                     break;
                 case 200:
-                    List<LocalMedia> path = PictureSelector.obtainMultipleResult(data);
-                    if (path != null && path.size() >= 0) {
-                        coverPath = TextUtils.isEmpty(path.get(0).getCompressPath()) ? path.get(0).getPath() : path.get(0).getCompressPath();
-                        Glide.with(this).load(coverPath).apply(new RequestOptions().centerCrop()).into(mIvCover);
+                    if (resultCode == 200) {
+                        List<LocalMedia> path = PictureSelector.obtainMultipleResult(data);
+                        if (path != null && path.size() >= 0) {
+                            coverPath = TextUtils.isEmpty(path.get(0).getCompressPath()) ? path.get(0).getPath() : path.get(0).getCompressPath();
+                            Glide.with(this).load(coverPath).apply(new RequestOptions().centerCrop()).into(mIvCover);
+                        }
+                    } else {
+                        startActivityForResult(data.setClass(this, EditImageOrVideoActivity.class).putExtra("type", 3), 200);
                     }
                     break;
             }
@@ -685,7 +708,17 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
             PictureFileUtils.deleteCacheDirFile(this);
             Log.d("NewPublishYoJiActivity", new Gson().toJson(mData));
 
-            runOnUiThread(() -> mPresenter.publishYoJi(userId, token, id, coverUrl, mEtTitle.getText().toString(), mEtInfo.getText().toString(), Integer.valueOf(mEtMoney.getText().toString()), isOpen, saveType, channel_arrays.toString().replace("[", "").replace("]", ""), new Gson().toJson(setParams())));
+            runOnUiThread(() -> mPresenter.publishYoJi(userId,
+                    token,
+                    id,
+                    coverUrl,
+                    mEtTitle.getText().toString(),
+                    mEtInfo.getText().toString(),
+                    TextUtils.isEmpty(mEtMoney.getText()) ? 0 : Integer.valueOf(mEtMoney.getText().toString()),
+                    isOpen,
+                    saveType,
+                    channel_arrays.toString().replace("[", "").replace("]", ""),
+                    new Gson().toJson(setParams())));
         }
         Log.d("NewPublishYoJiActivity", "position:" + position);
         Log.d("NewPublishYoJiActivity", "uploadIndex:" + uploadIndex);
@@ -750,10 +783,10 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
             }
         });
         popup_yes_id.setOnClickListener(v -> {
-            if (isParamsEmpty()) {
-                saveType = 3;
-                publish();
-            }
+//            if (isParamsEmpty()) {
+            saveType = 3;
+            publish();
+//            }
             popMenu.dismiss();
         });
         backgroundAlpha(0.6f);

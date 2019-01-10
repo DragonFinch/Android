@@ -47,6 +47,7 @@ import com.iyoyogo.android.net.OssService;
 import com.iyoyogo.android.presenter.PublishYoXiuPresenter;
 import com.iyoyogo.android.presenter.SharePresenter;
 import com.iyoyogo.android.ui.common.SearchActivity;
+import com.iyoyogo.android.ui.home.EditImageOrVideoActivity;
 import com.iyoyogo.android.ui.home.HomeFragment;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.TextChangeListener;
@@ -61,6 +62,7 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
@@ -169,6 +171,8 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
+        channel_arrays=new ArrayList<>();
+        channel_list=new ArrayList<>();
         mSharePresenter = new SharePresenter(this);
         mData = new PublishYoXiuBean.DataBean();
         mOssService = new OssService(this);
@@ -336,15 +340,18 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             if (requestCode == 200 && resultCode == RESULT_OK) {
+                startActivityForResult(data.setClass(this,EditImageOrVideoActivity.class).putExtra("type",3),0);
+            }else if (resultCode==200){
                 List<LocalMedia> path = PictureSelector.obtainMultipleResult(data);
                 if (path != null && path.size() >= 0) {
                     coverPath = TextUtils.isEmpty(path.get(0).getCompressPath()) ? path.get(0).getPath() : path.get(0).getCompressPath();
                     Glide.with(this).load(coverPath).apply(new RequestOptions().centerCrop()).into(mIvCover);
                     mIvVideo.setVisibility(coverPath.contains(".mp4") ? View.VISIBLE : View.GONE);
                 }
-            } else if (requestCode == 2 && resultCode == 6) {
+            }else if (requestCode == 2 && resultCode == 6) {
                 String topicName = data.getStringExtra("topic");
                 int    type_id   = data.getIntExtra("type_id", 0);
 
@@ -502,7 +509,7 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
             }
         });
         popup_yes_id.setOnClickListener(v -> {
-            if (isParamsEmpty()) {
+//            if (isParamsEmpty()) {
                 saveType = 3;
                 LoadingDialog.get().create(NewPublishYoXiuActivity.this).show();
                 if (TextUtils.isEmpty(coverPath) && !TextUtils.isEmpty(coverUrl)) {
@@ -510,7 +517,7 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
                 } else if (!TextUtils.isEmpty(coverPath)) {
                     mOssService.asyncPutImage(coverPath, -1);
                 }
-            }
+//            }
             popMenu.dismiss();
         });
         backgroundAlpha(0.6f);

@@ -4,6 +4,7 @@ import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BasePresenter;
+import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.mine.GetBindInfoBean;
 import com.iyoyogo.android.contract.UserAndSecurityContract;
 import com.iyoyogo.android.model.DataManager;
@@ -33,5 +34,25 @@ public class UserAndSecurityPresenter extends BasePresenter<UserAndSecurityContr
                 return true;
             }
         })    ;
+    }
+
+    @Override
+    public void updateBind(String user_id, String user_token, int type, String openid, String nickname, String logo) {
+        DataManager.getFromRemote()
+                .update_bind(user_id, user_token, type, openid, nickname, logo)
+                .subscribe(new ApiObserver<BaseBean>(mView,this) {
+                    @Override
+                    protected void doOnSuccess(BaseBean baseBean) {
+
+                            mView.updateBindSuccess(baseBean);
+
+                    }
+
+                    @Override
+                    protected boolean doOnFailure(int code, String message) {
+                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                })    ;
     }
 }

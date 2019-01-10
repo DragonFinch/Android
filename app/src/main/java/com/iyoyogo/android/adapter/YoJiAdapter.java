@@ -350,16 +350,6 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
         });
         popupWindow.showAtLocation(activity.findViewById(R.id.activity_main), Gravity.CENTER, 0, 0);
     }
-
-    @Override
-    public int getItemCount() {
-        return mList.size();
-    }
-
-    public interface OnClickListener {
-        void onClick(View v, int position);
-    }
-
     public void backgroundAlpha(float bgAlpha) {
 
         WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
@@ -375,6 +365,16 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
             backgroundAlpha(1.0f);
         }
     }
+    @Override
+    public int getItemCount() {
+        return mList.size();
+    }
+
+    public interface OnClickListener {
+        void onClick(View v, int position);
+    }
+
+
 
     private OnClickListener onClickListener;
 
