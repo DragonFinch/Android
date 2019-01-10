@@ -57,7 +57,7 @@ public class MyFollowActivity extends BaseActivity {
     @BindView(R.id.group)
     RadioGroup group;
     private FollowFragment followFragment = new FollowFragment();//关注的人
-    private RecommendFragment recommendFragment = new RecommendFragment();//推荐话题
+    private RecommendFragment recommendFragment = new RecommendFragment();//推荐
     private Fragment currentFragment = new Fragment();
 
     private boolean mIsFirstIn = true;

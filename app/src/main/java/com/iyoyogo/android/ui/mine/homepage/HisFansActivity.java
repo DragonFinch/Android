@@ -1,12 +1,14 @@
 package com.iyoyogo.android.ui.mine.homepage;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.HisFansAdapter;
 import com.iyoyogo.android.base.BaseActivity;
@@ -44,6 +46,7 @@ public class HisFansActivity extends BaseActivity<HisHansContract.Presenter> imp
 
     protected void initView() {
         super.initView();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
     }
 
     @Override

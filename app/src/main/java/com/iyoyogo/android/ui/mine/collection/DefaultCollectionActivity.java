@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.view.View;
@@ -94,6 +95,15 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
         user_id = SpUtils.getString(DefaultCollectionActivity.this, "user_id", null);
         user_token = SpUtils.getString(DefaultCollectionActivity.this, "user_token", null);
         functionBottom.setVisibility(View.GONE);
+
+        if (user_id.equals(folder_id)){
+            functionBottom.setVisibility(View.VISIBLE);
+            defaultSpotIvId.setVisibility(View.VISIBLE);
+        }else {
+            functionBottom.setVisibility(View.GONE);
+            defaultSpotIvId.setVisibility(View.GONE);
+        }
+
     }
 
 
@@ -409,6 +419,7 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
 
             }
         });
+
     }
 
 

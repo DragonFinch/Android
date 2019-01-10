@@ -1,6 +1,7 @@
 package com.iyoyogo.android.ui.common;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.SamePageBean;
+import com.iyoyogo.android.utils.StatusBarUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +46,7 @@ public class Same_page_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_same_page_);
         ButterKnife.bind(this);
+        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
         init();
         initDate();
     }

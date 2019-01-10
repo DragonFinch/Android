@@ -1,10 +1,12 @@
 package com.iyoyogo.android.ui.common;
 
 import android.content.Intent;
+import android.graphics.Color;
 
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
+import com.iyoyogo.android.utils.StatusBarUtils;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -21,6 +23,8 @@ public class AlbumActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
+        StatusBarUtils.setWindowStatusBarColor(this, Color.BLACK);
+
         PictureSelector.create(AlbumActivity.this)
                 .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()
                 .theme(R.style.AppTheme_Full)//主题样式(不设置为默认样式) 也可参考demo values/styles下 例如：R.style.picture.white.style

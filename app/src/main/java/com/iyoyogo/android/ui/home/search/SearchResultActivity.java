@@ -45,6 +45,7 @@ import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.utils.search.SharedPrefrenceUtils;
 
 import java.util.ArrayList;
@@ -291,6 +292,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     @Override
     protected void initView() {
         super.initView();
+        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
     }
 
 

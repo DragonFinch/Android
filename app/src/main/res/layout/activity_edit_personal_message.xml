@@ -18,7 +18,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_40"
+                android:layout_height="@dimen/dp_50"
                 android:background="@color/white">
 
                 <ImageView
@@ -26,7 +26,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp_20"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:src="@mipmap/back_black" />
@@ -36,17 +35,6 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="个人信息" />
-
-                <TextView
-                    android:id="@+id/name_tv_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:text="完成"
-                    android:textColor="@color/FA800A"
-                    android:layout_toLeftOf="@+id/preservation_tv_id"
-                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/preservation_tv_id"
@@ -135,6 +123,8 @@
 
                     <EditText
                         android:id="@+id/nick_name"
+                       android:imeOptions="actionDone"
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -270,7 +260,7 @@
 
                 <RelativeLayout
                     android:id="@+id/interest_layout"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_10">
@@ -288,18 +278,17 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
 
-                        android:layout_marginRight="20dp"
                         android:text="更懂你~" />
 
                     <com.iyoyogo.android.widget.flow.TagFlowLayout
                         android:id="@+id/flow_interest"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_20"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/dp_20"
-                        android:visibility="gone"
-
+                        android:visibility="visible"
+                        android:layout_marginLeft="@dimen/dp_100"
                         />
+
                 </RelativeLayout>
 
                 <View

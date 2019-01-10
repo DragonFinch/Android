@@ -18,27 +18,6 @@ public class VipCenterPresenter extends BasePresenter<VipCenterContract.View> im
     }
 
     @Override
-    public void getUserInfo(String user_id, String user_token) {
-        DataManager.getFromRemote()
-                .getPersonInfo(user_id, user_token)
-                .subscribe(new ApiObserver<MineMessageBean>(mView, this) {
-                    @Override
-                    protected void doOnSuccess(MineMessageBean mineMessageBean) {
-                        MineMessageBean.DataBean data = mineMessageBean.getData();
-                        if (data != null) {
-                            mView.getUserInfoSuccess(data);
-                        }
-                    }
-
-                    @Override
-                    protected boolean doOnFailure(int code, String message) {
-                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
-                        return true;
-                    }
-                });
-    }
-
-    @Override
     public void getVipCenter(String user_id, String user_token) {
         DataManager.getFromRemote().setVipCenter(user_id, user_token)
                 .subscribe(new ApiObserver<VipCenterBean>(mView, this) {

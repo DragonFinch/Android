@@ -58,6 +58,7 @@ import com.iyoyogo.android.ui.common.SearchActivity;
 import com.iyoyogo.android.ui.home.yoxiu.ChannelActivity;
 import com.iyoyogo.android.ui.home.yoxiu.MoreTopicActivity;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.utils.imagepicker.activities.ImagesPickActivity;
 import com.iyoyogo.android.utils.imagepicker.activities.ImagesPreviewActivity;
 import com.iyoyogo.android.view.DrawableTextView;
@@ -187,6 +188,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     @Override
     protected void initView() {
         super.initView();
+        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
         Intent intent = getIntent();
         path_list = intent.getStringArrayListExtra("path_list");
         path = path_list.get(0);

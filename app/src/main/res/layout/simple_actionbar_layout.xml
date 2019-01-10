@@ -2,7 +2,7 @@
 <com.iyoyogo.android.view.SimpleActionBar xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/actionbar"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/actionbar_height"
+    android:layout_height="@dimen/dp_50"
     android:background="@color/title_bar_background">
 
     <ImageView

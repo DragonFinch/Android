@@ -3,6 +3,7 @@ package com.iyoyogo.android.ui.common;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.widget.CropImageView;
 
 import butterknife.BindView;
@@ -42,6 +44,8 @@ public class CropImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crop_image);
         ButterKnife.bind(this);
+        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
+
         cImageView.setImageBitmap(getBitmap(R.mipmap.sea));//为了兼容小图片，必须在代码中加载图片
 //        cImageView.rotateImage(30);//设定图片的旋转角度
         cImageView.setFixedAspectRatio(true);//设置允许按比例截图，如果不设置就是默认的任意大小截图

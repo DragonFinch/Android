@@ -2,6 +2,7 @@ package com.iyoyogo.android.ui.home.search;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,6 +24,7 @@ import com.iyoyogo.android.bean.search.searchInfo;
 import com.iyoyogo.android.contract.SearchContract;
 import com.iyoyogo.android.presenter.SearchPresenter;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.utils.search.SPUtils;
 import com.iyoyogo.android.view.ZFlowLayout;
 
@@ -81,6 +83,7 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
     @Override
     protected void initView() {
         super.initView();
+        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
 
 
     }

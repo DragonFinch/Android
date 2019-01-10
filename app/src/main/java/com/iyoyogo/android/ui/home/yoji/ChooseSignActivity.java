@@ -1,6 +1,7 @@
 package com.iyoyogo.android.ui.home.yoji;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,7 @@ import com.iyoyogo.android.contract.ChooseSignContract;
 import com.iyoyogo.android.presenter.ChooseSignPresenter;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.view.flowlayout.JLHorizontalScrollView;
 import com.iyoyogo.android.widget.flow.TagAdapter;
 
@@ -113,6 +115,7 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
     @Override
     protected void initView() {
         super.initView();
+        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
 
         tvTitle.setText("选择标签");
         createComplete.setText(getResources().getString(R.string.str_confirm));

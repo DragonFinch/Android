@@ -35,22 +35,20 @@
                 <ImageView
                     android:id="@+id/img_back"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dp_40"
+                    android:layout_height="@dimen/dp_50"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:layout_marginLeft="@dimen/dp_20"
                     android:layout_marginTop="@dimen/dp_30"
                     android:src="@mipmap/fanhuishouye" />
 
                 <ImageView
                     android:id="@+id/img_share"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dp_40"
+                    android:layout_height="@dimen/dp_50"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="@dimen/dp_30"
-                    android:layout_marginRight="@dimen/dp_20"
                     android:src="@mipmap/fenxiang_bai" />
 
             </RelativeLayout>
@@ -175,7 +173,9 @@
                         android:layout_marginLeft="@dimen/dp_2"
                         android:layout_marginTop="@dimen/dp_5"
                         android:padding="@dimen/dp_4"
-                        android:src="@mipmap/headimage" />
+                        android:src="@mipmap/headimage"
+                        android:background="@drawable/head_image_bg"
+                        />
 
 
                     <ImageView
@@ -187,7 +187,8 @@
                         android:layout_marginBottom="@dimen/dp_22"
                         android:padding="2dp"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/huiyuanbiaoshi" />
+                        android:src="@mipmap/huiyuanbiaoshi"
+                        />
 
                     <ImageView
                         android:id="@+id/img_level"

@@ -26,15 +26,16 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_40">
+                    android:layout_height="@dimen/dp_50"
+                    android:layout_marginTop="20dp">
 
                     <ImageView
+                        android:id="@+id/return_img"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:paddingLeft="20dp"
                         android:paddingRight="20dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/dp_20"
                         android:src="@mipmap/fanhuishouye" />
 
                     <TextView
@@ -86,7 +87,8 @@
                             android:layout_alignBottom="@+id/img_vip_sign"
                             android:layout_marginLeft="-25dp"
                             android:layout_marginTop="18dp"
-                            android:src="@mipmap/lv1" />
+                            android:src="@mipmap/lv1"
+                            android:visibility="gone"/>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -106,7 +108,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:layout_marginTop="5dp">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -149,8 +152,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/dp_20"
-                        android:src="@mipmap/mem_foxi" />
+                        android:layout_marginRight="@dimen/dp_20" />
 
                 </RelativeLayout>
 

@@ -29,6 +29,7 @@ import com.iyoyogo.android.presenter.InterestPresenter;
 import com.iyoyogo.android.ui.home.yoxiu.ChannelActivity;
 import com.iyoyogo.android.utils.GridSpacingItemDecoration;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.utils.imagepicker.component.OnItemChooseCallback;
 import com.iyoyogo.android.utils.imagepicker.component.OnRecyclerViewItemClickListener;
 
@@ -79,6 +80,8 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
+        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
+
         idList = new ArrayList<>();
         interestList = new ArrayList<>();
         Intent intent = getIntent();
@@ -119,7 +122,7 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
         MyChooseCallback callback = new MyChooseCallback();
         MyOnItemClickListener listener = new MyOnItemClickListener();
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 4);
-        adapter1.setMaxNum(3);
+        adapter1.setMaxNum(list.size());
         adapter1.setChooseCallback(callback);
         adapter1.setOnRecyclerViewItemClickListener(listener);
         gv_interest.setLayoutManager(layoutManager);
@@ -212,11 +215,21 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
                 integerList = adapter1.selectPhoto();
                 ArrayList<Integer> ids = adapter1.selectChannelIds();
                 strings = integerList.toArray(new String[size]);
+                for (int i = 0; i < strings.length; i++) {
+                    Log.d("TAG", i + "");
+                }
                 intent.putIntegerArrayListExtra("channel_array", ids);
                 intent.putStringArrayListExtra("channel_list", integerList);
-                mPresenter.addInterest(ids, user_id, user_token);
-                setResult(4, intent);
-                finish();
+                if (strings.length < 3) {
+                    Toast.makeText(this, "亲，兴趣少于三条哦", Toast.LENGTH_SHORT).show();
+                } else {
+                    mPresenter.addInterest(ids, user_id, user_token);
+                    setResult(4, intent);
+                    finish();
+                }
+//                mPresenter.addInterest(ids, user_id, user_token);
+//                setResult(4, intent);
+//                finish();
 //                List<Integer> integerList = adapter.selectPhoto();
 //                if (integerList != null) {
 //                    int size = integerList.size();
@@ -295,7 +308,7 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
         public void countWarning(int count) {
 //            Toast.makeText(ChannelActivity.this, "最多选择" + count + "张图片", Toast.LENGTH_SHORT).show();
 //            initPopup();
-            report();
+//            report();
         }
 
     }

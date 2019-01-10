@@ -3,6 +3,7 @@ package com.iyoyogo.android.ui.mine.collection;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -17,6 +18,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
@@ -66,6 +68,7 @@ public class CreateCollectionFolderActivity extends BaseActivity<EditCollectionC
     @Override
     protected void initView() {
         super.initView();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         user_id = SpUtils.getString(CreateCollectionFolderActivity.this, "user_id", null);
         user_token = SpUtils.getString(CreateCollectionFolderActivity.this, "user_token", null);
         Intent intent = getIntent();

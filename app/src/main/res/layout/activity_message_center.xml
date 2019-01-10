@@ -9,7 +9,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40">
+        android:layout_height="@dimen/dp_50">
 
         <ImageView
             android:paddingLeft="@dimen/dp_20"
@@ -145,7 +145,7 @@
             android:layout_alignTop="@+id/discuss_message"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="15dp"
             android:layout_toRightOf="@+id/discuss_message"
             android:text="@string/pinglunxiaoxi"
             android:textColor="@color/color333333"

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_170"
         android:scaleType="fitXY"
-        android:src="@mipmap/img_bj"/>
+        android:src="@mipmap/my_bg"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

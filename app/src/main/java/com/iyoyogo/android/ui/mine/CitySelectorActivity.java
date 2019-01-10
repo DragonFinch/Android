@@ -2,6 +2,7 @@ package com.iyoyogo.android.ui.mine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.google.gson.Gson;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.CitySelectorBean;
@@ -2520,6 +2522,7 @@ public class CitySelectorActivity extends AppCompatActivity implements AdapterVi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_selector);
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         mSlideBar = (SlideBar) findViewById(R.id.slidebar);
         mListView = (ListView) findViewById(R.id.listview);
         mListView.setOnItemClickListener(this);

@@ -2,6 +2,7 @@ package com.iyoyogo.android.ui.common;
 
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
@@ -16,6 +17,7 @@ import android.widget.SimpleAdapter;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
+import com.iyoyogo.android.utils.StatusBarUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +42,8 @@ public class EmptyActivity extends BaseActivity {
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
+        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
+
         look = (Button) findViewById(R.id.look);
         add = (Button) findViewById(R.id.add);
         show_list = (ListView) findViewById(R.id.show_list);
