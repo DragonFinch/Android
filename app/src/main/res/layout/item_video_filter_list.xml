@@ -27,6 +27,6 @@
     <View
         android:id="@+id/view_select"
         android:layout_width="match_parent"
-        android:background="@drawable/orange_border_dorder_2"
+        android:background="@mipmap/lvjing_xz"
         android:layout_height="match_parent"/>
 </RelativeLayout>

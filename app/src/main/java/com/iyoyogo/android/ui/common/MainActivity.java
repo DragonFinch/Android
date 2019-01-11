@@ -38,6 +38,7 @@ import com.iyoyogo.android.bean.home.VersionBean;
 import com.iyoyogo.android.camera.utils.asset.NvAssetManager;
 import com.iyoyogo.android.contract.MainContract;
 import com.iyoyogo.android.presenter.MainPresenter;
+import com.iyoyogo.android.ui.home.GoTakePhotoActivity;
 import com.iyoyogo.android.ui.home.HomeFragment;
 import com.iyoyogo.android.ui.mine.MineFragment;
 import com.iyoyogo.android.ui.receive.UpdateService;
@@ -282,7 +283,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         findViewById(R.id.sign_iv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, CaptureActivity.class));
+                startActivity(new Intent(MainActivity.this, GoTakePhotoActivity.class));
             }
         });
     }

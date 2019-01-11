@@ -472,7 +472,8 @@
         <activity
             android:name=".ui.home.yoji.PhotoActivity"
             android:theme="@style/AppTheme.Full" />
-        <activity android:name=".ui.home.GoTakePhotoActivity"></activity>
+        <activity android:name=".ui.home.GoTakePhotoActivity" />
+        <activity android:name=".ui.home.PreviewGoTakePhotoActivity"></activity>
     </application>
 
 </manifest>
