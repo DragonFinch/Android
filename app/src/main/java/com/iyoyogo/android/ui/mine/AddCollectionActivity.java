@@ -2,16 +2,20 @@ package com.iyoyogo.android.ui.mine;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.AddCollectionAdapter;
 import com.iyoyogo.android.app.Constants;
 import com.iyoyogo.android.base.BaseActivity;
+import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.collection.AddCollectionBean1;
 import com.iyoyogo.android.contract.AddCollectionContract;
 import com.iyoyogo.android.presenter.AddCollectionPresenter;
@@ -37,8 +41,8 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
     @BindView(R.id.collection_my_RecyclerView)
     RecyclerView collectionMyRecyclerView;
     String user_id;
-    String yo_user_id;
-    String user_nickname;
+    String user_token;
+    TextView btu_guanzhu;
 
     @Override
     protected int getLayoutId() {
@@ -48,7 +52,6 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
     protected void initView() {
         super.initView();
         StatusBarCompat.setStatusBarColor(this, Color.WHITE);
-
     }
 
     @Override
@@ -60,7 +63,7 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
         user_id = SpUtils.getString(this, "user_id", null);
-        String user_token = SpUtils.getString(this, "user_token", null);
+        user_token = SpUtils.getString(this, "user_token", null);
         mPresenter.getAddCollection(user_id, user_token, 1 + "", 20 + "");
     }
 
@@ -70,8 +73,27 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
         AddCollectionAdapter adpter = new AddCollectionAdapter(R.layout.item_addconcern_recycleview, list);
         collectionMyRecyclerView.setAdapter(adpter);
         collectionMyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        yo_user_id = list.get(0).getUser_id();
-        user_nickname = list.get(0).getUser_nickname();
+        adpter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                btu_guanzhu = view.findViewById(R.id.tv_guanzhu);
+                mPresenter.addAttention(user_id, user_token, list.get(position).getUser_id());
+            }
+        });
+    }
+
+    @Override
+    public void addAttentionSuccess(AttentionBean attentionBean) {
+        int status = attentionBean.getData().getStatus();
+        if (status == 1) {
+            btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
+            btu_guanzhu.setText("已关注");
+            btu_guanzhu.setTextColor(Color.parseColor("#888888"));
+        }else {
+            btu_guanzhu.setBackgroundResource(R.drawable.bg_collection);
+            btu_guanzhu.setText("+关注");
+            btu_guanzhu.setTextColor(Color.parseColor("#ffffff"));
+        }
     }
 
     @OnClick({R.id.add_address_book_friends, R.id.message_center_back_im_id, R.id.Invite_Wechat_Friends, R.id.Invite_Weibo_Friends, R.id.Invite_QQ_Friends})
@@ -94,9 +116,10 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
                 break;
         }
     }
+
     private void shareWeb(SHARE_MEDIA share_media) {
         /*80002/yo_id/4143*/
-        String url = Constants.BASE_URL+ "index.php/home/share/download_all.html";
+        String url = Constants.BASE_URL + "index.php/home/share/download_all.html";
         UMWeb web = new UMWeb(url);
         web.setTitle("YoYoGo");//标题
         UMImage thumb = new UMImage(getApplicationContext(), R.mipmap.logo);

@@ -93,8 +93,8 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
         viewHolder.img_yoxiu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, YoJiDetailActivity.class);
-                intent.putExtra("yo_id", mList.get(position).getId());
+                Intent intent = new Intent(context, YoXiuDetailActivity.class);
+                intent.putExtra("id", mList.get(position).getId());
                 context.startActivity(intent);
             }
         });

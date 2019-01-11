@@ -26,6 +26,7 @@ import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.presenter.YoXiuContentPresenter;
 import com.iyoyogo.android.ui.home.EditImageOrVideoActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
+import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.ui.mine.draft.DraftActivity;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimFooter;
@@ -237,10 +238,9 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
 //            yoXiuContentAdapter.setOnItemClickListener(new YoXiuContentAdapter.OnClickListener() {
 //                @Override
 //                public void onClick(View v, int position) {
-//                    Toast.makeText(mActivity, "a", Toast.LENGTH_SHORT).show();
 //                    int yo_id = mList.get(position).getUser_id();
-//                    Intent intent = new Intent(getContext(), YoJiDetailActivity.class);
-//                    intent.putExtra("yo_id", yo_id);
+//                    Intent intent = new Intent(getContext(), YoXiuDetailActivity.class);
+//                    intent.putExtra("id", yo_id);
 //                    startActivity(intent);
 //                }
 //            });

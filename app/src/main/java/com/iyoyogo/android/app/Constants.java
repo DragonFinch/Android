@@ -7,7 +7,10 @@ public class Constants {
     // http://app.iyoyogo.com/
     //http://192.168.0.145/
 //http://yoyogo.seetest.cn
-    public static final String BASE_URL="http://app.iyoyogo.com/";
+//    public static final String BASE_URL="http://app.iyoyogo.com/";
+    public static final String BASE_URL="http://192.168.0.145/";
+//    public static final String BASE_URL="http://192.168.0.105/";
+
     //public static final String BASE_URL="http://app.iyoyogo.com/";
 
    // public static final String BASE_URL="http://app.iyoyogo.com/";

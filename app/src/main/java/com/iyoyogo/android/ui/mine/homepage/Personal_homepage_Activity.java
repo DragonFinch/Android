@@ -187,11 +187,11 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
         return new PersonalCenterPresenter(this);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
+//    }
 
     @OnClick({R.id.img_back, R.id.img_share, R.id.my_collection, R.id.get_hisFans, R.id.collect, R.id.img_view})
     public void onViewClicked(View view) {

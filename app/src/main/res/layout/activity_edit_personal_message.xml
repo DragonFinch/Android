@@ -282,11 +282,10 @@
 
                     <com.iyoyogo.android.widget.flow.TagFlowLayout
                         android:id="@+id/flow_interest"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="@dimen/dp_20"
                         android:layout_alignParentRight="true"
                         android:visibility="visible"
-                        android:layout_marginLeft="@dimen/dp_100"
                         />
 
                 </RelativeLayout>

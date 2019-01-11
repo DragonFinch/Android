@@ -126,7 +126,7 @@ public class AddressBookFriendsActivity extends BaseActivity<AddressBookContract
                 int user_id = list.get(position).getUser_id();
                 if (user_id == 0) {
 //                    ContentUtil.sendSmsWithBody(AddressBookFriendsActivity.this, list.get(position).getPhone(), Constants.BASE_URL+ "index.php/home/share/download_all.html");
-//                    Toast.makeText(AddressBookFriendsActivity.this, "还未注册", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(AddressBookFriendsActivity.this, "该好友还未注册过", Toast.LENGTH_SHORT).show();
                 }
             }
         });

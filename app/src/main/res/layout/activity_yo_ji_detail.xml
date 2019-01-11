@@ -30,7 +30,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
-                app:srcCompat="@mipmap/sea" />
+                app:srcCompat="@mipmap/sea"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -40,14 +40,16 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    >
 
                     <ImageView
                         android:id="@+id/img_back"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        app:srcCompat="@mipmap/back_icon" />
+                        android:layout_height="match_parent"
+                        app:srcCompat="@mipmap/back_icon"
+                        android:paddingRight="@dimen/dp20"/>
 
                     <RelativeLayout
                         android:id="@+id/img_message"
@@ -89,9 +91,10 @@
                     <ImageView
                         android:id="@+id/img_share"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="20dp"
+                        android:paddingRight="@dimen/dp20"
+                        android:paddingLeft="@dimen/dp20"
                         app:srcCompat="@mipmap/fenxiang_bai" />
                 </RelativeLayout>
 
@@ -100,6 +103,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <com.iyoyogo.android.widget.MyNestedScrollView
+        android:visibility="visible"
         android:id="@+id/nested"
         android:background="#FAFAFA"
         android:animateLayoutChanges="true"

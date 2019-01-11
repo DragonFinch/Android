@@ -34,5 +34,6 @@ public class AddCollectionAdapter extends BaseQuickAdapter<AddCollectionBean1.Da
         requestOptions.placeholder(R.mipmap.default_touxiang);
         requestOptions.error(R.mipmap.default_touxiang);
         Glide.with(mContext).load(item.getUser_logo()).apply(requestOptions).into((CircleImageView) helper.getView(R.id.user_logo));
+        helper.addOnClickListener(R.id.tv_guanzhu);
     }
 }
