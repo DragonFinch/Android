@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/edit_lltoobar_id"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_35"
+        android:layout_height="@dimen/dp_50"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 

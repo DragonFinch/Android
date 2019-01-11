@@ -112,6 +112,7 @@ public class ChannelAdapter1 extends BaseRecyclerAdapter {
                     } else if (count >= maxNum) { //count >= maxNum
                         if (!list.get(position).isChoose()) {
                             ids.remove(interest);
+                            chooseCallback.countWarning(count);
                         } else {
                             mImg.setColorFilter(null);
                             mSelect.setImageResource(R.color.transparent);

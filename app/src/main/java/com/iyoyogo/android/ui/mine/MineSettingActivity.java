@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
@@ -90,6 +92,7 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
     @Override
     protected void initView() {
         super.initView();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         File file = new File(this.getCacheDir().getPath());
         try {
             Log.d("MineSettingActivity", DataCleanManager.getCacheSize(file));

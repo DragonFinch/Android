@@ -110,6 +110,7 @@ public class GuiJiFragment extends BaseFragment<GeRenChengShiContract.Presenter>
          //   Log.e("aboutMeSuccess", "aboutMeSuccess: " + list1.get(i).getChina_name()+"+++++"+list1.get(i).getCode());
            // Log.e("aboutMeSuccess", "aboutMeSuccess: " + list1.get(i).getCode());
         }*/
+       // Log.e("knowsall", "aboutMeSuccess: " + list1.size());
         Collections.sort(list1);
         MyAdapter1 adapter = new MyAdapter1(getActivity(), list1);
         mLv.setAdapter(adapter);

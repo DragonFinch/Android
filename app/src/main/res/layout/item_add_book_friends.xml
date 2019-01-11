@@ -14,10 +14,11 @@
         android:src="@mipmap/headimage" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dp_200"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_10"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/user_nickname"
@@ -27,29 +28,39 @@
             android:textColor="@color/color333333"
             android:textSize="@dimen/sp_12" />
 
+        <TextView
+            android:id="@+id/yaoqing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/addbookusername"
+            android:textColor="@color/color333333"
+            android:textSize="@dimen/sp_12"
+            android:visibility="gone"/>
+
         <LinearLayout
             android:id="@+id/phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_2"
-                android:text="@string/tongxunlu"
+                android:text="通讯录："
                 android:textColor="@color/c888888"
-                android:textSize="@dimen/sp_10" />
+                android:textSize="@dimen/sp_12" />
 
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_2"
                 android:text="@string/baisuzhen"
                 android:textColor="@color/c888888"
-                android:textSize="@dimen/sp_10" />
+                android:textSize="@dimen/sp_12" />
 
         </LinearLayout>
     </LinearLayout>

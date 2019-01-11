@@ -7,10 +7,10 @@
    >
 
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/mBinding_toobar_id"
         android:layout_width="match_parent"
-        android:layout_height="51dp"
+        android:layout_height="50dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -23,15 +23,15 @@
             android:src="@mipmap/back_black" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="10"
             android:gravity="center"
             android:text="@string/binding_phone"
             android:textColor="@color/color333333"
             android:textSize="15dp" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/mBinding_imageview_id"

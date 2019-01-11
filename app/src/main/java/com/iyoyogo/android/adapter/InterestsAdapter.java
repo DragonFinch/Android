@@ -30,8 +30,6 @@ public class InterestsAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private static List<Integer> mSelectImg = new LinkedList<>();
     private static ArrayList<String> titleList = new ArrayList<>();
-    private int count = 0;
-    private int maxNum = 1;
 
     public InterestsAdapter(Context context, List<InterestBean.DataBean.ListBean> mDatas) {
         this.context = context;
@@ -83,6 +81,7 @@ public class InterestsAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //已经被选择
+
                 if (mSelectImg.contains(id)) {
                     String s = String.valueOf(id);
                     mSelectImg.remove(s);
@@ -107,16 +106,6 @@ public class InterestsAdapter extends BaseAdapter {
             vh.mSelect.setImageResource(R.mipmap.xz);
         }*/
         return convertView;
-    }
-
-    public ArrayList<Integer> selectChannelIds() {
-        ArrayList<Integer> ids = new ArrayList<>();
-        for (InterestBean.DataBean.ListBean listBean : mList) {
-            if (listBean.isChoose()) {
-                ids.add(listBean.getId());
-            }
-        }
-        return ids;
     }
 
 

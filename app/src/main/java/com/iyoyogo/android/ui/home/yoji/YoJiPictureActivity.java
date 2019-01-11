@@ -51,7 +51,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
-import static com.iyoyogo.android.ui.mine.homepage.YoJiFragment.yo_user_id;
 
 public class YoJiPictureActivity extends BaseActivity implements SoftKeyboardStateHelper.SoftKeyboardStateListener {
     private int open = 2;

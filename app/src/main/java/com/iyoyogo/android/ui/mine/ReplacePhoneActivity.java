@@ -1,5 +1,6 @@
 package com.iyoyogo.android.ui.mine;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
@@ -57,6 +59,7 @@ public class ReplacePhoneActivity extends BaseActivity<ReplacePhoneContract.Pres
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
 
     }
 

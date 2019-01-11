@@ -3,6 +3,7 @@ package com.iyoyogo.android.ui.mine;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -27,6 +28,7 @@ import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,6 +52,7 @@ import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.bigkoo.pickerview.TimePickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
@@ -97,9 +100,6 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
     ImageView backIvId;
     @BindView(R.id.preservation_tv_id)
     TextView preservationTvId;
-
-    @BindView(R.id.name_tv_id)
-    TextView nameTvId;
     @BindView(R.id.head_im_id)
     CircleImageView headImId;
     @BindView(R.id.nick_name)
@@ -168,12 +168,12 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
     private ArrayList<Integer> channel_arrays;
     private ArrayList<String> channel_list;
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void initView() {
         super.initView();
         init();
         initListener();
+        nickName.setImeOptions(EditorInfo.IME_ACTION_DONE);
         groupSex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -185,29 +185,6 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             }
         });
 
-        nickName.setOnTouchListener(new View.OnTouchListener() {
-            //按住和松开的标识
-            int touch_flag = 0;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                touch_flag++;
-                if (touch_flag == 2) {
-                    //自己业务
-                    nameTvId.setVisibility(View.VISIBLE);
-                    KeyBoardUtils.openKeybord(nickName,EditPersonalMessageActivity.this);//调用数字键盘
-                }
-                return false;
-            }
-        });
-        nameTvId.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nickName.setText(nickName.getText().toString());
-                nameTvId.setVisibility(View.GONE);
-                KeyBoardUtils.closeKeybord(nickName,EditPersonalMessageActivity.this);//关闭软键盘
-            }
-        });
     }
 
     @Override
@@ -218,6 +195,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         user_id = SpUtils.getString(EditPersonalMessageActivity.this, "user_id", null);
         user_token = SpUtils.getString(EditPersonalMessageActivity.this, "user_token", null);
         mPresenter.getUserInfo(user_id, user_token);
@@ -226,6 +204,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             public void onClick(View v) {
                 startActivityForResult(new Intent(EditPersonalMessageActivity.this, LikePrefencesActivity.class)
                         .putIntegerArrayListExtra("data", channel_arrays).putExtra("type", 6), 1);
+
             }
         });
     }
@@ -452,14 +431,14 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
 //                    public View getView(FlowLayout parent, int position, String s) {
 //                        View contentView = getLayoutInflater().inflate(R.layout.item_interest_person, flow_interest, false);
 //                        TextView tv = contentView.findViewById(R.id.tv_interest);
-//
 //                        tv.setText(interestList.get(position));
 //                        return contentView;
 //                    }
 //                };
-//
 //                flow_interest.setAdapter(tagAdapter);
 //            }
+
+
         }
     }
 

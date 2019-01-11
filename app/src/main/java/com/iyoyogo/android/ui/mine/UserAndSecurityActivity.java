@@ -2,6 +2,7 @@ package com.iyoyogo.android.ui.mine;
 
 import android.content.Intent;
 import android.os.Build;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
@@ -76,6 +78,7 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         user_id = SpUtils.getString(UserAndSecurityActivity.this, "user_id", null);
         user_token = SpUtils.getString(UserAndSecurityActivity.this, "user_token", null);
         mPresenter.getBindInfo(user_id, user_token);

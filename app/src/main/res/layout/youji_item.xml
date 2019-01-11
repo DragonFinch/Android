@@ -8,9 +8,9 @@
     <ImageView
         android:id="@+id/img_yoji"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_42"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_21"
-        android:src="@mipmap/ic_yoji" />
+        android:src="@mipmap/yoji_title" />
 
     <ImageView
         android:id="@+id/yoji_all"

@@ -97,6 +97,12 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
     @Override
     public void onStart() {
         super.onStart();
+
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
         MyRefreshAnimHeader mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());

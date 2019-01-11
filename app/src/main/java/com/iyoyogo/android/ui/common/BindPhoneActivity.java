@@ -2,6 +2,7 @@ package com.iyoyogo.android.ui.common;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.contract.BindPhoneContract;
 import com.iyoyogo.android.presenter.BindPresenter;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.StatusBarUtils;
 
 import java.lang.ref.WeakReference;
 import java.security.MessageDigest;
@@ -113,6 +115,8 @@ public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter>
     @Override
     protected void initView() {
         super.initView();
+        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
+
         tvBindCode = (TextView) findViewById(R.id.tv_bind_code);
         long l = System.currentTimeMillis();
         dateTime = String.valueOf(l);

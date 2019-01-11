@@ -46,6 +46,7 @@ import com.iyoyogo.android.presenter.CreatePointPresenter;
 import com.iyoyogo.android.ui.home.yoxiu.AddAddressActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.StatusBarUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,6 +116,8 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
+        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
+
         Intent intent = getIntent();
         String address = intent.getStringExtra("address");
         editCreatePoint.setText(address);

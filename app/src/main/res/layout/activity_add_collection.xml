@@ -5,12 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/F1F1F1"
-    android:orientation="vertical"
-    tools:context=".ui.mine.AddCollectionActivity">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
+        android:layout_height="@dimen/dp_50"
         android:background="@color/FFFFFF">
 
         <ImageView
@@ -33,6 +32,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/Invite_Wechat_Friends"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_55"
         android:layout_marginTop="@dimen/dp_10"
@@ -70,6 +70,7 @@
         android:layout_marginRight="@dimen/dp_20" />
 
     <RelativeLayout
+        android:id="@+id/Invite_Weibo_Friends"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_55"
         android:background="@color/FFFFFF">
@@ -106,6 +107,7 @@
         android:layout_marginRight="@dimen/dp_20" />
 
     <RelativeLayout
+        android:id="@+id/Invite_QQ_Friends"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_55"
         android:background="@color/FFFFFF">

@@ -79,10 +79,10 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
     Unbinder unbinder;
     private String user_id;
     private String user_token;
-    public static String yo_user_id;
+    public String yo_user_id;
     MyRefreshAnimHeader mRefreshAnimHeader;
-    public static YoJiCenterAdapter yoJiCenterAdapter;
-    public static YoJiContentAdapter2 yoJiContentAdapter2;
+    public YoJiCenterAdapter yoJiCenterAdapter;
+    public YoJiContentAdapter2 yoJiContentAdapter2;
     private List<YoJiContentBean.DataBean.ListBean> list;
     public static List<YoJiContentBean.DataBean.ListBean> mList;
 
@@ -116,6 +116,7 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
         user_token = SpUtils.getString(getContext(), "user_token", null);
         //下拉刷新
         refreshLayout.setEnableRefresh(true);
+        refreshLayout.setRefreshFooter(new MyRefreshAnimFooter(getContext()));
         refreshLayout.autoRefresh();
         refreshLayout.finishRefresh(1050);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -137,11 +138,11 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
                             @Override
                             public void accept(YoJiContentBean yoJiContentBean) throws Exception {
                                 List<YoJiContentBean.DataBean.ListBean> list1 = yoJiContentBean.getData().getList();
-                                mList.addAll(list1);
-                                if (mList != null) {
-                                    yoJiCenterAdapter.notifyItemInserted(mList.size());
-                                    yoJiContentAdapter2.notifyItemInserted(mList.size());
-                                }
+//                                mList.addAll(list1);
+//                                if (mList != null) {
+//                                    yoJiCenterAdapter.notifyItemInserted(mList.size());
+//                                    yoJiContentAdapter2.notifyItemInserted(mList.size());
+//                                }
                             }
                         });
                 refreshLayout.finishLoadMore(2000);

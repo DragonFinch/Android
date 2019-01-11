@@ -24,6 +24,7 @@
         android:drawableLeft="@mipmap/weizhi_biaoqian"
         android:gravity="center"
         android:text="@string/shier"
+        android:drawablePadding="@dimen/dp_7"
         android:textColor="@color/colorFFFFFF"
         android:textSize="10sp" />
 

@@ -1,10 +1,8 @@
 package com.iyoyogo.android.adapter.search;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.search.KeywordUserBean;
 import com.iyoyogo.android.ui.home.search.SearchResultActivity;
@@ -51,17 +48,30 @@ public class ListViewkeywordAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.search_layout_item,parent,false);
             viewHolder = new ViewHolder();
             viewHolder.txtv = (TextView) convertView.findViewById(R.id.text_name);
-            viewHolder.txtv1 = (TextView) convertView.findViewById(R.id.text_name1);
-            viewHolder.txtv2 = (TextView) convertView.findViewById(R.id.text_name2);
             viewHolder.im_dizhi = (ImageView) convertView.findViewById(R.id.im_dizhi);
-            viewHolder.im_dizhi1 = (ImageView) convertView.findViewById(R.id.im_dizhi1);
-            viewHolder.im_dizhi2 = (ImageView) convertView.findViewById(R.id.im_dizhi2);
+
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        if (listBeans.get(position).getType() == 1){
-            viewHolder.im_dizhi.setImageResource(R.drawable.yonghu);
+            if (listBeans.get(position).getType() == 1){
+                viewHolder.im_dizhi.setImageResource(R.drawable.yonghu);
+            }
+            if (listBeans.get(position).getType() == 2){
+                viewHolder.im_dizhi.setImageResource(R.drawable.yoji_i);
+            }
+           if (listBeans.get(position).getType() == 3){
+            viewHolder.im_dizhi.setImageResource(R.drawable.yoxiu_i);
+           }
+           if (listBeans.get(position).getType() == 4){
+            viewHolder.im_dizhi.setImageResource(R.drawable.biaoqian);
+        }
+         if (listBeans.get(position).getType() == 5){
+            viewHolder.im_dizhi.setImageResource(R.drawable.didian);
+         }
+         if (listBeans.get(position).getType() == 6){
+            viewHolder.im_dizhi.setImageResource(R.drawable.pindao);
+          }
             String content= listBeans.get(position).getUser_nickname();
             if (!TextUtils.isEmpty(s)&&!TextUtils.isEmpty(content)) {
                 int index = content.indexOf(s);
@@ -72,21 +82,56 @@ public class ListViewkeywordAdapter extends BaseAdapter {
                     viewHolder.txtv.append(str);
                 }
             }
-        }
-        if (listBeans.get(position).getType() == 2){
-            viewHolder.im_dizhi1.setImageResource(R.drawable.yoji_i);
-            String content = listBeans.get(position).getTitle();
-            if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content)) {
-                int index = content.indexOf(s);
-                if (index >= 0) {
-                    viewHolder.txtv1.setText(content.substring(0, index));
-                    viewHolder.txtv1.append(Html.fromHtml("<font color='#FA800A'>"+content+ "</font>"));
-                    String str = content.substring(s.length() + index, content.length());
-                    viewHolder.txtv1.append(str);
-                }
+        String content1 = listBeans.get(position).getTitle();
+        if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content1)) {
+            int index = content1.indexOf(s);
+            if (index >= 0) {
+                viewHolder.txtv.setText(content1.substring(0, index));
+                viewHolder.txtv.append(Html.fromHtml("<font color='#FA800A'>" + content1 + "</font>"));
+                String str = content1.substring(s.length() + index, content1.length());
+                viewHolder.txtv.append(str);
             }
         }
-
+        String content2 = listBeans.get(position).getFile_desc();
+        if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content2)) {
+            int index = content2.indexOf(s);
+            if (index >= 0) {
+                viewHolder.txtv.setText(content2.substring(0, index));
+                viewHolder.txtv.append(Html.fromHtml("<font color='#FA800A'>" + content2 + "</font>"));
+                String str = content2.substring(s.length() + index, content2.length());
+                viewHolder.txtv.append(str);
+            }
+        }
+        String content3 = listBeans.get(position).getLabel();
+        if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content3)) {
+            int index = content3.indexOf(s);
+            if (index >= 0) {
+                viewHolder.txtv.setText(content3.substring(0, index));
+                viewHolder.txtv.append(Html.fromHtml("<font color='#FA800A'>" + content3 + "</font>"));
+                String str = content3.substring(s.length() + index, content3.length());
+                viewHolder.txtv.append(str);
+            }
+        }
+        String content4 = listBeans.get(position).getPosition_name();
+        if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content4)) {
+            int index = content4.indexOf(s);
+            if (index >= 0) {
+                viewHolder.txtv.setText(content4.substring(0, index));
+                viewHolder.txtv.append(Html.fromHtml("<font color='#FA800A'>" + content4 + "</font>"));
+                String str = content4.substring(s.length() + index, content4.length());
+                viewHolder.txtv.append(str);
+            }
+        }
+        String content5 = listBeans.get(position).getChannel();
+        if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content5)) {
+            int index = content5.indexOf(s);
+            if (index >= 0) {
+                viewHolder.txtv.setText(content5.substring(0, index));
+                viewHolder.txtv.append(Html.fromHtml("<font color='#FA800A'>" + content5 + "</font>"));
+                String str = content5.substring(s.length() + index, content5.length());
+                viewHolder.txtv.append(str);
+            }
+        }
 
         return convertView;
     }
@@ -94,11 +139,8 @@ public class ListViewkeywordAdapter extends BaseAdapter {
     class ViewHolder {
         TextView txtv;
         ImageView im_dizhi;
-        TextView txtv1;
-        ImageView im_dizhi1;
-        TextView txtv2;
-        ImageView im_dizhi2;
-    }
+
+}
 
   /*  private Context context;
     private ArrayList<KeywordUserBean.DataBean.ListBean> mOriginalValues;

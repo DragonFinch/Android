@@ -13,13 +13,9 @@ public interface VipCenterContract {
 
     interface View extends IBaseView {
         void getVipCenterSuccess(VipCenterBean vipCenterBean);
-
-        void getUserInfoSuccess(MineMessageBean.DataBean data);
-
     }
 
     interface Presenter extends IBasePresenter {
-        void getUserInfo(String user_id, String user_token);
         void getVipCenter(String user_id, String user_token);
     }
 }

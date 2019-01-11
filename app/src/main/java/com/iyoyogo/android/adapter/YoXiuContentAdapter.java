@@ -19,6 +19,7 @@ import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.mine.center.YoXiuContentBean;
 import com.iyoyogo.android.bean.yoxiu.YouXiuListBean;
 import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.utils.GlideRoundTransform;
@@ -32,7 +33,7 @@ import io.reactivex.functions.Consumer;
 /**
  * yo秀用户主页的适配器
  */
-public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapter.ViewHolder> {
+public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapter.ViewHolder> implements View.OnClickListener {
     List<YoXiuContentBean.DataBean.ListBean> mList;
     private Context context;
     private int yo_id;
@@ -46,6 +47,7 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         View view = LayoutInflater.from(context).inflate(R.layout.yoxiu_content_recycler, null);
+
         return new ViewHolder(view);
     }
 
@@ -77,8 +79,8 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
         List<YoXiuContentBean.DataBean.ListBean.CommentListBean> comment_list = mList.get(position).getComment_list();
         YoXiuContentItemAdapter adapter = new YoXiuContentItemAdapter(context, comment_list);
         viewHolder.recycler_comment.setAdapter(adapter);
-        viewHolder.itemView.setTag(position);
-        viewHolder.recycler_comment.setOnClickListener(new View.OnClickListener() {
+
+        /*viewHolder.recycler_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -87,13 +89,21 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
                 intent.putExtra("id", id);
                 context.startActivity(intent);
             }
+        });*/
+        viewHolder.img_yoxiu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, YoXiuDetailActivity.class);
+                intent.putExtra("id", mList.get(position).getId());
+                context.startActivity(intent);
+            }
         });
         viewHolder.comment_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int id = mList.get(position).getId();
                 Intent intent = new Intent(context, AllCommentActivity.class);
-                intent.putExtra("yo_id",id);
+                intent.putExtra("id",id);
                 context.startActivity(intent);
             }
         });
@@ -148,6 +158,14 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
 
             }
         });
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickListener != null) {
+                    onClickListener.onClick(v, (Integer) v.getTag());
+                }
+            }
+        });
     }
 
     @Override
@@ -155,6 +173,20 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
         return mList.size();
     }
 
+    public interface OnClickListener {
+        void onClick(View v, int position);
+    }
+
+    private OnClickListener onClickListener;
+
+    public void setOnItemClickListener(OnClickListener onItemClickListener) {
+        this.onClickListener = onItemClickListener;
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_yoxiu_desc, num_like, user_name, comment_all;

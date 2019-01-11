@@ -110,6 +110,7 @@ public class GuoMeiFragment extends BaseFragment<GeRenChengShiContract.Presenter
         Collections.sort(list1);
         MyAdapter1 adapter = new MyAdapter1(getActivity(), list1);
         mLv.setAdapter(adapter);
+        Log.e("knowsall", "aboutMeSuccess: "+list1.size() );
       /*  for (int i = 0; i <list1.size() ; i++) {
             Log.e("aboutMeSuccess111111111", "aboutMeSuccess: " + list1.get(i).getChina_name());
         }*/

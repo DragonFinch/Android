@@ -48,6 +48,24 @@ public class AddressBookBean extends BaseBean {
             private String user_nickname;
             private String user_logo;
             private int status;
+            private String name;
+            private String phone;
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getPhone() {
+                return phone;
+            }
+
+            public void setPhone(String phone) {
+                this.phone = phone;
+            }
 
             public int getUser_id() {
                 return user_id;

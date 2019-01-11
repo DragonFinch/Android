@@ -1,5 +1,6 @@
 package com.iyoyogo.android.ui.common;
 
+import android.graphics.Color;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
+import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.utils.imagepicker.adapter.ImagesListAdapter;
 import com.iyoyogo.android.utils.imagepicker.bean.ImageBean;
 import com.iyoyogo.android.utils.imagepicker.component.OnItemChooseCallback;
@@ -89,6 +91,8 @@ public class PictureEditActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
+        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
+
         List<ImageBean> list = ImageFinder.getImages(this, ImageFinder.TYPE_GIF);
         List<ImageBean> video = ImageFinder.getVideo(getApplicationContext());
 

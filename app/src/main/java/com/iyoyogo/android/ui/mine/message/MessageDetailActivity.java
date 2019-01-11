@@ -1,6 +1,7 @@
 package com.iyoyogo.android.ui.mine.message;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.MessageDetailAdapter;
 import com.iyoyogo.android.base.BaseActivity;
@@ -74,6 +76,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
     @Override
     protected void initView() {
         super.initView();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         Intent intent = getIntent();
         title = intent.getStringExtra("title");
         likeMeTitleTvId.setText(title);

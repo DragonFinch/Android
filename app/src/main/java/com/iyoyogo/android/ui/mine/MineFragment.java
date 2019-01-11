@@ -146,7 +146,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
 
         //        获取需要被模糊的原图bitmap
         Resources res = getResources();
-        Bitmap scaledBitmap = BitmapFactory.decodeResource(res, R.mipmap.img_bj);
+        Bitmap scaledBitmap = BitmapFactory.decodeResource(res, R.mipmap.my_bg);
 
         //        scaledBitmap为目标图像，10是缩放的倍数（越大模糊效果越高）
         Bitmap blurBitmap = FastBlurUtil.toBlur(scaledBitmap, scaleRatio);

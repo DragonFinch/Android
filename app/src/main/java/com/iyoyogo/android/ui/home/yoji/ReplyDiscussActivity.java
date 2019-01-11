@@ -2,6 +2,7 @@ package com.iyoyogo.android.ui.home.yoji;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +31,7 @@ import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.presenter.ReplyDiscussPresenter;
 import com.iyoyogo.android.ui.home.yoxiu.MoreTopicActivity;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 
 import java.util.ArrayList;
@@ -106,6 +108,7 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
     @Override
     protected void initView() {
         super.initView();
+        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
         editComment.setImeOptions(EditorInfo.IME_ACTION_SEND);
         editComment.addTextChangedListener(new TextWatcher() {
             @Override

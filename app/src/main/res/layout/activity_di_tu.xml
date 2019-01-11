@@ -13,7 +13,8 @@
         android:layout_height="50dp"
         android:background="#F0F0F0"
         android:orientation="horizontal"
-        android:padding="5dp" >
+        android:padding="5dp"
+        android:gravity="center">
         <com.iyoyogo.android.view.ClearEditText
             android:id="@+id/search_editText_searchContent"
             android:layout_width="0dp"

@@ -1,6 +1,7 @@
 package com.iyoyogo.android.ui.mine.homepage;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -9,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
@@ -44,6 +46,7 @@ public class UserFansActivity extends BaseActivity {
 
     protected void initView() {
         super.initView();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         statusbar();
         Intent intent = getIntent();
         int id = intent.getIntExtra("id", 0);

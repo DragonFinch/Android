@@ -1,6 +1,7 @@
 package com.iyoyogo.android.ui.mine;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -17,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.mine.AboutMeBean;
@@ -117,6 +119,7 @@ public class AboutMeActivity extends BaseActivity<AboutMeContract.Presenter> imp
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         mPresenter.aboutMe();
     }
 
@@ -131,7 +134,7 @@ public class AboutMeActivity extends BaseActivity<AboutMeContract.Presenter> imp
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @OnClick({R.id.back_iv_id, R.id.praise_rl_id})
+    @OnClick({R.id.back_iv_id, R.id.praise_rl_id, R.id.tv_simi, R.id.tv_service})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_iv_id:
@@ -139,6 +142,12 @@ public class AboutMeActivity extends BaseActivity<AboutMeContract.Presenter> imp
                 break;
             case R.id.praise_rl_id:
                 initPopuptWindow();
+                break;
+            case R.id.tv_simi://隐私政策
+                startActivity(new Intent(this, WebViewActivity.class).putExtra("url", "1"));
+                break;
+            case R.id.tv_service://服务条款
+                startActivity(new Intent(this, WebViewActivity.class).putExtra("url", "2"));
                 break;
         }
     }

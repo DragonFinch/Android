@@ -1,5 +1,6 @@
 package com.iyoyogo.android.ui.mine;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -7,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
@@ -53,6 +55,7 @@ public class FeedBackActivity extends BaseActivity<FeedBackContract.Presenter> i
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
         user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
     }
@@ -74,7 +77,7 @@ public class FeedBackActivity extends BaseActivity<FeedBackContract.Presenter> i
         if (baseBean.getCode() == 200) {
             editFeedBack.setText("");
             Toast.makeText(this, "反馈成功", Toast.LENGTH_SHORT).show();
+            finish();
         }
-//        finish();
     }
 }
