@@ -165,7 +165,9 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
                 try {
                     CleanDataUtils.clearAllCache(this);
                     String size = CleanDataUtils.getTotalCacheSize(this);
-                    tvClearCache.setText(size);
+                    tvClearCache.setText("0M");
+//                    tvClearCache.setText(size);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

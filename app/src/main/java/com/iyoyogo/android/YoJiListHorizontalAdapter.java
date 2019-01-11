@@ -208,7 +208,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
             mList.get(position).setQuality_type(3);
             holder.medal.setImageResource(R.mipmap.kol);
         } else {
-            holder.medal.setVisibility(mList.get(position).getQuality_type() == 0 ? View.INVISIBLE : View.VISIBLE);
+            holder.medal.setVisibility(View.INVISIBLE);
         }
         int user_level = mList.get(position).getUser_info().getUser_level();
         if (user_level == 0) {

@@ -76,6 +76,7 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
+
         int is_highquality = mList.get(position).getQuality_type();
         if (is_highquality == 1) {
             holder.typeImageView.setVisibility(View.VISIBLE);
@@ -86,6 +87,48 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
         } else {
             holder.typeImageView.setVisibility(View.INVISIBLE);
         }
+
+        holder.medal.setVisibility(View.VISIBLE);
+        holder.img_level.setVisibility(View.VISIBLE);
+        int partner_type = mList.get(position).getUser_info().getPartner_type();
+        Log.d("YoJiCenterAdapter", "partner_type:" + partner_type);
+        if (partner_type == 0) {
+            mList.get(position).getUser_info().setPartner_type(0);
+            holder.medal.setVisibility(View.INVISIBLE);
+        } else if (partner_type == 1) {
+            mList.get(position).getUser_info().setPartner_type(1);
+            holder.medal.setImageResource(R.mipmap.daren);
+        } else if (partner_type == 2) {
+            mList.get(position).getUser_info().setPartner_type(2);
+            holder.medal.setImageResource(R.mipmap.hongren);
+        } else if (partner_type == 3) {
+            mList.get(position).getUser_info().setPartner_type(3);
+            holder.medal.setImageResource(R.mipmap.kol);
+        } else {
+            holder.medal.setVisibility(View.INVISIBLE );
+        }
+
+        int user_level = mList.get(position).getUser_info().getUser_level();
+        if (user_level == 0) {
+            holder.img_level.setVisibility(View.INVISIBLE);
+        } else if (user_level == 1) {
+            mList.get(position).getUser_info().setUser_level(1);
+            holder.img_level.setImageResource(R.mipmap.lv1);
+
+        } else if (user_level == 2) {
+            mList.get(position).getUser_info().setUser_level(2);
+            holder.img_level.setImageResource(R.mipmap.lv2);
+        } else if (user_level == 3) {
+            mList.get(position).getUser_info().setUser_level(3);
+            holder.img_level.setImageResource(R.mipmap.lv3);
+        } else if (user_level == 4) {
+            mList.get(position).getUser_info().setUser_level(4);
+            holder.img_level.setImageResource(R.mipmap.lv4);
+        } else if (user_level == 5) {
+            mList.get(position).getUser_info().setUser_level(5);
+            holder.img_level.setImageResource(R.mipmap.lv5);
+        }
+
         RequestOptions myOptions = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.mipmap.default_ic)
@@ -115,6 +158,8 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
                 });
             }
         }*/
+
+
         if (mList.get(position).getUsers_praise().size() == 0) {
             holder.pile_layout.setVisibility(View.GONE);
             holder.tv_num_like.setVisibility(View.GONE);
@@ -197,28 +242,6 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
         holder.num_look.setText(mList.get(position).getCount_view() + "");
         Log.d("YoJiAdapter", "mList.get(position).getUsers_praise():" + mList.get(position).getUsers_praise());
         LayoutInflater inflater1 = LayoutInflater.from(context);
-        if (mList.get(position).getUsers_praise().size() == 0) {
-            holder.pile_layout.setVisibility(View.GONE);
-            holder.tv_num_like.setVisibility(View.GONE);
-        } else {
-            for (int i = 0; i < mList.get(position).getUsers_praise().size(); i++) {
-                com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
-                Glide.with(context).load(mList.get(position).getUsers_praise().get(i).getUser_logo()).into(imageView);
-                holder.pile_layout.addView(imageView);
-                int finalI = i;
-                String yo_user_id = mList.get(position).getUsers_praise().get(i).getUser_id();
-
-                imageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, Personal_homepage_Activity.class);
-                        intent.putExtra("yo_user_id", String.valueOf(yo_user_id));
-                        context.startActivity(intent);
-                        Toast.makeText(context, "mList.get(position).getUsers_praise().get(i).getUser_id():" + mList.get(position).getUsers_praise().get(finalI).getUser_id(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        }
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.mipmap.default_touxiang);
         requestOptions.error(R.mipmap.default_touxiang);
@@ -525,7 +548,7 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-        ImageView zuji_image, typeImageView, dt_like;
+        ImageView zuji_image, typeImageView, dt_like,medal,img_level;
         CircleImageView user_icon;
         TextView num_look, user_name, title, tv_cost, location, tv_day, tv_num_like, tv_num_comment,location_end;
         RelativeLayout view_like;
@@ -550,6 +573,8 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
             typeImageView = itemView.findViewById(R.id.img_type);
             user_icon = itemView.findViewById(R.id.user_icon);
             dt_like = itemView.findViewById(R.id.dt_like);
+            medal = itemView.findViewById(R.id.medal);
+            img_level =itemView.findViewById(R.id.img_level);
         }
     }
 

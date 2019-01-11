@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -126,6 +127,48 @@ public class YoJiContentAdapter2 extends RecyclerView.Adapter<YoJiContentAdapter
             }
         });
 
+        viewHolder.medal.setVisibility(View.VISIBLE);
+        viewHolder.img_level.setVisibility(View.VISIBLE);
+        int partner_type = mList.get(position).getUser_info().getPartner_type();
+        Log.d("YoJiCenterAdapter", "partner_type:" + partner_type);
+        if (partner_type == 0) {
+            mList.get(position).getUser_info().setPartner_type(0);
+            viewHolder.medal.setVisibility(View.INVISIBLE);
+        } else if (partner_type == 1) {
+            mList.get(position).getUser_info().setPartner_type(1);
+            viewHolder.medal.setImageResource(R.mipmap.daren);
+        } else if (partner_type == 2) {
+            mList.get(position).getUser_info().setPartner_type(2);
+            viewHolder.medal.setImageResource(R.mipmap.hongren);
+        } else if (partner_type == 3) {
+            mList.get(position).getUser_info().setPartner_type(3);
+            viewHolder.medal.setImageResource(R.mipmap.kol);
+        } else {
+            viewHolder.medal.setVisibility(View.INVISIBLE );
+        }
+
+        int user_level = mList.get(position).getUser_info().getUser_level();
+        if (user_level == 0) {
+            viewHolder.img_level.setVisibility(View.INVISIBLE);
+        } else if (user_level == 1) {
+            mList.get(position).getUser_info().setUser_level(1);
+            viewHolder.img_level.setImageResource(R.mipmap.lv1);
+
+        } else if (user_level == 2) {
+            mList.get(position).getUser_info().setUser_level(2);
+            viewHolder.img_level.setImageResource(R.mipmap.lv2);
+        } else if (user_level == 3) {
+            mList.get(position).getUser_info().setUser_level(3);
+            viewHolder.img_level.setImageResource(R.mipmap.lv3);
+        } else if (user_level == 4) {
+            mList.get(position).getUser_info().setUser_level(4);
+            viewHolder.img_level.setImageResource(R.mipmap.lv4);
+        } else if (user_level == 5) {
+            mList.get(position).getUser_info().setUser_level(5);
+            viewHolder.img_level.setImageResource(R.mipmap.lv5);
+        }
+
+
         //点赞
         if (mList.get(position).getIs_my_praise() == 0) {
             viewHolder.iv_like.setImageResource(R.mipmap.datu_xihuan);
@@ -190,7 +233,7 @@ public class YoJiContentAdapter2 extends RecyclerView.Adapter<YoJiContentAdapter
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView img_type, imageView, iv_like, iv_video, more_img, index_look_icon;
+        ImageView img_type, imageView, iv_like, iv_video, more_img, index_look_icon,medal,img_level;
         TextView num_like, user_name, tv_title, num_see;
         CircleImageView user_icon;
         RelativeLayout view_like;
@@ -209,6 +252,8 @@ public class YoJiContentAdapter2 extends RecyclerView.Adapter<YoJiContentAdapter
             iv_video = itemView.findViewById(R.id.iv_video);
             more_img = itemView.findViewById(R.id.more_img);
             index_look_icon = itemView.findViewById(R.id.index_look_icon);
+            medal = itemView.findViewById(R.id.medal);
+            img_level =itemView.findViewById(R.id.img_level);
         }
     }
 

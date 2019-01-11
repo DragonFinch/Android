@@ -127,8 +127,9 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
         viewHolder.user_name.setText(mList.get(position).getUser_nickname());
         viewHolder.comment_all.setText("全部评论(" + mList.get(position).getCount_comment() + ")");
         int file_type = mList.get(position).getFile_type();
+        RequestOptions requestOptions = new RequestOptions().placeholder(R.mipmap.default_touxiang).error(R.mipmap.default_touxiang);
         if (file_type == 2) {
-            Glide.with(context).load(mList.get(position).getUser_logo()).into(viewHolder.user_icon);
+            Glide.with(context).load(mList.get(position).getUser_logo()).apply(requestOptions).into(viewHolder.user_icon);
             RequestOptions myOptions = new RequestOptions()
                     .centerCrop()
                     .transform(new GlideRoundTransform(context, 8));
@@ -136,7 +137,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
                     .apply(myOptions).into(viewHolder.img_yoxiu);
             viewHolder.img_video.setVisibility(View.VISIBLE);
         } else {
-            Glide.with(context).load(mList.get(position).getUser_logo()).into(viewHolder.user_icon);
+            Glide.with(context).load(mList.get(position).getUser_logo()).apply(requestOptions).into(viewHolder.user_icon);
             RequestOptions myOptions = new RequestOptions()
                     .centerCrop()
                     .transform(new GlideRoundTransform(context, 8));
@@ -205,6 +206,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
         YoXiuListItemAdapter adapter = new YoXiuListItemAdapter(context, comment_list);
         viewHolder.recycler_comment.setAdapter(adapter);
         viewHolder.itemView.setTag(position);
+
         viewHolder.recycler_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

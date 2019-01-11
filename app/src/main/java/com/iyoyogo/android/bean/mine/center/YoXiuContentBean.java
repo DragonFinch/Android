@@ -61,6 +61,24 @@ public class YoXiuContentBean extends BaseBean {
             private String user_nickname;
             private String user_logo;
             private List<CommentListBean> comment_list;
+            private String partner_type;
+            private int user_level;
+
+            public String getPartner_type() {
+                return partner_type;
+            }
+
+            public void setPartner_type(String partner_type) {
+                this.partner_type = partner_type;
+            }
+
+            public int getUser_level() {
+                return user_level;
+            }
+
+            public void setUser_level(int user_level) {
+                this.user_level = user_level;
+            }
 
             public int getId() {
                 return id;

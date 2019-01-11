@@ -285,7 +285,6 @@ public class YoJiContentBean extends BaseBean {
                     this.partner_type = partner_type;
                 }
             }
-
             public static class CommentListBean {
                 /**
                  * id : 12400

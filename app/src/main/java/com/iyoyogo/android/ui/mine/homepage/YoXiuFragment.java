@@ -112,41 +112,15 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
         refreshLayout.autoRefresh();
         refreshLayout.finishRefresh(1050);
 
-//        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-//            @Override
-//            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-//                mList.clear();
-//                refreshLayout.finishRefresh(1050);
-//                mPresenter.getYoXiuContent(user_id, user_token, yo_user_id, "1", "20");
-//            }
-//        });
-//        refreshLayout.setOnLoadMoreListener(new OnRefreshLoadMoreListener() {
-//            @Override
-//            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-//                currentPage++;
-//                Log.d("currentPage", "currentPage:" + currentPage);
-//                DataManager.getFromRemote()
-//                        .getYoXiuContent(user_id, user_token, yo_user_id, currentPage + "", 20 + "")
-//                        .subscribe(new Consumer<YoXiuContentBean>() {
-//                            @Override
-//                            public void accept(YoXiuContentBean yoXiuContentBean) throws Exception {
-//                                List<YoXiuContentBean.DataBean.ListBean> list1 = yoXiuContentBean.getData().getList();
-//                                mList.addAll(list1);
-//                                if (mList != null) {
-//                                    yoXiuContentAdapter.notifyItemInserted(mList.size());
-//                                }
-//                            }
-//                        });
-//                refreshLayout.finishLoadMore(2000);
-//            }
-//
-//            @Override
-//            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-//
-//            }
-//        });
-
-        refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mList.clear();
+                refreshLayout.finishRefresh(1050);
+                mPresenter.getYoXiuContent(user_id, user_token, yo_user_id, "1", "20");
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 currentPage++;
@@ -158,7 +132,7 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
                             public void accept(YoXiuContentBean yoXiuContentBean) throws Exception {
                                 List<YoXiuContentBean.DataBean.ListBean> list1 = yoXiuContentBean.getData().getList();
                                 mList.addAll(list1);
-                                if (mList.size() != 0) {
+                                if (mList != null) {
                                     yoXiuContentAdapter.notifyItemInserted(mList.size());
                                 }
                             }
@@ -168,35 +142,63 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mList.clear();
-                DataManager.getFromRemote().getYoXiuContent(user_id, user_token, yo_user_id, currentPage + "", 20 + "")
-                        .subscribe(new Observer<YoXiuContentBean>() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
 
-                            }
-
-                            @Override
-                            public void onNext(YoXiuContentBean yoXiuContentBean) {
-                                List<YoXiuContentBean.DataBean.ListBean> list1 = yoXiuContentBean.getData().getList();
-                                mList.addAll(list1);
-                                yoXiuContentAdapter = new YoXiuContentAdapter(getContext(), mList);
-                                recyclerYoxiu.setAdapter(yoXiuContentAdapter);
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.d("YoJiFragment", e.getMessage());
-                            }
-
-                            @Override
-                            public void onComplete() {
-
-                            }
-                        });
-                refreshLayout.finishRefresh();
             }
         });
+
+//        refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+//            @Override
+//            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+//                currentPage++;
+//                Log.d("currentPage", "currentPage:" + currentPage);
+//                DataManager.getFromRemote()
+//                        .getYoXiuContent(user_id, user_token, yo_user_id, currentPage + "", 20 + "")
+//                        .subscribe(new Consumer<YoXiuContentBean>() {
+//                            @Override
+//                            public void accept(YoXiuContentBean yoXiuContentBean) throws Exception {
+//                                List<YoXiuContentBean.DataBean.ListBean> list1 = yoXiuContentBean.getData().getList();
+//                                mList.addAll(list1);
+//                                if (mList.size() != 0) {
+//                                    yoXiuContentAdapter.notifyItemInserted(mList.size());
+//                                }
+//                            }
+//                        });
+//                refreshLayout.finishLoadMore(2000);
+//            }
+//
+//            @Override
+//            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+////                mList.clear();
+//                DataManager.getFromRemote().getYoXiuContent(user_id, user_token, yo_user_id, currentPage + "", 20 + "")
+//                        .subscribe(new Observer<YoXiuContentBean>() {
+//                            @Override
+//                            public void onSubscribe(Disposable d) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onNext(YoXiuContentBean yoXiuContentBean) {
+//                                mList.clear();
+//                                List<YoXiuContentBean.DataBean.ListBean> list1 = yoXiuContentBean.getData().getList();
+//                                mList.addAll(list1);
+//                                yoXiuContentAdapter = new YoXiuContentAdapter(getContext(), mList);
+//                                recyclerYoxiu.setLayoutManager(new LinearLayoutManager(getContext()));
+//                                recyclerYoxiu.setAdapter(yoXiuContentAdapter);
+//                            }
+//
+//                            @Override
+//                            public void onError(Throwable e) {
+//                                Log.d("YoJiFragment", e.getMessage());
+//                            }
+//
+//                            @Override
+//                            public void onComplete() {
+//
+//                            }
+//                        });
+//                refreshLayout.finishRefresh();
+//            }
+//        });
 
     }
 

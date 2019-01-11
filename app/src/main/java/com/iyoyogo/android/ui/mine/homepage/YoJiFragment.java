@@ -138,11 +138,11 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
                             @Override
                             public void accept(YoJiContentBean yoJiContentBean) throws Exception {
                                 List<YoJiContentBean.DataBean.ListBean> list1 = yoJiContentBean.getData().getList();
-//                                mList.addAll(list1);
-//                                if (mList != null) {
-//                                    yoJiCenterAdapter.notifyItemInserted(mList.size());
-//                                    yoJiContentAdapter2.notifyItemInserted(mList.size());
-//                                }
+                                mList.addAll(list1);
+                                if (mList != null) {
+                                    yoJiCenterAdapter.notifyItemInserted(mList.size());
+                                    yoJiContentAdapter2.notifyItemInserted(mList.size());
+                                }
                             }
                         });
                 refreshLayout.finishLoadMore(2000);

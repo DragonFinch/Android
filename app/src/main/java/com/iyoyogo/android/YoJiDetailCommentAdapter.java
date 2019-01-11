@@ -410,6 +410,52 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
                 }
             }
         });
+
+        holder.medal.setVisibility(View.VISIBLE);
+        int user_level = mList.get(position).getUser_level();
+        holder.medal.setVisibility(View.VISIBLE);
+        int partner_type = mList.get(position).getPartner_type();
+        if (partner_type == 0) {
+            mList.get(position).setPartner_type(0);
+            holder.medal.setVisibility(View.INVISIBLE);
+        } else if (partner_type == 1) {
+            mList.get(position).setPartner_type(1);
+            holder.medal.setImageResource(R.mipmap.daren);
+        } else if (partner_type == 2) {
+            mList.get(position).setPartner_type(2);
+            holder.medal.setImageResource(R.mipmap.hongren);
+        } else if (partner_type == 3) {
+            mList.get(position).setPartner_type(3);
+            holder.medal.setImageResource(R.mipmap.kol);
+        } else {
+            holder.medal.setVisibility(mList.get(position).getPartner_type() == 0 ? View.INVISIBLE : View.VISIBLE);
+        }
+        if (user_level == 0) {
+            holder.img_level.setVisibility(View.GONE);
+        } else if (user_level == 1) {
+            mList.get(position).setUser_level(1);
+            holder.img_level.setImageResource(R.mipmap.lv1);
+            holder.img_level.setVisibility(View.VISIBLE);
+        } else if (user_level == 2) {
+            mList.get(position).setUser_level(2);
+            holder.img_level.setImageResource(R.mipmap.lv2);
+            holder.img_level.setVisibility(View.VISIBLE);
+        } else if (user_level == 3) {
+            mList.get(position).setUser_level(3);
+            holder.img_level.setImageResource(R.mipmap.lv3);
+            holder.img_level.setVisibility(View.VISIBLE);
+        } else if (user_level == 4) {
+            mList.get(position).setUser_level(4);
+            holder.img_level.setImageResource(R.mipmap.lv4);
+            holder.img_level.setVisibility(View.VISIBLE);
+        } else if (user_level == 5) {
+            mList.get(position).setUser_level(5);
+            holder.img_level.setImageResource(R.mipmap.lv5);
+            holder.img_level.setVisibility(View.VISIBLE);
+        } else {
+            holder.img_level.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     private void initDelete(Holder holder, String yo_user_id, int comment_id,  int position) {
@@ -464,7 +510,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
     public class Holder extends RecyclerView.ViewHolder {
         CircleImageView img_user_icon;
         TextView tv_content, tv_time, user_name, tv_comment_like_num, tv_huifu_num,homeShowOrHide;
-        ImageView img_comment_like, img_huifu, img_function;
+        ImageView img_comment_like, img_huifu, img_function,medal,img_level;
 
         public Holder(@NonNull View itemView) {
             super(itemView);
@@ -478,6 +524,8 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
             img_comment_like = itemView.findViewById(R.id.img_comment_like);
             img_huifu = itemView.findViewById(R.id.img_huifu);
             img_function = itemView.findViewById(R.id.img_function);
+            medal = itemView.findViewById(R.id.medal);
+            img_level =itemView.findViewById(R.id.img_level);
         }
     }
 }

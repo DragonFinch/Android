@@ -19,6 +19,7 @@ import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.mine.center.YoXiuContentBean;
 import com.iyoyogo.android.bean.yoxiu.YouXiuListBean;
 import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
@@ -80,6 +81,48 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
         YoXiuContentItemAdapter adapter = new YoXiuContentItemAdapter(context, comment_list);
         viewHolder.recycler_comment.setAdapter(adapter);
 
+        viewHolder.medal.setVisibility(View.VISIBLE);
+        String partner_type = mList.get(position).getPartner_type();
+        if (partner_type .equals("0") ) {
+            mList.get(position).setPartner_type("0");
+            viewHolder.medal.setVisibility(View.INVISIBLE);
+        } else if (partner_type .equals("1") ) {
+            mList.get(position).setPartner_type("1");
+            viewHolder.medal.setImageResource(R.mipmap.daren);
+        } else if (partner_type .equals("2") ) {
+            mList.get(position).setPartner_type("2");
+            viewHolder.medal.setImageResource(R.mipmap.hongren);
+        } else if (partner_type .equals("3") ) {
+            mList.get(position).setPartner_type("3");
+            viewHolder.medal.setImageResource(R.mipmap.kol);
+        } else {
+            viewHolder.medal.setVisibility(mList.get(position).getPartner_type() .equals("0")  ? View.INVISIBLE : View.VISIBLE);
+        }
+
+        int user_level = mList.get(position).getUser_level();
+        if (user_level == 0) {
+            viewHolder.img_level.setVisibility(View.GONE);
+        } else if (user_level == 1) {
+            mList.get(position).setUser_level(1);
+            viewHolder.img_level.setImageResource(R.mipmap.lv1);
+
+        } else if (user_level == 2) {
+            mList.get(position).setUser_level(2);
+            viewHolder.img_level.setImageResource(R.mipmap.lv2);
+        } else if (user_level == 3) {
+            mList.get(position).setUser_level(3);
+            viewHolder.img_level.setImageResource(R.mipmap.lv3);
+        } else if (user_level == 4) {
+            mList.get(position).setUser_level(4);
+            viewHolder.img_level.setImageResource(R.mipmap.lv4);
+        } else if (user_level == 5) {
+            mList.get(position).setUser_level(5);
+            viewHolder.img_level.setImageResource(R.mipmap.lv5);
+        } else {
+            viewHolder.img_level.setVisibility(View.INVISIBLE);
+        }
+
+
         /*viewHolder.recycler_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,6 +157,18 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
         }
         viewHolder.img_like.setImageResource(mList.get(position).getIs_my_like() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
         yo_id = mList.get(position).getId();
+
+        viewHolder.user_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int yo_user_id = mList.get(position).getUser_id();
+                Intent intent = new Intent(context, UserHomepageActivity.class);
+                intent.putExtra("yo_user_id", String.valueOf(yo_user_id));
+                context.startActivity(intent);
+            }
+        });
+
+
 
         viewHolder.img_like.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,6 +221,7 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
                 }
             }
         });
+
     }
 
     @Override
@@ -190,7 +246,7 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_yoxiu_desc, num_like, user_name, comment_all;
-        ImageView img_yoxiu, img_like, img_video,user_level_img;
+        ImageView img_yoxiu, img_like, img_video,user_level_img,medal,img_level;
         CircleImageView user_icon;
         RecyclerView recycler_comment;
 
@@ -206,6 +262,8 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
             recycler_comment = itemView.findViewById(R.id.recycler_comment);
             img_yoxiu = itemView.findViewById(R.id.img_yoxiu);
             img_video = itemView.findViewById(R.id.img_video);
+            medal = itemView.findViewById(R.id.medal);
+            img_level =itemView.findViewById(R.id.user_level_img);
         }
     }
 }
