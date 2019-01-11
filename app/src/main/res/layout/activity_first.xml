@@ -121,13 +121,13 @@
                 android:textColor="@color/ff000000"/>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/lv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:nestedScrollingEnabled="false"
                 android:overScrollMode="never"
                 android:scrollbars="none"
+                android:id="@+id/lv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:visibility="gone"></android.support.v7.widget.RecyclerView>
 
             <ImageView
@@ -149,6 +149,7 @@
                 android:gravity="center"
                 android:textColor="@color/ff000000"/>
 
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/lv_content"
                 android:layout_width="match_parent"
@@ -159,6 +160,8 @@
                 android:scrollbars="none"
                 android:visibility="gone"></android.support.v7.widget.RecyclerView>
 
+
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/lv_user"
                 android:layout_width="match_parent"
@@ -168,6 +171,7 @@
                 android:overScrollMode="never"
                 android:scrollbars="none"
                 android:visibility="gone"></android.support.v7.widget.RecyclerView>
+
 
 
         </LinearLayout>

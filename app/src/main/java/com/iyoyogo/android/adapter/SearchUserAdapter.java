@@ -76,12 +76,6 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Vi
             holder.tv_guanzhu.setTextColor(Color.parseColor("#888888"));
             holder.tv_guanzhu.setBackgroundResource(R.drawable.orange_fillet_yiguanzhu);
         }
-    /*            holder.tv_guanzhu.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                                Toast.makeText(context,"请在用户列表选择关注",Toast.LENGTH_SHORT).show();
-                    }
-                });*/
 
     }
 
