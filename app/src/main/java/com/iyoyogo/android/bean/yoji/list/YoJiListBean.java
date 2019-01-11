@@ -66,24 +66,6 @@ public class YoJiListBean extends BaseBean {
             private UserInfoBean user_info;
             private List<UsersPraiseBean> users_praise;
             private List<CommentListBean> comment_list;
-            private int partner_type;
-            private int user_level;
-
-            public int getUser_level() {
-                return user_level;
-            }
-
-            public void setUser_level(int user_level) {
-                this.user_level = user_level;
-            }
-
-            public int getPartner_type() {
-                return partner_type;
-            }
-
-            public void setPartner_type(int partner_type) {
-                this.partner_type = partner_type;
-            }
 
             public int getYo_id() {
                 return yo_id;

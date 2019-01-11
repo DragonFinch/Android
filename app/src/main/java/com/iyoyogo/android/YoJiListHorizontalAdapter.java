@@ -194,21 +194,21 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
         });
         holder.medal.setVisibility(View.VISIBLE);
         holder.img_level.setVisibility(View.VISIBLE);
-        int partner_type = mList.get(position).getQuality_type();
+        int partner_type = mList.get(position).getUser_info().getPartner_type();
         if (partner_type == 0) {
-            mList.get(position).setQuality_type(0);
+            mList.get(position).getUser_info().setPartner_type(0);
             holder.medal.setVisibility(View.INVISIBLE);
         } else if (partner_type == 1) {
-            mList.get(position).setQuality_type(1);
+            mList.get(position).getUser_info().setPartner_type(1);
             holder.medal.setImageResource(R.mipmap.daren);
         } else if (partner_type == 2) {
-            mList.get(position).setQuality_type(2);
+            mList.get(position).getUser_info().setPartner_type(2);
             holder.medal.setImageResource(R.mipmap.hongren);
         } else if (partner_type == 3) {
-            mList.get(position).setQuality_type(3);
+            mList.get(position).getUser_info().setPartner_type(3);
             holder.medal.setImageResource(R.mipmap.kol);
         } else {
-            holder.medal.setVisibility(View.INVISIBLE);
+            holder.medal.setVisibility(mList.get(position).getUser_info().getPartner_type() == 0 ? View.INVISIBLE : View.VISIBLE);
         }
         int user_level = mList.get(position).getUser_info().getUser_level();
         if (user_level == 0) {

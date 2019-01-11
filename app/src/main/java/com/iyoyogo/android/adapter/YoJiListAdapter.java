@@ -111,53 +111,42 @@ public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHo
             Glide.with(context).load(mList.get(position).getUser_info().getUser_logo()).apply(requestOptions1).into(viewHolder.user_icon);
             viewHolder.tv_title.setText(mList.get(position).getTitle());
 
-            viewHolder.img_type.setVisibility(View.VISIBLE);
             viewHolder.img_level.setVisibility(View.VISIBLE);
             viewHolder.medal.setVisibility(View.VISIBLE);
-            int is_highquality = mList.get(position).getQuality_type();
-            if (is_highquality == 1) {
-                viewHolder.img_type.setVisibility(View.VISIBLE);
-                viewHolder.img_type.setImageResource(R.mipmap.youzhi);
-            } else if (is_highquality == 2) {
-                viewHolder.img_type.setVisibility(View.VISIBLE);
-                viewHolder.img_type.setImageResource(R.mipmap.jingxuan);
-            } else {
-                viewHolder.img_type.setVisibility(View.INVISIBLE);
-            }
-            int partner_type = mList.get(position).getPartner_type();
+            int partner_type = mList.get(position).getUser_info().getPartner_type();
             if (partner_type == 0) {
-                mList.get(position).setPartner_type(0);
+                mList.get(position).getUser_info().setPartner_type(0);
                 viewHolder.medal.setVisibility(View.INVISIBLE);
             } else if (partner_type == 1) {
-                mList.get(position).setPartner_type(1);
+                mList.get(position).getUser_info().setPartner_type(1);
                 viewHolder.medal.setImageResource(R.mipmap.daren);
             } else if (partner_type == 2) {
-                mList.get(position).setPartner_type(2);
+                mList.get(position).getUser_info().setPartner_type(2);
                 viewHolder.medal.setImageResource(R.mipmap.hongren);
             } else if (partner_type == 3) {
-                mList.get(position).setPartner_type(3);
+                mList.get(position).getUser_info().setPartner_type(3);
                 viewHolder.medal.setImageResource(R.mipmap.kol);
             } else {
-                viewHolder.medal.setVisibility(mList.get(position).getPartner_type() == 0 ? View.INVISIBLE : View.VISIBLE);
+                viewHolder.medal.setVisibility(mList.get(position).getUser_info().getPartner_type() == 0 ? View.INVISIBLE : View.VISIBLE);
             }
-            int user_level = mList.get(position).getUser_level();
+            int user_level = mList.get(position).getUser_info().getUser_level();
             if (user_level == 0) {
                 viewHolder.img_level.setVisibility(View.INVISIBLE);
             } else if (user_level == 1) {
-                mList.get(position).setUser_level(1);
+                mList.get(position).getUser_info().setUser_level(1);
                 viewHolder.img_level.setImageResource(R.mipmap.lv1);
 
             } else if (user_level == 2) {
-                mList.get(position).setUser_level(2);
+                mList.get(position).getUser_info().setUser_level(2);
                 viewHolder.img_level.setImageResource(R.mipmap.lv2);
             } else if (user_level == 3) {
-                mList.get(position).setUser_level(3);
+                mList.get(position).getUser_info().setUser_level(3);
                 viewHolder.img_level.setImageResource(R.mipmap.lv3);
             } else if (user_level == 4) {
-                mList.get(position).setUser_level(4);
+                mList.get(position).getUser_info().setUser_level(4);
                 viewHolder.img_level.setImageResource(R.mipmap.lv4);
             } else if (user_level == 5) {
-                mList.get(position).setUser_level(5);
+                mList.get(position).getUser_info().setUser_level(5);
                 viewHolder.img_level.setImageResource(R.mipmap.lv5);
             } else {
                 viewHolder.img_level.setVisibility(View.INVISIBLE);

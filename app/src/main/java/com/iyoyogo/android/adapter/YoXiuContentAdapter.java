@@ -82,6 +82,7 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
         viewHolder.recycler_comment.setAdapter(adapter);
 
         viewHolder.medal.setVisibility(View.VISIBLE);
+        viewHolder.img_level.setVisibility(View.VISIBLE);
         String partner_type = mList.get(position).getPartner_type();
         if (partner_type .equals("0") ) {
             mList.get(position).setPartner_type("0");

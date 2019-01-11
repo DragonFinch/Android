@@ -52,6 +52,7 @@ public class YoXiuContentBean extends BaseBean {
             private int is_my_like;
             private int file_type;
             private String file_path;
+            private String file_path_first;
             private String position_name;
             private int count_view;
             private String count_comment;
@@ -60,9 +61,26 @@ public class YoXiuContentBean extends BaseBean {
             private int user_id;
             private String user_nickname;
             private String user_logo;
-            private List<CommentListBean> comment_list;
             private String partner_type;
             private int user_level;
+            private int quality_type;
+            private List<CommentListBean> comment_list;
+
+            public String getFile_path_first() {
+                return file_path_first;
+            }
+
+            public void setFile_path_first(String file_path_first) {
+                this.file_path_first = file_path_first;
+            }
+
+            public int getQuality_type() {
+                return quality_type;
+            }
+
+            public void setQuality_type(int quality_type) {
+                this.quality_type = quality_type;
+            }
 
             public String getPartner_type() {
                 return partner_type;

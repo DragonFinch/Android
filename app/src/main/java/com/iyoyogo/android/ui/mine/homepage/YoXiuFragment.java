@@ -105,6 +105,7 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
         mPresenter.getYoXiuContent(user_id, user_token, yo_user_id, 1 + "", 20 + "");
+        Log.d("YoXiuFragment", user_token);
 
         //下拉刷新
         refreshLayout.setEnableRefresh(true);
