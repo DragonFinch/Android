@@ -105,7 +105,6 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
         mPresenter.getYoXiuContent(user_id, user_token, yo_user_id, 1 + "", 20 + "");
-        Log.d("YoXiuFragment", user_token);
 
         //下拉刷新
         refreshLayout.setEnableRefresh(true);
@@ -238,15 +237,6 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
             yoXiuContentAdapter = new YoXiuContentAdapter(getContext(), list);
             recyclerYoxiu.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerYoxiu.setAdapter(yoXiuContentAdapter);
-//            yoXiuContentAdapter.setOnItemClickListener(new YoXiuContentAdapter.OnClickListener() {
-//                @Override
-//                public void onClick(View v, int position) {
-//                    int yo_id = mList.get(position).getUser_id();
-//                    Intent intent = new Intent(getContext(), YoXiuDetailActivity.class);
-//                    intent.putExtra("id", yo_id);
-//                    startActivity(intent);
-//                }
-//            });
         }
 
     }

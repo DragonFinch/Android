@@ -253,10 +253,13 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
 
         String user_logo = mList.get(position).getUser_info().getUser_logo();
         if (user_logo.isEmpty()) {
-            Glide.with(context).load(R.mipmap.default_ic).into(holder.user_icon);
+            Glide.with(context).load(R.mipmap.default_touxiang).into(holder.user_icon);
         } else {
             Log.d("YoJiAdapter", user_logo);
-            Glide.with(context).load(mList.get(position).getUser_info().getUser_logo()).into(holder.user_icon);
+            RequestOptions requestOptions1 = new RequestOptions().centerCrop().transform(new GlideRoundTransform(context, 8));
+            requestOptions1.placeholder(R.mipmap.default_touxiang);
+            requestOptions1.error(R.mipmap.default_touxiang);
+            Glide.with(context).load(mList.get(position).getUser_info().getUser_logo()).apply(requestOptions1).into(holder.user_icon);
 
         }
         holder.tv_num_like.setVisibility(View.VISIBLE);

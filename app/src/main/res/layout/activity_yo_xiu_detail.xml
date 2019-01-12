@@ -236,7 +236,8 @@
                 android:layout_below="@+id/tv_time"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/dp_15"
-                android:src="@mipmap/ic_meipai_logo" />
+                android:src="@mipmap/ic_meipai_logo"
+                />
 
             <View
                 android:id="@+id/comment_view"

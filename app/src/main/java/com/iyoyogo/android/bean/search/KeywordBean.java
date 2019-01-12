@@ -22,7 +22,7 @@ public class KeywordBean extends BaseBean implements Serializable {
         this.data = data;
     }
 
-    public static class DataBean implements Serializable{
+    public static class DataBean implements Serializable {
         /**
          * type : all
          * user_list : [{"user_id":60248,"user_nickname":"彻夜笙歌古城门","user_logo":"https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/user/Pr_200000172.jpg?x-oss-process=image/resize,w_50","count_yox":0,"count_yoj":0,"attention_status":"0"},{"user_id":60253,"user_nickname":"古城小巷红尘客","user_logo":"https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/user/Pr_200000175.jpg?x-oss-process=image/resize,w_50","count_yox":0,"count_yoj":0,"attention_status":"0"},{"user_id":65583,"user_nickname":"古城小巷","user_logo":"https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/user/Pr_200008675.jpg?x-oss-process=image/resize,w_50","count_yox":0,"count_yoj":0,"attention_status":"0"},{"user_id":66182,"user_nickname":"青灯古城","user_logo":"https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/user/Pr_200008852.jpg?x-oss-process=image/resize,w_50","count_yox":0,"count_yoj":0,"attention_status":"0"},{"user_id":66396,"user_nickname":"古城微笑少年","user_logo":"https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/user/Pr_200004444.jpg?x-oss-process=image/resize,w_50","count_yox":0,"count_yoj":0,"attention_status":"0"}]
@@ -67,7 +67,7 @@ public class KeywordBean extends BaseBean implements Serializable {
             this.yoj_list = yoj_list;
         }
 
-        public static class UserListBean implements Serializable{
+        public static class UserListBean implements Serializable {
             /**
              * user_id : 60248
              * user_nickname : 彻夜笙歌古城门
@@ -83,6 +83,33 @@ public class KeywordBean extends BaseBean implements Serializable {
             private int count_yox;
             private int count_yoj;
             private String attention_status;
+            private String user_score;
+            private String partner_type;
+            private int user_level;
+
+            public String getUser_score() {
+                return user_score;
+            }
+
+            public void setUser_score(String user_score) {
+                this.user_score = user_score;
+            }
+
+            public String getPartner_type() {
+                return partner_type;
+            }
+
+            public void setPartner_type(String partner_type) {
+                this.partner_type = partner_type;
+            }
+
+            public int getUser_level() {
+                return user_level;
+            }
+
+            public void setUser_level(int user_level) {
+                this.user_level = user_level;
+            }
 
             public int getUser_id() {
                 return user_id;
@@ -133,7 +160,7 @@ public class KeywordBean extends BaseBean implements Serializable {
             }
         }
 
-        public static class YoxListBean implements Serializable{
+        public static class YoxListBean implements Serializable {
             /**
              * yo_id : 156
              * user_id : 60001
@@ -159,7 +186,7 @@ public class KeywordBean extends BaseBean implements Serializable {
             private int count_view;
             private int count_comment;
             private UserInfoBean user_info;
-            private boolean is_my_praise;
+            private int is_my_praise;
             private List<CommentListBean> comment_list;
 
             public int getYo_id() {
@@ -242,11 +269,11 @@ public class KeywordBean extends BaseBean implements Serializable {
                 this.user_info = user_info;
             }
 
-            public boolean isIs_my_praise() {
+            public int isIs_my_praise() {
                 return is_my_praise;
             }
 
-            public void setIs_my_praise(boolean is_my_praise) {
+            public void setIs_my_praise(int is_my_praise) {
                 this.is_my_praise = is_my_praise;
             }
 
@@ -258,7 +285,7 @@ public class KeywordBean extends BaseBean implements Serializable {
                 this.comment_list = comment_list;
             }
 
-            public static class UserInfoBean implements Serializable{
+            public static class UserInfoBean implements Serializable {
                 /**
                  * user_id : 60001
                  * user_nickname : 荧念一生
@@ -268,6 +295,33 @@ public class KeywordBean extends BaseBean implements Serializable {
                 private int user_id;
                 private String user_nickname;
                 private String user_logo;
+                private String user_score;
+                private String partner_type;
+                private int user_level;
+
+                public String getUser_score() {
+                    return user_score;
+                }
+
+                public void setUser_score(String user_score) {
+                    this.user_score = user_score;
+                }
+
+                public String getPartner_type() {
+                    return partner_type;
+                }
+
+                public void setPartner_type(String partner_type) {
+                    this.partner_type = partner_type;
+                }
+
+                public int getUser_level() {
+                    return user_level;
+                }
+
+                public void setUser_level(int user_level) {
+                    this.user_level = user_level;
+                }
 
                 public int getUser_id() {
                     return user_id;
@@ -294,7 +348,7 @@ public class KeywordBean extends BaseBean implements Serializable {
                 }
             }
 
-            public static class CommentListBean implements Serializable{
+            public static class CommentListBean implements Serializable {
                 /**
                  * id : 510
                  * content : 喜欢这种风格
@@ -331,7 +385,7 @@ public class KeywordBean extends BaseBean implements Serializable {
             }
         }
 
-        public static class YojListBean implements Serializable{
+        public static class YojListBean implements Serializable {
             /**
              * yo_id : 5028
              * title : 重庆酉州古城、桃花源、武隆仙女山游记，感受陶渊明笔下仙境
@@ -361,7 +415,7 @@ public class KeywordBean extends BaseBean implements Serializable {
             private String p_end;
             private int count_dates;
             private String cost;
-            private boolean is_my_praise;
+            private int is_my_praise;
             private UserInfoBeanX user_info;
             private List<UsersPraiseBean> users_praise;
             private List<CommentListBeanX> comment_list;
@@ -454,11 +508,11 @@ public class KeywordBean extends BaseBean implements Serializable {
                 this.cost = cost;
             }
 
-            public boolean isIs_my_praise() {
+            public int isIs_my_praise() {
                 return is_my_praise;
             }
 
-            public void setIs_my_praise(boolean is_my_praise) {
+            public void setIs_my_praise(int is_my_praise) {
                 this.is_my_praise = is_my_praise;
             }
 
@@ -486,7 +540,7 @@ public class KeywordBean extends BaseBean implements Serializable {
                 this.comment_list = comment_list;
             }
 
-            public static class UserInfoBeanX implements Serializable{
+            public static class UserInfoBeanX implements Serializable {
                 /**
                  * user_id : 60001
                  * user_nickname : 荧念一生
@@ -496,6 +550,33 @@ public class KeywordBean extends BaseBean implements Serializable {
                 private int user_id;
                 private String user_nickname;
                 private String user_logo;
+                private String user_score;
+                private String partner_type;
+                private int user_level;
+
+                public String getUser_score() {
+                    return user_score;
+                }
+
+                public void setUser_score(String user_score) {
+                    this.user_score = user_score;
+                }
+
+                public String getPartner_type() {
+                    return partner_type;
+                }
+
+                public void setPartner_type(String partner_type) {
+                    this.partner_type = partner_type;
+                }
+
+                public int getUser_level() {
+                    return user_level;
+                }
+
+                public void setUser_level(int user_level) {
+                    this.user_level = user_level;
+                }
 
                 public int getUser_id() {
                     return user_id;
@@ -522,7 +603,7 @@ public class KeywordBean extends BaseBean implements Serializable {
                 }
             }
 
-            public static class UsersPraiseBean implements Serializable{
+            public static class UsersPraiseBean implements Serializable {
                 /**
                  * user_id : 60106
                  * user_nickname : 未来的小人节
@@ -558,7 +639,7 @@ public class KeywordBean extends BaseBean implements Serializable {
                 }
             }
 
-            public static class CommentListBeanX implements Serializable{
+            public static class CommentListBeanX implements Serializable {
                 /**
                  * id : 14651
                  * content : 深深被美景吸引了
