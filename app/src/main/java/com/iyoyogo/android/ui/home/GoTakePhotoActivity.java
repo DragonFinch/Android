@@ -188,7 +188,6 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
         super.initView();
         StatusBarCompat.setStatusBarColor(this, Color.BLACK);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            // 透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             mStatusBar.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UiUtils.getStatusHeight(this)));
         }
@@ -355,9 +354,7 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
         switch (view.getId()) {
             case R.id.iv_photo_album_sub:
             case R.id.iv_photo_album:
-                NvsSize capturePreviewVideoSize = mStreamingContext.getCapturePreviewVideoSize(mCurrentDeviceIndex);
-                Log.d(TAG, "capturePreviewVideoSize.height:" + capturePreviewVideoSize.height);
-                Log.d(TAG, "capturePreviewVideoSize.width:" + capturePreviewVideoSize.width);
+               startActivity(new Intent(this,GoSelectImageActivity.class));
                 break;
             case R.id.iv_take_sub:
             case R.id.iv_take:
@@ -455,6 +452,7 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
                 startCapturePreview(true);
                 break;
             case R.id.iv_go_list:
+                startActivity(new Intent(this,SameActivity.class));
                 break;
         }
     }

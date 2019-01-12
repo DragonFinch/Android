@@ -474,9 +474,11 @@
         <activity
             android:name=".ui.home.yoji.PhotoActivity"
             android:theme="@style/AppTheme.Full" />
-        <activity android:name=".ui.home.GoTakePhotoActivity"></activity>
-        <activity android:name=".ui.mine.WebViewActivity"></activity>
-        <activity android:name=".ui.home.PreviewGoTakePhotoActivity"></activity>
+        <activity android:name=".ui.home.GoTakePhotoActivity" />
+        <activity android:name=".ui.mine.WebViewActivity" />
+        <activity android:name=".ui.home.PreviewGoTakePhotoActivity" />
+        <activity android:name=".ui.home.SameActivity" />
+        <activity android:name=".ui.home.GoSelectImageActivity"></activity>
     </application>
 
 </manifest>

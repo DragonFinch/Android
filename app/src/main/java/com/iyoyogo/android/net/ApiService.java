@@ -5,6 +5,7 @@ import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.HisFansBean;
 import com.iyoyogo.android.bean.HisPositionBean;
 import com.iyoyogo.android.bean.PublishSucessBean;
+import com.iyoyogo.android.bean.SameBean;
 import com.iyoyogo.android.bean.VipCenterBean;
 import com.iyoyogo.android.bean.collection.AttentionsBean;
 import com.iyoyogo.android.bean.collection.CommendAttentionBean;
@@ -103,7 +104,7 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("index.php/api/interest/update")
-    Observable<BaseBean> addInterest(@FieldMap Map<String,Object> map);
+    Observable<BaseBean> addInterest(@FieldMap Map<String, Object> map);
 
     /**
      * 登录
@@ -246,22 +247,22 @@ public interface ApiService {
      * size	是	string	比例参数 例如 4:9
      */
     Observable<PublishSucessBean> publish_yoXiu(@Field("user_id") String user_id,
-                                       @Field("user_token") String user_token,
-                                       @Field("yo_id") int yo_id,
-                                       @Field("file_path") String file_path,
-                                       @Field("file_type") int file_type,
-                                       @Field("file_desc") String file_desc,
-                                       @Field("channel_ids") String channel_ids,
-                                       @Field("open") int open,
-                                       @Field("valid") int valid,
-                                       @Field("position_name") String position_name,
-                                       @Field("position_areas") String position_areas,
-                                       @Field("position_address") String position_address,
-                                       @Field("position_city")String position_city,
-                                       @Field("lat")String lat,
-                                       @Field("lng")String lng,
-                                       @Field("filter_id") String filter_id,
-                                       @Field("size") String size
+                                                @Field("user_token") String user_token,
+                                                @Field("yo_id") int yo_id,
+                                                @Field("file_path") String file_path,
+                                                @Field("file_type") int file_type,
+                                                @Field("file_desc") String file_desc,
+                                                @Field("channel_ids") String channel_ids,
+                                                @Field("open") int open,
+                                                @Field("valid") int valid,
+                                                @Field("position_name") String position_name,
+                                                @Field("position_areas") String position_areas,
+                                                @Field("position_address") String position_address,
+                                                @Field("position_city") String position_city,
+                                                @Field("lat") String lat,
+                                                @Field("lng") String lng,
+                                                @Field("filter_id") String filter_id,
+                                                @Field("size") String size
 
     );
 
@@ -278,6 +279,17 @@ public interface ApiService {
     Observable<YouXiuListBean> getYoXiuList(@Field("user_id") String user_id,
                                             @Field("user_token") String user_token,
                                             @Field("page") int page);
+
+    //获取同款
+    @POST("index.php/api/yoxgo/get_list")
+    @FormUrlEncoded
+    Observable<SameBean> getSameList(@Field("user_id") String user_id,
+                                     @Field("user_token") String user_token,
+                                     @Field("lng") String lng,
+                                     @Field("lat") String lat,
+                                     @Field("page") int page,
+                                     @Field("page_size") String page_size
+    );
 
     //点赞
     @POST("index.php/api/praise/click")
@@ -639,6 +651,7 @@ public interface ApiService {
     @POST("index.php/api/yo/delete")
     @FormUrlEncoded
     Observable<BaseBean> deleteYo(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id);
+
     @POST("index.php/api/comment/delete")
     @FormUrlEncoded
     Observable<BaseBean> deleteComment(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("comment_id") int comment_id);
@@ -655,6 +668,7 @@ public interface ApiService {
     Observable<PublishYoJiBean> getYoJiData(@Field("user_id") String user_id,
                                             @Field("user_token") String user_token,
                                             @Field("yo_id") String yo_id);
+
     //yo秀数据
     @POST("index.php/api/yox/details_for_edit")
     @FormUrlEncoded
@@ -684,45 +698,50 @@ public interface ApiService {
     //首页  搜索
     @POST("index.php/api/search/index")
     @FormUrlEncoded
-    Observable<KeywordBean> keyword(@Field("user_id")String user_id, @Field("user_token") String user_token , @Field("search") String search, @Field("type")String type);
+    Observable<KeywordBean> keyword(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("search") String search, @Field("type") String type);
 
 
     //首页  搜索
     @POST("index.php/api/attention/click")
     @FormUrlEncoded
-    Observable<GuanZhuBean> keyword(@Field("user_id")String user_id, @Field("user_token") String user_token, @Field("target_id")String target_id);
+    Observable<GuanZhuBean> keyword(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("target_id") String target_id);
 
     //首页  选择城市
     @POST("index.php/api/city/get_list")
     @FormUrlEncoded
-    Observable<MapBean> getChengShi(@Field("user_id")String user_id, @Field("user_token") String user_token, @Field("type")String type, @Field("search")String search);
+    Observable<MapBean> getChengShi(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("type") String type, @Field("search") String search);
+
     //首页  个人信息
     @POST("index.php/api/city/get_list")
     @FormUrlEncoded
-    Observable<MapBean> getChengShiLieBiao(@Field("user_id")String user_id, @Field("user_token") String user_token, @Field("type")String type, @Field("search")String search);
+    Observable<MapBean> getChengShiLieBiao(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("type") String type, @Field("search") String search);
+
     //首页  个人信息
     @POST("index.php/api/city/get_list")
     @FormUrlEncoded
-    Observable<MapBean> getGps(@Field("user_id")String user_id, @Field("user_token") String user_token, @Field("type")String type, @Field("search")String search);
+    Observable<MapBean> getGps(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("type") String type, @Field("search") String search);
 
     //首页  搜索 关键字搜索
     @POST("index.php/api/search/get_keywords")
     @FormUrlEncoded
-    Observable<KeywordUserBean> getserarch(@Field("user_id")String user_id, @Field("user_token") String user_token, @Field("search")String search);
+    Observable<KeywordUserBean> getserarch(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("search") String search);
 
     //index.php/api/yox/count_video_inc
     //浏览量加1
     @POST("index.php/api/yox/count_video_inc")
     @FormUrlEncoded
-    Observable<BaseBean> browse(@Field("user_id")String user_id, @Field("user_token") String user_token, @Field("yo_id")String yo_id);
+    Observable<BaseBean> browse(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") String yo_id);
+
     //设置位置
     @POST("index.php/api/userposition/set")
     @FormUrlEncoded
-    Observable<BaseBean>  setLocation(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("lng")String lng,@Field("lat")String lat);
+    Observable<BaseBean> setLocation(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("lng") String lng, @Field("lat") String lat);
+
     //获取yo秀相同位置的列表
     @POST("index.php/api/clicksearch/get_yo_position_list")
     @FormUrlEncoded
-    Observable<YouXiuListBean> getYoXiuPosition(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("position")String position,@Field("type")int type,@Field("page")int page,@Field("page_size")String page_size);
+    Observable<YouXiuListBean> getYoXiuPosition(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("position") String position, @Field("type") int type, @Field("page") int page, @Field("page_size") String page_size);
+
     //index.php/api/userbind/bind
     @POST("index.php/api/userbind/bind")
     @FormUrlEncoded
@@ -732,6 +751,6 @@ public interface ApiService {
      * nickname	是	str	nickname
      * logo	是	str	logo
      */
-    Observable<BaseBean> update_bind(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("type")int type,@Field("openid")String openid,@Field("nickname")String nickname,@Field("logo")String logo);
+    Observable<BaseBean> update_bind(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("type") int type, @Field("openid") String openid, @Field("nickname") String nickname, @Field("logo") String logo);
 }
 

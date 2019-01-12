@@ -24,9 +24,14 @@ import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.camera.utils.PathUtils;
 import com.iyoyogo.android.camera.utils.Util;
+import com.iyoyogo.android.ui.home.yoxiu.NewPublishYoXiuActivity;
 import com.iyoyogo.android.utils.util.UiUtils;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.entity.LocalMedia;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -120,7 +125,13 @@ public class PreviewGoTakePhotoActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.ll_publish:
-
+                List<LocalMedia> localMedia=new ArrayList<>();
+                LocalMedia local=new LocalMedia();
+                local.setCompressPath(path);
+                local.setPath(path);
+                localMedia.add(local);
+                startActivity(PictureSelector.putIntentResult(localMedia).setClass(this,NewPublishYoXiuActivity.class));
+                finish();
                 break;
 
             case R.id.rl_video:
