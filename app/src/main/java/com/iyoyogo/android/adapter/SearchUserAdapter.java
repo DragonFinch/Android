@@ -77,6 +77,48 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Vi
             holder.tv_guanzhu.setBackgroundResource(R.drawable.orange_fillet_yiguanzhu);
         }
 
+        holder.medal.setVisibility(View.VISIBLE);
+        holder.img_level.setVisibility(View.VISIBLE);
+        String partner_type = mUser.get(position).getPartner_type();
+        if (partner_type .equals("0") ) {
+            mUser.get(position).setPartner_type("0");
+            holder.medal.setVisibility(View.INVISIBLE);
+        } else if (partner_type .equals("1") ) {
+            mUser.get(position).setPartner_type("1");
+            holder.medal.setImageResource(R.mipmap.daren);
+        } else if (partner_type .equals("2") ) {
+            mUser.get(position).setPartner_type("2");
+            holder.medal.setImageResource(R.mipmap.hongren);
+        } else if (partner_type .equals("3") ) {
+            mUser.get(position).setPartner_type("3");
+            holder.medal.setImageResource(R.mipmap.kol);
+        } else {
+            holder.medal.setVisibility(mUser.get(position).getPartner_type() .equals("0")  ? View.INVISIBLE : View.VISIBLE);
+        }
+
+        int user_level = mUser.get(position).getUser_level();
+        if (user_level == 0) {
+            holder.img_level.setVisibility(View.GONE);
+        } else if (user_level == 1) {
+            mUser.get(position).setUser_level(1);
+            holder.img_level.setImageResource(R.mipmap.lv1);
+
+        } else if (user_level == 2) {
+            mUser.get(position).setUser_level(2);
+            holder.img_level.setImageResource(R.mipmap.lv2);
+        } else if (user_level == 3) {
+            mUser.get(position).setUser_level(3);
+            holder.img_level.setImageResource(R.mipmap.lv3);
+        } else if (user_level == 4) {
+            mUser.get(position).setUser_level(4);
+            holder.img_level.setImageResource(R.mipmap.lv4);
+        } else if (user_level == 5) {
+            mUser.get(position).setUser_level(5);
+            holder.img_level.setImageResource(R.mipmap.lv5);
+        } else {
+            holder.img_level.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     /* @NonNull
@@ -117,7 +159,7 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView user_nickname,count_yox,count_yoj,tv_guanzhu;
-        ImageView user_logo;
+        ImageView user_logo,medal,img_level;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -126,6 +168,8 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Vi
             count_yoj = itemView.findViewById(R.id.count_yoj);
             tv_guanzhu = itemView.findViewById(R.id.tv_guanzhu);
             user_logo = itemView.findViewById(R.id.user_logo);
+            medal = itemView.findViewById(R.id.medal);
+            img_level =itemView.findViewById(R.id.user_level_img);
             EventBus.getDefault().post(tv_guanzhu);
         }
     }

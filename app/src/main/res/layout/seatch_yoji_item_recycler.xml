@@ -38,6 +38,14 @@
             android:text="温暖的日子"
             android:textColor="#ff333333"
             android:textSize="12sp" />
+        <ImageView
+            android:id="@+id/user_level_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_6"
+            android:layout_toRightOf="@+id/user_name"
+            android:src="@mipmap/lv1"
+            android:visibility="visible" />
 
         <LinearLayout
             android:id="@+id/look_ll"

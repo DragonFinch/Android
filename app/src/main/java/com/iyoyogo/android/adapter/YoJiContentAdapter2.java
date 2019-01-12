@@ -87,9 +87,11 @@ public class YoJiContentAdapter2 extends RecyclerView.Adapter<YoJiContentAdapter
         viewHolder.num_like.setText(mList.get(position).getCount_praise() + "");
         viewHolder.user_name.setText(mList.get(position).getUser_info().getUser_nickname());
         viewHolder.num_see.setText(mList.get(position).getCount_view() + "");
-        Glide.with(context).load(mList.get(position).getUser_info().getUser_logo()).into(viewHolder.user_icon);
+        RequestOptions requestOptions1 = new RequestOptions().centerCrop().transform(new GlideRoundTransform(context, 8));
+        requestOptions1.placeholder(R.mipmap.default_touxiang);
+        requestOptions1.error(R.mipmap.default_touxiang);
+        Glide.with(context).load(mList.get(position).getUser_info().getUser_logo()).apply(requestOptions1).into(viewHolder.user_icon);
         viewHolder.tv_title.setText(mList.get(position).getTitle());
-
         viewHolder.user_icon.setOnClickListener(new View.OnClickListener() {//头像
             @Override
             public void onClick(View v) {

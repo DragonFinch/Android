@@ -57,10 +57,13 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
         viewHolder.tv_yoxiu_desc.setText(mList.get(position).getPosition_name());
         viewHolder.num_like.setText(mList.get(position).getCount_praise() + "");
         viewHolder.user_name.setText(mList.get(position).getUser_nickname());
-        viewHolder.comment_all.setText("全部评论(" + mList.get(position).getCount_view() + ")");
+        viewHolder.comment_all.setText("全部评论(" + mList.get(position).getCount_comment() + ")");
         int file_type = mList.get(position).getFile_type();
+        RequestOptions requestOptions1 = new RequestOptions().centerCrop().transform(new GlideRoundTransform(context, 8));
+        requestOptions1.placeholder(R.mipmap.default_touxiang);
+        requestOptions1.error(R.mipmap.default_touxiang);
         if (file_type == 2) {
-            Glide.with(context).load(mList.get(position).getUser_logo()).into(viewHolder.user_icon);
+            Glide.with(context).load(mList.get(position).getUser_logo()).apply(requestOptions1).into(viewHolder.user_icon);
             RequestOptions myOptions = new RequestOptions()
                     .centerCrop()
                     .transform(new GlideRoundTransform(context, 8));
@@ -68,7 +71,7 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
                     .apply(myOptions).into(viewHolder.img_yoxiu);
             viewHolder.img_video.setVisibility(View.VISIBLE);
         } else {
-            Glide.with(context).load(mList.get(position).getUser_logo()).into(viewHolder.user_icon);
+            Glide.with(context).load(mList.get(position).getUser_logo()).apply(requestOptions1).into(viewHolder.user_icon);
             RequestOptions myOptions = new RequestOptions()
                     .centerCrop()
                     .transform(new GlideRoundTransform(context, 8));
