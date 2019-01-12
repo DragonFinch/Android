@@ -41,8 +41,8 @@ public class YoXiuListItemAdapter extends RecyclerView.Adapter<YoXiuListItemAdap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        SpannableString msp1 = new SpannableString(mList.get(position).getUser_nickname() + "  " + mList.get(position).getContent());
-        msp1.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), 0, mList.get(position).getUser_nickname().length() + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
+        SpannableString msp1 = new SpannableString(mList.get(position).getUser_nickname() + " : " + mList.get(position).getContent());
+        msp1.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), 0, mList.get(position).getUser_nickname().length() + 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
         viewHolder.tv_content.setText(msp1);
         viewHolder.itemView.setTag(position);
     }

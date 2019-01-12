@@ -79,10 +79,10 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
     Unbinder unbinder;
     private String user_id;
     private String user_token;
-    public String yo_user_id;
+    public  String yo_user_id;
     MyRefreshAnimHeader mRefreshAnimHeader;
-    public YoJiCenterAdapter yoJiCenterAdapter;
-    public YoJiContentAdapter2 yoJiContentAdapter2;
+    public  YoJiCenterAdapter yoJiCenterAdapter;
+    public  YoJiContentAdapter2 yoJiContentAdapter2;
     private List<YoJiContentBean.DataBean.ListBean> list;
     public static List<YoJiContentBean.DataBean.ListBean> mList;
 
@@ -166,9 +166,8 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
     }
 
     public void getYoJiContentSuccess(YoJiContentBean.DataBean data) {
-        list = data.getList();
-        mList.addAll(list);
-        if (list.size() == 0) {
+        mList.addAll(data.getList());
+        if (mList.size() == 0) {
             if (yo_user_id.equals(user_id)) {
                 recyclerYoji.setVisibility(View.GONE);
                 listBlankMe.setVisibility(View.VISIBLE);

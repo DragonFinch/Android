@@ -144,7 +144,7 @@
         android:drawableRight="@mipmap/next"
         android:drawablePadding="@dimen/dp_8"
         android:text="全部评论(666)"
-        android:textColor="#ff888888"
+        android:textColor="#666666"
         android:textSize="@dimen/sp_12" />
 
     <View

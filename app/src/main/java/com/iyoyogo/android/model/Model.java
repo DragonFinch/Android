@@ -184,8 +184,8 @@ public class Model {
      * @param type
      * @return
      */
-    public Observable<HomeBean> homePager(String user_id, String user_token, String type) {
-        return HttpClient.getApiService().homePager(user_id, user_token, type)
+    public Observable<HomeBean> homePager(String user_id, String user_token, String type,String city) {
+        return HttpClient.getApiService().homePager(user_id, user_token, type,city)
                 .compose(this.switchThread());
     }
 

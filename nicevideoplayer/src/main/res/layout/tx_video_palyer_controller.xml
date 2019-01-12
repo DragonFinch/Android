@@ -148,6 +148,7 @@
             android:drawableLeft="@drawable/ic_palyer_share"
             android:drawablePadding="4dp"
             android:padding="8dp"
+            android:visibility="gone"
             android:text="分享"
             android:textColor="@android:color/white"
             android:textSize="13sp"/>

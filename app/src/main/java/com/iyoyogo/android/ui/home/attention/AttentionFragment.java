@@ -42,6 +42,7 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
     Unbinder unbinder;
     private String user_id;
     private String user_token;
+    private String city;
 
 
     @Override
@@ -74,23 +75,43 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
     @Override
     protected void initData() {
         super.initData();
+        city = SpUtils.getString(getContext(), "city", null);
+        MyRefreshAnimHeader mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
-        MyRefreshAnimHeader mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
         setHeader(mRefreshAnimHeader);
-        refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
-        //下拉刷新
-        refreshLayout.setEnableRefresh(true);
-        refreshLayout.setFooterHeight(1.0f);
-        refreshLayout.autoRefresh();
-        refreshLayout.finishRefresh(1050);
-        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                refreshLayout.finishRefresh(1050);
-                mPresenter.banner(user_id, user_token, "attention");
-            }
-        });
+        if (city !=null){
+            refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
+            //下拉刷新
+            refreshLayout.setEnableRefresh(true);
+            refreshLayout.setFooterHeight(1.0f);
+            refreshLayout.autoRefresh();
+            refreshLayout.finishRefresh(1050);
+            refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+                @Override
+                public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                    refreshLayout.finishRefresh(1050);
+                    mPresenter.banner(user_id, user_token, "attention", city);
+                }
+            });
+        }else {
+
+            refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
+            //下拉刷新
+            refreshLayout.setEnableRefresh(true);
+            refreshLayout.setFooterHeight(1.0f);
+            refreshLayout.autoRefresh();
+            refreshLayout.finishRefresh(1050);
+            refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+                @Override
+                public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                    refreshLayout.finishRefresh(1050);
+                    mPresenter.banner(user_id, user_token, "attention","");
+                }
+            });
+
+        }
+
     }
 
     @Override
@@ -105,13 +126,13 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
        homeRecyclerViewAdapter.onRetryClickListener(new HomeRecyclerViewAdapter.OnRetryConnection() {
            @Override
            public void on_retry() {
-               mPresenter.banner(user_id,user_token,"attention");
+               mPresenter.banner(user_id,user_token,"attention",city);
            }
        });
        homeRecyclerViewAdapter.onItemRetryOnClickListener(new HomeRecyclerViewAdapter.OnRetryClickListener() {
            @Override
            public void onretry() {
-               mPresenter.banner(user_id,user_token,"attention");
+               mPresenter.banner(user_id,user_token,"attention",city);
            }
        });
     }
