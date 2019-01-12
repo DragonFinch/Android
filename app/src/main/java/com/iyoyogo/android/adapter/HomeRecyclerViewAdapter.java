@@ -61,6 +61,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             mHandler.postDelayed(runnableForViewPager, TIME);
         }
     };
+
     //使用Thread实现ViewPagerBanner图的效果
     Runnable runnableForViewPager = new Runnable() {
         @Override
