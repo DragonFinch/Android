@@ -48,7 +48,6 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
     private List<CommentBean.DataBean.ListBean> mList;
     private String user_id;
     private String user_token;
-    private int yo_user_id;
     private final int MAX_LINE_COUNT = 7;//最大显示行数
 
     private final int STATE_UNKNOW = -1;//未知状态
@@ -73,6 +72,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
     public Holder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_comment, null);
         Holder holder = new Holder(view);
+        user_id = SpUtils.getString(context, "user_id", null);
         return holder;
     }
 
@@ -85,7 +85,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
         //点击空白处时，隐藏掉pop窗口
         //广告信息
         TextView tv_advert = view.findViewById(R.id.tv_advert);
-        user_id = SpUtils.getString(context, "user_id", null);
+
         user_token = SpUtils.getString(context, "user_token", null);
         tv_advert.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -321,6 +321,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
                 }
             }
         });
+        holder.tv_content.setText(mList.get(position).getContent());
         holder.tv_comment_like_num.setText(listBean.getCount_praise() + "");
         holder.tv_huifu_num.setText(listBean.getCount_comment() + "");
         holder.tv_time.setText(listBean.getCreate_time());
@@ -329,8 +330,6 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
         requestOptions.error(R.mipmap.default_touxiang)
                 .placeholder(R.mipmap.default_touxiang);
         if (listBean.getUser_logo().equals("")) {
-            Log.d("YoJiDetailCommentAdapte", "aa" + listBean.getUser_logo());
-            Log.d("YoJiDetailCommentAdapte", "aa" + listBean.getUser_logo().length());
             holder.img_user_icon.setImageResource(R.mipmap.default_touxiang);
         } else {
             Glide.with(context).load(listBean.getUser_logo())
@@ -397,9 +396,9 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
         holder.img_user_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                yo_user_id = mList.get(position).getUser_id();
-                String yo_id = yo_user_id+"";
-                if (yo_id.equals(user_id)){
+                int yo_user_id = mList.get(position).getUser_id();
+                String yo_user_ids = yo_user_id+"";
+                if (yo_user_ids.equals(user_id)){
                     Intent intent = new Intent(context, Personal_homepage_Activity.class);
                     intent.putExtra("yo_user_id", String.valueOf(yo_user_id));
                     context.startActivity(intent);
@@ -410,14 +409,63 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
                 }
             }
         });
+
+        holder.medal.setVisibility(View.VISIBLE);
+        int user_level = mList.get(position).getUser_level();
+        holder.medal.setVisibility(View.VISIBLE);
+        int partner_type = mList.get(position).getPartner_type();
+        if (partner_type == 0) {
+            mList.get(position).setPartner_type(0);
+            holder.medal.setVisibility(View.INVISIBLE);
+        } else if (partner_type == 1) {
+            mList.get(position).setPartner_type(1);
+            holder.medal.setImageResource(R.mipmap.daren);
+        } else if (partner_type == 2) {
+            mList.get(position).setPartner_type(2);
+            holder.medal.setImageResource(R.mipmap.hongren);
+        } else if (partner_type == 3) {
+            mList.get(position).setPartner_type(3);
+            holder.medal.setImageResource(R.mipmap.kol);
+        } else {
+            holder.medal.setVisibility(mList.get(position).getPartner_type() == 0 ? View.INVISIBLE : View.VISIBLE);
+        }
+        if (user_level == 0) {
+            holder.img_level.setVisibility(View.GONE);
+        } else if (user_level == 1) {
+            mList.get(position).setUser_level(1);
+            holder.img_level.setImageResource(R.mipmap.lv1);
+            holder.img_level.setVisibility(View.VISIBLE);
+        } else if (user_level == 2) {
+            mList.get(position).setUser_level(2);
+            holder.img_level.setImageResource(R.mipmap.lv2);
+            holder.img_level.setVisibility(View.VISIBLE);
+        } else if (user_level == 3) {
+            mList.get(position).setUser_level(3);
+            holder.img_level.setImageResource(R.mipmap.lv3);
+            holder.img_level.setVisibility(View.VISIBLE);
+        } else if (user_level == 4) {
+            mList.get(position).setUser_level(4);
+            holder.img_level.setImageResource(R.mipmap.lv4);
+            holder.img_level.setVisibility(View.VISIBLE);
+        } else if (user_level == 5) {
+            mList.get(position).setUser_level(5);
+            holder.img_level.setImageResource(R.mipmap.lv5);
+            holder.img_level.setVisibility(View.VISIBLE);
+        } else {
+            holder.img_level.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     private void initDelete(Holder holder, String yo_user_id, int comment_id,  int position) {
         View view = LayoutInflater.from(context).inflate(R.layout.popup_delete_or_report, null);
         PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 125), ViewGroup.LayoutParams.WRAP_CONTENT, true);
         String user_id = SpUtils.getString(context, "user_id", null);
+        String user_token = SpUtils.getString(context, "user_token", null);
         TextView tv_delete = view.findViewById(R.id.tv_delete);
         TextView tv_report = view.findViewById(R.id.tv_report);
+        Log.d("YoJiDetailCommentAdapte", yo_user_id);
+        Log.d("YoJiDetailCommentAdapte", user_id);
         if (yo_user_id.equals(user_id)) {
             tv_delete.setVisibility(View.VISIBLE);
             tv_report.setVisibility(View.GONE);
@@ -464,7 +512,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
     public class Holder extends RecyclerView.ViewHolder {
         CircleImageView img_user_icon;
         TextView tv_content, tv_time, user_name, tv_comment_like_num, tv_huifu_num,homeShowOrHide;
-        ImageView img_comment_like, img_huifu, img_function;
+        ImageView img_comment_like, img_huifu, img_function,medal,img_level;
 
         public Holder(@NonNull View itemView) {
             super(itemView);
@@ -478,6 +526,8 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
             img_comment_like = itemView.findViewById(R.id.img_comment_like);
             img_huifu = itemView.findViewById(R.id.img_huifu);
             img_function = itemView.findViewById(R.id.img_function);
+            medal = itemView.findViewById(R.id.medal);
+            img_level =itemView.findViewById(R.id.img_level);
         }
     }
 }

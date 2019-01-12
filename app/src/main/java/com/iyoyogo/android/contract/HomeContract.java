@@ -11,6 +11,6 @@ public interface HomeContract {
         void  bannerSuccess(HomeBean.DataBean data);
     }
     interface Presenter extends IBasePresenter{
-        void banner(String user_id, String user_token, String type);
+        void banner(String user_id, String user_token, String type,String city);
     }
 }

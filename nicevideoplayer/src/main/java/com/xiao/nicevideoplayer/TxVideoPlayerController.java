@@ -140,8 +140,9 @@ public class TxVideoPlayerController
         mRetry.setOnClickListener(this);
         mReplay.setOnClickListener(this);
         mShare.setOnClickListener(this);
-        mSeek.setOnSeekBarChangeListener(this);
+
         this.setOnClickListener(this);
+        mCenterStart.setVisibility(GONE);
     }
 
     @Override
@@ -171,6 +172,11 @@ public class TxVideoPlayerController
         if (clarities != null && clarities.size() > 1) {
             mNiceVideoPlayer.setUp(clarities.get(defaultClarityIndex).videoUrl, null);
         }
+        if (mNiceVideoPlayer.isIdle()) {
+            mNiceVideoPlayer.start();
+
+        }
+        mSeek.setOnSeekBarChangeListener(this);
     }
 
     /**
@@ -354,9 +360,7 @@ public class TxVideoPlayerController
     @Override
     public void onClick(View v) {
         if (v == mCenterStart) {
-            if (mNiceVideoPlayer.isIdle()) {
-                mNiceVideoPlayer.start();
-            }
+
         } else if (v == mBack) {
             Activity activity = (Activity) mContext;
             activity.finish();
@@ -477,9 +481,10 @@ public class TxVideoPlayerController
         if (mNiceVideoPlayer.isBufferingPaused() || mNiceVideoPlayer.isPaused()) {
             mNiceVideoPlayer.restart();
         }
-        long position = (long) (mNiceVideoPlayer.getDuration() * seekBar.getProgress() / 100f);
+        long position = (long) (mNiceVideoPlayer.getDuration() * seekBar.getProgress() / 10f);
         mNiceVideoPlayer.seekTo(position);
         startDismissTopBottomTimer();
+        mNiceVideoPlayer.start(position);
     }
 
     @Override

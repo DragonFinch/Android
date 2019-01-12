@@ -76,6 +76,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
     public static final String KEY_TITLE = "title";
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_EXTRAS = "extras";
+    private String city;
 
     @Override
     protected void initView() {
@@ -103,23 +104,43 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
     @Override
     protected void initData() {
         super.initData();
+        city = SpUtils.getString(getContext(), "city", null);
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
-        MyRefreshAnimHeader mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
-        setHeader(mRefreshAnimHeader);
-        refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
-        //下拉刷新
-        refreshLayout.setEnableRefresh(true);
-        refreshLayout.setFooterHeight(1.0f);
-        refreshLayout.autoRefresh();
-        refreshLayout.finishRefresh(1050);
-        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                refreshLayout.finishRefresh(1050);
-                mPresenter.banner(user_id, user_token, "commend");
-            }
-        });
+        if (city != null) {
+            MyRefreshAnimHeader mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
+            setHeader(mRefreshAnimHeader);
+            refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
+            //下拉刷新
+            refreshLayout.setEnableRefresh(true);
+            refreshLayout.setFooterHeight(1.0f);
+            refreshLayout.autoRefresh();
+            refreshLayout.finishRefresh(1050);
+            refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+                @Override
+                public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                    refreshLayout.finishRefresh(1050);
+                    mPresenter.banner(user_id, user_token, "commend", city);
+                }
+            });
+        } else {
+            MyRefreshAnimHeader mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
+            setHeader(mRefreshAnimHeader);
+            refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
+            //下拉刷新
+            refreshLayout.setEnableRefresh(true);
+            refreshLayout.setFooterHeight(1.0f);
+            refreshLayout.autoRefresh();
+            refreshLayout.finishRefresh(1050);
+            refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+                @Override
+                public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                    refreshLayout.finishRefresh(1050);
+                    mPresenter.banner(user_id, user_token, "commend", "");
+                }
+            });
+        }
+
     }
 
     @Override
@@ -131,7 +152,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
         boolean isWifi = AppUtils.isWifi(getContext()); //是否处于WiFi状态
         if (isWifi) {
             Intent intent = new Intent(getContext(), UpdateService.class);
-            intent.putExtra("url",url);
+            intent.putExtra("url", url);
             getActivity().startService(intent);
             Toast.makeText(getContext(), "开始下载。", Toast.LENGTH_LONG).show();
         } else {
@@ -151,7 +172,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Intent intent = new Intent(getContext(), UpdateService.class);
-                    intent.putExtra("url",url);
+                    intent.putExtra("url", url);
                     getContext().startService(intent);
                     Toast.makeText(getContext(), "开始下载。", Toast.LENGTH_LONG).show();
                 }
@@ -262,7 +283,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
         homeRecyclerViewAdapter.onItemRetryOnClickListener(new HomeRecyclerViewAdapter.OnRetryClickListener() {
             @Override
             public void onretry() {
-                mPresenter.banner(user_id, user_token, "commend");
+                mPresenter.banner(user_id, user_token, "commend", city);
             }
         });
         String registrationID = JPushInterface.getRegistrationID(getContext());

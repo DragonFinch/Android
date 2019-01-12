@@ -3,100 +3,82 @@ package com.iyoyogo.android;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.Button;
+import android.widget.TextView;
 
-import com.iyoyogo.android.view.flowlayout.JLHorizontalScrollView;
+import com.iyoyogo.android.ui.common.MainActivity;
+import com.iyoyogo.android.widget.wheel.DateChooseWheelViewDialog;
 
-import java.util.ArrayList;
-import java.util.List;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class TestActivity extends AppCompatActivity  {
-    List<String> list = new ArrayList<>();
+public class TestActivity extends AppCompatActivity {
 
-    LinearLayout linearLayout;
 
-    JLHorizontalScrollView jhs;
+    @BindView(R.id.show_content_tv)
+    TextView showContentTv;
+    @BindView(R.id.start_date_btn)
+    Button startDateBtn;
+    @BindView(R.id.end_date_btn)
+    Button endDateBtn;
+    @BindView(R.id.date_valid_btn)
+    Button dateValidBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        linearLayout = (LinearLayout) findViewById(R.id.ll);
-        jhs = (JLHorizontalScrollView) findViewById(R.id.jhs);
+        ButterKnife.bind(this);
 
-        initList();
-        switchTagView(list);
-        findViewById(R.id.tv).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                list.clear();
-                list.add("态度恶劣");
-                list.add("服务周到");
-                list.add("迟到");
-                list.add("不专业");
-                list.add("仪表举止不得体");
-                list.add("没有良好购房建议");
-                list.add("专车体验不好");
-                list.add("服务");
-                list.add("讲解专业");
-                list.add("价值");
-                list.add("仪表举止得体");
-                list.add("考虑周全");
-                list.add("购房建议有价值");
-                list.add("为客户着想");
-                list.add("守时");
-                switchTagView(list);
-            }
-        });
 
-        findViewById(R.id.tv1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                list.clear();
-                initList();
-                switchTagView(list);
-            }
-        });
+//        setTime();
+// hour.getCurrentItem(), mins.getCurrentItem()
+
     }
 
-    private void switchTagView(List<String> list) {
-       /* jhs.setData(list, new JLHorizontalScrollView.OnCompleteCallback() {
-            @Override
-            public void onComplete(int count) {
-                linearLayout.removeAllViews();
-                for(int i = 0;i < count; i++){
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    RadioButton radioButton = new RadioButton(TestActivity.this);
-                    layoutParams.leftMargin = 20;
-                    radioButton.setButtonDrawable(R.drawable.radiobutton_selector);
-                    radioButton.setLayoutParams(layoutParams);
-                    radioButton.setClickable(false);
-                    if(i == 0){
-                        radioButton.setChecked(true);
+    @OnClick({R.id.start_date_btn, R.id.end_date_btn, R.id.date_valid_btn})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.start_date_btn:
+                DateChooseWheelViewDialog startDateChooseDialog = new DateChooseWheelViewDialog(TestActivity.this, new DateChooseWheelViewDialog.DateChooseInterface() {
+                    @Override
+                    public void getDateTime(String time, boolean longTimeChecked) {
+                        showContentTv.setText(time);
                     }
-                    linearLayout.addView(radioButton);
-                }
-            }
-
-            @Override
-            public void onScroll(int index) {
-                for(int i = 0;i<linearLayout.getChildCount(); i++){
-                    RadioButton radioButton = (RadioButton) linearLayout.getChildAt(i);
-                    if(i == index){
-                        radioButton.setChecked(true);
-                    }else{
-                        radioButton.setChecked(false);
-                    }
-                }
-            }
-        });*/
-    }
-
-    private void initList() {
-        for (int i = 0; i < 30; i++) {
-            list.add("---" + i + "---");
+                });
+                startDateChooseDialog.setDateDialogTitle("开始时间");
+                startDateChooseDialog.showDateChooseDialog();
+                break;
+            case R.id.end_date_btn:
+                DateChooseWheelViewDialog endDateChooseDialog = new DateChooseWheelViewDialog(TestActivity.this,
+                        new DateChooseWheelViewDialog.DateChooseInterface() {
+                            @Override
+                            public void getDateTime(String time, boolean longTimeChecked) {
+                                showContentTv.setText(time);
+                            }
+                        });
+                endDateChooseDialog.setTimePickerGone(true);
+                endDateChooseDialog.setDateDialogTitle("结束时间");
+                endDateChooseDialog.showDateChooseDialog();
+                break;
+            case R.id.date_valid_btn:
+                DateChooseWheelViewDialog dateValidChooseDialog = new DateChooseWheelViewDialog(TestActivity.this,
+                        new DateChooseWheelViewDialog.DateChooseInterface() {
+                            @Override
+                            public void getDateTime(String time, boolean longTimeChecked) {
+                                if (longTimeChecked) {
+                                    showContentTv.setText("长期  ");
+                                } else {
+                                    showContentTv.setText(time);
+                                }
+                            }
+                        });
+                dateValidChooseDialog.setTimePickerGone(true);
+                dateValidChooseDialog.showLongTerm(true);
+                dateValidChooseDialog.setDateDialogTitle("身份证到期时间");
+                dateValidChooseDialog.showDateChooseDialog();
+                break;
         }
-
-
     }
 }

@@ -225,13 +225,14 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
         } else if (score >= 100 && score < 199) {
             tvVip.setText("Lv1");
             imgLevel.setVisibility(View.VISIBLE);
+            imgLevel.setImageResource(R.mipmap.lv1);
             imgVipSign.setImageResource(R.mipmap.level_one);
             tvFlag.setText(list.get(1).getName());
             myIcon.setBackgroundResource(R.mipmap.mem_xiansan);
         } else if (score >= 200 && score < 499) {
             tvVip.setText("Lv2");
             imgLevel.setVisibility(View.VISIBLE);
-            imgLevel.setImageResource(R.mipmap.lv3);
+            imgLevel.setImageResource(R.mipmap.lv2);
             imgVipSign.setImageResource(R.mipmap.level_three);
             tvFlag.setText(list.get(2).getName());
             myIcon.setBackgroundResource(R.mipmap.mem_gongcheng);

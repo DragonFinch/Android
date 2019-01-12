@@ -57,6 +57,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             super.handleMessage(msg);
             int item = viewpager.getCurrentItem() + 1;
 //            viewPager.setCurrentItem(item);
+
             mHandler.postDelayed(runnableForViewPager, TIME);
         }
     };

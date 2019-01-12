@@ -47,7 +47,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SourceChooseActivity extends AppCompatActivity {
+public class
+SourceChooseActivity extends AppCompatActivity {
 
 
     @BindView(R.id.img_yuantu)

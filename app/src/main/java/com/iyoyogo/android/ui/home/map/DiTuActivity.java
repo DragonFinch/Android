@@ -48,7 +48,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> implements View.OnClickListener, MapSearchContract.View {
+public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> implements  MapSearchContract.View {
 
 
     @BindView(R.id.gson)
@@ -80,8 +80,7 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
     //用户输入的搜索内容
     private String searchContent;
     //显示搜索内容的ListView
-    private ListView mListViewSearchResult;
-
+    private static  final  int TEVTASC = 394;
     //用户集合
     private List<User> mUserList;
     //ListView的适配器
@@ -128,24 +127,7 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
                     String strText = ((TextView) view).getText().toString().trim();
                     for (int i = 0; i < mDragList.size(); i++) {
                         if (mDragList.get(i).equals(strText)) {
-                           /* AlertDialog.Builder builder = new AlertDialog.Builder(DiTuActivity.this);  //先得到构造器
-                            builder.setTitle("提示"); //设置标题
-                            builder.setMessage("是否设置 " + mDragList.get(i).toString() + " 为您的当前城市？"); //设置内容
-
-                            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() { //设置确定按钮
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    //选中之后做你的方法
-                                    finish();
-                                }
-                            });
-                            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() { //设置取消按钮
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });*/
+                           EventBus.getDefault().post(mDragList.get(i));
                             finish();
                         }
                     }
@@ -183,32 +165,7 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
         });
 
 
-
-   /*     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            //5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色
-            Window window = getWindow();
-            View decorView = window.getDecorView();
-            //两个 flag 要结合使用，表示让应用的主体内容占用系统状态栏的空间
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            decorView.setSystemUiVisibility(option);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
-            //导航栏颜色也可以正常设置
-            //window.setNavigationBarColor(Color.TRANSPARENT);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window window = getWindow();
-            WindowManager.LayoutParams attributes = window.getAttributes();
-            int flagTranslucentStatus = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-            attributes.flags |= flagTranslucentStatus;
-            //int flagTranslucentNavigation = WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
-            //attributes.flags |= flagTranslucentNavigation;
-            window.setAttributes(attributes);
-        }*/
-
         initView1();
-        initEvent();
-
         inlandMapFragment.setSetData(new InlandMapFragment.setData() {
             @Override
             public void getData(String name) {
@@ -225,39 +182,10 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
         });
     }
 
-    private void initEvent() {
-        // TODO Auto-generated method stub
-        ////点击输入法软键盘回车键时，也可以直接查询
-        mEditTextSearchContent.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (!TextUtils.isEmpty(mEditTextSearchContent.getText())) {
-                    // 保持光标在输入框最后
-                    mEditTextSearchContent.setSelection(mEditTextSearchContent.getText().length());
-                }
-                //当actionId == XX_SEND 或者 XX_DONE时都触发
-                //或者event.getKeyCode == ENTER 且 event.getAction == ACTION_DOWN时也触发
-                //注意，这是一定要判断event != null。因为在某些输入法上会返回null。
-                if (actionId == EditorInfo.IME_ACTION_SEND
-                        || actionId == EditorInfo.IME_ACTION_DONE
-                        || (event != null && KeyEvent.KEYCODE_ENTER == event.getKeyCode() && KeyEvent.ACTION_DOWN == event.getAction())) {
-                    //点击输入法软键盘回车键时，进行查询
-                    search();
-                }
-                return true;//为true表示自己消费该事件
-            }
-        });
-    }
-
     private void initView1() {
 // TODO Auto-generated method stub
         mEditTextSearchContent = (EditText) findViewById(R.id.search_editText_searchContent);
-        mTextViewSearch = (TextView) findViewById(R.id.search_tv_search);
-        mListViewSearchResult = (ListView) findViewById(R.id.search_listView_search_result);
         //设置监听
-        mTextViewSearch.setOnClickListener(this);
-        mEditTextSearchContent.setOnClickListener(this);
         mEditTextSearchContent.addTextChangedListener(textWatcher);
     }
 
@@ -266,7 +194,8 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
         @Override
         public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
             // TODO Auto-generated method stub
-
+           // searchListViewSearchResult.setVisibility(View.GONE);
+            Log.e("hanbaocheng", "onTextChanged: "+"点击了onTextChanged" );
         }
 
         @Override
@@ -274,6 +203,7 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
                                       int arg3) {
             // TODO Auto-generated method stub
 
+            Log.e("hanbaocheng", "onTextChanged: "+"点击了beforeTextChanged" );
         }
 
         @Override
@@ -281,112 +211,31 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
             // TODO Auto-generated method stub
             //获取输入框内容
             content = mEditTextSearchContent.getText().toString();
-            //输入框内容为空时，显示返回按钮，隐藏搜索按钮
-            if (content.isEmpty()) {
-                mTextViewSearch.setVisibility(View.GONE);
+            if (content != null){
+                String user_id = SpUtils.getString(DiTuActivity.this, "user_id", null);
+                String user_token = SpUtils.getString(DiTuActivity.this, "user_token", null);
+                mPresenter.aboutMe(user_id, user_token, "internal", mEditTextSearchContent.getText().toString());
                 //   mButtonBack.setVisibility(View.VISIBLE);
-                mListViewSearchResult.setVisibility(View.GONE);
-                group1.setVisibility(View.VISIBLE);
-                frameContainer.setVisibility(View.VISIBLE);
-                searchTvQuxiao.setVisibility(View.VISIBLE);
-            } else {
                 group1.setVisibility(View.GONE);
-                searchTvQuxiao.setVisibility(View.GONE);
-                frameContainer.setVisibility(View.GONE);
-                mTextViewSearch.setVisibility(View.VISIBLE);
-                // mButtonBack.setVisibility(View.GONE);
-                mListViewSearchResult.setVisibility(View.VISIBLE);
+            }
+            if (content == null){
+                searchListViewSearchResult.setVisibility(View.GONE);
+                group1.setVisibility(View.VISIBLE);
             }
         }
     };
 
     @Override
-    public void onClick(View view) {
-        // TODO Auto-generated method stub
-        switch (view.getId()) {
-            //点击搜索框
-            case R.id.search_editText_searchContent:
-                mEditTextSearchContent.setFocusable(true);
-                mEditTextSearchContent.setFocusableInTouchMode(true);
-                mEditTextSearchContent.requestFocus();
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(mEditTextSearchContent, 0);
-                searchTvQuxiao.setVisibility(View.GONE);
-                break;
-            //关闭按钮
-        /*    case R.id.search_btn_back:
-                finish();
-                break;*/
-            //点击搜索
-            case R.id.search_tv_search:
-                String user_id = SpUtils.getString(DiTuActivity.this, "user_id", null);
-                String user_token = SpUtils.getString(DiTuActivity.this, "user_token", null);
-                mPresenter.aboutMe(user_id, user_token, "internal", mEditTextSearchContent.getText().toString());
-                break;
-        }
-    }
-
-    @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        String user_id = SpUtils.getString(DiTuActivity.this, "user_id", null);
-        String user_token = SpUtils.getString(DiTuActivity.this, "user_token", null);
-        // mPresenter.aboutMe(user_id,user_token,"internal",mEditTextSearchContent.getText().toString());
-    }
-
-    /**
-     * 搜索数据
-     */
-    private void search() {
-
     }
 
 
-    /* */
-
-    /**
-     * 设置沉浸式状态栏
-     *//*
-    private void setSystemBarTransparent() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // 5.0 LOLLIPOP解决方案
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            // 4.4 KITKAT解决方案
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
-    }*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
-        //setSystemBarTransparent();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            //5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色
-            Window window = getWindow();
-            View decorView = window.getDecorView();
-            //两个 flag 要结合使用，表示让应用的主体内容占用系统状态栏的空间
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            decorView.setSystemUiVisibility(option);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
-            //导航栏颜色也可以正常设置
-            //window.setNavigationBarColor(Color.TRANSPARENT);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window window = getWindow();
-            WindowManager.LayoutParams attributes = window.getAttributes();
-            int flagTranslucentStatus = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-            attributes.flags |= flagTranslucentStatus;
-            //int flagTranslucentNavigation = WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
-            //attributes.flags |= flagTranslucentNavigation;
-            window.setAttributes(attributes);
-        }
-
 
     }
 
@@ -396,16 +245,16 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
         if (data.getData().getList() != null) {
             list = data.getData().getList();
         }
+        Log.e("qweq1112222", "aboutMeSuccess: " + list.size());
         if (list.size() != 0) {
             group1.setVisibility(View.GONE);
             gson.setVisibility(View.GONE);
             gson1.setVisibility(View.GONE);
-            frameContainer.setVisibility(View.GONE);
             mSearchListViewAdapter = new SearchListViewAdapter(DiTuActivity.this, list, content);
-            mListViewSearchResult.setAdapter(mSearchListViewAdapter);
-            mListViewSearchResult.setVisibility(View.VISIBLE);
+            searchListViewSearchResult.setAdapter(mSearchListViewAdapter);
+            searchListViewSearchResult.setVisibility(View.VISIBLE);
             Log.e("qweq1112", "aboutMeSuccess: " + list.get(0).getChina_name());
-            mListViewSearchResult.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            searchListViewSearchResult.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     EventBus.getDefault().post(list.get(position).getChina_name());
@@ -413,15 +262,17 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
                 }
             });
         }
+        if (list.size() == TEVTASC){
+            group1.setVisibility(View.VISIBLE);
+            searchListViewSearchResult.setVisibility(View.GONE);
+        }
+
         if (list.size() <= 0) {
             gson.setVisibility(View.VISIBLE);
             gson1.setVisibility(View.VISIBLE);
-            frameContainer.setVisibility(View.GONE);
-            mListViewSearchResult.setVisibility(View.GONE);
+            //searchListViewSearchResult.setVisibility(View.GONE);
             group1.setVisibility(View.GONE);
-            Log.e("wqeqweqweqweqwe", "aboutMeSuccess: " + list.size());
         }
-
     }
 
     private void switchFragment(Fragment fragment) {

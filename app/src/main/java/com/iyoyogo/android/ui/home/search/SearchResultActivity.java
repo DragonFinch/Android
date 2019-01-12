@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -403,26 +404,22 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             myox.clear();
             List<KeywordBean.DataBean.YoxListBean> yox_list = keywordBean.getData().getYox_list();
             myox.addAll(yox_list);
-            SearchYoXiuListAdapter adapter = new SearchYoXiuListAdapter(SearchResultActivity.this, myox);
-            lvContent.setAdapter(adapter);
-            for (int i = 0; i < myox.size(); i++) {
-                myox.remove(i);
-            }
-            myox.addAll(yox_list);
-            adapter.notifyDataSetChanged();
+            lvContent.setAdapter(adapter1);
+            adapter1.notifyDataSetChanged();
             lvUser.setVisibility(View.GONE);
             lv.setVisibility(View.GONE);
             content.setVisibility(View.GONE);
             name.setVisibility(View.GONE);
             hit.setVisibility(View.GONE);
             lvContent.setVisibility(View.VISIBLE);
+            tvGson.setVisibility(View.GONE);
+            tvGson1.setVisibility(View.GONE);
         }
         if (keywordBean.getData().getType().equals("yoj")) {
             myoj.clear();
             List<KeywordBean.DataBean.YojListBean> yoj_list = keywordBean.getData().getYoj_list();
             myoj.addAll(yoj_list);
-            SearchYoJiListHorizontalAdapter adapter = new SearchYoJiListHorizontalAdapter(SearchResultActivity.this, myoj);
-            lvUser.setAdapter(adapter);
+            lvUser.setAdapter(adapter3);
             adapter.notifyDataSetChanged();
             name.setVisibility(View.GONE);
             hit.setVisibility(View.GONE);
@@ -430,7 +427,9 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             lvUser.setVisibility(View.VISIBLE);
             lv.setVisibility(View.GONE);
             lvContent.setVisibility(View.GONE);
-            adapter.setSetoncli(new SearchYoJiListHorizontalAdapter.setoncli() {
+            tvGson.setVisibility(View.GONE);
+            tvGson1.setVisibility(View.GONE);
+            adapter3.setSetoncli(new SearchYoJiListHorizontalAdapter.setoncli() {
                 @Override
                 public void setoncli(int p) {
                     Intent intent = new Intent(SearchResultActivity.this, YoJiDetailActivity.class);
@@ -453,20 +452,19 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             List<KeywordBean.DataBean.UserListBean> user_list1 = keywordBean.getData().getUser_list();
             mUser.addAll(user_list1);
             lv.setAdapter(adapter);
-
             adapter.notifyDataSetChanged();
-            SharedPrefrenceUtils.putSerializableList(SearchResultActivity.this, "all", mUser);
             //优秀
             List<KeywordBean.DataBean.YoxListBean> yox_list = keywordBean.getData().getYox_list();
             myox.addAll(yox_list);
             lvUser.setAdapter(adapter1);
             adapter1.notifyDataSetChanged();
-            SharedPrefrenceUtils.putSerializableList(SearchResultActivity.this, "yoji", myox);
+
             //有记
             List<KeywordBean.DataBean.YojListBean> yoj_list = keywordBean.getData().getYoj_list();
             myoj.addAll(yoj_list);
             lvContent.setAdapter(adapter3);
             adapter3.notifyDataSetChanged();
+
             name.setVisibility(View.VISIBLE);
             lv.setVisibility(View.VISIBLE);
             lvUser.setVisibility(View.VISIBLE);

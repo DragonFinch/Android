@@ -301,7 +301,7 @@ public class AddAddressActivity extends BaseActivity {
         //关闭键盘
 //        KeyBoardUtils.closeKeybord(poiSearchInMaps, BaseApplication.mContext);
         if (TextUtils.isEmpty(s.toString().trim())) {
-            Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+
             mapAddAddress.setVisibility(View.VISIBLE);
             recyclerAddAddress.setVisibility(View.GONE);
             mapAddAddress.invalidate();
@@ -476,7 +476,7 @@ public class AddAddressActivity extends BaseActivity {
         myLocationStyle.strokeColor(Color.argb(0, 0, 0, 0));
         myLocationStyle.radiusFillColor(Color.argb(0, 0, 0, 0));
 
-        Toast.makeText(this, "已定位当前位置", Toast.LENGTH_SHORT).show();
+
         myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE);
         //定位一次，且将视角移动到地图中心点。
         myLocationStyle.interval(2000);

@@ -54,6 +54,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.TestActivity;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.mine.GetUserInfoBean;
@@ -70,6 +71,7 @@ import com.iyoyogo.android.widget.CircleImageView;
 import com.iyoyogo.android.widget.flow.FlowLayout;
 import com.iyoyogo.android.widget.flow.TagAdapter;
 import com.iyoyogo.android.widget.flow.TagFlowLayout;
+import com.iyoyogo.android.widget.wheel.DateChooseWheelViewDialog;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -290,7 +292,14 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyTiem();
+                DateChooseWheelViewDialog startDateChooseDialog = new DateChooseWheelViewDialog(EditPersonalMessageActivity.this, new DateChooseWheelViewDialog.DateChooseInterface() {
+                    @Override
+                    public void getDateTime(String time, boolean longTimeChecked) {
+                        brithTvId.setText(time);
+                    }
+                });
+                startDateChooseDialog.setDateDialogTitle("开始时间");
+                startDateChooseDialog.showDateChooseDialog();
             }
         });
     }

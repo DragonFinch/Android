@@ -144,7 +144,7 @@ public interface ApiService {
      */
     @POST("index.php/api/home/get_index_data")
     @FormUrlEncoded
-    Observable<HomeBean> homePager(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("type") String type);
+    Observable<HomeBean> homePager(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("type") String type,@Field("city")String city);
 
     /**
      * 选择类型
@@ -654,7 +654,7 @@ public interface ApiService {
 
     @POST("index.php/api/comment/delete")
     @FormUrlEncoded
-    Observable<BaseBean> deleteComment(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("comment_id") int yo_id);
+    Observable<BaseBean> deleteComment(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("comment_id") int comment_id);
 
     //用户等级页
     @POST("index.php/api/userlevel/get")

@@ -42,8 +42,7 @@ public class VideoActivity extends AppCompatActivity {
         TxVideoPlayerController controller = new TxVideoPlayerController(this);
         controller.setTitle(title);
 
-        controller.setLenght(117000);
-        controller.setClarity(getClarites(url), 0);
+        mNiceVideoPlayer.setUp(url, null);
         Glide.with(this)
                 .load(img_url)
                 .into(controller.imageView());

@@ -180,12 +180,12 @@
 
                     <ImageView
                         android:id="@+id/img_vip_sign"
-                        android:layout_width="@dimen/dp_62"
-                        android:layout_height="@dimen/dp_76"
-                        android:layout_marginLeft="@dimen/dp_5"
-                        android:layout_marginTop="-3dp"
+                        android:layout_width="@dimen/dp_67"
+                        android:layout_height="@dimen/dp_81"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginTop="-6dp"
                         android:layout_marginBottom="@dimen/dp_22"
-                        android:padding="2dp"
+                        android:padding="2.5dp"
                         android:scaleType="centerCrop"
                         android:src="@mipmap/huiyuanbiaoshi"
                         />
@@ -197,7 +197,9 @@
                         android:layout_alignRight="@+id/img_vip_sign"
                         android:layout_alignBottom="@+id/img_vip_sign"
                         android:src="@mipmap/lv1"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginRight="2dp"/>
                 </RelativeLayout>
 
                 <LinearLayout

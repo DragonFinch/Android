@@ -155,6 +155,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
             holder.tv_num_like.setVisibility(View.GONE);
         } else {
             List<HomeBean.DataBean.YojListBean> user_icons = new ArrayList<>();
+            holder.pile_layout.removeAllViews();
             if (mList.get(position).getUsers_praise().size() <= 10) {
                 for (int i = 0; i < mList.get(position).getUsers_praise().size(); i++) {
                     user_icons.addAll(mList);
@@ -238,7 +239,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
                     holder.dt_like.setImageResource(R.mipmap.datu_xihuan);
                     count_praises -= 1;
                     //设置点赞的数量
-                    holder.tv_num_like.setText("等"+count_praises + "人喜欢过");
+                    holder.tv_num_like.setText("等" + count_praises + "人喜欢过");
                     mList.get(position).setIs_my_praise(0);
                     mList.get(position).setCount_praise(String.valueOf(count_praises));
 
@@ -247,7 +248,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
                     holder.dt_like.setImageResource(R.mipmap.yixihuan_xiangqing);
                     count_praises += 1;
                     //设置点赞的数量
-                    holder.tv_num_like.setText("等"+count_praises + "人喜欢过");
+                    holder.tv_num_like.setText("等" + count_praises + "人喜欢过");
                     mList.get(position).setIs_my_praise(1);
                     mList.get(position).setCount_praise(String.valueOf(count_praises));
 
@@ -299,7 +300,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
                 popupWindow.dismiss();
             }
         });
-        popupWindow.showAsDropDown(holder.view_like, DensityUtil.dp2px(context,-95), DensityUtil.dp2px(context, 10));
+        popupWindow.showAsDropDown(holder.view_like, DensityUtil.dp2px(context, -95), DensityUtil.dp2px(context, 10));
     }
 
     private void initDislike() {
@@ -350,6 +351,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
         });
         popupWindow.showAtLocation(activity.findViewById(R.id.activity_main), Gravity.CENTER, 0, 0);
     }
+
     public void backgroundAlpha(float bgAlpha) {
 
         WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
@@ -365,6 +367,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
             backgroundAlpha(1.0f);
         }
     }
+
     @Override
     public int getItemCount() {
         return mList.size();
@@ -373,7 +376,6 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
     public interface OnClickListener {
         void onClick(View v, int position);
     }
-
 
 
     private OnClickListener onClickListener;
@@ -400,9 +402,9 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-        ImageView zuji_image, typeImageView, dt_like,medal,img_level;
+        ImageView zuji_image, typeImageView, dt_like, medal, img_level;
         CircleImageView user_icon;
-        TextView num_look, user_name, title, tv_cost, location, tv_day, tv_num_like, tv_num_comment,location_end;
+        TextView num_look, user_name, title, tv_cost, location, tv_day, tv_num_like, tv_num_comment, location_end;
         RelativeLayout view_like;
         PileLayout pile_layout;
         RecyclerView recycler_comment;

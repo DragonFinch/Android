@@ -315,6 +315,8 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
     @Override
     public void getClearTopicSuccess() {
         Toast.makeText(this, "清空成功", Toast.LENGTH_SHORT).show();
+        recyclerTopicNear.setVisibility(View.GONE);
+
     }
 
 

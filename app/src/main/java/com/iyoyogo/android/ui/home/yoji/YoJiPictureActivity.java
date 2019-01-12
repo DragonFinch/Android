@@ -52,6 +52,7 @@ import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
 
+
 public class YoJiPictureActivity extends BaseActivity implements SoftKeyboardStateHelper.SoftKeyboardStateListener {
     private int open = 2;
     private boolean isOpen;

@@ -61,6 +61,7 @@ public class YoXiuDetailBean extends BaseBean {
         private int is_my_attention;
         private int is_my_collect;
 
+
         public String getId() {
             return id;
         }

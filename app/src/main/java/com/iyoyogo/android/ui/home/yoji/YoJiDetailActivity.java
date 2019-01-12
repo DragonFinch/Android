@@ -1,6 +1,5 @@
 package com.iyoyogo.android.ui.home.yoji;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,8 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -26,7 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -61,7 +57,6 @@ import com.iyoyogo.android.ui.home.yoxiu.MoreTopicActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SoftKeyboardStateHelper;
 import com.iyoyogo.android.utils.SpUtils;
-import com.iyoyogo.android.utils.StatusBarUtil;
 import com.iyoyogo.android.widget.CircleImageView;
 import com.iyoyogo.android.widget.FlowGroupView;
 import com.iyoyogo.android.widget.MyNestedScrollView;
@@ -84,6 +79,7 @@ import io.reactivex.functions.Consumer;
  * yo记详情
  */
 public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presenter> implements YoJiDetailContract.View, SoftKeyboardStateHelper.SoftKeyboardStateListener {
+
 
     @BindView(R.id.bg)
     ImageView bg;
@@ -169,6 +165,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     RecyclerView recyclerComment;
     @BindView(R.id.tv_more_comment)
     TextView tvMoreComment;
+    @BindView(R.id.nested)
+    MyNestedScrollView nested;
     @BindView(R.id.shadow)
     View shadow;
     @BindView(R.id.edit_comment)
@@ -183,10 +181,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     ImageView sendEmoji;
     @BindView(R.id.comment_layout)
     RelativeLayout commentLayout;
-    @BindView(R.id.nested)
-    MyNestedScrollView nested;
     @BindView(R.id.activity_yoji_detail)
-    CoordinatorLayout activityYojiDetail;
+    RelativeLayout activityYojiDetail;
     private int open = 2;
     private boolean isOpen;
     private boolean isManager;
@@ -646,7 +642,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         tvAddressEndFold.setText(data.getP_end());
 
         List<YoJiDetailBean.DataBean.ListBean> list = data.getList();
-        yoJiDetailAdapter = new YoJiDetailAdapter(YoJiDetailActivity.this, list,data.getCount_praise(),String.valueOf(data.getCount_collect()),data.getIs_my_praise(),data.getIs_my_collect());
+        yoJiDetailAdapter = new YoJiDetailAdapter(YoJiDetailActivity.this, list, data.getCount_praise(), String.valueOf(data.getCount_collect()), data.getIs_my_praise(), data.getIs_my_collect());
 
         recyclerYoji.setAdapter(yoJiDetailAdapter);
         recyclerYoji.setLayoutManager(new LinearLayoutManager(YoJiDetailActivity.this));

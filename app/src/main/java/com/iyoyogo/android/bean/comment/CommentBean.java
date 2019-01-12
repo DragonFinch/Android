@@ -60,7 +60,24 @@ public class CommentBean extends BaseBean {
             private String user_logo;
             private int is_my_praise;
             private int is_my_comment;
+            private int partner_type;
+            private int user_level;
 
+            public int getUser_level() {
+                return user_level;
+            }
+
+            public void setUser_level(int user_level) {
+                this.user_level = user_level;
+            }
+
+            public int getPartner_type() {
+                return partner_type;
+            }
+
+            public void setPartner_type(int partner_type) {
+                this.partner_type = partner_type;
+            }
             public int getId() {
                 return id;
             }

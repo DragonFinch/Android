@@ -77,7 +77,6 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
     RelativeLayout commentLayout;
     private List<CommentBean.DataBean.ListBean> list;
     private int size;
-    private int id;
     private String user_id;
     private String user_token;
     private PopupWindow popup;
@@ -85,15 +84,9 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
     ImageView img_tip;
     TextView tv_message_two;
     TextView tv_message_three;
-    private int open = 2;
-    private boolean isOpen;
-    private RecyclerView recycler_collection;
     private YoXiuDetailAdapter yoXiuDetailAdapter;
     private List<CollectionFolderBean.DataBean.ListBean> mList;
     private int id1;
-    private int yo_user_id;
-    private int yo_attention_id;
-    private int count_collect;
     private List<YoXiuDetailBean.DataBean> dataBeans;
     private View view;
 
@@ -224,7 +217,7 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
         yoXiuDetailAdapter.setDeleteOnClickListener(new YoXiuDetailAdapter.DeleteOnClickListener() {
             @Override
             public void delete() {
-                mPresenter.getCommentList(user_id, user_token, 1, id, 0);
+                mPresenter.getCommentList(user_id, user_token, 1, id1, 0);
             }
         });
     }

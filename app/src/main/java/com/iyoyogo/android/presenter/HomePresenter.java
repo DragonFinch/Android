@@ -17,9 +17,9 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
     }
 
     @Override
-    public void banner(String user_id,String user_token,String type) {
+    public void banner(String user_id,String user_token,String type,String city) {
         DataManager.getFromRemote()
-                .homePager(user_id,user_token,type)
+                .homePager(user_id,user_token,type,city)
                 .subscribe(new ApiObserver<HomeBean>(mView,this) {
                     @Override
                     protected void doOnSuccess(HomeBean homeViewPagerBean) {
