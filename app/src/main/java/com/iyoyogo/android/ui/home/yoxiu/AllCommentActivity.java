@@ -4,14 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -22,18 +19,12 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.iyoyogo.android.R;
-import com.iyoyogo.android.adapter.CollectionFolderAdapter;
 import com.iyoyogo.android.adapter.YoXiuDetailAdapter;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
@@ -43,13 +34,9 @@ import com.iyoyogo.android.bean.collection.CollectionFolderBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.bean.yoxiu.YoXiuDetailBean;
 import com.iyoyogo.android.contract.YoXiuDetailContract;
-import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.presenter.YoXiuDetailPresenter;
-import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
-import com.iyoyogo.android.widget.CircleImageView;
-import com.umeng.debug.log.I;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +44,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.functions.Consumer;
 
 /**
  * 所有评论
@@ -69,12 +55,17 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
     TextView allCommentTv;
     @BindView(R.id.all_comment_RecyclerView)
     RecyclerView allCommentRecyclerView;
-    @BindView(R.id.edit_comment)
-    EditText editComment;
-    @BindView(R.id.img_brow)
-    ImageView imgBrow;
+    /*   @BindView(R.id.img_brow)
+       ImageView imgBrow;*/
     @BindView(R.id.comment_layout)
     RelativeLayout commentLayout;
+    @BindView(R.id.et_sendmessage)
+    EditText etSendmessage;
+    //发送按钮
+    @BindView(R.id.btn_send)
+    ImageView btnSend;
+    @BindView(R.id.btn_face)
+    ImageView btnFace;
     private List<CommentBean.DataBean.ListBean> list;
     private int size;
     private String user_id;
@@ -104,29 +95,8 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
         user_id = SpUtils.getString(this, "user_id", null);
         user_token = SpUtils.getString(this, "user_token", null);
         mPresenter.getCommentList(user_id, user_token, 1, id1, 0);
-        editComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    //获得焦点
-                    editComment.setHint("码字不容易，留个评论鼓励下嘛~");
-                    editComment.setHintTextColor(Color.parseColor("#888888"));
-                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                    layoutParams.setMargins(0, 0, DensityUtil.dp2px(AllCommentActivity.this, 40), 0);
-                    editComment.setLayoutParams(layoutParams);
 
-                } else {
-                    //失去焦点
-                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(DensityUtil.dp2px(AllCommentActivity.this, 230), ViewGroup.LayoutParams.WRAP_CONTENT);
-                    layoutParams.setMargins(0, DensityUtil.dp2px(AllCommentActivity.this, 20), 0, 0);
-                    editComment.setLayoutParams(layoutParams);
-                    editComment.setHint("再不评论 , 你会被抓去写作业的~");
-                    editComment.setHintTextColor(Color.parseColor("#888888"));
-
-                }
-            }
-        });
     }
 
     @Override
@@ -138,6 +108,30 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
     protected void onResume() {
         super.onResume();
         mPresenter.getCommentList(user_id, user_token, 1, id1, 0);
+        etSendmessage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    //获得焦点
+                    etSendmessage.setHint("码字不容易，留个评论鼓励下嘛~");
+                    etSendmessage.setHintTextColor(Color.parseColor("#888888"));
+                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    layoutParams.setMargins(0, 0, DensityUtil.dp2px(AllCommentActivity.this, 40), 0);
+                    //   etSendmessage.setLayoutParams(layoutParams);
+
+                } else {
+                    //失去焦点
+                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(DensityUtil.dp2px(AllCommentActivity.this, 230), ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParams.setMargins(0, DensityUtil.dp2px(AllCommentActivity.this, 20), 0, 0);
+                    // etSendmessage.setLayoutParams(layoutParams);
+                    etSendmessage.setHint("再不评论 , 你会被抓去写作业的~");
+                    etSendmessage.setHintTextColor(Color.parseColor("#888888"));
+
+                }
+            }
+        });
+
     }
 
     /***
@@ -150,6 +144,13 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
                 finish();
                 break;
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 
     //隐藏事件PopupWindow
@@ -225,9 +226,10 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
     @Override
     protected void initView() {
         super.initView();
+
         //输入框
-        editComment.setImeOptions(EditorInfo.IME_ACTION_SEND);
-        editComment.addTextChangedListener(new TextWatcher() {
+        etSendmessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
+        etSendmessage.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -245,15 +247,15 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
 
             }
         });
-        editComment.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        etSendmessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-                    if (editComment.getText().toString().length() > 0) {
-                        mPresenter.addComment(user_id, user_token, 0, id1, editComment.getText().toString().trim());
+                    if (etSendmessage.getText().toString().length() > 0) {
+                        mPresenter.addComment(user_id, user_token, 0, id1, etSendmessage.getText().toString().trim());
                         closeInputMethod();
                         mPresenter.getCommentList(user_id, user_token, 1, id1, 0);
-                        editComment.clearFocus();
-                        editComment.setFocusable(false);
+                        etSendmessage.clearFocus();
+                        etSendmessage.setFocusable(false);
 //                        yoXiuDetailAdapter.notifyItemInserted(dataBeans.size());
                     } else {
                     }
@@ -263,12 +265,12 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
 
             }
         });
-        editComment.setOnClickListener(new View.OnClickListener() {
+        etSendmessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editComment.setFocusable(true);
-                editComment.setFocusableInTouchMode(true);
-                editComment.requestFocus();
+                etSendmessage.setFocusable(true);
+                etSendmessage.setFocusableInTouchMode(true);
+                etSendmessage.requestFocus();
             }
         });
     }
@@ -278,7 +280,7 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
         boolean isOpen = imm.isActive();
         if (isOpen) {
             // imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//没有显示则显示
-            imm.hideSoftInputFromWindow(editComment.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            imm.hideSoftInputFromWindow(etSendmessage.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 
@@ -286,14 +288,14 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
     public void addCommentSuccess(BaseBean baseBean) {
         String msg = baseBean.getMsg();
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-        editComment.setText("");
+        etSendmessage.setText("");
         yoXiuDetailAdapter.notifyDataSetChanged();
     }
 
 
     @Override
     public void addAttentionSuccess(AttentionBean.DataBean data) {
-
+        //
     }
 
     @Override
@@ -319,4 +321,6 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
     public void deleteCollectionSuccess(BaseBean baseBean) {
 
     }
+
+
 }

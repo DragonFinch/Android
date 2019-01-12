@@ -19,6 +19,7 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.LogStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
+import com.squareup.leakcanary.LeakCanary;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
@@ -29,6 +30,7 @@ import java.util.List;
 import cn.jpush.android.api.JPushInterface;
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.unit.Subunits;
+import zhanghuan.cn.emojiconlibrary.FaceConversionUtil;
 
 import static com.iyoyogo.android.app.AppInfo.getCurProcessName;
 
@@ -52,6 +54,9 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         context = this;
+
+        FaceConversionUtil.getInstace().getFileText(context);
+
         //umeng的初始化
         UMShareAPI.get(this);
 
