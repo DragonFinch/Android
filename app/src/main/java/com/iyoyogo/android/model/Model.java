@@ -7,6 +7,7 @@ import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.HisFansBean;
 import com.iyoyogo.android.bean.HisPositionBean;
 import com.iyoyogo.android.bean.PublishSucessBean;
+import com.iyoyogo.android.bean.SameBean;
 import com.iyoyogo.android.bean.VipCenterBean;
 import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.collection.AddCollectionBean;
@@ -366,6 +367,14 @@ public class Model {
      */
     public Observable<YouXiuListBean> getYoXiuList(String user_id, String user_token, int page) {
         return HttpClient.getApiService().getYoXiuList(user_id, user_token, page)
+                .compose(this.switchThread());
+    }
+    /**
+     * 获取同款
+     *
+     */
+    public Observable<SameBean> getSameList(String user_id, String user_token, String lng, String lat, int page, String page_size) {
+        return HttpClient.getApiService().getSameList(user_id, user_token, lng,lat,page,page_size)
                 .compose(this.switchThread());
     }
 
