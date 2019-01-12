@@ -2,6 +2,7 @@ package com.iyoyogo.android.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.search.KeywordBean;
 import com.iyoyogo.android.ui.home.search.SearchResultActivity;
+import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -48,6 +50,15 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Vi
         KeywordBean.DataBean.UserListBean userListBean = mUser.get(position);
         holder.user_nickname.setText(userListBean.getUser_nickname());
         Glide.with(context).load(userListBean.getUser_logo()).into(holder.user_logo);
+        holder.user_logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context,UserHomepageActivity.class);
+                intent.putExtra("yo_user_id",String.valueOf(mUser.get(position).getUser_id()));
+                context.startActivity(intent);
+            }
+        });
         holder.tv_guanzhu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

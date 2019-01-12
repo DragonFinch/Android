@@ -23,6 +23,7 @@ import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
+import com.iyoyogo.android.ui.home.yoxiu.YoXiuListActivity;
 import com.iyoyogo.android.utils.GlideRoundTransform;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
@@ -78,7 +79,14 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
             Glide.with(context).load(mList.get(position).getFile_path())
                     .apply(myOptions).into(viewHolder.img_yoxiu);
         }
-
+        viewHolder.tv_yoxiu_desc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, YoXiuListActivity.class);
+                intent.putExtra("position", mList.get(position).getPosition_name());
+                context.startActivity(intent);
+            }
+        });
         viewHolder.recycler_comment.setLayoutManager(new LinearLayoutManager(context));
         List<YoXiuContentBean.DataBean.ListBean.CommentListBean> comment_list = mList.get(position).getComment_list();
         YoXiuContentItemAdapter adapter = new YoXiuContentItemAdapter(context, comment_list);

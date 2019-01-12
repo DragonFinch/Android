@@ -54,6 +54,7 @@ import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.presenter.YoJiDetailPresenter;
 import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
 import com.iyoyogo.android.ui.home.yoxiu.MoreTopicActivity;
+import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SoftKeyboardStateHelper;
 import com.iyoyogo.android.utils.SpUtils;
@@ -64,6 +65,8 @@ import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -640,6 +643,14 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         tvAddressSpotFold.setText(data.getList().size() + "个地点");
         tvAddressEnd.setText(data.getP_end());
         tvAddressEndFold.setText(data.getP_end());
+        imgHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(YoJiDetailActivity.this, UserHomepageActivity.class);
+                intent.putExtra("yo_user_id", data.getUser_id());
+                startActivity(intent);
+            }
+        });
 
         List<YoJiDetailBean.DataBean.ListBean> list = data.getList();
         yoJiDetailAdapter = new YoJiDetailAdapter(YoJiDetailActivity.this, list, data.getCount_praise(), String.valueOf(data.getCount_collect()), data.getIs_my_praise(), data.getIs_my_collect());
@@ -720,6 +731,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
             }
         });*/
+        EventBus.getDefault().postSticky(data.getUser_nickname());
     }
 
     private void loadData(ArrayList<String> logos, int size) {

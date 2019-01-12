@@ -144,6 +144,48 @@ public class SearchYoXiuListAdapter extends RecyclerView.Adapter<SearchYoXiuList
         viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == 1 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
         yo_id = mList.get(position).getYo_id();
 
+        viewHolder.medal.setVisibility(View.VISIBLE);
+        viewHolder.img_level.setVisibility(View.VISIBLE);
+        String partner_type = mList.get(position).getUser_info().getPartner_type();
+        if (partner_type .equals("0") ) {
+            mList.get(position).getUser_info().setPartner_type("0");
+            viewHolder.medal.setVisibility(View.INVISIBLE);
+        } else if (partner_type .equals("1") ) {
+            mList.get(position).getUser_info().setPartner_type("1");
+            viewHolder.medal.setImageResource(R.mipmap.daren);
+        } else if (partner_type .equals("2") ) {
+            mList.get(position).getUser_info().setPartner_type("2");
+            viewHolder.medal.setImageResource(R.mipmap.hongren);
+        } else if (partner_type .equals("3") ) {
+            mList.get(position).getUser_info().setPartner_type("3");
+            viewHolder.medal.setImageResource(R.mipmap.kol);
+        } else {
+            viewHolder.medal.setVisibility(mList.get(position).getUser_info().getPartner_type() .equals("0")  ? View.INVISIBLE : View.VISIBLE);
+        }
+
+        int user_level = mList.get(position).getUser_info().getUser_level();
+        if (user_level == 0) {
+            viewHolder.img_level.setVisibility(View.GONE);
+        } else if (user_level == 1) {
+            mList.get(position).getUser_info().setUser_level(1);
+            viewHolder.img_level.setImageResource(R.mipmap.lv1);
+
+        } else if (user_level == 2) {
+            mList.get(position).getUser_info().setUser_level(2);
+            viewHolder.img_level.setImageResource(R.mipmap.lv2);
+        } else if (user_level == 3) {
+            mList.get(position).getUser_info().setUser_level(3);
+            viewHolder.img_level.setImageResource(R.mipmap.lv3);
+        } else if (user_level == 4) {
+            mList.get(position).getUser_info().setUser_level(4);
+            viewHolder.img_level.setImageResource(R.mipmap.lv4);
+        } else if (user_level == 5) {
+            mList.get(position).getUser_info().setUser_level(5);
+            viewHolder.img_level.setImageResource(R.mipmap.lv5);
+        } else {
+            viewHolder.img_level.setVisibility(View.INVISIBLE);
+        }
+
         viewHolder.img_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -339,7 +381,7 @@ public class SearchYoXiuListAdapter extends RecyclerView.Adapter<SearchYoXiuList
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_yoxiu_desc, num_like, user_name, comment_all,num_browse;
-        ImageView img_yoxiu, img_like, img_more, img_video;
+        ImageView img_yoxiu, img_like, img_more, img_video,medal,img_level;
         CircleImageView user_icon;
         RecyclerView recycler_comment;
 
@@ -356,6 +398,8 @@ public class SearchYoXiuListAdapter extends RecyclerView.Adapter<SearchYoXiuList
             recycler_comment = itemView.findViewById(R.id.recycler_comment);
             img_yoxiu = itemView.findViewById(R.id.img_yoxiu);
             img_video = itemView.findViewById(R.id.img_video);
+            medal = itemView.findViewById(R.id.medal);
+            img_level =itemView.findViewById(R.id.user_level_img);
         }
     }
 }

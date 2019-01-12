@@ -79,10 +79,10 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
     Unbinder unbinder;
     private String user_id;
     private String user_token;
-    public  String yo_user_id;
+    public String yo_user_id;
     MyRefreshAnimHeader mRefreshAnimHeader;
-    public  YoJiCenterAdapter yoJiCenterAdapter;
-    public  YoJiContentAdapter2 yoJiContentAdapter2;
+    public YoJiCenterAdapter yoJiCenterAdapter;
+    public YoJiContentAdapter2 yoJiContentAdapter2;
     private List<YoJiContentBean.DataBean.ListBean> list;
     public static List<YoJiContentBean.DataBean.ListBean> mList;
 
@@ -114,45 +114,48 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
         yo_user_id = bundle.getString("yo_user_id");
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
+        mPresenter.getYoJiContent(user_id, user_token, yo_user_id, "1", "20");
         //下拉刷新
         refreshLayout.setEnableRefresh(true);
         refreshLayout.setRefreshFooter(new MyRefreshAnimFooter(getContext()));
         refreshLayout.autoRefresh();
         refreshLayout.finishRefresh(1050);
-        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mList.clear();
-                refreshLayout.finishRefresh(1050);
-                mPresenter.getYoJiContent(user_id, user_token, yo_user_id, "1", "20");
-            }
-        });
-        refreshLayout.setOnLoadMoreListener(new OnRefreshLoadMoreListener() {
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                currentPage++;
-                Log.d("currentPage", "currentPage:" + currentPage);
-                DataManager.getFromRemote()
-                        .getYoJiContent(user_id, user_token, yo_user_id, currentPage + "", 20 + "")
-                        .subscribe(new Consumer<YoJiContentBean>() {
-                            @Override
-                            public void accept(YoJiContentBean yoJiContentBean) throws Exception {
-                                List<YoJiContentBean.DataBean.ListBean> list1 = yoJiContentBean.getData().getList();
-                                mList.addAll(list1);
-                                if (mList != null) {
-                                    yoJiCenterAdapter.notifyItemInserted(mList.size());
-                                    yoJiContentAdapter2.notifyItemInserted(mList.size());
+        if (mList.size() != 0) {
+            refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+                @Override
+                public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                    mList.clear();
+                    refreshLayout.finishRefresh(1050);
+                    mPresenter.getYoJiContent(user_id, user_token, yo_user_id, "1", "20");
+                }
+            });
+            refreshLayout.setOnLoadMoreListener(new OnRefreshLoadMoreListener() {
+                @Override
+                public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                    currentPage++;
+                    Log.d("currentPage", "currentPage:" + currentPage);
+                    DataManager.getFromRemote()
+                            .getYoJiContent(user_id, user_token, yo_user_id, currentPage + "", 20 + "")
+                            .subscribe(new Consumer<YoJiContentBean>() {
+                                @Override
+                                public void accept(YoJiContentBean yoJiContentBean) throws Exception {
+                                    List<YoJiContentBean.DataBean.ListBean> list1 = yoJiContentBean.getData().getList();
+                                    mList.addAll(list1);
+                                    if (mList != null) {
+                                        yoJiCenterAdapter.notifyItemInserted(mList.size());
+                                        yoJiContentAdapter2.notifyItemInserted(mList.size());
+                                    }
                                 }
-                            }
-                        });
-                refreshLayout.finishLoadMore(2000);
-            }
+                            });
+                    refreshLayout.finishLoadMore(2000);
+                }
 
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                @Override
+                public void onRefresh(@NonNull RefreshLayout refreshLayout) {
 
-            }
-        });
+                }
+            });
+        }
     }
 
     @Override

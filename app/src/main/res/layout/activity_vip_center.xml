@@ -20,7 +20,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_270"
+                android:layout_height="@dimen/dp_300"
                 android:background="@mipmap/mem_headbg"
                 android:orientation="vertical">
 
@@ -152,7 +152,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/dp_20" />
+                        android:layout_marginRight="@dimen/dp_20"
+                        />
 
                 </RelativeLayout>
 
