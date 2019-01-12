@@ -242,18 +242,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
         user_id = SpUtils.getString(YoXiuDetailActivity.this, "user_id", null);
         user_token = SpUtils.getString(YoXiuDetailActivity.this, "user_token", null);
-        Log.d("YoXiuDetailActivity", "id:" + id);
-        Log.d("YoXiuDetailActivity", "user_id:" + user_id);
-        Log.d("YoXiuDetailActivity", "user_token:" + user_token);
         mPresenter.getDetail(user_id, user_token, id);
         mPresenter.getCommentList(user_id, user_token, 1, id, 0);
-      /*  editComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-
-            }
-        });*/
         tvCollection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
