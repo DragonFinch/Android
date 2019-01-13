@@ -107,7 +107,7 @@ public class FaceAdapter extends BaseAdapter {
                popupWindow.showAtLocation(finalViewHolder1.iv_face,Gravity.NO_GRAVITY, (location[0] + v.getWidth() / 2) - popupWidth / 2, location[1] - popupHeight-150 );
 
 //               popupWindow.showAsDropDown(finalViewHolder.iv_face,-5,0);
-               return true;
+               return false;
            }
        });
 
