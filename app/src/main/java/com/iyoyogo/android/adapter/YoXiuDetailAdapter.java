@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.Gravity;
@@ -31,6 +32,7 @@ import com.iyoyogo.android.ui.home.yoji.ReplyDiscussActivity;
 import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.util.MyConversionUtil;
 import com.iyoyogo.android.widget.CircleImageView;
 
 import java.util.List;
@@ -320,7 +322,11 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         });
 
         CommentBean.DataBean.ListBean listBean = mList.get(position);
-        holder.tv_content.setText(listBean.getContent());
+       // holder.tv_content.setText(listBean.getContent());
+        //设置图片的编码 展示图片
+        MyConversionUtil.getInstace().getFileText(context);
+        SpannableString spannableString =   MyConversionUtil.getInstace().getExpressionString(context, listBean.getContent());
+        holder.tv_content.setText(spannableString);
         holder.tv_comment_like_num.setText(listBean.getCount_praise() + "");
         holder.tv_huifu_num.setText(listBean.getCount_comment() + "");
         holder.tv_time.setText(listBean.getCreate_time());
@@ -331,6 +337,7 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         requestOptions.placeholder(R.mipmap.default_touxiang);
         requestOptions.error(R.mipmap.default_touxiang);
         if (listBean.getUser_logo().length() == 0) {
+
             holder.img_user_icon.setImageResource(R.mipmap.default_touxiang);
         } else {
             Glide.with(context).load(listBean.getUser_logo())

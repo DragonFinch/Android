@@ -4,14 +4,16 @@
     android:layout_height="wrap_content"
     android:background="@drawable/iv_face"
     android:gravity="center"
-    android:padding="6dip" >
+    >
 
-    <ImageView
-        android:layout_marginTop="20dp"
+    <TextView
+        android:textSize="10sp"
+        android:background="#ffffff"
+        android:gravity="center"
+        android:text="11111"
         android:id="@+id/item_iv_face"
-        android:layout_width="29dp"
-        android:layout_height="24dp"
-        android:layout_centerInParent="true"
-        android:scaleType="fitXY" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 
 </RelativeLayout>
