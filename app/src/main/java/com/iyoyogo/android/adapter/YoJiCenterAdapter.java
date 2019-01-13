@@ -159,7 +159,7 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
             }
         }*/
 
-
+//
         if (mList.get(position).getUsers_praise().size() == 0) {
             holder.pile_layout.setVisibility(View.GONE);
             holder.tv_num_like.setVisibility(View.GONE);
@@ -183,6 +183,7 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
             } else {
                 List<YoJiContentBean.DataBean.ListBean.UsersPraiseBean> user_icons = new ArrayList<>();
                 user_icons.clear();
+                holder.pile_layout.removeAllViews();
                 for (int i = 0; i < 10; i++) {
                     user_icons.add(mList.get(position).getUsers_praise().get(i));
                     com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
@@ -273,35 +274,35 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
         holder.dt_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int count_praises = mList.get(position).getCount_praise();
-                Log.d("Test", "dataBeans.get(0).getIs_my_like():" + mList.get(position).getIs_my_praise());
-                if (mList.get(position).getIs_my_praise() > 0) {
-                    //由喜欢变为不喜欢，亮变暗
-                    holder.dt_like.setImageResource(R.mipmap.yixihuan_xiangqing);
-                    count_praises -= 1;
-                    //设置点赞的数量
-                    holder.tv_num_like.setText("等" + count_praises + "人喜欢过");
-                    mList.get(position).setIs_my_praise(0);
-                    mList.get(position).setCount_praise(count_praises);
-                } else {
-                    //由不喜欢变为喜欢，暗变亮
-                    holder.dt_like.setImageResource(R.mipmap.datu_xihuan);
-                    count_praises += 1;
-                    //设置点赞的数量
-                    holder.tv_num_like.setText("等" + count_praises + "人喜欢过");
-                    mList.get(position).setIs_my_praise(1);
-                    mList.get(position).setCount_praise(count_praises);
-                }
                 String user_id = SpUtils.getString(context, "user_id", null);
                 String user_token = SpUtils.getString(context, "user_token", null);
-                DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getYo_id(), 0)
-                        .subscribe(new Consumer<BaseBean>() {
-                            @Override
-                            public void accept(BaseBean baseBean) throws Exception {
-                            }
-                        });
+
+                int count_praises = mList.get(position).getCount_praise();
+                mList.get(position).setIs_my_praise(mList.get(position).getIs_my_praise() == 1 ? 0 : 1);
+                if (mList.get(position).getIs_my_praise() == 1) {
+                    count_praises += 1;
+                    mList.get(position).setCount_praise(count_praises);
+                } else if (count_praises > 0) {
+                    count_praises -= 1;
+                    mList.get(position).setCount_praise(count_praises);
+
+                }
+                holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
+                holder.dt_like.setImageResource(mList.get(position).getIs_my_praise() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getYo_id(), 0)
+                                .subscribe(new Consumer<BaseBean>() {
+                                    @Override
+                                    public void accept(BaseBean baseBean) throws Exception {
+                                    }
+                                });
+                    }
+                }).start();
             }
         });
+
         holder.tv_num_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
