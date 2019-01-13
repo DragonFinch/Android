@@ -409,10 +409,13 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
                 listBean.setIs_my_praise(listBean.getIs_my_praise() == 1 ? 0 : 1);
                 if (listBean.getIs_my_praise() == 1) {
                     count_praise += 1;
+                    tvCommentLikeNum.setText(count_praise+"");
                 } else if (count_praise > 0) {
                     count_praise -= 1;
+                    tvCommentLikeNum.setText(count_praise+"");
                 }
                 listBean.setCount_praise(count_praise);
+                imgCommentLike.setImageResource(listBean.getIs_my_praise() == 0 ? R.mipmap.zan_select : R.mipmap.zan_selected);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
