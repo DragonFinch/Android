@@ -145,7 +145,7 @@ public class SearchYoXiuListAdapter extends RecyclerView.Adapter<SearchYoXiuList
         } else {
             viewHolder.img_like.setImageResource(R.mipmap.yixihuan_xiangqing);
         }*/
-        viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == 1 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+        viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
         yo_id = mList.get(position).getYo_id();
 
         viewHolder.medal.setVisibility(View.VISIBLE);

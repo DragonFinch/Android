@@ -166,7 +166,7 @@ public class SearchYoJiListHorizontalAdapter extends RecyclerView.Adapter<Search
                 });
             }
         }
-        holder.dt_like.setImageResource(mList.get(position).isIs_my_praise() == 1 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+        holder.dt_like.setImageResource(mList.get(position).isIs_my_praise() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
         int yo_id = mList.get(position).getYo_id();
         holder.dt_like.setOnClickListener(new View.OnClickListener() {
             @Override
