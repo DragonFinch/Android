@@ -1,15 +1,19 @@
 package zhanghuan.cn.emojiconlibrary;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -58,6 +62,9 @@ public class FaceRelativeLayout extends RelativeLayout implements
 
     /** 当前表情页 */
     private int current = 0;
+
+    //表情的点击时间
+    ImageView btn_face;
 
     public FaceRelativeLayout(Context context) {
         super(context);
@@ -112,10 +119,11 @@ public class FaceRelativeLayout extends RelativeLayout implements
             if (view.getVisibility() == View.VISIBLE) {
                 view.setVisibility(View.GONE);
                 KeyBoardUtils.openKeybord(et_sendmessage,context);
-
+                btn_face.setImageResource(R.drawable.ruanjianpan);
             } else {
                 view.setVisibility(View.VISIBLE);
                 KeyBoardUtils.closeKeybord(et_sendmessage,context);
+                btn_face.setImageResource(R.drawable.btn_emoji);
             }
 
         } else if (i == R.id.et_sendmessage) {// 隐藏表情选择框
@@ -149,7 +157,16 @@ public class FaceRelativeLayout extends RelativeLayout implements
         et_sendmessage = (EditText) findViewById(R.id.et_sendmessage);
         layout_point = (LinearLayout) findViewById(R.id.iv_image);
         et_sendmessage.setOnClickListener(this);
-        findViewById(R.id.btn_face).setOnClickListener(this);
+        btn_face = (ImageView) findViewById(R.id.btn_face);
+    /*    ImageView imgemo = (ImageView) findViewById(R.id.item_iv_face);
+        //图片的点击时间
+        imgemo.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context,"一点击",Toast.LENGTH_SHORT).show();
+            }
+        });*/
+        btn_face.setOnClickListener(this);
         view = findViewById(R.id.ll_facechoose);
     /*    SoftKeyBoardListener.setListener((Activity) context, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
             @Override
@@ -202,12 +219,14 @@ public class FaceRelativeLayout extends RelativeLayout implements
             pageViews.add(view);
         }
 
+
         // 右侧添加空页面
         View nullView2 = new View(context);
         // 设置透明背景
         nullView2.setBackgroundColor(Color.TRANSPARENT);
         pageViews.add(nullView2);
     }
+
 
     /**
      * 初始化游标
@@ -237,12 +256,19 @@ public class FaceRelativeLayout extends RelativeLayout implements
 
         }
     }
+    //触摸事件的处理
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
+    }
 
     /**
      * 填充数据
      */
     private void Init_Data() {
         vp_face.setAdapter(new ViewPagerAdapter(pageViews));
+
+
 
         vp_face.setCurrentItem(1);
         current = 0;

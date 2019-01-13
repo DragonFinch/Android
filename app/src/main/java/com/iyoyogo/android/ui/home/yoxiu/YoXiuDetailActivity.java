@@ -232,6 +232,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         super.initData(savedInstanceState);
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
+
     }
 
     @Override

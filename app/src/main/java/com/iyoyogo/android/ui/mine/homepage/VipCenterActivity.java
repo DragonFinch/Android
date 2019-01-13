@@ -286,7 +286,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
             tvVip.setText("Lv2");
             imgLevel.setVisibility(View.VISIBLE);
             imgLevel.setImageResource(R.mipmap.lv2);
-            imgVipSign.setImageResource(R.mipmap.level_three);
+            imgVipSign.setImageResource(R.mipmap.level_two);
             tvFlag.setText(list.get(2).getName());
             myIcon.setBackgroundResource(R.mipmap.mem_gongcheng);
         } else if (score >= level.get(3).getScore() && score < level.get(4).getScore()) {

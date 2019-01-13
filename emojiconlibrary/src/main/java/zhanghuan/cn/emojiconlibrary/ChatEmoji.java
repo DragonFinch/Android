@@ -44,4 +44,13 @@ public class ChatEmoji {
     public void setFaceName(String faceName) {
         this.faceName=faceName;
     }
+
+    @Override
+    public String toString() {
+        return "ChatEmoji{" +
+                "id=" + id +
+                ", character='" + character + '\'' +
+                ", faceName='" + faceName + '\'' +
+                '}';
+    }
 }
