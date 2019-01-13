@@ -161,9 +161,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
 
     @OnClick(R.id.return_img)
     public void onViewClicked() {
-//        finish();
-        Log.d("VipCenterActivity", "mProgressBar.getWidth():" + mProgressBar.getWidth());
-        Log.d("VipCenterActivity", "UiUtils.dip2px(25 * 6 + 50 * 5 + 5):" + UiUtils.dip2px(25 * 6 + 50 * 5 + 5));
+        finish();
     }
 
     @Override
