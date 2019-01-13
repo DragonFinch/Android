@@ -27,6 +27,7 @@ import com.iyoyogo.android.presenter.VipCenterPresenter;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.util.UiUtils;
+import com.iyoyogo.android.view.HorizontalProgressBar;
 import com.iyoyogo.android.widget.CircleImageView;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -45,35 +46,35 @@ import butterknife.OnClick;
 
 public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter> implements VipCenterContract.View {
     @BindView(R.id.my_icon)
-    ImageView       myIcon;
+    ImageView             myIcon;
     @BindView(R.id.tv_vip)
-    TextView        tvVip;
+    TextView              tvVip;
     @BindView(R.id.tv_name)
-    TextView        tvName;
+    TextView              tvName;
     @BindView(R.id.tv_flag)
-    TextView        tvFlag;
+    TextView              tvFlag;
     @BindView(R.id.img_logo)
-    CircleImageView imgLogo;
+    CircleImageView       imgLogo;
     @BindView(R.id.img_vip_sign)
-    ImageView       imgVipSign;
+    ImageView             imgVipSign;
     @BindView(R.id.img_level)
-    ImageView       imgLevel;
-    @BindView(R.id.progressBar)
-    ProgressBar     mProgressBar;
-    @BindView(R.id.tv_current_score)
-    TextView        mTvCurrentScore;
+    ImageView             imgLevel;
+    @BindView(R.id.progress)
+    HorizontalProgressBar mProgressBar;
+//    @BindView(R.id.tv_current_score)
+//    TextView              mTvCurrentScore;
     @BindView(R.id.tv_level1)
-    TextView        mTvLevel1;
+    TextView              mTvLevel1;
     @BindView(R.id.tv_level2)
-    TextView        mTvLevel2;
+    TextView              mTvLevel2;
     @BindView(R.id.tv_level3)
-    TextView        mTvLevel3;
+    TextView              mTvLevel3;
     @BindView(R.id.tv_level4)
-    TextView        mTvLevel4;
+    TextView              mTvLevel4;
     @BindView(R.id.tv_level5)
-    TextView        mTvLevel5;
+    TextView              mTvLevel5;
     @BindView(R.id.tv_level6)
-    TextView        mTvLevel6;
+    TextView              mTvLevel6;
     //会员中心
     private View           pop_view;
     private PopupWindow    popMenu;
@@ -252,17 +253,18 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
         int score = vipCenterBean.getData().getUser_info().getScore();
         int max   = level.get(level.size() - 1).getScore();
         mProgressBar.setMax(max);
-        mTvCurrentScore.setText(score+"");
+        mProgressBar.setShowStr(score+"");
+//        mTvCurrentScore.setText(score+"");
         for (int i = 0; i < level.size(); i++) {
             if (i != level.size() - 1) {
                 if (score >= level.get(i).getScore() && score < level.get(i + 1).getScore()) {
                     double d = (double) max / (double) 5;
                     double s = (double) score / (double) level.get(i + 1).getScore();
-                    mProgressBar.setProgress((int) (d * i + s * d));
+                    mProgressBar.setProgressWithAnimation((int) (d * i + s * d));
                 }
             } else {
                 if (score >= level.get(i).getScore()) {
-                    mProgressBar.setProgress(max);
+                    mProgressBar.setProgressWithAnimation(max);
                 }
             }
         }
@@ -325,19 +327,19 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
 //
 //
 //        }
-        setScore();
+//        setScore();
     }
 
     private void setScore() {
-        int   w     = UiUtils.dip2px(25 * 6 + 50 * 5 + 5);
-        float index = (float) mProgressBar.getProgress() / (float) mProgressBar.getMax();
-        float pro   = index * w - UiUtils.dip2px(20f);
-        pro = pro > (w - UiUtils.dip2px(30)) ? (w - UiUtils.dip2px(30)) : pro;
-        TranslateAnimation ani;
-        ani = new TranslateAnimation(mTvCurrentScore.getX(), pro, 0, 0);
-        ani.setDuration(10);
-        ani.setFillAfter(true);
-        mTvCurrentScore.startAnimation(ani);
+//        int   w     = UiUtils.dip2px(25 * 6 + 50 * 5 + 5);
+//        float index = (float) mProgressBar.getProgress() / (float) mProgressBar.getMax();
+//        float pro   = index * w - UiUtils.dip2px(20f);
+//        pro = pro > (w - UiUtils.dip2px(30)) ? (w - UiUtils.dip2px(30)) : pro;
+//        TranslateAnimation ani;
+//        ani = new TranslateAnimation(mTvCurrentScore.getX(), pro, 0, 0);
+//        ani.setDuration(10);
+//        ani.setFillAfter(true);
+//        mTvCurrentScore.startAnimation(ani);
     }
 
 

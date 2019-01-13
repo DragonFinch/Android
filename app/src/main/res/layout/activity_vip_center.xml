@@ -167,7 +167,7 @@
 
 
                     <RelativeLayout
-                        android:layout_width="405dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
@@ -178,12 +178,13 @@
                             android:background="@mipmap/mem_jifenbg"
                             android:gravity="center_horizontal"
                             android:text="0"
+                            android:visibility="gone"
                             android:textColor="@color/FA800A"
                             android:textSize="@dimen/dp_10" />
 
                         <include
                             layout="@layout/my_vip_progress_bar"
-                            android:layout_width="400dp"
+                            android:layout_width="wrap_content"
                             android:layout_centerInParent="true"
                             android:layout_height="wrap_content" />
                     </RelativeLayout>
