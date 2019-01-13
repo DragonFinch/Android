@@ -15,6 +15,7 @@ import com.iyoyogo.android.bean.yoji.publish.MessageBean;
 import com.iyoyogo.android.camera.utils.CrashHandler;
 import com.iyoyogo.android.camera.utils.asset.NvAssetManager;
 import com.iyoyogo.android.utils.GdLocationUtil;
+import com.iyoyogo.android.utils.download.SystemParams;
 import com.meicam.sdk.NvsStreamingContext;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.LogStrategy;
@@ -69,6 +70,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        SystemParams.init(this);
         isDownload = false;
         context = this;
 

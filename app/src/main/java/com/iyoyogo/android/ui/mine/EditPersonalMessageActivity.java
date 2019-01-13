@@ -81,6 +81,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -169,6 +170,11 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
     private OssService mOssService;
     private ArrayList<Integer> channel_arrays;
     private ArrayList<String> channel_list;
+    private String birthday;
+    private String s;
+    private String format;
+
+
 
     @Override
     protected void initView() {
@@ -269,9 +275,10 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             @Override
             public void onClick(View v) {
                 if (url == null) {
-                    mPresenter.setUserInfo(user_id, user_token, nickName.getText().toString(), user_logo, sex, brithTvId.getText().toString(), cityTvId.getText().toString());
+                    mPresenter.setUserInfo(user_id, user_token, nickName.getText().toString(), user_logo, sex, textView.getText().toString().trim(), cityTvId.getText().toString());
                 } else {
-                    mPresenter.setUserInfo(user_id, user_token, nickName.getText().toString(), url, sex, brithTvId.getText().toString(), cityTvId.getText().toString());
+                    Log.d("EditPersonalMessageActi", textView.getText().toString().trim());
+                    mPresenter.setUserInfo(user_id, user_token, nickName.getText().toString(), url, sex, textView.getText().toString().trim(), cityTvId.getText().toString());
                 }
 
             }
@@ -295,7 +302,8 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
                 DateChooseWheelViewDialog startDateChooseDialog = new DateChooseWheelViewDialog(EditPersonalMessageActivity.this, new DateChooseWheelViewDialog.DateChooseInterface() {
                     @Override
                     public void getDateTime(String time, boolean longTimeChecked) {
-                        brithTvId.setText(time);
+                            textView.setText(time);
+
                     }
                 });
                 startDateChooseDialog.setDateDialogTitle("开始时间");
@@ -317,42 +325,6 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
         mOssService = new OssService(this);
     }
 
-    private void MyTiem() {
-        TimePickerView pvTime = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
-            @Override
-            public void onTimeSelect(Date date, View v) {
-
-                textView.setText(getTime(date));
-                int month = date.getMonth();
-                int day = date.getDay();
-                String starSeat = getStarSeat(month, day);
-                tvStartSeat.setText(starSeat);
-            }
-        })
-                .setType(new boolean[]{true, true, true, false, false, false})// 默认全部显示
-                .setCancelText("取消")//取消按钮文字
-                .setSubmitText("确定")//确认按钮文字
-                .gravity(Gravity.CENTER)
-//                .setContentSize(18)//滚轮文字大小
-//                .setTitleSize(20)//标题文字大小
-//                //.setTitleText("Title")//标题文字
-//                .setOutSideCancelable(true)//点击屏幕，点在控件外部范围时，是否取消显示
-//                .isCyclic(true)//是否循环滚动
-//                //.setTitleColor(Color.BLACK)//标题文字颜色
-//                .setSubmitColor(Color.BLUE)//确定按钮文字颜色
-//                .setCancelColor(Color.BLUE)//取消按钮文字颜色
-//                //.setTitleBgColor(0xFF666666)//标题背景颜色 Night mode
-//                .setBgColor(0xFF333333)//滚轮背景颜色 Night mode
-////                .setDate(selectedDate)// 如果不设置的话，默认是系统时间*/
-////                .setRangDate(startDate,endDate)//起始终止年月日设定
-//                //.setLabel("年","月","日","时","分","秒")//默认设置为年月日时分秒
-                .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
-                //.isDialog(true)//是否显示为对话框样式
-                .build();
-
-        pvTime.show();
-
-    }
 
     private String getTime(Date date) {//可根据需要自行截取数据显示
         //"YYYY-MM-DD HH:MM:SS"        "yyyy-MM-dd"
@@ -391,7 +363,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
         });
     }
 
-    @SuppressLint("ResourceAsColor")
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -410,7 +382,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             if (resultCode == 6) {
                 String city_name = data.getStringExtra("city_name");
                 cityTvId.setText(city_name);
-                cityTvId.setTextColor(R.color.color333333);
+                cityTvId.setTextColor(Color.parseColor("#333333"));
             }
         }
         if (requestCode == 1 && resultCode == 4) {
@@ -551,7 +523,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
 
     }
 
-    @SuppressLint("ResourceAsColor")
+
     @Override
     public void getUserInfoSuccess(GetUserInfoBean.DataBean data) {//获取个人信息
         String user_nickname = data.getUser_nickname();
@@ -569,7 +541,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
         String user_birthday = data.getUser_birthday();
         if (user_birthday.equals("")) {
             brithTvId.setText("你的破壳日?");
-            brithTvId.setTextColor(R.color.colorF1F1F1);
+            brithTvId.setTextColor(Color.parseColor("#F1F1F1"));
         } else {
             brithTvId.setText(user_birthday);
         }
@@ -578,7 +550,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             cityTvId.setText("你在哪?");
         } else {
             cityTvId.setText(user_city);
-            cityTvId.setTextColor(R.color.colorF1F1F1);
+            cityTvId.setTextColor(Color.parseColor("#333333"));
         }
         if (data.getUser_phone().equals("")) {
             tvPhone.setText("");

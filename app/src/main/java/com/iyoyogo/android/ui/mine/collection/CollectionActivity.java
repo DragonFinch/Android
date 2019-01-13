@@ -152,45 +152,46 @@ public class CollectionActivity extends BaseActivity<CollectionContract.Presente
 
             Log.d("CollectionActivity", "idList.size():" + idList.size());
             Log.d("CollectionActivity", "idList.size():" + like.length);
-            mPresenter.deleteCollectionFolder(user_id, user_token, like);
-            managerCollectionFolder.setText("管理");
 
-            editorStatus = false;
-            clearAll();
-           /* if (idList.size()>0){
+            if (idList.size() > 0) {
 
-
-            }else {
-               Log.d("CollectionActivity", "idList.size():" + idList.size());
+                mPresenter.deleteCollectionFolder(user_id, user_token, like);
                 managerCollectionFolder.setText("管理");
 
                 editorStatus = false;
                 clearAll();
-            }*/
+            } else {
+                Log.d("CollectionActivity", "idList.size():" + idList.size());
+                managerCollectionFolder.setText("管理");
+
+                editorStatus = false;
+                clearAll();
+            }
 
 
         }
         mineCollectionAdapter.setEditMode(mEditMode);
     }
-    public static Integer[] ifRepeat(Integer[] arr){
+
+    public static Integer[] ifRepeat(Integer[] arr) {
         //用来记录去除重复之后的数组长度和给临时数组作为下标索引  
         int t = 0;
         //临时数组  
         Integer[] tempArr = new Integer[arr.length];
         //遍历原数组  
-        for(int i = 0; i < arr.length; i++){
+        for (int i = 0; i < arr.length; i++) {
             //声明一个标记，并每次重置  
             boolean isTrue = true;
             //内层循环将原数组的元素逐个对比  
-            for(int j=i+1;j<arr.length;j++){
+            for (int j = i + 1; j < arr.length; j++) {
                 //如果发现有重复元素，改变标记状态并结束当次内层循环  
-                if(arr[i]==arr[j]){
+                if (arr[i] == arr[j]) {
                     isTrue = false;
                     break;
                 }
             }
             //判断标记是否被改变，如果没被改变就是没有重复元素  
-            if(isTrue){
+            if (isTrue) {
                 //没有元素就将原数组的元素赋给临时数组  
                 tempArr[t] = arr[i];
                 //走到这里证明当前元素没有重复，那么记录自增  
@@ -198,11 +199,12 @@ public class CollectionActivity extends BaseActivity<CollectionContract.Presente
             }
         }
         //声明需要返回的数组，这个才是去重后的数组  
-        Integer[]  newArr = new Integer[t];
+        Integer[] newArr = new Integer[t];
         //用arraycopy方法将刚才去重的数组拷贝到新数组并返回  
-        System.arraycopy(tempArr,0,newArr,0,t);
+        System.arraycopy(tempArr, 0, newArr, 0, t);
         return newArr;
     }
+
     @Override
     public void getCollectionSuccess(MineCollectionBean mineCollectionBean) {
         List<MineCollectionBean.DataBean.TreeBean> tree = mineCollectionBean.getData().getTree();
@@ -264,6 +266,7 @@ public class CollectionActivity extends BaseActivity<CollectionContract.Presente
         Toast.makeText(this, "删除成功", Toast.LENGTH_SHORT).show();
         finish();
     }
+
     /**
      * Item点击事件的监听类
      */

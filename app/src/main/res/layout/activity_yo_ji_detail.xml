@@ -535,6 +535,7 @@
     </com.iyoyogo.android.widget.MyNestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
     <RelativeLayout
+        android:background="@color/white"
      android:layout_alignParentBottom="true"
         android:id="@+id/comment_layout"
         android:layout_width="match_parent"

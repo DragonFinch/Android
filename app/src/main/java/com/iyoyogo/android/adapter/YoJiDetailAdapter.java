@@ -39,12 +39,14 @@ YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Holder> impleme
     String count_comment;
     int is_my_praise;
     int is_my_collect;
-
+    private int index;
+    private List<String> index_list=new ArrayList<>();
     //改变显示删除的imageview，通过定义变量isShow去接收变量isManager
     public void changetShowDelImage(boolean isShow) {
         this.isShow = isShow;
         notifyDataSetChanged();
     }
+
 
     public YoJiDetailAdapter(Context context, List<YoJiDetailBean.DataBean.ListBean> data, String count_praise, String count_comment, int is_my_praise, int is_my_collect) {
         this.mList = data;
@@ -164,15 +166,20 @@ YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Holder> impleme
 
 
         } else {
-            holder.flow.removeAllViews();
-            holder.img_water_mark.setOnClickListener(new View.OnClickListener() {
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!isShow) {
-                        changetShowDelImage(true);
+
+                    if (!index_list.contains(mList.get(position).getId()+"")) {
+                        isShow = false;
+                        index_list.add(mList.get(position).getId()+"");
+                        notifyItemChanged(position);
 
                     } else {
-                        changetShowDelImage(false);
+                        isShow = true;
+                        index_list.remove(mList.get(position).getId()+"");
+                        notifyItemChanged(position);
                     }
                 }
             });

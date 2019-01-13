@@ -45,7 +45,25 @@ public class AppUtils {
         }
     }
 
-
+    /**
+     * 返回当前程序版本名
+     */
+    public static String getAppVersionName(Context context) {
+        String versionName = "";
+        int versioncode = 1;
+        try {
+            PackageManager pm = context.getPackageManager();
+            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+            versionName = pi.versionName;
+            versioncode = pi.versionCode;
+            if (versionName == null || versionName.length() <= 0) {
+                return "";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return versionName;
+    }
     /**
      * 判断是否处于WiFi状态
      * getActiveNetworkInfo 是可用的网络，不一定是链接的，getNetworkInfo 是链接的。

@@ -60,12 +60,14 @@ import java.util.Map;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Url;
 
 /**
  * Created by Stephen on 2018/9/10 19:27
@@ -747,6 +749,8 @@ public interface ApiService {
     @POST("index.php/api/clicksearch/get_yo_position_list")
     @FormUrlEncoded
     Observable<YoJiListBean> getYoJiPosition(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("position")String position,@Field("type")int type,@Field("page")int page,@Field("page_size")String page_size);
+    @POST("index.php/api/clicksearch/get_yo_position_list")
+    @FormUrlEncoded
     Observable<YouXiuListBean> getYoXiuPosition(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("position") String position, @Field("type") int type, @Field("page") int page, @Field("page_size") String page_size);
 
     //index.php/api/userbind/bind
@@ -759,5 +763,8 @@ public interface ApiService {
      * logo	是	str	logo
      */
     Observable<BaseBean> update_bind(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("type") int type, @Field("openid") String openid, @Field("nickname") String nickname, @Field("logo") String logo);
+
+    @GET
+    Observable<ResponseBody> downFile(@Url String fileUrl);
 }
 

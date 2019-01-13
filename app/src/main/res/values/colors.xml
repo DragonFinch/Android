@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <color name="color333333" >#333333</color>
+    <color name="textColor_999">#999999</color>
+    <color name="textColor_666">#666666</color>
+    <color name="textColor_333">#333333</color>
+    <color name="baseColor_title">#ffffff</color>
+    <color name="textColor_white">#ffffff</color>
+    <color name="textColor_515d7c">#515d7c</color>
+    <color name="textColor_adadad">#adadad</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorGreen">#5DB254</color>
+    <color name="colorBlue">#60B4FC</color>
+    <color name="colorGray">#EEEEEE</color>
+    <color name="colorYellow">#EDA548</color>
+    <color name="colorRed">#E75725</color>
+
+    <color name="tran">#00000000</color>
+    <color name="RED">#ff0000</color>
+    <color name="colorLineNarrow">#cfcfcf</color>
+    <color name="colorLineWide">#E9E9E9</color>
+    <color name="colorSystembar">#2D3134</color>
+    <color name="multiple_image_select_albumTextBackground">#99FFFFFF</color>
+    <color name="multiple_image_select_buttonText">#FFFFFF</color>
+    <color name="multiple_image_select_divider">#B6B6B6</color>
+    <color name="multiple_image_select_imageSelectBackground">#000000</color>
+    <color name="multiple_image_select_primaryLight">#C8E6C9</color>
+    <color name="multiple_image_select_primaryText">#212121</color>
+    <color name="multiple_image_select_secondaryText">#727272</color>
     <color name="colorC1C1C1">#C1C1C1</color>
     <color name="colorFFFFFF">#FFFFFF</color>
     <color name="orange">#FA800A</color>
@@ -107,7 +133,6 @@
     <color name="actionbar_menu_item_selected_color">#00000000</color>
     <color name="title_bar_background">#FFFFFF</color>
     <color name="bg_color_2">#F1F1F1</color>
-    <color name="transparent">#00000000</color>
     <color name="province_line_border">#D0D0D0</color>
     <color name="__picker_pager_bg">#CA000000</color>
     <color name="__picker_crop_toolbar_bg">#38393E</color>
