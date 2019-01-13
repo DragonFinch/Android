@@ -66,6 +66,8 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
     ImageView btnSend;
     @BindView(R.id.btn_face)
     ImageView btnFace;
+    @BindView(R.id.ll_facechoose)
+    RelativeLayout llFacechoose;
     private List<CommentBean.DataBean.ListBean> list;
     private int size;
     private String user_id;
@@ -144,6 +146,13 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
                 finish();
                 break;
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 
     //隐藏事件PopupWindow
@@ -281,8 +290,8 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
     @Override
     public void addCommentSuccess(BaseBean baseBean) {
         String msg = baseBean.getMsg();
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         etSendmessage.setText("");
+        llFacechoose.setVisibility(View.GONE);
         yoXiuDetailAdapter.notifyDataSetChanged();
     }
 
