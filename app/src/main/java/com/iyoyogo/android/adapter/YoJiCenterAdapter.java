@@ -76,7 +76,7 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-
+        holder.more_img.setVisibility(View.GONE);
         int is_highquality = mList.get(position).getQuality_type();
         if (is_highquality == 1) {
             holder.typeImageView.setVisibility(View.VISIBLE);
@@ -105,7 +105,7 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
             mList.get(position).getUser_info().setPartner_type(3);
             holder.medal.setImageResource(R.mipmap.kol);
         } else {
-            holder.medal.setVisibility(View.INVISIBLE );
+            holder.medal.setVisibility(View.INVISIBLE);
         }
 
         int user_level = mList.get(position).getUser_info().getUser_level();
@@ -326,7 +326,7 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
 
     }
 
-    private void initDelete(Holder holder, String yo_user_id,  int yo_id) {
+    private void initDelete(Holder holder, String yo_user_id, int yo_id) {
         View view = LayoutInflater.from(context).inflate(R.layout.popup_delete_or_report, null);
         PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 125), ViewGroup.LayoutParams.WRAP_CONTENT, true);
         String user_id = SpUtils.getString(context, "user_id", null);
@@ -557,9 +557,9 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-        ImageView zuji_image, typeImageView, dt_like,medal,img_level;
+        ImageView zuji_image, typeImageView, dt_like, medal, img_level, more_img;
         CircleImageView user_icon;
-        TextView num_look, user_name, title, tv_cost, location, tv_day, tv_num_like, tv_num_comment,location_end;
+        TextView num_look, user_name, title, tv_cost, location, tv_day, tv_num_like, tv_num_comment, location_end;
         RelativeLayout view_like;
         PileLayout pile_layout;
         RecyclerView recycler_comment;
@@ -583,7 +583,8 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
             user_icon = itemView.findViewById(R.id.user_icon);
             dt_like = itemView.findViewById(R.id.dt_like);
             medal = itemView.findViewById(R.id.medal);
-            img_level =itemView.findViewById(R.id.img_level);
+            img_level = itemView.findViewById(R.id.img_level);
+            more_img = itemView.findViewById(R.id.more_img);
         }
     }
 

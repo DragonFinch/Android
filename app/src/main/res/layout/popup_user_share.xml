@@ -41,7 +41,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/share" />
+            android:src="@mipmap/menu_edit" />
 
         <TextView
             android:layout_width="wrap_content"
