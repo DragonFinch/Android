@@ -55,8 +55,6 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
     TextView allCommentTv;
     @BindView(R.id.all_comment_RecyclerView)
     RecyclerView allCommentRecyclerView;
-    /*   @BindView(R.id.img_brow)
-       ImageView imgBrow;*/
     @BindView(R.id.comment_layout)
     RelativeLayout commentLayout;
     @BindView(R.id.et_sendmessage)

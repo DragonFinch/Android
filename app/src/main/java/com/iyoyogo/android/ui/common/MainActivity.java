@@ -240,19 +240,20 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
 
     @Override
     public void getVersionSuccess(VersionBean.DataBean data) {
+
         String version = data.getVersion();
-        String s = version.replaceAll(".", "");
-        Log.d("MainActivity", "version" + version);
-        Log.d("8889898989", s);
-        int currVersionCode = AppUtils.getPackageVersionCode(MainActivity.this);
-          /*  int newVersionCode = Integer.parseInt(s);
+        String netVersion = version.replace(".", "");
+        Log.d("RecommedFragment", netVersion);
+        String s = packageName(getApplicationContext());
+        String localVersion = s.replace(".", "");
+        int local_version = Integer.parseInt(localVersion);
+        int net_version = Integer.parseInt(netVersion);
+
+        if (local_version<net_version){
+            showHintDialog();
 
 
-            //如果当前版本小于新版本，则提示更新
-            if (currVersionCode < newVersionCode) {
-                Log.i("tag", "有新版本需要更新");
-                showHintDialog();
-            }*/
+        }
     }
 
     private void initViews() {
@@ -504,26 +505,8 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         DownloadApk.removeFile(this);
         String user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
         String user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
-        DataManager.getFromRemote().getVersionMessage(user_id,user_token,"and").subscribe(new Consumer<VersionBean>() {
-            @Override
-            public void accept(VersionBean versionBean) throws Exception {
-                VersionBean.DataBean data1 = versionBean.getData();
-                String version = data1.getVersion();
-                String netVersion = version.replace(".", "");
-                Log.d("RecommedFragment", netVersion);
-                String s = packageName(getApplicationContext());
-                String localVersion = s.replace(".", "");
-                int local_version = Integer.parseInt(localVersion);
-                int net_version = Integer.parseInt(netVersion);
+        mPresenter.getVersion(user_id,user_token,"and");
 
-                if (local_version<net_version){
-                    showHintDialog();
-
-
-                }
-
-            }
-        });
     }
 
     @Override
@@ -604,10 +587,11 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     }
     @Override
     protected void onDestroy() {
+
         super.onDestroy();
         //4.反注册广播接收器
         DownloadApk.unregisterBroadcast(this);
-        super.onDestroy();
+
     }
 
 }
