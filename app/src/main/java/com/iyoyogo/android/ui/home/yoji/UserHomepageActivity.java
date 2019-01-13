@@ -197,9 +197,9 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
         user_token = SpUtils.getString(UserHomepageActivity.this, "user_token", null);
         Intent intent = getIntent();
         yo_user_id = intent.getStringExtra("yo_user_id");
-        if (yo_user_id != null){
-            mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
-        }
+//        if (yo_user_id != null){
+//            mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
+//        }
 
     }
 
@@ -575,6 +575,14 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
                 intent3.putExtra("url",user_logo_big);
                 startActivity(intent3);
                 break;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (yo_user_id != null){
+            mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
         }
     }
 

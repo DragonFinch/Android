@@ -175,8 +175,7 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
         user_token = SpUtils.getString(Personal_homepage_Activity.this, "user_token", null);
         Intent intent = getIntent();
         yo_user_id = intent.getStringExtra("yo_user_id");
-        mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
-
+//        mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
     }
 
     @Override
@@ -189,11 +188,11 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
         return new PersonalCenterPresenter(this);
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
+    }
 
     @OnClick({R.id.img_back, R.id.img_share, R.id.my_collection, R.id.get_hisFans, R.id.collect, R.id.img_view,R.id.img_user_icon})
     public void onViewClicked(View view) {
