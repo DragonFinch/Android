@@ -40,6 +40,7 @@ import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.mine.center.UserCenterBean;
 import com.iyoyogo.android.contract.PersonalCenterContract;
 import com.iyoyogo.android.presenter.PersonalCenterPresenter;
+import com.iyoyogo.android.ui.mine.BigPictureActivity;
 import com.iyoyogo.android.ui.mine.collection.CollectionActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.FastBlurUtil;
@@ -125,6 +126,7 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
     public static boolean flag = false;
     private RecyclerView recyclerYoji;
     private YoJiFragment yoJiFragment;
+    String user_logo_big;
 
 
     protected void initView() {
@@ -193,7 +195,7 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
 //        mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
 //    }
 
-    @OnClick({R.id.img_back, R.id.img_share, R.id.my_collection, R.id.get_hisFans, R.id.collect, R.id.img_view})
+    @OnClick({R.id.img_back, R.id.img_share, R.id.my_collection, R.id.get_hisFans, R.id.collect, R.id.img_view,R.id.img_user_icon})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -248,6 +250,11 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
 //                        YoJiFragment.yoJiCenterAdapter.notifyDataSetChanged();
 //                    }
                 }
+                break;
+            case R.id.img_user_icon:
+                Intent intent3 = new Intent(this, BigPictureActivity.class);
+                intent3.putExtra("url",user_logo_big);
+                startActivity(intent3);
                 break;
         }
     }
@@ -500,6 +507,8 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
 //            imgBg.setScaleType(ImageView.ScaleType.CENTER_CROP);
 //            imgBg.setImageBitmap(blurBitmap);
 //        }
+        user_logo_big = data.getUser_logo_big();
+
     }
 
     @Override

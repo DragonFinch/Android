@@ -51,6 +51,23 @@ public class ReplyDiscussAdapter extends RecyclerView.Adapter<ReplyDiscussAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
+        holder.medal.setVisibility(View.VISIBLE);
+        int partner_type = mList.get(position).getPartner_type();
+        if (partner_type == 0) {
+            mList.get(position).setPartner_type(0);
+            holder.medal.setVisibility(View.INVISIBLE);
+        } else if (partner_type == 1) {
+            mList.get(position).setPartner_type(1);
+            holder.medal.setImageResource(R.mipmap.daren);
+        } else if (partner_type == 2) {
+            mList.get(position).setPartner_type(2);
+            holder.medal.setImageResource(R.mipmap.hongren);
+        } else if (partner_type == 3) {
+            mList.get(position).setPartner_type(3);
+            holder.medal.setImageResource(R.mipmap.kol);
+        } else {
+            holder.medal.setVisibility(mList.get(position).getPartner_type() == 0 ? View.INVISIBLE : View.VISIBLE);
+        }
 
         //设置字体(default,default-bold,monospace,serif,sans-serif)
 //        msp.setSpan(new TypefaceSpan("monospace"), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -158,7 +175,7 @@ public class ReplyDiscussAdapter extends RecyclerView.Adapter<ReplyDiscussAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView user_content, tv_time, tv_comment_like_num;
         CircleImageView img_user_icon;
-        ImageView img_comment_like;
+        ImageView img_comment_like,medal;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -167,6 +184,7 @@ public class ReplyDiscussAdapter extends RecyclerView.Adapter<ReplyDiscussAdapte
             tv_comment_like_num = itemView.findViewById(R.id.tv_comment_like_num);
             img_user_icon = itemView.findViewById(R.id.img_user_icon);
             img_comment_like = itemView.findViewById(R.id.img_comment_like);
+            medal = itemView.findViewById(R.id.medal);
         }
     }
 }

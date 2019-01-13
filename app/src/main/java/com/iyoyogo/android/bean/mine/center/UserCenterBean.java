@@ -36,7 +36,7 @@ public class UserCenterBean extends BaseBean {
          * count_yoj : 0
          * is_my_attention : 0
          */
-
+        private String user_logo_big;
         private String user_id;
         private String user_nickname;
         private String user_logo;
@@ -51,6 +51,14 @@ public class UserCenterBean extends BaseBean {
         private String count_yox;
         private String count_yoj;
         private int is_my_attention;
+
+        public String getUser_logo_big() {
+            return user_logo_big;
+        }
+
+        public void setUser_logo_big(String user_logo_big) {
+            this.user_logo_big = user_logo_big;
+        }
 
         public String getUser_id() {
             return user_id;

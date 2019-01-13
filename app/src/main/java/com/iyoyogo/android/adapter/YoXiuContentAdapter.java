@@ -173,10 +173,15 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
         viewHolder.user_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int yo_user_id = mList.get(position).getUser_id();
-                Intent intent = new Intent(context, UserHomepageActivity.class);
-                intent.putExtra("yo_user_id", String.valueOf(yo_user_id));
-                context.startActivity(intent);
+//              String user_id = SpUtils.getString(context, "user_id", null);
+//                if (user_id.equals(String.valueOf(mList.get(position).getUser_id()))){
+//
+//                }else {
+//                    int yo_user_id = mList.get(position).getUser_id();
+//                    Intent intent = new Intent(context, UserHomepageActivity.class);
+//                    intent.putExtra("yo_user_id", String.valueOf(yo_user_id));
+//                    context.startActivity(intent);
+//                }
             }
         });
 

@@ -146,13 +146,6 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
     //隐藏事件PopupWindow
     private class poponDismissListener implements PopupWindow.OnDismissListener {
         @Override

@@ -120,42 +120,41 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
         refreshLayout.setRefreshFooter(new MyRefreshAnimFooter(getContext()));
         refreshLayout.autoRefresh();
         refreshLayout.finishRefresh(1050);
-        if (mList.size() != 0) {
-            refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-                @Override
-                public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                     mList.clear();
                     refreshLayout.finishRefresh(1050);
                     mPresenter.getYoJiContent(user_id, user_token, yo_user_id, "1", "20");
-                }
-            });
-            refreshLayout.setOnLoadMoreListener(new OnRefreshLoadMoreListener() {
-                @Override
-                public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                    currentPage++;
-                    Log.d("currentPage", "currentPage:" + currentPage);
-                    DataManager.getFromRemote()
-                            .getYoJiContent(user_id, user_token, yo_user_id, currentPage + "", 20 + "")
-                            .subscribe(new Consumer<YoJiContentBean>() {
-                                @Override
-                                public void accept(YoJiContentBean yoJiContentBean) throws Exception {
-                                    List<YoJiContentBean.DataBean.ListBean> list1 = yoJiContentBean.getData().getList();
-                                    mList.addAll(list1);
-                                    if (mList != null) {
-                                        yoJiCenterAdapter.notifyItemInserted(mList.size());
-                                        yoJiContentAdapter2.notifyItemInserted(mList.size());
-                                    }
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnRefreshLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                currentPage++;
+                Log.d("currentPage", "currentPage:" + currentPage);
+                DataManager.getFromRemote()
+                        .getYoJiContent(user_id, user_token, yo_user_id, currentPage + "", 20 + "")
+                        .subscribe(new Consumer<YoJiContentBean>() {
+                            @Override
+                            public void accept(YoJiContentBean yoJiContentBean) throws Exception {
+                                List<YoJiContentBean.DataBean.ListBean> list1 = yoJiContentBean.getData().getList();
+                                mList.addAll(list1);
+                                if (mList.size() != 0) {
+                                    yoJiCenterAdapter.notifyItemInserted(mList.size());
+                                    yoJiContentAdapter2.notifyItemInserted(mList.size());
                                 }
-                            });
-                    refreshLayout.finishLoadMore(2000);
-                }
+                            }
+                        });
+                refreshLayout.finishLoadMore(2000);
+            }
 
-                @Override
-                public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
 
-                }
-            });
-        }
+            }
+        });
+
     }
 
     @Override
@@ -189,6 +188,7 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
                     int yo_id = mList.get(position).getYo_id();
                     Intent intent = new Intent(getContext(), YoJiDetailActivity.class);
                     intent.putExtra("yo_id", yo_id);
+                    intent.putExtra("yo_uesr_id",yo_user_id);
                     startActivity(intent);
                 }
             });
@@ -203,6 +203,7 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
                         int yo_id = mList.get(position).getYo_id();
                         Intent intent = new Intent(getContext(), YoJiDetailActivity.class);
                         intent.putExtra("yo_id", yo_id);
+                        intent.putExtra("yo_uesr_id",yo_user_id);
                         startActivity(intent);
                     }
                 });

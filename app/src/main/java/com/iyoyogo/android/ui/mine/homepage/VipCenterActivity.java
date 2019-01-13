@@ -67,7 +67,6 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
     protected void initView() {
         super.initView();
         statusbar();
-//        StatusBarUtils.setWindowStatusBarColor(VipCenterActivity.this, R.color.orange);
         init();
     }
 

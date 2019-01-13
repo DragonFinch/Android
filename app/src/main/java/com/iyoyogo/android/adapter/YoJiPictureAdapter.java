@@ -73,6 +73,7 @@ public class YoJiPictureAdapter extends PagerAdapter {
                 .load(images.get(position))
                 .apply(requestOptions)
                 .into(imageView);
+        image = images.get(position);
         imageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -80,7 +81,6 @@ public class YoJiPictureAdapter extends PagerAdapter {
                 return false;
             }
         });
-        image = images.get(position);
 
 //        imageView.setOnClickListener(new View.OnClickListener() {
 //            @Override

@@ -99,7 +99,7 @@
                                 android:id="@+id/tv_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/dp_10"
+                                android:layout_marginLeft="5dp"
                                 android:text="@string/user_name"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/sp_18" />
@@ -114,7 +114,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/dp_10"
+                                    android:layout_marginLeft="5dp"
                                     android:text="@string/dengji"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/sp_15" />
@@ -123,12 +123,10 @@
                                     android:id="@+id/tv_vip"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/dp_10"
+                                    android:layout_marginLeft="5dp"
                                     android:background="@drawable/attention_btn_bg_unselect"
                                     android:paddingLeft="@dimen/dp_4"
-                                    android:paddingTop="@dimen/dp_2"
                                     android:paddingRight="@dimen/dp_4"
-                                    android:paddingBottom="@dimen/dp_2"
                                     android:text="入门"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/sp_9" />
@@ -137,7 +135,7 @@
                                     android:id="@+id/tv_flag"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/dp_10"
+                                    android:layout_marginLeft="5dp"
                                     android:text="XXXX"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/sp_15" />
@@ -149,10 +147,12 @@
 
                     <ImageView
                         android:id="@+id/my_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="73dp"
+                        android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/dp_20"
+                        android:scaleType="center"
+                        android:src="@mipmap/mem_gongcheng"
                         />
 
                 </RelativeLayout>

@@ -233,9 +233,7 @@
             android:name=".camera.edit.theme.ThemeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/LuncherActivityTheme" />
-        <activity android:name=".TestActivity" >
-
-        </activity>
+        <activity android:name=".TestActivity"></activity>
         <activity
             android:name=".camera.edit.clipEdit.spilt.SpiltActivity"
             android:screenOrientation="portrait"
@@ -477,7 +475,8 @@
         <activity android:name=".ui.mine.WebViewActivity" />
         <activity android:name=".ui.home.PreviewGoTakePhotoActivity" />
         <activity android:name=".ui.home.SameActivity" />
-        <activity android:name=".ui.home.GoSelectImageActivity"></activity>
+        <activity android:name=".ui.home.GoSelectImageActivity" />
+        <activity android:name=".ui.mine.BigPictureActivity"></activity>
     </application>
 
 </manifest>

@@ -245,6 +245,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     private ArrayList<String> logos;
     private ArrayList<String> logos_big;
     private YoJiDetailAdapter yoJiDetailAdapter;
+    Intent intent;
 
     @Override
     protected void setSetting() {
@@ -262,7 +263,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         super.initView();
 //        statusbar();
         new SoftKeyboardStateHelper(findViewById(R.id.activity_yoji_detail)).addSoftKeyboardStateListener(this);
-        Intent intent = getIntent();
+        intent = getIntent();
         yo_id = intent.getIntExtra("yo_id", 0);
         setSupportActionBar(toolbar);
         appbar.setExpanded(true);
@@ -415,8 +416,12 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-
-
+        String yo_user_id = intent.getStringExtra("yo_user_id");
+//        if (yo_user_id.equals(user_id)){
+//            imgShare.setImageResource(R.mipmap.more);
+//        }else {
+//            imgShare.setImageResource(R.mipmap.fenxiang_bai);
+//        }
     }
 
     @Override
@@ -445,8 +450,6 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 mPresenter.addAttention(user_id, user_token, Integer.parseInt(yo_attention_id));
                 break;
             case R.id.tv_load_more:
-
-
                 if (tvLoadMore.getText().toString().trim().equals("展开全部")) {
                     yoJiDetailAdapter.changetShowDelImage(true);
                     tvLoadMore.setText("收起全部");
@@ -731,7 +734,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
             }
         });*/
-        EventBus.getDefault().postSticky(data.getUser_nickname());
+//        EventBus.getDefault().postSticky(data.getUser_nickname());
     }
 
     private void loadData(ArrayList<String> logos, int size) {
@@ -1190,13 +1193,6 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         lp.alpha = bgAlpha; // 0.0~1.0
         getWindow().setAttributes(lp); //act 是上下文context
 
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 
     @Override
