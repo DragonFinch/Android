@@ -178,15 +178,6 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
                     Glide.with(context).load(user_icons.get(i)).apply(requestOptions).into(imageView);
                     holder.pile_layout.addView(imageView);
                     int finalI = i;
-                    imageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-//                            Toast.makeText(context, "mList.get(position).getUsers_praise().get(i).getUser_id():" + mList.get(position).getUsers_praise().get(finalI).getUser_id(), Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(context, UserHomepageActivity.class);
-                            intent.putExtra("yo_user_id", String.valueOf(mList.get(finalI).getUser_info().getUser_id()));
-                            context.startActivity(intent);
-                        }
-                    });
                     Log.d("YoJiListHorizontalAdapt", "user_icons.size():" + user_icons.size());
                 }
             } else {

@@ -79,10 +79,10 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
     Unbinder unbinder;
     private String user_id;
     private String user_token;
-    public  String yo_user_id;
+    public String yo_user_id;
     MyRefreshAnimHeader mRefreshAnimHeader;
-    public  YoJiCenterAdapter yoJiCenterAdapter;
-    public  YoJiContentAdapter2 yoJiContentAdapter2;
+    public YoJiCenterAdapter yoJiCenterAdapter;
+    public YoJiContentAdapter2 yoJiContentAdapter2;
     private List<YoJiContentBean.DataBean.ListBean> list;
     public static List<YoJiContentBean.DataBean.ListBean> mList;
 
@@ -114,6 +114,7 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
         yo_user_id = bundle.getString("yo_user_id");
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
+        mPresenter.getYoJiContent(user_id, user_token, yo_user_id, "1", "20");
         //下拉刷新
         refreshLayout.setEnableRefresh(true);
         refreshLayout.setRefreshFooter(new MyRefreshAnimFooter(getContext()));
@@ -122,9 +123,9 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mList.clear();
-                refreshLayout.finishRefresh(1050);
-                mPresenter.getYoJiContent(user_id, user_token, yo_user_id, "1", "20");
+                    mList.clear();
+                    refreshLayout.finishRefresh(1050);
+                    mPresenter.getYoJiContent(user_id, user_token, yo_user_id, "1", "20");
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -139,7 +140,7 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
                             public void accept(YoJiContentBean yoJiContentBean) throws Exception {
                                 List<YoJiContentBean.DataBean.ListBean> list1 = yoJiContentBean.getData().getList();
                                 mList.addAll(list1);
-                                if (mList != null) {
+                                if (mList.size() != 0) {
                                     yoJiCenterAdapter.notifyItemInserted(mList.size());
                                     yoJiContentAdapter2.notifyItemInserted(mList.size());
                                 }
@@ -153,6 +154,7 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
 
             }
         });
+
     }
 
     @Override
@@ -186,6 +188,7 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
                     int yo_id = mList.get(position).getYo_id();
                     Intent intent = new Intent(getContext(), YoJiDetailActivity.class);
                     intent.putExtra("yo_id", yo_id);
+                    intent.putExtra("yo_uesr_id",yo_user_id);
                     startActivity(intent);
                 }
             });
@@ -200,6 +203,7 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
                         int yo_id = mList.get(position).getYo_id();
                         Intent intent = new Intent(getContext(), YoJiDetailActivity.class);
                         intent.putExtra("yo_id", yo_id);
+                        intent.putExtra("yo_uesr_id",yo_user_id);
                         startActivity(intent);
                     }
                 });

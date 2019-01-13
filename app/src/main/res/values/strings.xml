@@ -2,6 +2,11 @@
     <string name="bianji">编辑yo·秀</string>
     <string name="yoxiu">yo·秀</string>
     <string name="yoji">yo·记</string>
+    <string name="update_download_finish">下载完成</string>
+    <string name="update_download_start">开始下载</string>
+    <string name="update_download_failed">下载失败</string>
+    <string name="update_download_progressing">正在下载</string>
+    <string name="sure">确认</string>
     <string name="bianji_yoji">编辑yo·记</string>
     <string name="shier">十二使徒岩</string>
     <string name="genghuan">更换</string>

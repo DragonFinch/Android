@@ -45,7 +45,7 @@
             android:layout_marginLeft="@dimen/dp_6"
             android:layout_toRightOf="@+id/user_name"
             android:src="@mipmap/lv1"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/look_ll"

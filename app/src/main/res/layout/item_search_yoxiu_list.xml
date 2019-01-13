@@ -73,12 +73,12 @@
         android:id="@+id/medal"
         android:layout_width="@dimen/dp_11"
         android:layout_height="@dimen/dp_11"
-        android:layout_alignRight="@+id/user_logo"
-        android:layout_alignBottom="@+id/user_logo"
+        android:layout_alignRight="@+id/user_icon"
+        android:layout_alignBottom="@+id/user_icon"
         android:layout_marginLeft="-15dp"
         android:layout_marginTop="15dp"
         android:src="@mipmap/huiyuan"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_user_name"
@@ -92,6 +92,17 @@
         android:text="Frostmourne"
         android:textColor="#ff333333"
         android:textSize="@dimen/sp_12" />
+    <ImageView
+        android:id="@+id/user_level_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img_yoxiu"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/dp_6"
+        android:layout_toRightOf="@+id/tv_user_name"
+        android:src="@mipmap/lv1"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/dp20"/>
 
     <TextView
         android:id="@+id/num_browse"

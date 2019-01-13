@@ -74,11 +74,16 @@ public class DraftActivity extends BaseActivity<DraftContract.Presenter> impleme
     }
 
     @Override
-    protected void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    protected void onResume() {
+        super.onResume();
         user_id = SpUtils.getString(DraftActivity.this, "user_id", null);
         user_token = SpUtils.getString(DraftActivity.this, "user_token", null);
         mPresenter.getDraft(user_id, user_token, 1, 20);
+    }
+
+    @Override
+    protected void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
     }
 
 

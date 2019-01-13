@@ -464,6 +464,18 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             myoj.addAll(yoj_list);
             lvContent.setAdapter(adapter3);
             adapter3.notifyDataSetChanged();
+            adapter3.setSetoncli(new SearchYoJiListHorizontalAdapter.setoncli() {
+                @Override
+                public void setoncli(int p) {
+                    Intent intent = new Intent(SearchResultActivity.this, YoJiDetailActivity.class);
+                    intent.putExtra("yo_id", myoj.get(p).getYo_id());
+                    startActivity(intent);
+                }
+
+                @Override
+                public void set(int position) {
+                }
+            });
 
             name.setVisibility(View.VISIBLE);
             lv.setVisibility(View.VISIBLE);

@@ -44,7 +44,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <ImageView
+            <com.iyoyogo.android.ui.mine.homepage.CircleImageView
                 android:id="@+id/user_logo"
                 android:layout_width="@dimen/dp_35"
                 android:layout_height="@dimen/dp_35"

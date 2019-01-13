@@ -503,7 +503,7 @@ public interface ApiService {
     //删除收藏夹
     @POST("index.php/api/collect/folder_delete")
     @FormUrlEncoded
-    Observable<BaseBean> deleteCollectionFolder(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("folder_ids") Integer[] folder_ids);
+    Observable<BaseBean> deleteCollectionFolder(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("folder_ids[]") int[] folder_ids);
 
     //获取用户中心
     @POST("index.php/api/userhome/get")
@@ -533,12 +533,12 @@ public interface ApiService {
     //取消收藏
     @POST("index.php/api/collect/collect_delete")
     @FormUrlEncoded
-    Observable<BaseBean> deleteCollection(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("record_ids") Integer[] record_ids);
+    Observable<BaseBean> deleteCollection(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("record_ids[]") Integer[] record_ids);
 
     //移动收藏夹内容
     @POST("/index.php/api/collect/collect_move")
     @FormUrlEncoded
-    Observable<BaseBean> moveCollectionFolder(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("record_ids") Integer[] record_ids, @Field("folder_id") int folder_id);
+    Observable<BaseBean> moveCollectionFolder(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("record_ids[]") Integer[] record_ids, @Field("folder_id") int folder_id);
 
     //获取我的设置
     @POST("index.php/api/userconfig/get")
@@ -724,7 +724,7 @@ public interface ApiService {
     //首页  搜索 关键字搜索
     @POST("index.php/api/search/get_keywords")
     @FormUrlEncoded
-    Observable<KeywordUserBean> getserarch(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("search") String search);
+    Observable<KeywordUserBean> getserarch(@Field("user_id")String user_id, @Field("user_token") String user_token, @Field("search")String search);
 
     //index.php/api/yox/count_video_inc
     //浏览量加1
@@ -738,8 +738,15 @@ public interface ApiService {
     Observable<BaseBean> setLocation(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("lng") String lng, @Field("lat") String lat);
 
     //获取yo秀相同位置的列表
+//    @POST("index.php/api/clicksearch/get_yo_position_list")
+//    @FormUrlEncoded
+//    Observable<YouXiuListBean> getYoXiuPosition(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("position")String position,@Field("type")int type,@Field("page")int page,@Field("page_size")String page_size);
+    @POST("index.php/api/clicksearch/get_yo_label_list")
+    @FormUrlEncoded
+    Observable<YoJiListBean> getYoJiLabel(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("label")String label,@Field("page")int page,@Field("page_size")String page_size);
     @POST("index.php/api/clicksearch/get_yo_position_list")
     @FormUrlEncoded
+    Observable<YoJiListBean> getYoJiPosition(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("position")String position,@Field("type")int type,@Field("page")int page,@Field("page_size")String page_size);
     Observable<YouXiuListBean> getYoXiuPosition(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("position") String position, @Field("type") int type, @Field("page") int page, @Field("page_size") String page_size);
 
     //index.php/api/userbind/bind

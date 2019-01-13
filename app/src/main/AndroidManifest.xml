@@ -139,8 +139,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:name">
-        <activity android:name=".ui.mine.homepage.VipCenterActivity" />
+        <service
+            android:name=".utils.download.utils.UpdateService"/>
 
+        <activity android:name=".ui.mine.homepage.VipCenterActivity" />
         <provider
             android:name="cn.jpush.android.service.DataProvider"
             android:authorities="com.iyoyogo.android.DataProvider"
@@ -189,9 +191,6 @@
         <activity android:name=".ui.common.CaptureActivity" />
         <activity android:name=".camera.edit.clipEdit.trim.TrimActivity" />
 
-        <service
-            android:name=".ui.receive.UpdateService"
-            android:exported="false" />
 
         <receiver
             android:name=".ui.receive.MyReceiver"
@@ -234,9 +233,7 @@
             android:name=".camera.edit.theme.ThemeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/LuncherActivityTheme" />
-        <activity android:name=".TestActivity" >
-
-        </activity>
+        <activity android:name=".TestActivity"></activity>
         <activity
             android:name=".camera.edit.clipEdit.spilt.SpiltActivity"
             android:screenOrientation="portrait"
@@ -478,7 +475,8 @@
         <activity android:name=".ui.mine.WebViewActivity" />
         <activity android:name=".ui.home.PreviewGoTakePhotoActivity" />
         <activity android:name=".ui.home.SameActivity" />
-        <activity android:name=".ui.home.GoSelectImageActivity"></activity>
+        <activity android:name=".ui.home.GoSelectImageActivity" />
+        <activity android:name=".ui.mine.BigPictureActivity"></activity>
     </application>
 
 </manifest>

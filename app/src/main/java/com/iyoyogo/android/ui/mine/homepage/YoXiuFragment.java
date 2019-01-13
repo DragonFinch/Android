@@ -81,7 +81,7 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
     MyRefreshAnimHeader mRefreshAnimHeader;
     private YoXiuContentAdapter yoXiuContentAdapter;
     private List<YoXiuContentBean.DataBean.ListBean> list;
-    public  List<YoXiuContentBean.DataBean.ListBean> mList;
+    public List<YoXiuContentBean.DataBean.ListBean> mList;
 
     /**
      * 设置刷新header风格
@@ -132,7 +132,7 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
                             public void accept(YoXiuContentBean yoXiuContentBean) throws Exception {
                                 List<YoXiuContentBean.DataBean.ListBean> list1 = yoXiuContentBean.getData().getList();
                                 mList.addAll(list1);
-                                if (mList != null) {
+                                if (mList.size() != 0) {
                                     yoXiuContentAdapter.notifyItemInserted(mList.size());
                                 }
                             }

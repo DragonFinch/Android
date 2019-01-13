@@ -47,6 +47,7 @@ import com.iyoyogo.android.contract.PersonalCenterContract;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.net.ApiObserver;
 import com.iyoyogo.android.presenter.PersonalCenterPresenter;
+import com.iyoyogo.android.ui.mine.BigPictureActivity;
 import com.iyoyogo.android.ui.mine.collection.CollectionActivity;
 import com.iyoyogo.android.ui.mine.homepage.UserFansActivity;
 import com.iyoyogo.android.ui.mine.homepage.YoJiFragment;
@@ -138,6 +139,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
     private SmartRefreshLayout refreshLayout;
     private SmartRefreshLayout refreshLayout2;
     private YoJiFragment yoJiFragment;
+    String user_logo_big;
 
     @Override
     protected int getLayoutId() {
@@ -465,6 +467,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
 //            imgBg.setScaleType(ImageView.ScaleType.CENTER_CROP);
 //            imgBg.setImageBitmap(blurBitmap);
 //        }
+        user_logo_big = data.getUser_logo_big();
     }
 
     @Override
@@ -495,7 +498,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
     }
 
 
-    @OnClick({R.id.img_back, R.id.my_collection, R.id.get_hisFans, R.id.tv_guanzhu, R.id.collect, R.id.img_view, R.id.img_share})
+    @OnClick({R.id.img_back, R.id.my_collection, R.id.get_hisFans, R.id.tv_guanzhu, R.id.collect, R.id.img_view, R.id.img_share,R.id.img_user_icon})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -566,6 +569,11 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
                 break;
             case R.id.img_share:
                 share();
+                break;
+            case R.id.img_user_icon:
+                Intent intent3 = new Intent(this, BigPictureActivity.class);
+                intent3.putExtra("url",user_logo_big);
+                startActivity(intent3);
                 break;
         }
     }

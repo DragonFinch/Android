@@ -18,7 +18,7 @@ public interface CollectionContract {
 
     interface Presenter extends IBasePresenter {
 
-        void deleteCollectionFolder(String user_id, String user_token, Integer[] folder_ids);
+        void deleteCollectionFolder(String user_id, String user_token, int[] folder_ids);
 
         void getCollectionFold(String user_id, String user_token);
 

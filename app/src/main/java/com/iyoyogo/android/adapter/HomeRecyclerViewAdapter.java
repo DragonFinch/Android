@@ -61,6 +61,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             mHandler.postDelayed(runnableForViewPager, TIME);
         }
     };
+
     //使用Thread实现ViewPagerBanner图的效果
     Runnable runnableForViewPager = new Runnable() {
         @Override
@@ -251,7 +252,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, YoXiuListActivity.class);
-                intent.putExtra("position","");
+                intent.putExtra("position", "");
                 context.startActivity(intent);
             }
         });
@@ -298,6 +299,8 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             public void onClick(View v) {
 
                 Intent intent = new Intent(context, YoJiListActivity.class);
+                intent.putExtra("sign", "");
+                intent.putExtra("position", "");
                 context.startActivity(intent);
             }
         });

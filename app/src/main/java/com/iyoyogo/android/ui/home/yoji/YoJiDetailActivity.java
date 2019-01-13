@@ -54,6 +54,7 @@ import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.presenter.YoJiDetailPresenter;
 import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
 import com.iyoyogo.android.ui.home.yoxiu.MoreTopicActivity;
+import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SoftKeyboardStateHelper;
 import com.iyoyogo.android.utils.SpUtils;
@@ -64,6 +65,8 @@ import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -242,6 +245,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     private ArrayList<String> logos;
     private ArrayList<String> logos_big;
     private YoJiDetailAdapter yoJiDetailAdapter;
+    Intent intent;
 
     @Override
     protected void setSetting() {
@@ -257,9 +261,9 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+//        statusbar();
         new SoftKeyboardStateHelper(findViewById(R.id.activity_yoji_detail)).addSoftKeyboardStateListener(this);
-        Intent intent = getIntent();
+        intent = getIntent();
         yo_id = intent.getIntExtra("yo_id", 0);
         setSupportActionBar(toolbar);
         appbar.setExpanded(true);
@@ -292,7 +296,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 //                    statusbar();
 //                    StatusBarUtil.setTransparent(YoJiDetailActivity.this);
                     //展开监听
-                    MIUISetStatusBarLightMode(getWindow(), true);
+                    MIUISetStatusBarLightMode(getWindow(), false);
                     imgBack.setImageResource(R.mipmap.back_icon);
                     imgShare.setImageResource(R.mipmap.fenxiang_bai);
                     imgMessage.setVisibility(View.GONE);
@@ -412,8 +416,12 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-
-
+        String yo_user_id = intent.getStringExtra("yo_user_id");
+//        if (yo_user_id.equals(user_id)){
+//            imgShare.setImageResource(R.mipmap.more);
+//        }else {
+//            imgShare.setImageResource(R.mipmap.fenxiang_bai);
+//        }
     }
 
     @Override
@@ -442,8 +450,6 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 mPresenter.addAttention(user_id, user_token, Integer.parseInt(yo_attention_id));
                 break;
             case R.id.tv_load_more:
-
-
                 if (tvLoadMore.getText().toString().trim().equals("展开全部")) {
                     yoJiDetailAdapter.changetShowDelImage(true);
                     tvLoadMore.setText("收起全部");
@@ -640,6 +646,14 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         tvAddressSpotFold.setText(data.getList().size() + "个地点");
         tvAddressEnd.setText(data.getP_end());
         tvAddressEndFold.setText(data.getP_end());
+        imgHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(YoJiDetailActivity.this, UserHomepageActivity.class);
+                intent.putExtra("yo_user_id", data.getUser_id());
+                startActivity(intent);
+            }
+        });
 
         List<YoJiDetailBean.DataBean.ListBean> list = data.getList();
         yoJiDetailAdapter = new YoJiDetailAdapter(YoJiDetailActivity.this, list, data.getCount_praise(), String.valueOf(data.getCount_collect()), data.getIs_my_praise(), data.getIs_my_collect());
@@ -720,6 +734,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
             }
         });*/
+//        EventBus.getDefault().postSticky(data.getUser_nickname());
     }
 
     private void loadData(ArrayList<String> logos, int size) {
@@ -1178,13 +1193,6 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         lp.alpha = bgAlpha; // 0.0~1.0
         getWindow().setAttributes(lp); //act 是上下文context
 
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 
     @Override

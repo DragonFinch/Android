@@ -52,7 +52,7 @@ public class UpdateService extends IntentService {
             //开始下载最新版本的apk文件
 
             initNotification();
-            String url = intent.getStringExtra("url");
+            String url = intent.getStringExtra("apkUrl");
             download(url);
         }
     }

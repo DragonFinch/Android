@@ -16,7 +16,7 @@ public class CollectionPresenter extends BasePresenter<CollectionContract.View> 
     }
 
     @Override
-    public void deleteCollectionFolder(String user_id, String user_token, Integer[] folder_ids) {
+    public void deleteCollectionFolder(String user_id, String user_token, int[] folder_ids) {
         DataManager.getFromRemote().deleteCollectionFolder(user_id, user_token, folder_ids)
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override

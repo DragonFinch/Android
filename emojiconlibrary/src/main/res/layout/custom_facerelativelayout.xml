@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<zhanghuan.cn.emojiconlibrary.FaceRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/FaceRelativeLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/rl_input"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:padding="8dp">
+
+        <EditText
+            android:singleLine="true"
+            android:imeOptions="actionSend"
+            android:id="@+id/et_sendmessage"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@drawable/message_bg"
+            android:gravity="center_vertical"
+            android:hint="你也来评论一下吧..."
+            android:padding="4dp"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/btn_face"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/btn_emoji" />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/btn_send"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/comment_send" />
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/ll_facechoose"
+        android:layout_width="fill_parent"
+        android:layout_height="124dip"
+        android:layout_below="@id/rl_input"
+        android:background="#f6f5f5"
+        android:visibility="gone">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_contains"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+
+        <LinearLayout
+            android:id="@+id/iv_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="6dip"
+            android:gravity="center"
+            android:orientation="horizontal"></LinearLayout>
+    </RelativeLayout>
+
+</zhanghuan.cn.emojiconlibrary.FaceRelativeLayout>

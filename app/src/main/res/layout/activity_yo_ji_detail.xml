@@ -540,11 +540,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
-        <View
-            android:id="@+id/shadow"
-            android:layout_width="match_parent"
-            android:background="@mipmap/home_l_shadow"
-            android:layout_height="@dimen/dp_5"/>
+
         <EditText
 
             android:layout_below="@+id/shadow"

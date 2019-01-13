@@ -2,10 +2,16 @@ package com.iyoyogo.android.ui.home.yoji;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.LocaleList;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.iyoyogo.android.R;
@@ -42,6 +49,12 @@ import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SoftKeyboardStateHelper;
 import com.iyoyogo.android.utils.SpUtils;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
@@ -94,7 +107,7 @@ public class YoJiPictureActivity extends BaseActivity implements SoftKeyboardSta
     private RecyclerView recycler_collection;
     private ArrayList<CollectionFolderBean.DataBean.ListBean> mList1;
     private int add_collection_id;
-
+    ArrayList<String> logos;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_yo_ji_picture;
@@ -176,9 +189,9 @@ public class YoJiPictureActivity extends BaseActivity implements SoftKeyboardSta
         Bean bean = new Bean(count_praise, count_comment, is_my_praise, is_my_praise);
         dataBeans.add(bean);
         index = intent.getIntExtra("position", 0);
-        ArrayList<String> logos = intent.getStringArrayListExtra("logos");
+        logos = intent.getStringArrayListExtra("logos");
         tvCount.setText(index + 1 + "/" + logos.size());
-        YoJiPictureAdapter yoJiPictureAdapter = new YoJiPictureAdapter(getApplicationContext(), logos);
+        YoJiPictureAdapter yoJiPictureAdapter = new YoJiPictureAdapter(this, logos);
         vp.setAdapter(yoJiPictureAdapter);
         vp.setCurrentItem(index);
         tvLike.setText(count_praise);
@@ -441,6 +454,7 @@ public class YoJiPictureActivity extends BaseActivity implements SoftKeyboardSta
         popup.showAtLocation(findViewById(R.id.activity_yoji_picture), Gravity.BOTTOM, 0, 0);
     }
 
+
     @Override
     protected IBasePresenter createPresenter() {
         return null;
@@ -593,4 +607,6 @@ public class YoJiPictureActivity extends BaseActivity implements SoftKeyboardSta
             this.is_my_collect = is_my_collect;
         }
     }
+
+
 }
