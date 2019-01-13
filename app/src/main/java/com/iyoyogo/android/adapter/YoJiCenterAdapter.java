@@ -171,6 +171,7 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
                 List<String> user_icons = new ArrayList<>();
                 user_icons.clear();
                 int size = mList.get(position).getUsers_praise().size();
+                holder.pile_layout.removeAllViews();
                 for (int i = 0; i < size; i++) {
                     user_icons.add(mList.get(position).getUsers_praise().get(i).getUser_logo());
                     Log.e("YoJiListHorizontalAdapt", mList.get(position).getUsers_praise().get(i).getUser_logo());
@@ -178,7 +179,16 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
                     Glide.with(context).load(user_icons.get(i)).apply(requestOptions).into(imageView);
                     holder.pile_layout.addView(imageView);
                     int finalI = i;
-                    Log.d("YoJiListHorizontalAdapt", "user_icons.size():" + user_icons.size());
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+//                            Toast.makeText(context, "mList.get(position).getUsers_praise().get(i).getUser_id():" + mList.get(position).getUsers_praise().get(finalI).getUser_id(), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(context, UserHomepageActivity.class);
+                            intent.putExtra("yo_user_id", String.valueOf(mList.get(finalI).getUser_info().getUser_id()));
+                            context.startActivity(intent);
+                        }
+                    });
+                    Log.d("YoJiCenterAdapt", "user_icons.size():" + user_icons.size());
                 }
             } else {
                 List<YoJiContentBean.DataBean.ListBean.UsersPraiseBean> user_icons = new ArrayList<>();
