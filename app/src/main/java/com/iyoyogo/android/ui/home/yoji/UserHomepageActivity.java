@@ -583,6 +583,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
         super.onResume();
         if (yo_user_id != null){
             mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
+            rbYoji.setChecked(true);
         }
     }
 
