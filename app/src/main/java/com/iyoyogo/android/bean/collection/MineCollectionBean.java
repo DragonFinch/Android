@@ -42,7 +42,7 @@ public class MineCollectionBean extends BaseBean {
              */
 
             private int folder_id;
-            private int user_id;
+            private String user_id;
             private String name;
             private int open;
             private int count_record;
@@ -64,11 +64,11 @@ public class MineCollectionBean extends BaseBean {
                 this.folder_id = folder_id;
             }
 
-            public int getUser_id() {
+            public String getUser_id() {
                 return user_id;
             }
 
-            public void setUser_id(int user_id) {
+            public void setUser_id(String user_id) {
                 this.user_id = user_id;
             }
 

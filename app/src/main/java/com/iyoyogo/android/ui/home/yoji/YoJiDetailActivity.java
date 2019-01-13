@@ -246,6 +246,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     private ArrayList<String> logos_big;
     private YoJiDetailAdapter yoJiDetailAdapter;
     Intent intent;
+    String get_yo_id;
 
     @Override
     protected void setSetting() {
@@ -416,10 +417,10 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        String yo_user_id = intent.getStringExtra("yo_user_id");
-//        if (yo_user_id.equals(user_id)){
+        get_yo_id = intent.getStringExtra("yo_user_id");
+//        if (yo_user_id.equals(user_id)) {
 //            imgShare.setImageResource(R.mipmap.more);
-//        }else {
+//        } else {
 //            imgShare.setImageResource(R.mipmap.fenxiang_bai);
 //        }
     }

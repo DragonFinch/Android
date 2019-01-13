@@ -20,13 +20,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginTop="@dimen/dp_350"
         >
         <ImageView
             android:id="@+id/img_water_mark"
             android:layout_width="25dp"
             android:layout_height="22dp"
-            android:src="@mipmap/ic_meipai_logo"
+            android:src="@mipmap/download_shuiyin"
             />
 
         <TextView

@@ -226,25 +226,20 @@ public class YoJiPictureActivity extends BaseActivity implements SoftKeyboardSta
         editComment.setHintTextColor(Color.parseColor("#888888"));
         sendEmoji.setVisibility(View.VISIBLE);
         imgBrow.setVisibility(View.GONE);
-//                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
-////                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//
-//                    layoutParams.alignWithParent=true;
+//      RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+//      RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//      layoutParams.alignWithParent=true;
         RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//                    layoutParams1.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);
+//      layoutParams1.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);
         editComment.setLayoutParams(layoutParams1);
-
-
         //失去焦点
-
-
     }
 
     @Override
     public void onSoftKeyboardClosed() {
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
-//                    layoutParams.setMargins(0, DensityUtil.dp2px(YoXiuDetailActivity.this, 20), 0, 0);
+//      layoutParams.setMargins(0, DensityUtil.dp2px(YoXiuDetailActivity.this, 20), 0, 0);
         editComment.setLayoutParams(layoutParams);
         tvCollection.setVisibility(View.VISIBLE);
         tvLike.setVisibility(View.VISIBLE);

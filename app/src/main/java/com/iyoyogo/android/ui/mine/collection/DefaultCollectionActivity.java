@@ -82,6 +82,7 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
     private RecyclerView popup_favorites_prompt_rv_id;
     private int folder_ids;
     private String title;
+    String yo_user_id;
 
     @Override
     protected void initView() {
@@ -94,16 +95,9 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
         open = intent.getIntExtra("open", 0);
         user_id = SpUtils.getString(DefaultCollectionActivity.this, "user_id", null);
         user_token = SpUtils.getString(DefaultCollectionActivity.this, "user_token", null);
+        yo_user_id = intent.getStringExtra("user_id");
         functionBottom.setVisibility(View.GONE);
-
-        if (user_id.equals(folder_id)){
-            functionBottom.setVisibility(View.VISIBLE);
-            defaultSpotIvId.setVisibility(View.VISIBLE);
-        }else {
-            functionBottom.setVisibility(View.GONE);
-            defaultSpotIvId.setVisibility(View.GONE);
-        }
-
+        Log.d("DefaultCollectionActivi", yo_user_id);
     }
 
 
@@ -186,8 +180,14 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-
         mPresenter.getCollectionFolderContent(user_id, user_token, folder_id, 1);
+        if (user_id.equals(yo_user_id)) {
+            functionBottom.setVisibility(View.VISIBLE);
+            defaultSpotIvId.setVisibility(View.VISIBLE);
+        } else {
+            functionBottom.setVisibility(View.GONE);
+            defaultSpotIvId.setVisibility(View.GONE);
+        }
     }
 
 
@@ -404,7 +404,7 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
         List<CollectionFolderBean.DataBean.ListBean> list = collectionFolderBean.getList();
         popup_favorites_prompt_rv_id.setHasFixedSize(true);
         popup_favorites_prompt_rv_id.setLayoutManager(new LinearLayoutManager(DefaultCollectionActivity.this));
-        DefaultCollectionAdapter defaultCollectionAdapter = new DefaultCollectionAdapter(DefaultCollectionActivity.this, list,title);
+        DefaultCollectionAdapter defaultCollectionAdapter = new DefaultCollectionAdapter(DefaultCollectionActivity.this, list, title);
         popup_favorites_prompt_rv_id.setAdapter(defaultCollectionAdapter);
         defaultCollectionAdapter.setOnItemClickLitener(new OnItemClickLitener() {
             @Override
