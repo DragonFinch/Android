@@ -33,6 +33,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -176,6 +177,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     EditText editComment;
     @BindView(R.id.img_brow)
     ImageView imgBrow;
+
     @BindView(R.id.tv_like)
     TextView tvLike;
     @BindView(R.id.tv_collection)
@@ -315,52 +317,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
             }
         });
 
-        editComment.setImeOptions(EditorInfo.IME_ACTION_SEND);
-        editComment.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().trim().equals("#")) {
-                    startActivity(new Intent(YoJiDetailActivity.this, MoreTopicActivity.class));
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        editComment.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-                    if (editComment.getText().toString().length() > 0) {
-                        mPresenter.addComment(user_id, user_token, 0, yo_id, editComment.getText().toString().trim());
-                        closeInputMethod();
-                        mPresenter.getCommentList(user_id, user_token, 1, yo_id, 0);
-                        editComment.clearFocus();
-                        editComment.setFocusable(false);
-//                        yoXiuDetailAdapter.notifyItemInserted(dataBeans.size());
-                    } else {
-                    }
-                    return true;
-                }
-                return false;
-
-            }
-        });
-        editComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editComment.setFocusable(true);
-                editComment.setFocusableInTouchMode(true);
-                editComment.requestFocus();
-            }
-        });
     }
 
     private void closeInputMethod() {
@@ -433,6 +390,85 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         mPresenter.getYoJiDetail(user_id, user_token, yo_id);
         mPresenter.getCommentList(user_id, user_token, 1, yo_id, 0);
         tvLoadMore.setText("收起全部");
+        editComment.setImeOptions(EditorInfo.IME_ACTION_SEND);
+        editComment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().equals("#")) {
+                    startActivity(new Intent(YoJiDetailActivity.this, MoreTopicActivity.class));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        editComment.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                    if (editComment.getText().toString().length() > 0) {
+                        mPresenter.addComment(user_id, user_token, 0, yo_id, editComment.getText().toString().trim());
+                        closeInputMethod();
+                        mPresenter.getCommentList(user_id, user_token, 1, yo_id, 0);
+                        editComment.clearFocus();
+                        editComment.setFocusable(false);
+//                        yoXiuDetailAdapter.notifyItemInserted(dataBeans.size());
+                    } else {
+                    }
+                    return true;
+                }
+                return false;
+
+            }
+        });
+        editComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editComment.setFocusable(true);
+                editComment.setFocusableInTouchMode(true);
+                editComment.requestFocus();
+            }
+        });
+        editComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    //获得焦点
+                    tvCollection.setVisibility(View.GONE);
+                    tvLike.setVisibility(View.GONE);
+                    editComment.setHint("码字不容易，留个评论鼓励下嘛~");
+                    editComment.setHintTextColor(Color.parseColor("#888888"));
+                    sendEmoji.setVisibility(View.VISIBLE);
+                    imgBrow.setVisibility(View.GONE);
+//                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+////                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//
+//                    layoutParams.alignWithParent=true;
+                    RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//                    layoutParams1.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);
+                    editComment.setLayoutParams(layoutParams1);
+                }else {
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+//                    layoutParams.setMargins(0, DensityUtil.dp2px(YoXiuDetailActivity.this, 20), 0, 0);
+                    editComment.setLayoutParams(layoutParams);
+                    tvCollection.setVisibility(View.VISIBLE);
+                    tvLike.setVisibility(View.VISIBLE);
+                    editComment.setHint("再不评论 , 你会被抓去写作业的~");
+                    editComment.setHintTextColor(Color.parseColor("#888888"));
+                    sendEmoji.setVisibility(View.GONE);
+                    sendEmoji.setVisibility(View.GONE);
+                    imgBrow.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     @OnClick({R.id.add_attention, R.id.img_back, R.id.img_share, R.id.tv_attention, R.id.tv_load_more, R.id.tv_comment, R.id.tv_like, R.id.tv_collection, R.id.tv_more_comment})

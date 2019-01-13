@@ -439,7 +439,9 @@
         <activity android:name=".ui.mine.ReplacePhoneActivity" />
         <activity android:name=".ui.mine.AboutMeActivity" />
         <activity android:name=".ui.mine.FeedBackActivity" />
-        <activity android:name=".ui.home.yoxiu.AllCommentActivity" />
+        <activity android:name=".ui.home.yoxiu.AllCommentActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            />
         <activity android:name=".ui.mine.collection.DefaultCollectionActivity" />
         <activity android:name=".ui.home.yoji.YoJiListActivity" />
         <activity android:name=".utils.select.SelectPhotoActivity" />

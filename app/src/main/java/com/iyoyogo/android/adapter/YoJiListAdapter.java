@@ -220,7 +220,7 @@ public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHo
                     if (mList.get(position).getIs_my_praise() == 1) {
                         count_praises += 1;
                         mList.get(position).setCount_praise(String.valueOf(count_praises));
-                    } else if (count_praises > 0) {
+                    } else  {
                         count_praises -= 1;
                         mList.get(position).setCount_praise(String.valueOf(count_praises));
 
@@ -230,7 +230,7 @@ public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHo
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            DataManager.getFromRemote().praise(user_id, user_token, 0, mList.get(position).getYo_id())
+                            DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getYo_id(), 0)
                                     .subscribe(new Consumer<BaseBean>() {
                                         @Override
                                         public void accept(BaseBean baseBean) throws Exception {

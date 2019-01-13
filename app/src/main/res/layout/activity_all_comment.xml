@@ -34,14 +34,27 @@
 
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/all_comment_RecyclerView"
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/all_comment_lltoobar_id"
-        android:layout_marginTop="1dp"
-        android:background="@color/white"
-        android:layout_above="@id/comment_layout"/>
+        android:layout_above="@+id/comment_layout"
+        android:layout_below="@id/all_comment_lltoobar_id">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/all_comment_RecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="1dp"
+                android:background="@color/white" />
+
+        </RelativeLayout>
+    </ScrollView>
+
 
     <RelativeLayout
 

@@ -14,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -80,6 +81,12 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
     private int id1;
     private List<YoXiuDetailBean.DataBean> dataBeans;
     private View view;
+
+    @Override
+    protected void setSetting() {
+        super.setSetting();
+
+    }
 
     @Override
     protected int getLayoutId() {

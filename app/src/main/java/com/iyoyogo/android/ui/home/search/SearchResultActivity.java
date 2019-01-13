@@ -508,4 +508,11 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+       // mPresenter.getKeyWord(user_id,user_token,keyword,"all");
+       // mPresenter.getSearch(user_id,user_token,s.toString());
+    }
 }

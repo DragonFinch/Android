@@ -115,6 +115,14 @@ public class YoXiuListActivity extends BaseActivity {
         super.initData(savedInstanceState);
 
 
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         refreshLayout.setRefreshFooter(new MyRefreshAnimFooter(this));
         //下拉刷新
         user_id = SpUtils.getString(YoXiuListActivity.this, "user_id", null);
@@ -325,10 +333,7 @@ public class YoXiuListActivity extends BaseActivity {
                 }
             });
         }
-
-
     }
-
 
     @OnClick({R.id.back, R.id.share_img})
     public void onViewClicked(View view) {

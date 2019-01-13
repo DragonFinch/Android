@@ -17,7 +17,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.search.KeywordBean;
+import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
@@ -28,6 +30,8 @@ import com.iyoyogo.android.widget.CircleImageView;
 import com.iyoyogo.android.widget.PileLayout;
 
 import java.util.List;
+
+import io.reactivex.functions.Consumer;
 
 public class SearchYoJiListHorizontalAdapter extends RecyclerView.Adapter<SearchYoJiListHorizontalAdapter.Holder> implements View.OnClickListener {
     private List<KeywordBean.DataBean.YojListBean> mList;
@@ -53,7 +57,7 @@ public class SearchYoJiListHorizontalAdapter extends RecyclerView.Adapter<Search
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (setoncli != null){
+                if (setoncli != null) {
                     setoncli.setoncli(position);
                 }
             }
@@ -79,8 +83,8 @@ public class SearchYoJiListHorizontalAdapter extends RecyclerView.Adapter<Search
         holder.tv_num_like.setText("等" + mList.get(position).getCount_praise() + "人喜欢过");
         //holder.tv_num_like.setVisibility(View.GONE);
         List<KeywordBean.DataBean.YojListBean.CommentListBeanX> comment_list = mList.get(position).getComment_list();
-       //Log.e("ada", "onBindViewHolder: "+comment_list.get(position).getContent());
-      //  Log.e("ada", "onBindViewHolder: "+comment_list.get(position).getUser_nickname());
+        //Log.e("ada", "onBindViewHolder: "+comment_list.get(position).getContent());
+        //  Log.e("ada", "onBindViewHolder: "+comment_list.get(position).getUser_nickname());
         SearchYoJiListInnerAdapter adapter = new SearchYoJiListInnerAdapter(context, comment_list);
         Log.d("YoJiAdapter", "comment_list:" + comment_list.size());
         holder.recycler_comment.setLayoutManager(new LinearLayoutManager(context));
@@ -89,8 +93,8 @@ public class SearchYoJiListHorizontalAdapter extends RecyclerView.Adapter<Search
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(context,UserHomepageActivity.class);
-                intent.putExtra("yo_user_id",String.valueOf(mList.get(position).getUser_info().getUser_id()));
+                intent.setClass(context, UserHomepageActivity.class);
+                intent.putExtra("yo_user_id", String.valueOf(mList.get(position).getUser_info().getUser_id()));
                 context.startActivity(intent);
             }
         });
@@ -107,20 +111,20 @@ public class SearchYoJiListHorizontalAdapter extends RecyclerView.Adapter<Search
         holder.medal.setVisibility(View.VISIBLE);
         holder.img_level.setVisibility(View.VISIBLE);
         String partner_type = mList.get(position).getUser_info().getPartner_type();
-        if (partner_type .equals("0") ) {
+        if (partner_type.equals("0")) {
             mList.get(position).getUser_info().setPartner_type("0");
             holder.medal.setVisibility(View.INVISIBLE);
-        } else if (partner_type .equals("1") ) {
+        } else if (partner_type.equals("1")) {
             mList.get(position).getUser_info().setPartner_type("1");
             holder.medal.setImageResource(R.mipmap.daren);
-        } else if (partner_type .equals("2") ) {
+        } else if (partner_type.equals("2")) {
             mList.get(position).getUser_info().setPartner_type("2");
             holder.medal.setImageResource(R.mipmap.hongren);
-        } else if (partner_type .equals("3") ) {
+        } else if (partner_type.equals("3")) {
             mList.get(position).getUser_info().setPartner_type("3");
             holder.medal.setImageResource(R.mipmap.kol);
         } else {
-            holder.medal.setVisibility(mList.get(position).getUser_info().getPartner_type() .equals("0")  ? View.INVISIBLE : View.VISIBLE);
+            holder.medal.setVisibility(mList.get(position).getUser_info().getPartner_type().equals("0") ? View.INVISIBLE : View.VISIBLE);
         }
 
         int user_level = mList.get(position).getUser_info().getUser_level();
@@ -159,11 +163,12 @@ public class SearchYoJiListHorizontalAdapter extends RecyclerView.Adapter<Search
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(context,Personal_homepage_Activity.class);
+                        Intent intent = new Intent(context, Personal_homepage_Activity.class);
                         intent.putExtra("yo_user_id", String.valueOf(mList.get(position).getUsers_praise().get(finalI).getUser_id()));
                         context.startActivity(intent);
                     }
                 });
+
             }
         }
         holder.dt_like.setImageResource(mList.get(position).isIs_my_praise() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
@@ -174,20 +179,28 @@ public class SearchYoJiListHorizontalAdapter extends RecyclerView.Adapter<Search
                 String user_id = SpUtils.getString(context, "user_id", null);
                 String user_token = SpUtils.getString(context, "user_token", null);
                 int count_praise = mList.get(position).getCount_praise();
-                mList.get(position).setYo_id(mList.get(position).getYo_id() == 1 ? 0 : 1);
-                if (mList.get(position).getYo_id() == 1) {
-                    count_praise -= 1;
-                    mList.get(position).setCount_praise(count_praise);
-                    holder.tv_num_like.setText("等("+count_praise + ")人喜欢过");
-                    holder.dt_like.setImageResource(mList.get(position).isIs_my_praise() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
-
-                } else if (count_praise > 0) {
+                mList.get(position).setIs_my_praise(mList.get(position).isIs_my_praise() == 1 ? 0 : 1);
+                if (mList.get(position).isIs_my_praise() == 1) {
                     count_praise += 1;
                     mList.get(position).setCount_praise(count_praise);
-                    holder.tv_num_like.setText("等("+count_praise + ")人喜欢过");
-                    holder.dt_like.setImageResource(mList.get(position).isIs_my_praise() == 1 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+                    mList.get(position).setIs_my_praise(1);
+                    holder.tv_num_like.setText("等(" + count_praise + ")人喜欢过");
+                    holder.dt_like.setImageResource(mList.get(position).isIs_my_praise() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+
+                } else {
+                    count_praise -= 1;
+                    mList.get(position).setIs_my_praise(0);
+                    mList.get(position).setCount_praise(count_praise);
+                    holder.tv_num_like.setText("等(" + count_praise + ")人喜欢过");
+                    holder.dt_like.setImageResource(mList.get(position).isIs_my_praise() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
 
                 }
+                DataManager.getFromRemote().praise(user_id, user_token, yo_id, 0).subscribe(new Consumer<BaseBean>() {
+                    @Override
+                    public void accept(BaseBean baseBean) throws Exception {
+
+                    }
+                });
             }
         });
     }
@@ -215,7 +228,7 @@ public class SearchYoJiListHorizontalAdapter extends RecyclerView.Adapter<Search
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-        ImageView zuji_image, typeImageView, dt_like,medal,img_level;
+        ImageView zuji_image, typeImageView, dt_like, medal, img_level;
         CircleImageView user_icon;
         TextView num_look, user_name, title, tv_cost, location, tv_day, tv_num_like, tv_num_comment;
         RelativeLayout view_like;
@@ -240,7 +253,7 @@ public class SearchYoJiListHorizontalAdapter extends RecyclerView.Adapter<Search
             user_icon = itemView.findViewById(R.id.user_icon);
             dt_like = itemView.findViewById(R.id.dt_like);
             medal = itemView.findViewById(R.id.medal);
-            img_level =itemView.findViewById(R.id.user_level_img);
+            img_level = itemView.findViewById(R.id.user_level_img);
         }
     }
 
@@ -250,8 +263,9 @@ public class SearchYoJiListHorizontalAdapter extends RecyclerView.Adapter<Search
         this.setoncli = setoncli;
     }
 
-    public interface setoncli{
+    public interface setoncli {
         void setoncli(int p);
+
         void set(int position);
     }
 }

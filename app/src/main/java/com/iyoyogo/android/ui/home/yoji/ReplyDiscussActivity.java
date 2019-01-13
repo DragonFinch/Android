@@ -228,12 +228,10 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
     }
 
 
-
-
-
     private void initDelete(int yo_id) {
         View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.popup_delete_or_report, null);
         PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(getApplicationContext(), 125), ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setOutsideTouchable(true);
         String user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
         String user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
         TextView tv_delete = view.findViewById(R.id.tv_delete);
@@ -268,7 +266,6 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
     }
 
 
-
     //隐藏事件PopupWindow
     private class poponDismissListener implements PopupWindow.OnDismissListener {
         @Override
@@ -289,12 +286,17 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
     @Override
     protected void setSetting() {
         super.setSetting();
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     @Override
     protected void initView() {
         super.initView();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         initPopup();
         StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
         editComment.setImeOptions(EditorInfo.IME_ACTION_SEND);
@@ -342,11 +344,6 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
                 editComment.requestFocus();
             }
         });
-    }
-
-    @Override
-    protected void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
         user_id = SpUtils.getString(ReplyDiscussActivity.this, "user_id", null);
         user_token = SpUtils.getString(ReplyDiscussActivity.this, "user_token", null);
         Intent intent = getIntent();
@@ -382,6 +379,12 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
     }
 
     @Override
+    protected void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
+
+    }
+
+    @Override
     protected ReplyDiscussContract.Presenter createPresenter() {
         return new ReplyDiscussPresenter(this);
     }
@@ -405,14 +408,14 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
                 String user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
                 String user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
 
-                int count_praise = listBean.getIs_my_praise();
+                int count_praise = listBean.getCount_praise();
                 listBean.setIs_my_praise(listBean.getIs_my_praise() == 1 ? 0 : 1);
                 if (listBean.getIs_my_praise() == 1) {
                     count_praise += 1;
-                    tvCommentLikeNum.setText(count_praise+"");
-                } else if (count_praise > 0) {
+                    tvCommentLikeNum.setText(count_praise + "");
+                } else {
                     count_praise -= 1;
-                    tvCommentLikeNum.setText(count_praise+"");
+                    tvCommentLikeNum.setText(count_praise + "");
                 }
                 listBean.setCount_praise(count_praise);
                 imgCommentLike.setImageResource(listBean.getIs_my_praise() == 0 ? R.mipmap.zan_select : R.mipmap.zan_selected);
@@ -455,7 +458,7 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
                 break;
             case R.id.img_function:
                 initDelete(String.valueOf(listBean.getUser_id()), listBean.getId(), listBean.getYo_id());
-                initDelete(listBean.getYo_id());
+//                initDelete(listBean.getYo_id());
                 break;
             case R.id.recycler:
 
@@ -517,9 +520,8 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
         popupWindow.setOutsideTouchable(true);
 
         popupWindow.setOnDismissListener(new poponDismissListener());
-        popupWindow.showAsDropDown(imgFunction, DensityUtil.dp2px(this,-95),  DensityUtil.dp2px(this,5));
+        popupWindow.showAsDropDown(imgFunction, DensityUtil.dp2px(this, -95), DensityUtil.dp2px(this, 5));
     }
-
 
 
     public void backgroundAlpha(float bgAlpha) {

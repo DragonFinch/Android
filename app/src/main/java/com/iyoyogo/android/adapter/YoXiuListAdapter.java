@@ -123,6 +123,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
                 initDelete(viewHolder, String.valueOf(mList.get(position).getUser_id()), mList.get(position).getId());
             }
         });
+        viewHolder.num_browse.setText(mList.get(position).getCount_view());
         viewHolder.num_like.setText(mList.get(position).getCount_praise() + "");
         viewHolder.user_name.setText(mList.get(position).getUser_nickname());
         viewHolder.comment_all.setText("全部评论(" + mList.get(position).getCount_comment() + ")");
@@ -464,7 +465,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_yoxiu_desc, num_like, user_name, comment_all;
+        TextView tv_yoxiu_desc, num_like, user_name, comment_all,num_browse;
         ImageView img_yoxiu, img_like, img_more, img_video, medal, img_level;
         CircleImageView user_icon;
         RecyclerView recycler_comment;
@@ -483,6 +484,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
             recycler_comment = itemView.findViewById(R.id.recycler_comment);
             img_yoxiu = itemView.findViewById(R.id.img_yoxiu);
             img_video = itemView.findViewById(R.id.img_video);
+            num_browse = itemView.findViewById(R.id.num_browse);
         }
     }
 }
