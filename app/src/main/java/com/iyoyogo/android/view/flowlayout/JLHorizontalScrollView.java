@@ -138,7 +138,9 @@ public class JLHorizontalScrollView extends HorizontalScrollView {
             }
             textView.setText(list.get(pos).getLabel());
             img_choice.setVisibility(list.get(pos).isSelect() ? VISIBLE : GONE);
-
+            if (list.get(pos).isSelect()) {
+                mData.add(list.get(pos));
+            }
             view.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {

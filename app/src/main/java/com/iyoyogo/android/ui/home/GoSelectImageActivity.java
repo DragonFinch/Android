@@ -11,12 +11,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
@@ -27,15 +30,19 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.GoPictureAlbumDirectoryAdapter;
 import com.iyoyogo.android.adapter.GoSelectImageAdapter;
 import com.iyoyogo.android.ui.home.yoji.NewPublishYoJiActivity;
 import com.iyoyogo.android.ui.home.yoxiu.NewPublishYoXiuActivity;
+import com.iyoyogo.android.utils.util.UiUtils;
 import com.luck.picture.lib.PictureBaseActivity;
 import com.luck.picture.lib.PicturePreviewActivity;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.PictureVideoPlayActivity;
+import com.luck.picture.lib.compress.Luban;
+import com.luck.picture.lib.compress.OnCompressListener;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.decoration.GridSpacingItemDecoration;
@@ -65,23 +72,28 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 public class GoSelectImageActivity extends PictureBaseActivity implements View.OnClickListener,
         GoPictureAlbumDirectoryAdapter.OnItemClickListener,
         GoSelectImageAdapter.OnPhotoSelectChangedListener, PhotoPopupWindow.OnItemClickListener {
-    private final static String    TAG            = GoSelectImageActivity.class.getSimpleName();
-    private static final int       SHOW_DIALOG    = 0;
-    private static final int       DISMISS_DIALOG = 1;
+    private final static String TAG            = GoSelectImageActivity.class.getSimpleName();
+    private static final int    SHOW_DIALOG    = 0;
+    private static final int    DISMISS_DIALOG = 1;
 
     public CheckBox  mCbOriginal;
     public ImageView mIvDelete;
     public ImageView mIvPublishYoji;
     public ImageView mIvPublishYoxiu;
 
-    private              ImageView picture_left_back;
-    private              TextView  picture_title, tv_empty,
+    private ImageView picture_left_back;
+    private TextView  picture_title, tv_empty,
             tv_PlayPause, tv_Stop, tv_Quit,
             tv_musicStatus, tv_musicTotal, tv_musicTime;
     private RelativeLayout               rl_picture_title;
@@ -189,9 +201,52 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
         } else {
             setContentView(R.layout.activity_go_select_image);
             initView(savedInstanceState);
+            StatusBarCompat.setStatusBarColor(this,Color.WHITE);
+            View view = findViewById(R.id.status_bar);
+            view.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,UiUtils.getStatusHeight(this)));
         }
     }
 
+    protected void compress(final List<LocalMedia> result,int type) {
+        showCompressDialog();
+        Flowable.just(result)
+                .observeOn(Schedulers.io())
+                .map(list -> {
+                    List<File> files = Luban.with(mContext)
+                            .setTargetDir("")
+                            .ignoreBy(800)
+                            .loadLocalMedia(list).get();
+                    if (files == null) {
+                        files = new ArrayList<>();
+                    }
+                    return files;
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(files -> handleCompressCallBack(result, files,type));
+    }
+
+    /**
+     * 重新构造已压缩的图片返回集合
+     *
+     * @param images
+     * @param files
+     */
+    private void handleCompressCallBack(List<LocalMedia> images, List<File> files,int type) {
+        if (files.size() == images.size()) {
+            for (int i = 0, j = images.size(); i < j; i++) {
+                // 压缩成功后的地址
+                String     path  = files.get(i).getPath();
+                LocalMedia image = images.get(i);
+                // 如果是网络图片则不压缩
+                boolean http   = PictureMimeType.isHttp(path);
+                boolean eqTrue = !TextUtils.isEmpty(path) && http;
+                image.setCompressed(eqTrue ? false : true);
+                image.setCompressPath(eqTrue ? "" : path);
+            }
+        }
+        dismissCompressDialog();
+        startActivity(PictureSelector.putIntentResult(images).setClass(this, type==1?NewPublishYoJiActivity.class:NewPublishYoXiuActivity.class));
+    }
 
     /**
      * init views
@@ -473,9 +528,9 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
                 }
             }
         }
-        switch (id){
+        switch (id) {
             case R.id.cb_original:
-                mCbOriginal.setTextColor(Color.parseColor(mCbOriginal.isChecked()?"#FA800A":"#333333"));
+                mCbOriginal.setTextColor(Color.parseColor(mCbOriginal.isChecked() ? "#FA800A" : "#333333"));
                 break;
             case R.id.iv_delete:
                 List<LocalMedia> selectedImages = adapter.getSelectedImages();
@@ -494,14 +549,27 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
                 }
                 break;
             case R.id.iv_publish_yoji:
-                startActivity(PictureSelector.putIntentResult(adapter.getSelectedImages()).setClass(this,NewPublishYoJiActivity.class));
+                List<LocalMedia> images = adapter.getSelectedImages();
+                LocalMedia image = images.size() > 0 ? images.get(0) : null;
+                String pictureType = image != null ? image.getPictureType() : "";
+                if (!mCbOriginal.isChecked() && pictureType.startsWith(PictureConfig.IMAGE)) {
+                    compress(images, 1);
+                } else {
+                    startActivity(PictureSelector.putIntentResult(images).setClass(this, NewPublishYoJiActivity.class));
+                }
                 break;
             case R.id.iv_publish_yoxiu:
                 List<LocalMedia> list = adapter.getSelectedImages();
-                if (list.size()>1){
+                if (list.size() > 1) {
                     Toast.makeText(this, "发布yo·秀只能选择一张图片或者一个视频", Toast.LENGTH_SHORT).show();
-                }else {
-                    startActivity(PictureSelector.putIntentResult(adapter.getSelectedImages()).setClass(this,NewPublishYoXiuActivity.class));
+                } else {
+                    LocalMedia       local       = list.size() > 0 ? list.get(0) : null;
+                    String           type = local != null ? local.getPictureType() : "";
+                    if (!mCbOriginal.isChecked() && type.startsWith(PictureConfig.IMAGE)) {
+                        compress(list, 2);
+                    } else {
+                        startActivity(PictureSelector.putIntentResult(list).setClass(this, NewPublishYoXiuActivity.class));
+                    }
                 }
                 break;
 

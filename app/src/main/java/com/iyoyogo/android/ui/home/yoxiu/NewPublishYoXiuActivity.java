@@ -513,7 +513,7 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
                 saveType = 3;
                 LoadingDialog.get().create(NewPublishYoXiuActivity.this).show();
                 if (TextUtils.isEmpty(coverPath) && !TextUtils.isEmpty(coverUrl)) {
-                    mPresenter.publishYoXiu(userId, token, id, coverUrl, coverPath.contains(".mp4") ? 2 : 1, mEtTitle.getText().toString(), channel_arrays.toString().replace("[", "").replace("]", ""), isOpen, saveType, mData.getPosition_name(), mData.getPosition_areas(), mData.getPosition_address(), mData.getPosition_city(), mData.getLng(), mData.getLat(), filterId, scale);
+                    mPresenter.publishYoXiu(userId, token, id, coverUrl, coverUrl.contains(".mp4") ? 2 : 1, mEtTitle.getText().toString(), channel_arrays.toString().replace("[", "").replace("]", ""), isOpen, saveType, mData.getPosition_name(), mData.getPosition_areas(), mData.getPosition_address(), mData.getPosition_city(), mData.getLng(), mData.getLat(), filterId, scale);
                 } else if (!TextUtils.isEmpty(coverPath)) {
                     mOssService.asyncPutImage(coverPath, -1);
                 }

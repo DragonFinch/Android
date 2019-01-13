@@ -38,6 +38,7 @@ import com.iyoyogo.android.camera.utils.ParameterSettingValues;
 import com.iyoyogo.android.camera.utils.PathUtils;
 import com.iyoyogo.android.camera.utils.ScreenUtils;
 import com.iyoyogo.android.camera.utils.TimeFormatUtil;
+import com.iyoyogo.android.camera.utils.TimelineUtil;
 import com.iyoyogo.android.camera.utils.Util;
 import com.iyoyogo.android.camera.utils.asset.NvAsset;
 import com.iyoyogo.android.camera.utils.asset.NvAssetManager;
@@ -62,7 +63,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingContext.CaptureDeviceCallback, NvsStreamingContext.CaptureRecordingDurationCallback, NvsStreamingContext.CaptureRecordingStartedCallback, BaseQuickAdapter.OnItemClickListener {
+public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingContext.CaptureDeviceCallback, NvsStreamingContext.CaptureRecordingDurationCallback, NvsStreamingContext.CaptureRecordingStartedCallback, BaseQuickAdapter.OnItemClickListener, SeekBar.OnSeekBarChangeListener {
     private static final String TAG = "GoTakePhotoActivity";
 
     @BindView(R.id.liveWindow)
@@ -191,6 +192,8 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             mStatusBar.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UiUtils.getStatusHeight(this)));
         }
+
+        mSeekbar.setOnSeekBarChangeListener(this);
     }
 
     @Override
@@ -765,4 +768,20 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
         }
     }
 
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        if (mCurCaptureVideoFx != null) {
+            mCurCaptureVideoFx.setFilterIntensity((float) progress / 100.0f);
+        }
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
+    }
 }

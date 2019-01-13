@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,6 +26,7 @@ import com.iyoyogo.android.contract.VipCenterContract;
 import com.iyoyogo.android.presenter.VipCenterPresenter;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.util.UiUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -41,22 +45,38 @@ import butterknife.OnClick;
 
 public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter> implements VipCenterContract.View {
     @BindView(R.id.my_icon)
-    ImageView myIcon;
+    ImageView       myIcon;
     @BindView(R.id.tv_vip)
-    TextView tvVip;
+    TextView        tvVip;
     @BindView(R.id.tv_name)
-    TextView tvName;
+    TextView        tvName;
     @BindView(R.id.tv_flag)
-    TextView tvFlag;
+    TextView        tvFlag;
     @BindView(R.id.img_logo)
     CircleImageView imgLogo;
     @BindView(R.id.img_vip_sign)
-    ImageView imgVipSign;
+    ImageView       imgVipSign;
     @BindView(R.id.img_level)
-    ImageView imgLevel;
+    ImageView       imgLevel;
+    @BindView(R.id.progressBar)
+    ProgressBar     mProgressBar;
+    @BindView(R.id.tv_current_score)
+    TextView        mTvCurrentScore;
+    @BindView(R.id.tv_level1)
+    TextView        mTvLevel1;
+    @BindView(R.id.tv_level2)
+    TextView        mTvLevel2;
+    @BindView(R.id.tv_level3)
+    TextView        mTvLevel3;
+    @BindView(R.id.tv_level4)
+    TextView        mTvLevel4;
+    @BindView(R.id.tv_level5)
+    TextView        mTvLevel5;
+    @BindView(R.id.tv_level6)
+    TextView        mTvLevel6;
     //会员中心
-    private View pop_view;
-    private PopupWindow popMenu;
+    private View           pop_view;
+    private PopupWindow    popMenu;
     private RelativeLayout relativeLayout;
 
     @Override
@@ -72,16 +92,16 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
     }
 
     private void initVipLevelUp() {
-        View view = getLayoutInflater().inflate(R.layout.popup_up_vip, null);
+        View        view        = getLayoutInflater().inflate(R.layout.popup_up_vip, null);
         PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(getApplicationContext(), 300), DensityUtil.dp2px(getApplicationContext(), 320), true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setBackgroundDrawable(new ColorDrawable());
         backgroundAlpha(0.6f);
         popupWindow.setOnDismissListener(new poponDismissListener());
-        ImageView img_wechat = view.findViewById(R.id.img_wechat);
+        ImageView img_wechat        = view.findViewById(R.id.img_wechat);
         ImageView img_wechat_circle = view.findViewById(R.id.img_wechat_circle);
-        ImageView img_qq = view.findViewById(R.id.img_qq);
-        ImageView img_sina = view.findViewById(R.id.img_sina);
+        ImageView img_qq            = view.findViewById(R.id.img_qq);
+        ImageView img_sina          = view.findViewById(R.id.img_sina);
         img_qq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,7 +138,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
     private void shareWeb(SHARE_MEDIA share_media) {
         /*80002/yo_id/4143*/
         String url = Constants.BASE_URL + "home/share/levelup/user_id/" + SpUtils.getString(getApplicationContext(), "user_id", null);
-        UMWeb web = new UMWeb(url);
+        UMWeb  web = new UMWeb(url);
         web.setTitle("title");//标题
         UMImage thumb = new UMImage(getApplicationContext(), R.mipmap.logo);
         web.setThumb(thumb);  //缩略图
@@ -142,7 +162,16 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
 
     @OnClick(R.id.return_img)
     public void onViewClicked() {
-        finish();
+//        finish();
+        Log.d("VipCenterActivity", "mProgressBar.getWidth():" + mProgressBar.getWidth());
+        Log.d("VipCenterActivity", "UiUtils.dip2px(25 * 6 + 50 * 5 + 5):" + UiUtils.dip2px(25 * 6 + 50 * 5 + 5));
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 
 
@@ -157,7 +186,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        String user_id = SpUtils.getString(this, "user_id", null);
+        String user_id    = SpUtils.getString(this, "user_id", null);
         String user_token = SpUtils.getString(this, "user_token", null);
         mPresenter.getVipCenter(user_id, user_token);
     }
@@ -208,49 +237,74 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
 
     @Override
     public void getVipCenterSuccess(VipCenterBean vipCenterBean) {
-        List<VipCenterBean.DataBean.LevelBean> list = vipCenterBean.getData().getLevel();
-        VipCenterBean.DataBean.UserInfoBean user_info = vipCenterBean.getData().getUser_info();
+        List<VipCenterBean.DataBean.LevelBean> list      = vipCenterBean.getData().getLevel();
+        VipCenterBean.DataBean.UserInfoBean    user_info = vipCenterBean.getData().getUser_info();
         tvName.setText(user_info.getUser_nickname());
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.error(R.mipmap.default_touxiang).placeholder(R.mipmap.default_touxiang);
         Glide.with(this).load(user_info.getUser_logo()).apply(requestOptions).into(imgLogo);
 
+        List<VipCenterBean.DataBean.LevelBean> level = vipCenterBean.getData().getLevel();
+        mTvLevel1.setText(level.get(0).getScore() + "");
+        mTvLevel2.setText(level.get(1).getScore() + "");
+        mTvLevel3.setText(level.get(2).getScore() + "");
+        mTvLevel4.setText(level.get(3).getScore() + "");
+        mTvLevel5.setText(level.get(4).getScore() + "");
+        mTvLevel6.setText(level.get(5).getScore() + "");
+
         int score = vipCenterBean.getData().getUser_info().getScore();
-        if (score >= 0 && score < 99) {
+        int max   = level.get(level.size() - 1).getScore();
+        mProgressBar.setMax(max);
+        mTvCurrentScore.setText(score+"");
+        for (int i = 0; i < level.size(); i++) {
+            if (i != level.size() - 1) {
+                if (score >= level.get(i).getScore() && score < level.get(i + 1).getScore()) {
+                    double d = (double) max / (double) 5;
+                    double s = (double) score / (double) level.get(i + 1).getScore();
+                    mProgressBar.setProgress((int) (d * i + s * d));
+                }
+            } else {
+                if (score >= level.get(i).getScore()) {
+                    mProgressBar.setProgress(max);
+                }
+            }
+        }
+
+        if (score >= 0 && score < level.get(1).getScore()) {
             tvVip.setText("入门");
             imgLevel.setVisibility(View.GONE);
             imgVipSign.setImageResource(R.mipmap.level_zero);
             tvFlag.setText(list.get(0).getName());
             myIcon.setBackgroundResource(R.mipmap.mem_foxi);
-        } else if (score >= 100 && score < 199) {
+        } else if (score >= level.get(1).getScore() && score < level.get(2).getScore()) {
             tvVip.setText("Lv1");
             imgLevel.setVisibility(View.VISIBLE);
             imgLevel.setImageResource(R.mipmap.lv1);
             imgVipSign.setImageResource(R.mipmap.level_one);
             tvFlag.setText(list.get(1).getName());
             myIcon.setBackgroundResource(R.mipmap.mem_xiansan);
-        } else if (score >= 200 && score < 499) {
+        } else if (score >= level.get(2).getScore() && score < level.get(3).getScore()) {
             tvVip.setText("Lv2");
             imgLevel.setVisibility(View.VISIBLE);
             imgLevel.setImageResource(R.mipmap.lv2);
             imgVipSign.setImageResource(R.mipmap.level_three);
             tvFlag.setText(list.get(2).getName());
             myIcon.setBackgroundResource(R.mipmap.mem_gongcheng);
-        } else if (score >= 500 && score < 1999) {
+        } else if (score >= level.get(3).getScore() && score < level.get(4).getScore()) {
             tvVip.setText("Lv3");
             imgLevel.setVisibility(View.VISIBLE);
             imgLevel.setImageResource(R.mipmap.lv3);
             imgVipSign.setImageResource(R.mipmap.level_three);
             tvFlag.setText(list.get(3).getName());
             myIcon.setBackgroundResource(R.mipmap.mem_mingri);
-        } else if (score >= 2000 && score < 4999) {
+        } else if (score >= level.get(4).getScore() && score < level.get(5).getScore()) {
             tvVip.setText("Lv4");
             imgLevel.setVisibility(View.VISIBLE);
             imgLevel.setImageResource(R.mipmap.lv4);
             imgVipSign.setImageResource(R.mipmap.level_four);
             tvFlag.setText(list.get(4).getName());
             myIcon.setBackgroundResource(R.mipmap.mem_shouxi);
-        } else if (score == 5000) {
+        } else if (score == level.get(5).getScore()) {
             tvVip.setText("Lv5");
             imgLevel.setVisibility(View.VISIBLE);
             imgLevel.setImageResource(R.mipmap.lv5);
@@ -274,8 +328,21 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
 //
 //
 //        }
-
+        setScore();
     }
+
+    private void setScore() {
+        int   w     = UiUtils.dip2px(25 * 6 + 50 * 5 + 5);
+        float index = (float) mProgressBar.getProgress() / (float) mProgressBar.getMax();
+        float pro   = index * w - UiUtils.dip2px(20f);
+        pro = pro > (w - UiUtils.dip2px(30)) ? (w - UiUtils.dip2px(30)) : pro;
+        TranslateAnimation ani;
+        ani = new TranslateAnimation(mTvCurrentScore.getX(), pro, 0, 0);
+        ani.setDuration(10);
+        ani.setFillAfter(true);
+        mTvCurrentScore.startAnimation(ani);
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

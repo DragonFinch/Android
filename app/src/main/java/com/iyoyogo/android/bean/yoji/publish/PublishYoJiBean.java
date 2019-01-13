@@ -3,6 +3,7 @@ package com.iyoyogo.android.bean.yoji.publish;
 import com.iyoyogo.android.bean.BaseBean;
 import com.luck.picture.lib.entity.LocalMedia;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -290,7 +291,7 @@ public class PublishYoJiBean extends BaseBean {
                 this.labels = labels;
             }
 
-            public static class LabelsBean {
+            public static class LabelsBean implements Serializable {
                 /**
                  * label_id : 1
                  * type : 1

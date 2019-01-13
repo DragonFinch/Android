@@ -77,6 +77,7 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -395,7 +396,13 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
                 break;
 
             case R.id.ll_tag:
-                Intent intent1 = new Intent(this, ChooseSignActivity.class);
+                ArrayList<Integer> list = new ArrayList<>();
+                if (mData.get(position).getLabels() != null) {
+                    for (PublishYoJiBean.DataBean.ListBean.LabelsBean labelsBean : mData.get(position).getLabels()) {
+                        list.add(labelsBean.getLabel_id());
+                    }
+                }
+                Intent intent1 = new Intent(this, ChooseSignActivity.class).putIntegerArrayListExtra("data", list);
                 startActivityForResult(intent1, 1);
                 break;
         }
@@ -409,8 +416,10 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
             mOssService.asyncPutImage(coverPath, -1);
 
             for (int i = 0; i < mData.size(); i++) {
-                for (LocalMedia localMedia : mData.get(i).getLocalMedia()) {
-                    mOssService.asyncPutImage(TextUtils.isEmpty(localMedia.getCompressPath()) ? localMedia.getPath() : localMedia.getCompressPath(), i);
+                if (mData.get(i).getLocalMedia() != null && mData.get(i).getLocalMedia().size() > 0) {
+                    for (LocalMedia localMedia : mData.get(i).getLocalMedia()) {
+                        mOssService.asyncPutImage(TextUtils.isEmpty(localMedia.getCompressPath()) ? localMedia.getPath() : localMedia.getCompressPath(), i);
+                    }
                 }
             }
         } else {

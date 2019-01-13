@@ -48,47 +48,47 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
 
 
     @BindView(R.id.back)
-    ImageView back;
+    ImageView              back;
     @BindView(R.id.tv_title)
-    TextView tvTitle;
+    TextView               tvTitle;
     @BindView(R.id.create_complete)
-    TextView createComplete;
+    TextView               createComplete;
     @BindView(R.id.make_worth_img)
-    ImageView makeWorthImg;
+    ImageView              makeWorthImg;
     @BindView(R.id.add_make_worth)
-    TextView addMakeWorth;
+    TextView               addMakeWorth;
     @BindView(R.id.jhs)
     JLHorizontalScrollView jhs;
     @BindView(R.id.ll)
-    LinearLayout ll;
+    LinearLayout           ll;
     @BindView(R.id.pit_guide_img)
-    ImageView pitGuideImg;
+    ImageView              pitGuideImg;
     @BindView(R.id.add_pit_guide)
-    TextView addPitGuide;
+    TextView               addPitGuide;
     @BindView(R.id.jhs1)
     JLHorizontalScrollView jhs1;
     @BindView(R.id.ll1)
-    LinearLayout ll1;
+    LinearLayout           ll1;
     @BindView(R.id.exclusive_mine_img)
-    ImageView exclusiveMineImg;
+    ImageView              exclusiveMineImg;
     @BindView(R.id.add_exclusive_mine)
-    TextView addExclusiveMine;
+    TextView               addExclusiveMine;
     @BindView(R.id.jhs2)
     JLHorizontalScrollView jhs2;
     @BindView(R.id.ll2)
-    LinearLayout ll2;
+    LinearLayout           ll2;
     @BindView(R.id.activity_choose_sign)
-    LinearLayout activityChooseSign;
-    private String user_id;
-    private String user_token;
+    LinearLayout           activityChooseSign;
+    private String      user_id;
+    private String      user_token;
     private PopupWindow popup;
-    private TextView tv_type;
-    private EditText edit_label;
+    private TextView    tv_type;
+    private EditText    edit_label;
 
     TagAdapter<LabelListBean.DataBean.List1Bean> tagAdapter1;
     TagAdapter<LabelListBean.DataBean.List2Bean> tagAdapter2;
     TagAdapter<LabelListBean.DataBean.List3Bean> tagAdapter3;
-    private static ArrayList<LabelListBean.DataBean.List1Bean> mSelectImg = new ArrayList<>();
+    private static ArrayList<LabelListBean.DataBean.List1Bean> mSelectImg  = new ArrayList<>();
     private static ArrayList<LabelListBean.DataBean.List2Bean> mSelectImg1 = new ArrayList<>();
     private static ArrayList<LabelListBean.DataBean.List3Bean> mSelectImg2 = new ArrayList<>();
 
@@ -129,9 +129,9 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
 
         edit_label = view.findViewById(R.id.edit_label);
         tv_type = view.findViewById(R.id.tv_type);
-        ImageView img_cancel = view.findViewById(R.id.img_cancel);
-        Button btn_commit = view.findViewById(R.id.btn_commit);
-        Button btn_canecel = view.findViewById(R.id.btn_cancel);
+        ImageView img_cancel  = view.findViewById(R.id.img_cancel);
+        Button    btn_commit  = view.findViewById(R.id.btn_commit);
+        Button    btn_canecel = view.findViewById(R.id.btn_cancel);
         tv_type.setText(message);
         img_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -400,9 +400,9 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
                 Bundle bundle = new Bundle();
                 Collections.reverse(list);
                 bundle.putSerializable("sign_list", list);
-                if (list.size()>10){
+                if (list.size() > 10) {
                     Toast.makeText(this, "标签最多选择10个", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     intent.putExtras(bundle);
                     intent.putExtra("type", 1);
                     Log.d("ChooseSignActivity", "list.size():" + list.size());
@@ -452,12 +452,13 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
 
     @Override
     public void getLabelListSuccess(LabelListBean.DataBean data) {
-        List<Bean> mList1 = new ArrayList<>();
-        List<Bean> mList2 = new ArrayList<>();
-        List<Bean> mList3 = new ArrayList<>();
-        List<LabelListBean.DataBean.List1Bean> list1 = data.getList1();
-        List<LabelListBean.DataBean.List2Bean> list2 = data.getList2();
-        List<LabelListBean.DataBean.List3Bean> list3 = data.getList3();
+        ArrayList<Integer>                     select = getIntent().getIntegerArrayListExtra("data");
+        List<Bean>                             mList1 = new ArrayList<>();
+        List<Bean>                             mList2 = new ArrayList<>();
+        List<Bean>                             mList3 = new ArrayList<>();
+        List<LabelListBean.DataBean.List1Bean> list1  = data.getList1();
+        List<LabelListBean.DataBean.List2Bean> list2  = data.getList2();
+        List<LabelListBean.DataBean.List3Bean> list3  = data.getList3();
         for (int i = 0; i < list1.size(); i++) {
             Bean bean = new Bean();
             bean.setLabel(list1.get(i).getLabel());
@@ -465,7 +466,16 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
             bean.setLogo(list1.get(i).getLogo());
             bean.setType(list1.get(i).getType());
             bean.setUser_id(list1.get(i).getUser_id());
-            bean.setSelect(list1.get(i).isSelect());
+            if (select != null) {
+                for (Integer id : select) {
+                    if (id == list1.get(i).getLabel_id()) {
+                        bean.setSelect(true);
+                        break;
+                    }
+                }
+            } else {
+                bean.setSelect(list1.get(i).isSelect());
+            }
             mList1.add(bean);
         }
         jhs.setData(mList1, new JLHorizontalScrollView.OnCompleteCallback() {
@@ -474,7 +484,7 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
                 ll.removeAllViews();
                 for (int i = 0; i < count; i++) {
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    RadioButton radioButton = new RadioButton(ChooseSignActivity.this);
+                    RadioButton               radioButton  = new RadioButton(ChooseSignActivity.this);
                     layoutParams.leftMargin = 20;
                     radioButton.setButtonDrawable(R.drawable.radiobutton_selector);
                     radioButton.setLayoutParams(layoutParams);
@@ -505,7 +515,16 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
             bean.setLogo(list2.get(i).getLogo());
             bean.setType(list2.get(i).getType());
             bean.setUser_id(list2.get(i).getUser_id());
-            bean.setSelect(list2.get(i).isSelect());
+            if (select != null) {
+                for (Integer id : select) {
+                    if (id == list2.get(i).getLabel_id()) {
+                        bean.setSelect(true);
+                        break;
+                    }
+                }
+            } else {
+                bean.setSelect(list2.get(i).isSelect());
+            }
             mList2.add(bean);
         }
         jhs1.setData(mList2, new JLHorizontalScrollView.OnCompleteCallback() {
@@ -514,7 +533,7 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
                 ll1.removeAllViews();
                 for (int i = 0; i < count; i++) {
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    RadioButton radioButton = new RadioButton(ChooseSignActivity.this);
+                    RadioButton               radioButton  = new RadioButton(ChooseSignActivity.this);
                     layoutParams.leftMargin = 20;
                     radioButton.setButtonDrawable(R.drawable.radiobutton_two_selector);
                     radioButton.setLayoutParams(layoutParams);
@@ -545,7 +564,16 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
             bean.setLogo(list3.get(i).getLogo());
             bean.setType(list3.get(i).getType());
             bean.setUser_id(list3.get(i).getUser_id());
-            bean.setSelect(list3.get(i).isSelect());
+            if (select != null) {
+                for (Integer id : select) {
+                    if (id == list3.get(i).getLabel_id()) {
+                        bean.setSelect(true);
+                        break;
+                    }
+                }
+            } else {
+                bean.setSelect(list3.get(i).isSelect());
+            }
             mList3.add(bean);
         }
         jhs2.setData(mList3, new JLHorizontalScrollView.OnCompleteCallback() {
@@ -554,7 +582,7 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
                 ll2.removeAllViews();
                 for (int i = 0; i < count; i++) {
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    RadioButton radioButton = new RadioButton(ChooseSignActivity.this);
+                    RadioButton               radioButton  = new RadioButton(ChooseSignActivity.this);
                     layoutParams.leftMargin = 20;
                     radioButton.setButtonDrawable(R.drawable.radiobutton_three_selector);
                     radioButton.setLayoutParams(layoutParams);

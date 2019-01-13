@@ -4,6 +4,17 @@
     android:layout_height="match_parent">
 
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/style_myprogressbar"
+        android:layout_width="match_parent"
+        android:progress="50"
+        android:max="21600"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginTop="32dp"
+        android:layout_height="2dp" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,6 +36,7 @@
                 android:textSize="@dimen/sp_9" />
 
             <TextView
+                android:id="@+id/tv_level1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_6"
@@ -40,7 +52,7 @@
             android:layout_height="@dimen/dp_2"
             android:layout_marginLeft="-1dp"
             android:layout_marginTop="@dimen/dp_5"
-            android:background="@color/F1F1F1" />
+             />
 
 
         <LinearLayout
@@ -58,6 +70,7 @@
                 android:textSize="@dimen/sp_9" />
 
             <TextView
+                android:id="@+id/tv_level2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_6"
@@ -73,7 +86,7 @@
             android:layout_height="@dimen/dp_2"
             android:layout_marginLeft="-1dp"
             android:layout_marginTop="@dimen/dp_5"
-            android:background="@color/F1F1F1" />
+             />
 
         <LinearLayout
             android:layout_width="@dimen/dp_25"
@@ -90,6 +103,7 @@
                 android:textSize="@dimen/sp_9" />
 
             <TextView
+                android:id="@+id/tv_level3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_6"
@@ -105,7 +119,7 @@
             android:layout_height="@dimen/dp_2"
             android:layout_marginLeft="-1dp"
             android:layout_marginTop="@dimen/dp_5"
-            android:background="@color/F1F1F1" />
+             />
 
         <LinearLayout
             android:layout_width="@dimen/dp_25"
@@ -122,6 +136,7 @@
                 android:textSize="@dimen/sp_9" />
 
             <TextView
+                android:id="@+id/tv_level4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_6"
@@ -137,7 +152,7 @@
             android:layout_height="@dimen/dp_2"
             android:layout_marginLeft="-1dp"
             android:layout_marginTop="@dimen/dp_5"
-            android:background="@color/F1F1F1" />
+             />
 
         <LinearLayout
             android:layout_width="@dimen/dp_25"
@@ -154,6 +169,7 @@
                 android:textSize="@dimen/sp_9" />
 
             <TextView
+                android:id="@+id/tv_level5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_6"
@@ -169,7 +185,7 @@
             android:layout_height="@dimen/dp_2"
             android:layout_marginLeft="-1dp"
             android:layout_marginTop="@dimen/dp_5"
-            android:background="@color/F1F1F1" />
+            />
 
         <LinearLayout
             android:layout_width="@dimen/dp_25"
@@ -186,6 +202,7 @@
                 android:textSize="@dimen/sp_9" />
 
             <TextView
+                android:id="@+id/tv_level6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_6"

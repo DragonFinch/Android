@@ -207,7 +207,7 @@ public class HomeFragment extends BaseFragment {
                         .openGallery(PictureMimeType.ofAll())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
                         .imageSpanCount(3)// 每行显示个数 int
                         .selectionMode(PictureConfig.SINGLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
-                        .previewImage(true)// 是否可预览图片 true or false
+                        .previewImage(false)// 是否可预览图片 true or false
                         .isCamera(true)// 是否显示拍照按钮 true or false
                         .imageFormat(PictureMimeType.PNG)// 拍照保存图片格式后缀,默认jpeg
                         .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
@@ -232,7 +232,7 @@ public class HomeFragment extends BaseFragment {
                         .minSelectNum(1)// 最小选择数量 int
                         .imageSpanCount(3)// 每行显示个数 int
                         .selectionMode(PictureConfig.MULTIPLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
-                        .previewImage(true)// 是否可预览图片 true or false
+                        .previewImage(false)// 是否可预览图片 true or false
                         .isCamera(true)// 是否显示拍照按钮 true or false
                         .imageFormat(PictureMimeType.PNG)// 拍照保存图片格式后缀,默认jpeg
                         .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
