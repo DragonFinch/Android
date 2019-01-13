@@ -260,7 +260,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+//        statusbar();
         new SoftKeyboardStateHelper(findViewById(R.id.activity_yoji_detail)).addSoftKeyboardStateListener(this);
         Intent intent = getIntent();
         yo_id = intent.getIntExtra("yo_id", 0);
@@ -295,7 +295,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 //                    statusbar();
 //                    StatusBarUtil.setTransparent(YoJiDetailActivity.this);
                     //展开监听
-                    MIUISetStatusBarLightMode(getWindow(), true);
+                    MIUISetStatusBarLightMode(getWindow(), false);
                     imgBack.setImageResource(R.mipmap.back_icon);
                     imgShare.setImageResource(R.mipmap.fenxiang_bai);
                     imgMessage.setVisibility(View.GONE);

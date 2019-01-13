@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.yoji.detail.YoJiDetailBean;
+import com.iyoyogo.android.ui.home.yoji.YoJiListActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiPictureActivity;
 import com.iyoyogo.android.utils.RoundTransform;
 import com.iyoyogo.android.widget.FlowGroupView;
@@ -91,7 +92,7 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
             child.setTextColor(Color.parseColor("#ff8484"));
         }
 
-//        initEvents(child);//监听
+        initEvents(child);//监听
         flowGroupView.addView(child);
 
     }
@@ -101,12 +102,14 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-
-
+              /*  // TODO Auto-generated method stub
                 //话题内容
 
-                Toast.makeText(context, child.getText().toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, child.getText().toString(), Toast.LENGTH_LONG).show();*/
+                Intent intent = new Intent(context, YoJiListActivity.class);
+                intent.putExtra("sign", child.getText().toString().trim());
+                intent.putExtra("position", "");
+                context.startActivity(intent);
             }
         });
     }
@@ -127,7 +130,15 @@ public class YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Ho
         int time_date = end_time - start_time;
         holder.tv_time.setText(mList.get(position).getCount_dates() + "天");
         holder.create_time.setText(start_date);
-
+        holder.tv_position_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, YoJiListActivity.class);
+                intent.putExtra("sign", "");
+                intent.putExtra("position", holder.tv_position_name.getText().toString().trim());
+                context.startActivity(intent);
+            }
+        });
 
         List<String> logos = mList.get(position).getLogos();
         int size = logos.size();

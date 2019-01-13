@@ -71,18 +71,8 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
         } else {
             holder.checkBox.setVisibility(View.VISIBLE);
             holder.img_next.setVisibility(View.GONE);
-            if (mList.get(position).isSelect() && !idList.contains(mList.get(position).getFolder_id())) {
-                holder.checkBox.setImageResource(R.mipmap.zp_xz);
-                idList.add(mList.get(position).getFolder_id() + "");
-                mList.get(position).setSelect(true);
 
 
-            } else {
-                idList.remove(mList.get(position).getFolder_id() + "");
-                holder.checkBox.setImageResource(R.mipmap.pic_wxz);
-                mList.get(position).setSelect(false);
-
-            }
         }
 
         if (record_list.size() >= 4) {
@@ -106,6 +96,24 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
         }
         holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListener.onItemClickListener(holder.getAdapterPosition(), mList);
+                if (mList.get(position).isSelect() && !idList.contains(mList.get(position).getFolder_id())) {
+                    holder.checkBox.setImageResource(R.mipmap.zp_xz);
+                    idList.add(mList.get(position).getFolder_id() + "");
+                    mList.get(position).setSelect(true);
+
+
+                } else {
+                    idList.remove(mList.get(position).getFolder_id() + "");
+                    holder.checkBox.setImageResource(R.mipmap.pic_wxz);
+                    mList.get(position).setSelect(false);
+
+                }
+            }
+        });
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mOnItemClickListener.onItemClickListener(holder.getAdapterPosition(), mList);

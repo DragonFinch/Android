@@ -32,7 +32,7 @@ public class EditCollectionPresenter extends BasePresenter<EditCollectionContrac
     }
 
     @Override
-    public void deleteFolder(String user_id, String user_token, Integer[] folder_ids) {
+    public void deleteFolder(String user_id, String user_token, int[] folder_ids) {
 DataManager.getFromRemote().deleteCollectionFolder(user_id,user_token,folder_ids)
         .subscribe(new ApiObserver<BaseBean>(mView,this) {
             @Override

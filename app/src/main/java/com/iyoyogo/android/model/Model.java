@@ -742,7 +742,7 @@ public class Model {
      * @param folder_ids
      * @return
      */
-    public Observable<BaseBean> deleteCollectionFolder(String user_id, String user_token, Integer[] folder_ids) {
+    public Observable<BaseBean> deleteCollectionFolder(String user_id, String user_token, int[] folder_ids) {
         return HttpClient.getApiService().deleteCollectionFolder(user_id, user_token, folder_ids)
                 .compose(this.switchThread());
     }
@@ -1150,6 +1150,14 @@ public class Model {
 
     public Observable<YouXiuListBean> getYoXiuPosition(String user_id, String user_token, String position, int type, int page, String page_size) {
         return HttpClient.getApiService().getYoXiuPosition(user_id, user_token, position, type, page, page_size)
+                .compose(this.switchThread());
+    }
+    public Observable<YoJiListBean> getYoJiPosition(String user_id, String user_token, String position, int type, int page, String page_size) {
+        return HttpClient.getApiService().getYoJiPosition(user_id, user_token, position, type, page, page_size)
+                .compose(this.switchThread());
+    }
+    public Observable<YoJiListBean> getYoJiLabel(String user_id, String user_token, String label, int page, String page_size) {
+        return HttpClient.getApiService().getYoJiLabel(user_id, user_token, label, page, page_size)
                 .compose(this.switchThread());
     }
     /**

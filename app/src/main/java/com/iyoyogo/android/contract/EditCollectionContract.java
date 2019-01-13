@@ -16,6 +16,6 @@ public interface EditCollectionContract {
     interface Presenter extends IBasePresenter {
         void createFolder(String user_id, String user_token, String name, int open, String id);
 
-        void deleteFolder(String user_id, String user_token, Integer[] folder_ids);
+        void deleteFolder(String user_id, String user_token, int[] folder_ids);
     }
 }

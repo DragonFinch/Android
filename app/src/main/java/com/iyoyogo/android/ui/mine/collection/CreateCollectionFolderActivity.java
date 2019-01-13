@@ -246,7 +246,7 @@ public class CreateCollectionFolderActivity extends BaseActivity<EditCollectionC
 
                 break;
             case R.id.tv_delete:
-                Integer[] folder_ids = new Integer[1];
+                int[] folder_ids = new int[1];
                 folder_ids[0] = folder_id;
                 mPresenter.deleteFolder(user_id, user_token, folder_ids);
                 break;

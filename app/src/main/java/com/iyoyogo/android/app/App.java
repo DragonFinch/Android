@@ -3,6 +3,8 @@ package com.iyoyogo.android.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.multidex.MultiDex;
@@ -12,7 +14,6 @@ import android.util.Log;
 import com.iyoyogo.android.bean.yoji.publish.MessageBean;
 import com.iyoyogo.android.camera.utils.CrashHandler;
 import com.iyoyogo.android.camera.utils.asset.NvAssetManager;
-import com.iyoyogo.android.ui.common.MainActivity;
 import com.iyoyogo.android.utils.GdLocationUtil;
 import com.meicam.sdk.NvsStreamingContext;
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -30,7 +31,7 @@ import java.util.List;
 import cn.jpush.android.api.JPushInterface;
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.unit.Subunits;
-import zhanghuan.cn.emojiconlibrary.FaceConversionUtil;
+
 
 import static com.iyoyogo.android.app.AppInfo.getCurProcessName;
 
@@ -39,36 +40,50 @@ import static com.iyoyogo.android.app.AppInfo.getCurProcessName;
  * Description :
  */
 public class App extends Application {
-//5bea3cb0f1f5565cc1000170
+    //5bea3cb0f1f5565cc1000170
     public static Context mContext;
     public static Context context;
     public static boolean isLogin;
     public static UserInfo userInfo;
- public  static    List<MessageBean> list = new ArrayList<>();
+    private static final String APK_ID = "apk_id";
+    private String apk_id = null;
+    public static List<MessageBean> list = new ArrayList<>();
+    private static App instance;
 
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
     }
+
+    private boolean isDownload;
+
+    public boolean isDownload() {
+        return isDownload;
+    }
+
+    public void setDownload(boolean isDownload) {
+        this.isDownload = isDownload;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        isDownload = false;
         context = this;
 
-        FaceConversionUtil.getInstace().getFileText(context);
+//        FaceConversionUtil.getInstace().getFileText(context);
 
         //umeng的初始化
         UMShareAPI.get(this);
-
-        UMConfigure.init(this,"5bea3cb0f1f5565cc1000170"
-                ,"umeng",UMConfigure.DEVICE_TYPE_PHONE,"");
+        instance = this;
+        UMConfigure.init(this, "5bea3cb0f1f5565cc1000170"
+                , "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
         mContext = getApplicationContext();
         //
         PlatformConfig.setSinaWeibo("3163111192", "d6a50a54a967198b5e58e01fa92d448d", "http://www.iyoyogo.com:8090/api/1.0/about/us/wbAuth");
         PlatformConfig.setWeixin("wxa79424f9b261fbea", "b31df002153d0897cc5de08be3d72cfd");
         PlatformConfig.setQQZone("1107050658", "MPqlCLruUzjIUAAu");
         init();
-
 
 
         if (BuildConfig.DEBUG) {
@@ -86,9 +101,11 @@ public class App extends Application {
         NvsStreamingContext.init(this, licensePath, NvsStreamingContext.STREAMING_CONTEXT_FLAG_SUPPORT_4K_EDIT);
         NvAssetManager.init(this);//素材管理器初始化
     }
+
     public static Context getmContext() {
         return context;
     }
+
     /**
      * 第三方库及工具的初始化操作
      */
@@ -123,7 +140,9 @@ public class App extends Application {
 
     }
 
-    *//***
+    */
+
+    /***
      * 百度地图初始化
      *//*
     private void initBaiduMap() {
@@ -152,6 +171,7 @@ public class App extends Application {
     }
 
     */
+
     /**
      * 配置屏幕适配
      */
@@ -200,6 +220,7 @@ public class App extends Application {
                 .showThreadInfo(false)
                 .logStrategy(new LogStrategy() {
                     private int last;
+
                     @Override
                     public void log(int priority, @Nullable String tag, @NonNull String message) {
                         int random = (int) (10 * Math.random());
@@ -229,7 +250,9 @@ public class App extends Application {
         ImageLoader.getInstance().setGlobalImageLoader(new GlideLoader());
     }
 
-    *//**
+    */
+
+    /**
      * 64K配置
      *//*
     @Override
@@ -237,12 +260,45 @@ public class App extends Application {
         super.attachBaseContext(base);
         MultiDex.install(this);
     }*/
-
     @Override
     public void onTerminate() {
         super.onTerminate();
         Log.i("mzh", "onTerminate");
         //停止定位服务
         GdLocationUtil.getInstance().destoryLocationService();
+    }
+
+    public static App getInstance() {
+
+        return instance;
+    }
+
+    /**
+     * 设置下载APK ID
+     *
+     * @param id
+     * @return
+     */
+    public void setApkId(String id) {
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        if (editor.putString(APK_ID, id).commit()) {
+            apk_id = id;
+        }
+    }
+
+    /**
+     * 获取下载APK ID
+     *
+     * @return
+     */
+    public String getApkId() {
+        apk_id = null;
+        if (apk_id == null) {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+            apk_id = preferences.getString(APK_ID, null);
+        }
+        return apk_id;
     }
 }
