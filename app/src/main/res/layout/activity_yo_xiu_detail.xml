@@ -24,7 +24,6 @@
     android:layout_height="@dimen/dp_5"/>
         <EditText
             android:layout_below="@+id/shadow"
-         android:paddingBottom="@dimen/dp_18"
             android:paddingTop="@dimen/dp_18"
             android:id="@+id/edit_comment"
             android:layout_width="@dimen/dp_230"

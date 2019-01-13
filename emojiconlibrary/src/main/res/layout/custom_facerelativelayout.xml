@@ -8,8 +8,8 @@
         android:id="@+id/rl_input"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="#ffffff"
         android:padding="8dp">
+
         <EditText
             android:singleLine="true"
             android:imeOptions="actionSend"
@@ -20,7 +20,7 @@
             android:layout_weight="1"
             android:background="@drawable/message_bg"
             android:gravity="center_vertical"
-            android:hint="在不评论，你会被抓去写作业的~"
+            android:hint="你也来评论一下吧..."
             android:padding="4dp"
             android:textSize="14sp" />
 

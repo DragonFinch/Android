@@ -284,6 +284,7 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
         }
     }
 
+    //评论成功的回调
     @Override
     public void addCommentSuccess(BaseBean baseBean) {
         String msg = baseBean.getMsg();
