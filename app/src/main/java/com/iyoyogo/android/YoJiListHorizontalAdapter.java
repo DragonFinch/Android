@@ -158,49 +158,6 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
         Log.d("YoJiAdapter", "comment_list:" + comment_list.size());
         holder.recycler_comment.setLayoutManager(new LinearLayoutManager(context));
         holder.recycler_comment.setAdapter(adapter);
-        if (mList.get(position).getIs_my_praise() == 0) {
-            holder.dt_like.setImageResource(R.mipmap.datu_xihuan);
-        } else {
-            holder.dt_like.setImageResource(R.mipmap.yixihuan_xiangqing);
-        }
-        holder.dt_like.setImageResource(mList.get(position).getIs_my_praise() > 0 ? R.mipmap.yixihuan_xiangqing : R.mipmap.datu_xihuan);
-        yo_id = mList.get(position).getYo_id();
-
-        holder.dt_like.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.dt_like.setImageResource(mList.get(position).getIs_my_praise() > 0 ? R.mipmap.yixihuan_xiangqing : R.mipmap.datu_xihuan);
-                String count_praise = mList.get(position).getCount_praise();
-                int count_praises = Integer.parseInt(count_praise);
-                if (mList.get(position).getIs_my_praise() > 0) {
-                    //由喜欢变为不喜欢，亮变暗
-                    holder.dt_like.setImageResource(R.mipmap.datu_xihuan);
-                    count_praises -= 1;
-                    //设置点赞的数量
-                    holder.tv_num_like.setText(count_praises + "");
-                    mList.get(position).setIs_my_praise(0);
-                    mList.get(position).setCount_praise(String.valueOf(count_praises));
-
-                } else {
-                    //由不喜欢变为喜欢，暗变亮
-                    holder.dt_like.setImageResource(R.mipmap.yixihuan_xiangqing);
-                    count_praises += 1;
-                    //设置点赞的数量
-                    holder.tv_num_like.setText(count_praises + "");
-                    mList.get(position).setIs_my_praise(1);
-                    mList.get(position).setCount_praise(String.valueOf(count_praises));
-
-                }
-                String user_id = SpUtils.getString(context, "user_id", null);
-                String user_token = SpUtils.getString(context, "user_token", null);
-                DataManager.getFromRemote().praise(user_id, user_token, yo_id, 0)
-                        .subscribe(new Consumer<BaseBean>() {
-                            @Override
-                            public void accept(BaseBean baseBean) throws Exception {
-                            }
-                        });
-            }
-        });
         holder.medal.setVisibility(View.VISIBLE);
         holder.img_level.setVisibility(View.VISIBLE);
         int partner_type = mList.get(position).getUser_info().getPartner_type();
@@ -263,7 +220,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
                 if (mList.get(position).getIs_my_praise() == 1) {
                     count_praises += 1;
                     mList.get(position).setCount_praise(String.valueOf(count_praises));
-                } else if (count_praises > 0) {
+                } else {
                     count_praises -= 1;
                     mList.get(position).setCount_praise(String.valueOf(count_praises));
 
@@ -273,7 +230,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        DataManager.getFromRemote().praise(user_id, user_token, 0, mList.get(position).getYo_id())
+                        DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getYo_id(),0 )
                                 .subscribe(new Consumer<BaseBean>() {
                                     @Override
                                     public void accept(BaseBean baseBean) throws Exception {

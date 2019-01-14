@@ -119,11 +119,11 @@ public class FaceRelativeLayout extends RelativeLayout implements
             if (view.getVisibility() == View.VISIBLE) {
                 view.setVisibility(View.GONE);
                 KeyBoardUtils.openKeybord(et_sendmessage,context);
-                btn_face.setImageResource(R.drawable.ruanjianpan);
+              //  btn_face.setImageResource(R.drawable.ruanjianpan);
             } else {
                 view.setVisibility(View.VISIBLE);
                 KeyBoardUtils.closeKeybord(et_sendmessage,context);
-                btn_face.setImageResource(R.drawable.btn_emoji);
+               // btn_face.setImageResource(R.drawable.btn_emoji);
             }
 
         } else if (i == R.id.et_sendmessage) {// 隐藏表情选择框

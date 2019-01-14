@@ -127,11 +127,13 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
     private RecyclerView recyclerYoji;
     private YoJiFragment yoJiFragment;
     String user_logo_big;
-
+    YoXiuFragment yoXiuFragment;
 
     protected void initView() {
         super.initView();
         statusbar();
+        yoXiuFragment = new YoXiuFragment();
+        yoJiFragment = new YoJiFragment();
     }
 
     public int getAge(Date birthDay) throws Exception {
@@ -175,8 +177,7 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
         user_token = SpUtils.getString(Personal_homepage_Activity.this, "user_token", null);
         Intent intent = getIntent();
         yo_user_id = intent.getStringExtra("yo_user_id");
-        mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
-
+//        mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
     }
 
     @Override
@@ -189,11 +190,18 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
         return new PersonalCenterPresenter(this);
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
+        rbYoji.setChecked(true);
+      /*  switchContent(yoJiFragment,yoXiuFragment);
+        Bundle bundle = new Bundle();
+        bundle.putString("yo_user_id", yo_user_id);
+        yoJiFragment.setArguments(bundle);
+        yoXiuFragment.setArguments(bundle);*/
+    }
 
     @OnClick({R.id.img_back, R.id.img_share, R.id.my_collection, R.id.get_hisFans, R.id.collect, R.id.img_view,R.id.img_user_icon})
     public void onViewClicked(View view) {
@@ -354,8 +362,7 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
     @Override
     public void getPersonalCenterSuccess(UserCenterBean.DataBean data) {
         List<Fragment> fragments = new ArrayList<>();
-        YoXiuFragment yoXiuFragment = new YoXiuFragment();
-        yoJiFragment = new YoJiFragment();
+
         Bundle bundle = new Bundle();
         bundle.putString("yo_user_id", yo_user_id);
         yoJiFragment.setArguments(bundle);

@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -145,8 +146,38 @@ public class SearchYoXiuListAdapter extends RecyclerView.Adapter<SearchYoXiuList
         } else {
             viewHolder.img_like.setImageResource(R.mipmap.yixihuan_xiangqing);
         }*/
-        viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == 1 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
-        yo_id = mList.get(position).getYo_id();
+        viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+        int yo_id = mList.get(position).getYo_id();
+        viewHolder.img_like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String user_id = SpUtils.getString(context, "user_id", null);
+                String user_token = SpUtils.getString(context, "user_token", null);
+                int count_praise = mList.get(position).getCount_praise();
+                mList.get(position).setIs_my_praise(mList.get(position).isIs_my_praise() == 1 ? 0 : 1);
+                if (mList.get(position).isIs_my_praise() == 1) {
+                    count_praise += 1;
+                    mList.get(position).setCount_praise(count_praise);
+                    mList.get(position).setIs_my_praise(1);
+                    viewHolder.num_like.setText( count_praise + "");
+                    viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+
+                } else {
+                    count_praise -= 1;
+                    mList.get(position).setIs_my_praise(0);
+                    mList.get(position).setCount_praise(count_praise);
+                    viewHolder.num_like.setText("" + count_praise + "");
+                    viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
+
+                }
+                DataManager.getFromRemote().praise(user_id, user_token, yo_id, 0).subscribe(new Consumer<BaseBean>() {
+                    @Override
+                    public void accept(BaseBean baseBean) throws Exception {
+
+                    }
+                });
+            }
+        });
 
         viewHolder.medal.setVisibility(View.VISIBLE);
         viewHolder.img_level.setVisibility(View.VISIBLE);
@@ -190,42 +221,7 @@ public class SearchYoXiuListAdapter extends RecyclerView.Adapter<SearchYoXiuList
             viewHolder.img_level.setVisibility(View.INVISIBLE);
         }
 
-        viewHolder.img_like.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String user_id = SpUtils.getString(context, "user_id", null);
-                String user_token = SpUtils.getString(context, "user_token", null);
-                int count_praise = mList.get(position).getCount_praise();
-                mList.get(position).setYo_id(mList.get(position).getYo_id() == 1 ? 0 : 1);
-                if (mList.get(position).getYo_id() == 1) {
-                    count_praise -= 1;
-                    mList.get(position).setCount_praise(count_praise);
-                    viewHolder.num_like.setText(count_praise + "");
-                    viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
 
-
-                } else if (count_praise > 0) {
-                    count_praise += 1;
-                    mList.get(position).setCount_praise(count_praise);
-                    viewHolder.num_like.setText(count_praise + "");
-                    viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == 1 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
-                }
-
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        DataManager.getFromRemote().praise(user_id, user_token, 0, mList.get(position).getYo_id())
-                                .subscribe(new Consumer<BaseBean>() {
-                                    @Override
-                                    public void accept(BaseBean baseBean) throws Exception {
-
-                                    }
-                                });
-                    }
-                }).start();
-
-            }
-        });
     }
 
     private void initPopup(ViewHolder viewHolder) {

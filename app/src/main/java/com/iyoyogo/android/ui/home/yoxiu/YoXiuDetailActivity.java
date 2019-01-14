@@ -28,6 +28,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -45,6 +46,7 @@ import com.iyoyogo.android.bean.yoxiu.YoXiuDetailBean;
 import com.iyoyogo.android.contract.YoXiuDetailContract;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.presenter.YoXiuDetailPresenter;
+import com.iyoyogo.android.ui.home.GoTakePhotoActivity;
 import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.KeyBoardUtils;
@@ -147,6 +149,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     private RecyclerView recycler_collection;
     private List<YoXiuDetailBean.DataBean> collection_list;
     private String collection_id;
+    @BindView(R.id.iv_logo)
+    VideoView ivLogo;
     private int yo_id;
     private PopupWindow popup;
     private String count_collect;
@@ -248,13 +252,39 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         Log.d("YoXiuDetailActivity", "user_token:" + user_token);
         mPresenter.getDetail(user_id, user_token, id);
         mPresenter.getCommentList(user_id, user_token, 1, id, 0);
-      /*  editComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
+        editComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-
+                if (hasFocus){
+                    //获得焦点
+                    tvCollection.setVisibility(View.GONE);
+                    tvLike.setVisibility(View.GONE);
+                    editComment.setHint("码字不容易，留个评论鼓励下嘛~");
+                    editComment.setHintTextColor(Color.parseColor("#888888"));
+                    sendEmoji.setVisibility(View.VISIBLE);
+                    imgBrow.setVisibility(View.GONE);
+//                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+////                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//
+//                    layoutParams.alignWithParent=true;
+                    RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//                    layoutParams1.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);
+                    editComment.setLayoutParams(layoutParams1);
+                }else {
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+//                    layoutParams.setMargins(0, DensityUtil.dp2px(YoXiuDetailActivity.this, 20), 0, 0);
+                    editComment.setLayoutParams(layoutParams);
+                    tvCollection.setVisibility(View.VISIBLE);
+                    tvLike.setVisibility(View.VISIBLE);
+                    editComment.setHint("再不评论 , 你会被抓去写作业的~");
+                    editComment.setHintTextColor(Color.parseColor("#888888"));
+                    sendEmoji.setVisibility(View.GONE);
+                    sendEmoji.setVisibility(View.GONE);
+                    imgBrow.setVisibility(View.VISIBLE);
+                }
             }
-        });*/
+        });
 
         tvCollection.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -431,7 +461,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                 startActivity(intent);
                 break;
             case R.id.img_go:
-
+                startActivity(new Intent(getApplicationContext(), GoTakePhotoActivity.class));
                 break;
             case R.id.collection:
                 /*
@@ -640,10 +670,53 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                 .into(imgLogo);
         String file_type = data.getFile_type();
         if (file_type.equals("2")) {
-            imgVideo.setVisibility(View.VISIBLE);
+            if (path.contains(".mp4")) {
+                imgVideo.setVisibility(View.VISIBLE);
+                ivLogo.setVisibility(View.VISIBLE);
+                ivLogo.setVideoPath(path);
+                imgLogo.setVisibility(View.GONE);
+            }
+
+
         } else if (file_type.equals("1")) {
             imgVideo.setVisibility(View.GONE);
+
+            ivLogo.setVisibility(View.GONE);
+
+            imgLogo.setVisibility(View.VISIBLE);
         }
+        imgVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ivLogo.isPlaying()) {
+                    ivLogo.pause();
+                    ivLogo.setVisibility(View.VISIBLE);
+                    imgVideo.setVisibility(View.VISIBLE);
+                } else {
+                    ivLogo.start();
+                    imgVideo.setVisibility(View.GONE);
+                    ivLogo.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        ivLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ivLogo.isPlaying()) {
+                    ivLogo.pause();
+                    ivLogo.setVisibility(View.VISIBLE);
+                    imgVideo.setVisibility(View.VISIBLE);
+                } else {
+                    ivLogo.start();
+                    imgVideo.setVisibility(View.GONE);
+                    ivLogo.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        ivLogo.setOnCompletionListener(mp -> {
+
+            imgVideo.setVisibility(View.VISIBLE);
+        });
         String user_logo = data.getUser_logo();
         RequestOptions requestOption = new RequestOptions();
         requestOption.error(R.mipmap.default_touxiang).placeholder(R.mipmap.default_touxiang);

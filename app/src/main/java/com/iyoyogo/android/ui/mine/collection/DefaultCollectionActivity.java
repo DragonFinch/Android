@@ -182,7 +182,6 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
         super.initData(savedInstanceState);
         mPresenter.getCollectionFolderContent(user_id, user_token, folder_id, 1);
         if (user_id.equals(yo_user_id)) {
-            functionBottom.setVisibility(View.VISIBLE);
             defaultSpotIvId.setVisibility(View.VISIBLE);
         } else {
             functionBottom.setVisibility(View.GONE);

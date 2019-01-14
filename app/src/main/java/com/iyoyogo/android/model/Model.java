@@ -70,7 +70,9 @@ import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.http.Field;
+import retrofit2.http.Url;
 
 
 public class Model {
@@ -138,11 +140,11 @@ public class Model {
      * @return
      */
     public Observable<BaseBean> addInterest(ArrayList<Integer> interest_ids, String user_id, String user_token) {
-        Map<String, Object> map=new HashMap<>();
-        map.put("user_id",user_id);
-        map.put("user_token",user_token);
+        Map<String, Object> map = new HashMap<>();
+        map.put("user_id", user_id);
+        map.put("user_token", user_token);
         for (int i = 0; i < interest_ids.size(); i++) {
-            map.put("interest_ids["+i+"]",interest_ids.get(i));
+            map.put("interest_ids[" + i + "]", interest_ids.get(i));
         }
         return HttpClient.getApiService().addInterest(map)
                 .compose(this.switchThread());
@@ -185,8 +187,8 @@ public class Model {
      * @param type
      * @return
      */
-    public Observable<HomeBean> homePager(String user_id, String user_token, String type,String city) {
-        return HttpClient.getApiService().homePager(user_id, user_token, type,city)
+    public Observable<HomeBean> homePager(String user_id, String user_token, String type, String city) {
+        return HttpClient.getApiService().homePager(user_id, user_token, type, city)
                 .compose(this.switchThread());
     }
 
@@ -369,12 +371,12 @@ public class Model {
         return HttpClient.getApiService().getYoXiuList(user_id, user_token, page)
                 .compose(this.switchThread());
     }
+
     /**
      * 获取同款
-     *
      */
     public Observable<SameBean> getSameList(String user_id, String user_token, String lng, String lat, int page, String page_size) {
-        return HttpClient.getApiService().getSameList(user_id, user_token, lng,lat,page,page_size)
+        return HttpClient.getApiService().getSameList(user_id, user_token, lng, lat, page, page_size)
                 .compose(this.switchThread());
     }
 
@@ -1046,7 +1048,8 @@ public class Model {
         return HttpClient.getApiService().deleteYo(user_id, user_token, yo_id)
                 .compose(this.switchThread());
     }
- public Observable<BaseBean> deleteComment(String user_id, String user_token, int comment_id) {
+
+    public Observable<BaseBean> deleteComment(String user_id, String user_token, int comment_id) {
         return HttpClient.getApiService().deleteComment(user_id, user_token, comment_id)
                 .compose(this.switchThread());
     }
@@ -1152,19 +1155,26 @@ public class Model {
         return HttpClient.getApiService().getYoXiuPosition(user_id, user_token, position, type, page, page_size)
                 .compose(this.switchThread());
     }
+
     public Observable<YoJiListBean> getYoJiPosition(String user_id, String user_token, String position, int type, int page, String page_size) {
         return HttpClient.getApiService().getYoJiPosition(user_id, user_token, position, type, page, page_size)
                 .compose(this.switchThread());
     }
+
     public Observable<YoJiListBean> getYoJiLabel(String user_id, String user_token, String label, int page, String page_size) {
         return HttpClient.getApiService().getYoJiLabel(user_id, user_token, label, page, page_size)
                 .compose(this.switchThread());
     }
+
     /**
      *
      */
-    public Observable<BaseBean> update_bind(String user_id,String user_token,int type,String openid,String nickname,String logo){
+    public Observable<BaseBean> update_bind(String user_id, String user_token, int type, String openid, String nickname, String logo) {
         return HttpClient.getApiService().update_bind(user_id, user_token, type, openid, nickname, logo)
                 .compose(this.switchThread());
+    }
+
+    public Observable<ResponseBody> downFile(@Url String fileUrl) {
+        return HttpClient.getApiService().downFile(fileUrl).compose(this.switchThread());
     }
 }

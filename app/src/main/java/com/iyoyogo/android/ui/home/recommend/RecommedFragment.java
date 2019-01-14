@@ -1,27 +1,32 @@
 package com.iyoyogo.android.ui.home.recommend;
 
 
-
 import android.Manifest;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
@@ -35,11 +40,18 @@ import com.iyoyogo.android.bean.home.VersionBean;
 import com.iyoyogo.android.contract.HomeContract;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.presenter.HomePresenter;
+import com.iyoyogo.android.ui.common.WelcomeActivity;
+import com.iyoyogo.android.ui.receive.UpdateService;
+import com.iyoyogo.android.utils.AppConfig;
 import com.iyoyogo.android.utils.AppUtils;
+import com.iyoyogo.android.utils.NetUtils;
+import com.iyoyogo.android.utils.ResUtils;
 import com.iyoyogo.android.utils.SpUtils;
-import com.iyoyogo.android.utils.download.dialog.CommonDialog;
-import com.iyoyogo.android.utils.download.utils.UpdateService;
+
+
 import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimHeader;
+import com.iyoyogo.android.widget.AppVersionDialog;
+import com.iyoyogo.android.widget.DownLoadDialog;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -47,6 +59,11 @@ import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +72,8 @@ import butterknife.Unbinder;
 import cn.jpush.android.api.JPushInterface;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import okhttp3.ResponseBody;
 import util.UpdateAppUtils;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
@@ -66,7 +85,7 @@ import static android.content.Context.DOWNLOAD_SERVICE;
 /**
  * 推荐Fragment
  */
-public class RecommedFragment extends BaseFragment<HomeContract.Presenter> implements HomeContract.View {
+public class RecommedFragment extends BaseFragment<HomeContract.Presenter> implements HomeContract.View, AppVersionDialog.DialogItemClickListener {
     @BindView(R.id.recycler_recommend)
     RecyclerView recyclerHome;
     @BindView(R.id.refresh_layout)
@@ -96,6 +115,9 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_EXTRAS = "extras";
     private String city;
+    private DownLoadDialog lodingDialog;
+    private AppVersionDialog dialog;
+    private String dowloadPath;
 
 
     @Override
@@ -127,7 +149,10 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
      /*   DownloadApk.getInstance().registerBroadcast(getContext());
         //2.删除已存在的Apk
         DownloadApk.getInstance().removeFile(getContext());*/
-
+        dialog = new AppVersionDialog(getContext(), R.style.AppVerDialog);
+        dialog.setCancelable(false);
+        dialog.setAppClickLister(this);
+        lodingDialog = new DownLoadDialog(getContext(), R.style.AppVerDialog);
 
         city = SpUtils.getString(getContext(), "city", null);
         user_id = SpUtils.getString(getContext(), "user_id", null);
@@ -218,31 +243,6 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
         return new HomePresenter(this);
     }
 
-    private void showHintDialog(String url) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setIcon(R.mipmap.ic_launcher)
-                .setMessage("检测到当前有新版本，是否更新?")
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //取消更新，则跳转到旧版本的APP的页面
-                        Toast.makeText(getContext(), "暂时不更新app", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        //3.如果手机已经启动下载程序，执行downloadApk。否则跳转到设置界面
-                        getVerCode(getContext());//TODO 获取版本号 用于对比服务器版本
-                        getVerName(getContext());//TODO 获取版本名字 用于对比服务器版本
-                        //在此之前需要访问服务器判断服务器版本号，在这里就不写了
-                        showUpdateDialog(url);//TODO 弹出自动更新dialog
-                    }
-
-
-                }).create().show();
-    }
 
     private void checkAllPermission() {
         if (Build.VERSION.SDK_INT >= 23) {
@@ -313,74 +313,107 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
         });
         String registrationID = JPushInterface.getRegistrationID(getContext());
         Log.d("龙雀", registrationID);
-        DataManager.getFromRemote().getVersionMessage(user_id, user_token, "and").subscribe(new Observer<VersionBean>() {
-            @Override
-            public void onSubscribe(Disposable d) {
+        if (!NetUtils.isInternetConnection(App.context)) {
+            shortToast("网络异常表");
+            return;
+        } else {
+          /*DataManager.getFromRemote().getVersionMessage(user_id, user_token, "and").subscribe(new Observer<VersionBean>() {
 
-            }
 
-            @Override
-            public void onNext(VersionBean versionBean) {
-                VersionBean.DataBean data1 = versionBean.getData();
-                String version = data1.getVersion();
-                String netVersion = version.replace(".", "");
-                Log.d("RecommedFragment", netVersion);
-                String s = packageName(getContext());
-                String localVersion = s.replace(".", "");
-                int local_version = Integer.parseInt(localVersion);
-                int net_version = Integer.parseInt(netVersion);
-                if (local_version<net_version){
-                   /* UpdateAppUtils.from(getActivity())
-                            .checkBy(UpdateAppUtils.CHECK_BY_VERSION_NAME)
-                            .serverVersionName(netVersion)
-                            .serverVersionCode(2)
-                            .updateInfo(data1.getContent())
-                            .apkPath(data1.getUrl())
-                            .downloadBy(UpdateAppUtils.DOWNLOAD_BY_BROWSER)
-                            .isForce(true)
-                            .update();*/
+                @Override
+                public void onSubscribe(Disposable d) {
+
                 }
 
-            }
+                @Override
+                public void onNext(VersionBean versionBean) {
+                    String msg = versionBean.getMsg();
+                    if (TextUtils.equals("success", msg)) {
+                        VersionBean.DataBean data2 = versionBean.getData();
+                        getVersion(data2);
+                    } else {
+                        shortToast(ResUtils.getString(R.string.version));
 
-            @Override
-            public void onError(Throwable e) {
+                    }
+                }
 
-            }
+                @Override
+                public void onError(Throwable e) {
+                    String erro = e.getMessage();
+                    if (TextUtils.isEmpty(erro)) {
+                        erro = ResUtils.getString(R.string.ServiceException);
+                    } else if (TextUtils.equals(erro, ResUtils.getString(R.string.netexception))) {
+                        erro = ResUtils.getString(R.string.NetException);
+                    } else if (TextUtils.equals(erro, ResUtils.getString(R.string.HTTP404))) {
+                        erro = ResUtils.getString(R.string.ServiceException);
+                    }
+                    shortToast(erro);
+                }
 
-            @Override
-            public void onComplete() {
+                @Override
+                public void onComplete() {
 
-            }
-        });
+                }
+
+
+            });*/
+        }
     }
-    private void checkVersion(String url){
 
-        //这里不发送检测新版本网络请求，直接进入下载新版本安装
-        CommonDialog.Builder builder = new CommonDialog.Builder(getContext());
-        builder.setTitle("升级提示");
-        builder.setMessage("发现新版本，请及时更新");
-        builder.setPositiveButton("立即升级", new DialogInterface.OnClickListener() {
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                Intent intent = new Intent(getContext(), UpdateService.class);
-                intent.putExtra("apkUrl", url);
-                getContext().startService(intent);
-            }
-        });
-        builder.setNegativeButton("下次再说", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-
-            }
-        });
-
-        builder.create().show();
     }
+
+
+    private void getVersion(VersionBean.DataBean dataBean) {
+        List<String> picList = new ArrayList<>();
+        try {
+            // 服务端版本号
+            String version = dataBean.getVersion();
+//            String ipv6 = dataBean.getIpv6();
+            //强制更新的标志
+            String must_download = dataBean.getForce();
+            // app 下载的地址
+            String download_url = dataBean.getUrl();
+            String webVer = version.replace(".", "");
+            String locVer = AppUtils.getAppVersionName(App.context).replace(".", "");
+            //  app 升级的描述
+            String description = dataBean.getContent();
+
+//            picList = dataBean.getPic_list();
+            int web = Integer.parseInt(webVer);
+            int loc = Integer.parseInt(locVer);
+            if (TextUtils.isEmpty(description)) {
+                description = "修改了部分体验问题";
+            }
+            if (web > loc) {
+                if (TextUtils.equals(dataBean.getForce(), "1")) {
+                    dialog.show();
+                    this.dowloadPath = dataBean.getUrl();
+                    dialog.hideCancle();
+                    dialog.setDialogContent(description);
+
+                } else {
+                    dialog.show();
+                    this.dowloadPath = dataBean.getUrl();
+                    dialog.setDialogContent(description);
+
+                }
+            } else {
+
+                shortToast(ResUtils.getString(R.string.version));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            shortToast(ResUtils.getString(R.string.version));
+        }
+    }
+
+
+
     public String packageName(Context context) {
         PackageManager manager = context.getPackageManager();
         String name = null;
@@ -395,98 +428,43 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
     }
 
     /**
-     * 版本更新Dialog
-     * */
-    private void showUpdateDialog(final String downPath) {
-        new AlertDialog.Builder(getContext()).setTitle("提示").setMessage("发现新版本，是否更新？")
-                .setCancelable(false)
-                .setPositiveButton("马上更新", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int arg1) {
-                        //使用系统下载类
-                        DownloadManager downloadManager = (DownloadManager) getContext().getSystemService(DOWNLOAD_SERVICE);
-                        Uri uri = Uri.parse(downPath);
-                        DownloadManager.Request request = new DownloadManager.Request(uri);
-                        request.setTitle("货柜快车APP下载");
-                        request.setDescription("当前版本号为1.0.14");
-                        // 设置自定义下载路径和文件名
-//                                    String apkName =  "yourName" + DateUtils.getCurrentMillis() + ".apk";
-//                                    request.setDestinationInExternalPublicDir(yourPath, apkName);
-//                                    MyApplication.getInstance().setApkName(apkName);
-                        //设置允许使用的网络类型，这里是移动网络和wifi都可以
-                        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
-
-                        //禁止发出通知，既后台下载，如果要使用这一句必须声明一个权限：android.permission.DOWNLOAD_WITHOUT_NOTIFICATION
-                        //request.setShowRunningNotification(false);
-
-                        //不显示下载界面
-                        request.setVisibleInDownloadsUi(false);
-                        // 设置为可被媒体扫描器找到
-                        request.allowScanningByMediaScanner();
-                        // 设置为可见和可管理
-                        request.setVisibleInDownloadsUi(true);
-                        request.setMimeType("application/cn.trinea.download.file");
-        /*设置下载后文件存放的位置,如果sdcard不可用，那么设置这个将报错，因此最好不设置如果sdcard可用，下载后的文件
-        在/mnt/sdcard/Android/data/packageName/files目录下面，如果sdcard不可用,设置了下面这个将报错，不设置，下载后的文件在/cache这个  目录下面*/
-                        //request.setDestinationInExternalFilesDir(this, null, "tar.apk");
-                        long id = downloadManager.enqueue(request);//TODO 把id保存好，在接收者里面要用，最好保存在Preferences里面
-                        //发现部分手机有缓存，如果下载了该文件，那么就不会再下载，就不触发下载完成的广播接收器
-                        String apkId = App.getInstance().getApkId();
-                        if (apkId == null || id != Long.parseLong(apkId)) {
-                            App.getInstance().setApkId(Long.toString(id));//TODO 把id存储在Preferences里面
-                            handler = new MyHandler();
-                            getActivity().getContentResolver().registerContentObserver(Uri.parse("content://downloads/")
-                                    , true, new DownloadObserver(handler, getContext(), id));
-                            showProgressDialog();
-                        } else {
-                            Intent intent = new Intent();
-                            intent.setAction("android.intent.action.DOWNLOAD_COMPLETE");
-                            intent.putExtra(DownloadManager.EXTRA_DOWNLOAD_ID, id);
-                           getContext().sendBroadcast(intent);
-                        }
-                        dialog.dismiss();
-                    }
-                })
-                .setNegativeButton("下次再说", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int arg1) {
-                        // TODO Auto-generated method stub
-                        dialog.dismiss();
-                    }
-
-                })
-                .setOnKeyListener(new DialogInterface.OnKeyListener() {
-                    @Override
-                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                        switch (keyCode){
-                            case KeyEvent.KEYCODE_SEARCH:
-                                return true;
-                        }
-                        return false;
-                    }
-                })
-                .show();
-    }
-
-    /**
+     * /**
      * Handler实时更新进度
      */
     private Handler handler;
-    private class MyHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            int mProgress = (int)msg.obj;
-            if(mProgress < 0){
-                return;
-            }else if(mProgress >= MAX_PROGRESS - 1){
-                progressDialog.setProgress(MIN_PROGRESS);
-                progressDialog.dismiss();
-            }else{
-                progressDialog.setProgress(mProgress);
+
+    @Override
+    public void sureDown() {
+        DataManager.getFromRemote().downFile(dowloadPath).subscribe(new Observer<ResponseBody>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                lodingDialog.showDialog();
             }
-        }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                dialog.cancel();
+                writeResponseBodyToDisk(dowloadPath, responseBody.byteStream());
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+                lodingDialog.hide();
+            }
+        });
     }
+
+    @Override
+    public void cancleDown() {
+
+    }
+
 
     /**
      * 创建进度弹框
@@ -494,56 +472,11 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
     private ProgressDialog progressDialog;
     private static final int MAX_PROGRESS = 100;
     private static final int MIN_PROGRESS = 0;
-    private void showProgressDialog(){
-        progressDialog=new ProgressDialog(getContext());
-        progressDialog.setMessage("下载进度：");
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);//设置进度条对话框//样式（水平，旋转）
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setCancelable(false);
-        //进度最大值
-        progressDialog.setMax(MAX_PROGRESS);
-        progressDialog.setProgress(MIN_PROGRESS);
-        progressDialog.show();
-    }
 
-    public class DownloadObserver extends ContentObserver {
-        private long downid;
-        private Handler handler;
-        private Context context;
-
-        public DownloadObserver(Handler handler, Context context, long downid) {
-            super(handler);
-            this.handler = handler;
-            this.downid = downid;
-            this.context = context;
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            //每当/data/data/com.android.providers.download/database/database.db变化后，触发onCHANGE，开始具体查询
-//            Log.w("onChangeID", String.valueOf(downid));
-            super.onChange(selfChange);
-            //实例化查询类，这里需要一个刚刚的downid
-            DownloadManager.Query query = new DownloadManager.Query().setFilterById(downid);
-            DownloadManager downloadManager = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
-            //这个就是数据库查询啦
-            Cursor cursor = downloadManager.query(query);
-            while (cursor.moveToNext()) {
-                int mDownload_so_far = cursor.getInt(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
-                int mDownload_all = cursor.getInt(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
-                int mProgress = (mDownload_so_far * 99) / mDownload_all;
-                Log.w(getClass().getSimpleName(), String.valueOf(mProgress));
-                //TODO：handler.sendMessage(xxxx),这样就可以更新UI了
-
-                Message msg = handler.obtainMessage();
-                msg.obj = mProgress;
-                handler.sendMessage(msg);
-            }
-        }
-    }
 
     /**
      * 获取软件版本号
+     *
      * @param context
      * @return
      */
@@ -556,8 +489,10 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
         }
         return verCode;
     }
+
     /**
      * 获取版本名称
+     *
      * @param context
      * @return
      */
@@ -566,11 +501,12 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
         try {
             verName = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            Log.e("msg",e.getMessage());
+            Log.e("msg", e.getMessage());
         }
         return verName;
     }
-    private String updateMessage(){
+
+    private String updateMessage() {
 
         StringBuilder sb = new StringBuilder();
 
@@ -581,6 +517,51 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
         sb.append("3. 解决用户反馈，优化性能及界面细节；");
 
         return sb.toString();
+    }
+
+    private String writeResponseBodyToDisk(String url, InputStream inputStream) {
+        try {
+            int pos = url.lastIndexOf("/");
+            String name = url.substring(pos, url.length());
+            String filePath = AppConfig.VOICE + name;
+            File file = new File(filePath);
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            OutputStream outputStream = null;
+            try {
+                byte[] fileReader = new byte[4096];
+                outputStream = new FileOutputStream(file);
+                while (true) {
+                    int read = inputStream.read(fileReader);
+                    if (read == -1) {
+                        break;
+                    }
+                    outputStream.write(fileReader, 0, read);
+                }
+                outputStream.flush();
+                if (filePath.endsWith(".apk")) {
+                    Message message = new Message();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("filePath", filePath);
+                    message.setData(bundle);
+                    handler.sendMessage(message);
+                }
+                return filePath;
+            } catch (IOException e) {
+                return null;
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (IOException e) {
+            return null;
+        }
+
     }
 
 }

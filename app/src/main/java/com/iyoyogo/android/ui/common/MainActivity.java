@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.home.VersionBean;
 import com.iyoyogo.android.camera.utils.asset.NvAssetManager;
 import com.iyoyogo.android.contract.MainContract;
+import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.presenter.MainPresenter;
 import com.iyoyogo.android.ui.home.GoTakePhotoActivity;
 import com.iyoyogo.android.ui.home.HomeFragment;
@@ -45,12 +47,15 @@ import com.iyoyogo.android.ui.receive.UpdateService;
 import com.iyoyogo.android.utils.AppUtils;
 import com.iyoyogo.android.utils.ExampleUtil;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.download.DownLoadUtils;
+import com.iyoyogo.android.utils.download.DownloadApk;
 import com.meicam.sdk.NvsStreamingContext;
 
 import java.util.List;
 
 import butterknife.BindView;
 import cn.jpush.android.api.JPushInterface;
+import io.reactivex.functions.Consumer;
 
 /**
  * 首页
@@ -235,19 +240,20 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
 
     @Override
     public void getVersionSuccess(VersionBean.DataBean data) {
+
         String version = data.getVersion();
-        String s = version.replaceAll(".", "");
-        Log.d("MainActivity", "version" + version);
-        Log.d("8889898989", s);
-        int currVersionCode = AppUtils.getPackageVersionCode(MainActivity.this);
-          /*  int newVersionCode = Integer.parseInt(s);
+        String netVersion = version.replace(".", "");
+        Log.d("RecommedFragment", netVersion);
+        String s = packageName(getApplicationContext());
+        String localVersion = s.replace(".", "");
+        int local_version = Integer.parseInt(localVersion);
+        int net_version = Integer.parseInt(netVersion);
+
+        if (local_version<net_version){
+            showHintDialog();
 
 
-            //如果当前版本小于新版本，则提示更新
-            if (currVersionCode < newVersionCode) {
-                Log.i("tag", "有新版本需要更新");
-                showHintDialog();
-            }*/
+        }
     }
 
     private void initViews() {
@@ -331,14 +337,11 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //6.0以下系统，不需要请求权限,直接下载新版本的app
-                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                            downloadApk();
+                        if (DownLoadUtils.getInstance(getApplicationContext()).canDownload()) {
+                            DownloadApk.downloadApk(getApplicationContext(), "http://iyoyogo.oss-cn-beijing.aliyuncs.com/iyoyogo/2019/1/13/8HNYbps35X.apk", "yoyoGo更新", "yoyoGo");
                         } else {
-                            //6.0以上,先检查，申请权限，再下载
-                            checkAllPermission();
+                            DownLoadUtils.getInstance(getApplicationContext()).skipToDownloadManager();
                         }
-
                     }
                 }).create().show();
     }
@@ -422,6 +425,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
                     Manifest.permission.RECORD_AUDIO,
                     Manifest.permission.READ_PHONE_STATE,
                     Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.INSTALL_PACKAGES,
                     Manifest.permission.SET_DEBUG_APP,
                     Manifest.permission.SYSTEM_ALERT_WINDOW,
                     Manifest.permission.GET_ACCOUNTS,
@@ -458,11 +462,50 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
 
         }
     }
+    public String packageName(Context context) {
+        PackageManager manager = context.getPackageManager();
+        String name = null;
+        try {
+            PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+            name = info.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
+        return name;
+    }
+    private void showHintDialog(String url) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        builder.setIcon(R.mipmap.ic_launcher)
+                .setMessage("检测到当前有新版本，是否更新?")
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //取消更新，则跳转到旧版本的APP的页面
+                        Toast.makeText(getApplicationContext(), "暂时不更新app", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        //3.如果手机已经启动下载程序，执行downloadApk。否则跳转到设置界面
+
+                    }
+
+
+                }).create().show();
+    }
     @Override
     protected void onResume() {
         super.onResume();
         registerMessageReceiver();
+        DownloadApk.registerBroadcast(this);
+        //2.删除已存在的Apk
+        DownloadApk.removeFile(this);
+        String user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
+        String user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
+        mPresenter.getVersion(user_id,user_token,"and");
 
     }
 
@@ -480,6 +523,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
                 Log.d("大碗", title + content);
 //                changePageFragment(R.id.ll_tab3);
             }
+
 
         }
     }
@@ -541,6 +585,13 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
             System.exit(0);
         }
     }
+    @Override
+    protected void onDestroy() {
 
+        super.onDestroy();
+        //4.反注册广播接收器
+        DownloadApk.unregisterBroadcast(this);
+
+    }
 
 }

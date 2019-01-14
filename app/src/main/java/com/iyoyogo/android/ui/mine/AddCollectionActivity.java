@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.githang.statusbar.StatusBarCompat;
@@ -131,6 +132,8 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
                 .withMedia(web)
                 .setPlatform(share_media)
                 .share();
+
+
     }
 
 }

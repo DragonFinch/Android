@@ -373,8 +373,9 @@ public class DateChooseWheelViewDialog extends Dialog implements View.OnClickLis
         Calendar nowCalendar = Calendar.getInstance();
         int nowMonth = nowCalendar.get(Calendar.MONTH);
         arry_date.clear();
-        for (int i = 1; i <= 12; i++) {
-            arry_month.add(i + "月");
+        String[] month_arr = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+        for (int i = 0; i < month_arr.length; i++) {
+            arry_month.add(month_arr[i] + "月");
             int month = nowMonth - 1;
             if (nowMonth == month) {
                 nowMonthId = arry_month.size() - 1;
@@ -437,6 +438,10 @@ public class DateChooseWheelViewDialog extends Dialog implements View.OnClickLis
         int nowMonth = nowCalendar.get(Calendar.MONTH);
         int nowDay = nowCalendar.get(Calendar.DAY_OF_MONTH);
         boolean flag = false;
+        String[] date_arr = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+        String[] date_arr1 = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"};
+        String[] date_arr2 = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",};
+        String[] date_arr3 = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28"};
         switch (year % 4) {
             case 0:
                 flag = true;
@@ -453,8 +458,8 @@ public class DateChooseWheelViewDialog extends Dialog implements View.OnClickLis
             case 8:
             case 10:
             case 12:
-                for (int i = 1; i <= 31; i++) {
-                    arry_date.add(i + "日");
+                for (int i = 0; i < date_arr.length; i++) {
+                    arry_date.add(date_arr[i] + "日");
                     if (i == nowDay) {
 
                         nowDateId = arry_date.size() - 1;
@@ -465,8 +470,8 @@ public class DateChooseWheelViewDialog extends Dialog implements View.OnClickLis
                 break;
             case 2:
                 if (flag) {
-                    for (int i = 1; i <= 29; i++) {
-                        arry_date.add(i + "日");
+                    for (int i = 0; i < date_arr2.length; i++) {
+                        arry_date.add(date_arr2[i] + "日");
                         if (i == nowDay) {
 
                             nowDateId = arry_date.size() - 1;
@@ -475,8 +480,8 @@ public class DateChooseWheelViewDialog extends Dialog implements View.OnClickLis
                     }
 
                 } else {
-                    for (int i = 1; i <= 28; i++) {
-                        arry_date.add(i + "日");
+                    for (int i = 0; i < date_arr3.length; i++) {
+                        arry_date.add(date_arr3[i] + "日");
                         if (i == nowDay) {
 
                             nowDateId = arry_date.size() - 1;
@@ -488,8 +493,8 @@ public class DateChooseWheelViewDialog extends Dialog implements View.OnClickLis
 
                 break;
             default:
-                for (int i = 1; i <= 30; i++) {
-                    arry_date.add(i + "日");
+                for (int i = 0; i < date_arr1.length; i++) {
+                    arry_date.add(date_arr1[i] + "日");
                     if (i == nowDay) {
 
                         nowDateId = arry_date.size() - 1;
@@ -591,11 +596,9 @@ public class DateChooseWheelViewDialog extends Dialog implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sure_btn://确定选择按钮监听
-                if (mBlnTimePickerGone) {
-                    dateChooseInterface.getDateTime(strTimeToDateFormat(mYearStr, mDateStr), mBlnBeLongTerm);
-                } else {
-                    dateChooseInterface.getDateTime(strTimeToDateFormat(mYearStr, mMonth, mDateStr), mBlnBeLongTerm);
-                }
+                String s = strTimeToDateFormat(mYearStr, mMonth, mDateStr);
+                Log.d("DateChooseWheelViewDial", s);
+                dateChooseInterface.getDateTime(s, mBlnBeLongTerm);
                 dismissDialog();
                 break;
             case R.id.date_choose_close_btn://关闭日期选择对话框
@@ -676,13 +679,9 @@ public class DateChooseWheelViewDialog extends Dialog implements View.OnClickLis
      */
     private String strTimeToDateFormat(String yearStr, String monthStr, String dateStr) {
 
-        return yearStr.replace("年", "-") + monthStr.replace("月", "-") + dateStr.replace("日", " ");
+        return yearStr.replace("年", "-") + monthStr.replace("月", "-") + dateStr.replace("日", "");
     }
 
-    private String strTimeToDateFormat(String yearStr, String dateStr) {
-
-        return yearStr.replace("年", "-") + dateStr.replace("月", "-").replace("日", "");
-    }
 
     /**
      * 滚轮的adapter

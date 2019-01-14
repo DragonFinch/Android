@@ -33,7 +33,6 @@
         android:textSize="@dimen/sp_12"
 
         />
-
     <ImageView
         android:id="@+id/img_level"
         android:layout_width="@dimen/dp_26"
@@ -111,8 +110,10 @@
 
         <ImageView
             android:id="@+id/img_comment_like"
-            android:layout_width="14dp"
-            android:layout_height="15dp"
+            android:layout_width="wrap_content"
+            android:paddingLeft="@dimen/dp_5"
+            android:paddingRight="@dimen/dp_5"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:src="@mipmap/ic_comment_like" />
 
@@ -125,10 +126,13 @@
 
         <ImageView
             android:id="@+id/img_huifu"
-            android:layout_width="15dp"
-            android:layout_height="14dp"
+            android:layout_width="wrap_content"
+            android:paddingLeft="@dimen/dp_5"
+            android:paddingRight="@dimen/dp_5"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/dp_22"
+            android:layout_marginLeft="@dimen/dp_10"
+
             android:src="@mipmap/huifu" />
 
         <TextView
@@ -136,7 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_6"
-            android:layout_marginRight="6dp"
+            android:layout_marginRight="@dimen/dp_10"
             android:text="aaa" />
 
         <ImageView

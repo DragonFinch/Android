@@ -14,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -55,8 +56,6 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
     TextView allCommentTv;
     @BindView(R.id.all_comment_RecyclerView)
     RecyclerView allCommentRecyclerView;
-    /*   @BindView(R.id.img_brow)
-       ImageView imgBrow;*/
     @BindView(R.id.comment_layout)
     RelativeLayout commentLayout;
     @BindView(R.id.et_sendmessage)
@@ -66,6 +65,8 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
     ImageView btnSend;
     @BindView(R.id.btn_face)
     ImageView btnFace;
+    @BindView(R.id.ll_facechoose)
+    RelativeLayout llFacechoose;
     private List<CommentBean.DataBean.ListBean> list;
     private int size;
     private String user_id;
@@ -80,6 +81,12 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
     private int id1;
     private List<YoXiuDetailBean.DataBean> dataBeans;
     private View view;
+
+    @Override
+    protected void setSetting() {
+        super.setSetting();
+
+    }
 
     @Override
     protected int getLayoutId() {
@@ -145,6 +152,7 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
                 break;
         }
     }
+
 
     //隐藏事件PopupWindow
     private class poponDismissListener implements PopupWindow.OnDismissListener {
@@ -281,8 +289,8 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
     @Override
     public void addCommentSuccess(BaseBean baseBean) {
         String msg = baseBean.getMsg();
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         etSendmessage.setText("");
+        llFacechoose.setVisibility(View.GONE);
         yoXiuDetailAdapter.notifyDataSetChanged();
     }
 

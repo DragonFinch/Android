@@ -162,7 +162,11 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         viewHolder.look_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, YoJiListActivity.class));
+                Intent intent = new Intent(context, YoJiListActivity.class);
+                intent.putExtra("position", "");
+                intent.putExtra("sign", "");
+
+                context.startActivity(intent);
             }
         });
     }

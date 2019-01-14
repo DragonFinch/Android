@@ -107,6 +107,173 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
         return R.layout.activity_reply_discuss;
     }
 
+    public void loadMore(int yo_id) {
+        View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_more, null);
+        PopupWindow popup_more = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popup_more.setBackgroundDrawable(new ColorDrawable());
+        popup_more.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popup_more.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        //点击空白处时，隐藏掉pop窗口
+        //广告信息
+        TextView tv_advert = view.findViewById(R.id.tv_advert);
+
+        user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
+        tv_advert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_more.dismiss();
+                report();
+
+                DataManager.getFromRemote().report(user_id, user_token, yo_id, 0, tv_advert.getText().toString())
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                                if (baseBean.getMsg().equals("success")) {
+
+                                } else {
+
+
+                                }
+                            }
+                        });
+            }
+        });
+        //有害信息
+        TextView tv_harm = view.findViewById(R.id.tv_harm);
+        tv_harm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_more.dismiss();
+                report();
+                DataManager.getFromRemote().report(user_id, user_token, yo_id, 0, tv_harm.getText().toString())
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                                if (baseBean.getMsg().equals("success")) {
+
+                                } else {
+
+
+                                }
+                            }
+                        });
+            }
+        });
+        //违法违规
+        TextView tv_violate = view.findViewById(R.id.tv_violate);
+        tv_violate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_more.dismiss();
+                report();
+                DataManager.getFromRemote().report(user_id, user_token, yo_id, 0, tv_violate.getText().toString())
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                                if (baseBean.getMsg().equals("success")) {
+
+                                } else {
+
+
+                                }
+                            }
+                        });
+            }
+        });
+        //其他
+        TextView tv_else = view.findViewById(R.id.tv_else);
+        tv_else.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_more.dismiss();
+                report();
+                DataManager.getFromRemote().report(user_id, user_token, yo_id, 0, tv_else.getText().toString())
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                                if (baseBean.getMsg().equals("success")) {
+
+                                } else {
+                                    Toast.makeText(getApplicationContext(), baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+                        });
+            }
+        });
+        //取消
+        TextView tv_cancel = view.findViewById(R.id.tv_cancel);
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_more.dismiss();
+            }
+        });
+        backgroundAlpha(0.6f);
+        popup_more.setOnDismissListener(new poponDismissListener());
+        //添加pop窗口关闭事件
+        popup_more.showAtLocation(findViewById(R.id.activity_reply_discuss), Gravity.BOTTOM, 0, 0);
+    }
+
+    public void comment() {
+        backgroundAlpha(0.6f);
+        tv_message.setText("Hi~");
+        tv_message.setTextColor(Color.parseColor("#FA800A"));
+        tv_message_two.setTextColor(Color.parseColor("#FA800A"));
+        tv_message_three.setTextColor(Color.parseColor("#FA800A"));
+        img_tip.setImageResource(R.mipmap.stamo_heart);
+        tv_message_two.setText("谢谢评论~");
+        tv_message_three.setText("给你小心心");
+        popup.showAtLocation(findViewById(R.id.activity_reply_discuss), Gravity.CENTER, 0, 0);
+    }
+
+
+    private void initDelete(int yo_id) {
+        View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.popup_delete_or_report, null);
+        PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(getApplicationContext(), 125), ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setOutsideTouchable(true);
+        String user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
+        String user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
+        TextView tv_delete = view.findViewById(R.id.tv_delete);
+        TextView tv_report = view.findViewById(R.id.tv_report);
+        Log.d("YoJiDetailCommentAdapte", user_id);
+
+//            tv_delete.setVisibility(View.VISIBLE);
+        tv_report.setVisibility(View.GONE);
+
+//            tv_delete.setVisibility(View.GONE);
+        tv_report.setVisibility(View.VISIBLE);
+
+        tv_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                popupWindow.dismiss();
+            }
+        });
+        tv_report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                loadMore(yo_id);
+            }
+        });
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+        popupWindow.setOutsideTouchable(true);
+        backgroundAlpha(0.6f);
+        popupWindow.setOnDismissListener(new poponDismissListener());
+        popupWindow.showAsDropDown(imgFunction, DensityUtil.dp2px(getApplicationContext(), -95), DensityUtil.dp2px(getApplicationContext(), 5));
+    }
+
+
+    //隐藏事件PopupWindow
+    private class poponDismissListener implements PopupWindow.OnDismissListener {
+        @Override
+        public void onDismiss() {
+            backgroundAlpha(1.0f);
+        }
+    }
+
     private void closeInputMethod() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         boolean isOpen = imm.isActive();
@@ -119,14 +286,19 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
     @Override
     protected void setSetting() {
         super.setSetting();
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     @Override
     protected void initView() {
         super.initView();
-        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         initPopup();
+        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
         editComment.setImeOptions(EditorInfo.IME_ACTION_SEND);
         editComment.addTextChangedListener(new TextWatcher() {
             @Override
@@ -172,11 +344,6 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
                 editComment.requestFocus();
             }
         });
-    }
-
-    @Override
-    protected void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
         user_id = SpUtils.getString(ReplyDiscussActivity.this, "user_id", null);
         user_token = SpUtils.getString(ReplyDiscussActivity.this, "user_token", null);
         Intent intent = getIntent();
@@ -212,6 +379,12 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
     }
 
     @Override
+    protected void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
+
+    }
+
+    @Override
     protected ReplyDiscussContract.Presenter createPresenter() {
         return new ReplyDiscussPresenter(this);
     }
@@ -235,14 +408,17 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
                 String user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
                 String user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
 
-                int count_praise = listBean.getIs_my_praise();
+                int count_praise = listBean.getCount_praise();
                 listBean.setIs_my_praise(listBean.getIs_my_praise() == 1 ? 0 : 1);
                 if (listBean.getIs_my_praise() == 1) {
                     count_praise += 1;
-                } else if (count_praise > 0) {
+                    tvCommentLikeNum.setText(count_praise + "");
+                } else {
                     count_praise -= 1;
+                    tvCommentLikeNum.setText(count_praise + "");
                 }
                 listBean.setCount_praise(count_praise);
+                imgCommentLike.setImageResource(listBean.getIs_my_praise() == 0 ? R.mipmap.zan_select : R.mipmap.zan_selected);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -275,15 +451,20 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
                 finish();
                 break;
             case R.id.img_user_icon:
+
                 break;
             case R.id.img_comment_like:
+
                 break;
             case R.id.img_function:
                 initDelete(String.valueOf(listBean.getUser_id()), listBean.getId(), listBean.getYo_id());
+//                initDelete(listBean.getYo_id());
                 break;
             case R.id.recycler:
+
                 break;
             case R.id.input_expression:
+
                 break;
         }
     }
@@ -339,117 +520,9 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
         popupWindow.setOutsideTouchable(true);
 
         popupWindow.setOnDismissListener(new poponDismissListener());
-        popupWindow.showAsDropDown(imgFunction, DensityUtil.dp2px(this,-95),  DensityUtil.dp2px(this,5));
+        popupWindow.showAsDropDown(imgFunction, DensityUtil.dp2px(this, -95), DensityUtil.dp2px(this, 5));
     }
 
-    public void loadMore(int comment_id) {
-        View view = LayoutInflater.from(this).inflate(R.layout.layout_more, null);
-        PopupWindow popup_more = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        popup_more.setBackgroundDrawable(new ColorDrawable());
-        popup_more.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
-        popup_more.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        //点击空白处时，隐藏掉pop窗口
-        //广告信息
-        TextView tv_advert = view.findViewById(R.id.tv_advert);
-        user_id = SpUtils.getString(this, "user_id", null);
-        user_token = SpUtils.getString(this, "user_token", null);
-        tv_advert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popup_more.dismiss();
-                report();
-
-                DataManager.getFromRemote().report(user_id, user_token, 0, comment_id, tv_advert.getText().toString())
-                        .subscribe(new Consumer<BaseBean>() {
-                            @Override
-                            public void accept(BaseBean baseBean) throws Exception {
-                                if (baseBean.getMsg().equals("success")) {
-
-                                } else {
-                                    Toast.makeText(ReplyDiscussActivity.this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
-
-                                }
-                            }
-                        });
-            }
-        });
-        //有害信息
-        TextView tv_harm = view.findViewById(R.id.tv_harm);
-        tv_harm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popup_more.dismiss();
-                report();
-                DataManager.getFromRemote().report(user_id, user_token, 0, comment_id, tv_harm.getText().toString())
-                        .subscribe(new Consumer<BaseBean>() {
-                            @Override
-                            public void accept(BaseBean baseBean) throws Exception {
-                                if (baseBean.getMsg().equals("success")) {
-
-                                } else {
-                                    Toast.makeText(ReplyDiscussActivity.this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
-
-                                }
-                            }
-                        });
-            }
-        });
-        //违法违规
-        TextView tv_violate = view.findViewById(R.id.tv_violate);
-        tv_violate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popup_more.dismiss();
-                report();
-                DataManager.getFromRemote().report(user_id, user_token, 0, comment_id, tv_violate.getText().toString())
-                        .subscribe(new Consumer<BaseBean>() {
-                            @Override
-                            public void accept(BaseBean baseBean) throws Exception {
-                                if (baseBean.getMsg().equals("success")) {
-
-                                } else {
-                                    Toast.makeText(ReplyDiscussActivity.this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
-
-                                }
-                            }
-                        });
-            }
-        });
-        //其他
-        TextView tv_else = view.findViewById(R.id.tv_else);
-        tv_else.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popup_more.dismiss();
-                report();
-
-                DataManager.getFromRemote().report(user_id, user_token, 0, comment_id, tv_else.getText().toString())
-                        .subscribe(new Consumer<BaseBean>() {
-                            @Override
-                            public void accept(BaseBean baseBean) throws Exception {
-                                if (baseBean.getMsg().equals("success")) {
-
-                                } else {
-                                    Toast.makeText(ReplyDiscussActivity.this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
-
-                                }
-                            }
-                        });
-            }
-        });
-        //取消
-        TextView tv_cancel = view.findViewById(R.id.tv_cancel);
-        tv_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popup_more.dismiss();
-            }
-        });
-        backgroundAlpha(0.6f);
-        popup_more.setOnDismissListener(new poponDismissListener());
-        //添加pop窗口关闭事件
-        popup_more.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-    }
 
     public void backgroundAlpha(float bgAlpha) {
 
@@ -459,13 +532,6 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
 
     }
 
-    //隐藏事件PopupWindow
-    private class poponDismissListener implements PopupWindow.OnDismissListener {
-        @Override
-        public void onDismiss() {
-            backgroundAlpha(1.0f);
-        }
-    }
 
     public void report() {
         tv_message.setText("举报成功");

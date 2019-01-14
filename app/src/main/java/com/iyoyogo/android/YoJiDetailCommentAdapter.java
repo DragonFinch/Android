@@ -261,7 +261,52 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
         //添加pop窗口关闭事件
         popup.setOnDismissListener(new poponDismissListener());
     }
-
+    private void initDelete(Holder holder, String yo_user_id, int comment_id,  int position) {
+        View view = LayoutInflater.from(context).inflate(R.layout.popup_delete_or_report, null);
+        PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 125), ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        String user_id = SpUtils.getString(context, "user_id", null);
+        String user_token = SpUtils.getString(context, "user_token", null);
+        TextView tv_delete = view.findViewById(R.id.tv_delete);
+        TextView tv_report = view.findViewById(R.id.tv_report);
+        Log.d("YoJiDetailCommentAdapte", yo_user_id);
+        Log.d("YoJiDetailCommentAdapte", user_id);
+        if (yo_user_id.equals(user_id)) {
+            tv_delete.setVisibility(View.VISIBLE);
+            tv_report.setVisibility(View.GONE);
+        } else {
+            tv_delete.setVisibility(View.GONE);
+            tv_report.setVisibility(View.VISIBLE);
+        }
+        tv_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataManager.getFromRemote().deleteComment(user_id, user_token, comment_id)
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                                if (deleteOnClickListener != null) {
+                                    deleteOnClickListener.delete();
+                                    mList.remove(position);
+                                    notifyDataSetChanged();
+                                }
+                            }
+                        });
+                popupWindow.dismiss();
+            }
+        });
+        tv_report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                loadMore(comment_id);
+            }
+        });
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+        popupWindow.setOutsideTouchable(true);
+        backgroundAlpha(0.6f);
+        popupWindow.setOnDismissListener(new poponDismissListener());
+        popupWindow.showAsDropDown(holder.img_function, DensityUtil.dp2px(context,-95),  DensityUtil.dp2px(context,5));
+    }
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         CommentBean.DataBean.ListBean listBean = mList.get(position);
@@ -457,52 +502,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
 
     }
 
-    private void initDelete(Holder holder, String yo_user_id, int comment_id,  int position) {
-        View view = LayoutInflater.from(context).inflate(R.layout.popup_delete_or_report, null);
-        PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 125), ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        String user_id = SpUtils.getString(context, "user_id", null);
-        String user_token = SpUtils.getString(context, "user_token", null);
-        TextView tv_delete = view.findViewById(R.id.tv_delete);
-        TextView tv_report = view.findViewById(R.id.tv_report);
-        Log.d("YoJiDetailCommentAdapte", yo_user_id);
-        Log.d("YoJiDetailCommentAdapte", user_id);
-        if (yo_user_id.equals(user_id)) {
-            tv_delete.setVisibility(View.VISIBLE);
-            tv_report.setVisibility(View.GONE);
-        } else {
-            tv_delete.setVisibility(View.GONE);
-            tv_report.setVisibility(View.VISIBLE);
-        }
-        tv_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DataManager.getFromRemote().deleteComment(user_id, user_token, comment_id)
-                        .subscribe(new Consumer<BaseBean>() {
-                            @Override
-                            public void accept(BaseBean baseBean) throws Exception {
-                                if (deleteOnClickListener != null) {
-                                    deleteOnClickListener.delete();
-                                    mList.remove(position);
-                                    notifyDataSetChanged();
-                                }
-                            }
-                        });
-                popupWindow.dismiss();
-            }
-        });
-        tv_report.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-                loadMore(comment_id);
-            }
-        });
-        popupWindow.setBackgroundDrawable(new ColorDrawable());
-        popupWindow.setOutsideTouchable(true);
-        backgroundAlpha(0.6f);
-        popupWindow.setOnDismissListener(new poponDismissListener());
-        popupWindow.showAsDropDown(holder.img_function, DensityUtil.dp2px(context,-95),  DensityUtil.dp2px(context,5));
-    }
+
 
     @Override
     public int getItemCount() {

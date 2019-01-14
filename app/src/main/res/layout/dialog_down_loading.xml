@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_loading"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/textColor_white"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <com.iyoyogo.android.widget.CircleImageView
+        android:id="@+id/image_dialog_loading"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:src="@drawable/loading"
+        app:borderRadius="1dp"
+        app:type="circle" />
+
+    <TextView
+        android:id="@+id/text_dialog_loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/textColor_white"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="正在下载..."
+        android:textColor="@color/textColor_999"
+        android:textSize="@dimen/text_size_15" />
+
+</LinearLayout>

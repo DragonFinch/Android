@@ -108,7 +108,7 @@ public class CollectionFolderContentAdapter extends RecyclerView.Adapter<Collect
                 }
             }
         });
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mOnItemClickListener.onItemClickListener(holder.getAdapterPosition(), mList);

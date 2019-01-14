@@ -98,6 +98,17 @@ public class YoJiListActivity extends BaseActivity {
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
 //        初始化header
+
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_yo_ji_list;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         mRefreshAnimHeader1 = new MyRefreshAnimHeader(this);
         setHeader1(mRefreshAnimHeader1);
         refreshLayout1.setRefreshFooter(new MyRefreshAnimFooter(this));
@@ -631,16 +642,6 @@ public class YoJiListActivity extends BaseActivity {
                 }
             });
         }
-    }
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_yo_ji_list;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     @Override

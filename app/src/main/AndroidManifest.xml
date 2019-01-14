@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.iyoyogo.android">
-
+<uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"
+    tools:ignore="ProtectedPermissions" />
     <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 用于访问GPS定位 -->
@@ -139,8 +140,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:name">
-        <service
-            android:name=".utils.download.utils.UpdateService"/>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.iyoyogo.android"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path" />
+        </provider>
+
 
         <activity android:name=".ui.mine.homepage.VipCenterActivity" />
         <provider
@@ -187,7 +196,9 @@
         <activity android:name=".ui.common.WelcomeActivity" />
         <activity
             android:name=".ui.common.MainActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:theme="@style/LuncherActivityTheme"
+            />
         <activity android:name=".ui.common.CaptureActivity" />
         <activity android:name=".camera.edit.clipEdit.trim.TrimActivity" />
 
@@ -242,6 +253,13 @@
             android:name=".camera.edit.animatesticker.AnimateStickerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/LuncherActivityTheme" />
+<!--
+        <receiver android:name=".utils.download.receiver.ApkInstallReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED" />
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
+        </receiver>-->
         <activity
             android:name=".camera.edit.transition.TransitionActivity"
             android:screenOrientation="portrait"
@@ -421,7 +439,9 @@
         <activity android:name=".ui.mine.ReplacePhoneActivity" />
         <activity android:name=".ui.mine.AboutMeActivity" />
         <activity android:name=".ui.mine.FeedBackActivity" />
-        <activity android:name=".ui.home.yoxiu.AllCommentActivity" />
+        <activity android:name=".ui.home.yoxiu.AllCommentActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            />
         <activity android:name=".ui.mine.collection.DefaultCollectionActivity" />
         <activity android:name=".ui.home.yoji.YoJiListActivity" />
         <activity android:name=".utils.select.SelectPhotoActivity" />

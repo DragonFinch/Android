@@ -521,6 +521,7 @@
                 android:layout_below="@+id/recycler_comment"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp_10"
                 android:drawableRight="@mipmap/chakangengduo"
                 android:drawablePadding="@dimen/dp_5"
                 android:gravity="center"
@@ -535,7 +536,8 @@
     </com.iyoyogo.android.widget.MyNestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
     <RelativeLayout
-     android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
         android:id="@+id/comment_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -544,7 +546,7 @@
             android:id="@+id/shadow"
             android:layout_width="match_parent"
             android:background="@mipmap/home_l_shadow"
-            android:layout_height="@dimen/dp_5"/>
+            android:layout_height="@dimen/dp_2"/>
         <EditText
 
             android:layout_below="@+id/shadow"
