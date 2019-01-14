@@ -412,9 +412,12 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
         LoadingDialog.get().create(this).show();
         if (isUploadImage()) {
             uploadIndex = 0;
-            uploadSize = getImageSize() + 1;
-            mOssService.asyncPutImage(coverPath, -1);
-
+            if (!TextUtils.isEmpty(coverPath)) {
+                uploadSize = getImageSize() + 1;
+                mOssService.asyncPutImage(coverPath, -1);
+            }else {
+                uploadSize = getImageSize();
+            }
             for (int i = 0; i < mData.size(); i++) {
                 if (mData.get(i).getLocalMedia() != null && mData.get(i).getLocalMedia().size() > 0) {
                     for (LocalMedia localMedia : mData.get(i).getLocalMedia()) {
@@ -453,6 +456,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
                     if (resultCode == 200) {
                         List<LocalMedia> local = PictureSelector.obtainMultipleResult(data);
                         mData.get(optionIndex).setLocalMedia(local);
+                        mData.get(optionIndex).getLogos().clear();
                         mAdapter.notifyItemChanged(optionIndex);
                     } else {
                         startActivityForResult(data.setClass(this, EditImageOrVideoActivity.class).putExtra("type", 3), 100);
