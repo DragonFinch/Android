@@ -24,7 +24,7 @@
             android:layout_height="@dimen/dp_5"
             android:background="@mipmap/home_l_shadow" />
 
-        <EditText
+     <!--   <EditText
             android:id="@+id/edit_comment"
             android:layout_width="@dimen/dp_230"
             android:layout_height="wrap_content"
@@ -46,29 +46,14 @@
             android:layout_marginLeft="@dimen/dp_15"
             android:layout_toRightOf="@+id/edit_comment"
             android:src="@mipmap/input_biaoqing" />
-
-        <TextView
-            android:id="@+id/tv_like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_toRightOf="@+id/img_brow"
-            android:drawableTop="@mipmap/xihuan_xiangqing"
-            android:gravity="center_horizontal"
-            android:text="1" />
-
-        <TextView
-            android:id="@+id/tv_collection"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_37"
-            android:layout_marginRight="@dimen/dp_22"
-            android:drawableTop="@mipmap/shoucang_xiangqing"
-            android:gravity="center_horizontal"
-            android:text="1" />
+-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/custom_facerelativelayoutdetails"></include>
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/send_emoji"

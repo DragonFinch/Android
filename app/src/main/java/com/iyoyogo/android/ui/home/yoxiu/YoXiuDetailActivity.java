@@ -80,10 +80,10 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     ImageView shareImg;
     @BindView(R.id.bar)
     RelativeLayout bar;
-    @BindView(R.id.edit_comment)
+    @BindView(R.id.et_sendmessage)
     EditText editComment;
-    @BindView(R.id.img_brow)
-    ImageView imgBrow;
+/*    @BindView(R.id.img_brow)
+    ImageView imgBrow;*/
     @BindView(R.id.tv_like)
     TextView tvLike;
     @BindView(R.id.tv_collection)
@@ -134,8 +134,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     ImageView imgCommentNull;
     @BindView(R.id.tv_comment_null)
     TextView tvCommentNull;
-    @BindView(R.id.send_emoji)
-    ImageView sendEmoji;
+/*    @BindView(R.id.send_emoji)
+    ImageView sendEmoji;*/
     private LocalMedia mMedia;
     private String mimeType;
     private String user_id;
@@ -262,27 +262,26 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                     tvLike.setVisibility(View.GONE);
                     editComment.setHint("码字不容易，留个评论鼓励下嘛~");
                     editComment.setHintTextColor(Color.parseColor("#888888"));
-                    sendEmoji.setVisibility(View.VISIBLE);
-                    imgBrow.setVisibility(View.GONE);
+                 //   sendEmoji.setVisibility(View.VISIBLE);
+                    //imgBrow.setVisibility(View.GONE);
 //                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
 ////                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 //
 //                    layoutParams.alignWithParent=true;
-                    RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
-                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                  //  RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+                  //  RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 //                    layoutParams1.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);
-                    editComment.setLayoutParams(layoutParams1);
+                //    editComment.setLayoutParams(layoutParams1);
                 }else {
-                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+                  //  RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
 //                    layoutParams.setMargins(0, DensityUtil.dp2px(YoXiuDetailActivity.this, 20), 0, 0);
-                    editComment.setLayoutParams(layoutParams);
+                  //  editComment.setLayoutParams(layoutParams);
                     tvCollection.setVisibility(View.VISIBLE);
                     tvLike.setVisibility(View.VISIBLE);
                     editComment.setHint("再不评论 , 你会被抓去写作业的~");
                     editComment.setHintTextColor(Color.parseColor("#888888"));
-                    sendEmoji.setVisibility(View.GONE);
-                    sendEmoji.setVisibility(View.GONE);
-                    imgBrow.setVisibility(View.VISIBLE);
+                    //sendEmoji.setVisibility(View.GONE);
+                    //imgBrow.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -397,7 +396,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     }
 
 
-    @OnClick({R.id.back, R.id.share_img, R.id.img_brow, R.id.tv_like, R.id.tv_collection, R.id.img_logo, R.id.tv_desc, R.id.img_go, R.id.collection, R.id.num_look, R.id.num_look_tv, R.id.tv_comment, R.id.tv_more_comment})
+    @OnClick({R.id.back, R.id.share_img,R.id.tv_like, R.id.tv_collection, R.id.img_logo, R.id.tv_desc, R.id.img_go, R.id.collection, R.id.num_look, R.id.num_look_tv, R.id.tv_comment, R.id.tv_more_comment})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -405,9 +404,6 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                 break;
             case R.id.share_img:
                 share();
-                break;
-            case R.id.img_brow:
-
                 break;
             case R.id.tv_like:
 
@@ -972,14 +968,14 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         tvLike.setVisibility(View.GONE);
         editComment.setHint("码字不容易，留个评论鼓励下嘛~");
         editComment.setHintTextColor(Color.parseColor("#888888"));
-        sendEmoji.setVisibility(View.VISIBLE);
-        imgBrow.setVisibility(View.GONE);
+        //sendEmoji.setVisibility(View.VISIBLE);
+        //imgBrow.setVisibility(View.GONE);
 
-        RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        //RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+        //RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 //                    layoutParams1.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);
-        editComment.setLayoutParams(layoutParams1);
-        editComment.setLayoutParams(layoutParams1);
+       // editComment.setLayoutParams(layoutParams1);
+        //editComment.setLayoutParams(layoutParams1);
 
 
     }
@@ -987,16 +983,15 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     @Override
     public void onSoftKeyboardClosed() {
         //失去焦点
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+     //   RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
 //                    layoutParams.setMargins(0, DensityUtil.dp2px(YoXiuDetailActivity.this, 20), 0, 0);
-        editComment.setLayoutParams(layoutParams);
+      //  editComment.setLayoutParams(layoutParams);
         tvCollection.setVisibility(View.VISIBLE);
         tvLike.setVisibility(View.VISIBLE);
         editComment.setHint("再不评论 , 你会被抓去写作业的~");
         editComment.setHintTextColor(Color.parseColor("#888888"));
-        sendEmoji.setVisibility(View.GONE);
-        sendEmoji.setVisibility(View.GONE);
-        imgBrow.setVisibility(View.VISIBLE);
+        //sendEmoji.setVisibility(View.GONE);
+        //imgBrow.setVisibility(View.VISIBLE);
     }
 
 

@@ -175,7 +175,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
                 }
             } else {
                 for (int i = 0; i < 10; i++) {
-                    user_icons.add(mList.get(position));
+       /*             user_icons.add(mList.get(position));
                     com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
                     Glide.with(context).load(user_icons.get(position).getUsers_praise().get(i).getUser_logo()).into(imageView);
                     holder.pile_layout.addView(imageView);
@@ -188,7 +188,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
                             intent.putExtra("yo_user_id", String.valueOf(mList.get(position).getUsers_praise().get(finalI).getUser_id()));
                             context.startActivity(intent);
                         }
-                    });
+                    });*/
                 }
             }
 
