@@ -16,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,8 +33,13 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.app.App;
+import com.iyoyogo.android.bean.VipCenterBean;
+import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.net.ApiObserver;
 import com.iyoyogo.android.ui.home.yoji.YoJiPictureActivity;
 import com.iyoyogo.android.utils.DensityUtil;
+import com.iyoyogo.android.utils.SpUtils;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -47,6 +53,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 public class YoJiPictureAdapter extends PagerAdapter {
     private ArrayList<String> images;
@@ -82,30 +92,87 @@ public class YoJiPictureAdapter extends PagerAdapter {
         imageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                View view = LayoutInflater.from(context).inflate(R.layout.pupup_up_image_download, null);
-                PopupWindow popup = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                TextView tv_img_download = view.findViewById(R.id.tv_img_download);
-                TextView tv_img_cancel = view.findViewById(R.id.tv_img_cancel);
-                tv_img_download.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Glide.with(context).asBitmap().load(images.get(position)).into(new SimpleTarget<Bitmap>() {
+                String user_id = SpUtils.getString(context, "user_id", null);
+                String user_token = SpUtils.getString(context, "user_token", null);
+                DataManager.getFromRemote().setVipCenter(user_id, user_token)
+                        .subscribe(new Observer<VipCenterBean>() {
                             @Override
-                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                saveImage(resource);
-                                Toast.makeText(context, "保存成功", Toast.LENGTH_SHORT).show();
+                            public void onSubscribe(Disposable d) {
+
+                            }
+
+                            @Override
+                            public void onNext(VipCenterBean vipCenterBean) {
+                                List<VipCenterBean.DataBean.LevelBean> level = vipCenterBean.getData().getLevel();
+                                int score = vipCenterBean.getData().getUser_info().getScore();
+                                if (score >= 0 && score < level.get(1).getScore()) {
+                                } else if (score >= level.get(1).getScore() && score < level.get(2).getScore()) {
+                                } else if (score >= level.get(2).getScore() && score < level.get(3).getScore()) {
+                                } else if (score >= level.get(3).getScore() && score < level.get(4).getScore()) {
+                                } else if (score >= level.get(4).getScore() && score < level.get(5).getScore()) {
+                                    View view = LayoutInflater.from(context).inflate(R.layout.pupup_up_image_download, null);
+                                    PopupWindow popup = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                                    TextView tv_img_download = view.findViewById(R.id.tv_img_download);
+                                    TextView tv_img_cancel = view.findViewById(R.id.tv_img_cancel);
+                                    tv_img_download.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Glide.with(context).asBitmap().load(images.get(position)).into(new SimpleTarget<Bitmap>() {
+                                                @Override
+                                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                                    saveImage(resource);
+                                                    Toast.makeText(context, "保存成功", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                            popup.dismiss();
+                                        }
+                                    });
+                                    tv_img_cancel.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            popup.dismiss();
+                                        }
+                                    });
+                                    popup.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+                                } else if (score == level.get(5).getScore()){
+                                    View view = LayoutInflater.from(context).inflate(R.layout.pupup_up_image_download, null);
+                                    PopupWindow popup = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                                    TextView tv_img_download = view.findViewById(R.id.tv_img_download);
+                                    TextView tv_img_cancel = view.findViewById(R.id.tv_img_cancel);
+                                    tv_img_download.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Glide.with(context).asBitmap().load(images.get(position)).into(new SimpleTarget<Bitmap>() {
+                                                @Override
+                                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                                    saveImage(resource);
+                                                    Toast.makeText(context, "保存成功", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                            popup.dismiss();
+                                        }
+                                    });
+                                    tv_img_cancel.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            popup.dismiss();
+                                        }
+                                    });
+                                    popup.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+
                             }
                         });
-                        popup.dismiss();
-                    }
-                });
-                tv_img_cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        popup.dismiss();
-                    }
-                });
-                popup.showAtLocation(view, Gravity.BOTTOM, 0, 0);
                 return false;
             }
         });
@@ -116,7 +183,7 @@ public class YoJiPictureAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        container.removeView((View)object);
+        container.removeView((View) object);
     }
 
     public String saveImage(Bitmap bitmap) {

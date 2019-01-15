@@ -251,9 +251,6 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
         int max = level.get(level.size() - 1).getScore();
         mProgressBar.setMax(max);
         mProgressBar.setShowStr(score + "");
-        Log.d("VipCenterActivity", "max:" + max);
-        Log.d("VipCenterActivity", "score:" + score);
-        Log.d("VipCenterActivity", "level.get(2).getScore():" + level.get(2).getScore());
 //        mTvCurrentScore.setText(score+"");
         for (int i = 0; i < level.size(); i++) {
             if (i != level.size() - 1) {
