@@ -79,7 +79,7 @@
 
     <RelativeLayout
         android:id="@+id/ll_facechoose"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="180dip"
         android:layout_below="@id/comment"
         android:background="#f6f5f5"
