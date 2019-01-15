@@ -154,7 +154,6 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/dp_20"
                         android:scaleType="center"
-                        android:src="@mipmap/mem_gongcheng"
                         />
 
                 </RelativeLayout>

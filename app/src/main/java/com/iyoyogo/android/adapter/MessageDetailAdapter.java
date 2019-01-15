@@ -60,13 +60,14 @@ public class MessageDetailAdapter extends RecyclerView.Adapter<MessageDetailAdap
             holder.dot_read.setVisibility(View.VISIBLE);
         }
         if (mList.get(position).getTitle().equals("")) {
-            holder.tv_action.setVisibility(View.GONE);
+            holder.layout.setVisibility(View.GONE);
         } else {
             holder.tv_action.setText(mList.get(position).getTitle());
 
         }
         if (mList.get(position).getUser_nickname().equals("")) {
-            holder.user_nick_name.setVisibility(View.GONE);
+            holder.layout.setVisibility(View.GONE);
+//            holder.layout.setMargins(10, 0, 0, 0);
         } else {
             holder.user_nick_name.setText(mList.get(position).getUser_nickname());
 
