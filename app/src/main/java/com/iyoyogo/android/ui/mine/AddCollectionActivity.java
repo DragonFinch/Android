@@ -1,9 +1,11 @@
 package com.iyoyogo.android.ui.mine;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -101,6 +103,11 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.add_address_book_friends://通讯录
+                if (Build.VERSION.SDK_INT >= 23) {
+                    String[] mPermissionList = new String[]{
+                            Manifest.permission.READ_CONTACTS};
+                    ActivityCompat.requestPermissions(this, mPermissionList, 123);
+                }
                 startActivity(new Intent(this, AddressBookFriendsActivity.class));
                 break;
             case R.id.message_center_back_im_id:

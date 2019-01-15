@@ -374,12 +374,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        get_yo_id = intent.getStringExtra("yo_user_id");
-//        if (yo_user_id.equals(user_id)) {
-//            imgShare.setImageResource(R.mipmap.more);
-//        } else {
-//            imgShare.setImageResource(R.mipmap.fenxiang_bai);
-//        }
+
     }
 
     @Override
@@ -469,6 +464,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 }
             }
         });
+
     }
 
     @OnClick({R.id.add_attention, R.id.img_back, R.id.img_share, R.id.tv_attention, R.id.tv_load_more, R.id.tv_comment, R.id.tv_like, R.id.tv_collection, R.id.tv_more_comment})

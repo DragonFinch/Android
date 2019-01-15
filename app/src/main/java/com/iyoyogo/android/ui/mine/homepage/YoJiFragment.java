@@ -188,7 +188,6 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
                     int yo_id = mList.get(position).getYo_id();
                     Intent intent = new Intent(getContext(), YoJiDetailActivity.class);
                     intent.putExtra("yo_id", yo_id);
-                    intent.putExtra("yo_uesr_id",yo_user_id);
                     startActivity(intent);
                 }
             });
@@ -203,7 +202,6 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
                         int yo_id = mList.get(position).getYo_id();
                         Intent intent = new Intent(getContext(), YoJiDetailActivity.class);
                         intent.putExtra("yo_id", yo_id);
-                        intent.putExtra("yo_uesr_id",yo_user_id);
                         startActivity(intent);
                     }
                 });

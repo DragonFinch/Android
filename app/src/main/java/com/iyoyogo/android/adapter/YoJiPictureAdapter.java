@@ -51,7 +51,6 @@ import java.util.ArrayList;
 public class YoJiPictureAdapter extends PagerAdapter {
     private ArrayList<String> images;
     private Context context;
-    String image;
     ImageView imageView;
 
     public YoJiPictureAdapter(Context context, ArrayList<String> images) {
@@ -80,11 +79,33 @@ public class YoJiPictureAdapter extends PagerAdapter {
                 .load(images.get(position))
                 .apply(requestOptions)
                 .into(imageView);
-        image = images.get(position);
         imageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Image();
+                View view = LayoutInflater.from(context).inflate(R.layout.pupup_up_image_download, null);
+                PopupWindow popup = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                TextView tv_img_download = view.findViewById(R.id.tv_img_download);
+                TextView tv_img_cancel = view.findViewById(R.id.tv_img_cancel);
+                tv_img_download.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Glide.with(context).asBitmap().load(images.get(position)).into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                saveImage(resource);
+                                Toast.makeText(context, "保存成功", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        popup.dismiss();
+                    }
+                });
+                tv_img_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popup.dismiss();
+                    }
+                });
+                popup.showAtLocation(view, Gravity.BOTTOM, 0, 0);
                 return false;
             }
         });
@@ -96,34 +117,6 @@ public class YoJiPictureAdapter extends PagerAdapter {
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View)object);
-    }
-
-    private void Image() {
-        View view = LayoutInflater.from(context).inflate(R.layout.pupup_up_image_download, null);
-        PopupWindow popup = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        TextView tv_img_download = view.findViewById(R.id.tv_img_download);
-        TextView tv_img_cancel = view.findViewById(R.id.tv_img_cancel);
-        tv_img_download.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Glide.with(context).asBitmap().load(image).into(new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        saveImage(resource);
-                        Toast.makeText(context, "保存成功", Toast.LENGTH_SHORT).show();
-                    }
-                });
-               popup.dismiss();
-            }
-        });
-        tv_img_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popup.dismiss();
-            }
-        });
-        popup.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-
     }
 
     public String saveImage(Bitmap bitmap) {

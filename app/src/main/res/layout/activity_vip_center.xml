@@ -128,6 +128,8 @@
                                     android:paddingLeft="@dimen/dp_4"
                                     android:paddingRight="@dimen/dp_4"
                                     android:text="入门"
+                                    android:paddingTop="@dimen/dp_1"
+                                    android:paddingBottom="@dimen/dp_1"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/sp_9" />
 
