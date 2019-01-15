@@ -115,6 +115,13 @@
                 android:src="@mipmap/hot1" />
 
             <com.iyoyogo.android.view.ZFlowLayout
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:paddingLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:paddingRight="10dp"
                 android:id="@+id/keyword_fl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
