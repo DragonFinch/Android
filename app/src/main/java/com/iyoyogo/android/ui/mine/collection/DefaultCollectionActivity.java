@@ -87,6 +87,7 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
     @Override
     protected void initView() {
         super.initView();
+        statusbar();
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
         defaultTitleTvId.setText(name);

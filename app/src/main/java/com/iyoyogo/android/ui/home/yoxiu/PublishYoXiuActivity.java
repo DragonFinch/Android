@@ -267,7 +267,7 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
     @Override
     protected void initView() {
         super.initView();
-
+        statusbar();
 
         Intent intent = getIntent();
         latitude = intent.getStringExtra("latitude");

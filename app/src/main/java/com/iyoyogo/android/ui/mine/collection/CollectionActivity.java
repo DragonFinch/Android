@@ -68,7 +68,8 @@ public class CollectionActivity extends BaseActivity<CollectionContract.Presente
     @Override
     protected void initView() {
         super.initView();
-        StatusBarUtils.setWindowStatusBarColor(CollectionActivity.this, R.color.white);
+//        StatusBarUtils.setWindowStatusBarColor(CollectionActivity.this, R.color.white);
+        statusbar();
     }
 
     @Override

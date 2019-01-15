@@ -115,8 +115,7 @@ public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter>
     @Override
     protected void initView() {
         super.initView();
-        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
-
+        statusbar();
         tvBindCode = (TextView) findViewById(R.id.tv_bind_code);
         long l = System.currentTimeMillis();
         dateTime = String.valueOf(l);

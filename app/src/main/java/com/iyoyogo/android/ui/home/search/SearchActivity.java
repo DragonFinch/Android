@@ -83,7 +83,7 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
     @Override
     protected void initView() {
         super.initView();
-        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
+        statusbar();
 
 
     }

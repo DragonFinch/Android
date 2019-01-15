@@ -21,13 +21,14 @@ public class WebActivity extends BaseActivity {
     private WebView mWebView;
     private TextView tvTitle;
 
+
+
     @Override
     protected void initView() {
         super.initView();
+        statusbar();
         Intent intent = getIntent();
-
         String url = intent.getStringExtra("url");
-
         mWebView = (WebView) findViewById(R.id.webview);
         WebSettings ws = mWebView.getSettings();
         ws.setJavaScriptEnabled(true);

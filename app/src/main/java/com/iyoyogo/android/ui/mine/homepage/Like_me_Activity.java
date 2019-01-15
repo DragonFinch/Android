@@ -105,7 +105,8 @@ public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter>
     @Override
     protected void initView() {
         super.initView();
-        StatusBarUtils.setWindowStatusBarColor(Like_me_Activity.this, R.color.white);
+//        StatusBarUtils.setWindowStatusBarColor(Like_me_Activity.this, R.color.white);
+        statusbar();
         //初始化header
         mRefreshAnimHeader = new MyRefreshAnimHeader(this);
         setHeader(mRefreshAnimHeader);

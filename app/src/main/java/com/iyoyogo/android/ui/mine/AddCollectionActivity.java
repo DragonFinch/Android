@@ -54,7 +54,8 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
 
     protected void initView() {
         super.initView();
-        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+//        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+        statusbar();
     }
 
     @Override

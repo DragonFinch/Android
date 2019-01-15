@@ -227,7 +227,7 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
     @Override
     protected void initView() {
         super.initView();
-
+        statusbar();
         //输入框
         etSendmessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
         etSendmessage.addTextChangedListener(new TextWatcher() {

@@ -193,7 +193,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     @Override
     protected void initView() {
         super.initView();
-        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
+        statusbar();
     }
 
 

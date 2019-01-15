@@ -162,7 +162,8 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
     @Override
     protected void initView() {
         super.initView();
-        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
+//        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
+        statusbar();
         mPublishOpenPopup = new PublishOpenPopup(this);
         mPublishOpenPopup.setOpenPopupClick(this);
         mEtTitle.addTextChangedListener(new TextChangeListener(mEtTitle, this));

@@ -176,6 +176,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     @Override
     protected void initView() {
         super.initView();
+        statusbar();
         new SoftKeyboardStateHelper(findViewById(R.id.activity_yoxiu_detail)).addSoftKeyboardStateListener(this);
         editComment.setImeOptions(EditorInfo.IME_ACTION_SEND);
         editComment.addTextChangedListener(new TextWatcher() {

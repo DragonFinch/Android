@@ -115,7 +115,7 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
     @Override
     protected void initView() {
         super.initView();
-        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
+        statusbar();
 
         tvTitle.setText("选择标签");
         createComplete.setText(getResources().getString(R.string.str_confirm));

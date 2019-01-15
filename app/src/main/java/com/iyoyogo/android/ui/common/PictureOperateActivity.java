@@ -38,6 +38,11 @@ public class PictureOperateActivity extends BaseActivity {
         return null;
     }
 
+    protected void initView() {
+        super.initView();
+        statusbar();
+    }
+
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);

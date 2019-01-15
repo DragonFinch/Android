@@ -176,7 +176,7 @@ public class HorizontalProgressBar extends View {
     private void initTextPaint() {
         textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         textPaint.setTextSize(textPaintSize);
-        textPaint.setColor(Color.WHITE);
+        textPaint.setColor(Color.parseColor("#FA800A"));
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setAntiAlias(true);
     }

@@ -434,7 +434,7 @@ public class AllReplyActivity extends BaseActivity<YoXiuDetailContract.Presenter
     @Override
     protected void initView() {
         super.initView();
-
+        statusbar();
         editComment.setImeOptions(EditorInfo.IME_ACTION_SEND);
         editComment.addTextChangedListener(new TextWatcher() {
             @Override

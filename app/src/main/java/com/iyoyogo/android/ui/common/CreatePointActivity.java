@@ -154,6 +154,11 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
         return new CreatePointPresenter(this);
     }
 
+    protected void initView() {
+        super.initView();
+        statusbar();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

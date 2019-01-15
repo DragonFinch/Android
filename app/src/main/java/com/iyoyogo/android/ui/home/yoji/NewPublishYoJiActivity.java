@@ -170,7 +170,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
 
     @Override
     protected void initView() {
-        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
+        statusbar();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new NewPublishYoJiAdapter(R.layout.item_publish_yo_ji);
         mAdapter.setOnItemChildClickListener(this);

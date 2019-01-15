@@ -51,7 +51,8 @@ public class HisFansActivity extends BaseActivity<HisHansContract.Presenter> imp
 
     protected void initView() {
         super.initView();
-        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+//        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+        statusbar();
     }
 
     @Override

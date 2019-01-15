@@ -116,6 +116,7 @@ public class YoJiPictureActivity extends BaseActivity implements SoftKeyboardSta
     @Override
     protected void initView() {
         super.initView();
+        statusbar();
         editComment.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

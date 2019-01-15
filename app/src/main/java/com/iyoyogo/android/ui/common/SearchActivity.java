@@ -117,6 +117,7 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
     @Override
     protected void initView() {
         super.initView();
+        statusbar();
         list = new ArrayList<>();
         datas = new ArrayList<>();
         Intent intent = getIntent();

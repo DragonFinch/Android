@@ -79,7 +79,7 @@ public class PreviewGoTakePhotoActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
-        StatusBarCompat.setStatusBarColor(this, Color.BLACK);
+//        StatusBarCompat.setStatusBarColor(this, Color.BLACK);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 //            // 透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

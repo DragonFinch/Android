@@ -77,10 +77,14 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
         return R.layout.activity_like_prefences;
     }
 
+    protected void initView() {
+        super.initView();
+        statusbar();
+    }
+
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
 
         idList = new ArrayList<>();
         interestList = new ArrayList<>();

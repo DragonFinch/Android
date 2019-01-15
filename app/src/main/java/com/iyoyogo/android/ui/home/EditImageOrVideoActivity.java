@@ -78,7 +78,8 @@ public class EditImageOrVideoActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
-        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+//        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+        statusbar();
         localMedia = PictureSelector.obtainMultipleResult(getIntent());
         mViewPager.setCanScroll(true);
         mViewPager.setAdapter(new EditImageOrVideoAdapter(localMedia, this));

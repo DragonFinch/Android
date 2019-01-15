@@ -91,7 +91,7 @@ public class PictureEditActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
-        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
+        statusbar();
 
         List<ImageBean> list = ImageFinder.getImages(this, ImageFinder.TYPE_GIF);
         List<ImageBean> video = ImageFinder.getVideo(getApplicationContext());

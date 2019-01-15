@@ -92,7 +92,8 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
     @Override
     protected void initView() {
         super.initView();
-        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+//        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+        statusbar();
         File file = new File(this.getCacheDir().getPath());
         try {
             Log.d("MineSettingActivity", DataCleanManager.getCacheSize(file));

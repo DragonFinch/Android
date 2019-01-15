@@ -291,7 +291,7 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
     @Override
     protected void initView() {
         super.initView();
-
+        statusbar();
     }
 
     @Override

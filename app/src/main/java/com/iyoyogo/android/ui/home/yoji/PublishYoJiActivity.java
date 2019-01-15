@@ -188,7 +188,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     @Override
     protected void initView() {
         super.initView();
-        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
+        statusbar();
         Intent intent = getIntent();
         path_list = intent.getStringArrayListExtra("path_list");
         path = path_list.get(0);

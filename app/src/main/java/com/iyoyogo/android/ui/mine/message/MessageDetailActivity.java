@@ -76,7 +76,8 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
     @Override
     protected void initView() {
         super.initView();
-        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+//        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+        statusbar();
         Intent intent = getIntent();
         title = intent.getStringExtra("title");
         likeMeTitleTvId.setText(title);

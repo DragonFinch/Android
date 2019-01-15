@@ -94,6 +94,7 @@ public class CutImageActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
+        statusbar();
         mGestureCropImageView = mUCropView.getCropImageView();
         mGestureCropImageView.setRotateEnabled(false);
         mGestureCropImageView.setScaleEnabled(true);

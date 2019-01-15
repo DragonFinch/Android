@@ -26,6 +26,12 @@ public class CutVideoActivity extends BaseActivity implements VideoTrimListener 
     }
 
     @Override
+    protected void initView() {
+        super.initView();
+        statusbar();
+    }
+
+    @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
         mVideoPath = getIntent().getStringExtra("data");

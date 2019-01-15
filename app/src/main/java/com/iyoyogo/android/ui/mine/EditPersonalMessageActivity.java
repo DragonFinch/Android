@@ -179,6 +179,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
     @Override
     protected void initView() {
         super.initView();
+        statusbar();
         init();
         initListener();
         nickName.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -203,7 +204,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+//        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         user_id = SpUtils.getString(EditPersonalMessageActivity.this, "user_id", null);
         user_token = SpUtils.getString(EditPersonalMessageActivity.this, "user_token", null);
         mPresenter.getUserInfo(user_id, user_token);

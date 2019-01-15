@@ -92,7 +92,8 @@ public class AddFilterActivity extends BaseActivity implements BaseQuickAdapter.
     @Override
     protected void initView() {
         super.initView();
-        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+//        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+        statusbar();
         path = getIntent().getStringExtra("data");
 
         mLiveWindow.setFillMode(NvsLiveWindow.FILLMODE_PRESERVEASPECTFIT);

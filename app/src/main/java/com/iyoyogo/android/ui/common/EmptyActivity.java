@@ -27,22 +27,27 @@ import java.util.Map;
 public class EmptyActivity extends BaseActivity {
     ListView show_list;
     ArrayList names = null;
-    ArrayList descs= null;
+    ArrayList descs = null;
     ArrayList fileNames = null;
     ArrayList video_names = null;
-    ArrayList video_descs= null;
+    ArrayList video_descs = null;
     ArrayList video_fileNames = null;
     private Button look;
     private Button add;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_empty;
     }
 
+    protected void initView() {
+        super.initView();
+        statusbar();
+    }
+
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
 
         look = (Button) findViewById(R.id.look);
         add = (Button) findViewById(R.id.add);
@@ -93,7 +98,7 @@ public class EmptyActivity extends BaseActivity {
         for (int i = 0; i < video_fileNames.size(); i++) {
             Log.d("EmptyActivity", "video_fileNames.get(i):" + video_fileNames.get(i));
         }
-        List<String> mediaAll=new ArrayList<>();
+        List<String> mediaAll = new ArrayList<>();
         mediaAll.addAll(fileNames);
         mediaAll.addAll(video_fileNames);
 

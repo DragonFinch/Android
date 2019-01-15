@@ -66,6 +66,12 @@ public class AddressBookFriendsActivity extends BaseActivity<AddressBookContract
     }
 
     @Override
+    protected void initView() {
+        super.initView();
+        statusbar();
+    }
+
+    @Override
     protected AddressBookContract.Presenter createPresenter() {
         return new AddressBookPresenter(this);
     }

@@ -93,6 +93,7 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
     @Override
     protected void initView() {
         super.initView();
+        statusbar();
         list = new ArrayList<>();
 
         locationEdit.addTextChangedListener(new TextWatcher() {

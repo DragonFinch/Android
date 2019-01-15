@@ -39,7 +39,8 @@ public class FeedBackActivity extends BaseActivity<FeedBackContract.Presenter> i
     @Override
     protected void initView() {
         super.initView();
-        StatusBarUtils.setWindowStatusBarColor(FeedBackActivity.this, R.color.white);
+//        StatusBarUtils.setWindowStatusBarColor(FeedBackActivity.this, R.color.white);
+        statusbar();
     }
 
     @Override
@@ -55,7 +56,7 @@ public class FeedBackActivity extends BaseActivity<FeedBackContract.Presenter> i
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+//        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
         user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
     }

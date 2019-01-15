@@ -46,38 +46,40 @@ import butterknife.OnClick;
 
 public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter> implements VipCenterContract.View {
     @BindView(R.id.my_icon)
-    ImageView             myIcon;
+    ImageView myIcon;
     @BindView(R.id.tv_vip)
-    TextView              tvVip;
+    TextView tvVip;
     @BindView(R.id.tv_name)
-    TextView              tvName;
+    TextView tvName;
     @BindView(R.id.tv_flag)
-    TextView              tvFlag;
+    TextView tvFlag;
     @BindView(R.id.img_logo)
-    CircleImageView       imgLogo;
+    CircleImageView imgLogo;
     @BindView(R.id.img_vip_sign)
-    ImageView             imgVipSign;
+    ImageView imgVipSign;
     @BindView(R.id.img_level)
-    ImageView             imgLevel;
+    ImageView imgLevel;
     @BindView(R.id.progress)
     HorizontalProgressBar mProgressBar;
-//    @BindView(R.id.tv_current_score)
+    //    @BindView(R.id.tv_current_score)
 //    TextView              mTvCurrentScore;
     @BindView(R.id.tv_level1)
-    TextView              mTvLevel1;
+    TextView mTvLevel1;
     @BindView(R.id.tv_level2)
-    TextView              mTvLevel2;
+    TextView mTvLevel2;
     @BindView(R.id.tv_level3)
-    TextView              mTvLevel3;
+    TextView mTvLevel3;
     @BindView(R.id.tv_level4)
-    TextView              mTvLevel4;
+    TextView mTvLevel4;
     @BindView(R.id.tv_level5)
-    TextView              mTvLevel5;
+    TextView mTvLevel5;
     @BindView(R.id.tv_level6)
-    TextView              mTvLevel6;
+    TextView mTvLevel6;
+    @BindView(R.id.tv_num)
+    TextView mTvNum;
     //会员中心
-    private View           pop_view;
-    private PopupWindow    popMenu;
+    private View pop_view;
+    private PopupWindow popMenu;
     private RelativeLayout relativeLayout;
 
     @Override
@@ -92,16 +94,16 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
     }
 
     private void initVipLevelUp() {
-        View        view        = getLayoutInflater().inflate(R.layout.popup_up_vip, null);
+        View view = getLayoutInflater().inflate(R.layout.popup_up_vip, null);
         PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(getApplicationContext(), 300), DensityUtil.dp2px(getApplicationContext(), 320), true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setBackgroundDrawable(new ColorDrawable());
         backgroundAlpha(0.6f);
         popupWindow.setOnDismissListener(new poponDismissListener());
-        ImageView img_wechat        = view.findViewById(R.id.img_wechat);
+        ImageView img_wechat = view.findViewById(R.id.img_wechat);
         ImageView img_wechat_circle = view.findViewById(R.id.img_wechat_circle);
-        ImageView img_qq            = view.findViewById(R.id.img_qq);
-        ImageView img_sina          = view.findViewById(R.id.img_sina);
+        ImageView img_qq = view.findViewById(R.id.img_qq);
+        ImageView img_sina = view.findViewById(R.id.img_sina);
         img_qq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +140,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
     private void shareWeb(SHARE_MEDIA share_media) {
         /*80002/yo_id/4143*/
         String url = Constants.BASE_URL + "home/share/levelup/user_id/" + SpUtils.getString(getApplicationContext(), "user_id", null);
-        UMWeb  web = new UMWeb(url);
+        UMWeb web = new UMWeb(url);
         web.setTitle("title");//标题
         UMImage thumb = new UMImage(getApplicationContext(), R.mipmap.logo);
         web.setThumb(thumb);  //缩略图
@@ -165,13 +167,6 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
         finish();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
 
     //隐藏事件PopupWindow
     private class poponDismissListener implements PopupWindow.OnDismissListener {
@@ -184,7 +179,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        String user_id    = SpUtils.getString(this, "user_id", null);
+        String user_id = SpUtils.getString(this, "user_id", null);
         String user_token = SpUtils.getString(this, "user_token", null);
         mPresenter.getVipCenter(user_id, user_token);
     }
@@ -235,8 +230,8 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
 
     @Override
     public void getVipCenterSuccess(VipCenterBean vipCenterBean) {
-        List<VipCenterBean.DataBean.LevelBean> list      = vipCenterBean.getData().getLevel();
-        VipCenterBean.DataBean.UserInfoBean    user_info = vipCenterBean.getData().getUser_info();
+        List<VipCenterBean.DataBean.LevelBean> list = vipCenterBean.getData().getLevel();
+        VipCenterBean.DataBean.UserInfoBean user_info = vipCenterBean.getData().getUser_info();
         tvName.setText(user_info.getUser_nickname());
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.error(R.mipmap.default_touxiang).placeholder(R.mipmap.default_touxiang);
@@ -251,9 +246,12 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
         mTvLevel6.setText(level.get(5).getScore() + "");
 
         int score = vipCenterBean.getData().getUser_info().getScore();
-        int max   = level.get(level.size() - 1).getScore();
+        int max = level.get(level.size() - 1).getScore();
         mProgressBar.setMax(max);
-        mProgressBar.setShowStr(score+"");
+        mProgressBar.setShowStr(score + "");
+        Log.d("VipCenterActivity", "max:" + max);
+        Log.d("VipCenterActivity", "score:" + score);
+        Log.d("VipCenterActivity", "level.get(2).getScore():" + level.get(2).getScore());
 //        mTvCurrentScore.setText(score+"");
         for (int i = 0; i < level.size(); i++) {
             if (i != level.size() - 1) {
@@ -275,6 +273,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
             imgVipSign.setImageResource(R.mipmap.level_zero);
             tvFlag.setText(list.get(0).getName());
             myIcon.setBackgroundResource(R.mipmap.mem_foxi);
+            mTvNum.setText(level.get(1).getScore() - score + "点");
         } else if (score >= level.get(1).getScore() && score < level.get(2).getScore()) {
             tvVip.setText("Lv1");
             imgLevel.setVisibility(View.VISIBLE);
@@ -282,6 +281,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
             imgVipSign.setImageResource(R.mipmap.level_one);
             tvFlag.setText(list.get(1).getName());
             myIcon.setBackgroundResource(R.mipmap.mem_xiansan);
+            mTvNum.setText(level.get(2).getScore() - score + "点");
         } else if (score >= level.get(2).getScore() && score < level.get(3).getScore()) {
             tvVip.setText("Lv2");
             imgLevel.setVisibility(View.VISIBLE);
@@ -289,6 +289,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
             imgVipSign.setImageResource(R.mipmap.level_two);
             tvFlag.setText(list.get(2).getName());
             myIcon.setBackgroundResource(R.mipmap.mem_gongcheng);
+            mTvNum.setText(level.get(3).getScore() - score + "点");
         } else if (score >= level.get(3).getScore() && score < level.get(4).getScore()) {
             tvVip.setText("Lv3");
             imgLevel.setVisibility(View.VISIBLE);
@@ -296,6 +297,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
             imgVipSign.setImageResource(R.mipmap.level_three);
             tvFlag.setText(list.get(3).getName());
             myIcon.setBackgroundResource(R.mipmap.mem_mingri);
+            mTvNum.setText(level.get(4).getScore() - score + "点");
         } else if (score >= level.get(4).getScore() && score < level.get(5).getScore()) {
             tvVip.setText("Lv4");
             imgLevel.setVisibility(View.VISIBLE);
@@ -303,6 +305,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
             imgVipSign.setImageResource(R.mipmap.level_four);
             tvFlag.setText(list.get(4).getName());
             myIcon.setBackgroundResource(R.mipmap.mem_shouxi);
+            mTvNum.setText(level.get(5).getScore() - score + "点");
         } else if (score == level.get(5).getScore()) {
             tvVip.setText("Lv5");
             imgLevel.setVisibility(View.VISIBLE);
@@ -310,6 +313,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
             imgVipSign.setImageResource(R.mipmap.level_five);
             tvFlag.setText(list.get(5).getName());
             myIcon.setBackgroundResource(R.mipmap.mem_lvxingjia);
+            mTvNum.setText(level.get(5).getScore() - score + "点");
         }
 
 //            int score0 = list.get(0).getScore();

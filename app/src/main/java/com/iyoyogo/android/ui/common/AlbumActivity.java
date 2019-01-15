@@ -23,8 +23,7 @@ public class AlbumActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
-        StatusBarUtils.setWindowStatusBarColor(this, Color.BLACK);
-
+        statusbar();
         PictureSelector.create(AlbumActivity.this)
                 .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()
                 .theme(R.style.AppTheme_Full)//主题样式(不设置为默认样式) 也可参考demo values/styles下 例如：R.style.picture.white.style

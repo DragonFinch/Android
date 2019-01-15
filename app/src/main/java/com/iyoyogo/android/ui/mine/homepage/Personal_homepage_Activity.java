@@ -1,5 +1,7 @@
 package com.iyoyogo.android.ui.mine.homepage;
 
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -30,6 +32,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -268,8 +271,8 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
     }
 
     public void share() {
-        View view = getLayoutInflater().inflate(R.layout.popup_share, null);
-        PopupWindow popup_share = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(getApplicationContext(), 220), true);
+        View view = getLayoutInflater().inflate(R.layout.popup_share_user, null);
+        PopupWindow popup_share = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(getApplicationContext(), 310), true);
         popup_share.setBackgroundDrawable(new ColorDrawable());
         popup_share.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         popup_share.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -277,6 +280,7 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
         LinearLayout comment_layout = view.findViewById(R.id.comment_layout);
         LinearLayout wechat_layout = view.findViewById(R.id.wechat_layout);
         LinearLayout sina_layout = view.findViewById(R.id.sina_layout);
+        LinearLayout clone_layout = view.findViewById(R.id.clone_layout);
         TextView tv_cancel = view.findViewById(R.id.cancel);
         ImageView img_close = view.findViewById(R.id.close_img);
         img_close.setOnClickListener(new View.OnClickListener() {
@@ -320,6 +324,16 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
                 popup_share.dismiss();
             }
         });
+        clone_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                // 将文本内容放到系统剪贴板里。
+                cm.setText(Constants.BASE_URL+ "home/share/center_yoj/share_user_id/" + user_id + "/his_id/" + yo_user_id);
+                Toast.makeText(Personal_homepage_Activity.this, "链接已复制到剪贴板", Toast.LENGTH_SHORT).show();
+                popup_share.dismiss();
+            }
+        });
         backgroundAlpha(0.6f);
 
         //添加pop窗口关闭事件
@@ -336,7 +350,7 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
         UMImage thumb = new UMImage(getApplicationContext(), R.mipmap.logo);
         web.setThumb(thumb);  //缩略图
 
-        web.setDescription("用户主页");//描述
+        web.setDescription("个人主页");//描述
 
         new ShareAction(Personal_homepage_Activity.this)
                 .withMedia(web)

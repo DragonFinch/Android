@@ -64,8 +64,8 @@ public class MyFollowActivity extends BaseActivity {
 
     protected void initView() {
         super.initView();
-        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
-
+//        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
+        statusbar();
         switchContent(followFragment,recommendFragment);
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

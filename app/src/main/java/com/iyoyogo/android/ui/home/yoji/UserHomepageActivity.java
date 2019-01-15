@@ -1,5 +1,7 @@
 package com.iyoyogo.android.ui.home.yoji;
 
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -49,6 +51,7 @@ import com.iyoyogo.android.net.ApiObserver;
 import com.iyoyogo.android.presenter.PersonalCenterPresenter;
 import com.iyoyogo.android.ui.mine.BigPictureActivity;
 import com.iyoyogo.android.ui.mine.collection.CollectionActivity;
+import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.ui.mine.homepage.UserFansActivity;
 import com.iyoyogo.android.ui.mine.homepage.YoJiFragment;
 import com.iyoyogo.android.ui.mine.homepage.YoXiuFragment;
@@ -204,8 +207,8 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
     }
 
     public void share() {
-        View view = getLayoutInflater().inflate(R.layout.popup_share, null);
-        PopupWindow popup_share = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(getApplicationContext(), 220), true);
+        View view = getLayoutInflater().inflate(R.layout.popup_share_user, null);
+        PopupWindow popup_share = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(getApplicationContext(), 310), true);
         popup_share.setBackgroundDrawable(new ColorDrawable());
         popup_share.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         popup_share.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -213,6 +216,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
         LinearLayout comment_layout = view.findViewById(R.id.comment_layout);
         LinearLayout wechat_layout = view.findViewById(R.id.wechat_layout);
         LinearLayout sina_layout = view.findViewById(R.id.sina_layout);
+        LinearLayout clone_layout = view.findViewById(R.id.clone_layout);
         TextView tv_cancel = view.findViewById(R.id.cancel);
         ImageView img_close = view.findViewById(R.id.close_img);
         img_close.setOnClickListener(new View.OnClickListener() {
@@ -249,6 +253,17 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
                 shareWeb(SHARE_MEDIA.SINA);
             }
         });
+        clone_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                // 将文本内容放到系统剪贴板里。
+                cm.setText(Constants.BASE_URL+ "home/share/center_yoj/share_user_id/" + user_id + "/his_id/" + yo_user_id);
+                Toast.makeText(UserHomepageActivity.this, "链接已复制到剪贴板", Toast.LENGTH_SHORT).show();
+                popup_share.dismiss();
+            }
+        });
+
         qq_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -36,6 +36,7 @@ public class SameParaActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        statusbar();
         ArrayList<Bean> mList = new ArrayList<>();
         super.initView();
         Bean bean = new Bean();

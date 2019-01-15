@@ -46,7 +46,7 @@ public class UserFansActivity extends BaseActivity {
 
     protected void initView() {
         super.initView();
-        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+//        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         statusbar();
         Intent intent = getIntent();
         int id = intent.getIntExtra("id", 0);

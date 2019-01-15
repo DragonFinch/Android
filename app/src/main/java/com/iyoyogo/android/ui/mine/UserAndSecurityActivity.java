@@ -78,10 +78,16 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+//        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         user_id = SpUtils.getString(UserAndSecurityActivity.this, "user_id", null);
         user_token = SpUtils.getString(UserAndSecurityActivity.this, "user_token", null);
         mPresenter.getBindInfo(user_id, user_token);
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
+        statusbar();
     }
 
     @Override

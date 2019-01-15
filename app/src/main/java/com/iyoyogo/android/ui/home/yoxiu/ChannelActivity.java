@@ -42,28 +42,28 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
 
 
     @BindView(R.id.back)
-    ImageView      back;
+    ImageView back;
     @BindView(R.id.tv_title)
-    TextView       tvTitle;
+    TextView tvTitle;
     @BindView(R.id.create_complete)
-    TextView       createComplete;
+    TextView createComplete;
     @BindView(R.id.bar)
     RelativeLayout bar;
     @BindView(R.id.gv_channel)
-    RecyclerView   gv_channel;
-    private String            user_id;
-    private String            user_token;
-    private int               size;
-    private Integer[]         array;
-    private List<Integer>     idList;
+    RecyclerView gv_channel;
+    private String user_id;
+    private String user_token;
+    private int size;
+    private Integer[] array;
+    private List<Integer> idList;
     private ArrayList<String> channelList;
-    private ChannelAdapter    adapter;
-    private int               type;
-    private TextView          tv_message;
-    private TextView          tv_message_two;
-    private TextView          tv_message_three;
-    private ImageView         img_tip;
-    private PopupWindow       popup;
+    private ChannelAdapter adapter;
+    private int type;
+    private TextView tv_message;
+    private TextView tv_message_two;
+    private TextView tv_message_three;
+    private ImageView img_tip;
+    private PopupWindow popup;
 
     @Override
     protected void initData(Bundle savedInstanceState) {
@@ -87,7 +87,7 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
     @Override
     protected void initView() {
         super.initView();
-
+        statusbar();
     }
 
     @Override
@@ -108,12 +108,12 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
             }
         }
         adapter = new ChannelAdapter(ChannelActivity.this, list);
-        int     spanCount   = 4; // 3 columns
-        int     spacing     = 24; // 50px
+        int spanCount = 4; // 3 columns
+        int spacing = 24; // 50px
         boolean includeEdge = false;
         gv_channel.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
-        MyChooseCallback           callback      = new MyChooseCallback();
-        MyOnItemClickListener      listener      = new MyOnItemClickListener();
+        MyChooseCallback callback = new MyChooseCallback();
+        MyOnItemClickListener listener = new MyOnItemClickListener();
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 4);
         adapter.setMaxNum(5);
         adapter.setChooseCallback(callback);

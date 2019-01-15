@@ -138,7 +138,11 @@ public class AddAddressActivity extends BaseActivity {
         }
     };
 
-
+    @Override
+    protected void initView() {
+        super.initView();
+        statusbar();
+    }
 
     @Override
     protected int getLayoutId() {

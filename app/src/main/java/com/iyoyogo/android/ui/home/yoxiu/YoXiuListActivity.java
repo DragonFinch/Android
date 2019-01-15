@@ -86,6 +86,7 @@ public class YoXiuListActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
+        statusbar();
         mLayoutManager = new LinearLayoutManager(YoXiuListActivity.this);
         shareImg.setVisibility(View.GONE);
         statusbar();
