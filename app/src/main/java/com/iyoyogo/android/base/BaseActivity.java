@@ -31,6 +31,7 @@ import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.widget.IStatusView;
 import com.iyoyogo.android.widget.LoadStatusViewHolder;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -399,6 +400,16 @@ public abstract class BaseActivity<T extends IBasePresenter> extends AppCompatAc
             listener.onGranted();
         }
     }
+
+/*    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }*/
 
     /***
      * 申请权限回调

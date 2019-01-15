@@ -85,7 +85,7 @@ public class App extends Application {
         mContext = getApplicationContext();
         //
         PlatformConfig.setSinaWeibo("3163111192", "d6a50a54a967198b5e58e01fa92d448d", "http://www.iyoyogo.com:8090/api/1.0/about/us/wbAuth");
-        PlatformConfig.setWeixin("wxa79424f9b261fbea", "b31df002153d0897cc5de08be3d72cfd");
+        PlatformConfig.setWeixin("wxedcd176470bd0c5b", "dfe479bd5608ae481183c84b32f0c360");
         PlatformConfig.setQQZone("1107050658", "MPqlCLruUzjIUAAu");
         init();
 

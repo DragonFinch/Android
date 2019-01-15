@@ -317,46 +317,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
             shortToast("网络异常表");
             return;
         } else {
-          /*DataManager.getFromRemote().getVersionMessage(user_id, user_token, "and").subscribe(new Observer<VersionBean>() {
 
-
-                @Override
-                public void onSubscribe(Disposable d) {
-
-                }
-
-                @Override
-                public void onNext(VersionBean versionBean) {
-                    String msg = versionBean.getMsg();
-                    if (TextUtils.equals("success", msg)) {
-                        VersionBean.DataBean data2 = versionBean.getData();
-                        getVersion(data2);
-                    } else {
-                        shortToast(ResUtils.getString(R.string.version));
-
-                    }
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    String erro = e.getMessage();
-                    if (TextUtils.isEmpty(erro)) {
-                        erro = ResUtils.getString(R.string.ServiceException);
-                    } else if (TextUtils.equals(erro, ResUtils.getString(R.string.netexception))) {
-                        erro = ResUtils.getString(R.string.NetException);
-                    } else if (TextUtils.equals(erro, ResUtils.getString(R.string.HTTP404))) {
-                        erro = ResUtils.getString(R.string.ServiceException);
-                    }
-                    shortToast(erro);
-                }
-
-                @Override
-                public void onComplete() {
-
-                }
-
-
-            });*/
         }
     }
 
@@ -367,65 +328,10 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
     }
 
 
-    private void getVersion(VersionBean.DataBean dataBean) {
-        List<String> picList = new ArrayList<>();
-        try {
-            // 服务端版本号
-            String version = dataBean.getVersion();
-//            String ipv6 = dataBean.getIpv6();
-            //强制更新的标志
-            String must_download = dataBean.getForce();
-            // app 下载的地址
-            String download_url = dataBean.getUrl();
-            String webVer = version.replace(".", "");
-            String locVer = AppUtils.getAppVersionName(App.context).replace(".", "");
-            //  app 升级的描述
-            String description = dataBean.getContent();
-
-//            picList = dataBean.getPic_list();
-            int web = Integer.parseInt(webVer);
-            int loc = Integer.parseInt(locVer);
-            if (TextUtils.isEmpty(description)) {
-                description = "修改了部分体验问题";
-            }
-            if (web > loc) {
-                if (TextUtils.equals(dataBean.getForce(), "1")) {
-                    dialog.show();
-                    this.dowloadPath = dataBean.getUrl();
-                    dialog.hideCancle();
-                    dialog.setDialogContent(description);
-
-                } else {
-                    dialog.show();
-                    this.dowloadPath = dataBean.getUrl();
-                    dialog.setDialogContent(description);
-
-                }
-            } else {
-
-                shortToast(ResUtils.getString(R.string.version));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            shortToast(ResUtils.getString(R.string.version));
-        }
-    }
 
 
 
-    public String packageName(Context context) {
-        PackageManager manager = context.getPackageManager();
-        String name = null;
-        try {
-            PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
-            name = info.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
 
-        return name;
-    }
 
     /**
      * /**
@@ -435,29 +341,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
 
     @Override
     public void sureDown() {
-        DataManager.getFromRemote().downFile(dowloadPath).subscribe(new Observer<ResponseBody>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                lodingDialog.showDialog();
-            }
 
-            @Override
-            public void onNext(ResponseBody responseBody) {
-                dialog.cancel();
-                writeResponseBodyToDisk(dowloadPath, responseBody.byteStream());
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onComplete() {
-                lodingDialog.hide();
-            }
-        });
     }
 
     @Override

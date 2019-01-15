@@ -154,13 +154,13 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
             holder.pile_layout.setVisibility(View.GONE);
             holder.tv_num_like.setVisibility(View.GONE);
         } else {
-            List<HomeBean.DataBean.YojListBean> user_icons = new ArrayList<>();
+            List<HomeBean.DataBean.YojListBean.UsersPraiseBean> user_icons = new ArrayList<>();
             holder.pile_layout.removeAllViews();
-            if (mList.get(position).getUsers_praise().size() <= 10) {
-                for (int i = 0; i < mList.get(position).getUsers_praise().size(); i++) {
-                    user_icons.addAll(mList);
+            user_icons.addAll(mList.get(position).getUsers_praise());
+            if (user_icons.size() <= 10) {
+                for (int i = 0; i <user_icons.size(); i++) {
                     com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
-                    Glide.with(context).load(user_icons.get(position).getUsers_praise().get(i).getUser_logo()).into(imageView);
+                    Glide.with(context).load(user_icons.get(i).getUser_logo()).into(imageView);
                     holder.pile_layout.addView(imageView);
                     int finalI = i;
                     imageView.setOnClickListener(new View.OnClickListener() {
@@ -174,10 +174,11 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
                     });
                 }
             } else {
-                for (int i = 0; i < 10; i++) {
-       /*             user_icons.add(mList.get(position));
+                holder.pile_layout.removeAllViews();
+                for (int i = 0; i > 10; i++) {
+
                     com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
-                    Glide.with(context).load(user_icons.get(position).getUsers_praise().get(i).getUser_logo()).into(imageView);
+                    Glide.with(context).load(user_icons.get(i).getUser_logo()).into(imageView);
                     holder.pile_layout.addView(imageView);
                     int finalI = i;
                     imageView.setOnClickListener(new View.OnClickListener() {
@@ -188,7 +189,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
                             intent.putExtra("yo_user_id", String.valueOf(mList.get(position).getUsers_praise().get(finalI).getUser_id()));
                             context.startActivity(intent);
                         }
-                    });*/
+                    });
                 }
             }
 

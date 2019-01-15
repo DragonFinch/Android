@@ -62,7 +62,7 @@
             android:background="@color/textColor_white"
             android:gravity="center"
             android:includeFontPadding="false"
-            android:text="@string/add"
+            android:text="确定"
             android:textColor="@color/textColor_333"
             android:textSize="@dimen/text_size_15" />
     </LinearLayout>

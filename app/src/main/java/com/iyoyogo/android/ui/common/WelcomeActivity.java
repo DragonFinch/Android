@@ -26,7 +26,7 @@ import butterknife.OnClick;
  */
 
 public class WelcomeActivity extends BaseActivity {
-    int[] image_ids = {R.mipmap.welcome2, R.mipmap.welcome3, R.mipmap.welcome4};
+    int[] image_ids = {R.mipmap.yo_xiu, R.mipmap.yo_ji, R.mipmap.go_camera};
     @BindView(R.id.viewpager)
     ViewPager viewPager;
     @BindView(R.id.welcome_enter_btn)
@@ -46,7 +46,35 @@ public class WelcomeActivity extends BaseActivity {
             startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
             finish();
         }
-        initViewPagerData();
+//        initViewPagerData();
+        viewPager.setAdapter(new WelcomeViewPagerAdapter(this, image_ids));
+        viewPager.setCurrentItem(0);
+//        ll_dot_group.getChildAt(0).setEnabled(true);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                //取出postion位置的小圆点 设置为true
+           /*     ll_dot_group.getChildAt(position).setEnabled(true);
+                //把一个小圆点设置为false
+                ll_dot_group.getChildAt(previousPosition).setEnabled(false);
+                previousPosition = position;
+                if (position == image_ids.length - 1) {
+                    welcomeEnterBtn.setVisibility(View.VISIBLE);
+                } else {
+                    welcomeEnterBtn.setVisibility(View.GONE);
+                }*/
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
@@ -80,41 +108,13 @@ public class WelcomeActivity extends BaseActivity {
             ll_dot_group.addView(dotView);
         }
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
 
-            @Override
-            public void onPageSelected(int position) {
-                //取出postion位置的小圆点 设置为true
-                ll_dot_group.getChildAt(position).setEnabled(true);
-                //把一个小圆点设置为false
-                ll_dot_group.getChildAt(previousPosition).setEnabled(false);
-                previousPosition = position;
-                if (position == image_ids.length - 1) {
-                    welcomeEnterBtn.setVisibility(View.VISIBLE);
-                } else {
-                    welcomeEnterBtn.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-        viewPager.setAdapter(new WelcomeViewPagerAdapter(this, image_ids));
-        viewPager.setCurrentItem(0);
-        ll_dot_group.getChildAt(0).setEnabled(true);
     }
 
 
     @OnClick(R.id.welcome_enter_btn)
     public void onViewClicked() {
-        SpUtils.putBoolean(WelcomeActivity.this, "isTrue", true);
-        startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
-        finish();
+
     }
 }
