@@ -80,8 +80,7 @@
         android:layout_below="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
-        android:layout_marginLeft="@dimen/dp_75"
-        android:layout_marginTop="@dimen/dp_10">
+        android:layout_marginLeft="@dimen/dp_75">
 
         <TextView
 

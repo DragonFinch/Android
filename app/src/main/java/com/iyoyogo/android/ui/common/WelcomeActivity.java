@@ -39,8 +39,8 @@ public class WelcomeActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
-        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
-
+//        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+        statusbar();
         boolean isTrue = SpUtils.getBoolean(WelcomeActivity.this, "isTrue", false);
         if (isTrue) {
             startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
@@ -107,7 +107,6 @@ public class WelcomeActivity extends BaseActivity {
             //把dotview加入到线性布局中
             ll_dot_group.addView(dotView);
         }
-
 
 
     }

@@ -24,6 +24,7 @@ import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.mine.AboutMeBean;
 import com.iyoyogo.android.contract.AboutMeContract;
 import com.iyoyogo.android.presenter.AboutMePresenter;
+import com.iyoyogo.android.ui.common.WebActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -150,10 +151,16 @@ public class AboutMeActivity extends BaseActivity<AboutMeContract.Presenter> imp
                 initPopuptWindow();
                 break;
             case R.id.tv_simi://隐私政策
-                startActivity(new Intent(this, WebViewActivity.class).putExtra("url", "1"));
+//                startActivity(new Intent(this, WebViewActivity.class).putExtra("url", "1"));
+                startActivity(new Intent(this, WebActivity.class)
+                        .putExtra("title", "隐私政策")
+                        .putExtra("url", "  http://app.iyoyogo.com/index.php/home/article/details?id=20"));
                 break;
             case R.id.tv_service://服务条款
-                startActivity(new Intent(this, WebViewActivity.class).putExtra("url", "2"));
+//                startActivity(new Intent(this, WebViewActivity.class).putExtra("url", "2"));
+                startActivity(new Intent(this, WebActivity.class)
+                        .putExtra("title", "服务条款")
+                        .putExtra("url", "http://app.iyoyogo.com/index.php/home/article/details?id=21"));
                 break;
         }
     }

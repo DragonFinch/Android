@@ -8,7 +8,8 @@
     <RelativeLayout
         android:id="@+id/bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50">
+        android:layout_height="@dimen/dp_50"
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/message_center_back_im_id"
@@ -34,6 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recycler_message"
+        android:background="@color/white"
         />
     <include  android:layout_below="@+id/bar"
         android:id="@+id/like_layout"
