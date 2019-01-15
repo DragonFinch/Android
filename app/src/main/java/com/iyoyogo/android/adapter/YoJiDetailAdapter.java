@@ -20,6 +20,7 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.yoji.detail.YoJiDetailBean;
 import com.iyoyogo.android.ui.home.yoji.YoJiListActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiPictureActivity;
+import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.RoundTransform;
 import com.iyoyogo.android.widget.FlowGroupView;
 

@@ -478,6 +478,13 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 mPresenter.addAttention(user_id, user_token, Integer.parseInt(yo_attention_id));
                 break;
             case R.id.img_share:
+                String yo_user_id = intent.getStringExtra("yo_user_id");
+//                if (user_id.equals(yo_user_id)) {
+//                    imgShare.setImageResource(R.mipmap.more);
+//                    more();
+//                } else {
+//                    share();
+//                }
                 share();
                 break;
             case R.id.tv_attention:
@@ -707,7 +714,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         });
 
         list = data.getList();
-        yoJiDetailAdapter = new YoJiDetailAdapter(YoJiDetailActivity.this, list, data.getCount_praise(), String.valueOf(data.getCount_collect()), data.getIs_my_praise(), data.getIs_my_collect(),tvLoadMore);
+        yoJiDetailAdapter = new YoJiDetailAdapter(YoJiDetailActivity.this, list, data.getCount_praise(), String.valueOf(data.getCount_collect()), data.getIs_my_praise(), data.getIs_my_collect(), tvLoadMore);
 
         recyclerYoji.setAdapter(yoJiDetailAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(YoJiDetailActivity.this);
@@ -1224,6 +1231,40 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         popup_share.setOnDismissListener(new poponDismissListener());
         popup_share.showAtLocation(findViewById(R.id.activity_yoji_detail), Gravity.BOTTOM, 0, 0);
 
+    }
+
+    public void more(){
+        View view = getLayoutInflater().inflate(R.layout.popup_user_share, null);
+        PopupWindow popup_share = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, DensityUtil.dp2px(YoJiDetailActivity.this, 150), true);
+        popup_share.setBackgroundDrawable(new ColorDrawable());
+        popup_share.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popup_share.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        LinearLayout share = view.findViewById(R.id.share);
+        LinearLayout bianji = view.findViewById(R.id.bianji);
+        LinearLayout delete = view.findViewById(R.id.delete);
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                share();
+                popup_share.dismiss();
+            }
+        });
+        bianji.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+        backgroundAlpha(0.6f);
+
+        //添加pop窗口关闭事件
+        popup_share.setOnDismissListener(new poponDismissListener());
+        popup_share.showAtLocation(findViewById(R.id.activity_yoji_detail), Gravity.BOTTOM, 0, 0);
     }
 
     private void shareWeb(SHARE_MEDIA share_media) {

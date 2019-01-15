@@ -292,7 +292,7 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
                 if (mList.get(position).getIs_my_praise() == 1) {
                     count_praises += 1;
                     mList.get(position).setCount_praise(count_praises);
-                } else  {
+                } else {
                     count_praises -= 1;
                     mList.get(position).setCount_praise(count_praises);
 
