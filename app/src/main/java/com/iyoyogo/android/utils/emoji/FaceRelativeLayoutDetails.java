@@ -120,10 +120,12 @@ public class FaceRelativeLayoutDetails extends RelativeLayout implements
 
     @Override
     public void onClick(View v) {
-       switch (v.getId()){
+        int id = v.getId();
+
+        switch (v.getId()){
            case R.id.img_brow:
-               int i = v.getId();
-               if (i == R.id.img_brow) {// 隐藏表情选择框
+
+               if (id == R.id.img_brow) {// 隐藏表情选择框
                    if (view.getVisibility() == View.VISIBLE) {
                        view.setVisibility(View.GONE);
                        KeyBoardUtils.openKeybord(et_sendmessage,context);
@@ -135,7 +137,7 @@ public class FaceRelativeLayoutDetails extends RelativeLayout implements
                        // btn_face.setImageResource(R.drawable.btn_emoji);
                    }
 
-               } else if (i == R.id.et_sendmessage) {// 隐藏表情选择框
+               } else if (id == R.id.et_sendmessage) {// 隐藏表情选择框
                    if (view.getVisibility() == View.VISIBLE) {
                        view.setVisibility(View.GONE);
                    }
@@ -143,20 +145,19 @@ public class FaceRelativeLayoutDetails extends RelativeLayout implements
                }
                break;
            case R.id.send_emoji:
-               int ii = v.getId();
-               if (ii == R.id.img_brow) {// 隐藏表情选择框
+
+               if (id == R.id.send_emoji) {// 隐藏表情选择框
                    if (view.getVisibility() == View.VISIBLE) {
                        view.setVisibility(View.GONE);
                        KeyBoardUtils.openKeybord(et_sendmessage,context);
                        //  btn_face.setImageResource(R.drawable.ruanjianpan);
                    } else {
                        view.setVisibility(View.VISIBLE);
-
                        KeyBoardUtils.closeKeybord(et_sendmessage,context);
                        // btn_face.setImageResource(R.drawable.btn_emoji);
                    }
 
-               } else if (ii == R.id.et_sendmessage) {// 隐藏表情选择框
+               } else if (id == R.id.et_sendmessage) {// 隐藏表情选择框
                    if (view.getVisibility() == View.VISIBLE) {
                        view.setVisibility(View.GONE);
                    }
