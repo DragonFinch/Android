@@ -119,7 +119,6 @@ public class FaceRelativeLayoutDetails extends RelativeLayout implements
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        Toast.makeText(context, "我是你爸爸", Toast.LENGTH_SHORT).show();
         if (i == R.id.img_brow) {// 隐藏表情选择框
             if (view.getVisibility() == View.VISIBLE) {
                 view.setVisibility(View.GONE);

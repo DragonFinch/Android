@@ -186,6 +186,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     private String file_desc;
     private String path;
     private int count_collects;
+    private RelativeLayout ll_facechoose;
 
     @Override
     protected void setSetting() {
@@ -197,7 +198,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     protected void initView() {
         super.initView();
         StatusBarCompat.setStatusBarColor(this, Color.WHITE);
-
+        ll_facechoose = findViewById(R.id.ll_facechoose);
         new SoftKeyboardStateHelper(findViewById(R.id.activity_yoxiu_detail)).addSoftKeyboardStateListener(this);
         editComment.setImeOptions(EditorInfo.IME_ACTION_SEND);
         editComment.addTextChangedListener(new TextWatcher() {
@@ -882,6 +883,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         String msg = baseBean.getMsg();
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         editComment.setText("");
+        ll_facechoose.setVisibility(View.GONE);
         yoXiuDetailAdapter.notifyDataSetChanged();
         mPresenter.getCommentList(user_id, user_token, 1, id, 0);
     }

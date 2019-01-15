@@ -223,14 +223,16 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() > 0) {
-//                    toSearchTv.setText(getString(R.string.clear));
-                }
+
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
+                if (editable != null){
+                    ivBack.setVisibility(View.GONE);
+                }else{
 
+                }
             }
         });
     }

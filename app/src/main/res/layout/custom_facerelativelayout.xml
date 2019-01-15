@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:src="@drawable/btn_emoji" />
+            android:src="@mipmap/input_biaoqing" />
 
         <ImageView
             android:visibility="gone"
