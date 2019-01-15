@@ -104,7 +104,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     @BindView(R.id.FaceRelativeLayout)
     FaceRelativeLayoutDetails FaceRelativeLayout;
     @BindView(R.id.comment_layout)
-    RelativeLayout commentLayout;
+    LinearLayout commentLayout;
     @BindView(R.id.img_top)
     ImageView imgTop;
     @BindView(R.id.img_logo)
