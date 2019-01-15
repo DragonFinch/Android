@@ -39,8 +39,11 @@ YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Holder> impleme
     String count_comment;
     int is_my_praise;
     int is_my_collect;
+    TextView tvLoadMore;
     private int index;
-    private List<String> index_list=new ArrayList<>();
+    private List<String> false_list = new ArrayList<>();
+    private List<String> true_list = new ArrayList<>();
+
     //改变显示删除的imageview，通过定义变量isShow去接收变量isManager
     public void changetShowDelImage(boolean isShow) {
         this.isShow = isShow;
@@ -48,13 +51,14 @@ YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Holder> impleme
     }
 
 
-    public YoJiDetailAdapter(Context context, List<YoJiDetailBean.DataBean.ListBean> data, String count_praise, String count_comment, int is_my_praise, int is_my_collect) {
+    public YoJiDetailAdapter(Context context, List<YoJiDetailBean.DataBean.ListBean> data, String count_praise, String count_comment, int is_my_praise, int is_my_collect, TextView tvLoadMore) {
         this.mList = data;
         this.context = context;
         this.count_praise = count_praise;
         this.count_comment = count_comment;
         this.is_my_praise = is_my_praise;
         this.is_my_collect = is_my_collect;
+        this.tvLoadMore = tvLoadMore;
     }
 
     @NonNull
@@ -170,22 +174,38 @@ YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Holder> impleme
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //首先第一次进入都是true， 点击收起 将他置为 false，每次
+                    //true--》false
+                    if (!false_list.contains(mList.get(position).getId() + "")) {
 
-                    if (!index_list.contains(mList.get(position).getId()+"")) {
                         isShow = false;
-                        index_list.add(mList.get(position).getId()+"");
+                        false_list.add(mList.get(position).getId() + "");
+                        true_list.remove(mList.get(position).getId() + "");
+                        Log.d("YoJiDetailAdapter", "index_list:" + false_list);
+                        Log.d("YoJiDetailAdapter", "index_list:" + true_list);
                         notifyItemChanged(position);
-
+                        if (true_list.size() == 0) {
+                            tvLoadMore.setText("展开全部");
+                        }
                     } else {
+                        //false__>true
                         isShow = true;
-                        index_list.remove(mList.get(position).getId()+"");
+                        false_list.remove(mList.get(position).getId() + "");
+                        true_list.add(mList.get(position).getId() + "");
+                        Log.d("YoJiDetailAdapter", "index_list:" + false_list);
+                        Log.d("YoJiDetailAdapter", "index_list:" + true_list);
                         notifyItemChanged(position);
+                        if (false_list.size() == 0) {
+                            tvLoadMore.setText("收起全部");
+                        }
                     }
                 }
+
             });
             if (isShow) {
                 List<YoJiDetailBean.DataBean.ListBean.LabelsBean> labels = mList.get(position).getLabels();
                 holder.flow.removeAllViews();
+
                 Log.d("222", "labels.size():" + labels.size());
                 if (labels.size() <= 10) {
                     loadData(holder, logos, size, position, labels);
@@ -200,27 +220,23 @@ YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Holder> impleme
                     Log.d("222", "label.size():" + label.size());
                     holder.flow.setVisibility(View.VISIBLE);
                 }
-                if (position == mList.size() - 1) {
-                    holder.plane.setVisibility(View.GONE);
-                }
             } else {
+
                 holder.flow.setVisibility(View.GONE);
                 holder.picture_count_one.setVisibility(View.GONE);
                 holder.picture_count_two.setVisibility(View.GONE);
                 holder.picture_count_three.setVisibility(View.GONE);
                 holder.picture_count_four.setVisibility(View.GONE);
                 holder.picture_count_five.setVisibility(View.GONE);
-                if (position == mList.size() - 1) {
-                    holder.plane.setVisibility(View.GONE);
-                }
+
             }
         }
-
-        if (OnPlayListener != null) {
-            OnPlayListener.getData(holder, position);
-        }
         if (position == mList.size() - 1) {
-            holder.plane.setVisibility(View.GONE);
+            holder.plane.setVisibility(View.INVISIBLE);
+        } else {
+            if (holder.plane.getVisibility() == View.INVISIBLE) {
+                holder.plane.setVisibility(View.VISIBLE);
+            }
         }
         holder.itemView.setTag(position);
 
@@ -600,16 +616,6 @@ YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Holder> impleme
         }
     }
 
-    public interface OnPlayListener {
-        void getData(Holder holder, int position);
-    }
-
-    private OnPlayListener OnPlayListener;
-
-    public void setOnItemDataListener(OnPlayListener onPlayListener) {
-        this.OnPlayListener = onPlayListener;
-    }
-
     public class Holder extends RecyclerView.ViewHolder {
         FlowGroupView flow;
 
@@ -654,4 +660,11 @@ YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Holder> impleme
         }
     }
 
+    public List<String> getIndex_list() {
+        return false_list;
+    }
+
+    public List<String> getSelect_list() {
+        return true_list;
+    }
 }

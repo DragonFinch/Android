@@ -200,7 +200,7 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
 
     @Override
     public void addInterestSuccess() {
-//        startActivity(new Intent(LikePrefencesActivity.this, MainActivity.class));
+        startActivity(new Intent(LikePrefencesActivity.this, MainActivity.class));
         finish();
         Log.d("LikePrefencesActivity", "添加成功");
     }

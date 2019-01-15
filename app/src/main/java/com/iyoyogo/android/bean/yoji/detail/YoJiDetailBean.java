@@ -362,6 +362,15 @@ public class YoJiDetailBean  extends BaseBean {
             private List<String> logos;
             private List<LabelsBean> labels;
             private List<String> logos_big;
+            private  boolean isSelect;
+
+            public boolean isSelect() {
+                return isSelect;
+            }
+
+            public void setSelect(boolean select) {
+                isSelect = select;
+            }
 
             public int getId() {
                 return id;

@@ -15,7 +15,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -42,6 +44,7 @@ import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.bean.login.login.MarketBean;
 import com.iyoyogo.android.contract.LoginContract;
 import com.iyoyogo.android.presenter.LoginPresenter;
+import com.iyoyogo.android.ui.mine.WebViewActivity;
 import com.iyoyogo.android.utils.SpUtils;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
@@ -258,6 +261,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
 //启动定位
         mLocationClient.startLocation();
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -327,10 +331,10 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
                 SpUtils.putString(LoginActivity.this, "nickname", name);
                 SpUtils.putString(LoginActivity.this, "logo", iconurl);
                 //拿到信息去请求登录接口。。。
-                if (address!=null){
+                if (address != null) {
 
-                mPresenter.login(address, android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, type, "", "", uid, name, iconurl);
-                }else {
+                    mPresenter.login(address, android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, type, "", "", uid, name, iconurl);
+                } else {
                     mPresenter.login("", android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, type, "", "", uid, name, iconurl);
                 }
 
@@ -397,6 +401,29 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
         super.initData(savedInstanceState);
         initLocation();
         mPresenter.market();
+        String user_name = SpUtils.getString(getApplicationContext(), "user_name", null);
+        if (user_name != null) {
+            etPhoneNum.setText(user_name);
+
+        } else {
+            etPhoneNum.setText("");
+        }
+        etPhoneNum.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     /*
@@ -472,9 +499,21 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     }
 
 
-    @OnClick({R.id.tv_code, R.id.login_btn, R.id.login_wechat, R.id.login_weibo, R.id.login_qq, R.id.img_btn, R.id.ll_reg_content})
+    @OnClick({R.id.fwtk, R.id.yszc, R.id.tv_code, R.id.login_btn, R.id.login_wechat, R.id.login_weibo, R.id.login_qq, R.id.img_btn, R.id.ll_reg_content})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.fwtk:
+
+
+                startActivity(new Intent(this, WebActivity.class)
+                        .putExtra("title", "服务条款")
+                        .putExtra("url", "http://app.iyoyogo.com/index.php/home/article/details?id=21"));
+                break;
+            case R.id.yszc:
+                startActivity(new Intent(this, WebActivity.class)
+                        .putExtra("title", "隐私政策")
+                        .putExtra("url", "  http://app.iyoyogo.com/index.php/home/article/details?id=20"));
+                break;
             case R.id.ll_reg_content:
 
                 break;
@@ -511,12 +550,13 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
 
                     if (etPhoneNum.getText().toString().length() == 11 && !TextUtils.isEmpty(etPhoneNum.getText().toString()) && etPhoneNum.getText().toString().startsWith("1")) {
                         if (!TextUtils.isEmpty(etVerCode.getText().toString().trim())) {
-                            if (address!=null){
+                            if (address != null) {
 
-                            mPresenter.login(address, android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, 4, etPhoneNum.getText().toString().trim(), etVerCode.getText().toString().trim(), "", "", "");
-                            }else {
-                            mPresenter.login("", android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, 4, etPhoneNum.getText().toString().trim(), etVerCode.getText().toString().trim(), "", "", "");
-
+                                mPresenter.login(address, android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, 4, etPhoneNum.getText().toString().trim(), etVerCode.getText().toString().trim(), "", "", "");
+                            } else {
+                                mPresenter.login("", android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, 4, etPhoneNum.getText().toString().trim(), etVerCode.getText().toString().trim(), "", "", "");
+                                loginBtn.setClickable(false);
+                                SpUtils.putString(getApplicationContext(), "user_name", etPhoneNum.getText().toString().trim());
                             }
                         } else {
                             Toast.makeText(this, "验证码不能为空", Toast.LENGTH_SHORT).show();
@@ -533,18 +573,19 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
                 weiXinLogin();
 
 
-                Toast.makeText(this, "微信登陆", Toast.LENGTH_SHORT).show();
+                loginWechat.setClickable(false);
 
                 break;
             case R.id.login_qq:
                 qqLogin();
+                loginQq.setClickable(false);
 //                mPresenter.login("", "", "", 2, "", "", uid, name, iconurl);
 
                 break;
             case R.id.login_weibo:
                 sinaLogin();
 //                mPresenter.login("", "", "", 3, "", "", uid, name, iconurl);
-
+                loginWeibo.setClickable(false);
                 break;
         }
     }

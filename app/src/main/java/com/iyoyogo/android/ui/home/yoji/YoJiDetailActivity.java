@@ -249,6 +249,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     private YoJiDetailAdapter yoJiDetailAdapter;
     Intent intent;
     String get_yo_id;
+    private List<YoJiDetailBean.DataBean.ListBean> list;
 
     @Override
     protected void setSetting() {
@@ -434,7 +435,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         editComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
+                if (hasFocus) {
                     //获得焦点
                     tvCollection.setVisibility(View.GONE);
                     tvLike.setVisibility(View.GONE);
@@ -450,7 +451,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                     RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 //                    layoutParams1.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);
                     editComment.setLayoutParams(layoutParams1);
-                }else {
+                } else {
                     RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
 //                    layoutParams.setMargins(0, DensityUtil.dp2px(YoXiuDetailActivity.this, 20), 0, 0);
                     editComment.setLayoutParams(layoutParams);
@@ -484,15 +485,32 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 break;
             case R.id.tv_load_more:
                 if (tvLoadMore.getText().toString().trim().equals("展开全部")) {
+                    //false-->true
                     yoJiDetailAdapter.changetShowDelImage(true);
                     tvLoadMore.setText("收起全部");
-                    //为自定义方法--控制另外一个变量
+                    List<String> false_list = yoJiDetailAdapter.getIndex_list();
+                    List<String> true_list = yoJiDetailAdapter.getSelect_list();
+                    for (int i = 0; i < false_list.size(); i++) {
+                        true_list.add(false_list.get(i));
+                    }
+                    false_list.clear();
+                    Log.d("YoJiDetailActivity", "false_list:" + false_list);
+                    Log.d("YoJiDetailActivity", "true_list:" + true_list);
 
 //                    mPresenter.getYoJiDetail(user_id, user_token, yo_id);
 
                 } else {
+                    //true-->false
                     yoJiDetailAdapter.changetShowDelImage(false);
                     tvLoadMore.setText("展开全部");
+                    List<String> false_list = yoJiDetailAdapter.getIndex_list();
+                    List<String> true_list = yoJiDetailAdapter.getSelect_list();
+                    for (int i = 0; i < true_list.size(); i++) {
+                        false_list.add(true_list.get(i));
+                    }
+                    true_list.clear();
+                    Log.d("YoJiDetailActivity", "false_list:" + false_list);
+                    Log.d("YoJiDetailActivity", "true_list:" + true_list);
                     //为自定义方法--控制另外一个变量
 
 //                    mPresenter.getYoJiDetail(user_id, user_token, yo_id);
@@ -688,11 +706,13 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
             }
         });
 
-        List<YoJiDetailBean.DataBean.ListBean> list = data.getList();
-        yoJiDetailAdapter = new YoJiDetailAdapter(YoJiDetailActivity.this, list, data.getCount_praise(), String.valueOf(data.getCount_collect()), data.getIs_my_praise(), data.getIs_my_collect());
+        list = data.getList();
+        yoJiDetailAdapter = new YoJiDetailAdapter(YoJiDetailActivity.this, list, data.getCount_praise(), String.valueOf(data.getCount_collect()), data.getIs_my_praise(), data.getIs_my_collect(),tvLoadMore);
 
         recyclerYoji.setAdapter(yoJiDetailAdapter);
-        recyclerYoji.setLayoutManager(new LinearLayoutManager(YoJiDetailActivity.this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(YoJiDetailActivity.this);
+
+        recyclerYoji.setLayoutManager(linearLayoutManager);
         yoJiDetailAdapter.changetShowDelImage(true);
         yoJiDetailAdapter.setOnItemClickListener(new YoJiDetailAdapter.OnClickListener() {
             @Override
@@ -700,6 +720,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
             }
         });
+
        /* yoJiDetailAdapter.setOnItemDataListener(new YoJiDetailAdapter.OnPlayListener() {
 
 

@@ -29,6 +29,7 @@ import com.amap.api.maps2d.CameraUpdate;
 import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
+import com.amap.api.maps2d.MapsInitializer;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.CameraPosition;
 import com.amap.api.maps2d.model.LatLng;
@@ -157,6 +158,7 @@ public class AddAddressActivity extends BaseActivity {
         list = new ArrayList<>();
         createComplete.setText("确认");
         tvTitle.setText("添加地址");
+        MapsInitializer.loadWorldGridMap(true);
         mapAddAddress.onCreate(savedInstanceState);
         aMap = mapAddAddress.getMap();
         aMap.getUiSettings().setZoomControlsEnabled(false);

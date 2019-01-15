@@ -49,6 +49,7 @@ import com.iyoyogo.android.utils.ExampleUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.download.DownLoadUtils;
 import com.iyoyogo.android.utils.download.DownloadApk;
+import com.iyoyogo.android.widget.AppVersionDialog;
 import com.meicam.sdk.NvsStreamingContext;
 
 import java.util.List;
@@ -125,7 +126,6 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     public static boolean isForeground = false;
 
 
-
     public class MessageReceiver extends BroadcastReceiver {
 
         @Override
@@ -198,13 +198,14 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         fragment_now = to;
 
     }
+
     public static MainActivity instance;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     protected void initView() {
         super.initView();
-        instance=this;
+        instance = this;
         checkAllPermission();
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
@@ -219,8 +220,13 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
+        registerMessageReceiver();
+        DownloadApk.registerBroadcast(this);
+        //2.删除已存在的Apk
+        DownloadApk.removeFile(this);
         String user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
         String user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
+        mPresenter.getVersion(user_id, user_token, "and");
 //
         if (user_id == null || user_token == null) {
             SpUtils.remove(MainActivity.this, "user_id");
@@ -249,8 +255,8 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         int local_version = Integer.parseInt(localVersion);
         int net_version = Integer.parseInt(netVersion);
 
-        if (local_version<net_version){
-            showHintDialog();
+        if (local_version < net_version) {
+            showHintDialog(data);
 
 
         }
@@ -262,7 +268,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
 //        mFragmentSparseArray = new SparseArray<>();
         homeFragment = new HomeFragment();
         mineFragment = new MineFragment();
-        switchContent(mineFragment,homeFragment);
+        switchContent(mineFragment, homeFragment);
 //
 //        mFragmentSparseArray.append(R.id.today_tab, homeFragment);
 //
@@ -271,14 +277,14 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 // 具体的fragment切换逻辑可以根据应用调整，例如使用show()/hide()
-               switch (checkedId){
-                   case R.id.today_tab:
-                     switchContent(mineFragment,homeFragment);
-                       break;
-                   case R.id.settings_tab:
-                       switchContent(homeFragment,mineFragment);
-                       break;
-               }
+                switch (checkedId) {
+                    case R.id.today_tab:
+                        switchContent(mineFragment, homeFragment);
+                        break;
+                    case R.id.settings_tab:
+                        switchContent(homeFragment, mineFragment);
+                        break;
+                }
             }
         });
         // 默认显示第一个
@@ -294,6 +300,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
             }
         });
     }
+
     /**
      * 是否第一次
      */
@@ -302,12 +309,9 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     /**
      * Fragment 切换
      *
-     * @param from
-     *            隐藏的fragment
-     * @param to
-     *            显示的fragment
-     * @param
-     *            {@code R.id.main} 加载到的布局
+     * @param from   隐藏的fragment
+     * @param to     显示的fragment
+     * @param {@code R.id.main} 加载到的布局
      */
     private void switchContent(Fragment from, Fragment to) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -324,8 +328,57 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         }
     }
 
-    private void showHintDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    private void showHintDialog(VersionBean.DataBean data) {
+        AppVersionDialog   appVersionDialog = new AppVersionDialog(MainActivity.this, R.style.AppVerDialog);
+        if (data.getForce().equals("1")) {
+            appVersionDialog.hideCancle();
+            appVersionDialog.setTitle("版本升级");
+            appVersionDialog.show();
+            appVersionDialog.setDialogContent(data.getContent());
+            appVersionDialog.hideCancle();
+            appVersionDialog.setAppClickLister(new AppVersionDialog.DialogItemClickListener() {
+                @Override
+                public void sureDown() {
+                    String url = data.getUrl();
+                    if (DownLoadUtils.getInstance(getApplicationContext()).canDownload()) {
+                        DownloadApk.downloadApk(getApplicationContext(), data.getUrl(), "yoyoGo更新", "yoyoGo");
+                    } else {
+                        DownLoadUtils.getInstance(getApplicationContext()).skipToDownloadManager();
+                    }
+                    appVersionDialog.dismiss();
+                }
+
+                @Override
+                public void cancleDown() {
+                    appVersionDialog.dismiss();
+                }
+            });
+        }else {
+            appVersionDialog.setTitle("版本升级");
+            appVersionDialog.show();
+            appVersionDialog.setDialogContent(data.getContent());
+            appVersionDialog.setAppClickLister(new AppVersionDialog.DialogItemClickListener() {
+                @Override
+                public void sureDown() {
+                    if (DownLoadUtils.getInstance(getApplicationContext()).canDownload()) {
+                        DownloadApk.downloadApk(getApplicationContext(), "http://iyoyogo.oss-cn-beijing.aliyuncs.com/iyoyogo/2019/1/14/5JZXABhPZm.apk", "yoyoGo更新", "yoyoGo");
+                    } else {
+                        DownLoadUtils.getInstance(getApplicationContext()).skipToDownloadManager();
+                    }
+                    appVersionDialog.dismiss();
+                }
+
+                @Override
+                public void cancleDown() {
+                    appVersionDialog.dismiss();
+                }
+            });
+        }
+
+     /*   AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        if (data.getForce().equals("1")){
+
+        }
         builder.setIcon(R.mipmap.ic_launcher)
                 .setMessage("检测到当前有新版本，是否更新?")
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -338,50 +391,12 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (DownLoadUtils.getInstance(getApplicationContext()).canDownload()) {
-                            DownloadApk.downloadApk(getApplicationContext(), "http://iyoyogo.oss-cn-beijing.aliyuncs.com/iyoyogo/2019/1/13/8HNYbps35X.apk", "yoyoGo更新", "yoyoGo");
-                        } else {
-                            DownLoadUtils.getInstance(getApplicationContext()).skipToDownloadManager();
-                        }
+
                     }
-                }).create().show();
+                }).create().show();*/
     }
 
-    private void downloadApk() {
-        boolean isWifi = AppUtils.isWifi(this); //是否处于WiFi状态
-        if (isWifi) {
-            startService(new Intent(MainActivity.this, UpdateService.class));
-            Toast.makeText(MainActivity.this, "开始下载。", Toast.LENGTH_LONG).show();
-        } else {
-            //弹出对话框，提示是否用流量下载
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("提示");
-            builder.setMessage("是否要用流量进行下载更新");
-            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                    Toast.makeText(MainActivity.this, "取消更新。", Toast.LENGTH_LONG).show();
-                }
-            });
 
-            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    startService(new Intent(MainActivity.this, UpdateService.class));
-                    Toast.makeText(MainActivity.this, "开始下载。", Toast.LENGTH_LONG).show();
-                }
-            });
-            builder.setCancelable(false);
-
-            AlertDialog dialog = builder.create();
-            //设置不可取消对话框
-            dialog.setCancelable(false);
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.show();
-        }
-
-    }
 
     private class poponDismissListener implements PopupWindow.OnDismissListener {
         @Override
@@ -463,6 +478,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
 
         }
     }
+
     public String packageName(Context context) {
         PackageManager manager = context.getPackageManager();
         String name = null;
@@ -475,38 +491,13 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
 
         return name;
     }
-    private void showHintDialog(String url) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-        builder.setIcon(R.mipmap.ic_launcher)
-                .setMessage("检测到当前有新版本，是否更新?")
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //取消更新，则跳转到旧版本的APP的页面
-                        Toast.makeText(getApplicationContext(), "暂时不更新app", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        //3.如果手机已经启动下载程序，执行downloadApk。否则跳转到设置界面
-
-                    }
 
 
-                }).create().show();
-    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        registerMessageReceiver();
-        DownloadApk.registerBroadcast(this);
-        //2.删除已存在的Apk
-        DownloadApk.removeFile(this);
-        String user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
-        String user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
-        mPresenter.getVersion(user_id,user_token,"and");
+
 
     }
 
@@ -586,6 +577,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
             System.exit(0);
         }
     }
+
     @Override
     protected void onDestroy() {
 

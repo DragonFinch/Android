@@ -182,7 +182,7 @@ public class YoJiContentAdapter2 extends RecyclerView.Adapter<YoJiContentAdapter
                 if (mList.get(position).getIs_my_praise() == 1) {
                     count_praise += 1;
                     mList.get(position).setCount_praise(count_praise);
-                } else if (count_praise > 0) {
+                } else {
                     count_praise -= 1;
                     mList.get(position).setCount_praise(count_praise);
 

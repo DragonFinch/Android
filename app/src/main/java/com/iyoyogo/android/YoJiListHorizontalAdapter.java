@@ -291,7 +291,84 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
         });
 
     }
+    private void initDislike() {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_popwindow_not_like, null);
+        PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 300), DensityUtil.dp2px(context, 230), true);
+        TextView dislike_this_kind = view.findViewById(R.id.dislike_this_kind);
+        TextView dislike_this_item = view.findViewById(R.id.dislike_this_item);
+        ImageView pop_im_id = view.findViewById(R.id.pop_im_id);
+        pop_im_id.setImageResource(R.mipmap.stamp_shijian);
+        backgroundAlpha(0.6f);
+        dislike_this_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataManager.getFromRemote()
+                        .dislike(user_id, user_token, yo_id, 1)
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                                popupWindow.dismiss();
+                                notifyDataSetChanged();
+                            }
+                        });
+            }
+        });
+        dislike_this_kind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataManager.getFromRemote()
+                        .dislike(user_id, user_token, yo_id, 2)
+                        .subscribe(new Consumer<BaseBean>() {
+                            @Override
+                            public void accept(BaseBean baseBean) throws Exception {
+                                popupWindow.dismiss();
+                                notifyDataSetChanged();
+                            }
+                        });
 
+            }
+        });
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1.0f);
+            }
+        });
+        popupWindow.showAtLocation(activity.findViewById(R.id.activity_yo_ji_list), Gravity.CENTER, 0, 0);
+    }
+    private void initDelete(Holder holder, String yo_user_id, int yo_id) {
+        View view = LayoutInflater.from(context).inflate(R.layout.popwindow_like, null);
+        PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 125),  DensityUtil.dp2px(context, 50), true);
+        String user_id = SpUtils.getString(context, "user_id", null);
+        String user_token = SpUtils.getString(context, "user_token", null);
+        TextView tv_dislike = view.findViewById(R.id.tv_dislike);
+        View line = view.findViewById(R.id.line);
+        line.setVisibility(View.GONE);
+        TextView tv_report = view.findViewById(R.id.tv_report);
+        tv_report.setVisibility(View.GONE);
+        tv_dislike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                initDislike();
+
+            }
+        });
+        tv_report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                loadMore(yo_id);
+            }
+        });
+
+
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+        popupWindow.setOutsideTouchable(true);
+        backgroundAlpha(0.6f);
+        popupWindow.setOnDismissListener(new poponDismissListener());
+        popupWindow.showAsDropDown(holder.view_like, DensityUtil.dp2px(context,-95), 0);
+    }
     @Override
     public int getItemCount() {
         return mList.size();
@@ -347,47 +424,6 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
         }
     }
 
-    private void initDelete(Holder holder, String yo_user_id, int yo_id) {
-        View view = LayoutInflater.from(context).inflate(R.layout.popup_delete_or_report, null);
-        PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 125), ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        String user_id = SpUtils.getString(context, "user_id", null);
-        String user_token = SpUtils.getString(context, "user_token", null);
-        TextView tv_delete = view.findViewById(R.id.tv_delete);
-        TextView tv_report = view.findViewById(R.id.tv_report);
-        Log.d("YoXiuDetailAdapter", yo_user_id);
-        if (yo_user_id.equals(user_id)) {
-//            tv_delete.setVisibility(View.VISIBLE);
-            tv_report.setVisibility(View.GONE);
-        } else {
-//            tv_delete.setVisibility(View.GONE);
-            tv_report.setVisibility(View.VISIBLE);
-        }
-        tv_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DataManager.getFromRemote().deleteYo(user_id, user_token, yo_id)
-                        .subscribe(new Consumer<BaseBean>() {
-                            @Override
-                            public void accept(BaseBean baseBean) throws Exception {
-
-                            }
-                        });
-                popupWindow.dismiss();
-            }
-        });
-        tv_report.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-                loadMore(yo_id);
-            }
-        });
-        popupWindow.setBackgroundDrawable(new ColorDrawable());
-        popupWindow.setOutsideTouchable(true);
-        backgroundAlpha(0.6f);
-        popupWindow.setOnDismissListener(new poponDismissListener());
-        popupWindow.showAsDropDown(holder.view_like, DensityUtil.dp2px(context, -95), DensityUtil.dp2px(context, 5));
-    }
 
     public void initPopup() {
         view = LayoutInflater.from(context).inflate(R.layout.like_layout, null);
