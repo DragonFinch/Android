@@ -67,7 +67,6 @@ public class MessageDetailAdapter extends RecyclerView.Adapter<MessageDetailAdap
         }
         if (mList.get(position).getUser_nickname().equals("")) {
             holder.layout.setVisibility(View.GONE);
-//            holder.layout.setMargins(10, 0, 0, 0);
         } else {
             holder.user_nick_name.setText(mList.get(position).getUser_nickname());
 

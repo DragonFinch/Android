@@ -152,8 +152,8 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
 
     protected void initView() {
         super.initView();
-        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
-
+//        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+        statusbar();
     }
 
     @Override
