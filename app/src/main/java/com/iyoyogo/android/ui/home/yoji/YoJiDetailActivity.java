@@ -185,7 +185,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @BindView(R.id.send_emoji)
     ImageView sendEmoji;
     @BindView(R.id.comment_layout)
-    RelativeLayout commentLayout;
+    LinearLayout commentLayout;
     @BindView(R.id.activity_yoji_detail)
     RelativeLayout activityYojiDetail;
     private int open = 2;
@@ -450,11 +450,11 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                     RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
                     RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 //                    layoutParams1.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);
-                    editComment.setLayoutParams(layoutParams1);
+                //    editComment.setLayoutParams(layoutParams1);
                 } else {
-                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+                  //  RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
 //                    layoutParams.setMargins(0, DensityUtil.dp2px(YoXiuDetailActivity.this, 20), 0, 0);
-                    editComment.setLayoutParams(layoutParams);
+                    //editComment.setLayoutParams(layoutParams);
                     tvCollection.setVisibility(View.VISIBLE);
                     tvLike.setVisibility(View.VISIBLE);
                     editComment.setHint("再不评论 , 你会被抓去写作业的~");
@@ -1304,10 +1304,10 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 ////                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 //
 //                    layoutParams.alignWithParent=true;
-        RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+       // RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+       // RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 //                    layoutParams1.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);
-        editComment.setLayoutParams(layoutParams1);
+        ///editComment.setLayoutParams(layoutParams1);
 
 
         //失去焦点
@@ -1317,9 +1317,9 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     @Override
     public void onSoftKeyboardClosed() {
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+      //  RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
 //                    layoutParams.setMargins(0, DensityUtil.dp2px(YoXiuDetailActivity.this, 20), 0, 0);
-        editComment.setLayoutParams(layoutParams);
+      //  editComment.setLayoutParams(layoutParams);
         tvCollection.setVisibility(View.VISIBLE);
         tvLike.setVisibility(View.VISIBLE);
         editComment.setHint("再不评论 , 你会被抓去写作业的~");
