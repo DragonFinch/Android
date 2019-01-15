@@ -187,6 +187,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     private String path;
     private int count_collects;
     private RelativeLayout ll_facechoose;
+    private ImageView img_brow;
+    private ImageView send_emoji;
 
     @Override
     protected void setSetting() {
@@ -198,6 +200,9 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     protected void initView() {
         super.initView();
         StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+        img_brow = findViewById(R.id.img_brow);
+        send_emoji = findViewById(R.id.send_emoji);
+
         ll_facechoose = findViewById(R.id.ll_facechoose);
         new SoftKeyboardStateHelper(findViewById(R.id.activity_yoxiu_detail)).addSoftKeyboardStateListener(this);
         editComment.setImeOptions(EditorInfo.IME_ACTION_SEND);
@@ -284,8 +289,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                     tvLike.setVisibility(View.GONE);
                     editComment.setHint("码字不容易，留个评论鼓励下嘛~");
                     editComment.setHintTextColor(Color.parseColor("#888888"));
-                    //   sendEmoji.setVisibility(View.VISIBLE);
-                    //imgBrow.setVisibility(View.GONE);
+                    imgBrow.setVisibility(View.VISIBLE);
+                    send_emoji.setVisibility(View.GONE);
 //                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
 ////                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 //
@@ -302,8 +307,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                     tvLike.setVisibility(View.VISIBLE);
                     editComment.setHint("再不评论 , 你会被抓去写作业的~");
                     editComment.setHintTextColor(Color.parseColor("#888888"));
-                    //sendEmoji.setVisibility(View.GONE);
-                    //imgBrow.setVisibility(View.VISIBLE);
+                    imgBrow.setVisibility(View.GONE);
+                    send_emoji.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -993,7 +998,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         editComment.setHintTextColor(Color.parseColor("#888888"));
         //sendEmoji.setVisibility(View.VISIBLE);
         //imgBrow.setVisibility(View.GONE);
-
+        send_emoji.setVisibility(View.VISIBLE);
+        img_brow.setVisibility(View.GONE);
         //RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
         //RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 //                    layoutParams1.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);
@@ -1015,6 +1021,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         editComment.setHintTextColor(Color.parseColor("#888888"));
         //sendEmoji.setVisibility(View.GONE);
         //imgBrow.setVisibility(View.VISIBLE);
+        imgBrow.setVisibility(View.VISIBLE);
+        send_emoji.setVisibility(View.GONE);
     }
 
     @Override

@@ -70,6 +70,8 @@ public class FaceRelativeLayoutDetails extends RelativeLayout implements
     //表情的点击时间
     ImageView btn_face;
 
+    ImageView send_emoji;
+
     public FaceRelativeLayoutDetails(Context context) {
         super(context);
         this.context = context;
@@ -118,25 +120,50 @@ public class FaceRelativeLayoutDetails extends RelativeLayout implements
 
     @Override
     public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.img_brow) {// 隐藏表情选择框
-            if (view.getVisibility() == View.VISIBLE) {
-                view.setVisibility(View.GONE);
-                KeyBoardUtils.openKeybord(et_sendmessage,context);
-              //  btn_face.setImageResource(R.drawable.ruanjianpan);
-            } else {
-                view.setVisibility(View.VISIBLE);
+       switch (v.getId()){
+           case R.id.img_brow:
+               int i = v.getId();
+               if (i == R.id.img_brow) {// 隐藏表情选择框
+                   if (view.getVisibility() == View.VISIBLE) {
+                       view.setVisibility(View.GONE);
+                       KeyBoardUtils.openKeybord(et_sendmessage,context);
+                       //  btn_face.setImageResource(R.drawable.ruanjianpan);
+                   } else {
+                       view.setVisibility(View.VISIBLE);
 
-                KeyBoardUtils.closeKeybord(et_sendmessage,context);
-               // btn_face.setImageResource(R.drawable.btn_emoji);
-            }
+                       KeyBoardUtils.closeKeybord(et_sendmessage,context);
+                       // btn_face.setImageResource(R.drawable.btn_emoji);
+                   }
 
-        } else if (i == R.id.et_sendmessage) {// 隐藏表情选择框
-            if (view.getVisibility() == View.VISIBLE) {
-                view.setVisibility(View.GONE);
-            }
+               } else if (i == R.id.et_sendmessage) {// 隐藏表情选择框
+                   if (view.getVisibility() == View.VISIBLE) {
+                       view.setVisibility(View.GONE);
+                   }
 
-        }
+               }
+               break;
+           case R.id.send_emoji:
+               int ii = v.getId();
+               if (ii == R.id.img_brow) {// 隐藏表情选择框
+                   if (view.getVisibility() == View.VISIBLE) {
+                       view.setVisibility(View.GONE);
+                       KeyBoardUtils.openKeybord(et_sendmessage,context);
+                       //  btn_face.setImageResource(R.drawable.ruanjianpan);
+                   } else {
+                       view.setVisibility(View.VISIBLE);
+
+                       KeyBoardUtils.closeKeybord(et_sendmessage,context);
+                       // btn_face.setImageResource(R.drawable.btn_emoji);
+                   }
+
+               } else if (ii == R.id.et_sendmessage) {// 隐藏表情选择框
+                   if (view.getVisibility() == View.VISIBLE) {
+                       view.setVisibility(View.GONE);
+                   }
+
+               }
+               break;
+       }
     }
 
     /**
@@ -163,6 +190,7 @@ public class FaceRelativeLayoutDetails extends RelativeLayout implements
         layout_point = (LinearLayout) findViewById(R.id.iv_image);
         et_sendmessage.setOnClickListener(this);
         btn_face = (ImageView) findViewById(R.id.img_brow);
+        send_emoji = (ImageView) findViewById(R.id.send_emoji);
     /*    ImageView imgemo = (ImageView) findViewById(R.id.item_iv_face);
         //图片的点击时间
         imgemo.setOnClickListener(new OnClickListener() {
@@ -172,6 +200,7 @@ public class FaceRelativeLayoutDetails extends RelativeLayout implements
             }
         });*/
         btn_face.setOnClickListener(this);
+        send_emoji.setOnClickListener(this);
         view = findViewById(R.id.ll_facechoose);
     /*    SoftKeyBoardListener.setListener((Activity) context, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
             @Override
