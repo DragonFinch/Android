@@ -278,7 +278,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/dp_5"
-            android:orientation="vertical">
+            android:orientation="vertical"
+             >
 
             <RadioGroup
                 android:id="@+id/group"
@@ -297,7 +298,8 @@
                     android:checked="true"
                     android:drawableBottom="@drawable/line_selector"
                     android:gravity="center"
-                    android:text="@string/yoji" />
+                    android:text="@string/yoji"
+                    android:background="@color/white"/>
 
                 <RadioButton
                     android:id="@+id/rb_yoxiu"
@@ -308,7 +310,8 @@
                     android:checked="false"
                     android:drawableBottom="@drawable/line_selector"
                     android:gravity="center"
-                    android:text="@string/yoxiu" />
+                    android:text="@string/yoxiu"
+                    android:background="@color/white"/>
 
                 <ImageView
                     android:id="@+id/img_view"

@@ -57,7 +57,8 @@
                 android:checked="true"
                 android:drawableBottom="@drawable/line_selector"
                 android:gravity="center"
-                android:text="@string/his_guanzhu" />
+                android:text="@string/his_guanzhu"
+                android:background="@color/white"/>
 
             <RadioButton
                 android:id="@+id/rb_yoxiu"
@@ -68,7 +69,8 @@
                 android:checked="false"
                 android:drawableBottom="@drawable/line_selector"
                 android:gravity="center"
-                android:text="@string/his_fans" />
+                android:text="@string/his_fans"
+                android:background="@color/white"/>
         </RadioGroup>
 
         <View

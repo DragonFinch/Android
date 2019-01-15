@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/F1F1F1"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -68,7 +68,8 @@
                 android:checked="true"
                 android:drawableBottom="@drawable/line_selector"
                 android:gravity="center"
-                android:text="推荐" />
+                android:text="推荐"
+                android:background="@color/white"/>
 
             <RadioButton
                 android:id="@+id/rb_yoxiu"
@@ -79,7 +80,8 @@
                 android:checked="false"
                 android:drawableBottom="@drawable/line_selector"
                 android:gravity="center"
-                android:text="@string/guanzhuderen" />
+                android:text="@string/guanzhuderen"
+                android:background="@color/white"/>
         </RadioGroup>
         <View
             android:layout_width="match_parent"
