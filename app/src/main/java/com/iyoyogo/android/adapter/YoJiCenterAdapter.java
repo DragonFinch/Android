@@ -214,16 +214,16 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
             }
         }
 
-        holder.user_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                yo_user_id = mList.get(position).getUser_info().getUser_id();
-                Intent intent = new Intent(context, UserHomepageActivity.class);
-//               Intent intent = new Intent(context, Personal_homepage_Activity.class);
-                intent.putExtra("yo_user_id", String.valueOf(yo_user_id));
-                context.startActivity(intent);
-            }
-        });
+//        holder.user_icon.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                yo_user_id = mList.get(position).getUser_info().getUser_id();
+//                Intent intent = new Intent(context, UserHomepageActivity.class);
+////               Intent intent = new Intent(context, Personal_homepage_Activity.class);
+//                intent.putExtra("yo_user_id", String.valueOf(yo_user_id));
+//                context.startActivity(intent);
+//            }
+//        });
         holder.view_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
