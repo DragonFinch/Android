@@ -230,6 +230,9 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
             public void afterTextChanged(Editable editable) {
                 if (editable != null){
                     ivBack.setVisibility(View.GONE);
+                   /* if (tvSearch.getText().toString().equals("搜索")){
+                        Toast.makeText(SearchActivity.this,"eqwe",Toast.LENGTH_SHORT).show();
+                    }*/
                 }else{
 
                 }

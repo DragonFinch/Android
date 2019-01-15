@@ -616,4 +616,5 @@
     <string name="guonei">国内</string>
     <string name="guoji">国际</string>
     <string name="user">全部</string>
+    <string name="name">请输入要找的内容yo~</string>
 </resources>

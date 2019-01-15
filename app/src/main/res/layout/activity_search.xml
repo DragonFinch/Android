@@ -29,7 +29,7 @@
             android:completionThreshold="1"
 
             android:drawablePadding="@dimen/dp_5"
-            android:hint="@string/qingshuru"
+            android:hint="@string/name"
             android:padding="@dimen/dp_8"
             android:singleLine="true"
             android:textSize="@dimen/sp_12" />
