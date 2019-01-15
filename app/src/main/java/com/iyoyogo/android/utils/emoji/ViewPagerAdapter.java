@@ -1,4 +1,4 @@
-package zhanghuan.cn.emojiconlibrary;
+package com.iyoyogo.android.utils.emoji;
 
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;

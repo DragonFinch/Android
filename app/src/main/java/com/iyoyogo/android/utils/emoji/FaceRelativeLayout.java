@@ -1,4 +1,4 @@
-package zhanghuan.cn.emojiconlibrary;
+package com.iyoyogo.android.utils.emoji;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.iyoyogo.android.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +31,7 @@ import java.util.List;
  *
  * 带表情的自定义输入框
  */
-public class FaceRelativeLayoutDetails extends RelativeLayout implements
+public class FaceRelativeLayout extends RelativeLayout implements
         OnItemClickListener, OnClickListener {
 
     private Context context;
@@ -67,17 +69,17 @@ public class FaceRelativeLayoutDetails extends RelativeLayout implements
     //表情的点击时间
     ImageView btn_face;
 
-    public FaceRelativeLayoutDetails(Context context) {
+    public FaceRelativeLayout(Context context) {
         super(context);
         this.context = context;
     }
 
-    public FaceRelativeLayoutDetails(Context context, AttributeSet attrs) {
+    public FaceRelativeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
     }
 
-    public FaceRelativeLayoutDetails(Context context, AttributeSet attrs, int defStyle) {
+    public FaceRelativeLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         this.context = context;
     }

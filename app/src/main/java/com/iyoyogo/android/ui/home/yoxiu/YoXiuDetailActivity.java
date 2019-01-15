@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -53,6 +54,7 @@ import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.KeyBoardUtils;
 import com.iyoyogo.android.utils.SoftKeyboardStateHelper;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.emoji.FaceRelativeLayoutDetails;
 import com.iyoyogo.android.widget.CircleImageView;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.umeng.socialize.ShareAction;
@@ -64,6 +66,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
@@ -71,8 +74,7 @@ import io.reactivex.functions.Consumer;
  * yo秀详情
  */
 public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presenter> implements YoXiuDetailContract.View, SoftKeyboardStateHelper.SoftKeyboardStateListener {
-    private int open = 2;
-    private boolean isOpen;
+
     @BindView(R.id.back)
     ImageView back;
     @BindView(R.id.tv_message)
@@ -81,26 +83,42 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     ImageView shareImg;
     @BindView(R.id.bar)
     RelativeLayout bar;
-    @BindView(R.id.et_sendmessage)
+    @BindView(R.id.shadow)
+    View shadow;
+    @BindView(R.id.edit_comment)
     EditText editComment;
-/*    @BindView(R.id.img_brow)
-    ImageView imgBrow;*/
+    @BindView(R.id.img_brow)
+    ImageView imgBrow;
     @BindView(R.id.tv_like)
     TextView tvLike;
     @BindView(R.id.tv_collection)
     TextView tvCollection;
+    @BindView(R.id.comment)
+    RelativeLayout comment;
+    @BindView(R.id.vp_contains)
+    ViewPager vpContains;
+    @BindView(R.id.iv_image)
+    LinearLayout ivImage;
+    @BindView(R.id.ll_facechoose)
+    RelativeLayout llFacechoose;
+    @BindView(R.id.FaceRelativeLayout)
+    FaceRelativeLayoutDetails FaceRelativeLayout;
     @BindView(R.id.comment_layout)
     RelativeLayout commentLayout;
     @BindView(R.id.img_top)
     ImageView imgTop;
     @BindView(R.id.img_logo)
     ImageView imgLogo;
+    @BindView(R.id.img_video)
+    ImageView imgVideo;
     @BindView(R.id.tv_desc)
     TextView tvDesc;
     @BindView(R.id.img_go)
     ImageView imgGo;
     @BindView(R.id.img_bottom)
     ImageView imgBottom;
+    @BindView(R.id.img_layout)
+    RelativeLayout imgLayout;
     @BindView(R.id.img_user_icon)
     CircleImageView imgUserIcon;
     @BindView(R.id.user_name)
@@ -113,30 +131,31 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     TextView numLook;
     @BindView(R.id.num_look_tv)
     TextView numLookTv;
+    @BindView(R.id.tv_time)
+    TextView tvTime;
+    @BindView(R.id.img_water_mark)
+    ImageView imgWaterMark;
     @BindView(R.id.comment_view)
     View commentView;
     @BindView(R.id.tv_comment)
     TextView tvComment;
     @BindView(R.id.recycler_comment)
     RecyclerView recyclerComment;
+    @BindView(R.id.img_comment_null)
+    ImageView imgCommentNull;
+    @BindView(R.id.tv_comment_null)
+    TextView tvCommentNull;
     @BindView(R.id.tv_more_comment)
     TextView tvMoreComment;
     @BindView(R.id.srcoll)
     ScrollView srcoll;
     @BindView(R.id.activity_yoxiu_detail)
     RelativeLayout activityYoxiuDetail;
-    @BindView(R.id.img_video)
-    ImageView imgVideo;
-    @BindView(R.id.tv_time)
-    TextView tvTime;
-    @BindView(R.id.img_water_mark)
-    ImageView imgWaterMark;
-    @BindView(R.id.img_comment_null)
-    ImageView imgCommentNull;
-    @BindView(R.id.tv_comment_null)
-    TextView tvCommentNull;
-/*    @BindView(R.id.send_emoji)
-    ImageView sendEmoji;*/
+    private int open = 2;
+    private boolean isOpen;
+
+    /*    @BindView(R.id.send_emoji)
+        ImageView sendEmoji;*/
     private LocalMedia mMedia;
     private String mimeType;
     private String user_id;
@@ -258,26 +277,26 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         editComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
+                if (hasFocus) {
                     //获得焦点
                     tvCollection.setVisibility(View.GONE);
                     tvLike.setVisibility(View.GONE);
                     editComment.setHint("码字不容易，留个评论鼓励下嘛~");
                     editComment.setHintTextColor(Color.parseColor("#888888"));
-                 //   sendEmoji.setVisibility(View.VISIBLE);
+                    //   sendEmoji.setVisibility(View.VISIBLE);
                     //imgBrow.setVisibility(View.GONE);
 //                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
 ////                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 //
 //                    layoutParams.alignWithParent=true;
-                  //  RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
-                  //  RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    //  RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+                    //  RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 //                    layoutParams1.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);
-                //    editComment.setLayoutParams(layoutParams1);
-                }else {
-                  //  RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+                    //    editComment.setLayoutParams(layoutParams1);
+                } else {
+                    //  RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
 //                    layoutParams.setMargins(0, DensityUtil.dp2px(YoXiuDetailActivity.this, 20), 0, 0);
-                  //  editComment.setLayoutParams(layoutParams);
+                    //  editComment.setLayoutParams(layoutParams);
                     tvCollection.setVisibility(View.VISIBLE);
                     tvLike.setVisibility(View.VISIBLE);
                     editComment.setHint("再不评论 , 你会被抓去写作业的~");
@@ -398,7 +417,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     }
 
 
-    @OnClick({R.id.back, R.id.share_img,R.id.tv_like, R.id.tv_collection, R.id.img_logo, R.id.tv_desc, R.id.img_go, R.id.collection, R.id.num_look, R.id.num_look_tv, R.id.tv_comment, R.id.tv_more_comment})
+    @OnClick({R.id.back, R.id.share_img, R.id.tv_like, R.id.tv_collection, R.id.img_logo, R.id.tv_desc, R.id.img_go, R.id.collection, R.id.num_look, R.id.num_look_tv, R.id.tv_comment, R.id.tv_more_comment})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -976,7 +995,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         //RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
         //RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 //                    layoutParams1.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);
-       // editComment.setLayoutParams(layoutParams1);
+        // editComment.setLayoutParams(layoutParams1);
         //editComment.setLayoutParams(layoutParams1);
 
 
@@ -985,15 +1004,22 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     @Override
     public void onSoftKeyboardClosed() {
         //失去焦点
-     //   RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+        //   RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
 //                    layoutParams.setMargins(0, DensityUtil.dp2px(YoXiuDetailActivity.this, 20), 0, 0);
-      //  editComment.setLayoutParams(layoutParams);
+        //  editComment.setLayoutParams(layoutParams);
         tvCollection.setVisibility(View.VISIBLE);
         tvLike.setVisibility(View.VISIBLE);
         editComment.setHint("再不评论 , 你会被抓去写作业的~");
         editComment.setHintTextColor(Color.parseColor("#888888"));
         //sendEmoji.setVisibility(View.GONE);
         //imgBrow.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 
 

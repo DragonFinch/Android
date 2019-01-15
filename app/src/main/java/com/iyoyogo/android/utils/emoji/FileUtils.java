@@ -1,4 +1,4 @@
-package zhanghuan.cn.emojiconlibrary;
+package com.iyoyogo.android.utils.emoji;
 
 import android.content.Context;
 
