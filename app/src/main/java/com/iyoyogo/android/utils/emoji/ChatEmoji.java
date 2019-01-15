@@ -1,4 +1,4 @@
-package zhanghuan.cn.emojiconlibrary;
+package com.iyoyogo.android.utils.emoji;
 
 /**
  * Created by zhanghuan on 2016/3/9.

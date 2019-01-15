@@ -1,1 +1,1 @@
-include ':app', ':nicevideoplayer', ':emojiconlibrary'
+include ':app', ':nicevideoplayer'

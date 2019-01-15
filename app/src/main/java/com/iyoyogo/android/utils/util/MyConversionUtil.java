@@ -9,14 +9,17 @@ import android.text.TextUtils;
 import android.text.style.ImageSpan;
 import android.util.Log;
 
+import com.iyoyogo.android.R;
+import com.iyoyogo.android.utils.emoji.ChatEmoji;
+import com.iyoyogo.android.utils.emoji.FileUtils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import zhanghuan.cn.emojiconlibrary.ChatEmoji;
-import zhanghuan.cn.emojiconlibrary.FileUtils;
+
 
 /**
  * Created by zhanghuan on 2016/3/9.
@@ -207,7 +210,7 @@ public class MyConversionUtil {
         }
         if (list.size() == pageSize) {
             ChatEmoji object = new ChatEmoji();
-            object.setId(zhanghuan.cn.emojiconlibrary.R.drawable.face_del_icon);
+            object.setId(R.drawable.face_del_icon);
             list.add(object);
         }
         return list;

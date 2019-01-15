@@ -1,24 +1,28 @@
-package zhanghuan.cn.emojiconlibrary;
+package com.iyoyogo.android.utils.emoji;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import com.iyoyogo.android.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +32,7 @@ import java.util.List;
  *
  * 带表情的自定义输入框
  */
-public class FaceRelativeLayout extends RelativeLayout implements
+public class FaceRelativeLayoutDetails extends RelativeLayout implements
         OnItemClickListener, OnClickListener {
 
     private Context context;
@@ -66,17 +70,17 @@ public class FaceRelativeLayout extends RelativeLayout implements
     //表情的点击时间
     ImageView btn_face;
 
-    public FaceRelativeLayout(Context context) {
+    public FaceRelativeLayoutDetails(Context context) {
         super(context);
         this.context = context;
     }
 
-    public FaceRelativeLayout(Context context, AttributeSet attrs) {
+    public FaceRelativeLayoutDetails(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
     }
 
-    public FaceRelativeLayout(Context context, AttributeSet attrs, int defStyle) {
+    public FaceRelativeLayoutDetails(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         this.context = context;
     }
@@ -115,13 +119,15 @@ public class FaceRelativeLayout extends RelativeLayout implements
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.btn_face) {// 隐藏表情选择框
+        Toast.makeText(context, "我是你爸爸", Toast.LENGTH_SHORT).show();
+        if (i == R.id.img_brow) {// 隐藏表情选择框
             if (view.getVisibility() == View.VISIBLE) {
                 view.setVisibility(View.GONE);
                 KeyBoardUtils.openKeybord(et_sendmessage,context);
               //  btn_face.setImageResource(R.drawable.ruanjianpan);
             } else {
                 view.setVisibility(View.VISIBLE);
+
                 KeyBoardUtils.closeKeybord(et_sendmessage,context);
                // btn_face.setImageResource(R.drawable.btn_emoji);
             }
@@ -154,10 +160,10 @@ public class FaceRelativeLayout extends RelativeLayout implements
      */
     private void Init_View() {
         vp_face = (ViewPager) findViewById(R.id.vp_contains);
-        et_sendmessage = (EditText) findViewById(R.id.et_sendmessage);
+        et_sendmessage = (EditText) findViewById(R.id.edit_comment);
         layout_point = (LinearLayout) findViewById(R.id.iv_image);
         et_sendmessage.setOnClickListener(this);
-        btn_face = (ImageView) findViewById(R.id.btn_face);
+        btn_face = (ImageView) findViewById(R.id.img_brow);
     /*    ImageView imgemo = (ImageView) findViewById(R.id.item_iv_face);
         //图片的点击时间
         imgemo.setOnClickListener(new OnClickListener() {

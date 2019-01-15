@@ -1,44 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<zhanghuan.cn.emojiconlibrary.FaceRelativeLayoutDetails
+<com.iyoyogo.android.utils.emoji.FaceRelativeLayoutDetails
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/FaceRelativeLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/rl_input"
+    <RelativeLayout
+        android:background="@color/white"
+        android:id="@+id/comment"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:padding="8dp">
+        android:layout_height="wrap_content"
+        >
+        <View
 
+            android:layout_width="match_parent"
+            android:background="@mipmap/home_l_shadow"
+            android:layout_height="@dimen/dp_2"/>
         <EditText
-            android:singleLine="true"
+
+            android:layout_below="@+id/shadow"
+            android:paddingBottom="@dimen/dp_18"
+            android:paddingTop="@dimen/dp_17"
+            android:id="@+id/edit_comment"
+            android:layout_width="@dimen/dp_230"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="#00000000"
+            android:hint="再不评论 , 你会被抓去写作业的~"
             android:imeOptions="actionSend"
-            android:id="@+id/et_sendmessage"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="@drawable/message_bg"
-            android:gravity="center_vertical"
-            android:hint="你也来评论一下吧..."
-            android:padding="4dp"
-            android:textSize="14sp" />
+            android:paddingLeft="@dimen/dp_16"
+            android:singleLine="true"
+            android:textSize="@dimen/sp_15" />
 
         <ImageView
-            android:id="@+id/btn_face"
-            android:layout_width="30dp"
+            android:id="@+id/img_brow"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_toRightOf="@+id/edit_comment"
             android:src="@mipmap/input_biaoqing" />
+
         <TextView
             android:id="@+id/tv_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_20"
-            android:layout_toRightOf="@+id/btn_face"
+            android:layout_toRightOf="@+id/img_brow"
             android:drawableTop="@mipmap/xihuan_xiangqing"
             android:gravity="center_horizontal"
             android:text="1" />
@@ -56,21 +65,25 @@
             android:text="1" />
 
         <ImageView
-            android:visibility="gone"
-            android:id="@+id/btn_send"
-            android:layout_width="40dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/send_emoji"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/comment_send" />
-    </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:src="@mipmap/input_biaoqing"
+            android:visibility="gone" />
+    </RelativeLayout>
 
 
     <RelativeLayout
         android:id="@+id/ll_facechoose"
         android:layout_width="fill_parent"
         android:layout_height="180dip"
-        android:layout_below="@id/rl_input"
+        android:layout_below="@id/comment"
         android:background="#f6f5f5"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <android.support.v4.view.ViewPager
             android:id="@+id/vp_contains"
@@ -88,4 +101,4 @@
             android:orientation="horizontal"/>
     </RelativeLayout>
 
-</zhanghuan.cn.emojiconlibrary.FaceRelativeLayoutDetails>
+</com.iyoyogo.android.utils.emoji.FaceRelativeLayoutDetails>

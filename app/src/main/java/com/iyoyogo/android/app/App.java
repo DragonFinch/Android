@@ -16,6 +16,7 @@ import com.iyoyogo.android.camera.utils.CrashHandler;
 import com.iyoyogo.android.camera.utils.asset.NvAssetManager;
 import com.iyoyogo.android.utils.GdLocationUtil;
 import com.iyoyogo.android.utils.download.SystemParams;
+import com.iyoyogo.android.utils.emoji.FaceConversionUtil;
 import com.meicam.sdk.NvsStreamingContext;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.LogStrategy;
@@ -32,7 +33,7 @@ import java.util.List;
 import cn.jpush.android.api.JPushInterface;
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.unit.Subunits;
-import zhanghuan.cn.emojiconlibrary.FaceConversionUtil;
+
 
 
 import static com.iyoyogo.android.app.AppInfo.getCurProcessName;
