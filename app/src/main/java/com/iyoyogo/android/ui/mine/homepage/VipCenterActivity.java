@@ -289,7 +289,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
             imgLevel.setImageResource(R.mipmap.lv2);
             imgVipSign.setImageResource(R.mipmap.level_two);
             tvFlag.setText(list.get(2).getName());
-            myIcon.setBackgroundResource(R.mipmap.mem_gongcheng);
+            myIcon.setBackgroundResource(R.mipmap.mem_mingri);
             mTvNum.setText(level.get(3).getScore() - score + "点");
             mTvLevel.setText("· 距离Lv3还差");
         } else if (score >= level.get(3).getScore() && score < level.get(4).getScore()) {
@@ -298,7 +298,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
             imgLevel.setImageResource(R.mipmap.lv3);
             imgVipSign.setImageResource(R.mipmap.level_three);
             tvFlag.setText(list.get(3).getName());
-            myIcon.setBackgroundResource(R.mipmap.mem_mingri);
+            myIcon.setBackgroundResource(R.mipmap.mem_gongcheng);
             mTvNum.setText(level.get(4).getScore() - score + "点");
             mTvLevel.setText("· 距离Lv4还差");
         } else if (score >= level.get(4).getScore() && score < level.get(5).getScore()) {
