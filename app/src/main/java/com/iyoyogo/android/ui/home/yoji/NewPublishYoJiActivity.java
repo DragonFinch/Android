@@ -33,6 +33,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.gson.Gson;
 import com.iyoyogo.android.R;
@@ -170,7 +171,8 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
 
     @Override
     protected void initView() {
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new NewPublishYoJiAdapter(R.layout.item_publish_yo_ji);
         mAdapter.setOnItemChildClickListener(this);

@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
@@ -98,6 +99,8 @@ public class AllReplyActivity extends BaseActivity<YoXiuDetailContract.Presenter
     protected int getLayoutId() {
         return R.layout.activity_all_reply;
     }
+
+
 
     @Override
     protected void initData(Bundle savedInstanceState) {
@@ -434,7 +437,8 @@ public class AllReplyActivity extends BaseActivity<YoXiuDetailContract.Presenter
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
         editComment.setImeOptions(EditorInfo.IME_ACTION_SEND);
         editComment.addTextChangedListener(new TextWatcher() {
             @Override

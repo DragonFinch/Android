@@ -39,8 +39,7 @@ public class FeedBackActivity extends BaseActivity<FeedBackContract.Presenter> i
     @Override
     protected void initView() {
         super.initView();
-//        StatusBarUtils.setWindowStatusBarColor(FeedBackActivity.this, R.color.white);
-        statusbar();
+        StatusBarUtils.setWindowStatusBarColor(FeedBackActivity.this, R.color.white);
     }
 
     @Override

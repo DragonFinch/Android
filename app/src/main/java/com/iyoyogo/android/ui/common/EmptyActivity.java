@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
@@ -42,7 +43,8 @@ public class EmptyActivity extends BaseActivity {
 
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
     }
 
     @Override

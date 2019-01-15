@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.search.SearchBean;
@@ -83,7 +84,8 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
 
 
     }

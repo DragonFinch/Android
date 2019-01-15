@@ -68,8 +68,8 @@ public class CreateCollectionFolderActivity extends BaseActivity<EditCollectionC
     @Override
     protected void initView() {
         super.initView();
-//        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+//        statusbar();
         user_id = SpUtils.getString(CreateCollectionFolderActivity.this, "user_id", null);
         user_token = SpUtils.getString(CreateCollectionFolderActivity.this, "user_token", null);
         Intent intent = getIntent();

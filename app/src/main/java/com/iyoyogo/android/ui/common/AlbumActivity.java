@@ -3,6 +3,7 @@ package com.iyoyogo.android.ui.common;
 import android.content.Intent;
 import android.graphics.Color;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
@@ -23,7 +24,8 @@ public class AlbumActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
         PictureSelector.create(AlbumActivity.this)
                 .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()
                 .theme(R.style.AppTheme_Full)//主题样式(不设置为默认样式) 也可参考demo values/styles下 例如：R.style.picture.white.style

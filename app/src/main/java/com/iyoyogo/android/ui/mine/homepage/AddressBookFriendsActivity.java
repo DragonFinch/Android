@@ -68,7 +68,9 @@ public class AddressBookFriendsActivity extends BaseActivity<AddressBookContract
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+//        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
     }
 
     @Override
@@ -98,7 +100,6 @@ public class AddressBookFriendsActivity extends BaseActivity<AddressBookContract
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        getPhoneNumber();
     }
 
     private void getPhoneNumber() {

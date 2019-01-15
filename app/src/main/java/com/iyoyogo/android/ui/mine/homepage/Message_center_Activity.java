@@ -89,8 +89,8 @@ public class Message_center_Activity extends BaseActivity<MessageCenterContract.
     @Override
     protected void initView() {
         super.initView();
-//        StatusBarUtils.setWindowStatusBarColor(Message_center_Activity.this, R.color.white);
-        statusbar();
+        StatusBarUtils.setWindowStatusBarColor(Message_center_Activity.this, R.color.white);
+//        statusbar();
     }
 
     @Override

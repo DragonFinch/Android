@@ -1,6 +1,7 @@
 package com.iyoyogo.android.ui.mine.collection;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -21,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.CollectionFolderContentAdapter;
 import com.iyoyogo.android.adapter.DefaultCollectionAdapter;
@@ -87,7 +89,8 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
         defaultTitleTvId.setText(name);

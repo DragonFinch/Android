@@ -105,7 +105,7 @@ public class ReplacePhoneActivity extends BaseActivity<ReplacePhoneContract.Pres
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         long l = System.currentTimeMillis();
         dateTime = String.valueOf(l);
 

@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.topic.HotTopicAdapter;
 import com.iyoyogo.android.base.BaseActivity;
@@ -93,7 +94,8 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
         list = new ArrayList<>();
 
         locationEdit.addTextChangedListener(new TextWatcher() {

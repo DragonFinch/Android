@@ -2,12 +2,14 @@ package com.iyoyogo.android.ui.common;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.Bean;
 import com.iyoyogo.android.ImageBean;
 import com.iyoyogo.android.ItemBean;
@@ -36,7 +38,6 @@ public class SameParaActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        statusbar();
         ArrayList<Bean> mList = new ArrayList<>();
         super.initView();
         Bean bean = new Bean();

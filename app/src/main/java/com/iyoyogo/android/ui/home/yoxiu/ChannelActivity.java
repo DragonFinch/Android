@@ -15,6 +15,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.ChannelAdapter;
 import com.iyoyogo.android.base.BaseActivity;
@@ -87,7 +88,8 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
     }
 
     @Override

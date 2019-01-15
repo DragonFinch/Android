@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.ReplyDiscussAdapter;
 import com.iyoyogo.android.base.BaseActivity;
@@ -291,7 +292,8 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
     }
 
     @Override

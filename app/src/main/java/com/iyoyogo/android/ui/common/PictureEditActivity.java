@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
@@ -91,7 +92,8 @@ public class PictureEditActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
 
         List<ImageBean> list = ImageFinder.getImages(this, ImageFinder.TYPE_GIF);
         List<ImageBean> video = ImageFinder.getVideo(getApplicationContext());

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -54,8 +55,7 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
 
     protected void initView() {
         super.initView();
-//        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
     }
 
     @Override
@@ -142,6 +142,11 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
                 .share();
 
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
 }

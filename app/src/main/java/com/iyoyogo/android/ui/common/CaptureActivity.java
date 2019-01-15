@@ -52,6 +52,7 @@ import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.bumptech.glide.load.resource.bitmap.VideoBitmapDecoder;
 import com.bumptech.glide.request.RequestOptions;
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.app.Constants;
 import com.iyoyogo.android.base.BaseActivity;
@@ -243,7 +244,8 @@ public class CaptureActivity extends BaseActivity implements NvsStreamingContext
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     protected void initView() {
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
         mContentResolver = getContentResolver();
         animator = ValueAnimator.ofInt(0, 100);
         checkAllPermission();

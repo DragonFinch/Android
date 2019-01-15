@@ -77,6 +77,8 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
     TextView mTvLevel6;
     @BindView(R.id.tv_num)
     TextView mTvNum;
+    @BindView(R.id.tv_level)
+    TextView mTvLevel;
     //会员中心
     private View pop_view;
     private PopupWindow popMenu;
@@ -274,6 +276,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
             tvFlag.setText(list.get(0).getName());
             myIcon.setBackgroundResource(R.mipmap.mem_foxi);
             mTvNum.setText(level.get(1).getScore() - score + "点");
+            mTvLevel.setText("· 距离Lv1还差");
         } else if (score >= level.get(1).getScore() && score < level.get(2).getScore()) {
             tvVip.setText("Lv1");
             imgLevel.setVisibility(View.VISIBLE);
@@ -282,6 +285,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
             tvFlag.setText(list.get(1).getName());
             myIcon.setBackgroundResource(R.mipmap.mem_xiansan);
             mTvNum.setText(level.get(2).getScore() - score + "点");
+            mTvLevel.setText("· 距离Lv2还差");
         } else if (score >= level.get(2).getScore() && score < level.get(3).getScore()) {
             tvVip.setText("Lv2");
             imgLevel.setVisibility(View.VISIBLE);
@@ -290,6 +294,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
             tvFlag.setText(list.get(2).getName());
             myIcon.setBackgroundResource(R.mipmap.mem_gongcheng);
             mTvNum.setText(level.get(3).getScore() - score + "点");
+            mTvLevel.setText("· 距离Lv3还差");
         } else if (score >= level.get(3).getScore() && score < level.get(4).getScore()) {
             tvVip.setText("Lv3");
             imgLevel.setVisibility(View.VISIBLE);
@@ -298,6 +303,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
             tvFlag.setText(list.get(3).getName());
             myIcon.setBackgroundResource(R.mipmap.mem_mingri);
             mTvNum.setText(level.get(4).getScore() - score + "点");
+            mTvLevel.setText("· 距离Lv4还差");
         } else if (score >= level.get(4).getScore() && score < level.get(5).getScore()) {
             tvVip.setText("Lv4");
             imgLevel.setVisibility(View.VISIBLE);
@@ -306,6 +312,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
             tvFlag.setText(list.get(4).getName());
             myIcon.setBackgroundResource(R.mipmap.mem_shouxi);
             mTvNum.setText(level.get(5).getScore() - score + "点");
+            mTvLevel.setText("· 距离Lv5还差");
         } else if (score == level.get(5).getScore()) {
             tvVip.setText("Lv5");
             imgLevel.setVisibility(View.VISIBLE);
@@ -314,6 +321,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
             tvFlag.setText(list.get(5).getName());
             myIcon.setBackgroundResource(R.mipmap.mem_lvxingjia);
             mTvNum.setText(level.get(5).getScore() - score + "点");
+            mTvLevel.setText("· 距离Lv5还差");
         }
 
 //            int score0 = list.get(0).getScore();

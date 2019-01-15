@@ -2,6 +2,7 @@ package com.iyoyogo.android.ui.common;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.http.SslError;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
@@ -9,6 +10,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
@@ -26,7 +28,7 @@ public class WebActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
         mWebView = (WebView) findViewById(R.id.webview);

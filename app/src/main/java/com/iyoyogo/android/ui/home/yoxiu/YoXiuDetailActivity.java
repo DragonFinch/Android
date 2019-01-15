@@ -33,6 +33,7 @@ import android.widget.VideoView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.CollectionFolderAdapter;
 import com.iyoyogo.android.adapter.YoXiuDetailAdapter;
@@ -176,7 +177,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
         new SoftKeyboardStateHelper(findViewById(R.id.activity_yoxiu_detail)).addSoftKeyboardStateListener(this);
         editComment.setImeOptions(EditorInfo.IME_ACTION_SEND);
         editComment.addTextChangedListener(new TextWatcher() {

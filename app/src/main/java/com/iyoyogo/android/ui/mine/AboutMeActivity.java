@@ -119,15 +119,14 @@ public class AboutMeActivity extends BaseActivity<AboutMeContract.Presenter> imp
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-//        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         mPresenter.aboutMe();
     }
 
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
-        
+//        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
     }
 
     @Override

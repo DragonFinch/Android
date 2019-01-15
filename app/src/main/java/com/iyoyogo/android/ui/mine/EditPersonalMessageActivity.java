@@ -179,7 +179,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         init();
         initListener();
         nickName.setImeOptions(EditorInfo.IME_ACTION_DONE);

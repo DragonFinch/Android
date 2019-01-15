@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.login.SendMessageBean;
@@ -115,7 +116,8 @@ public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter>
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
         tvBindCode = (TextView) findViewById(R.id.tv_bind_code);
         long l = System.currentTimeMillis();
         dateTime = String.valueOf(l);

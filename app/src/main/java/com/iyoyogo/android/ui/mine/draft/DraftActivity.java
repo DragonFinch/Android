@@ -68,8 +68,8 @@ public class DraftActivity extends BaseActivity<DraftContract.Presenter> impleme
     @Override
     protected void initView() {
         super.initView();
-//        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+//        statusbar();
         tvTitle.setText("我的草稿");
         createComplete.setVisibility(View.GONE);
     }

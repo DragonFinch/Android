@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.ChannelAdapter;
 import com.iyoyogo.android.adapter.ChannelAdapter1;
@@ -79,7 +80,8 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
 
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
     }
 
     @Override

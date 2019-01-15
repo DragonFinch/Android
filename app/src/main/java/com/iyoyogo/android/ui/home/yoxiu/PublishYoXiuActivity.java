@@ -48,6 +48,7 @@ import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.bumptech.glide.Glide;
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.ChannelMessageAdapter;
 import com.iyoyogo.android.app.Constant;
@@ -267,7 +268,8 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
 
         Intent intent = getIntent();
         latitude = intent.getStringExtra("latitude");

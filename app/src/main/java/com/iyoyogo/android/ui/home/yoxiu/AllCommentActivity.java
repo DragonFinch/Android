@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.YoXiuDetailAdapter;
 import com.iyoyogo.android.base.BaseActivity;
@@ -227,7 +228,8 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
         //输入框
         etSendmessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
         etSendmessage.addTextChangedListener(new TextWatcher() {

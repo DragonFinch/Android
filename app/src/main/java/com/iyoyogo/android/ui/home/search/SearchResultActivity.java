@@ -32,6 +32,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.SearchUserAdapter;
 import com.iyoyogo.android.adapter.SearchYoXiuListAdapter;
@@ -193,7 +194,8 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
     }
 
 

@@ -87,7 +87,8 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
     }
 
     @Override

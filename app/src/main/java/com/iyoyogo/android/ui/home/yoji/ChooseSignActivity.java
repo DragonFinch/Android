@@ -18,6 +18,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.Bean;
 import com.iyoyogo.android.base.BaseActivity;
@@ -115,7 +116,8 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
 
         tvTitle.setText("选择标签");
         createComplete.setText(getResources().getString(R.string.str_confirm));

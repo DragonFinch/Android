@@ -40,6 +40,7 @@ import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.bumptech.glide.Glide;
+import com.githang.statusbar.StatusBarCompat;
 import com.google.gson.Gson;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.Bean;
@@ -188,7 +189,8 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
         Intent intent = getIntent();
         path_list = intent.getStringArrayListExtra("path_list");
         path = path_list.get(0);

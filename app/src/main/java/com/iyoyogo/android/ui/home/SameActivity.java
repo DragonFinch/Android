@@ -62,8 +62,8 @@ public class SameActivity extends BaseActivity<SamePresenter> implements SameCon
     @Override
     protected void initView() {
         super.initView();
-//        StatusBarCompat.setStatusBarColor(this, Color.BLACK);
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.BLACK);
+//        statusbar();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             mStatusBar.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UiUtils.getStatusHeight(this)));

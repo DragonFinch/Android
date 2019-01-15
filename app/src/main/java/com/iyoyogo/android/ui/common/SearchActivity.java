@@ -1,6 +1,7 @@
 package com.iyoyogo.android.ui.common;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +28,7 @@ import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.PoiSearchAdapter;
 import com.iyoyogo.android.base.BaseActivity;
@@ -117,7 +119,8 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
         list = new ArrayList<>();
         datas = new ArrayList<>();
         Intent intent = getIntent();

@@ -37,6 +37,7 @@ import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.amap.api.services.geocoder.StreetNumber;
+import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.TypeAdapter;
 import com.iyoyogo.android.base.BaseActivity;
@@ -116,7 +117,7 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
+//        StatusBarUtils.setWindowStatusBarColor(this, Color.WHITE);
 
         Intent intent = getIntent();
         String address = intent.getStringExtra("address");
@@ -156,7 +157,8 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
 
     protected void initView() {
         super.initView();
-        statusbar();
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
     }
 
     @Override
