@@ -144,6 +144,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
     private SmartRefreshLayout refreshLayout2;
     private YoJiFragment yoJiFragment;
     String user_logo_big;
+    private String count_fans;
 
     @Override
     protected int getLayoutId() {
@@ -202,9 +203,10 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
         user_token = SpUtils.getString(UserHomepageActivity.this, "user_token", null);
         Intent intent = getIntent();
         yo_user_id = intent.getStringExtra("yo_user_id");
-//        if (yo_user_id != null){
-//            mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
-//        }
+        if (yo_user_id != null) {
+            mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
+            rbYoji.setChecked(true);
+        }
 
     }
 
@@ -260,7 +262,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
             public void onClick(View v) {
                 ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 // 将文本内容放到系统剪贴板里。
-                cm.setText(Constants.BASE_URL+ "home/share/center_yoj/share_user_id/" + user_id + "/his_id/" + yo_user_id);
+                cm.setText(Constants.BASE_URL + "home/share/center_yoj/share_user_id/" + user_id + "/his_id/" + yo_user_id);
                 Toast.makeText(UserHomepageActivity.this, "链接已复制到剪贴板", Toast.LENGTH_SHORT).show();
                 popup_share.dismiss();
             }
@@ -283,7 +285,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
 
     private void shareWeb(SHARE_MEDIA share_media) {
         /*80002/yo_id/4143*/
-        String url = Constants.BASE_URL+ "home/share/center_yoj/share_user_id/" + user_id + "/his_id/" + yo_user_id;
+        String url = Constants.BASE_URL + "home/share/center_yoj/share_user_id/" + user_id + "/his_id/" + yo_user_id;
         UMWeb web = new UMWeb(url);
         web.setTitle(user_nickname);//标题
         UMImage thumb = new UMImage(getApplicationContext(), user_logo);
@@ -303,8 +305,6 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
         getWindow().setAttributes(lp); //act 是上下文context
 
 
-
-
     }
 
 
@@ -320,27 +320,27 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
     public void getPersonalCenterSuccess(UserCenterBean.DataBean data) {
         List<Fragment> fragments = new ArrayList<>();
         YoXiuFragment yoXiuFragment = new YoXiuFragment();
-         yoJiFragment = new YoJiFragment();
+        yoJiFragment = new YoJiFragment();
         Bundle bundle = new Bundle();
         bundle.putString("yo_user_id", yo_user_id);
         yoJiFragment.setArguments(bundle);
         yoXiuFragment.setArguments(bundle);
 //        fragments.add(yoJiFragment);
 //        fragments.add(yoXiuFragment);
-        switchContent(yoXiuFragment,yoJiFragment);
+        switchContent(yoXiuFragment, yoJiFragment);
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 // 具体的fragment切换逻辑可以根据应用调整，例如使用show()/hide()
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.rb_yoji:
                         imgView.setVisibility(View.VISIBLE);
-                        switchContent(yoXiuFragment,yoJiFragment);
+                        switchContent(yoXiuFragment, yoJiFragment);
 //                        switchContent(yoJiFragment,yoXiuFragment);
                         break;
                     case R.id.rb_yoxiu:
                         imgView.setVisibility(View.GONE);
-                        switchContent(yoJiFragment,yoXiuFragment);
+                        switchContent(yoJiFragment, yoXiuFragment);
 //                        switchContent(yoXiuFragment,yoJiFragment);
                         break;
                 }
@@ -387,7 +387,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
         tvCollectionCount.setText(data.getCount_collect() + "");
         tvFansCount.setText(data.getCount_fans() + "");
         tvCity.setText(data.getUser_city());
-
+        count_fans = data.getCount_fans();
       /*  titles.add(getResources().getString(R.string.yoji) + "  " + data.getCount_yoj());
         titles.add(getResources().getString(R.string.yoxiu) + "  " + data.getCount_yox());
         MineFragmentAdapter mineFragmentAdapter = new MineFragmentAdapter(getSupportFragmentManager(), fragments, titles);
@@ -494,12 +494,20 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
             tvGuanzhu.setBackgroundResource(R.drawable.bg_delete);
             tvGuanzhu.setText("已关注");
             tvGuanzhu.setTextColor(Color.parseColor("#888888"));
-            mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
-        }else {
+            String fans = tvFansCount.getText().toString();
+            int i1 = Integer.parseInt(fans);
+            i1 += 1;
+            tvFansCount.setText(i1 + "");
+//            mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
+        } else {
             tvGuanzhu.setBackgroundResource(R.drawable.bg_collection);
             tvGuanzhu.setText("+关注");
             tvGuanzhu.setTextColor(Color.parseColor("#ffffff"));
-            mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
+            String fans = tvFansCount.getText().toString();
+            int i2 = Integer.parseInt(fans);
+            i2 -= 1;
+            tvFansCount.setText(i2 + "");
+//            mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
         }
     }
 
@@ -515,7 +523,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
     }
 
 
-    @OnClick({R.id.img_back, R.id.my_collection, R.id.get_hisFans, R.id.tv_guanzhu, R.id.collect, R.id.img_view, R.id.img_share,R.id.img_user_icon})
+    @OnClick({R.id.img_back, R.id.my_collection, R.id.get_hisFans, R.id.tv_guanzhu, R.id.collect, R.id.img_view, R.id.img_share, R.id.img_user_icon})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -589,7 +597,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
                 break;
             case R.id.img_user_icon:
                 Intent intent3 = new Intent(this, BigPictureActivity.class);
-                intent3.putExtra("url",user_logo_big);
+                intent3.putExtra("url", user_logo_big);
                 startActivity(intent3);
                 break;
         }
@@ -598,16 +606,13 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
     @Override
     protected void onResume() {
         super.onResume();
-        if (yo_user_id != null){
-            mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
-            rbYoji.setChecked(true);
-        }
     }
 
     /**
      * 是否第一次
      */
     private boolean mIsFirstIn = true;
+
     private void switchContent(Fragment from, Fragment to) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if (!to.isAdded()) {
