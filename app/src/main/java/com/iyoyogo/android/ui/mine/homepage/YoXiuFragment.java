@@ -264,7 +264,7 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
                 .previewEggs(true)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
                 .minimumCompressSize(800)// 小于100kb的图片不压缩
                 .synOrAsy(false)//同步true或异步false 压缩 默认同步
-                .forResult(PictureConfig.CHOOSE_REQUEST);
+                .forResult(201);
     }
 
     @Override

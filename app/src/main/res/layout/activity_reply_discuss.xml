@@ -179,9 +179,8 @@
         <EditText
             android:id="@+id/edit_comment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:layout_marginLeft="@dimen/dp_20"
-            android:layout_marginTop="20dp"
             android:layout_marginRight="@dimen/dp_5"
             android:layout_toLeftOf="@+id/input_expression"
             android:background="@color/transparent"
