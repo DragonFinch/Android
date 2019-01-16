@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dp_90"
-    android:layout_height="@dimen/dp_110"
+    android:layout_height="120dp"
     android:orientation="vertical"
     android:gravity="center"
     android:background="@mipmap/dislike_bg">
@@ -38,7 +38,8 @@
             android:layout_height="1dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:background="@color/F1F1F1" />
+            android:background="@color/F1F1F1"
+            android:visibility="gone"/>
 
         <LinearLayout
             android:id="@+id/bianji"
@@ -46,7 +47,9 @@
             android:layout_height="35dp"
             android:gravity="center"
             android:orientation="horizontal"
-            android:background="@mipmap/dislike_bg">
+            android:background="@color/white"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
             <ImageView
                 android:layout_width="12dp"
@@ -66,8 +69,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:background="@color/F1F1F1" />
 
         <LinearLayout
@@ -76,7 +79,7 @@
             android:layout_height="35dp"
             android:gravity="center"
             android:orientation="horizontal"
-            android:background="@mipmap/dislike_bg">
+            >
 
             <ImageView
                 android:layout_width="12dp"
