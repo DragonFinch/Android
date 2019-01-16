@@ -468,7 +468,7 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
             //匹配规则
             object.setObjectRule("#");
             //话题内容
-            object.setObjectText(tagNameMatch.replace("# ", "").replace(" #", ""));
+            object.setObjectText(tagNameMatch.replace("#", "").replace("#", ""));
             mEtTitle.setObject(object);
         }
     }

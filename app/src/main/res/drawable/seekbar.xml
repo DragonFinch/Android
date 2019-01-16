@@ -1,34 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@android:id/background">
-        <selector>
-            <item android:state_enabled="false">
-                <color android:color="#909293"/>
-            </item>
-            <item android:state_enabled="true">
-                <color android:color="#fa800a"/>
-            </item>
-        </selector>
+        <shape>
+            <solid android:color="#BFBFBF" />
+        </shape>
     </item>
     <item android:id="@android:id/secondaryProgress">
-        <selector>
-            <item android:state_enabled="false">
-                <color android:color="#909293"/>
-            </item>
-            <item android:state_enabled="true">
-                <color android:color="#fa800a"/>
-            </item>
-        </selector>
+        <clip>
+            <shape>
+                <solid android:color="#BFBFBF" />
+            </shape>
+        </clip>
     </item>
     <item android:id="@android:id/progress">
-        <selector>
-            <item android:state_enabled="false">
-                <color android:color="@android:color/transparent"/>
-            </item>
-            <item android:state_enabled="true">
-                <color android:color="@android:color/transparent"/>
-            </item>
-        </selector>
+        <clip>
+            <shape>
+                <solid android:color="#fa800a" />
+            </shape>
+        </clip>
     </item>
 </layer-list>

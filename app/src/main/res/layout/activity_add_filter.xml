@@ -73,8 +73,12 @@
 
             <SeekBar
                 android:id="@+id/seekbar"
+                android:progressDrawable="@drawable/seekbar"
+                android:maxHeight="2dp"
+                android:minHeight="2dp"
+                android:thumb="@mipmap/tiaojie"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView

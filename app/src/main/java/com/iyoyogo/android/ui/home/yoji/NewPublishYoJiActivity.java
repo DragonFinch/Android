@@ -422,6 +422,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
             }
             for (int i = 0; i < mData.size(); i++) {
                 if (mData.get(i).getLocalMedia() != null && mData.get(i).getLocalMedia().size() > 0) {
+                    mData.get(i).getLogos().clear();
                     for (LocalMedia localMedia : mData.get(i).getLocalMedia()) {
                         mOssService.asyncPutImage(TextUtils.isEmpty(localMedia.getCompressPath()) ? localMedia.getPath() : localMedia.getCompressPath(), i);
                     }
@@ -758,7 +759,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
             //匹配规则
             object.setObjectRule("#");
             //话题内容
-            object.setObjectText(tagNameMatch.replace("# ", "").replace(" #", ""));
+            object.setObjectText(tagNameMatch.replace("#", "").replace("#", ""));
             mEtInfo.setObject(object);
         }
     }

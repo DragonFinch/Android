@@ -1,9 +1,11 @@
 package com.iyoyogo.android.ui.home;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -122,6 +124,10 @@ public class PreviewGoTakePhotoActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.iv_save:
+                Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                Uri uri    = Uri.fromFile(new File(path));
+                intent.setData(uri);
+                sendBroadcast(intent);
                 finish();
                 break;
             case R.id.ll_publish:

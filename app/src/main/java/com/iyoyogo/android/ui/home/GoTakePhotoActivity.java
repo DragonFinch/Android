@@ -170,8 +170,9 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
     private       String mCurRecordVideoPath;
     private final int    MIN_RECORD_DURATION = 3000000;
 
-    private Bitmap  mPictureBitmap;
-    private boolean isFull = false;
+    private Bitmap mPictureBitmap;
+
+    private int windowType = 1;// 1，默认    2,full    3,1：1
 
     @Override
     protected int getLayoutId() {
@@ -241,6 +242,8 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
     }
 
     private void initCapture() {
+        mLiveWindow.setBackgroundColor(222,222,222);
+        mLiveWindow.setFillMode(NvsLiveWindow.FILLMODE_PRESERVEASPECTFIT);
         if (null == mStreamingContext) {
             return;
         }
@@ -305,11 +308,13 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
 //        int captureResolutionGrade = ParameterSettingValues.instance().getCaptureResolutionGrade();
         if (mPermissionGranted && (deviceChanged || getCurrentEngineState() != NvsStreamingContext.STREAMING_ENGINE_STATE_CAPTUREPREVIEW)) {
             m_supportAutoFocus = false;
-            NvsRational nvsRational;
-            if (isFull) {
+            NvsRational nvsRational = null;
+            if (windowType == 1) {
+                nvsRational = new NvsRational(ScreenUtils.getScreenWidth(this), ScreenUtils.getScreenHeight(this) - UiUtils.dip2px(168));
+            } else if (windowType == 2) {
                 nvsRational = new NvsRational(ScreenUtils.getScreenWidth(this), ScreenUtils.getScreenHeight(this));
-            } else {
-                nvsRational = new NvsRational(ScreenUtils.getScreenWidth(this), ScreenUtils.getScreenHeight(this) - UiUtils.dip2px(167));
+            } else if (windowType == 3) {
+                nvsRational = new NvsRational(ScreenUtils.getScreenWidth(this), ScreenUtils.getScreenWidth(this));
             }
             if (!mStreamingContext.startCapturePreview(mCurrentDeviceIndex,
                     NvsStreamingContext.COMPILE_VIDEO_RESOLUTION_GRADE_1080,
@@ -358,7 +363,7 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
         switch (view.getId()) {
             case R.id.iv_photo_album_sub:
             case R.id.iv_photo_album:
-               startActivity(new Intent(this,GoSelectImageActivity.class));
+                startActivity(new Intent(this, GoSelectImageActivity.class));
                 break;
             case R.id.iv_take_sub:
             case R.id.iv_take:
@@ -415,27 +420,41 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
                 finish();
                 break;
             case R.id.iv_window_size:
-                isFull = !isFull;
-                mIvWindowSize.setImageResource(isFull ? R.drawable.full : R.drawable.three);
-                mViewOptiongBg.setVisibility(isFull ? View.GONE : View.VISIBLE);
-                mIvPhotoAlbum.setImageResource(isFull ? R.mipmap.zhaopianku_bai : R.mipmap.zhaopianku_hei);
-                mIvPhotoAlbumSub.setImageResource(isFull ? R.mipmap.zhaopianku_bai : R.mipmap.zhaopianku_hei);
-                mIvFilter.setImageResource(isFull ? R.mipmap.lvjing_bai : R.mipmap.lvjing);
-                mIvFilterSub.setImageResource(isFull ? R.mipmap.lvjing_bai : R.mipmap.lvjing);
-                mTvFilter.setTextColor(isFull ? Color.WHITE : Color.parseColor("#333333"));
-                mTvFilterSub.setTextColor(isFull ? Color.WHITE : Color.parseColor("#333333"));
-                mTvTypePicture.setTextColor(mRecordType == Constants.RECORD_TYPE_PICTURE ? (isFull ? Color.WHITE : Color.parseColor("#333333")) : Color.parseColor(isFull ? "#99ffffff" : "#888888"));
-                mTvTypeVideo.setTextColor(mRecordType == Constants.RECORD_TYPE_VIDEO ? (isFull ? Color.WHITE : Color.parseColor("#333333")) : Color.parseColor(isFull ? "#99ffffff" : "#888888"));
-                mTvVideoTime.setTextColor(isFull ? Color.WHITE : Color.parseColor("#888888"));
+                windowType = windowType == 1 ? 2 : windowType == 2 ? 3 : 1;
+                mIvWindowSize.setImageResource(windowType == 2 ? R.drawable.full : windowType == 1 ? R.drawable.three : R.drawable.one_one);
+                mViewOptiongBg.setVisibility(windowType == 2 ? View.GONE : View.VISIBLE);
+                mIvPhotoAlbum.setImageResource(windowType == 2 ? R.mipmap.zhaopianku_bai : R.mipmap.zhaopianku_hei);
+                mIvPhotoAlbumSub.setImageResource(windowType == 2 ? R.mipmap.zhaopianku_bai : R.mipmap.zhaopianku_hei);
+                mIvFilter.setImageResource(windowType == 2 ? R.mipmap.lvjing_bai : R.mipmap.lvjing);
+                mIvFilterSub.setImageResource(windowType == 2 ? R.mipmap.lvjing_bai : R.mipmap.lvjing);
+                mTvFilter.setTextColor(windowType == 2 ? Color.WHITE : Color.parseColor("#333333"));
+                mTvFilterSub.setTextColor(windowType == 2 ? Color.WHITE : Color.parseColor("#333333"));
+                mTvTypePicture.setTextColor(mRecordType == Constants.RECORD_TYPE_PICTURE ? (windowType == 2 ? Color.WHITE : Color.parseColor("#333333")) : Color.parseColor(windowType == 2 ? "#99ffffff" : "#888888"));
+                mTvTypeVideo.setTextColor(mRecordType == Constants.RECORD_TYPE_VIDEO ? (windowType == 2 ? Color.WHITE : Color.parseColor("#333333")) : Color.parseColor(windowType == 2 ? "#99ffffff" : "#888888"));
+                mTvVideoTime.setTextColor(windowType == 2 ? Color.WHITE : Color.parseColor("#888888"));
+
+                mIvBack.setImageResource(windowType == 3 ? R.mipmap.back_black : R.mipmap.back_icon);
+                mIvChangeCamera.setImageResource(windowType == 3 ? R.mipmap.fanzhuan_hei : R.mipmap.fanzhuan);
+                mIvGoList.setImageResource(windowType == 3 ? R.drawable.tongkuan_b : R.mipmap.tongkuan);
+
+                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mLiveWindow.getLayoutParams();
+                if (windowType == 3) {
+                    mIvLights.setImageResource(mStreamingContext.isFlashOn() ? R.mipmap.shanguang_b : R.mipmap.shanhuangoff_b);
+                    layoutParams.topMargin=UiUtils.dip2px(65);
+                } else {
+                    layoutParams.topMargin=0;
+                    mIvLights.setImageResource(mStreamingContext.isFlashOn() ? R.mipmap.shanguang : R.mipmap.shanhuang_off_w);
+                }
+                mLiveWindow.setLayoutParams(layoutParams);
                 startCapturePreview(true);
                 break;
             case R.id.iv_lights:
                 if (mStreamingContext.isFlashOn()) {
                     mStreamingContext.toggleFlash(false);
-                    mIvLights.setImageResource(R.mipmap.shanhuang_off_w);
+                    mIvLights.setImageResource(windowType == 3 ? R.mipmap.shanhuangoff_b : R.mipmap.shanhuang_off_w);
                 } else {
                     mStreamingContext.toggleFlash(true);
-                    mIvLights.setImageResource(R.mipmap.shanguang);
+                    mIvLights.setImageResource(windowType == 3 ? R.mipmap.shanguang_b : R.mipmap.shanguang);
                 }
                 break;
             case R.id.iv_change_camera:
@@ -445,18 +464,18 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
                 if (mCurrentDeviceIndex == 0) {
                     mCurrentDeviceIndex = 1;
                     mIvLights.setEnabled(false);
-                    mIvLights.setImageResource(R.mipmap.shanhuang_off_w);
+                    mIvLights.setImageResource(windowType == 3 ? R.mipmap.shanhuangoff_b : R.mipmap.shanhuang_off_w);
                 } else {
                     mCurrentDeviceIndex = 0;
                     mIvLights.setEnabled(true);
-                    mIvLights.setImageResource(R.mipmap.shanhuang_off_w);
+                    mIvLights.setImageResource(windowType == 3 ? R.mipmap.shanhuangoff_b : R.mipmap.shanhuang_off_w);
                 }
 
                 mIsSwitchingCamera = true;
                 startCapturePreview(true);
                 break;
             case R.id.iv_go_list:
-                startActivity(new Intent(this,SameActivity.class));
+                startActivity(new Intent(this, SameActivity.class));
                 break;
         }
     }
@@ -476,8 +495,8 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
             ani = new TranslateAnimation(mViewLeft.getX(), -mTvTypePicture.getX(), 0, 0);
         }
         mRecordType = mRecordType == Constants.RECORD_TYPE_PICTURE ? Constants.RECORD_TYPE_VIDEO : Constants.RECORD_TYPE_PICTURE;
-        mTvTypePicture.setTextColor(mRecordType == Constants.RECORD_TYPE_PICTURE ? (isFull ? Color.WHITE : Color.parseColor("#333333")) : Color.parseColor(isFull ? "#99ffffff" : "#888888"));
-        mTvTypeVideo.setTextColor(mRecordType == Constants.RECORD_TYPE_VIDEO ? (isFull ? Color.WHITE : Color.parseColor("#333333")) : Color.parseColor(isFull ? "#99ffffff" : "#888888"));
+        mTvTypePicture.setTextColor(mRecordType == Constants.RECORD_TYPE_PICTURE ? (windowType == 2 ? Color.WHITE : Color.parseColor("#333333")) : Color.parseColor(windowType == 2 ? "#99ffffff" : "#888888"));
+        mTvTypeVideo.setTextColor(mRecordType == Constants.RECORD_TYPE_VIDEO ? (windowType == 2 ? Color.WHITE : Color.parseColor("#333333")) : Color.parseColor(windowType == 2 ? "#99ffffff" : "#888888"));
 
         ani.setDuration(300);
         ani.setFillAfter(true);
@@ -623,7 +642,7 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
                 boolean save_ret = Util.saveBitmapToSD(mPictureBitmap, jpgPath);
                 if (save_ret) {
                     startActivity(new Intent(GoTakePhotoActivity.this, PreviewGoTakePhotoActivity.class).putExtra("path", jpgPath));
-                }else {
+                } else {
                     Toast.makeText(this, "图片出错", Toast.LENGTH_SHORT).show();
                 }
             }
