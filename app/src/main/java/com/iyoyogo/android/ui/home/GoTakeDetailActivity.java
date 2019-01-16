@@ -122,38 +122,27 @@ public class GoTakeDetailActivity extends BaseActivity<SamePresenter> implements
         mRecyclerView.setLayoutManager(layoutManager);
         String user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
         String user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
-        DataManager.getFromRemote().goCameraDetail(user_id, user_token, yo_id)
-                .subscribe(new Consumer<SameBean.DataBean.ListBean>() {
-                    @Override
-                    public void accept(SameBean.DataBean.ListBean listBean) throws Exception {
-                        mAdapter = new GoTakeDetailAdapter(listBean, R.layout.item_go_detail);
-
-                    }
-                });
+//        DataManager.getFromRemote().goCameraDetail(user_id, user_token, yo_id)
+//                .subscribe(new Consumer<SameBean.DataBean.ListBean>() {
+//                    @Override
+//                    public void accept(SameBean.DataBean.ListBean listBean) throws Exception {
+//                        mAdapter = new GoTakeDetailAdapter(listBean, R.layout.item_go_detail);
+//
+//                    }
+//                });
+        mAdapter=new GoTakeDetailAdapter(R.layout.item_go_detail);
         mAdapter.setOnItemChildClickListener(this);
         mAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    @OnClick({R.id.iv_back, R.id.iv_share, R.id.ll_read, R.id.ll_comment, R.id.ll_collect, R.id.ll_like})
+    @OnClick({R.id.iv_back, R.id.iv_share})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
                 break;
             case R.id.iv_share:
-
-                break;
-            case R.id.ll_read:
-
-                break;
-            case R.id.ll_comment:
-
-                break;
-            case R.id.ll_collect:
-
-                break;
-            case R.id.ll_like:
 
                 break;
         }
@@ -280,7 +269,6 @@ public class GoTakeDetailActivity extends BaseActivity<SamePresenter> implements
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        // TODO Auto-generated method stub
         super.onWindowFocusChanged(hasFocus);
         if (mData.getData().getList().get(position).getFile_type() == 2) {
             startVideo(mData.getData().getList().get(position).getVideo());
