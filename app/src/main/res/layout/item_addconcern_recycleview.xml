@@ -81,8 +81,10 @@
             android:layout_marginRight="@dimen/dp_20"
             android:background="@drawable/bg_collection"
             android:gravity="center"
-            android:text="+关注"
-            android:textColor="@color/FFFFFF" />
+            android:text="+ 关注"
+            android:textSize="12sp"
+            android:textColor="@color/FFFFFF"
+            />
 
     </RelativeLayout>
 

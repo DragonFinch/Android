@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,12 +94,15 @@ public class YoJiContentAdapter2 extends RecyclerView.Adapter<YoJiContentAdapter
         requestOptions1.error(R.mipmap.default_touxiang);
         Glide.with(context).load(mList.get(position).getUser_info().getUser_logo()).apply(requestOptions1).into(viewHolder.user_icon);
         viewHolder.tv_title.setText(mList.get(position).getTitle());
+
         viewHolder.index_look_icon.setOnClickListener(new View.OnClickListener() {//眼睛
             @Override
             public void onClick(View v) {
                 int id = mList.get(position).getYo_id();
+                int user_id = mList.get(position).getUser_info().getUser_id();
                 Intent intent = new Intent(context, YoJiDetailActivity.class);
                 intent.putExtra("yo_id", id);
+                intent.putExtra("yo_user_id",user_id+"");
                 context.startActivity(intent);
             }
         });
@@ -106,8 +110,10 @@ public class YoJiContentAdapter2 extends RecyclerView.Adapter<YoJiContentAdapter
             @Override
             public void onClick(View v) {
                 int id = mList.get(position).getYo_id();
+                int user_id = mList.get(position).getUser_info().getUser_id();
                 Intent intent = new Intent(context, YoJiDetailActivity.class);
                 intent.putExtra("yo_id", id);
+                intent.putExtra("yo_user_id",user_id+"");
                 context.startActivity(intent);
             }
         });
@@ -115,8 +121,10 @@ public class YoJiContentAdapter2 extends RecyclerView.Adapter<YoJiContentAdapter
             @Override
             public void onClick(View v) {
                 int id = mList.get(position).getYo_id();
+                int user_id = mList.get(position).getUser_info().getUser_id();
                 Intent intent = new Intent(context, YoJiDetailActivity.class);
                 intent.putExtra("yo_id", id);
+                intent.putExtra("yo_user_id",user_id+"");
                 context.startActivity(intent);
             }
         });

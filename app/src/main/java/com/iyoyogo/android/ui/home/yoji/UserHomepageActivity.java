@@ -434,7 +434,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
             tvGuanzhu.setTextColor(Color.parseColor("#ffffff"));
         } else {
             tvGuanzhu.setText("已关注");
-            tvGuanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
+            tvGuanzhu.setBackgroundResource(R.drawable.bg_delete);
             tvGuanzhu.setTextColor(Color.parseColor("#888888"));
         }
 //        final String pattern = "2";
@@ -491,7 +491,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
     public void addAttention1(AttentionBean attentionBean) {
         int status = attentionBean.getData().getStatus();
         if (status == 1) {
-            tvGuanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
+            tvGuanzhu.setBackgroundResource(R.drawable.bg_delete);
             tvGuanzhu.setText("已关注");
             tvGuanzhu.setTextColor(Color.parseColor("#888888"));
             mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);

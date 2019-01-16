@@ -49,7 +49,7 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         View view = LayoutInflater.from(context).inflate(R.layout.yoxiu_content_recycler, null);
-
+        view.setOnClickListener(this);
         return new ViewHolder(view);
     }
 
@@ -59,6 +59,7 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
         viewHolder.num_like.setText(mList.get(position).getCount_praise() + "");
         viewHolder.user_name.setText(mList.get(position).getUser_nickname());
         viewHolder.comment_all.setText("全部评论(" + mList.get(position).getCount_comment() + ")");
+        viewHolder.num_browse.setText(mList.get(position).getCount_view()+"");
         int file_type = mList.get(position).getFile_type();
         RequestOptions requestOptions1 = new RequestOptions().centerCrop().transform(new GlideRoundTransform(context, 8));
         requestOptions1.placeholder(R.mipmap.default_touxiang);
@@ -84,6 +85,7 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
             public void onClick(View v) {
                 Intent intent = new Intent(context, YoXiuListActivity.class);
                 intent.putExtra("position", mList.get(position).getPosition_name());
+                intent.putExtra("type","attention");
                 context.startActivity(intent);
             }
         });
@@ -148,11 +150,28 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
         viewHolder.img_yoxiu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int id = mList.get(position).getId();
+                int user_id = mList.get(position).getUser_id();
                 Intent intent = new Intent(context, YoXiuDetailActivity.class);
-                intent.putExtra("id", mList.get(position).getId());
+                intent.putExtra("id",id );
+                intent.putExtra("yo_id", user_id+"");
                 context.startActivity(intent);
             }
         });
+
+        viewHolder.num_browse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int id = mList.get(position).getId();
+                int user_id = mList.get(position).getUser_id();
+                Intent intent = new Intent(context, YoXiuDetailActivity.class);
+                intent.putExtra("id",id);
+                intent.putExtra("yo_id", user_id);
+                context.startActivity(intent);
+            }
+        });
+
+
         viewHolder.comment_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -258,11 +277,13 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
 
     @Override
     public void onClick(View v) {
-
+        if (onClickListener != null) {
+            onClickListener.onClick(v, (Integer) v.getTag());
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_yoxiu_desc, num_like, user_name, comment_all;
+        TextView tv_yoxiu_desc, num_like, user_name, comment_all,num_browse;
         ImageView img_yoxiu, img_like, img_video,user_level_img,medal,img_level;
         CircleImageView user_icon;
         RecyclerView recycler_comment;
@@ -281,6 +302,8 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
             img_video = itemView.findViewById(R.id.img_video);
             medal = itemView.findViewById(R.id.medal);
             img_level =itemView.findViewById(R.id.user_level_img);
+            num_browse =itemView.findViewById(R.id.num_browse);
+
         }
     }
 }

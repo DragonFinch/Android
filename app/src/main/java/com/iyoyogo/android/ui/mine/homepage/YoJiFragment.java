@@ -114,7 +114,7 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
         yo_user_id = bundle.getString("yo_user_id");
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
-        mPresenter.getYoJiContent(user_id, user_token, yo_user_id, "1", "20");
+//        mPresenter.getYoJiContent(user_id, user_token, yo_user_id, "1", "20");
         //下拉刷新
         refreshLayout.setEnableRefresh(true);
         refreshLayout.setRefreshFooter(new MyRefreshAnimFooter(getContext()));
@@ -123,9 +123,9 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                    mList.clear();
-                    refreshLayout.finishRefresh(1050);
-                    mPresenter.getYoJiContent(user_id, user_token, yo_user_id, "1", "20");
+                mList.clear();
+                refreshLayout.finishRefresh(1050);
+                mPresenter.getYoJiContent(user_id, user_token, yo_user_id, "1", "20");
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -154,6 +154,13 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
 
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mList.clear();
+        mPresenter.getYoJiContent(user_id, user_token, yo_user_id, "1", "20");
     }
 
     @Override
@@ -196,16 +203,6 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
                 imgView.setImageResource(R.mipmap.view22);
                 recyclerYoji.setAdapter(yoJiContentAdapter2);
                 recyclerYoji.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-                yoJiContentAdapter2.setOnItemClickListener(new YoJiContentAdapter2.OnClickListener() {
-                    @Override
-                    public void setOnClickListener(View v, int position) {
-                        int yo_id = mList.get(position).getYo_id();
-                        Intent intent = new Intent(getContext(), YoJiDetailActivity.class);
-                        intent.putExtra("yo_id", yo_id);
-                        intent.putExtra("yo_user_id", yo_user_id);
-                        startActivity(intent);
-                    }
-                });
             } else {
                 imgView.setImageResource(R.mipmap.view11);
                 recyclerYoji.setAdapter(yoJiCenterAdapter);
