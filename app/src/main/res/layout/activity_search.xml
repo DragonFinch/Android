@@ -20,6 +20,7 @@
             android:layout_height="wrap_content" />
 
         <AutoCompleteTextView
+            android:imeOptions="actionSearch"
             android:layout_marginLeft="@dimen/dp_5"
             android:id="@+id/auto_search"
             android:layout_width="@dimen/dp_0"
@@ -41,7 +42,7 @@
             android:gravity="center"
             android:paddingLeft="@dimen/dp_20"
             android:paddingRight="@dimen/dp_20"
-            android:text="@string/sousuo"
+            android:text="@string/quxiao"
             android:textColor="@color/c888888"
             android:textSize="@dimen/dp_13" />
 

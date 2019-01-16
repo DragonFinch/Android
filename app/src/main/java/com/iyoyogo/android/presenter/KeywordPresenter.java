@@ -19,9 +19,9 @@ public class KeywordPresenter extends BasePresenter<KeywordContract.View> implem
 
 
     @Override
-    public void getKeyWord(String user_id, String user_token, String search, String type) {
+    public void getKeyWord(String user_id, String user_token, String search, String type,String key_type) {
         DataManager.getFromRemote()
-                .keyword(user_id,user_token,search,type)
+                .keyword(user_id,user_token,search,type,key_type)
                 .subscribe(new ApiObserver<KeywordBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(KeywordBean keywordBean) {

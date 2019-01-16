@@ -1096,9 +1096,9 @@ public class Model {
                 .compose(this.switchThread());
     }
 
-    public Observable<KeywordBean> keyword(String user_id, String user_token, String search, String type) {
+    public Observable<KeywordBean> keyword(String user_id, String user_token, String search, String type,String key_type) {
         return HttpClient.getApiService()
-                .keyword(user_id, user_token, search, type)
+                .keyword(user_id, user_token, search, type,key_type)
                 .compose(this.switchThread());
     }
 

@@ -700,7 +700,7 @@ public interface ApiService {
     //首页  搜索
     @POST("index.php/api/search/index")
     @FormUrlEncoded
-    Observable<KeywordBean> keyword(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("search") String search, @Field("type") String type);
+    Observable<KeywordBean> keyword(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("search") String search, @Field("type") String type,@Field("key_type") String key_type);
 
 
     //首页  搜索
