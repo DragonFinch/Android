@@ -1,7 +1,9 @@
 package com.iyoyogo.android.adapter;
 
 
+import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -10,6 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.collection.AddCollectionBean1;
+import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.ui.mine.homepage.CircleImageView;
 import com.iyoyogo.android.utils.GlideRoundTransform;
 
@@ -27,13 +30,22 @@ public class AddCollectionAdapter extends BaseQuickAdapter<AddCollectionBean1.Da
     @Override
     protected void convert(BaseViewHolder helper, AddCollectionBean1.DataBean.ListBean item) {
         helper.setText(R.id.user_nickname, item.getUser_nickname());
-        helper.setText(R.id.count_yoj, item.getCount_yoj()+"");
-        helper.setText(R.id.count_yox, item.getCount_yox()+"");
+        helper.setText(R.id.count_yoj, item.getCount_yoj() + "");
+        helper.setText(R.id.count_yox, item.getCount_yox() + "");
         RequestOptions requestOptions = new RequestOptions().centerCrop()
                 .transform(new GlideRoundTransform(mContext, 8));
         requestOptions.placeholder(R.mipmap.default_touxiang);
         requestOptions.error(R.mipmap.default_touxiang);
         Glide.with(mContext).load(item.getUser_logo()).apply(requestOptions).into((CircleImageView) helper.getView(R.id.user_logo));
         helper.addOnClickListener(R.id.tv_guanzhu);
+        CircleImageView user_logo = helper.getView(R.id.user_logo);
+        user_logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, UserHomepageActivity.class);
+                intent.putExtra("yo_user_id", item.getUser_id());
+                mContext.startActivity(intent);
+            }
+        });
     }
 }
