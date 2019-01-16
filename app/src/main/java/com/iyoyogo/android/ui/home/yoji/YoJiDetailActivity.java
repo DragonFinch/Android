@@ -309,7 +309,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         new SoftKeyboardStateHelper(findViewById(R.id.activity_yoji_detail)).addSoftKeyboardStateListener(this);
         intent = getIntent();
         yo_id = intent.getIntExtra("yo_id", 0);
-        yo_user_id = intent.getStringExtra("yo_user_id");
+        yo_user_id1 = intent.getStringExtra("yo_user_id");
+        user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
         setSupportActionBar(toolbar);
         appbar.setExpanded(true);
         appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -347,12 +348,11 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                     //展开监听
                     MIUISetStatusBarLightMode(getWindow(), false);
                     imgBack.setImageResource(R.mipmap.back_icon);
-                    if (user_id.equals(yo_user_id)) {
+                    if (user_id.equals(yo_user_id1)) {
                         imgShare.setImageResource(R.mipmap.more);
                     } else {
                         imgShare.setImageResource(R.mipmap.fenxiang_bai);
                     }
-
                     imgMessage.setVisibility(View.GONE);
                     messageTrip.setVisibility(View.GONE);
                     realtive.setVisibility(View.VISIBLE);
@@ -531,6 +531,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 mPresenter.addAttention(user_id, user_token, Integer.parseInt(yo_attention_id));
                 break;
             case R.id.img_share:
+                yo_user_id1 = intent.getStringExtra("yo_user_id");
                 if (user_id.equals(yo_user_id1)) {
                     more();
                 } else {
