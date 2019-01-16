@@ -90,7 +90,6 @@ public class App extends Application {
         PlatformConfig.setQQZone("1107050658", "MPqlCLruUzjIUAAu");
         init();
 
-
         if (BuildConfig.DEBUG) {
             UMConfigure.setLogEnabled(true);
         } else {
