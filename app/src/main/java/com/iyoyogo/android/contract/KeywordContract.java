@@ -13,7 +13,7 @@ public interface KeywordContract {
         void search(KeywordUserBean keywordBean);
     }
     interface Presenter extends IBasePresenter {
-        void getKeyWord(String user_id, String user_token, String search, String type);
+        void getKeyWord(String user_id, String user_token, String search, String type,String key_type);
         void getGuanZhu(String user_id, String user_token, String target_id);
         void getSearch(String user_id, String user_token, String search);
     }

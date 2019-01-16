@@ -125,7 +125,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             searchGuanjiaci.setText(keyword);
         }
 
-        mPresenter.getKeyWord(user_id, user_token, keyword, "all");
+        mPresenter.getKeyWord(user_id, user_token, keyword, "all","");
 
         tvSetname.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,7 +236,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                     //关闭软件盘
                     hideKeyboard(searchGuanjiaci);
                     Toast.makeText(SearchResultActivity.this, "全部", Toast.LENGTH_SHORT).show();
-                    mPresenter.getKeyWord(user_id, user_token, searchGuanjiaci.getText().toString(), "all");
+                    mPresenter.getKeyWord(user_id, user_token, searchGuanjiaci.getText().toString(), "all","");
                 }
                 return false;
             }
@@ -251,22 +251,22 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 tvSetname.setText("全部");
                 popupWindow.dismiss();
                 //切换进行网络请求   调用BaseActivit
-                mPresenter.getKeyWord(user_id, user_token, keyword, "all");
+                mPresenter.getKeyWord(user_id, user_token, keyword, "all","");
                 break;
             case R.id.youji:
                 tvSetname.setText("yo记");
                 popupWindow.dismiss();
-                mPresenter.getKeyWord(user_id, user_token, keyword, "yoj");
+                mPresenter.getKeyWord(user_id, user_token, keyword, "yoj","");
                 break;
             case R.id.yoxiu:
                 tvSetname.setText("yo秀");
                 popupWindow.dismiss();
-                mPresenter.getKeyWord(user_id, user_token, keyword, "yox");
+                mPresenter.getKeyWord(user_id, user_token, keyword, "yox","");
                 break;
             case R.id.user:
                 tvSetname.setText("用户");
                 popupWindow.dismiss();
-                mPresenter.getKeyWord(user_id, user_token, keyword, "user");
+                mPresenter.getKeyWord(user_id, user_token, keyword, "user","");
                 break;
 
         }
@@ -335,19 +335,19 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                             break;
                             //标签
                         case 4:
-                            mPresenter.getKeyWord(user_id,user_token,listBeans.get(position).getLabel(),"all");
+                            mPresenter.getKeyWord(user_id,user_token,listBeans.get(position).getLabel(),"all", listBeans.get(position).getKey_type());
                             break;
                             //定位
                         case 5:
-                            mPresenter.getKeyWord(user_id,user_token,listBeans.get(position).getPosition_name(),"all");
+                            mPresenter.getKeyWord(user_id,user_token,listBeans.get(position).getPosition_name(),"all",listBeans.get(position).getKey_type());
                             break;
                             //频道
                         case 6:
-                            mPresenter.getKeyWord(user_id,user_token,listBeans.get(position).getChannel(),"all");
+                            mPresenter.getKeyWord(user_id,user_token,listBeans.get(position).getChannel(),"all",listBeans.get(position).getKey_type());
                             break;
                             //搜索全部
                         case 7:
-                            mPresenter.getKeyWord(user_id,user_token,searchGuanjiaci.getText().toString(),"all");
+                            mPresenter.getKeyWord(user_id,user_token,searchGuanjiaci.getText().toString(),"all","");
                             break;
                     }
                 }
