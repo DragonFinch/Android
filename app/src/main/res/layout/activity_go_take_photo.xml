@@ -132,7 +132,7 @@
                 android:id="@+id/tv_type_picture"
                 android:layout_width="30dp"
                 android:layout_height="21dp"
-                android:text="单张"
+                android:text="相机"
                 android:textColor="#333333"
                 android:textSize="14sp" />
 

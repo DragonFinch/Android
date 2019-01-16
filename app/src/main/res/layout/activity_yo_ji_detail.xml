@@ -27,13 +27,16 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:statusBarScrim="@color/white">
 
-            <ImageView
-                android:id="@+id/bg"
+            <cn.bingoogolapple.bgabanner.BGABanner
+                android:id="@+id/banner"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"
-                app:srcCompat="@mipmap/sea"/>
+                android:layout_height="222dp"
+                app:banner_pointContainerBackground="@color/transparent" />
+
+            <com.amap.api.maps2d.MapView
+                android:id="@+id/map_view"
+                android:layout_width="match_parent"
+                android:layout_height="222dp"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
