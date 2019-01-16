@@ -30,6 +30,7 @@ import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.widget.IStatusView;
 import com.iyoyogo.android.widget.LoadStatusViewHolder;
+import com.umeng.analytics.MobclickAgent;
 
 
 import java.util.ArrayList;
@@ -325,6 +326,16 @@ public abstract class BaseActivity<T extends IBasePresenter> extends AppCompatAc
     protected void setStartTransaction() {
         overridePendingTransition(R.anim.from_right_in, R.anim.to_left_out);
     }
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
 
     /**
      * 当userToken错误时的处理

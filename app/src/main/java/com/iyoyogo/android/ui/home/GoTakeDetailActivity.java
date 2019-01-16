@@ -1,5 +1,6 @@
 package com.iyoyogo.android.ui.home;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.bean.SameBean;
 import com.iyoyogo.android.contract.SameContract;
+import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.presenter.SamePresenter;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimFooter;
@@ -33,17 +35,18 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
 public class GoTakeDetailActivity extends BaseActivity<SamePresenter> implements SameContract.View, OnRefreshLoadMoreListener, BaseQuickAdapter.OnItemChildClickListener {
 
     @BindView(R.id.status_bar)
-    View               mStatusBar;
+    View mStatusBar;
     @BindView(R.id.iv_back)
-    ImageView          mIvBack;
+    ImageView mIvBack;
     @BindView(R.id.iv_share)
-    ImageView          mIvShare;
+    ImageView mIvShare;
     @BindView(R.id.recyclerView)
-    RecyclerView       mRecyclerView;
+    RecyclerView mRecyclerView;
     @BindView(R.id.refresh_layout)
     SmartRefreshLayout mRefreshLayout;
 
@@ -92,7 +95,8 @@ public class GoTakeDetailActivity extends BaseActivity<SamePresenter> implements
     @Override
     protected void initView() {
         super.initView();
-
+        Intent intent = getIntent();
+        int yo_id = intent.getIntExtra("yo_id", 0);
         StatusBarCompat.setStatusBarColor(this, Color.BLACK);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -101,13 +105,24 @@ public class GoTakeDetailActivity extends BaseActivity<SamePresenter> implements
 
         ViewPagerLayoutManager layoutManager = new ViewPagerLayoutManager(this, OrientationHelper.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new GoTakeDetailAdapter(R.layout.item_go_detail);
+        String user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
+        String user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
+        DataManager.getFromRemote().goCameraDetail(user_id, user_token, yo_id)
+                .subscribe(new Consumer<SameBean.DataBean.ListBean>() {
+                    @Override
+                    public void accept(SameBean.DataBean.ListBean listBean) throws Exception {
+                        mAdapter = new GoTakeDetailAdapter(listBean, R.layout.item_go_detail);
+
+                    }
+                });
         mAdapter.setOnItemChildClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.scrollToPosition(position);
+
+
     }
 
-    @OnClick({R.id.iv_back, R.id.iv_share})
+    @OnClick({R.id.iv_back, R.id.iv_share, R.id.ll_read, R.id.ll_comment, R.id.ll_collect, R.id.ll_like})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -116,15 +131,27 @@ public class GoTakeDetailActivity extends BaseActivity<SamePresenter> implements
             case R.id.iv_share:
 
                 break;
+            case R.id.ll_read:
+
+                break;
+            case R.id.ll_comment:
+
+                break;
+            case R.id.ll_collect:
+
+                break;
+            case R.id.ll_like:
+
+                break;
         }
     }
 
     /**
-     *  在这里写那几个功能，其他的都处理好了
+     * 在这里写那几个功能，其他的都处理好了
      */
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.ll_read:
 
                 break;

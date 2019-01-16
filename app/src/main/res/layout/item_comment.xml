@@ -64,7 +64,7 @@
 
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_10"
-        android:layout_marginRight="@dimen/dp_10"
+
         android:layout_toLeftOf="@+id/tv_show_hide"
         android:layout_toRightOf="@+id/img_user_icon"
         android:ellipsize="end"

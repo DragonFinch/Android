@@ -282,6 +282,13 @@ public interface ApiService {
     Observable<YouXiuListBean> getYoXiuList(@Field("user_id") String user_id,
                                             @Field("user_token") String user_token,
                                             @Field("page") int page);
+    //获取yo秀列表
+    @POST("index.php/api/yoxcommend/get_list")
+    @FormUrlEncoded
+    Observable<YouXiuListBean> getYoXiuAttentionList(@Field("user_id") String user_id,
+                                            @Field("user_token") String user_token,
+                                            @Field("page") int page);
+
 
     //获取同款
     @POST("index.php/api/yoxgo/get_list")
@@ -485,8 +492,17 @@ public interface ApiService {
     //获取yo记列表
     @POST("index.php/api/yoj/get_list")
     @FormUrlEncoded
-    Observable<YoJiListBean> getYoJiList(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("page") int page, @Field("page_size") int page_size);
+    Observable<YoJiListBean> getYoJiList(@Field("user_id") String user_id,
+                                         @Field("user_token") String user_token,
+                                         @Field("page") int page,
+                                         @Field("page_size") int page_size);
 
+    //获取yo记列表
+    @POST("index.php/api/yojcommend/get_list")
+    @FormUrlEncoded
+    Observable<YoJiListBean> getJiAttentionList(@Field("user_id") String user_id,
+                                                  @Field("user_token") String user_token,
+                                                  @Field("page") int page, @Field("page_size") int page_size);
     //获取草稿详情
     @POST("index.php/api/yoj/details")
     @FormUrlEncoded
@@ -772,5 +788,9 @@ public interface ApiService {
 
     @GET
     Observable<ResponseBody> downFile(@Url String fileUrl);
+    @POST("index.php/api/yoxgo/get_detaile")
+    @FormUrlEncoded
+    Observable<SameBean.DataBean.ListBean> goCameraDetail(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("yo_id")int yo_id);
+
 }
 

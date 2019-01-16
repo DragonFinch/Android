@@ -38,6 +38,7 @@ import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.CollectionFolderAdapter;
 import com.iyoyogo.android.adapter.YoXiuDetailAdapter;
+import com.iyoyogo.android.app.Constants;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.attention.AttentionBean;
@@ -471,7 +472,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
     private void shareWeb(SHARE_MEDIA share_media) {
         /*80002/yo_id/4143*/
-        String url = "http://192.168.0.145/home/share/details_yoj/share_user_id/" + user_id + "/yo_id/" + yo_id;
+        //http://192.168.0.104//80002/yo_id/4143
+        String url = Constants.BASE_URL+ "home/share/details_yox/share_user_id/" + user_id + "/yo_id/" + yo_id;
         UMWeb web = new UMWeb(url);
         web.setTitle(path);//标题
         UMImage thumb = new UMImage(getApplicationContext(), path);

@@ -12,8 +12,13 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.SameBean;
+import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.util.UiUtils;
+
+import io.reactivex.functions.Consumer;
 
 /**
  * @author zhuhui
@@ -21,9 +26,10 @@ import com.iyoyogo.android.utils.util.UiUtils;
  * @description
  */
 public class GoTakeDetailAdapter extends BaseQuickAdapter<SameBean.DataBean.ListBean, BaseViewHolder> {
-
-    public GoTakeDetailAdapter(int layoutResId) {
+    private SameBean.DataBean.ListBean listBean;
+    public GoTakeDetailAdapter(SameBean.DataBean.ListBean listBean, int layoutResId) {
         super(layoutResId);
+        this.listBean=listBean;
     }
 
     @Override
@@ -61,6 +67,37 @@ public class GoTakeDetailAdapter extends BaseQuickAdapter<SameBean.DataBean.List
                 dotAni.setDuration(10);
                 dotAni.setFillAfter(true);
                 dot.startAnimation(dotAni);
+            }
+        });
+        String user_id = SpUtils.getString(mContext, "user_id", null);
+        String user_token = SpUtils.getString(mContext, "user_token", null);
+        helper.getView(R.id.ll_read).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        helper.getView(R.id.ll_like).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataManager.getFromRemote().praise(user_id,user_token,item.getYo_id(),0).subscribe(new Consumer<BaseBean>() {
+                    @Override
+                    public void accept(BaseBean baseBean) throws Exception {
+
+                    }
+                });
+            }
+        });
+        helper.getView(R.id.ll_collect).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        helper.getView(R.id.ll_comment).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }

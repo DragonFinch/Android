@@ -51,12 +51,12 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
     private RecyclerView recyclerView;
     private final Activity activity;
     private int yo_id;
-
-    public YoJiAttentionAdapter(Context context, List<HomeBean.DataBean.YojListBean> mList) {
+    private String type;
+    public YoJiAttentionAdapter(Context context, List<HomeBean.DataBean.YojListBean> mList, String type) {
         this.mList = mList;
         this.context = context;
         activity = (Activity) context;
-
+        this.type=type;
     }
 
     @NonNull
@@ -70,7 +70,9 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-
+            if (type.equals("attention")){
+                holder.view_like.setVisibility(View.GONE);
+            }
         holder.location_end.setText(mList.get(position).getP_end());
         yo_id = mList.get(position).getYo_id();
         user_id = SpUtils.getString(context, "user_id", null);

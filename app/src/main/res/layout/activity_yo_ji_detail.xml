@@ -13,7 +13,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:animateLayoutChanges="true"
-
+        app:layout_scrollFlags="scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -24,13 +24,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:contentScrim="@color/white"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+
             app:statusBarScrim="@color/white">
 
             <cn.bingoogolapple.bgabanner.BGABanner
+
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
-                android:layout_height="222dp"
+                android:layout_height="@dimen/dp_222"
                 app:banner_pointContainerBackground="@color/transparent" />
 
             <com.amap.api.maps2d.MapView

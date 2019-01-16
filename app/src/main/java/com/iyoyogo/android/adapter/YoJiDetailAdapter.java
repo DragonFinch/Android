@@ -117,6 +117,7 @@ YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Holder> impleme
                 Intent intent = new Intent(context, YoJiListActivity.class);
                 intent.putExtra("sign", child.getText().toString().trim());
                 intent.putExtra("position", "");
+                intent.putExtra("type","attention");
                 context.startActivity(intent);
             }
         });
@@ -144,6 +145,7 @@ YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Holder> impleme
                 Intent intent = new Intent(context, YoJiListActivity.class);
                 intent.putExtra("sign", "");
                 intent.putExtra("position", holder.tv_position_name.getText().toString().trim());
+                intent.putExtra("type","attention");
                 context.startActivity(intent);
             }
         });

@@ -9,7 +9,7 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/bar"
         android:layout_width="match_parent"
-        android:layout_height="76dp"
+        android:layout_height="@dimen/dp_50"
         android:background="@color/orange">
 
         <ImageView
@@ -17,12 +17,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_marginTop="@dimen/dp_14"
-            android:layout_marginBottom="@dimen/dp_17"
-            android:padding="@dimen/dp_8"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
+
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_20"
             android:src="@mipmap/back_icon" />
 
         <TextView
@@ -31,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_marginTop="@dimen/dp_14"
+
             android:padding="@dimen/dp_8"
             android:text="yo·记"
             android:textColor="@color/white"

@@ -1,5 +1,6 @@
 package com.iyoyogo.android.ui.mine.message;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,25 +20,27 @@ import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.mine.message.MessageBean;
 import com.iyoyogo.android.bean.mine.message.ReadMessage;
 import com.iyoyogo.android.contract.MessageContract;
+import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.presenter.MessagePresenter;
 import com.iyoyogo.android.ui.home.EditImageOrVideoActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
-import com.iyoyogo.android.ui.home.yoxiu.SourceChooseActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
-import com.iyoyogo.android.ui.mine.draft.DraftActivity;
 import com.iyoyogo.android.utils.SoftKeyboardStateHelper;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtils;
-import com.iyoyogo.android.utils.imagepicker.activities.ImagesPickActivity;
+import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimFooter;
+import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimHeader;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
 public class MessageDetailActivity extends BaseActivity<MessageContract.Presenter> implements MessageContract.View, SoftKeyboardStateHelper.SoftKeyboardStateListener {
 
@@ -65,6 +68,8 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
     ImageView inputExpression;
     @BindView(R.id.edit_layout)
     RelativeLayout editLayout;
+    @BindView(R.id.smart)
+    SmartRefreshLayout smart;
     /**
      * 消息详情
      */
@@ -72,6 +77,8 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
     private String user_id;
     private String user_token;
     private String title;
+    private MyRefreshAnimFooter mRefreshAnimFooter;
+    private MyRefreshAnimHeader mRefreshAnimHeader;
 
     @Override
     protected void initView() {
@@ -90,13 +97,52 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
         return R.layout.activity_message_detail;
     }
 
+    @SuppressLint("CheckResult")
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
+
+        mRefreshAnimHeader = new MyRefreshAnimHeader(this);
+        mRefreshAnimFooter = new MyRefreshAnimFooter(this);
+        smart.setRefreshFooter(mRefreshAnimFooter);
+        smart.setRefreshHeader(mRefreshAnimHeader);
         user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
         user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
         if (title.equals("喜欢我的")) {
-            mPresenter.getMessage(user_id, user_token, 2, 1);
+            DataManager.getFromRemote().getMessage(user_id, user_token, 2, 1).subscribe(new Consumer<MessageBean>() {
+                @Override
+                public void accept(MessageBean messageBean) throws Exception {
+                    List<MessageBean.DataBean.ListBean> list = messageBean.getData().getList();
+                    if (list.size() == 0) {
+                        likeLayout.setVisibility(View.VISIBLE);
+                    } else {
+                        recyclerMessage.setLayoutManager(new LinearLayoutManager(MessageDetailActivity.this));
+                        MessageDetailAdapter messageDetailAdapter = new MessageDetailAdapter(MessageDetailActivity.this, list);
+                        recyclerMessage.setAdapter(messageDetailAdapter);
+                        messageDetailAdapter.setOnClickListener(new MessageDetailAdapter.OnClickListener() {
+                            @Override
+                            public void setOnClickListener(View v, int position) {
+                                if (list.get(position).getYo_id().equals("")) {
+
+                                } else {
+                                    if (list.get(position).getYo_type().equals("1")) {
+                                        Intent intent = new Intent(MessageDetailActivity.this, YoXiuDetailActivity.class);
+                                        intent.putExtra("id", Integer.parseInt(list.get(position).getYo_id()));
+                                        startActivity(intent);
+                                    } else {
+                                        Intent intent = new Intent(MessageDetailActivity.this, YoJiDetailActivity.class);
+                                        intent.putExtra("yo_id", Integer.parseInt(list.get(position).getYo_id()));
+                                        startActivity(intent);
+                                    }
+                                }
+
+                                mPresenter.readMessage(user_id, user_token, String.valueOf(list.get(position).getMessage_id()));
+                                messageDetailAdapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                }
+            });
         } else if (title.equals("系统消息")) {
             mPresenter.getMessage(user_id, user_token, 1, 1);
         } else if (title.equals("评论消息")) {
@@ -116,34 +162,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
 
     @Override
     public void getMessageSuccess(List<MessageBean.DataBean.ListBean> list) {
-        if (list.size() == 0) {
-            likeLayout.setVisibility(View.VISIBLE);
-        } else {
-            recyclerMessage.setLayoutManager(new LinearLayoutManager(MessageDetailActivity.this));
-            MessageDetailAdapter messageDetailAdapter = new MessageDetailAdapter(MessageDetailActivity.this, list);
-            recyclerMessage.setAdapter(messageDetailAdapter);
-            messageDetailAdapter.setOnClickListener(new MessageDetailAdapter.OnClickListener() {
-                @Override
-                public void setOnClickListener(View v, int position) {
-                    if (list.get(position).getYo_id().equals("")) {
 
-                    } else {
-                        if (list.get(position).getYo_type().equals("1")) {
-                            Intent intent = new Intent(MessageDetailActivity.this, YoXiuDetailActivity.class);
-                            intent.putExtra("id", Integer.parseInt(list.get(position).getYo_id()));
-                            startActivity(intent);
-                        } else {
-                            Intent intent = new Intent(MessageDetailActivity.this, YoJiDetailActivity.class);
-                            intent.putExtra("yo_id", Integer.parseInt(list.get(position).getYo_id()));
-                            startActivity(intent);
-                        }
-                    }
-
-                    mPresenter.readMessage(user_id, user_token, String.valueOf(list.get(position).getMessage_id()));
-                    messageDetailAdapter.notifyDataSetChanged();
-                }
-            });
-        }
 
     }
 
@@ -220,12 +239,19 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data!=null) {
+        if (data != null) {
             if (requestCode == PictureConfig.CHOOSE_REQUEST) {
                 startActivity(data.setClass(MessageDetailActivity.this, EditImageOrVideoActivity.class).putExtra("type", 1));
             } else if (requestCode == 201) {
                 startActivity(data.setClass(MessageDetailActivity.this, EditImageOrVideoActivity.class).putExtra("type", 2));
             }
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

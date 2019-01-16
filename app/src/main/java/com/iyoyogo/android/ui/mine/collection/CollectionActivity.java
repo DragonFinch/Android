@@ -157,16 +157,15 @@ public class CollectionActivity extends BaseActivity<CollectionContract.Presente
             if (idList.size() > 0) {
 
                 mPresenter.deleteCollectionFolder(user_id, user_token, like);
-                managerCollectionFolder.setText("管理");
 
-                editorStatus = false;
-                clearAll();
             } else {
+                idList.clear();
                 Log.d("CollectionActivity", "idList.size():" + idList.size());
                 managerCollectionFolder.setText("管理");
 
                 editorStatus = false;
                 clearAll();
+
             }
 
 

@@ -372,6 +372,18 @@ public class Model {
         return HttpClient.getApiService().getYoXiuList(user_id, user_token, page)
                 .compose(this.switchThread());
     }
+    /**
+     * 获取yo秀关注列表
+     *
+     * @param user_id
+     * @param user_token
+     * @param page
+     * @return
+     */
+    public Observable<YouXiuListBean> getYoXiuAttentionList(String user_id, String user_token, int page) {
+        return HttpClient.getApiService().getYoXiuAttentionList(user_id, user_token, page)
+                .compose(this.switchThread());
+    }
 
     /**
      * 获取同款
@@ -697,6 +709,20 @@ public class Model {
      */
     public Observable<YoJiListBean> getYoJiList(String user_id, String user_token, int page, int page_size) {
         return HttpClient.getApiService().getYoJiList(user_id, user_token, page, page_size)
+                .compose(this.switchThread());
+    }
+
+    /**
+     * 获取yo记关注列表
+     *
+     * @param user_id
+     * @param user_token
+     * @param page
+     * @param page_size
+     * @return
+     */
+    public Observable<YoJiListBean> getYoJiAttentionList(String user_id, String user_token, int page, int page_size) {
+        return HttpClient.getApiService().getJiAttentionList(user_id, user_token, page, page_size)
                 .compose(this.switchThread());
     }
 
@@ -1183,5 +1209,9 @@ public class Model {
 
     public Observable<ResponseBody> downFile(@Url String fileUrl) {
         return HttpClient.getApiService().downFile(fileUrl).compose(this.switchThread());
+    }
+    public Observable<SameBean.DataBean.ListBean> goCameraDetail(String user_id,String user_token,int yo_id){
+        return HttpClient.getApiService().goCameraDetail(user_id, user_token, yo_id)
+                .compose(this.switchThread());
     }
 }
