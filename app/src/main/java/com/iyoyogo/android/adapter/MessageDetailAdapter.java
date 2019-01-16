@@ -65,7 +65,7 @@ public class MessageDetailAdapter extends RecyclerView.Adapter<MessageDetailAdap
             holder.tv_action.setText(mList.get(position).getTitle());
 
         }
-        if (mList.get(position).getUser_nickname().equals("")) {
+        if (mList.get(position).getUser_nickname()==null) {
             holder.layout.setVisibility(View.GONE);
         } else {
             holder.user_nick_name.setText(mList.get(position).getUser_nickname());
@@ -97,7 +97,7 @@ public class MessageDetailAdapter extends RecyclerView.Adapter<MessageDetailAdap
         } else {
             holder.tv_time.setText(mList.get(position).getCreate_time());
         }
-        if (mList.get(position).getUser_logo().equals("") && mList.get(position).getUser_nickname().equals("") && mList.get(position).getTitle().equals("") && mList.get(position).isIs_reply()) {
+        if (mList.get(position).getUser_logo().equals("") && mList.get(position).getUser_nickname()==null && mList.get(position).getTitle().equals("") && mList.get(position).isIs_reply()) {
             holder.layout.setVisibility(View.GONE);
         }
         holder.user_icon.setOnClickListener(new View.OnClickListener() {

@@ -38,6 +38,7 @@ import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.CollectionFolderAdapter;
 import com.iyoyogo.android.adapter.YoXiuDetailAdapter;
+import com.iyoyogo.android.app.Constants;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.attention.AttentionBean;
@@ -49,7 +50,9 @@ import com.iyoyogo.android.contract.YoXiuDetailContract;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.presenter.YoXiuDetailPresenter;
 import com.iyoyogo.android.ui.home.GoTakePhotoActivity;
+import com.iyoyogo.android.ui.home.yoji.NewPublishYoJiActivity;
 import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
+import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.KeyBoardUtils;
 import com.iyoyogo.android.utils.SoftKeyboardStateHelper;
@@ -68,6 +71,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -189,6 +194,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     private RelativeLayout ll_facechoose;
     private ImageView img_brow;
     private ImageView send_emoji;
+    private String yo_id1;
+    private Intent intent;
 
     @Override
     protected void setSetting() {
@@ -200,6 +207,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     protected void initView() {
         super.initView();
         StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+        intent = getIntent();
+        yo_id1 = intent.getStringExtra("yo_id");
         img_brow = findViewById(R.id.img_brow);
         send_emoji = findViewById(R.id.send_emoji);
 
@@ -262,9 +271,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     protected void initData(Bundle savedInstanceState) {
 
         super.initData(savedInstanceState);
-        Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
-
     }
 
     @Override
@@ -319,6 +326,10 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                 collection();
             }
         });
+
+        if (user_id.equals(yo_id1)) {
+            shareImg.setImageResource(R.mipmap.more);
+        }
     }
 
     private void closeInputMethod() {
@@ -333,6 +344,68 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     @Override
     protected YoXiuDetailContract.Presenter createPresenter() {
         return new YoXiuDetailPresenter(this);
+    }
+
+    public void more() {
+        View view = getLayoutInflater().inflate(R.layout.popup_user_share, null);
+        PopupWindow popup_share = new PopupWindow(view, DensityUtil.dp2px(YoXiuDetailActivity.this, 90), DensityUtil.dp2px(YoXiuDetailActivity.this, 110), true);
+        popup_share.setBackgroundDrawable(new ColorDrawable());
+        popup_share.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popup_share.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        LinearLayout share = view.findViewById(R.id.share);
+        LinearLayout bianji = view.findViewById(R.id.bianji);
+        LinearLayout delete = view.findViewById(R.id.delete);
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                share();
+                popup_share.dismiss();
+            }
+        });
+        bianji.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_share.dismiss();
+                startActivity(new Intent(YoXiuDetailActivity.this, NewPublishYoXiuActivity.class).putExtra("id", id));
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataManager.getFromRemote().deleteYo(user_id, user_token, id)
+                        .subscribe(new Observer<BaseBean>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+
+                            }
+
+                            @Override
+                            public void onNext(BaseBean baseBean) {
+                                int code = baseBean.getCode();
+                                if (code == 200) {
+                                    popup_share.dismiss();
+                                    finish();
+                                    Toast.makeText(YoXiuDetailActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
+            }
+        });
+        backgroundAlpha(0.6f);
+
+        //添加pop窗口关闭事件
+        popup_share.setOnDismissListener(new poponDismissListener());
+        popup_share.showAtLocation(findViewById(R.id.share_img), Gravity.RIGHT | Gravity.TOP, 0, 130);
     }
 
     //
@@ -399,7 +472,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
     private void shareWeb(SHARE_MEDIA share_media) {
         /*80002/yo_id/4143*/
-        String url = "http://192.168.0.145/home/share/details_yoj/share_user_id/" + user_id + "/yo_id/" + yo_id;
+        //http://192.168.0.104//80002/yo_id/4143
+        String url = Constants.BASE_URL+ "home/share/details_yox/share_user_id/" + user_id + "/yo_id/" + yo_id;
         UMWeb web = new UMWeb(url);
         web.setTitle(path);//标题
         UMImage thumb = new UMImage(getApplicationContext(), path);
@@ -430,7 +504,12 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                 finish();
                 break;
             case R.id.share_img:
-                share();
+                if (user_id.equals(yo_id1)) {
+                    more();
+                } else {
+                    share();
+                }
+//                share();
                 break;
             case R.id.tv_like:
 

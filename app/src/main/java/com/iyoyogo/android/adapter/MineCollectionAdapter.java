@@ -31,6 +31,7 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
     int mEditMode = MYLIVE_MODE_CHECK;
     List<String> idList = new ArrayList<>();
     private OnItemClickListener mOnItemClickListener;
+    private int index;
 
     public MineCollectionAdapter(Context context, List<MineCollectionBean.DataBean.TreeBean> tree) {
         this.context = context;
@@ -56,6 +57,7 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        index = position;
         holder.tv_collection_folder.setText(mList.get(position).getName() + "·" + mList.get(position).getCount_record());
         List<MineCollectionBean.DataBean.TreeBean.RecordListBean> record_list = mList.get(position).getRecord_list();
         RequestOptions requestOptions = new RequestOptions();
@@ -63,17 +65,14 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
                 .placeholder(R.mipmap.default_ic)
                 .error(R.mipmap.default_ic)
                 .centerCrop();
-
+/*
         if (mEditMode == MYLIVE_MODE_CHECK) {
             holder.checkBox.setVisibility(View.GONE);
             holder.img_next.setVisibility(View.VISIBLE);
-
         } else {
             holder.checkBox.setVisibility(View.VISIBLE);
             holder.img_next.setVisibility(View.GONE);
-
-
-        }
+        }*/
 
         if (record_list.size() >= 4) {
             Glide.with(context).load(record_list.get(0).getFile_path()).apply(requestOptions).into(holder.img_one);
@@ -92,13 +91,19 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
         } else if (record_list.size() == 1) {
             Glide.with(context).load(record_list.get(0).getFile_path()).apply(requestOptions).into(holder.img_one);
 
-        } else {
         }
         holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mOnItemClickListener.onItemClickListener(holder.getAdapterPosition(), mList);
+                if (mEditMode == MYLIVE_MODE_CHECK) {
+                    holder.checkBox.setVisibility(View.GONE);
+                    holder.img_next.setVisibility(View.VISIBLE);
+                } else {
+                    holder.checkBox.setVisibility(View.VISIBLE);
+                    holder.img_next.setVisibility(View.GONE);
+                }
                 if (mList.get(position).isSelect() && !idList.contains(mList.get(position).getFolder_id())) {
                     holder.checkBox.setImageResource(R.mipmap.zp_xz);
                     idList.add(mList.get(position).getFolder_id() + "");
@@ -151,9 +156,11 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
     public void setOnItemClickListener(OnClickListener onItemClickListener) {
         this.onClickListener = onItemClickListener;
     }
+
     public List<String> getIdList() {
         return idList;
     }
+
     @Override
     public void onClick(View v) {
         if (onClickListener != null) {
@@ -164,8 +171,7 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_collection_folder;
         RelativeLayout next;
-        ImageView img_one, img_two, img_three, img_four, checkBox,img_next;
-
+        ImageView img_one, img_two, img_three, img_four, checkBox, img_next;
 
 
         public ViewHolder(@NonNull View itemView) {

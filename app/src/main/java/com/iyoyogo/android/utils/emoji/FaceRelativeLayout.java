@@ -3,12 +3,15 @@ package com.iyoyogo.android.utils.emoji;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,7 +22,10 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.iyoyogo.android.R;
 
@@ -68,6 +74,11 @@ public class FaceRelativeLayout extends RelativeLayout implements
 
     //表情的点击时间
     ImageView btn_face;
+    private FaceAdapter mAdapter;
+
+    private int popupWidth;
+    private int popupHeight;
+    private PopupWindow mPopupWindow;
 
     public FaceRelativeLayout(Context context) {
         super(context);
@@ -150,8 +161,6 @@ public class FaceRelativeLayout extends RelativeLayout implements
     }
 
     //软件盘的显示和隐藏
-
-
     /**
      * 初始化控件
      */
@@ -161,6 +170,7 @@ public class FaceRelativeLayout extends RelativeLayout implements
         layout_point = (LinearLayout) findViewById(R.id.iv_image);
         et_sendmessage.setOnClickListener(this);
         btn_face = (ImageView) findViewById(R.id.btn_face);
+
     /*    ImageView imgemo = (ImageView) findViewById(R.id.item_iv_face);
         //图片的点击时间
         imgemo.setOnClickListener(new OnClickListener() {
@@ -187,7 +197,6 @@ public class FaceRelativeLayout extends RelativeLayout implements
             }
         });*/
     }
-
     /**
      * 初始化显示表情的viewpager
      */
@@ -204,9 +213,9 @@ public class FaceRelativeLayout extends RelativeLayout implements
         faceAdapters = new ArrayList<FaceAdapter>();
         for (int i = 0; i < emojis.size(); i++) {
             GridView view = new GridView(context);
-            FaceAdapter adapter = new FaceAdapter(context, emojis.get(i));
-            view.setAdapter(adapter);
-            faceAdapters.add(adapter);
+            mAdapter = new FaceAdapter(context, emojis.get(i),view);
+            view.setAdapter(mAdapter);
+            faceAdapters.add(mAdapter);
             view.setOnItemClickListener(this);
             view.setNumColumns(7);
             view.setBackgroundColor(Color.TRANSPARENT);
@@ -220,6 +229,7 @@ public class FaceRelativeLayout extends RelativeLayout implements
                     LayoutParams.WRAP_CONTENT));
             view.setGravity(Gravity.CENTER);
             pageViews.add(view);
+
         }
 
 
@@ -230,6 +240,28 @@ public class FaceRelativeLayout extends RelativeLayout implements
         pageViews.add(nullView2);
     }
 
+    private void initView(ImageView iv_face, int position) {
+        View v = LayoutInflater.from(context).inflate(R.layout.pop,null);
+        PopupWindow popupWindow =  new PopupWindow(v);
+        popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        TextView item_iv_face = (TextView) v.findViewById(R.id.item_iv_face);
+        v.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        popupHeight = v.getMeasuredHeight();
+        popupWidth = v.getMeasuredWidth();
+
+        final int[] location = new int[2];
+        item_iv_face.setText(emojis.get(position).get(position).getCharacter());
+        Drawable drawable = context.getResources().getDrawable(emojis.get(position).get(position).getId());
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
+        // param 左上右下
+        item_iv_face.setCompoundDrawables(null,drawable,null,null);
+        iv_face.getLocationOnScreen(location);
+        popupWindow.setOutsideTouchable(true);//设置点击空白消失
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));//设置背景;点击返回按钮,关闭PopupWindow
+        popupWindow.showAtLocation(iv_face,Gravity.NO_GRAVITY, (location[0] + v.getWidth() / 2) - popupWidth / 2, location[1] - popupHeight-150 );
+
+    }
 
     /**
      * 初始化游标
@@ -260,10 +292,6 @@ public class FaceRelativeLayout extends RelativeLayout implements
         }
     }
     //触摸事件的处理
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return super.onTouchEvent(event);
-    }
 
     /**
      * 填充数据

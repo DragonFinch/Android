@@ -198,6 +198,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
         mPresenter.getRecommendTopic(userId, token);
 
         id = getIntent().getIntExtra("id", 0);
+        Log.d("NewPublishYoJiActivity", "id:" + id);
         if (id == 0) {
             List<LocalMedia>                  localMedia = PictureSelector.obtainMultipleResult(getIntent());
             PublishYoJiBean.DataBean.ListBean bean       = new PublishYoJiBean.DataBean.ListBean();

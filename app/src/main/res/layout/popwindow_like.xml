@@ -8,11 +8,12 @@
     android:background="@mipmap/dislike_bg">
 
     <TextView
+
         android:id="@+id/tv_dislike"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_18"
         android:drawableLeft="@mipmap/buxihuan"
         android:drawablePadding="@dimen/dp_5"
         android:text="不喜欢"
@@ -25,7 +26,7 @@
         android:layout_height="@dimen/dp_1"
         android:layout_below="@+id/tv_dislike"
         android:layout_marginLeft="@dimen/dp_12"
-        android:layout_marginTop="@dimen/dp_18"
+        android:layout_marginTop="@dimen/dp_10"
         android:layout_marginRight="@dimen/dp_12"
         android:background="#f1f1f1" />
 
@@ -36,7 +37,7 @@
         android:layout_below="@+id/line"
         android:layout_alignLeft="@+id/tv_dislike"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_10"
         android:drawableLeft="@mipmap/jubao"
         android:drawablePadding="@dimen/dp_5"
         android:text="举报"

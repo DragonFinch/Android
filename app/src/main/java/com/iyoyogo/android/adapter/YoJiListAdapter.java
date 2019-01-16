@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +28,6 @@ import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
 import com.iyoyogo.android.utils.SpUtils;
-import com.iyoyogo.android.utils.icondottextview.IconDotTextView;
 import com.iyoyogo.android.widget.CircleImageView;
 
 import java.util.ArrayList;
@@ -56,15 +54,16 @@ public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHo
     private ImageView img_tip;
     private PopupWindow popup;
     private View view;
-
+    private String type;
     /**
      * yo记列表的适配器
      */
 
 
-        public YoJiListAdapter(Context context, List<YoJiListBean.DataBean.ListBean> mList) {
+        public YoJiListAdapter(Context context, List<YoJiListBean.DataBean.ListBean> mList, String type) {
             this.context = context;
             this.mList = mList;
+            this.type=type;
             mHeight = new ArrayList<>();   //存放每一个item的高度
             for (int i = 0; i < mList.size(); i++) {
 //            随机生成高度   400px~900px
@@ -93,6 +92,9 @@ public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHo
 //        ViewGroup.LayoutParams params = viewHolder.itemView.getLayoutParams();   //得到布局管理参数
 //        params.height = mHeight.get(position);
 //        viewHolder.itemView.setLayoutParams(params);
+            if (type.equals("attention")){
+                viewHolder.view_like.setVisibility(View.GONE);
+            }
             RequestOptions requestOptions = new RequestOptions().centerCrop()
                     .transform(new GlideRoundTransform(context, 8));
             requestOptions.placeholder(R.mipmap.default_ic);

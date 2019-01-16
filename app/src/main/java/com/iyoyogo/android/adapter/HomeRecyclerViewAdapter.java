@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iyoyogo.android.R;
@@ -159,12 +160,13 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     //底部
     private void setFootHolder(Holder_Footer viewHolder) {
-        viewHolder.look_more.setOnClickListener(new View.OnClickListener() {
+        viewHolder.look_more_relative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, YoJiListActivity.class);
                 intent.putExtra("position", "");
                 intent.putExtra("sign", "");
+                intent.putExtra("type", mList.get(0).getType());
 
                 context.startActivity(intent);
             }
@@ -257,6 +259,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             public void onClick(View v) {
                 Intent intent = new Intent(context, YoXiuListActivity.class);
                 intent.putExtra("position", "");
+                intent.putExtra("type", mList.get(0).getType());
                 context.startActivity(intent);
             }
         });
@@ -305,6 +308,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 Intent intent = new Intent(context, YoJiListActivity.class);
                 intent.putExtra("sign", "");
                 intent.putExtra("position", "");
+                intent.putExtra("type", mList.get(0).getType());
                 context.startActivity(intent);
             }
         });
@@ -313,7 +317,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         youJiHolder.recycler_youji.setLayoutManager(new LinearLayoutManager(context));
         if (type.equals("attention")) {
             Log.e("attention", "yoj_list.size():" + yoj_list.size());
-            YoJiAttentionAdapter yoJiAttentionAdapter = new YoJiAttentionAdapter(context, yoj_list);
+            YoJiAttentionAdapter yoJiAttentionAdapter = new YoJiAttentionAdapter(context, yoj_list, type);
             youJiHolder.recycler_youji.setLayoutManager(new LinearLayoutManager(context));
             youJiHolder.recycler_youji.setAdapter(yoJiAttentionAdapter);
             yoJiAttentionAdapter.setOnItemClickListener(new YoJiAttentionAdapter.OnClickListener() {
@@ -459,10 +463,12 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     public class Holder_Footer extends RecyclerView.ViewHolder {
         TextView look_more;
+        RelativeLayout look_more_relative;
 
         public Holder_Footer(@NonNull View itemView) {
             super(itemView);
             look_more = itemView.findViewById(R.id.look_more);
+            look_more_relative = itemView.findViewById(R.id.look_more_relative);
         }
     }
 

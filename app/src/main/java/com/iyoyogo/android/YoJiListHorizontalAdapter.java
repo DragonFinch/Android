@@ -24,13 +24,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.adapter.YoJiListInnerAdapter;
 import com.iyoyogo.android.bean.BaseBean;
-import com.iyoyogo.android.bean.home.HomeBean;
 import com.iyoyogo.android.bean.yoji.list.YoJiListBean;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
-import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
 import com.iyoyogo.android.utils.SpUtils;
@@ -55,11 +53,13 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
     private ImageView img_tip;
     private PopupWindow popup;
     private View view;
+    private String type;
 
-    public YoJiListHorizontalAdapter(Context context, List<YoJiListBean.DataBean.ListBean> data) {
+    public YoJiListHorizontalAdapter(Context context, List<YoJiListBean.DataBean.ListBean> data, String type) {
         this.mList = data;
         this.context = context;
         activity = (Activity) context;
+        this.type = type;
         initPopup();
     }
 
@@ -75,6 +75,10 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         holder.typeImageView.setVisibility(View.GONE);
+        if (type.equals("attention")) {
+            holder.view_like.setVisibility(View.GONE);
+        }
+
         RequestOptions myOptions = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.mipmap.default_ic)
@@ -230,7 +234,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getYo_id(),0 )
+                        DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getYo_id(), 0)
                                 .subscribe(new Consumer<BaseBean>() {
                                     @Override
                                     public void accept(BaseBean baseBean) throws Exception {
@@ -291,6 +295,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
         });
 
     }
+
     private void initDislike() {
         View view = LayoutInflater.from(context).inflate(R.layout.item_popwindow_not_like, null);
         PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 300), DensityUtil.dp2px(context, 230), true);
@@ -336,9 +341,10 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
         });
         popupWindow.showAtLocation(activity.findViewById(R.id.activity_yo_ji_list), Gravity.CENTER, 0, 0);
     }
+
     private void initDelete(Holder holder, String yo_user_id, int yo_id) {
         View view = LayoutInflater.from(context).inflate(R.layout.popwindow_like, null);
-        PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 125),  DensityUtil.dp2px(context, 50), true);
+        PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 125), DensityUtil.dp2px(context, 50), true);
         String user_id = SpUtils.getString(context, "user_id", null);
         String user_token = SpUtils.getString(context, "user_token", null);
         TextView tv_dislike = view.findViewById(R.id.tv_dislike);
@@ -367,8 +373,9 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
         popupWindow.setOutsideTouchable(true);
         backgroundAlpha(0.6f);
         popupWindow.setOnDismissListener(new poponDismissListener());
-        popupWindow.showAsDropDown(holder.view_like, DensityUtil.dp2px(context,-95), 0);
+        popupWindow.showAsDropDown(holder.view_like, DensityUtil.dp2px(context, -95), 0);
     }
+
     @Override
     public int getItemCount() {
         return mList.size();

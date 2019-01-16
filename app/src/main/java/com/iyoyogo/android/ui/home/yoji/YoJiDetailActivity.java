@@ -2,16 +2,15 @@ package com.iyoyogo.android.ui.home.yoji;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.PointF;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -43,9 +42,7 @@ import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.LatLngBounds;
-import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
-import com.amap.api.maps2d.model.Polyline;
 import com.amap.api.maps2d.model.PolylineOptions;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -71,6 +68,7 @@ import com.iyoyogo.android.ui.home.yoxiu.MoreTopicActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SoftKeyboardStateHelper;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.emoji.FaceRelativeLayoutDetails;
 import com.iyoyogo.android.widget.CircleImageView;
 import com.iyoyogo.android.widget.FlowGroupView;
 import com.iyoyogo.android.widget.MyNestedScrollView;
@@ -85,8 +83,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.bingoogolapple.bgabanner.BGABanner;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -96,173 +97,183 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
 
     @BindView(R.id.img_back)
-    ImageView               imgBack;
+    ImageView imgBack;
     @BindView(R.id.img_head)
-    CircleImageView         imgHead;
+    CircleImageView imgHead;
     @BindView(R.id.tv_user_name)
-    TextView                tvUserName;
+    TextView tvUserName;
     @BindView(R.id.add_attention)
-    TextView                addAttention;
+    TextView addAttention;
     @BindView(R.id.img_message)
-    RelativeLayout          imgMessage;
+    RelativeLayout imgMessage;
     @BindView(R.id.img_share)
-    ImageView               imgShare;
+    ImageView imgShare;
     @BindView(R.id.toolbar)
-    Toolbar                 toolbar;
+    Toolbar toolbar;
     @BindView(R.id.coll)
     CollapsingToolbarLayout coll;
     @BindView(R.id.appbar)
-    AppBarLayout            appbar;
+    AppBarLayout appbar;
     @BindView(R.id.tv_title)
-    TextView                tvTitle;
+    TextView tvTitle;
     @BindView(R.id.tv_time_create)
-    TextView                tvTimeCreate;
+    TextView tvTimeCreate;
     @BindView(R.id.tv_create)
-    TextView                tvCreate;
+    TextView tvCreate;
     @BindView(R.id.tv_count_see)
-    TextView                tvCountSee;
+    TextView tvCountSee;
     @BindView(R.id.tv_see)
-    TextView                tvSee;
+    TextView tvSee;
     @BindView(R.id.user_icon)
-    CircleImageView         userIcon;
+    CircleImageView userIcon;
     @BindView(R.id.tv_user_nickname)
-    TextView                tvUserNickname;
+    TextView tvUserNickname;
     @BindView(R.id.tv_yoji_count)
-    TextView                tvYojiCount;
+    TextView tvYojiCount;
     @BindView(R.id.tv_yoxiu_count)
-    TextView                tvYoxiuCount;
+    TextView tvYoxiuCount;
     @BindView(R.id.tv_attention)
-    TextView                tvAttention;
+    TextView tvAttention;
     @BindView(R.id.tv_address_start)
-    TextView                tvAddressStart;
+    TextView tvAddressStart;
     @BindView(R.id.tv_address_end)
-    TextView                tvAddressEnd;
+    TextView tvAddressEnd;
     @BindView(R.id.tv_address_spot)
-    TextView                tvAddressSpot;
+    TextView tvAddressSpot;
     @BindView(R.id.tv_spot_time)
-    TextView                tvSpotTime;
+    TextView tvSpotTime;
     @BindView(R.id.tv_money_pay)
-    TextView                tvMoneyPay;
+    TextView tvMoneyPay;
     @BindView(R.id.realtive)
-    RelativeLayout          realtive;
+    RelativeLayout realtive;
     @BindView(R.id.tv_address_start_fold)
-    TextView                tvAddressStartFold;
+    TextView tvAddressStartFold;
     @BindView(R.id.tv_address_end_fold)
-    TextView                tvAddressEndFold;
+    TextView tvAddressEndFold;
     @BindView(R.id.tv_address_spot_fold)
-    TextView                tvAddressSpotFold;
+    TextView tvAddressSpotFold;
     @BindView(R.id.tv_spot_time_fold)
-    TextView                tvSpotTimeFold;
+    TextView tvSpotTimeFold;
     @BindView(R.id.tv_money_pay_fold)
-    TextView                tvMoneyPayFold;
+    TextView tvMoneyPayFold;
     @BindView(R.id.message_trip)
-    RelativeLayout          messageTrip;
+    RelativeLayout messageTrip;
     @BindView(R.id.user_layouts)
-    RelativeLayout          userLayouts;
+    RelativeLayout userLayouts;
     @BindView(R.id.line)
-    View                    line;
+    View line;
     @BindView(R.id.tv_desc)
-    TextView                tvDesc;
+    TextView tvDesc;
     @BindView(R.id.describe_relative)
-    RelativeLayout          describeRelative;
+    RelativeLayout describeRelative;
     @BindView(R.id.recycler_yoji)
-    RecyclerView            recyclerYoji;
+    RecyclerView recyclerYoji;
     @BindView(R.id.tv_load_more)
-    TextView                tvLoadMore;
+    TextView tvLoadMore;
     @BindView(R.id.comment_view)
-    ImageView               commentView;
+    ImageView commentView;
     @BindView(R.id.tv_comment)
-    TextView                tvComment;
+    TextView tvComment;
     @BindView(R.id.recycler_comment)
-    RecyclerView            recyclerComment;
+    RecyclerView recyclerComment;
     @BindView(R.id.tv_more_comment)
-    TextView                tvMoreComment;
+    TextView tvMoreComment;
     @BindView(R.id.nested)
-    MyNestedScrollView      nested;
+    MyNestedScrollView nested;
     @BindView(R.id.shadow)
-    View                    shadow;
+    View shadow;
     @BindView(R.id.edit_comment)
-    EditText                editComment;
+    EditText editComment;
     @BindView(R.id.img_brow)
-    ImageView               imgBrow;
+    ImageView imgBrow;
 
     @BindView(R.id.banner)
-    BGABanner      mBanner;
+    BGABanner mBanner;
     @BindView(R.id.map_view)
-    MapView        mapView;
+    MapView mapView;
     @BindView(R.id.tv_like)
-    TextView       tvLike;
+    TextView tvLike;
     @BindView(R.id.tv_collection)
-    TextView       tvCollection;
+    TextView tvCollection;
     @BindView(R.id.send_emoji)
-    ImageView      sendEmoji;
-    @BindView(R.id.comment_layout)
-    LinearLayout commentLayout;
+    ImageView sendEmoji;
     @BindView(R.id.activity_yoji_detail)
     RelativeLayout activityYojiDetail;
-    private       int     open        = 2;
-    private       boolean isOpen;
-    private       boolean isManager;
-    public static int     expendedtag = 2;
+    @BindView(R.id.comment)
+    RelativeLayout comment;
+    @BindView(R.id.vp_contains)
+    ViewPager vpContains;
+    @BindView(R.id.iv_image)
+    LinearLayout ivImage;
+    @BindView(R.id.ll_facechoose)
+    RelativeLayout llFacechoose;
+    @BindView(R.id.FaceRelativeLayout)
+    FaceRelativeLayoutDetails FaceRelativeLayout;
+    @BindView(R.id.comment_layout)
+    LinearLayout commentLayout;
+    private int open = 2;
+    private boolean isOpen;
+    private boolean isManager;
+    public static int expendedtag = 2;
     List<String> mList = new ArrayList<>();
 
 
     List<String> indexList = new ArrayList<>();
-    private String                                       user_token;
-    private String                                       user_id;
-    private int                                          is_my_attention;
-    private int                                          is_my_praise;
-    private int                                          yo_id;
-    private YoJiDetailCommentAdapter                     yoJiDetailCommentAdapter;
-    private RecyclerView                                 recycler_collection;
-    private String                                       yo_user_id;
-    private int                                          add_collection_id;
-    private int                                          count_collect;
-    private PopupWindow                                  popup;
-    private int                                          is_my_collect;
-    private List<YoJiDetailBean.DataBean>                dataBeans;
-    private ImageView                                    img_tip;
-    private TextView                                     tv_message_three;
-    private TextView                                     tv_message_two;
-    private TextView                                     tv_message;
+    private String user_token;
+    private String user_id;
+    private int is_my_attention;
+    private int is_my_praise;
+    private int yo_id;
+    private YoJiDetailCommentAdapter yoJiDetailCommentAdapter;
+    private RecyclerView recycler_collection;
+    private String yo_user_id;
+    private int add_collection_id;
+    private int count_collect;
+    private PopupWindow popup;
+    private int is_my_collect;
+    private List<YoJiDetailBean.DataBean> dataBeans;
+    private ImageView img_tip;
+    private TextView tv_message_three;
+    private TextView tv_message_two;
+    private TextView tv_message;
     private List<CollectionFolderBean.DataBean.ListBean> mList1;
-    private int                                          add_attention_id;
-    private String                                       yo_attention_id;
-    private String                                       yo_ids;
-    private String                                       logo;
-    private String                                       desc;
-    private String                                       title;
-    private TranslateAnimation                           mShowAction;
-    private TranslateAnimation                           mHiddenAction;
-    private RelativeLayout                               picture_count_one;
-    private RelativeLayout                               picture_count_two;
-    private RelativeLayout                               picture_count_three;
-    private RelativeLayout                               picture_count_four;
-    private RelativeLayout                               picture_count_five;
-    private FlowGroupView                                flowGroupView;
-    private ImageView                                    img_count_one_one;
-    private ImageView                                    img_count_three_three;
-    private TextView                                     tv_pic_count;
-    private ImageView                                    img_count_five_five;
-    private ImageView                                    img_count_five_four;
-    private ImageView                                    img_count_four_four;
-    private ImageView                                    img_count_five_three;
-    private ImageView                                    img_count_four_three;
-    private ImageView                                    img_count_five_two;
-    private ImageView                                    img_count_four_two;
-    private ImageView                                    img_count_three_two;
-    private ImageView                                    img_count_two_two;
-    private ImageView                                    img_count_five_one;
-    private ImageView                                    img_count_four_one;
-    private ImageView                                    img_count_three_one;
-    private ImageView                                    img_count_two_one;
-    private ArrayList<String>                            logos;
-    private ArrayList<String>                            logos_big;
-    private YoJiDetailAdapter                            yoJiDetailAdapter;
+    private int add_attention_id;
+    private String yo_attention_id;
+    private String yo_ids;
+    private String logo;
+    private String desc;
+    private String title;
+    private TranslateAnimation mShowAction;
+    private TranslateAnimation mHiddenAction;
+    private RelativeLayout picture_count_one;
+    private RelativeLayout picture_count_two;
+    private RelativeLayout picture_count_three;
+    private RelativeLayout picture_count_four;
+    private RelativeLayout picture_count_five;
+    private FlowGroupView flowGroupView;
+    private ImageView img_count_one_one;
+    private ImageView img_count_three_three;
+    private TextView tv_pic_count;
+    private ImageView img_count_five_five;
+    private ImageView img_count_five_four;
+    private ImageView img_count_four_four;
+    private ImageView img_count_five_three;
+    private ImageView img_count_four_three;
+    private ImageView img_count_five_two;
+    private ImageView img_count_four_two;
+    private ImageView img_count_three_two;
+    private ImageView img_count_two_two;
+    private ImageView img_count_five_one;
+    private ImageView img_count_four_one;
+    private ImageView img_count_three_one;
+    private ImageView img_count_two_one;
+    private ArrayList<String> logos;
+    private ArrayList<String> logos_big;
+    private YoJiDetailAdapter yoJiDetailAdapter;
     Intent intent;
     String get_yo_id;
     private List<YoJiDetailBean.DataBean.ListBean> list;
-
+    private String yo_user_id1;
     private AMap aMap;
 
 
@@ -294,10 +305,12 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     protected void initView() {
         super.initView();
-//        statusbar();
+        statusbar();
         new SoftKeyboardStateHelper(findViewById(R.id.activity_yoji_detail)).addSoftKeyboardStateListener(this);
         intent = getIntent();
         yo_id = intent.getIntExtra("yo_id", 0);
+        yo_user_id1 = intent.getStringExtra("yo_user_id");
+        user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
         setSupportActionBar(toolbar);
         appbar.setExpanded(true);
         appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -315,8 +328,12 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                         window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                     }
                     MIUISetStatusBarLightMode(getWindow(), true);
+                    if (user_id.equals(yo_user_id1)) {
+                        imgShare.setImageResource(R.mipmap.more);
+                    } else {
+                        imgShare.setImageResource(R.mipmap.fenxiang_hei);
+                    }
                     imgBack.setImageResource(R.mipmap.fanhui_black);
-                    imgShare.setImageResource(R.mipmap.fenxiang_hei);
                     imgMessage.setVisibility(View.VISIBLE);
 //                    imgMessage.startAnimation(mShowAction);
 //                    messageTrip.startAnimation(mShowAction);
@@ -331,7 +348,11 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                     //展开监听
                     MIUISetStatusBarLightMode(getWindow(), false);
                     imgBack.setImageResource(R.mipmap.back_icon);
-                    imgShare.setImageResource(R.mipmap.fenxiang_bai);
+                    if (user_id.equals(yo_user_id1)) {
+                        imgShare.setImageResource(R.mipmap.more);
+                    } else {
+                        imgShare.setImageResource(R.mipmap.fenxiang_bai);
+                    }
                     imgMessage.setVisibility(View.GONE);
                     messageTrip.setVisibility(View.GONE);
                     realtive.setVisibility(View.VISIBLE);
@@ -351,8 +372,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     }
 
     private void closeInputMethod() {
-        InputMethodManager imm    = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        boolean            isOpen = imm.isActive();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        boolean isOpen = imm.isActive();
         if (isOpen) {
             // imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//没有显示则显示
             imm.hideSoftInputFromWindow(editComment.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
@@ -383,9 +404,9 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         if (window != null) {
             Class clazz = window.getClass();
             try {
-                int   darkModeFlag = 0;
+                int darkModeFlag = 0;
                 Class layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
-                Field field        = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
+                Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
                 darkModeFlag = field.getInt(layoutParams);
                 Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
                 if (dark) {
@@ -405,7 +426,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
         mapView.onCreate(savedInstanceState);
-        aMap=mapView.getMap();
+        aMap = mapView.getMap();
         mBanner.setAdapter(new BgaBannerAdapter(this));
         mBanner.setAutoPlayAble(false);
     }
@@ -481,13 +502,13 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 //
 //                    layoutParams.alignWithParent=true;
                     RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
-                    RelativeLayout.LayoutParams layoutParams  = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 //                    layoutParams1.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);
-                //    editComment.setLayoutParams(layoutParams1);
+                    editComment.setLayoutParams(layoutParams1);
                 } else {
-                  //  RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
 //                    layoutParams.setMargins(0, DensityUtil.dp2px(YoXiuDetailActivity.this, 20), 0, 0);
-                    //editComment.setLayoutParams(layoutParams);
+                    editComment.setLayoutParams(layoutParams);
                     tvCollection.setVisibility(View.VISIBLE);
                     tvLike.setVisibility(View.VISIBLE);
                     editComment.setHint("再不评论 , 你会被抓去写作业的~");
@@ -511,14 +532,13 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                 mPresenter.addAttention(user_id, user_token, Integer.parseInt(yo_attention_id));
                 break;
             case R.id.img_share:
-                String yo_user_id = intent.getStringExtra("yo_user_id");
-//                if (user_id.equals(yo_user_id)) {
-//                    imgShare.setImageResource(R.mipmap.more);
-//                    more();
-//                } else {
-//                    share();
-//                }
-                share();
+                yo_user_id1 = intent.getStringExtra("yo_user_id");
+                if (user_id.equals(yo_user_id1)) {
+                    more();
+                } else {
+                    share();
+                }
+//                share();
                 break;
             case R.id.tv_attention:
                 mPresenter.addAttention(user_id, user_token, Integer.parseInt(yo_attention_id));
@@ -685,7 +705,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     @Override
     public void getYoJiDetailSuccess(YoJiDetailBean.DataBean data) {
-        List<LatLng>         latLngs = new ArrayList<>();
+        List<LatLng> latLngs = new ArrayList<>();
         LatLngBounds.Builder builder = LatLngBounds.builder();
         for (int i = 0; i < data.getList().size(); i++) {
             YoJiDetailBean.DataBean.ListBean listBean = data.getList().get(i);
@@ -1149,10 +1169,10 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         popup.setOutsideTouchable(true);
         popup.setBackgroundDrawable(new ColorDrawable());
         popup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        EditText  edit_title_collection = view.findViewById(R.id.edit_title_collection);
-        TextView  tv_sure               = view.findViewById(R.id.sure);
-        ImageView clear                 = view.findViewById(R.id.clear);
-        ImageView close_img             = view.findViewById(R.id.close_img);
+        EditText edit_title_collection = view.findViewById(R.id.edit_title_collection);
+        TextView tv_sure = view.findViewById(R.id.sure);
+        ImageView clear = view.findViewById(R.id.clear);
+        ImageView close_img = view.findViewById(R.id.close_img);
         close_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1221,7 +1241,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     }
 
     private void collection() {
-        View        view  = LayoutInflater.from(YoJiDetailActivity.this).inflate(R.layout.item_collection_list, null);
+        View view = LayoutInflater.from(YoJiDetailActivity.this).inflate(R.layout.item_collection_list, null);
         PopupWindow popup = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(YoJiDetailActivity.this, 300), true);
         popup.setOutsideTouchable(true);
         popup.setBackgroundDrawable(new ColorDrawable());
@@ -1251,17 +1271,17 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     }
 
     public void share() {
-        View        view        = getLayoutInflater().inflate(R.layout.popup_share, null);
+        View view = getLayoutInflater().inflate(R.layout.popup_share, null);
         PopupWindow popup_share = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(YoJiDetailActivity.this, 220), true);
         popup_share.setBackgroundDrawable(new ColorDrawable());
         popup_share.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         popup_share.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        LinearLayout qq_layout      = view.findViewById(R.id.qq_layout);
+        LinearLayout qq_layout = view.findViewById(R.id.qq_layout);
         LinearLayout comment_layout = view.findViewById(R.id.comment_layout);
-        LinearLayout wechat_layout  = view.findViewById(R.id.wechat_layout);
-        LinearLayout sina_layout    = view.findViewById(R.id.sina_layout);
-        TextView     tv_cancel      = view.findViewById(R.id.cancel);
-        ImageView    img_close      = view.findViewById(R.id.close_img);
+        LinearLayout wechat_layout = view.findViewById(R.id.wechat_layout);
+        LinearLayout sina_layout = view.findViewById(R.id.sina_layout);
+        TextView tv_cancel = view.findViewById(R.id.cancel);
+        ImageView img_close = view.findViewById(R.id.close_img);
         img_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1311,9 +1331,9 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     }
 
-    public void more(){
+    public void more() {
         View view = getLayoutInflater().inflate(R.layout.popup_user_share, null);
-        PopupWindow popup_share = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, DensityUtil.dp2px(YoJiDetailActivity.this, 150), true);
+        PopupWindow popup_share = new PopupWindow(view, DensityUtil.dp2px(YoJiDetailActivity.this, 90), DensityUtil.dp2px(YoJiDetailActivity.this, 110), true);
         popup_share.setBackgroundDrawable(new ColorDrawable());
         popup_share.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         popup_share.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -1330,25 +1350,53 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         bianji.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(YoJiDetailActivity.this, NewPublishYoJiActivity.class).putExtra("id", yo_id));
+                popup_share.dismiss();
             }
         });
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DataManager.getFromRemote().deleteYo(user_id, user_token, yo_id)
+                        .subscribe(new Observer<BaseBean>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+
+                            }
+
+                            @Override
+                            public void onNext(BaseBean baseBean) {
+                                int code = baseBean.getCode();
+                                if (code == 200) {
+                                    popup_share.dismiss();
+                                    finish();
+                                    Toast.makeText(YoJiDetailActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
             }
         });
         backgroundAlpha(0.6f);
 
         //添加pop窗口关闭事件
         popup_share.setOnDismissListener(new poponDismissListener());
-        popup_share.showAtLocation(findViewById(R.id.activity_yoji_detail), Gravity.BOTTOM, 0, 0);
+        popup_share.showAtLocation(findViewById(R.id.img_share), Gravity.RIGHT | Gravity.TOP, 0, 130);
     }
 
     private void shareWeb(SHARE_MEDIA share_media) {
         /*80002/yo_id/4143*/
         String url = Constants.BASE_URL + "home/share/details_yoj/share_user_id/" + user_id + "/yo_id/" + yo_id;
-        UMWeb  web = new UMWeb(url);
+        UMWeb web = new UMWeb(url);
         web.setTitle(title);//标题
         UMImage thumb = new UMImage(getApplicationContext(), logo);
         web.setThumb(thumb);  //缩略图
@@ -1382,10 +1430,10 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 ////                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 //
 //                    layoutParams.alignWithParent=true;
-       // RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
-       // RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 //                    layoutParams1.setMargins(0, 0, DensityUtil.dp2px(YoXiuDetailActivity.this, 40), 0);
-        ///editComment.setLayoutParams(layoutParams1);
+        editComment.setLayoutParams(layoutParams1);
 
 
         //失去焦点
@@ -1395,9 +1443,9 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     @Override
     public void onSoftKeyboardClosed() {
-      //  RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editComment.getLayoutParams();
 //                    layoutParams.setMargins(0, DensityUtil.dp2px(YoXiuDetailActivity.this, 20), 0, 0);
-      //  editComment.setLayoutParams(layoutParams);
+        editComment.setLayoutParams(layoutParams);
         tvCollection.setVisibility(View.VISIBLE);
         tvLike.setVisibility(View.VISIBLE);
         editComment.setHint("再不评论 , 你会被抓去写作业的~");
@@ -1405,6 +1453,13 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         sendEmoji.setVisibility(View.GONE);
         sendEmoji.setVisibility(View.GONE);
         imgBrow.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 
     //隐藏事件PopupWindow
@@ -1417,7 +1472,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     @Override
     public void getCommentListSuccess(CommentBean.DataBean data) {
-        List<CommentBean.DataBean.ListBean> list  = data.getList();
+        List<CommentBean.DataBean.ListBean> list = data.getList();
         List<CommentBean.DataBean.ListBean> mList = new ArrayList<>();
 
         if (list.size() < 5) {
@@ -1464,8 +1519,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     public void getCollectionFolderSuccess(CollectionFolderBean.DataBean collectionFolderBean) {
 
         mList1 = new ArrayList<>();
-        List<CollectionFolderBean.DataBean.ListBean> list     = collectionFolderBean.getList();
-        CollectionFolderBean.DataBean.ListBean       listBean = new CollectionFolderBean.DataBean.ListBean();
+        List<CollectionFolderBean.DataBean.ListBean> list = collectionFolderBean.getList();
+        CollectionFolderBean.DataBean.ListBean listBean = new CollectionFolderBean.DataBean.ListBean();
         listBean.setName("默认收藏");
         listBean.setOpen(1);
 //        mList.add(listBean);

@@ -176,29 +176,8 @@
             android:background="@mipmap/home_l_shadow"
             />
 
-        <EditText
-            android:id="@+id/edit_comment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="@dimen/dp_5"
-            android:layout_toLeftOf="@+id/input_expression"
-            android:background="@color/transparent"
-            android:hint="码字不容易，留个评论鼓励下嘛~"
-            android:singleLine="true"
-            android:textColorHint="#888888"
-            android:textSize="14sp"/>
-
-        <ImageView
-            android:id="@+id/input_expression"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/dp_18"
-            android:layout_marginRight="@dimen/dp_20"
-            android:layout_marginBottom="@dimen/dp_18"
-            android:imeOptions="actionSend"
-            android:src="@mipmap/input_biaoqing" />
+       <include android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           layout="@layout/custom_facerelativelayout"></include>
     </RelativeLayout>
 </RelativeLayout>

@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/rl_input"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/dp_55"
         android:padding="8dp">
 
         <EditText
@@ -22,14 +22,13 @@
             android:gravity="center_vertical"
             android:hint="你也来评论一下吧..."
             android:padding="4dp"
-            android:textSize="14sp" />
+            android:textSize="@dimen/sp_15" />
 
         <ImageView
+            android:layout_gravity="center"
             android:id="@+id/btn_face"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:src="@mipmap/input_biaoqing" />
 
         <ImageView
@@ -43,8 +42,8 @@
 
     <RelativeLayout
         android:id="@+id/ll_facechoose"
-        android:layout_width="fill_parent"
-        android:layout_height="180dip"
+        android:layout_width="match_parent"
+        android:layout_height="210dip"
         android:layout_below="@id/rl_input"
         android:background="#f6f5f5"
         android:visibility="gone">

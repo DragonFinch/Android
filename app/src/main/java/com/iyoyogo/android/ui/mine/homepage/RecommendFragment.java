@@ -38,7 +38,7 @@ import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
- * 个人主页 — 推荐话题
+ * 个人主页 — 推荐
  */
 public class RecommendFragment extends BaseFragment<CommendAttentionContract.Presenter> implements CommendAttentionContract.View {
 

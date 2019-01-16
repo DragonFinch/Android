@@ -16,6 +16,7 @@
         android:padding="5dp"
         android:gravity="center">
         <com.iyoyogo.android.view.ClearEditText
+            android:textCursorDrawable="@drawable/shape_et_cursor_color"
             android:id="@+id/search_editText_searchContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -56,6 +56,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+@SuppressLint("ValidFragment")
 public class InlandMapFragment extends Fragment implements AbsListView.OnScrollListener {
 
 
@@ -71,7 +72,6 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
     private String city = "北京";
     @SuppressLint("HandlerLeak")
     private Handler handler;
-    //文件名称
     private final static String CityFileName = "allcitya.json";
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
@@ -107,6 +107,12 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
             }
         }
     };
+    private final List<String> mList1;
+
+    @SuppressLint("ValidFragment")
+    public InlandMapFragment(List<String> list) {
+        mList1 = list;
+    }
 
     @Nullable
     @Override
@@ -184,7 +190,6 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-
             }
         });
 

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -57,11 +56,12 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
     TextView tv_message_two;
     TextView tv_message_three;
     private View view;
-
-    public YoXiuListAdapter(Context context, List<YouXiuListBean.DataBean.ListBean> mList) {
+    private String type;
+    public YoXiuListAdapter(Context context, List<YouXiuListBean.DataBean.ListBean> mList, String type) {
         this.context = context;
         this.mList = mList;
         activity = (Activity) context;
+        this.type=type;
         initPopup();
     }
 
@@ -168,6 +168,9 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
                 initDelete(viewHolder, String.valueOf(mList.get(position).getUser_id()), mList.get(position).getId());
             }
         });
+        if (type.equals("attention")){
+            viewHolder.img_more.setVisibility(View.GONE);
+        }
         viewHolder.num_browse.setText(mList.get(position).getCount_view());
         viewHolder.num_like.setText(mList.get(position).getCount_praise() + "");
         viewHolder.user_name.setText(mList.get(position).getUser_nickname());

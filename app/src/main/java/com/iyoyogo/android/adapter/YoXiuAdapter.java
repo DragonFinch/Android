@@ -73,6 +73,7 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
             public void onClick(View v) {
                 Intent intent = new Intent(context,YoXiuListActivity.class);
                 intent.putExtra("position",mList.get(position).getPosition_name());
+                intent.putExtra("type","attention");
                 context.startActivity(intent);
             }
         });

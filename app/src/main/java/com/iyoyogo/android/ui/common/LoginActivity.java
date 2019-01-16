@@ -93,7 +93,6 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     EditText etPhoneNum;
     @BindView(R.id.et_ver_code)
     EditText etVerCode;
-
     TextView tvCode;
     @BindView(R.id.img_btn)
     ImageButton imgBtn;
@@ -421,7 +420,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                SpUtils.putString(getApplicationContext(), "user_name", s.toString().trim());
             }
         });
     }
@@ -469,6 +468,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
                     break;
                 case 4:
                     tvCode.setEnabled(false);
+                    tvCode.setTextColor(Color.parseColor("#888888"));
                     tvCode.setText("已发送(" + String.valueOf(time) + ")");
                     break;
                 case 5:
@@ -556,7 +556,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
                             } else {
                                 mPresenter.login("", android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, 4, etPhoneNum.getText().toString().trim(), etVerCode.getText().toString().trim(), "", "", "");
                                 loginBtn.setClickable(false);
-                                SpUtils.putString(getApplicationContext(), "user_name", etPhoneNum.getText().toString().trim());
+
                             }
                         } else {
                             Toast.makeText(this, "验证码不能为空", Toast.LENGTH_SHORT).show();

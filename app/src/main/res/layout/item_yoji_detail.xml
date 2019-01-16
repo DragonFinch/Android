@@ -289,14 +289,16 @@
             <TextView
                 android:id="@+id/tv_pic_count"
                 android:layout_width="@dimen/dp_23"
-                android:layout_height="@dimen/dp_14"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:layout_alignRight="@+id/img_count_five_five"
                 android:layout_alignBottom="@+id/img_count_five_five"
                 android:background="@mipmap/count_bg"
                 android:gravity="center"
-                android:text="6"
+                android:text="22"
+                android:textSize="@dimen/sp_10"
                 android:textColor="@color/white"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
         </RelativeLayout>
 

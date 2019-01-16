@@ -1,10 +1,10 @@
 package com.iyoyogo.android.ui.home.yoxiu;
 
+
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -24,6 +24,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+
 import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.CameraUpdate;
 import com.amap.api.maps2d.CameraUpdateFactory;
@@ -49,7 +50,6 @@ import com.iyoyogo.android.adapter.PoiSearchAdapter;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.bean.LocationBean;
-import com.iyoyogo.android.utils.StatusBarUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,6 +59,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 /**
  * 添加地址
  */

@@ -3,6 +3,7 @@ package com.iyoyogo.android.ui.common;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -22,12 +23,12 @@ import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.contract.BindPhoneContract;
 import com.iyoyogo.android.presenter.BindPresenter;
 import com.iyoyogo.android.utils.SpUtils;
-import com.iyoyogo.android.utils.StatusBarUtils;
 
 import java.lang.ref.WeakReference;
 import java.security.MessageDigest;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -35,10 +36,11 @@ import butterknife.OnClick;
  */
 public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter> implements BindPhoneContract.View {
 
+
     @BindView(R.id.mBinding_Back_ImgeView_id)
     ImageView mBindingBackImgeViewId;
     @BindView(R.id.mBinding_toobar_id)
-    LinearLayout mBindingToobarId;
+    RelativeLayout mBindingToobarId;
     @BindView(R.id.mBinding_imageview_id)
     ImageView mBindingImageviewId;
     @BindView(R.id.img_bind_phone)
@@ -57,15 +59,16 @@ public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter>
     EditText editBindCode;
     @BindView(R.id.my_test_id)
     RelativeLayout myTestId;
+    @BindView(R.id.tv_bind_code)
     TextView tvBindCode;
+    @BindView(R.id.radio_check_img)
+    ImageView radioCheckImg;
     @BindView(R.id.bind_service)
     TextView bindService;
     @BindView(R.id.ll)
     LinearLayout ll;
     @BindView(R.id.btn_bind)
     Button btnBind;
-    @BindView(R.id.radio_check_img)
-    ImageView radioCheckImg;
     private String logo;
     private String nickname;
     private String openid;
@@ -180,6 +183,13 @@ public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter>
     }
 
     private int count = 60;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 
     private static class MyHandler extends Handler {
         WeakReference<BindPhoneActivity> mActivity;

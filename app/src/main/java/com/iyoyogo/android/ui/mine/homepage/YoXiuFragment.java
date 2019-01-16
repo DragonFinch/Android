@@ -104,7 +104,8 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
         yo_user_id = bundle.getString("yo_user_id");
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
-        mPresenter.getYoXiuContent(user_id, user_token, yo_user_id, 1 + "", 20 + "");
+        SpUtils.putString(getContext(),"yo_user_id",yo_user_id);
+//        mPresenter.getYoXiuContent(user_id, user_token, yo_user_id, 1 + "", 20 + "");
 
         //下拉刷新
         refreshLayout.setEnableRefresh(true);
@@ -212,6 +213,12 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
         setHeader(mRefreshAnimHeader);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mList.clear();
+        mPresenter.getYoXiuContent(user_id, user_token, yo_user_id, 1 + "", 20 + "");
+    }
 
     @Override
     protected YoXiuContentContract.Presenter createPresenter() {
@@ -257,7 +264,7 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
                 .previewEggs(true)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
                 .minimumCompressSize(800)// 小于100kb的图片不压缩
                 .synOrAsy(false)//同步true或异步false 压缩 默认同步
-                .forResult(PictureConfig.CHOOSE_REQUEST);
+                .forResult(201);
     }
 
     @Override
