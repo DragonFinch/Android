@@ -29,9 +29,6 @@
             android:id="@+id/btn_face"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="@dimen/dp15"
             android:src="@mipmap/input_biaoqing" />
 
         <ImageView

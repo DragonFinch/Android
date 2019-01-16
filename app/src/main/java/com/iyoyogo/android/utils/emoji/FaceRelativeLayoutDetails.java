@@ -252,13 +252,6 @@ public class FaceRelativeLayoutDetails extends RelativeLayout implements
                     LayoutParams.WRAP_CONTENT));
             view.setGravity(Gravity.CENTER);
             pageViews.add(view);
-            view.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(context,"长按",Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            });
         }
 
 

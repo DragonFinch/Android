@@ -84,11 +84,11 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
     RelativeLayout discussLayout;
     @BindView(R.id.recycler)
     RecyclerView recycler;
-    @BindView(R.id.input_expression)
+    @BindView(R.id.btn_face)
     ImageView inputExpression;
     @BindView(R.id.edit_layout)
     RelativeLayout editLayout;
-    @BindView(R.id.edit_comment)
+    @BindView(R.id.et_sendmessage)
     EditText editComment;
     @BindView(R.id.medal)
     ImageView medal;
@@ -447,7 +447,7 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
     }
 
 
-    @OnClick({R.id.back, R.id.img_user_icon, R.id.img_comment_like, R.id.img_function, R.id.recycler, R.id.input_expression})
+    @OnClick({R.id.back, R.id.img_user_icon, R.id.img_comment_like, R.id.img_function, R.id.recycler})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -464,9 +464,6 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
 //                initDelete(listBean.getYo_id());
                 break;
             case R.id.recycler:
-
-                break;
-            case R.id.input_expression:
 
                 break;
         }

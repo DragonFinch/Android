@@ -235,7 +235,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     //关闭软件盘
                     hideKeyboard(searchGuanjiaci);
-                    Toast.makeText(SearchResultActivity.this, "全部", Toast.LENGTH_SHORT).show();
                     mPresenter.getKeyWord(user_id, user_token, searchGuanjiaci.getText().toString(), "all","");
                 }
                 return false;
@@ -294,6 +293,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     public void search(KeywordUserBean keywordBean) {
         //清空集合
         listBeans.clear();
+        Log.e("search", "search: "+keywordBean.getData().getList().size() );
         if (keywordBean.getData().getList() != null) {
             list = keywordBean.getData().getList();
             listBeans.addAll(list);
