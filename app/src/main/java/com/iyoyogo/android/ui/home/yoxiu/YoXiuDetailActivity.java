@@ -404,7 +404,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
         //添加pop窗口关闭事件
         popup_share.setOnDismissListener(new poponDismissListener());
-        popup_share.showAtLocation(findViewById(R.id.share_img), Gravity.RIGHT | Gravity.TOP, 0, 170);
+        popup_share.showAtLocation(findViewById(R.id.share_img), Gravity.RIGHT | Gravity.TOP, 0, 130);
     }
 
     //

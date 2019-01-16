@@ -1389,7 +1389,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
         //添加pop窗口关闭事件
         popup_share.setOnDismissListener(new poponDismissListener());
-        popup_share.showAtLocation(findViewById(R.id.img_share), Gravity.RIGHT | Gravity.TOP, 0, 170);
+        popup_share.showAtLocation(findViewById(R.id.img_share), Gravity.RIGHT | Gravity.TOP, 0, 130);
     }
 
     private void shareWeb(SHARE_MEDIA share_media) {

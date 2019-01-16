@@ -99,7 +99,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
-                        android:paddingRight="@dimen/dp20"
+                        android:paddingRight="@dimen/dp15"
                         android:paddingLeft="@dimen/dp20"
                         app:srcCompat="@mipmap/fenxiang_bai" />
                 </RelativeLayout>
