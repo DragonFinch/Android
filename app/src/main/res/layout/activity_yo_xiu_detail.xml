@@ -11,7 +11,6 @@
         layout="@layout/share_bar" />
 
 
-
     <ScrollView
         android:id="@+id/srcoll"
         android:layout_width="match_parent"
@@ -50,27 +49,25 @@
                     android:visibility="visible" />
 
 
+                <VideoView
+                    android:id="@+id/iv_logo"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_240"
+                    android:layout_centerInParent="true"
 
-                    <VideoView
-                        android:id="@+id/iv_logo"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_240"
-                      android:layout_centerInParent="true"
+                    android:src="@mipmap/sea"
 
-                        android:src="@mipmap/sea"
-
-                        android:visibility="gone" />
-
+                    android:visibility="gone" />
 
 
                 <ImageView
-                    android:paddingLeft="@dimen/dp_20"
-                    android:paddingRight="@dimen/dp_20"
                     android:id="@+id/img_video"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                  android:layout_centerInParent="true"
+                    android:layout_centerInParent="true"
+                    android:paddingLeft="@dimen/dp_20"
+                    android:paddingRight="@dimen/dp_20"
 
                     android:src="@mipmap/ic_video" />
 
@@ -264,14 +261,15 @@
 
         </RelativeLayout>
     </ScrollView>
+
     <LinearLayout
-        android:orientation="vertical"
         android:id="@+id/comment_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
 
         <View
             android:id="@+id/shadow"
@@ -303,12 +301,14 @@
                android:src="@mipmap/input_biaoqing" />
    -->
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <include android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                layout="@layout/custom_facerelativelayoutdetails"></include>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/custom_facerelativelayoutdetails"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></include>
         </LinearLayout>
 
 

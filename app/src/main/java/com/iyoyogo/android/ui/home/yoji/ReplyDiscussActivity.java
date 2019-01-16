@@ -1,5 +1,6 @@
 package com.iyoyogo.android.ui.home.yoji;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -489,6 +490,7 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
             tv_report.setVisibility(View.VISIBLE);
         }
         tv_delete.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("CheckResult")
             @Override
             public void onClick(View v) {
                 DataManager.getFromRemote().deleteComment(user_id, user_token, comment_id)
@@ -501,10 +503,15 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
                                             .subscribe(new Consumer<CommentBean>() {
                                                 @Override
                                                 public void accept(CommentBean commentBean) throws Exception {
-//                                                    notifyDataSetChanged();
-                                                    replyDiscussAdapter.notifyDataSetChanged();
+
                                                 }
                                             });
+                                }
+                                int code = baseBean.getCode();
+                                if (code == 200){
+                                    replyDiscussAdapter.notifyDataSetChanged();
+                                    Toast.makeText(ReplyDiscussActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
+                                    finish();
                                 }
                             }
                         });
