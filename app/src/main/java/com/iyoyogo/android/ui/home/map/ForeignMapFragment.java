@@ -253,6 +253,13 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
         initOverlay();
     }
 
+    @Override
+    protected void initData() {
+        super.initData();
+        String  mUser_id = SpUtils.getString(getActivity(), "user_id", null);
+        String  mUser_token = SpUtils.getString(getActivity(), "user_token", null);
+//        mPresenter.aboutMe(mUser_id,mUser_token,"international","");
+    }
 
     @Override
     protected MapContract.Presenter createPresenter() {

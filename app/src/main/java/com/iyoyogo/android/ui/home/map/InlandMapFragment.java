@@ -72,7 +72,6 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
     private String city = "北京";
     @SuppressLint("HandlerLeak")
     private Handler handler;
-    //文件名称
     private final static String CityFileName = "allcitya.json";
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;

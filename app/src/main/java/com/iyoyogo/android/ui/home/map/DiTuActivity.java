@@ -51,7 +51,6 @@ import butterknife.ButterKnife;
 
 public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> implements  MapSearchContract.View {
 
-
     @BindView(R.id.gson)
     LinearLayout gson;
     @BindView(R.id.rb_yoji)
@@ -235,6 +234,7 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
       String  mUser_id = SpUtils.getString(DiTuActivity.this, "user_id", null);
       String  mUser_token = SpUtils.getString(DiTuActivity.this, "user_token", null);
         mPresenter.renMei(mUser_id,mUser_token);
+        mPresenter.aboutMe(mUser_id,mUser_token,"internal","");
     }
 
 

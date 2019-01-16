@@ -710,7 +710,7 @@ public interface ApiService {
     Observable<GuanZhuBean> keyword(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("target_id") String target_id);
 
     //首页  选择城市
-    @POST("index.php/api/city/get_list")
+    @POST("/index.php/api/city/get_list")
     @FormUrlEncoded
     Observable<MapBean> getChengShi(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("type") String type, @Field("search") String search);
 
