@@ -242,7 +242,7 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
     }
 
     private void initCapture() {
-        mLiveWindow.setBackgroundColor(222,222,222);
+        mLiveWindow.setBackgroundColor(222, 222, 222);
         mLiveWindow.setFillMode(NvsLiveWindow.FILLMODE_PRESERVEASPECTFIT);
         if (null == mStreamingContext) {
             return;
@@ -440,9 +440,9 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
                 LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mLiveWindow.getLayoutParams();
                 if (windowType == 3) {
                     mIvLights.setImageResource(mStreamingContext.isFlashOn() ? R.mipmap.shanguang_b : R.mipmap.shanhuangoff_b);
-                    layoutParams.topMargin=UiUtils.dip2px(65);
+                    layoutParams.topMargin = UiUtils.dip2px(65);
                 } else {
-                    layoutParams.topMargin=0;
+                    layoutParams.topMargin = 0;
                     mIvLights.setImageResource(mStreamingContext.isFlashOn() ? R.mipmap.shanguang : R.mipmap.shanhuang_off_w);
                 }
                 mLiveWindow.setLayoutParams(layoutParams);
@@ -641,7 +641,9 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
                 String  jpgPath  = PathUtils.getRecordPicturePath();
                 boolean save_ret = Util.saveBitmapToSD(mPictureBitmap, jpgPath);
                 if (save_ret) {
-                    startActivity(new Intent(GoTakePhotoActivity.this, PreviewGoTakePhotoActivity.class).putExtra("path", jpgPath));
+                    startActivity(new Intent(GoTakePhotoActivity.this, PreviewGoTakePhotoActivity.class)
+                            .putExtra("data_url", getIntent().getStringExtra("data_url"))
+                            .putExtra("path", jpgPath));
                 } else {
                     Toast.makeText(this, "图片出错", Toast.LENGTH_SHORT).show();
                 }

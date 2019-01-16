@@ -45,7 +45,7 @@ public class SameBean extends BaseBean {
              * user_logo : https://yoyogo-oss.oss-cn-beijing.aliyuncs.com/user/Pr_200000063.jpg?x-oss-process=image/resize,w_50
              */
 
-            private int yo_id;
+            private int    yo_id;
             private int    file_type;
             private String file_path;
             private String user_id;
@@ -65,10 +65,19 @@ public class SameBean extends BaseBean {
             private int    user_level;
             private String user_score;
             private String partner_type;
+            private String video;
             private int    is_my_attention;
             private int    is_my_collect;
             private int    is_my_praise;
             private int    is_my_comment;
+
+            public String getVideo() {
+                return video;
+            }
+
+            public void setVideo(String video) {
+                this.video = video;
+            }
 
             public int getYo_id() {
                 return yo_id;

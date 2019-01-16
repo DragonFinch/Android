@@ -407,6 +407,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         mapView.onCreate(savedInstanceState);
         aMap=mapView.getMap();
         mBanner.setAdapter(new BgaBannerAdapter(this));
+        mBanner.setAutoPlayAble(false);
     }
 
     @Override

@@ -13,6 +13,7 @@
     <VideoView
         android:id="@+id/video_view"
         android:layout_width="match_parent"
+        android:layout_centerVertical="true"
         android:layout_height="wrap_content" />
 
     <ImageView
@@ -93,6 +94,7 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/iv_go_take"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@mipmap/go_detail" />

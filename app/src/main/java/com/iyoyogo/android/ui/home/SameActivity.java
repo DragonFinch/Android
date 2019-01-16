@@ -121,25 +121,30 @@ public class SameActivity extends BaseActivity<SamePresenter> implements SameCon
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         page++;
         mPresenter.getSameList(userId, token, lng, lat, page, "20");
+//        mPresenter.getSameList(userId, token, "116.3322","39.764042", page, "20");
     }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         page = 1;
         mPresenter.getSameList(userId, token, lng, lat, page, "20");
+//        mPresenter.getSameList(userId, token, "116.3322","39.764042", page, "20");
     }
 
     @Override
     public void onSameList(SameBean data) {
         mData = data;
-        mAdapter.setNewData(data.getData().getList());
+        if (mAdapter.getData()==null||mAdapter.getData().size()==0){
+            mAdapter.setNewData(mData.getData().getList());
+        }else {
+            mAdapter.notifyDataSetChanged();
+        }
         mRefreshLayout.finishRefresh(2000);
     }
 
     @Override
     public void onMoreSameList(SameBean data) {
 
-        mData.getData().getList().addAll(data.getData().getList());
         mAdapter.notifyDataSetChanged();
         mRefreshLayout.finishLoadMore(2000);
     }
@@ -159,6 +164,7 @@ public class SameActivity extends BaseActivity<SamePresenter> implements SameCon
         lat = aMapLocation.getLatitude() + "";
         lng = aMapLocation.getLongitude() + "";
         page = 1;
+//        mPresenter.getSameList(userId, token, "116.3322","39.764042", page, "20");
         mPresenter.getSameList(userId, token, lng, lat, page, "20");
     }
 }

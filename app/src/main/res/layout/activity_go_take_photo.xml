@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     tools:context=".ui.home.GoTakePhotoActivity">
 
@@ -41,13 +41,13 @@
         android:id="@+id/ll_seek"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:gravity="center_vertical"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="167dp"
-        android:visibility="gone"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+        android:paddingRight="20dp"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -59,11 +59,11 @@
         <SeekBar
             android:id="@+id/seekbar"
             android:layout_width="match_parent"
-            android:progressDrawable="@drawable/seekbar"
+            android:layout_height="wrap_content"
             android:maxHeight="2dp"
             android:minHeight="2dp"
-            android:thumb="@mipmap/tiaojie"
-            android:layout_height="wrap_content" />
+            android:progressDrawable="@drawable/seekbar"
+            android:thumb="@mipmap/tiaojie" />
     </LinearLayout>
 
     <RelativeLayout
@@ -123,28 +123,35 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="17dp"
             android:orientation="horizontal">
 
-            <View
+            <TextView
                 android:id="@+id/view_left"
-                android:layout_width="30dp"
-                android:layout_height="21dp"
-                android:layout_marginRight="44dp" />
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="17dp" />
 
             <TextView
                 android:id="@+id/tv_type_picture"
-                android:layout_width="30dp"
-                android:layout_height="21dp"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:gravity="center_horizontal"
+                android:paddingBottom="17dp"
                 android:text="相机"
                 android:textColor="#333333"
                 android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_type_video"
-                android:layout_width="30dp"
-                android:layout_height="21dp"
-                android:layout_marginLeft="44dp"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="17dp"
+                android:gravity="center_horizontal"
                 android:text="视频"
                 android:textColor="#888888"
                 android:textSize="14sp" />
@@ -164,28 +171,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="17dp"
             android:layout_centerHorizontal="true"
-            android:visibility="gone"
+            android:layout_marginBottom="17dp"
             android:textColor="#333333"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/ll_filter_option"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone"
+        android:layout_height="167dp"
         android:layout_alignParentBottom="true"
-        android:layout_height="167dp">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:paddingTop="20dp"
-            android:paddingLeft="20dp"
             android:layout_height="wrap_content"
-            android:overScrollMode="never" />
+            android:overScrollMode="never"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"

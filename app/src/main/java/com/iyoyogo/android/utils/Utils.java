@@ -2,8 +2,10 @@ package com.iyoyogo.android.utils;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.os.Build;
 
+import java.io.File;
 import java.lang.reflect.Method;
 
 public class Utils {
@@ -95,5 +97,9 @@ public class Utils {
             convertToTranslucent.invoke(activity, null, options);
         } catch (Throwable t) {
         }
+    }
+
+    public static File getVideoCacheDir(Context context) {
+        return new File(context.getExternalCacheDir(), "video-cache");
     }
 }

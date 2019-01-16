@@ -1,10 +1,7 @@
 package com.iyoyogo.android.ui.home;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,17 +12,13 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
-import com.iyoyogo.android.camera.utils.PathUtils;
-import com.iyoyogo.android.camera.utils.Util;
 import com.iyoyogo.android.ui.home.yoxiu.NewPublishYoXiuActivity;
 import com.iyoyogo.android.utils.util.UiUtils;
 import com.luck.picture.lib.PictureSelector;
@@ -65,8 +58,15 @@ public class PreviewGoTakePhotoActivity extends BaseActivity {
     ImageView      mIvVideoBg;
     @BindView(R.id.ll_image)
     LinearLayout   mLlImage;
+    @BindView(R.id.iv_sw_contrast)
+    ImageView      mIvSwContrast;
+    @BindView(R.id.ll_contrast)
+    LinearLayout   mLlContrast;
 
     private String path;
+    private String contrastUrl;
+
+    private boolean isShowContrast = true;
 
     @Override
     protected int getLayoutId() {
@@ -98,6 +98,7 @@ public class PreviewGoTakePhotoActivity extends BaseActivity {
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
         path = getIntent().getStringExtra("path");
+        contrastUrl = getIntent().getStringExtra("data_url");
         if (path.contains(".mp4")) {
             mVideoView.setVideoPath(path);
             Glide.with(this).load(path).into(mIvVideoBg);
@@ -111,10 +112,18 @@ public class PreviewGoTakePhotoActivity extends BaseActivity {
             mVideoView.setVisibility(View.GONE);
             mIvVideo.setVisibility(View.GONE);
             mIvVideoBg.setVisibility(View.GONE);
+            if (!TextUtils.isEmpty(contrastUrl)) {
+                mIvContrastImage.setVisibility(View.VISIBLE);
+                mLlContrast.setVisibility(View.VISIBLE);
+                Glide.with(this).load(contrastUrl).into(mIvContrastImage);
+            } else {
+                mLlContrast.setVisibility(View.GONE);
+                mIvContrastImage.setVisibility(View.GONE);
+            }
         }
     }
 
-    @OnClick({R.id.iv_back, R.id.ll_again, R.id.iv_save, R.id.ll_publish, R.id.rl_video})
+    @OnClick({R.id.iv_back, R.id.ll_again, R.id.iv_save, R.id.ll_publish, R.id.rl_video, R.id.iv_sw_contrast})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -125,18 +134,18 @@ public class PreviewGoTakePhotoActivity extends BaseActivity {
                 break;
             case R.id.iv_save:
                 Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                Uri uri    = Uri.fromFile(new File(path));
+                Uri uri = Uri.fromFile(new File(path));
                 intent.setData(uri);
                 sendBroadcast(intent);
                 finish();
                 break;
             case R.id.ll_publish:
-                List<LocalMedia> localMedia=new ArrayList<>();
-                LocalMedia local=new LocalMedia();
+                List<LocalMedia> localMedia = new ArrayList<>();
+                LocalMedia local = new LocalMedia();
                 local.setCompressPath(path);
                 local.setPath(path);
                 localMedia.add(local);
-                startActivity(PictureSelector.putIntentResult(localMedia).setClass(this,NewPublishYoXiuActivity.class));
+                startActivity(PictureSelector.putIntentResult(localMedia).setClass(this, NewPublishYoXiuActivity.class));
                 finish();
                 break;
 
@@ -152,6 +161,12 @@ public class PreviewGoTakePhotoActivity extends BaseActivity {
                     mIvVideo.setVisibility(View.GONE);
                     mIvVideoBg.setVisibility(View.GONE);
                 }
+                break;
+
+            case R.id.iv_sw_contrast:
+                isShowContrast = !isShowContrast;
+                mIvContrastImage.setVisibility(isShowContrast ? View.VISIBLE : View.GONE);
+                mIvSwContrast.setImageResource(isShowContrast ? R.mipmap.on : R.mipmap.off);
                 break;
         }
     }

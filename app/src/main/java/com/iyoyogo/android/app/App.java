@@ -11,10 +11,12 @@ import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.danikula.videocache.HttpProxyCacheServer;
 import com.iyoyogo.android.bean.yoji.publish.MessageBean;
 import com.iyoyogo.android.camera.utils.CrashHandler;
 import com.iyoyogo.android.camera.utils.asset.NvAssetManager;
 import com.iyoyogo.android.utils.GdLocationUtil;
+import com.iyoyogo.android.utils.Utils;
 import com.iyoyogo.android.utils.download.SystemParams;
 import com.iyoyogo.android.utils.emoji.FaceConversionUtil;
 import com.meicam.sdk.NvsStreamingContext;
@@ -305,5 +307,18 @@ public class App extends Application {
             apk_id = preferences.getString(APK_ID, null);
         }
         return apk_id;
+    }
+
+    private HttpProxyCacheServer proxy;
+
+    public static HttpProxyCacheServer getProxy(Context context) {
+        App app = (App) context.getApplicationContext();
+        return app.proxy == null ? (app.proxy = app.newProxy()) : app.proxy;
+    }
+
+    private HttpProxyCacheServer newProxy() {
+        return new HttpProxyCacheServer.Builder(this)
+                .cacheDirectory(Utils.getVideoCacheDir(this))
+                .build();
     }
 }

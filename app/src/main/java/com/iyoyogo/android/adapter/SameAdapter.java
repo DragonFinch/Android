@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -35,11 +36,13 @@ public class SameAdapter extends BaseQuickAdapter<SameBean.DataBean.ListBean, Ba
     protected void convert(BaseViewHolder helper, SameBean.DataBean.ListBean item) {
         int                            position     = helper.getLayoutPosition();
         ImageView                      iv           = helper.getView(R.id.iv);
-        RelativeLayout                 itemView     = helper.getView(R.id.item_view);
+        FrameLayout                 itemView     = helper.getView(R.id.item_view);
         GridLayoutManager.LayoutParams layoutParams = (GridLayoutManager.LayoutParams) itemView.getLayoutParams();
+
         if (position == 0) {
             layoutParams.height = UiUtils.dip2px(211);
             layoutParams.width = ScreenUtils.getScreenWidth(mContext);
+
         } else if (position > 0 && position < 3) {
             layoutParams.height = (ScreenUtils.getScreenWidth(mContext) - UiUtils.dip2px(3)) / 2;
             layoutParams.width = layoutParams.height;
@@ -47,6 +50,9 @@ public class SameAdapter extends BaseQuickAdapter<SameBean.DataBean.ListBean, Ba
             layoutParams.height = (ScreenUtils.getScreenWidth(mContext) - UiUtils.dip2px(6)) / 3;
             layoutParams.width = layoutParams.height;
         }
+        iv.getLayoutParams().width=layoutParams.width;
+        iv.getLayoutParams().height=layoutParams.height;
+
         int margins = (position + 1) % 3 != 0 && position != 0 ? UiUtils.dip2px(3) : 0;
         layoutParams.setMargins(0, 0, margins, UiUtils.dip2px(3));
         itemView.setLayoutParams(layoutParams);
@@ -60,7 +66,7 @@ public class SameAdapter extends BaseQuickAdapter<SameBean.DataBean.ListBean, Ba
         Glide.with(mContext).load(item.getUser_logo()).apply(new RequestOptions().circleCrop()).into((ImageView) helper.getView(R.id.iv_user_pic));
 
         helper.setImageResource(R.id.iv_ranking, position == 0 ? R.mipmap.ranking1 : position == 1 ? R.mipmap.ranking2 : R.mipmap.ranking3);
-        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) helper.getView(R.id.ll_user).getLayoutParams();
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) helper.getView(R.id.ll_user).getLayoutParams();
         if (position == 1 || position == 2) {
             lp.width = RelativeLayout.LayoutParams.MATCH_PARENT;
         } else {
@@ -68,7 +74,7 @@ public class SameAdapter extends BaseQuickAdapter<SameBean.DataBean.ListBean, Ba
 
         }
         helper.getView(R.id.ll_user).setLayoutParams(lp);
-        Glide.with(mContext).load(item.getFile_path()).apply(new RequestOptions().centerCrop()).into(iv);
 
+        Glide.with(mContext).load(item.getFile_path()).apply(new RequestOptions().centerCrop()).into((ImageView) helper.getView(R.id.iv));
     }
 }
