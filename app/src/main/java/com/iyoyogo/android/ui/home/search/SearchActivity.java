@@ -8,8 +8,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
@@ -85,9 +88,40 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
     protected void initView() {
         super.initView();
         StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+        //软键盘的搜索点击时间
+        autoSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    //关闭软件盘
+                    hideKeyboard(autoSearch);
+                    Toast.makeText(SearchActivity.this, "全部", Toast.LENGTH_SHORT).show();
+                    if (autoSearch.getText().toString() != null){
+                        Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
+                        intent.putExtra("key", autoSearch.getText().toString());
+                        startActivityForResult(intent, 0);
+                        String keyWord = autoSearch.getText().toString();
+                        SPUtils.getInstance(SearchActivity.this).save(autoSearch.getText().toString());
+                    }else{
+                        showToastShort(SearchActivity.this, "搜索内容为空！");
+                    }
+                }
+                return false;
+            }
+        });
 
 
-
+    }
+    /**
+     * 隐藏软键盘
+     *
+     * @param : Context上下文环境，一般为Activity实例
+     * @param view                 :一般为EditText
+     */
+    public static void hideKeyboard(View view) {
+        InputMethodManager manager = (InputMethodManager) view.getContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     @Override
@@ -160,7 +194,8 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
                 break;
             case R.id.tv_search:
                 String searchKey = autoSearch.getText().toString();
-                if (!isNullorEmpty(searchKey)) {
+                autoSearch.setText("");
+               /* if (!isNullorEmpty(searchKey)) {
                     Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
                     intent.putExtra("key", searchKey);
                     startActivityForResult(intent, 0);
@@ -171,7 +206,7 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
                     }
                 } else {
                     showToastShort(this, "搜索内容为空！");
-                }
+                }*/
                 break;
 
             case R.id.clear_iv:
@@ -183,6 +218,8 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
                 break;
         }
     }
+
+
 
     private boolean isNullorEmpty(String str) {
         return str == null || "".equals(str);
