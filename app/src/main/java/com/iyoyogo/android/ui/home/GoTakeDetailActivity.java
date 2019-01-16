@@ -104,6 +104,7 @@ public class GoTakeDetailActivity extends BaseActivity<SamePresenter> implements
         mAdapter = new GoTakeDetailAdapter(R.layout.item_go_detail);
         mAdapter.setOnItemChildClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.scrollToPosition(position);
     }
 
     @OnClick({R.id.iv_back, R.id.iv_share})
