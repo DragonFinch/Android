@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/rl_input"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/dp_50"
         android:padding="8dp">
 
         <EditText
@@ -22,7 +22,7 @@
             android:gravity="center_vertical"
             android:hint="你也来评论一下吧..."
             android:padding="4dp"
-            android:textSize="14sp" />
+            android:textSize="@dimen/sp_15" />
 
         <ImageView
             android:id="@+id/btn_face"

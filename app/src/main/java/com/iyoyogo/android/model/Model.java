@@ -26,6 +26,7 @@ import com.iyoyogo.android.bean.login.interest.InterestBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.bean.login.login.MarketBean;
 import com.iyoyogo.android.bean.map.MapBean;
+import com.iyoyogo.android.bean.map.MapRenMei;
 import com.iyoyogo.android.bean.mine.AboutMeBean;
 import com.iyoyogo.android.bean.mine.DraftBean;
 import com.iyoyogo.android.bean.mine.GetBindInfoBean;
@@ -1130,6 +1131,12 @@ public class Model {
     public Observable<MapBean> CPS(String user_id, String user_token, String type, String seatch) {
         return HttpClient.getApiService()
                 .getGps(user_id, user_token, type, seatch)
+                .compose(this.switchThread());
+    }
+    //首页热门城市
+    public Observable<MapRenMei> remei(String user_id, String user_token) {
+        return HttpClient.getApiService()
+                .getRenMei(user_id, user_token)
                 .compose(this.switchThread());
     }
 

@@ -33,6 +33,7 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.search.SearchListViewAdapter;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.map.MapBean;
+import com.iyoyogo.android.bean.map.MapRenMei;
 import com.iyoyogo.android.bean.search.User;
 import com.iyoyogo.android.contract.MapSearchContract;
 import com.iyoyogo.android.presenter.MapSearchPresenter;
@@ -88,6 +89,9 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
     private String content;
     private List<MapBean.DataBean.ListBean> list;
     private List<String> mDragList;
+    private String mUser_id;
+    private String mUser_token;
+    private List<String> mList;
 
     @Override
     protected int getLayoutId() {
@@ -139,7 +143,7 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
 
         StatusBarUtil.setStatusBarLayoutStyle(DiTuActivity.this, true);
         StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.holo_orange_dark));
-        InlandMapFragment inlandMapFragment = new InlandMapFragment();
+        InlandMapFragment inlandMapFragment = new InlandMapFragment(mList);
         ForeignMapFragment foreignMapFragment = new ForeignMapFragment();
         list1.add(inlandMapFragment);
         list1.add(foreignMapFragment);
@@ -212,9 +216,9 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
             //获取输入框内容
             content = mEditTextSearchContent.getText().toString();
             if (content != null){
-                String user_id = SpUtils.getString(DiTuActivity.this, "user_id", null);
-                String user_token = SpUtils.getString(DiTuActivity.this, "user_token", null);
-                mPresenter.aboutMe(user_id, user_token, "internal", mEditTextSearchContent.getText().toString());
+                mUser_id = SpUtils.getString(DiTuActivity.this, "user_id", null);
+                mUser_token = SpUtils.getString(DiTuActivity.this, "user_token", null);
+                mPresenter.aboutMe(mUser_id, mUser_token, "internal", mEditTextSearchContent.getText().toString());
                 //   mButtonBack.setVisibility(View.VISIBLE);
                 group1.setVisibility(View.GONE);
             }
@@ -228,6 +232,9 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
+      String  mUser_id = SpUtils.getString(DiTuActivity.this, "user_id", null);
+      String  mUser_token = SpUtils.getString(DiTuActivity.this, "user_token", null);
+        mPresenter.renMei(mUser_id,mUser_token);
     }
 
 
@@ -273,6 +280,12 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
             //searchListViewSearchResult.setVisibility(View.GONE);
             group1.setVisibility(View.GONE);
         }
+    }
+    //热门城市
+    @Override
+    public void renMeiChengshi(MapRenMei data) {
+//        Log.e("renMeiChengshi", "renMeiChengshi: "+data.getData().getList().size() );
+        mList = data.getData().getList();
     }
 
     private void switchFragment(Fragment fragment) {

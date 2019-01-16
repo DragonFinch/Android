@@ -24,6 +24,7 @@ import com.iyoyogo.android.bean.login.interest.InterestBean;
 import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.bean.login.login.MarketBean;
 import com.iyoyogo.android.bean.map.MapBean;
+import com.iyoyogo.android.bean.map.MapRenMei;
 import com.iyoyogo.android.bean.mine.AboutMeBean;
 import com.iyoyogo.android.bean.mine.DraftBean;
 import com.iyoyogo.android.bean.mine.GetBindInfoBean;
@@ -722,6 +723,11 @@ public interface ApiService {
     @POST("index.php/api/city/get_list")
     @FormUrlEncoded
     Observable<MapBean> getGps(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("type") String type, @Field("search") String search);
+
+    //首页  热门城市
+    @POST("/index.php/api/city/get_hot")
+    @FormUrlEncoded
+    Observable<MapRenMei> getRenMei(@Field("user_id") String user_id, @Field("user_token") String user_token);
 
     //首页  搜索 关键字搜索
     @POST("index.php/api/search/get_keywords")

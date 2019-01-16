@@ -236,7 +236,7 @@ public class FaceRelativeLayoutDetails extends RelativeLayout implements
         faceAdapters = new ArrayList<FaceAdapter>();
         for (int i = 0; i < emojis.size(); i++) {
             GridView view = new GridView(context);
-            FaceAdapter adapter = new FaceAdapter(context, emojis.get(i));
+            FaceAdapter adapter = new FaceAdapter(context, emojis.get(i),view);
             view.setAdapter(adapter);
             faceAdapters.add(adapter);
             view.setOnItemClickListener(this);

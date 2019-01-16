@@ -170,6 +170,7 @@ public class FaceRelativeLayout extends RelativeLayout implements
         layout_point = (LinearLayout) findViewById(R.id.iv_image);
         et_sendmessage.setOnClickListener(this);
         btn_face = (ImageView) findViewById(R.id.btn_face);
+
     /*    ImageView imgemo = (ImageView) findViewById(R.id.item_iv_face);
         //图片的点击时间
         imgemo.setOnClickListener(new OnClickListener() {
@@ -196,7 +197,6 @@ public class FaceRelativeLayout extends RelativeLayout implements
             }
         });*/
     }
-
     /**
      * 初始化显示表情的viewpager
      */
@@ -213,7 +213,7 @@ public class FaceRelativeLayout extends RelativeLayout implements
         faceAdapters = new ArrayList<FaceAdapter>();
         for (int i = 0; i < emojis.size(); i++) {
             GridView view = new GridView(context);
-            mAdapter = new FaceAdapter(context, emojis.get(i));
+            mAdapter = new FaceAdapter(context, emojis.get(i),view);
             view.setAdapter(mAdapter);
             faceAdapters.add(mAdapter);
             view.setOnItemClickListener(this);
@@ -229,19 +229,7 @@ public class FaceRelativeLayout extends RelativeLayout implements
                     LayoutParams.WRAP_CONTENT));
             view.setGravity(Gravity.CENTER);
             pageViews.add(view);
-            view.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(context,"",Toast.LENGTH_SHORT).show();
-               /*    mAdapter.setSetoncli(new FaceAdapter.setoncli() {
-                       @Override
-                       public void set(ImageView iv_face) {
-                            initView(iv_face,position);
-                       }
-                   });*/
-                    return true;
-                }
-            });
+
         }
 
 
