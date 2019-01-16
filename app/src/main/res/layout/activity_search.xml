@@ -20,6 +20,7 @@
             android:layout_height="wrap_content" />
 
         <AutoCompleteTextView
+            android:textCursorDrawable="@drawable/shape_et_cursor_color"
             android:imeOptions="actionSearch"
             android:layout_marginLeft="@dimen/dp_5"
             android:id="@+id/auto_search"

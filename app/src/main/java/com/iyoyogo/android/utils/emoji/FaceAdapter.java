@@ -25,6 +25,8 @@ import java.util.List;
  */
 public class FaceAdapter extends BaseAdapter {
 
+
+
     private List<ChatEmoji> data;
     private int popupWidth;
     private int popupHeight;
@@ -81,8 +83,8 @@ public class FaceAdapter extends BaseAdapter {
 
         final ViewHolder finalViewHolder = viewHolder;
         final ViewHolder finalViewHolder1 = viewHolder;
-
-        viewHolder.iv_face.setOnLongClickListener(new View.OnLongClickListener() {
+       // mSetoncli.set(viewHolder.iv_face,position);
+ /*       viewHolder.iv_face.setOnLongClickListener(new View.OnLongClickListener() {
            @Override
            public boolean onLongClick(View view) {
                 View v = LayoutInflater.from(context).inflate(R.layout.pop,null);
@@ -104,13 +106,21 @@ public class FaceAdapter extends BaseAdapter {
                 popupWindow.setOutsideTouchable(true);//设置点击空白消失
                 popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));//设置背景;点击返回按钮,关闭PopupWindow
                 popupWindow.showAtLocation(finalViewHolder1.iv_face,Gravity.NO_GRAVITY, (location[0] + v.getWidth() / 2) - popupWidth / 2, location[1] - popupHeight-150 );
-
                 return false;
 
             }
-       });
+       });*/
 
         return convertView;
+    }
+    private setoncli mSetoncli;
+
+    public void setSetoncli(setoncli setoncli) {
+        mSetoncli = setoncli;
+    }
+
+    interface setoncli{
+        void set(ImageView iv_face, int p1);
     }
     class ViewHolder {
         public ImageView iv_face;

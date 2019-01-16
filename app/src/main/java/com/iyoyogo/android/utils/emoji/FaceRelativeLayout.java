@@ -3,12 +3,14 @@ package com.iyoyogo.android.utils.emoji;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,7 +21,10 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.iyoyogo.android.R;
 
@@ -68,6 +73,11 @@ public class FaceRelativeLayout extends RelativeLayout implements
 
     //表情的点击时间
     ImageView btn_face;
+    private FaceAdapter mAdapter;
+
+    private int popupWidth;
+    private int popupHeight;
+    private PopupWindow mPopupWindow;
 
     public FaceRelativeLayout(Context context) {
         super(context);
@@ -204,9 +214,9 @@ public class FaceRelativeLayout extends RelativeLayout implements
         faceAdapters = new ArrayList<FaceAdapter>();
         for (int i = 0; i < emojis.size(); i++) {
             GridView view = new GridView(context);
-            FaceAdapter adapter = new FaceAdapter(context, emojis.get(i));
-            view.setAdapter(adapter);
-            faceAdapters.add(adapter);
+            mAdapter = new FaceAdapter(context, emojis.get(i));
+            view.setAdapter(mAdapter);
+            faceAdapters.add(mAdapter);
             view.setOnItemClickListener(this);
             view.setNumColumns(7);
             view.setBackgroundColor(Color.TRANSPARENT);
@@ -220,6 +230,13 @@ public class FaceRelativeLayout extends RelativeLayout implements
                     LayoutParams.WRAP_CONTENT));
             view.setGravity(Gravity.CENTER);
             pageViews.add(view);
+            view.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(context,"长按",Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
         }
 
 
@@ -262,6 +279,43 @@ public class FaceRelativeLayout extends RelativeLayout implements
     //触摸事件的处理
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+       /*         mAdapter.setSetoncli(new FaceAdapter.setoncli() {
+                    @Override
+                    public void set(ImageView iv_face, int p1) {
+                        View v = LayoutInflater.from(context).inflate(R.layout.pop,null);
+                        mPopupWindow = new PopupWindow(v);
+                        mPopupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+                        mPopupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+                        TextView item_iv_face = (TextView) v.findViewById(R.id.item_iv_face);
+                        v.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+                        popupHeight = v.getMeasuredHeight();
+                        popupWidth = v.getMeasuredWidth();
+
+                        final int[] location = new int[2];
+                        item_iv_face.setText(emojis.get(p1).get(p1).getCharacter());
+                        Drawable drawable = context.getResources().getDrawable(emojis.get(p1).get(p1).getId());
+                        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
+                        // param 左上右下
+                        item_iv_face.setCompoundDrawables(null,drawable,null,null);
+                        iv_face.getLocationOnScreen(location);
+                        mPopupWindow.setOutsideTouchable(true);//设置点击空白消失
+                        mPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));//设置背景;点击返回按钮,关闭PopupWindow
+                        mPopupWindow.showAtLocation(iv_face,Gravity.NO_GRAVITY, (location[0] + v.getWidth() / 2) - popupWidth / 2, location[1] - popupHeight-150 );
+                    }
+                });*/
+                Toast.makeText(context,"按下",Toast.LENGTH_SHORT).show();
+                //按下
+                break;
+            case MotionEvent.ACTION_MOVE:
+                //移动
+                break;
+            case MotionEvent.ACTION_UP:
+                mPopupWindow.dismiss();
+                //松开
+                break;
+        }
         return super.onTouchEvent(event);
     }
 
