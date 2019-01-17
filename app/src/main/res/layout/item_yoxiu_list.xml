@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -15,7 +14,6 @@
         android:src="@mipmap/sea" />
 
     <TextView
-        android:drawablePadding="@dimen/dp_5"
         android:id="@+id/tv_yoxiu_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,6 +21,7 @@
         android:layout_marginTop="@dimen/dp_20"
         android:background="@drawable/addr_bg"
         android:drawableLeft="@mipmap/weizhi_biaoqian"
+        android:drawablePadding="@dimen/dp_5"
         android:gravity="center"
         android:text="@string/shier"
         android:textColor="@color/colorFFFFFF"
@@ -69,27 +68,30 @@
         android:layout_marginLeft="@dimen/dp_20"
         android:layout_marginTop="@dimen/dp_6"
         android:src="@mipmap/default_touxiang" />
-<ImageView
-    android:visibility="gone"
-    android:layout_width="wrap_content"
-    android:src="@mipmap/huiyuan"
-    android:id="@+id/medal"
-    android:layout_alignRight="@+id/user_icon"
-    android:layout_alignBottom="@+id/user_icon"
 
-    android:layout_height="wrap_content" />
     <ImageView
-        android:layout_marginLeft="@dimen/dp_4"
-        android:layout_below="@+id/img_yoxiu"
+        android:id="@+id/medal"
         android:layout_width="wrap_content"
-        android:src="@mipmap/lv1"
-        android:layout_marginTop="@dimen/dp_20"
-        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/user_icon"
+        android:layout_alignBottom="@+id/user_icon"
+        android:src="@mipmap/huiyuan"
+
+        android:visibility="gone" />
+
+    <ImageView
         android:id="@+id/img_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img_yoxiu"
+        android:layout_marginLeft="@dimen/dp_4"
+        android:layout_marginTop="@dimen/dp_20"
         android:layout_toRightOf="@+id/tv_user_name"
+        android:src="@mipmap/lv1"
 
 
-        android:layout_height="wrap_content" />
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/tv_user_name"
         android:layout_width="wrap_content"
@@ -110,7 +112,7 @@
         android:layout_below="@+id/img_yoxiu"
         android:layout_marginTop="18dp"
         android:layout_marginRight="48dp"
-        android:layout_toLeftOf="@+id/img_more"
+        android:layout_toLeftOf="@+id/text"
         android:drawableLeft="@mipmap/see"
         android:drawablePadding="@dimen/dp_6"
         android:text="1089"
@@ -119,17 +121,31 @@
 
         />
 
-    <ImageView
-        android:paddingRight="@dimen/dp_20"
-        android:paddingLeft="@dimen/dp_20"
-        android:id="@+id/img_more"
+    <LinearLayout
+        android:id="@+id/text"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_15"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/img_yoxiu"
-        android:layout_alignRight="@+id/img_yoxiu"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="1dp"
-        android:src="@mipmap/gengduo" />
+        android:paddingRight="@dimen/dp_20"
+
+        >
+
+        <ImageView
+            android:id="@+id/img_more"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_15"
+            android:layout_below="@+id/img_yoxiu"
+            android:layout_alignRight="@+id/img_yoxiu"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="1dp"
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_20"
+            android:src="@mipmap/gengduo"
+            />
+
+    </LinearLayout>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_comment"

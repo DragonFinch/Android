@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,6 +34,7 @@ import com.iyoyogo.android.adapter.MessageDetailAdapter;
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
+import com.iyoyogo.android.bean.mine.center.YoJiContentBean;
 import com.iyoyogo.android.bean.mine.message.MessageBean;
 import com.iyoyogo.android.bean.mine.message.ReadMessage;
 import com.iyoyogo.android.contract.MessageContract;
@@ -56,7 +58,12 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -107,16 +114,26 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
     private SystemMessageAdapter systemMessageAdapter;
     private CommentMessageAdapter commentMessageAdapter;
     private FocusMessageAdapter focusMessageAdapter;
+    private List<MessageBean.DataBean.ListBean> mList;
+    private int currentPage;
 
     @Override
     protected void initView() {
         super.initView();
         StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+        mList = new ArrayList<>();
 //        statusbar();
         Intent intent = getIntent();
         title = intent.getStringExtra("title");
         likeMeTitleTvId.setText(title);
-        StatusBarUtils.setWindowStatusBarColor(MessageDetailActivity.this, R.color.white);
+//        StatusBarUtils.setWindowStatusBarColor(MessageDetailActivity.this, R.color.white);
+        smart.setRefreshFooter(new MyRefreshAnimFooter(this));
+        mRefreshAnimHeader = new MyRefreshAnimHeader(this);
+        setHeader(mRefreshAnimHeader);
+    }
+
+    private void setHeader(RefreshHeader header) {
+        smart.setRefreshHeader(header);
     }
 
     @Override
@@ -145,6 +162,174 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
         } else if (title.equals("关注消息")) {
             mPresenter.getMessage(user_id, user_token, 4, 1);
         }
+
+        //下拉刷新
+        smart.setEnableRefresh(true);
+        smart.setRefreshFooter(new MyRefreshAnimFooter(this));
+        smart.autoRefresh();
+        smart.finishRefresh(1050);
+        smart.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mList.clear();
+                refreshLayout.finishRefresh(1050);
+                if (title.equals("喜欢我的")) {
+                    mPresenter.getMessage(user_id, user_token, 2, 1);
+                } else if (title.equals("系统消息")) {
+                    mPresenter.getMessage(user_id, user_token, 1, 1);
+                } else if (title.equals("评论消息")) {
+                    mPresenter.getMessage(user_id, user_token, 3, 1);
+                } else if (title.equals("关注消息")) {
+                    mPresenter.getMessage(user_id, user_token, 4, 1);
+                }
+            }
+        });
+        smart.setOnLoadMoreListener(new OnRefreshLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                currentPage++;
+                if (title.equals("喜欢我的")) {
+                    mPresenter.getMessage(user_id, user_token, 2, currentPage);
+                    if (mList.size() != 0) {
+                        likeMeAdapter.notifyItemChanged(mList.size());
+                    }
+                } else if (title.equals("系统消息")) {
+                    mPresenter.getMessage(user_id, user_token, 1, currentPage);
+                    if (mList.size() != 0) {
+                        systemMessageAdapter.notifyItemChanged(mList.size());
+                    }
+                } else if (title.equals("评论消息")) {
+                    mPresenter.getMessage(user_id, user_token, 3, currentPage);
+                    if (mList.size() != 0) {
+                        commentMessageAdapter.notifyItemChanged(mList.size());
+                    }
+                } else if (title.equals("关注消息")) {
+                    mPresenter.getMessage(user_id, user_token, 4, currentPage);
+                    if (mList.size() != 0) {
+                        focusMessageAdapter.notifyItemChanged(mList.size());
+                    }
+                }
+//                if (title.equals("喜欢我的")) {
+//                    DataManager.getFromRemote()
+//                            .getMessage(user_id,user_token,2,currentPage)
+//                            .subscribe(new Observer<MessageBean>() {
+//                                @Override
+//                                public void onSubscribe(Disposable d) {
+//
+//                                }
+//
+//                                @Override
+//                                public void onNext(MessageBean messageBean) {
+//                                    List<MessageBean.DataBean.ListBean> list = messageBean.getData().getList();
+//                                    mList.addAll(list);
+//                                    if (mList.size()!=0){
+//                                        likeMeAdapter.notifyItemChanged(mList.size());
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void onError(Throwable e) {
+//
+//                                }
+//
+//                                @Override
+//                                public void onComplete() {
+//
+//                                }
+//                            });
+//                } else if (title.equals("系统消息")) {
+//                    DataManager.getFromRemote()
+//                            .getMessage(user_id,user_token,1,currentPage)
+//                            .subscribe(new Observer<MessageBean>() {
+//                                @Override
+//                                public void onSubscribe(Disposable d) {
+//
+//                                }
+//
+//                                @Override
+//                                public void onNext(MessageBean messageBean) {
+//                                    List<MessageBean.DataBean.ListBean> list = messageBean.getData().getList();
+//                                    mList.addAll(list);
+//                                    if (mList.size()!=0){
+//                                        systemMessageAdapter.notifyItemChanged(mList.size());
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void onError(Throwable e) {
+//
+//                                }
+//
+//                                @Override
+//                                public void onComplete() {
+//
+//                                }
+//                            });
+//                } else if (title.equals("评论消息")) {
+//                    DataManager.getFromRemote()
+//                            .getMessage(user_id,user_token,3,currentPage)
+//                            .subscribe(new Observer<MessageBean>() {
+//                                @Override
+//                                public void onSubscribe(Disposable d) {
+//
+//                                }
+//
+//                                @Override
+//                                public void onNext(MessageBean messageBean) {
+//                                    List<MessageBean.DataBean.ListBean> list = messageBean.getData().getList();
+//                                    mList.addAll(list);
+//                                    if (mList.size()!=0){
+//                                        commentMessageAdapter.notifyItemChanged(mList.size());
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void onError(Throwable e) {
+//
+//                                }
+//
+//                                @Override
+//                                public void onComplete() {
+//
+//                                }
+//                            });
+//                } else if (title.equals("关注消息")) {
+//                    DataManager.getFromRemote()
+//                            .getMessage(user_id,user_token,4,currentPage)
+//                            .subscribe(new Observer<MessageBean>() {
+//                                @Override
+//                                public void onSubscribe(Disposable d) {
+//
+//                                }
+//
+//                                @Override
+//                                public void onNext(MessageBean messageBean) {
+//                                    List<MessageBean.DataBean.ListBean> list = messageBean.getData().getList();
+//                                    mList.addAll(list);
+//                                    if (mList.size()!=0){
+//                                        focusMessageAdapter.notifyItemChanged(mList.size());
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void onError(Throwable e) {
+//
+//                                }
+//
+//                                @Override
+//                                public void onComplete() {
+//
+//                                }
+//                            });
+//                }
+                refreshLayout.finishLoadMore(2000);
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+
+            }
+        });
     }
 
     @Override
@@ -155,6 +340,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
 
     @Override
     public void getMessageSuccess(List<MessageBean.DataBean.ListBean> list) {
+        mList.addAll(list);
         if (list.size() == 0) {
             likeLayout.setVisibility(View.VISIBLE);
         } else {
@@ -195,6 +381,81 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                         }
                     }
                 });
+                commentMessageAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                    @Override
+                    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                        editLayout.setVisibility(View.VISIBLE);
+                        editComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+                            @Override
+                            public void onFocusChange(View v, boolean hasFocus) {
+                                if (hasFocus) {
+                                    //获得焦点
+                                    editComment.setHint("码字不容易，留个评论鼓励下嘛~");
+                                    editComment.setHintTextColor(Color.parseColor("#888888"));
+                                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                                    layoutParams.setMargins(0, 0, DensityUtil.dp2px(MessageDetailActivity.this, 40), 0);
+                                    //   etSendmessage.setLayoutParams(layoutParams);
+
+                                } else {
+                                    //失去焦点
+                                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(DensityUtil.dp2px(MessageDetailActivity.this, 230), ViewGroup.LayoutParams.WRAP_CONTENT);
+                                    layoutParams.setMargins(0, DensityUtil.dp2px(MessageDetailActivity.this, 20), 0, 0);
+                                    // etSendmessage.setLayoutParams(layoutParams);
+                                    editComment.setHint("再不评论 , 你会被抓去写作业的~");
+                                    editComment.setHintTextColor(Color.parseColor("#888888"));
+
+                                }
+                            }
+                        });
+                        //输入框
+                        editComment.setImeOptions(EditorInfo.IME_ACTION_SEND);
+                        editComment.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                if (s.toString().trim().equals("#")) {
+                                    startActivity(new Intent(MessageDetailActivity.this, MoreTopicActivity.class));
+                                }
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+
+                            }
+                        });
+                        editComment.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                                if (actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                                    if (editComment.getText().toString().length() > 0) {
+                                        mPresenter.addComment(user_id, user_token, Integer.parseInt(list.get(position).getParam()), 0, editComment.getText().toString().trim());
+                                        closeInputMethod();
+                                        editComment.clearFocus();
+                                        editComment.setFocusable(false);
+                                        Toast.makeText(MessageDetailActivity.this, "回复成功", Toast.LENGTH_SHORT).show();
+                                        editLayout.setVisibility(View.GONE);
+                                    } else {
+                                    }
+                                    return true;
+                                }
+                                return false;
+
+                            }
+                        });
+                        editComment.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                editComment.setFocusable(true);
+                                editComment.setFocusableInTouchMode(true);
+                                editComment.requestFocus();
+                            }
+                        });
+                    }
+                });
 
             } else if (title.equals("关注消息")) {
                 recyclerMessage.setLayoutManager(new LinearLayoutManager(MessageDetailActivity.this));
@@ -208,7 +469,6 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                         }
                     }
                 });
-
             }
 //            MessageDetailAdapter messageDetailAdapter = new MessageDetailAdapter(MessageDetailActivity.this, list);
 //            recyclerMessage.setAdapter(messageDetailAdapter);
