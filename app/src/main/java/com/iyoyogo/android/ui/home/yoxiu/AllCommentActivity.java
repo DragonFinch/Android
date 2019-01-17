@@ -102,7 +102,7 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
         id1 = intent.getIntExtra("id", 0);
         user_id = SpUtils.getString(this, "user_id", null);
         user_token = SpUtils.getString(this, "user_token", null);
-        mPresenter.getCommentList(user_id, user_token, 1, id1, 0);
+//        mPresenter.getCommentList(user_id, user_token, 1, id1, 0);
 
 
     }

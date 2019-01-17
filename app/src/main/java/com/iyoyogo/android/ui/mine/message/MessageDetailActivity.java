@@ -1,35 +1,57 @@
 package com.iyoyogo.android.ui.mine.message;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.MessageDetailAdapter;
+import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BaseActivity;
+import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.mine.message.MessageBean;
 import com.iyoyogo.android.bean.mine.message.ReadMessage;
 import com.iyoyogo.android.contract.MessageContract;
 import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.net.ApiObserver;
 import com.iyoyogo.android.presenter.MessagePresenter;
 import com.iyoyogo.android.ui.home.EditImageOrVideoActivity;
+import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
+import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
+import com.iyoyogo.android.ui.home.yoxiu.MoreTopicActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
+import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SoftKeyboardStateHelper;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimFooter;
 import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimHeader;
+import com.iyoyogo.android.widget.CircleImageView;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -40,6 +62,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 public class MessageDetailActivity extends BaseActivity<MessageContract.Presenter> implements MessageContract.View, SoftKeyboardStateHelper.SoftKeyboardStateListener {
@@ -79,6 +103,10 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
     private String title;
     private MyRefreshAnimFooter mRefreshAnimFooter;
     private MyRefreshAnimHeader mRefreshAnimHeader;
+    private LikeMeAdapter likeMeAdapter;
+    private SystemMessageAdapter systemMessageAdapter;
+    private CommentMessageAdapter commentMessageAdapter;
+    private FocusMessageAdapter focusMessageAdapter;
 
     @Override
     protected void initView() {
@@ -109,40 +137,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
         user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
         user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
         if (title.equals("喜欢我的")) {
-            DataManager.getFromRemote().getMessage(user_id, user_token, 2, 1).subscribe(new Consumer<MessageBean>() {
-                @Override
-                public void accept(MessageBean messageBean) throws Exception {
-                    List<MessageBean.DataBean.ListBean> list = messageBean.getData().getList();
-                    if (list.size() == 0) {
-                        likeLayout.setVisibility(View.VISIBLE);
-                    } else {
-                        recyclerMessage.setLayoutManager(new LinearLayoutManager(MessageDetailActivity.this));
-                        MessageDetailAdapter messageDetailAdapter = new MessageDetailAdapter(MessageDetailActivity.this, list);
-                        recyclerMessage.setAdapter(messageDetailAdapter);
-                        messageDetailAdapter.setOnClickListener(new MessageDetailAdapter.OnClickListener() {
-                            @Override
-                            public void setOnClickListener(View v, int position) {
-                                if (list.get(position).getYo_id().equals("")) {
-
-                                } else {
-                                    if (list.get(position).getYo_type().equals("1")) {
-                                        Intent intent = new Intent(MessageDetailActivity.this, YoXiuDetailActivity.class);
-                                        intent.putExtra("id", Integer.parseInt(list.get(position).getYo_id()));
-                                        startActivity(intent);
-                                    } else {
-                                        Intent intent = new Intent(MessageDetailActivity.this, YoJiDetailActivity.class);
-                                        intent.putExtra("yo_id", Integer.parseInt(list.get(position).getYo_id()));
-                                        startActivity(intent);
-                                    }
-                                }
-
-                                mPresenter.readMessage(user_id, user_token, String.valueOf(list.get(position).getMessage_id()));
-                                messageDetailAdapter.notifyDataSetChanged();
-                            }
-                        });
-                    }
-                }
-            });
+            mPresenter.getMessage(user_id, user_token, 2, 1);
         } else if (title.equals("系统消息")) {
             mPresenter.getMessage(user_id, user_token, 1, 1);
         } else if (title.equals("评论消息")) {
@@ -150,8 +145,6 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
         } else if (title.equals("关注消息")) {
             mPresenter.getMessage(user_id, user_token, 4, 1);
         }
-
-
     }
 
     @Override
@@ -162,9 +155,97 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
 
     @Override
     public void getMessageSuccess(List<MessageBean.DataBean.ListBean> list) {
+        if (list.size() == 0) {
+            likeLayout.setVisibility(View.VISIBLE);
+        } else {
+            if (title.equals("喜欢我的")) {
+                recyclerMessage.setLayoutManager(new LinearLayoutManager(MessageDetailActivity.this));
+                likeMeAdapter = new LikeMeAdapter(R.layout.activity_like_my, list);//喜欢我的
+                recyclerMessage.setAdapter(likeMeAdapter);
+                likeMeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                        if (list.get(position).getIs_read() == 0) {
+                            mPresenter.readMessage(user_id, user_token, list.get(position).getMessage_id() + "");
+                        }
+                    }
+                });
+            } else if (title.equals("系统消息")) {
+                recyclerMessage.setLayoutManager(new LinearLayoutManager(MessageDetailActivity.this));
+                systemMessageAdapter = new SystemMessageAdapter(R.layout.activity_system_message, list);//系统消息
+                recyclerMessage.setAdapter(systemMessageAdapter);
+                systemMessageAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                        if (list.get(position).getIs_read() == 0) {
+                            mPresenter.readMessage(user_id, user_token, list.get(position).getMessage_id() + "");
+                        }
+                    }
+                });
 
+            } else if (title.equals("评论消息")) {
+                recyclerMessage.setLayoutManager(new LinearLayoutManager(MessageDetailActivity.this));
+                commentMessageAdapter = new CommentMessageAdapter(R.layout.activity_comment_message, list);//评论消息
+                recyclerMessage.setAdapter(commentMessageAdapter);
+                commentMessageAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                        if (list.get(position).getIs_read() == 0) {
+                            mPresenter.readMessage(user_id, user_token, list.get(position).getMessage_id() + "");
+                        }
+                    }
+                });
+
+            } else if (title.equals("关注消息")) {
+                recyclerMessage.setLayoutManager(new LinearLayoutManager(MessageDetailActivity.this));
+                focusMessageAdapter = new FocusMessageAdapter(R.layout.activity_focus_message, list);//关注消息
+                recyclerMessage.setAdapter(focusMessageAdapter);
+                focusMessageAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                        if (list.get(position).getIs_read() == 0) {
+                            mPresenter.readMessage(user_id, user_token, list.get(position).getMessage_id() + "");
+                        }
+                    }
+                });
+
+            }
+//            MessageDetailAdapter messageDetailAdapter = new MessageDetailAdapter(MessageDetailActivity.this, list);
+//            recyclerMessage.setAdapter(messageDetailAdapter);
+//            messageDetailAdapter.setOnClickListener(new MessageDetailAdapter.OnClickListener() {
+//                @Override
+//                public void setOnClickListener(View v, int position) {
+//                    if (list.get(position).getYo_id().equals("")) {
+//
+//                    } else {
+//                        if (list.get(position).getYo_type().equals("1")) {
+//                            Intent intent = new Intent(MessageDetailActivity.this, YoXiuDetailActivity.class);
+//                            intent.putExtra("id", Integer.parseInt(list.get(position).getYo_id()));
+//                            startActivity(intent);
+//                        } else {
+//                            Intent intent = new Intent(MessageDetailActivity.this, YoJiDetailActivity.class);
+//                            intent.putExtra("yo_id", Integer.parseInt(list.get(position).getYo_id()));
+//                            startActivity(intent);
+//                        }
+//                    }
+//
+//                    mPresenter.readMessage(user_id, user_token, String.valueOf(list.get(position).getMessage_id()));
+//                    messageDetailAdapter.notifyDataSetChanged();
+//                }
+//            });
+        }
 
     }
+
+    private void closeInputMethod() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        boolean isOpen = imm.isActive();
+        if (isOpen) {
+            // imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//没有显示则显示
+            imm.hideSoftInputFromWindow(editComment.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
 
     @Override
     public void readMessageSuccess(ReadMessage.DataBean data) {
@@ -178,6 +259,11 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
         } else if (title.equals("关注消息")) {
             mPresenter.getMessage(user_id, user_token, 4, 1);
         }
+    }
+
+    @Override
+    public void addCommentSuccess(BaseBean baseBean) {
+
     }
 
 
@@ -248,10 +334,4 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

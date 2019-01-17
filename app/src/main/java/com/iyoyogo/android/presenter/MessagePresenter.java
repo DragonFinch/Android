@@ -4,6 +4,7 @@ import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BasePresenter;
+import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.mine.message.MessageBean;
 import com.iyoyogo.android.bean.mine.message.ReadMessage;
 import com.iyoyogo.android.contract.MessageContract;
@@ -47,6 +48,24 @@ public class MessagePresenter extends BasePresenter<MessageContract.View> implem
                         if (data!=null){
                             mView.readMessageSuccess(data);
                         }
+                    }
+
+                    @Override
+                    protected boolean doOnFailure(int code, String message) {
+                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+    }
+
+    @Override
+    public void addComment(String user_id, String user_token, int comment_id, int yo_id, String content) {
+        DataManager.getFromRemote()
+                .addComment(user_id, user_token, comment_id, yo_id, content)
+                .subscribe(new ApiObserver<BaseBean>(mView, this) {
+                    @Override
+                    protected void doOnSuccess(BaseBean baseBean) {
+                        mView.addCommentSuccess(baseBean);
                     }
 
                     @Override
