@@ -22,7 +22,7 @@ public class YoJiContentPresenter extends BasePresenter<YoJiContentContract.View
                     @Override
                     protected void doOnSuccess(YoJiContentBean yoJiContentBean) {
                         YoJiContentBean.DataBean data = yoJiContentBean.getData();
-                        if (data!=null){
+                        if (data!=null&&mView!=null){
                             mView.getYoJiContentSuccess(data);
                         }
                     }

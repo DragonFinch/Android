@@ -4,6 +4,7 @@ package com.iyoyogo.android.net;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.HisFansBean;
 import com.iyoyogo.android.bean.HisPositionBean;
+import com.iyoyogo.android.bean.LikeBean;
 import com.iyoyogo.android.bean.PublishSucessBean;
 import com.iyoyogo.android.bean.SameBean;
 import com.iyoyogo.android.bean.VipCenterBean;
@@ -304,7 +305,7 @@ public interface ApiService {
     //点赞
     @POST("index.php/api/praise/click")
     @FormUrlEncoded
-    Observable<BaseBean> praise(@Field("user_id") String user_id,
+    Observable<LikeBean> praise(@Field("user_id") String user_id,
                                 @Field("user_token") String user_token,
                                 @Field("yo_id") int yo_id,
                                 @Field("comment_id") int comment_id);
@@ -427,6 +428,11 @@ public interface ApiService {
     @POST("index.php/api/collect/collect_add")
     @FormUrlEncoded
     Observable<AddCollectionBean> addCollection(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("folder_id") int folder_id, @Field("yo_id") int yo_id);
+
+    //取消收藏
+    @POST("/index.php/api/yo/delete_collect")
+    @FormUrlEncoded
+    Observable<AddCollectionBean> delCollection(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id);
 //index.php/api/collect/collect_delete
 
     //不喜欢

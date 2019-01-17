@@ -193,6 +193,7 @@
                 android:gravity="center">
 
                 <ImageView
+                    android:id="@+id/iv_collect"
                     android:src="@mipmap/shoucang_bai"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -222,6 +223,7 @@
                 android:gravity="center">
 
                 <ImageView
+                    android:id="@+id/iv_like"
                     android:src="@mipmap/xihuan_bai"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

@@ -97,6 +97,7 @@ public class App extends Application {
         } else {
             UMConfigure.setLogEnabled(false);
         }
+
         //全局不活一场
         CrashHandler.getInstance().init(mContext);
         //防止方法数

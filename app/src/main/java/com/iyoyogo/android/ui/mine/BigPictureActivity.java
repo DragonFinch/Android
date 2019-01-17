@@ -4,13 +4,16 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
+import com.iyoyogo.android.utils.GlideRoundTransform;
 import com.iyoyogo.android.utils.SpUtils;
 
 import butterknife.BindView;
@@ -42,6 +45,9 @@ public class BigPictureActivity extends BaseActivity {
         super.initData(savedInstanceState);
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
-        Glide.with(this).load(url).into(imgBig);
+        RequestOptions requestOptions1 = new RequestOptions();
+        requestOptions1.placeholder(R.mipmap.default_touxiang);
+        requestOptions1.error(R.mipmap.default_touxiang);
+        Glide.with(this).load(url).apply(requestOptions1).into(imgBig);
     }
 }

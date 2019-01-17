@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -61,11 +62,13 @@ public class MessageDetailAdapter extends RecyclerView.Adapter<MessageDetailAdap
         }
         if (mList.get(position).getTitle().equals("")) {
             holder.layout.setVisibility(View.GONE);
+            holder.content_layout.setVisibility(View.GONE);
+            holder.content_layout1.setVisibility(View.VISIBLE);
         } else {
             holder.tv_action.setText(mList.get(position).getTitle());
 
         }
-        if (mList.get(position).getUser_nickname()==null) {
+        if (mList.get(position).getUser_nickname() == null) {
             holder.layout.setVisibility(View.GONE);
         } else {
             holder.user_nick_name.setText(mList.get(position).getUser_nickname());
@@ -75,7 +78,7 @@ public class MessageDetailAdapter extends RecyclerView.Adapter<MessageDetailAdap
             holder.tv_content.setVisibility(View.GONE);
         } else {
             holder.tv_content.setText(mList.get(position).getContent());
-
+            holder.tv_content1.setText(mList.get(position).getContent());
         }
         if (mList.get(position).getUser_logo().equals("")) {
             holder.user_icon.setVisibility(View.GONE);
@@ -96,8 +99,10 @@ public class MessageDetailAdapter extends RecyclerView.Adapter<MessageDetailAdap
             holder.tv_time.setVisibility(View.GONE);
         } else {
             holder.tv_time.setText(mList.get(position).getCreate_time());
+            holder.tv_time1.setText(mList.get(position).getCreate_time());
+            holder.tv_time2.setText(mList.get(position).getCreate_time());
         }
-        if (mList.get(position).getUser_logo().equals("") && mList.get(position).getUser_nickname()==null && mList.get(position).getTitle().equals("") && mList.get(position).isIs_reply()) {
+        if (mList.get(position).getUser_logo().equals("") && mList.get(position).getUser_nickname() == null && mList.get(position).getTitle().equals("") && mList.get(position).isIs_reply()) {
             holder.layout.setVisibility(View.GONE);
         }
         holder.user_icon.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +152,8 @@ public class MessageDetailAdapter extends RecyclerView.Adapter<MessageDetailAdap
         ImageView item_like_iv_id;
         View dot_read;
         LinearLayout layout;
-        TextView user_nick_name, tv_action, tv_content, tv_time, tv_reply;
+        TextView user_nick_name, tv_action, tv_content, tv_time, tv_reply, tv_content1, tv_time1, tv_time2;
+        RelativeLayout content_layout, content_layout1;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -158,8 +164,13 @@ public class MessageDetailAdapter extends RecyclerView.Adapter<MessageDetailAdap
             user_nick_name = itemView.findViewById(R.id.user_nick_name);
             tv_action = itemView.findViewById(R.id.tv_action);
             tv_content = itemView.findViewById(R.id.tv_content);
+            tv_content1 = itemView.findViewById(R.id.tv_content1);
             tv_time = itemView.findViewById(R.id.tv_time);
+            tv_time1 = itemView.findViewById(R.id.tv_time1);
+            tv_time2 = itemView.findViewById(R.id.tv_time2);
             tv_reply = itemView.findViewById(R.id.tv_reply);
+            content_layout1 = itemView.findViewById(R.id.content_layout1);
+            content_layout = itemView.findViewById(R.id.content_layout);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.iyoyogo.android.ui.home;
 
 import android.Manifest;
+import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -243,7 +244,7 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
 
     private void initCapture() {
         mLiveWindow.setBackgroundColor(222, 222, 222);
-        mLiveWindow.setFillMode(NvsLiveWindow.FILLMODE_PRESERVEASPECTFIT);
+//        mLiveWindow.setFillMode(NvsLiveWindow.FILLMODE_PRESERVEASPECTFIT);
         if (null == mStreamingContext) {
             return;
         }
@@ -380,7 +381,7 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
 
                     // 拍视频or拍照片
                     if (mRecordType == Constants.RECORD_TYPE_VIDEO) {
-                        mLlRecordTypeLayout.clearAnimation();
+//                        mLlRecordTypeLayout.clearAnimation();
                         mLlRecordTypeLayout.setVisibility(View.GONE);
                         mViewSelectType.setVisibility(View.INVISIBLE);
                         mTvVideoTime.setVisibility(View.VISIBLE);
@@ -409,12 +410,13 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
                 selectRecordType(false);
                 break;
             case R.id.tv_type_picture:
-                break;
-            case R.id.view_left:
                 if (mRecordType == Constants.RECORD_TYPE_PICTURE) {
                     return;
                 }
                 selectRecordType(true);
+                break;
+            case R.id.view_left:
+
                 break;
             case R.id.iv_back:
                 finish();
@@ -439,8 +441,10 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
 
                 LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mLiveWindow.getLayoutParams();
                 if (windowType == 3) {
+                    int windowWidth  = ScreenUtils.getScreenWidth(this);
+                    int windowHeight = ScreenUtils.getScreenHeight(this);
+                    layoutParams.topMargin = windowHeight - windowWidth - UiUtils.dip2px(167);
                     mIvLights.setImageResource(mStreamingContext.isFlashOn() ? R.mipmap.shanguang_b : R.mipmap.shanhuangoff_b);
-                    layoutParams.topMargin = UiUtils.dip2px(65);
                 } else {
                     layoutParams.topMargin = 0;
                     mIvLights.setImageResource(mStreamingContext.isFlashOn() ? R.mipmap.shanguang : R.mipmap.shanhuang_off_w);
@@ -488,19 +492,22 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
     }
 
     private void selectRecordType(boolean left_to_right) {
-        TranslateAnimation ani;
+//        TranslateAnimation ani;
+        ObjectAnimator animator;
         if (left_to_right) {
-            ani = new TranslateAnimation(-mTvTypePicture.getX(), mViewLeft.getX(), 0, 0);
+            animator = ObjectAnimator.ofFloat(mLlRecordTypeLayout, "translationX", -mTvTypePicture.getX(), mViewLeft.getX(), mViewLeft.getX());
+//            ani = new TranslateAnimation(-mTvTypePicture.getX(), mViewLeft.getX(), 0, 0);
         } else {
-            ani = new TranslateAnimation(mViewLeft.getX(), -mTvTypePicture.getX(), 0, 0);
+            animator = ObjectAnimator.ofFloat(mLlRecordTypeLayout, "translationX", mViewLeft.getX(), -mTvTypePicture.getX(), -mTvTypePicture.getX());
+//            ani = new TranslateAnimation(mViewLeft.getX(), -mTvTypePicture.getX(), 0, 0);
         }
         mRecordType = mRecordType == Constants.RECORD_TYPE_PICTURE ? Constants.RECORD_TYPE_VIDEO : Constants.RECORD_TYPE_PICTURE;
         mTvTypePicture.setTextColor(mRecordType == Constants.RECORD_TYPE_PICTURE ? (windowType == 2 ? Color.WHITE : Color.parseColor("#333333")) : Color.parseColor(windowType == 2 ? "#99ffffff" : "#888888"));
         mTvTypeVideo.setTextColor(mRecordType == Constants.RECORD_TYPE_VIDEO ? (windowType == 2 ? Color.WHITE : Color.parseColor("#333333")) : Color.parseColor(windowType == 2 ? "#99ffffff" : "#888888"));
 
-        ani.setDuration(300);
-        ani.setFillAfter(true);
-        mLlRecordTypeLayout.startAnimation(ani);
+        animator.setDuration(300);
+        animator.start();
+//        mLlRecordTypeLayout.startAnimation(ani);
     }
 
     @Override
@@ -510,7 +517,7 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
             case PermissionsActivity.PERMISSIONS_DENIED:
                 mBuilderPermission = new Dialog(this, R.style.dialogTransparent);
                 mPermissionDialog = (RelativeLayout) getLayoutInflater().inflate(R.layout.capture_permission_dialog, null);
-                mOk = (TextView) mPermissionDialog.findViewById(R.id.ok);
+                mOk = mPermissionDialog.findViewById(R.id.ok);
                 mBuilderPermission.setContentView(mPermissionDialog);
                 mOk.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -618,7 +625,7 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
             mIvTake.setEnabled(true);
             mIvTakeSub.setImageAlpha(255);
             mIvTake.setImageAlpha(255);
-            mLlRecordTypeLayout.clearAnimation();
+//            mLlRecordTypeLayout.clearAnimation();
             mLlRecordTypeLayout.setVisibility(View.VISIBLE);
             mViewSelectType.setVisibility(View.VISIBLE);
             mTvVideoTime.setVisibility(View.GONE);

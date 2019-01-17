@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -29,6 +30,7 @@ import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiListActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuListActivity;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.util.MyConversionUtil;
 import com.iyoyogo.android.view.CardTransformer;
 import com.iyoyogo.android.view.MyViewPager;
 
@@ -110,7 +112,9 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-
+ /*       MyConversionUtil.getInstace().getFileText(context);
+        SpannableString spannableString =   MyConversionUtil.getInstace().getExpressionString(context, listBean.getContent());
+        holder.tv_content.setText(spannableString);*/
         View view;
         if (viewType == VIEWPAGER) {
             view = LayoutInflater.from(context).inflate(R.layout.vp, viewGroup, false);

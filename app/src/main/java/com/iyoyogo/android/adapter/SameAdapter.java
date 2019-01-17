@@ -60,7 +60,7 @@ public class SameAdapter extends BaseQuickAdapter<SameBean.DataBean.ListBean, Ba
         helper.setGone(R.id.iv_video, item.getFile_type() != 1)
                 .setGone(R.id.ll_user, position <= 2)
                 .setGone(R.id.iv_user_pic, position == 0)
-                .setGone(R.id.tv_user_name, position == 0);
+                .setGone(R.id.tv_user_name, position == 0).addOnClickListener(R.id.ll_user);
 
         helper.setText(R.id.tv_user_name, item.getUser_nickname());
         Glide.with(mContext).load(item.getUser_logo()).apply(new RequestOptions().circleCrop()).into((ImageView) helper.getView(R.id.iv_user_pic));

@@ -6,6 +6,7 @@ import android.util.Log;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.HisFansBean;
 import com.iyoyogo.android.bean.HisPositionBean;
+import com.iyoyogo.android.bean.LikeBean;
 import com.iyoyogo.android.bean.PublishSucessBean;
 import com.iyoyogo.android.bean.SameBean;
 import com.iyoyogo.android.bean.VipCenterBean;
@@ -396,7 +397,7 @@ public class Model {
     /*8
    点赞
      */
-    public Observable<BaseBean> praise(String user_id, String user_token, int yo_id, int comment_id) {
+    public Observable<LikeBean> praise(String user_id, String user_token, int yo_id, int comment_id) {
         return HttpClient.getApiService().praise(user_id, user_token, yo_id, comment_id)
                 .compose(this.switchThread());
     }
@@ -576,6 +577,14 @@ public class Model {
      */
     public Observable<AddCollectionBean> addCollection(String user_id, String user_token, int folder_id, int yo_id) {
         return HttpClient.getApiService().addCollection(user_id, user_token, folder_id, yo_id)
+                .compose(this.switchThread());
+    }
+
+    /**
+     * 取消收藏
+     */
+    public Observable<BaseBean> delCollection(String user_id, String user_token, int yo_id) {
+        return HttpClient.getApiService().delCollection(user_id, user_token, yo_id)
                 .compose(this.switchThread());
     }
 

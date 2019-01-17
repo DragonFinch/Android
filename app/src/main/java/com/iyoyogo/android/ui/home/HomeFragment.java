@@ -91,6 +91,7 @@ public class HomeFragment extends BaseFragment {
     ImageView publish_home;
     private String name1;
 
+
     private Fragment currentFragment = new Fragment();
 
     public String sHA1(Context context) {

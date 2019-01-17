@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.Gravity;
@@ -31,6 +32,7 @@ import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.util.MyConversionUtil;
 import com.iyoyogo.android.widget.CircleImageView;
 
 import java.util.List;
@@ -366,7 +368,9 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
                 }
             }
         });
-        holder.tv_content.setText(mList.get(position).getContent());
+        MyConversionUtil.getInstace().getFileText(context);
+        SpannableString spannableString =   MyConversionUtil.getInstace().getExpressionString(context, mList.get(position).getContent());
+        holder.tv_content.setText(spannableString);
         holder.tv_comment_like_num.setText(listBean.getCount_praise() + "");
         holder.tv_huifu_num.setText(listBean.getCount_comment() + "");
         holder.tv_time.setText(listBean.getCreate_time());

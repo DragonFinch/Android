@@ -559,8 +559,10 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                 break;
             case R.id.tv_desc:
 //TODO
+
                 Intent intent = new Intent(getApplicationContext(), YoXiuListActivity.class);
                 intent.putExtra("position", tvDesc.getText().toString().trim());
+                Log.e("zxxz", "onViewClicked: "+tvDesc.getText().toString().trim() );
                 startActivity(intent);
                 break;
             case R.id.img_go:
@@ -961,14 +963,14 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         });
     }
 
-
+    //发布成功的回调
     @Override
     public void addCommentSuccess(BaseBean baseBean) {
         String msg = baseBean.getMsg();
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         editComment.setText("");
         ll_facechoose.setVisibility(View.GONE);
         yoXiuDetailAdapter.notifyDataSetChanged();
+        KeyBoardUtils.closeKeybord(editComment,YoXiuDetailActivity.this);
         mPresenter.getCommentList(user_id, user_token, 1, id, 0);
     }
 

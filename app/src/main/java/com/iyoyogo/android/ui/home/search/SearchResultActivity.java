@@ -6,11 +6,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -26,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -45,12 +42,9 @@ import com.iyoyogo.android.bean.search.KeywordUserBean;
 import com.iyoyogo.android.contract.KeywordContract;
 import com.iyoyogo.android.presenter.KeywordPresenter;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
-import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.utils.SpUtils;
-import com.iyoyogo.android.utils.StatusBarUtils;
-import com.iyoyogo.android.utils.search.SharedPrefrenceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +86,8 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     TextView tvGson;
     @BindView(R.id.tv_gson1)
     TextView tvGson1;
+    @BindView(R.id.view)
+    View view;
     private PopupWindow popupWindow;
     private List<KeywordBean.DataBean.UserListBean> mUser = new ArrayList<>();
     private List<KeywordBean.DataBean.YojListBean> myoj = new ArrayList<>();
@@ -125,7 +121,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             searchGuanjiaci.setText(keyword);
         }
 
-        mPresenter.getKeyWord(user_id, user_token, keyword, "all","");
+        mPresenter.getKeyWord(user_id, user_token, keyword, "all", "");
 
         tvSetname.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -235,7 +231,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     //关闭软件盘
                     hideKeyboard(searchGuanjiaci);
-                    mPresenter.getKeyWord(user_id, user_token, searchGuanjiaci.getText().toString(), "all","");
+                    mPresenter.getKeyWord(user_id, user_token, searchGuanjiaci.getText().toString(), "all", "");
                 }
                 return false;
             }
@@ -250,22 +246,22 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 tvSetname.setText("全部");
                 popupWindow.dismiss();
                 //切换进行网络请求   调用BaseActivit
-                mPresenter.getKeyWord(user_id, user_token, keyword, "all","");
+                mPresenter.getKeyWord(user_id, user_token, keyword, "all", "");
                 break;
             case R.id.youji:
                 tvSetname.setText("yo记");
                 popupWindow.dismiss();
-                mPresenter.getKeyWord(user_id, user_token, keyword, "yoj","");
+                mPresenter.getKeyWord(user_id, user_token, keyword, "yoj", "");
                 break;
             case R.id.yoxiu:
                 tvSetname.setText("yo秀");
                 popupWindow.dismiss();
-                mPresenter.getKeyWord(user_id, user_token, keyword, "yox","");
+                mPresenter.getKeyWord(user_id, user_token, keyword, "yox", "");
                 break;
             case R.id.user:
                 tvSetname.setText("用户");
                 popupWindow.dismiss();
-                mPresenter.getKeyWord(user_id, user_token, keyword, "user","");
+                mPresenter.getKeyWord(user_id, user_token, keyword, "user", "");
                 break;
 
         }
@@ -293,7 +289,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     public void search(KeywordUserBean keywordBean) {
         //清空集合
         listBeans.clear();
-        Log.e("search", "search: "+keywordBean.getData().getList().size() );
+        Log.e("search", "search: " + keywordBean.getData().getList().size());
         if (keywordBean.getData().getList() != null) {
             list = keywordBean.getData().getList();
             listBeans.addAll(list);
@@ -314,40 +310,40 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     int type = list.get(position).getType();
-                    switch (type){
+                    switch (type) {
                         //个人信息
                         case 1:
                             Intent intent = new Intent(SearchResultActivity.this, Personal_homepage_Activity.class);
                             intent.putExtra("yo_user_id", list.get(position).getUser_id() + "");
                             startActivity(intent);
                             break;
-                         //有记
+                        //有记
                         case 2:
                             Intent intent1 = new Intent(SearchResultActivity.this, YoJiDetailActivity.class);
                             intent1.putExtra("yo_id", list.get(position).getYo_id());
                             startActivity(intent1);
                             break;
-                            //有修
+                        //有修
                         case 3:
                             Intent intent2 = new Intent(SearchResultActivity.this, YoXiuDetailActivity.class);
                             intent2.putExtra("id", list.get(position).getYo_id());
                             startActivity(intent2);
                             break;
-                            //标签
+                        //标签
                         case 4:
-                            mPresenter.getKeyWord(user_id,user_token,listBeans.get(position).getLabel(),"all", listBeans.get(position).getKey_type());
+                            mPresenter.getKeyWord(user_id, user_token, listBeans.get(position).getLabel(), "all", listBeans.get(position).getKey_type());
                             break;
-                            //定位
+                        //定位
                         case 5:
-                            mPresenter.getKeyWord(user_id,user_token,listBeans.get(position).getPosition_name(),"all",listBeans.get(position).getKey_type());
+                            mPresenter.getKeyWord(user_id, user_token, listBeans.get(position).getPosition_name(), "all", listBeans.get(position).getKey_type());
                             break;
-                            //频道
+                        //频道
                         case 6:
-                            mPresenter.getKeyWord(user_id,user_token,listBeans.get(position).getChannel(),"all",listBeans.get(position).getKey_type());
+                            mPresenter.getKeyWord(user_id, user_token, listBeans.get(position).getChannel(), "all", listBeans.get(position).getKey_type());
                             break;
-                            //搜索全部
+                        //搜索全部
                         case 7:
-                            mPresenter.getKeyWord(user_id,user_token,searchGuanjiaci.getText().toString(),"all","");
+                            mPresenter.getKeyWord(user_id, user_token, searchGuanjiaci.getText().toString(), "all", "");
                             break;
                     }
                 }
@@ -478,6 +474,11 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 public void set(int position) {
                 }
             });
+            if (mUser.size() <=0){
+                view.setVisibility(View.GONE);
+            }else{
+                view.setVisibility(View.VISIBLE);
+            }
 
             name.setVisibility(View.VISIBLE);
             lv.setVisibility(View.VISIBLE);
@@ -488,9 +489,10 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             tvGson.setVisibility(View.GONE);
             tvGson1.setVisibility(View.GONE);
             listViewLv.setVisibility(View.GONE);
-            if (mUser.size() == 0){
+            tvSetname.setVisibility(View.VISIBLE);
+            if (mUser.size() == 0) {
                 tvGson.setVisibility(View.VISIBLE);
-                if (myoj.size() == 0 && myox.size() == 0){
+                if (myoj.size() == 0 && myox.size() == 0) {
                     tvGson.setVisibility(View.VISIBLE);
                     tvGson1.setVisibility(View.VISIBLE);
 
@@ -502,8 +504,8 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     /**
      * 隐藏软键盘
      *
-     * @param : Context上下文环境，一般为Activity实例
-     * @param view                 :一般为EditText
+     * @param :    Context上下文环境，一般为Activity实例
+     * @param view :一般为EditText
      */
     public static void hideKeyboard(View view) {
         InputMethodManager manager = (InputMethodManager) view.getContext()
@@ -514,7 +516,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     @Override
     protected void onResume() {
         super.onResume();
-       // mPresenter.getKeyWord(user_id,user_token,keyword,"all");
-       // mPresenter.getSearch(user_id,user_token,s.toString());
+        // mPresenter.getKeyWord(user_id,user_token,keyword,"all");
+        // mPresenter.getSearch(user_id,user_token,s.toString());
     }
 }

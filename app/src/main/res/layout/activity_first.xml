@@ -103,6 +103,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+        <LinearLayout
+            android:background="#FAFAFA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/name"
@@ -111,6 +116,7 @@
                 android:layout_margin="20dp"
                 android:src="@mipmap/user_title"
                 android:visibility="gone" />
+        </LinearLayout>
             <TextView
                 android:visibility="gone"
                 android:layout_margin="@dimen/dp_5"
@@ -131,15 +137,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:visibility="gone"></android.support.v7.widget.RecyclerView>
-
-            <ImageView
-                android:id="@+id/content"
-                android:layout_width="wrap_content"
+            <View
+                android:id="@+id/view"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_6"
+                android:background="#F1F1F1"
+                ></View>
+            <LinearLayout
+                android:background="#FAFAFA"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:src="@mipmap/content_title"
-                android:visibility="gone" />
-
+                android:orientation="vertical">
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:src="@mipmap/content_title"
+                    />
+            </LinearLayout>
             <TextView
                 android:visibility="gone"
                 android:layout_margin="@dimen/dp_5"
@@ -153,14 +171,15 @@
 
 
             <android.support.v7.widget.RecyclerView
+                android:visibility="gone"
                 android:id="@+id/lv_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="6dp"
                 android:nestedScrollingEnabled="false"
                 android:overScrollMode="never"
                 android:scrollbars="none"
-                android:visibility="gone"></android.support.v7.widget.RecyclerView>
+                ></android.support.v7.widget.RecyclerView>
 
 
 
@@ -188,15 +207,15 @@
         android:visibility="gone">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dp_127"
+            android:layout_height="@dimen/dp_110"
             android:src="@mipmap/blank_search" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_20"
-            android:text="@string/zhelishikongde"
+            android:text="这里是空的yo~"
             android:textColor="@color/c333333"
             android:textSize="@dimen/sp_15" />
 
