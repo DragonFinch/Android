@@ -42,6 +42,7 @@ public class MineSettingPresenter extends BasePresenter<MineSettingContract.View
                     protected void doOnSuccess(MineSettingBean mineSettingBean) {
                         MineSettingBean.DataBean data = mineSettingBean.getData();
                         if (data != null) {
+                            if(mView!=null)
                             mView.getMineSettingSuccess(data);
                         }
 
@@ -58,7 +59,7 @@ public class MineSettingPresenter extends BasePresenter<MineSettingContract.View
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
-
+                        if(mView!=null)
                         mView.setMineSettingSuccess(baseBean);
 
                     }

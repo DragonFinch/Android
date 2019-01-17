@@ -218,7 +218,6 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
         String s = sHA1(getApplicationContext());
         Log.d("LocationActivity", s);
 
-
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 
@@ -266,9 +265,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         //判断权限是否被允许
 
-
     }
-
 
     @Override
     protected int getLayoutId() {
@@ -283,13 +280,11 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     public void qqLogin() {
         type = 2;
         authorization(SHARE_MEDIA.QQ, 2);
-
     }
 
     public void weiXinLogin() {
         type = 1;
         authorization(SHARE_MEDIA.WEIXIN, 1);
-
     }
 
     public void sinaLogin() {
@@ -304,8 +299,6 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
             @Override
             public void onStart(SHARE_MEDIA share_media) {
                 Log.d("LoginActivity", "onStart " + "授权开始");
-
-
             }
 
             @Override
@@ -331,7 +324,6 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
                 SpUtils.putString(LoginActivity.this, "logo", iconurl);
                 //拿到信息去请求登录接口。。。
                 if (address != null) {
-
                     mPresenter.login(address, android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, type, "", "", uid, name, iconurl);
                 } else {
                     mPresenter.login("", android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, type, "", "", uid, name, iconurl);
@@ -353,7 +345,6 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     }
 
     //删除授权
-
     @Override
     protected void initView() {
         super.initView();
@@ -464,7 +455,6 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
             switch (msg.what) {
                 case 0:
                     setResult(RESULT_OK);
-
                     break;
                 case 4:
                     tvCode.setEnabled(false);
@@ -503,8 +493,6 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fwtk:
-
-
                 startActivity(new Intent(this, WebActivity.class)
                         .putExtra("title", "服务条款")
                         .putExtra("url", "http://app.iyoyogo.com/index.php/home/article/details?id=21"));
@@ -540,28 +528,20 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
                 } else {
                     Toast.makeText(this, "手机号不能为空", Toast.LENGTH_SHORT).show();
                 }
-
-
                 break;
             case R.id.login_btn:
-
                 if (isAgree) {
-
-
                     if (etPhoneNum.getText().toString().length() == 11 && !TextUtils.isEmpty(etPhoneNum.getText().toString()) && etPhoneNum.getText().toString().startsWith("1")) {
                         if (!TextUtils.isEmpty(etVerCode.getText().toString().trim())) {
                             if (address != null) {
-
                                 mPresenter.login(address, android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, 4, etPhoneNum.getText().toString().trim(), etVerCode.getText().toString().trim(), "", "", "");
                             } else {
                                 mPresenter.login("", android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, 4, etPhoneNum.getText().toString().trim(), etVerCode.getText().toString().trim(), "", "", "");
                                 loginBtn.setClickable(false);
-
                             }
                         } else {
                             Toast.makeText(this, "验证码不能为空", Toast.LENGTH_SHORT).show();
                         }
-
                     } else {
                         Toast.makeText(this, "手机号不能为空", Toast.LENGTH_SHORT).show();
                     }
@@ -571,21 +551,41 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
                 break;
             case R.id.login_wechat:
                 weiXinLogin();
-
-
-                loginWechat.setClickable(false);
-
+                loginWechat.setEnabled(false);
+                loginWechat.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(loginWechat!=null)
+                        loginWechat.setEnabled(true);
+                    }
+                },2000);
                 break;
             case R.id.login_qq:
                 qqLogin();
-                loginQq.setClickable(false);
 //                mPresenter.login("", "", "", 2, "", "", uid, name, iconurl);
-
+                loginQq.setEnabled(false);
+                loginQq.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(loginQq!=null)
+                        loginQq.setEnabled(true);
+                    }
+                },2000);
                 break;
             case R.id.login_weibo:
                 sinaLogin();
 //                mPresenter.login("", "", "", 3, "", "", uid, name, iconurl);
-                loginWeibo.setClickable(false);
+                View btnWeibo = findViewById(R.id.login_weibo);
+                btnWeibo.setEnabled(false);
+                weiXinLogin();
+                loginWeibo.setEnabled(false);
+                loginWeibo.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(loginWeibo!=null)
+                        loginWeibo.setEnabled(true);
+                    }
+                },2000);
                 break;
         }
     }
@@ -689,7 +689,6 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
         super.onActivityResult(requestCode, resultCode, data);
         UMShareConfig config = new UMShareConfig();
         config.isNeedAuthOnGetUserInfo(true);
-
         UMShareAPI.get(this).setShareConfig(config);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }

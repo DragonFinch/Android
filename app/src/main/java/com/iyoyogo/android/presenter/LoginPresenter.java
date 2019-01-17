@@ -29,7 +29,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                     @Override
                     protected void doOnSuccess(SendMessageBean sendMessageBean) {
                         SendMessageBean.DataBean data = sendMessageBean.getData();
-                        if (data != null) {
+                        if (data != null && mView!=null) {
                             mView.sendMessageSuccess(data);
                         }
                     }
@@ -49,7 +49,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                 @Override
                 protected void doOnSuccess(LoginBean loginBean) {
                     LoginBean.DataBean data = loginBean.getData();
-                    if (data!=null){
+                    if (data!=null && mView!=null){
                         mView.loginSuccess(data);
                     }
 
@@ -73,7 +73,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                     @Override
                     protected void doOnSuccess(MarketBean marketBean) {
                         MarketBean.DataBean data = marketBean.getData();
-                        if (data!=null){
+                        if (data!=null && mView!=null){
                             mView.marketSuccess(data);
                         }
                     }
@@ -92,6 +92,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                 .subscribe(new ApiObserver<BaseBean>(mView,this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
+                        if (mView!=null)
                         mView.pushSuccess(baseBean);
                     }
 

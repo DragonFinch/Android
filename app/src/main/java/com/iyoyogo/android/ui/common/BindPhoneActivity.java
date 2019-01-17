@@ -83,16 +83,18 @@ public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter>
             switch (msg.what) {
                 case 0:
                     setResult(RESULT_OK);
-
                     break;
                 case 4:
-                    tvBindCode.setEnabled(false);
-                    tvBindCode.setText("已发送(" + String.valueOf(time) + ")");
+                    if (tvBindCode != null) {
+                        tvBindCode.setEnabled(false);
+                        tvBindCode.setText("已发送(" + String.valueOf(time) + ")");
+                    }
                     break;
                 case 5:
-                    tvBindCode.setEnabled(true);
-                    tvBindCode.setText("重新获取验证码");
-
+                    if (tvBindCode != null) {
+                        tvBindCode.setEnabled(true);
+                        tvBindCode.setText("重新获取验证码");
+                    }
                     time = 10;
                     break;
             }

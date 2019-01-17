@@ -1214,4 +1214,8 @@ public class Model {
         return HttpClient.getApiService().goCameraDetail(user_id, user_token, yo_id)
                 .compose(this.switchThread());
     }
+
+    public Observable<ResponseBody> uploadErrorLog(@Url String content) {
+        return HttpClient.getApiService().updateErrorLog(content).compose(this.switchThread());
+    }
 }

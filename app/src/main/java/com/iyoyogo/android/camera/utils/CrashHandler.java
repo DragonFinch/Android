@@ -9,6 +9,8 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.iyoyogo.android.model.DataManager;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
@@ -119,14 +121,12 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     }
 
     private String saveCrashInfo2File(Throwable ex) {
-
         StringBuffer sb = new StringBuffer();
         for (Map.Entry<String, String> entry : paramsMap.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
             sb.append(key + "=" + value + "\n");
         }
-
         Writer writer = new StringWriter();
         PrintWriter printWriter = new PrintWriter(writer);
         ex.printStackTrace(printWriter);
@@ -138,6 +138,12 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         printWriter.close();
         String result = writer.toString();
         sb.append(result);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DataManager.getFromRemote().uploadErrorLog(sb.toString());
+            }
+        }).start();
         try {
             long timestamp = System.currentTimeMillis();
             String time = format.format(new Date());
@@ -153,6 +159,10 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 fos.write(sb.toString().getBytes());
                 fos.close();
             }
+            try {
+                Thread.sleep(1000);
+            }
+            catch (Exception e){}
             Log.e(TAG, sb.toString());
             return fileName;
         } catch (Exception e) {

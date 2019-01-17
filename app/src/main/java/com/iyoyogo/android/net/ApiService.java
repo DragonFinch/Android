@@ -792,5 +792,14 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<SameBean.DataBean.ListBean> goCameraDetail(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("yo_id")int yo_id);
 
+    /**
+     * 崩溃日志上传
+     *
+     * @return
+     */
+    @POST("index.php/api/v1_0_0.errorlog/add")
+    @FormUrlEncoded
+    Observable<ResponseBody> updateErrorLog(@Field("content") String content);
+
 }
 
