@@ -275,6 +275,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     private List<YoJiDetailBean.DataBean.ListBean> list;
     private String yo_user_id1;
     private AMap aMap;
+    private RelativeLayout mLl_facechoose;
 
 
     @Override
@@ -307,6 +308,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         super.initView();
         statusbar();
         new SoftKeyboardStateHelper(findViewById(R.id.activity_yoji_detail)).addSoftKeyboardStateListener(this);
+        mLl_facechoose = findViewById(R.id.ll_facechoose);
         intent = getIntent();
         yo_id = intent.getIntExtra("yo_id", 0);
         yo_user_id1 = intent.getStringExtra("yo_user_id");
@@ -1496,8 +1498,11 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     @Override
     public void addCommentSuccess(BaseBean baseBean) {
+        Toast.makeText(YoJiDetailActivity.this,"成功",Toast.LENGTH_SHORT).show();
         editComment.setText("");
         yoJiDetailCommentAdapter.notifyDataSetChanged();
+        mLl_facechoose.setVisibility(View.GONE);
+
         comment();
         mPresenter.getCommentList(user_id, user_token, 1, yo_id, 0);
 

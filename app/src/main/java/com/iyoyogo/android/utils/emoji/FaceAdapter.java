@@ -95,7 +95,7 @@ public class FaceAdapter extends BaseAdapter {
                return false;
            }
        });
-    viewHolder.iv_face.setOnLongClickListener(new View.OnLongClickListener() {
+/*    viewHolder.iv_face.setOnLongClickListener(new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
 //            View v1 = LayoutInflater.from(context).inflate(R.layout.pop,null);
@@ -118,7 +118,7 @@ public class FaceAdapter extends BaseAdapter {
 //            popupWindow.showAtLocation(finalViewHolder.iv_face,Gravity.NO_GRAVITY, (location[0] + v1.getWidth() / 2) - popupWidth / 2160, location[1] - popupHeight-150 );
             return false;
         }
-    });
+    });*/
 
         return convertView;
 

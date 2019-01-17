@@ -48,6 +48,7 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         KeywordBean.DataBean.UserListBean userListBean = mUser.get(position);
+
         holder.user_nickname.setText(userListBean.getUser_nickname());
         Glide.with(context).load(userListBean.getUser_logo()).into(holder.user_logo);
         holder.user_logo.setOnClickListener(new View.OnClickListener() {

@@ -23,8 +23,10 @@
         android:text="当前位置"
         android:textColor="@color/gray_9"
         android:textSize="14sp" />
-
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
     <TextView
         android:visibility="gone"
         android:text="qweqewq"
@@ -40,6 +42,21 @@
         android:textColor="@color/text_common_black"
         android:textSize="@dimen/dp_12"
         />
+    <TextView
+        android:visibility="gone"
+        android:layout_alignParentRight="true"
+        android:drawableLeft="@mipmap/chongxindingw"
+        android:id="@+id/cur_city_re_get_location_tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:gravity="center_vertical"
+        android:text="重新定位"
+        android:textColor="#FA800A" />
+
+</RelativeLayout>
+
 
     <LinearLayout
         android:id="@+id/cur_city_no_data_ll"
@@ -58,14 +75,13 @@
             android:text="无法获取您的定位地址" />
 
         <TextView
-
             android:drawableLeft="@mipmap/chongxindingw"
             android:id="@+id/cur_city_re_get_location_tv"
-            android:layout_width="120dp"
+            android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:text="重新定位"
             android:textColor="#FA800A" />
 
