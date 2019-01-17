@@ -237,7 +237,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
 
         //初始化定位
         mLocationClient = new AMapLocationClient(getApplicationContext());
-//设置定位回调监听
+        //设置定位回调监听
         mLocationClient.setLocationListener(mLocationListener);
         mLocationOption = new AMapLocationClientOption();
 
