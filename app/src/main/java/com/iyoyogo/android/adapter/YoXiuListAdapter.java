@@ -173,6 +173,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
                 viewHolder.img_more.setVisibility(View.GONE);
             }
         }
+//        viewHolder.num_browse.setVisibility(View.GONE);
         viewHolder.num_browse.setText(mList.get(position).getCount_view());
         viewHolder.num_like.setText(mList.get(position).getCount_praise() + "");
         viewHolder.user_name.setText(mList.get(position).getUser_nickname());

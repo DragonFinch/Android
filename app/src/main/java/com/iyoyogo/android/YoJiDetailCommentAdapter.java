@@ -313,7 +313,6 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         CommentBean.DataBean.ListBean listBean = mList.get(position);
         int state = mTextStateList.get(position, STATE_UNKNOW);
-
         if (state == STATE_UNKNOW) {
             holder.tv_content.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override

@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -160,8 +161,10 @@ public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHo
                 @Override
                 public void onClick(View v) {
                     int id = mList.get(position).getUser_info().getUser_id();
+                    int user_id = mList.get(position).getUser_info().getUser_id();
+                    int yo_id = mList.get(position).getYo_id();
                     Intent intent = new Intent(context, YoJiDetailActivity.class);
-                    intent.putExtra("yo_id", String.valueOf(mList.get(position).getUser_info().getUser_id()));
+                    intent.putExtra("yo_id",yo_id);
                     context.startActivity(intent);
                 }
             });

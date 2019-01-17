@@ -88,6 +88,7 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
     protected void initView() {
         super.initView();
         StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
         //软键盘的搜索点击时间
         autoSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -111,6 +112,7 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
         });
 
 
+
     }
     /**
      * 隐藏软键盘
@@ -128,7 +130,10 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
     protected void onResume() {
         super.onResume();
         //调用历史搜索  从重新获取焦点
+        rlLishi.setVisibility(View.VISIBLE);
+        historyFl.setVisibility(View.VISIBLE);
         initHistory();
+
     }
 
     @Override
@@ -155,11 +160,11 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
             keyWordTv.setText(data[j]);
             keyWordTv.setBackgroundResource(R.drawable.whitebg_strokegrey_radius3);
             historyFl.addView(paramItemView, layoutParams);
-
             keyWordTv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     autoSearch.setText(data[j]);
+                    autoSearch.setSelection(autoSearch.getText().length());
                 }
             });
         }
@@ -181,6 +186,7 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
                 @Override
                 public void onClick(View v) {
                     autoSearch.setText(keyword.get(j));
+                    autoSearch.setSelection(autoSearch.getText().length());
                 }
             });
         }
@@ -195,6 +201,7 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
             case R.id.tv_search:
                 String searchKey = autoSearch.getText().toString();
                 autoSearch.setText("");
+                finish();
                /* if (!isNullorEmpty(searchKey)) {
                     Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
                     intent.putExtra("key", searchKey);
@@ -212,7 +219,11 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
             case R.id.clear_iv:
                 SPUtils.getInstance(SearchActivity.this).cleanHistory();
                 showToastShort(this, "已清除历史记录！");
+                rlLishi.setVisibility(View.GONE);
+                historyFl.setVisibility(View.GONE);
                 initHistory();
+
+
                 break;
             default:
                 break;

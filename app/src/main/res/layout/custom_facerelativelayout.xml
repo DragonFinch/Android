@@ -2,7 +2,8 @@
 <com.iyoyogo.android.utils.emoji.FaceRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/FaceRelativeLayout"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/rl_input"
@@ -41,12 +42,13 @@
 
 
     <RelativeLayout
+        android:orientation="vertical"
         android:id="@+id/ll_facechoose"
         android:layout_width="match_parent"
         android:layout_height="210dip"
         android:layout_below="@id/rl_input"
         android:background="#f6f5f5"
-        android:visibility="gone">
+        >
 
         <android.support.v4.view.ViewPager
             android:id="@+id/vp_contains"
@@ -63,5 +65,16 @@
             android:gravity="center"
             android:orientation="horizontal"></LinearLayout>
     </RelativeLayout>
+<!--    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="@dimen/dp_21"
+            android:layout_height="@dimen/dp_16"
+            android:src="@drawable/aojiao"/>
+
+    </LinearLayout>-->
+
 
 </com.iyoyogo.android.utils.emoji.FaceRelativeLayout>
