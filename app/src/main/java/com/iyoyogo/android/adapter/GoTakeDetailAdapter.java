@@ -1,25 +1,17 @@
 package com.iyoyogo.android.adapter;
 
-import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.iyoyogo.android.R;
-import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.SameBean;
-import com.iyoyogo.android.model.DataManager;
-import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.util.UiUtils;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * @author zhuhui
@@ -34,7 +26,7 @@ public class GoTakeDetailAdapter extends BaseQuickAdapter<SameBean.DataBean.List
     @Override
     protected void convert(BaseViewHolder helper, SameBean.DataBean.ListBean item) {
         if (item.getFile_type() == 2) {
-            VideoView view = helper.getView(R.id.video_view);
+//            VideoView view = helper.getView(R.id.video_view);
             helper.setGone(R.id.iv, false).setGone(R.id.video_view, true).setGone(R.id.iv_video, false);
         } else {
             helper.setGone(R.id.iv, true).setGone(R.id.video_view, false).setGone(R.id.iv_video, false);
@@ -49,11 +41,15 @@ public class GoTakeDetailAdapter extends BaseQuickAdapter<SameBean.DataBean.List
                 .setText(R.id.tv_collect_num, item.getCount_collect() + "")
                 .setText(R.id.tv_like_num, item.getCount_praise() + "")
                 .setGone(R.id.iv_go_take, item.getFile_type() != 2)
+                .setImageResource(R.id.iv_like, item.getIs_my_praise() == 1 ? R.mipmap.yixihuan : R.mipmap.xihuan_bai)
+                .setImageResource(R.id.iv_collect, item.getIs_my_collect() == 1 ? R.mipmap.yishoucang : R.mipmap.shoucang_bai)
                 .addOnClickListener(R.id.ll_read)
                 .addOnClickListener(R.id.ll_comment)
                 .addOnClickListener(R.id.ll_collect)
                 .addOnClickListener(R.id.ll_like)
-                .addOnClickListener(R.id.iv_go_take);
+                .addOnClickListener(R.id.iv_go_take)
+                .addOnClickListener(R.id.iv_user_pic)
+                .addOnClickListener(R.id.tv_user_name);
 
         TextView tv  = helper.getView(R.id.tv_address);
         View     dot = helper.getView(R.id.view_dot);
@@ -65,41 +61,10 @@ public class GoTakeDetailAdapter extends BaseQuickAdapter<SameBean.DataBean.List
                 ani.setFillAfter(true);
                 tv.startAnimation(ani);
 
-                TranslateAnimation dotAni = new TranslateAnimation(dot.getX(), dot.getX()+UiUtils.dip2px(5), dot.getY(), top);
+                TranslateAnimation dotAni = new TranslateAnimation(dot.getX(), dot.getX() + UiUtils.dip2px(5), dot.getY(), top);
                 dotAni.setDuration(10);
                 dotAni.setFillAfter(true);
                 dot.startAnimation(dotAni);
-            }
-        });
-        String user_id = SpUtils.getString(mContext, "user_id", null);
-        String user_token = SpUtils.getString(mContext, "user_token", null);
-        helper.getView(R.id.ll_read).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        helper.getView(R.id.ll_like).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DataManager.getFromRemote().praise(user_id,user_token,item.getYo_id(),0).subscribe(new Consumer<BaseBean>() {
-                    @Override
-                    public void accept(BaseBean baseBean) throws Exception {
-
-                    }
-                });
-            }
-        });
-        helper.getView(R.id.ll_collect).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        helper.getView(R.id.ll_comment).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
             }
         });
 //        TextView                    tv    = helper.getView(R.id.tv_address);

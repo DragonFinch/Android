@@ -129,7 +129,7 @@
                 android:id="@+id/view_left"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="30dp"
+                android:layout_marginRight="20dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="17dp" />
 
@@ -148,7 +148,7 @@
                 android:id="@+id/tv_type_video"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="20dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="17dp"
                 android:gravity="center_horizontal"

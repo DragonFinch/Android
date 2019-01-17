@@ -23,6 +23,7 @@ import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.SameBean;
 import com.iyoyogo.android.contract.SameContract;
 import com.iyoyogo.android.presenter.SamePresenter;
+import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.utils.AMapLocationUtils;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimFooter;
@@ -37,7 +38,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SameActivity extends BaseActivity<SamePresenter> implements SameContract.View, OnRefreshLoadMoreListener, BaseQuickAdapter.OnItemClickListener, AMapLocationUtils.LocationListener {
+public class SameActivity extends BaseActivity<SamePresenter> implements SameContract.View, OnRefreshLoadMoreListener, BaseQuickAdapter.OnItemClickListener, AMapLocationUtils.LocationListener, BaseQuickAdapter.OnItemChildClickListener {
 
     @BindView(R.id.recyclerView)
     RecyclerView       mRecyclerView;
@@ -81,6 +82,7 @@ public class SameActivity extends BaseActivity<SamePresenter> implements SameCon
         }
         mAdapter = new SameAdapter(R.layout.item_same);
         mAdapter.setOnItemClickListener(this);
+        mAdapter.setOnItemChildClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 6);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -109,7 +111,7 @@ public class SameActivity extends BaseActivity<SamePresenter> implements SameCon
         userId = SpUtils.getString(this, "user_id", null);
         token = SpUtils.getString(this, "user_token", null);
         AMapLocationUtils.getInstance().setOnLocationListener(this).startLocation();
-
+        LoadingDialog.get().create(this).show();
     }
 
     @OnClick(R.id.iv_back)
@@ -133,10 +135,11 @@ public class SameActivity extends BaseActivity<SamePresenter> implements SameCon
 
     @Override
     public void onSameList(SameBean data) {
+        LoadingDialog.get().close();
         mData = data;
-        if (mAdapter.getData()==null||mAdapter.getData().size()==0){
+        if (mAdapter.getData() == null || mAdapter.getData().size() == 0) {
             mAdapter.setNewData(mData.getData().getList());
-        }else {
+        } else {
             mAdapter.notifyDataSetChanged();
         }
         mRefreshLayout.finishRefresh(2000);
@@ -144,7 +147,7 @@ public class SameActivity extends BaseActivity<SamePresenter> implements SameCon
 
     @Override
     public void onMoreSameList(SameBean data) {
-
+        LoadingDialog.get().close();
         mAdapter.notifyDataSetChanged();
         mRefreshLayout.finishLoadMore(2000);
     }
@@ -166,5 +169,14 @@ public class SameActivity extends BaseActivity<SamePresenter> implements SameCon
         page = 1;
 //        mPresenter.getSameList(userId, token, "116.3322","39.764042", page, "20");
         mPresenter.getSameList(userId, token, lng, lat, page, "20");
+    }
+
+    @Override
+    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        if (view.getId()==R.id.ll_user) {
+            Intent intent = new Intent(this, Personal_homepage_Activity.class);
+            intent.putExtra("yo_user_id", mData.getData().getList().get(position).getUser_id());
+            startActivity(intent);
+        }
     }
 }

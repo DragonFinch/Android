@@ -37,6 +37,7 @@ import com.iyoyogo.android.adapter.GoSelectImageAdapter;
 import com.iyoyogo.android.ui.home.yoji.NewPublishYoJiActivity;
 import com.iyoyogo.android.ui.home.yoxiu.NewPublishYoXiuActivity;
 import com.iyoyogo.android.utils.util.UiUtils;
+import com.iyoyogo.android.widget.CommonPopup;
 import com.luck.picture.lib.PictureBaseActivity;
 import com.luck.picture.lib.PicturePreviewActivity;
 import com.luck.picture.lib.PictureSelector;
@@ -82,7 +83,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class GoSelectImageActivity extends PictureBaseActivity implements View.OnClickListener,
         GoPictureAlbumDirectoryAdapter.OnItemClickListener,
-        GoSelectImageAdapter.OnPhotoSelectChangedListener, PhotoPopupWindow.OnItemClickListener {
+        GoSelectImageAdapter.OnPhotoSelectChangedListener, PhotoPopupWindow.OnItemClickListener, CommonPopup.OnCommonClick {
     private final static String TAG            = GoSelectImageActivity.class.getSimpleName();
     private static final int    SHOW_DIALOG    = 0;
     private static final int    DISMISS_DIALOG = 1;
@@ -126,6 +127,8 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
             }
         }
     };
+
+    private CommonPopup mCommonPopup;
 
     /**
      * EventBus 3.0 回调
@@ -252,6 +255,8 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
      * init views
      */
     private void initView(Bundle savedInstanceState) {
+        mCommonPopup=new CommonPopup(this);
+        mCommonPopup.setOnCommonClick(this);
 
         this.mCbOriginal = findViewById(R.id.cb_original);
         this.mIvDelete = (ImageView) findViewById(R.id.iv_delete);
@@ -533,20 +538,8 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
                 mCbOriginal.setTextColor(Color.parseColor(mCbOriginal.isChecked() ? "#FA800A" : "#333333"));
                 break;
             case R.id.iv_delete:
-                List<LocalMedia> selectedImages = adapter.getSelectedImages();
-                for (int i = selectedImages.size() - 1; i >= 0; i--) {
-                    File file = new File(selectedImages.get(i).getPath());
-                    if (file.exists()) {
-                        file.delete();
-                    }
-                    Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                    Uri    uri    = Uri.fromFile(file);
-                    intent.setData(uri);
-                    sendBroadcast(intent);
-                    images.remove(selectedImages.get(i));
-                    selectedImages.remove(selectedImages.get(i));
-                    adapter.notifyDataSetChanged();
-                }
+                mCommonPopup.setContent("确定要删除吗？","您真的想好了？","");
+                mCommonPopup.showPopupWindow();
                 break;
             case R.id.iv_publish_yoji:
                 List<LocalMedia> images = adapter.getSelectedImages();
@@ -711,6 +704,24 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
             playAudio();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onCommonClick(View v) {
+        List<LocalMedia> selectedImages = adapter.getSelectedImages();
+        for (int i = selectedImages.size() - 1; i >= 0; i--) {
+            File file = new File(selectedImages.get(i).getPath());
+            if (file.exists()) {
+                file.delete();
+            }
+            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            Uri    uri    = Uri.fromFile(file);
+            intent.setData(uri);
+            sendBroadcast(intent);
+            images.remove(selectedImages.get(i));
+            selectedImages.remove(selectedImages.get(i));
+            adapter.notifyDataSetChanged();
         }
     }
 
