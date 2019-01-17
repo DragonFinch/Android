@@ -540,8 +540,9 @@ public class ForeigniMapFragment extends BaseFragment<MapContract.Presenter> imp
                 curCityNameTv = convertView.findViewById(R.id.cur_city_name_tv);
                 noSearchResultTv = convertView.findViewById(R.id.tt);
 
+
                 if (TextUtils.isEmpty(locationCity)) {
-                    noLocationLl.setVisibility(View.VISIBLE);
+                    noLocationLl.setVisibility(View.GONE);
                     curCityNameTv.setVisibility(View.GONE);
                     getLocationTv.setOnClickListener(new View.OnClickListener() {
                         @Override

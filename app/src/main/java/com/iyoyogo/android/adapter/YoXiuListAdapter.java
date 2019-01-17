@@ -168,8 +168,10 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
                 initDelete(viewHolder, String.valueOf(mList.get(position).getUser_id()), mList.get(position).getId());
             }
         });
-        if (type.equals("attention")){
-            viewHolder.img_more.setVisibility(View.GONE);
+        if (type != null) {
+            if (type.equals("attention")) {
+                viewHolder.img_more.setVisibility(View.GONE);
+            }
         }
         viewHolder.num_browse.setText(mList.get(position).getCount_view());
         viewHolder.num_like.setText(mList.get(position).getCount_praise() + "");

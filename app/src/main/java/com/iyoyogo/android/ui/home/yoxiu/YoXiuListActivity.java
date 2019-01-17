@@ -127,7 +127,7 @@ public class YoXiuListActivity extends BaseActivity {
         Intent intent = getIntent();
         position = intent.getStringExtra("position");
         type = intent.getStringExtra("type");
-
+        Log.e("type1212", "initData: "+type );
         if (position.equals("")) {
             if (type.equals("attention")) {
                 DataManager.getFromRemote().getYoXiuAttentionList(user_id, user_token, currentPage)

@@ -184,7 +184,7 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
                         public void onClick(View v) {
 //                            Toast.makeText(context, "mList.get(position).getUsers_praise().get(i).getUser_id():" + mList.get(position).getUsers_praise().get(finalI).getUser_id(), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(context, UserHomepageActivity.class);
-                            intent.putExtra("yo_user_id", String.valueOf(mList.get(finalI).getUser_info().getUser_id()));
+                            intent.putExtra("yo_user_id", String.valueOf(mList.get(finalI).getUsers_praise().get(finalI).getUser_id()));
                             context.startActivity(intent);
                         }
                     });

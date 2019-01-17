@@ -5,7 +5,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    >
 
     <FrameLayout
         android:id="@+id/frame_container"
@@ -16,9 +16,19 @@
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_3"
+        android:layout_height="5dp"
         android:layout_above="@id/tabs_rg"
-        android:background="@mipmap/home_l_shadow" />
+        android:background="@drawable/img_line_gradate"
+        />
+    <View
+        android:id="@+id/line1"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_above="@id/tabs_rg"
+        android:background="@drawable/img_line_gradate1"
+        />
+
     <LinearLayout
         android:visibility="gone"
         android:id="@+id/ll"

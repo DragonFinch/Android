@@ -326,6 +326,14 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         } else {
             ft.hide(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
         }
+        //切换横线
+        if(to instanceof MineFragment){
+            findViewById(R.id.line).setVisibility(View.GONE);
+            findViewById(R.id.line1).setVisibility(View.VISIBLE);
+        }else{
+            findViewById(R.id.line).setVisibility(View.VISIBLE);
+            findViewById(R.id.line1).setVisibility(View.GONE);
+        }
     }
 
     private void showHintDialog(VersionBean.DataBean data) {

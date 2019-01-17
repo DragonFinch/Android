@@ -519,10 +519,12 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
                 LinearLayout noLocationLl = convertView.findViewById(R.id.cur_city_no_data_ll);
                 TextView getLocationTv = convertView.findViewById(R.id.cur_city_re_get_location_tv);
                 curCityNameTv = convertView.findViewById(R.id.cur_city_name_tv);
+                TextView  mCur_city_re_get_location_tv1 = convertView.findViewById(R.id.cur_city_re_get_location_tv1);
                 noSearchResultTv = convertView.findViewById(R.id.tt);
                 if (TextUtils.isEmpty(locationCity)) {
                     noLocationLl.setVisibility(View.VISIBLE);
                     curCityNameTv.setVisibility(View.GONE);
+                    mCur_city_re_get_location_tv1.setVisibility(View.GONE);
                     getLocationTv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -533,7 +535,13 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
                 } else {
                     noLocationLl.setVisibility(View.GONE);
                     curCityNameTv.setVisibility(View.VISIBLE);
-
+                    mCur_city_re_get_location_tv1.setVisibility(View.VISIBLE);
+                    mCur_city_re_get_location_tv1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            initdiwei();
+                        }
+                    });
                     curCityNameTv.setText(locationCity);
                     curCityNameTv.setOnClickListener(new View.OnClickListener() {
                         @Override

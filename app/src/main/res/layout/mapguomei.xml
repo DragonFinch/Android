@@ -44,23 +44,34 @@
             android:divider="@null"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-
-        <com.iyoyogo.android.view.LetterListView
-            android:id="@+id/total_city_letters_lv"
-            android:layout_width="25dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"/>
-
-        <ListView
-            android:id="@+id/search_city_lv"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@null"
-            android:listSelector="@android:color/transparent"
-            android:visibility="gone"/>
+            android:layout_height="wrap_content"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <ListView
+                android:id="@+id/search_city_lv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@null"
+                android:listSelector="@android:color/transparent"
+                android:visibility="gone"/>
+            <com.iyoyogo.android.view.LetterListView
+                android:id="@+id/total_city_letters_lv"
+                android:layout_width="25dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="@dimen/dp_65"
+                android:layout_marginBottom="7dp"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/no_search_result_tv"

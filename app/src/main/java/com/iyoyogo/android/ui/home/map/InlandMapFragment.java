@@ -108,6 +108,7 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
         }
     };
     private final List<String> mList1;
+    private TextView mCur_city_re_get_location_tv1;
 
     @SuppressLint("ValidFragment")
     public InlandMapFragment(List<String> list) {
@@ -495,11 +496,12 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
                 LinearLayout noLocationLl = convertView.findViewById(R.id.cur_city_no_data_ll);
                 TextView getLocationTv = convertView.findViewById(R.id.cur_city_re_get_location_tv);
                 curCityNameTv = convertView.findViewById(R.id.cur_city_name_tv);
+                mCur_city_re_get_location_tv1 = convertView.findViewById(R.id.cur_city_re_get_location_tv1);
                 noSearchResultTv = convertView.findViewById(R.id.tt);
-
                 if (TextUtils.isEmpty(locationCity)) {
                     noLocationLl.setVisibility(View.VISIBLE);
                     curCityNameTv.setVisibility(View.GONE);
+                    mCur_city_re_get_location_tv1.setVisibility(View.GONE);
                     getLocationTv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -510,8 +512,14 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
                 } else {
                     noLocationLl.setVisibility(View.GONE);
                     curCityNameTv.setVisibility(View.VISIBLE);
-
                     curCityNameTv.setText(locationCity);
+                    mCur_city_re_get_location_tv1.setVisibility(View.VISIBLE);
+                    mCur_city_re_get_location_tv1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            initdiwei();
+                        }
+                    });
                     curCityNameTv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
