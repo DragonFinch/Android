@@ -239,6 +239,14 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                     mlist.addAll(list);
                                     likeMeAdapter = new LikeMeAdapter(R.layout.activity_like_my, mlist);//喜欢我的
                                     recyclerMessage.setAdapter(likeMeAdapter);
+                                    likeMeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                            if (mlist.get(position).getIs_read() == 0) {
+                                                mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
+                                            }
+                                        }
+                                    });
                                 }
 
                                 @Override
@@ -265,6 +273,14 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                     mlist.addAll(list);
                                     systemMessageAdapter = new SystemMessageAdapter(R.layout.activity_system_message, mlist);//系统消息
                                     recyclerMessage.setAdapter(systemMessageAdapter);
+                                    systemMessageAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                            if (mlist.get(position).getIs_read() == 0) {
+                                                mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
+                                            }
+                                        }
+                                    });
                                 }
 
                                 @Override
@@ -291,6 +307,89 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                     mlist.addAll(list);
                                     commentMessageAdapter = new CommentMessageAdapter(R.layout.activity_comment_message, mlist);//评论消息
                                     recyclerMessage.setAdapter(commentMessageAdapter);
+                                    commentMessageAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                            if (mlist.get(position).getIs_read() == 0) {
+                                                mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
+                                            }
+                                        }
+                                    });
+                                    commentMessageAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                                        @Override
+                                        public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                                            editLayout.setVisibility(View.VISIBLE);
+                                            editComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+                                                @Override
+                                                public void onFocusChange(View v, boolean hasFocus) {
+                                                    if (hasFocus) {
+                                                        //获得焦点
+                                                        editComment.setHint("码字不容易，留个评论鼓励下嘛~");
+                                                        editComment.setHintTextColor(Color.parseColor("#888888"));
+                                                        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                                                        layoutParams.setMargins(0, 0, DensityUtil.dp2px(MessageDetailActivity.this, 40), 0);
+                                                        //   etSendmessage.setLayoutParams(layoutParams);
+
+                                                    } else {
+                                                        //失去焦点
+                                                        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(DensityUtil.dp2px(MessageDetailActivity.this, 230), ViewGroup.LayoutParams.WRAP_CONTENT);
+                                                        layoutParams.setMargins(0, DensityUtil.dp2px(MessageDetailActivity.this, 20), 0, 0);
+                                                        // etSendmessage.setLayoutParams(layoutParams);
+                                                        editComment.setHint("再不评论 , 你会被抓去写作业的~");
+                                                        editComment.setHintTextColor(Color.parseColor("#888888"));
+
+                                                    }
+                                                }
+                                            });
+                                            //输入框
+                                            editComment.setImeOptions(EditorInfo.IME_ACTION_SEND);
+                                            editComment.addTextChangedListener(new TextWatcher() {
+                                                @Override
+                                                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                                                }
+
+                                                @Override
+                                                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                                    if (s.toString().trim().equals("#")) {
+                                                        startActivity(new Intent(MessageDetailActivity.this, MoreTopicActivity.class));
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void afterTextChanged(Editable s) {
+
+                                                }
+                                            });
+                                            editComment.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                                                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                                                    if (actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                                                        if (editComment.getText().toString().length() > 0) {
+                                                            mPresenter.addComment(user_id, user_token, Integer.parseInt(mlist.get(position).getParam()), 0, editComment.getText().toString().trim());
+                                                            closeInputMethod();
+                                                            editComment.clearFocus();
+                                                            editComment.setFocusable(false);
+                                                            Toast.makeText(MessageDetailActivity.this, "回复成功", Toast.LENGTH_SHORT).show();
+                                                            editLayout.setVisibility(View.GONE);
+                                                        } else {
+                                                        }
+                                                        return true;
+                                                    }
+                                                    return false;
+
+                                                }
+                                            });
+                                            editComment.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    editComment.setFocusable(true);
+                                                    editComment.setFocusableInTouchMode(true);
+                                                    editComment.requestFocus();
+                                                }
+                                            });
+                                        }
+                                    });
                                 }
 
                                 @Override
@@ -317,6 +416,14 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                     mlist.addAll(list);
                                     focusMessageAdapter = new FocusMessageAdapter(R.layout.activity_focus_message, mlist);//关注消息
                                     recyclerMessage.setAdapter(focusMessageAdapter);
+                                    focusMessageAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                            if (mlist.get(position).getIs_read() == 0) {
+                                                mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
+                                            }
+                                        }
+                                    });
                                 }
 
                                 @Override
