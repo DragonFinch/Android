@@ -27,6 +27,7 @@ import com.iyoyogo.android.bean.home.HomeBean;
 import com.iyoyogo.android.bean.yoji.list.YoJiListBean;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
+import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
@@ -220,6 +221,14 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
         }
         holder.dt_like.setImageResource(mList.get(position).getIs_my_praise() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
         yo_id = mList.get(position).getYo_id();
+        holder.tv_num_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, AllCommentActivity.class);
+                intent.putExtra("id", mList.get(position).getYo_id());
+                context.startActivity(intent);
+            }
+        });
         holder.dt_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

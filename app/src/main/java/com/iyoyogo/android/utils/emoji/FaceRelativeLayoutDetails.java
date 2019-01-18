@@ -134,7 +134,7 @@ public class FaceRelativeLayoutDetails extends RelativeLayout implements
                        view.setVisibility(View.VISIBLE);
 
                        KeyBoardUtils.closeKeybord(et_sendmessage,context);
-                        btn_face.setImageResource(R.drawable.btn_emoji);
+                       btn_face.setImageResource(R.mipmap.input_biaoqing);
                    }
 
                } else if (id == R.id.et_sendmessage) {// 隐藏表情选择框
