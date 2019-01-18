@@ -39,6 +39,7 @@ import com.iyoyogo.android.bean.mine.message.MessageBean;
 import com.iyoyogo.android.bean.mine.message.MessageCenterBean;
 import com.iyoyogo.android.bean.mine.message.ReadMessage;
 import com.iyoyogo.android.bean.mine.setting.MineSettingBean;
+import com.iyoyogo.android.bean.search.ClerBean;
 import com.iyoyogo.android.bean.search.GuanZhuBean;
 import com.iyoyogo.android.bean.search.KeywordBean;
 import com.iyoyogo.android.bean.search.KeywordUserBean;
@@ -720,6 +721,10 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<searchInfo> search(@Field("user_id") String user_id, @Field("user_token") String user_token);
 
+    //首页搜索   页面
+    @POST("/index.php/api/search/delete_history")
+    @FormUrlEncoded
+    Observable<ClerBean> searchCler(@Field("user_id") String user_id, @Field("user_token") String user_token);
     //首页  搜索
     @POST("index.php/api/search/index")
     @FormUrlEncoded

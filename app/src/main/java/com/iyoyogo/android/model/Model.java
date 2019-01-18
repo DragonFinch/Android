@@ -41,6 +41,7 @@ import com.iyoyogo.android.bean.mine.message.MessageBean;
 import com.iyoyogo.android.bean.mine.message.MessageCenterBean;
 import com.iyoyogo.android.bean.mine.message.ReadMessage;
 import com.iyoyogo.android.bean.mine.setting.MineSettingBean;
+import com.iyoyogo.android.bean.search.ClerBean;
 import com.iyoyogo.android.bean.search.GuanZhuBean;
 import com.iyoyogo.android.bean.search.KeywordBean;
 import com.iyoyogo.android.bean.search.KeywordUserBean;
@@ -1179,6 +1180,12 @@ public class Model {
     public Observable<KeywordUserBean> srarch(String user_id, String user_token, String seatch) {
         return HttpClient.getApiService()
                 .getserarch(user_id, user_token, seatch)
+                .compose(this.switchThread());
+    }
+    //首页搜索晴空历史
+    public Observable<ClerBean> searchCler(String user_id, String user_token) {
+        return HttpClient.getApiService()
+                .searchCler(user_id, user_token)
                 .compose(this.switchThread());
     }
 

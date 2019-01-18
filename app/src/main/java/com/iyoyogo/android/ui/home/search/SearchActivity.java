@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
+import com.iyoyogo.android.bean.search.ClerBean;
 import com.iyoyogo.android.bean.search.SearchBean;
 import com.iyoyogo.android.bean.search.searchInfo;
 import com.iyoyogo.android.contract.SearchContract;
@@ -30,6 +31,7 @@ import com.iyoyogo.android.presenter.SearchPresenter;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtils;
 import com.iyoyogo.android.utils.search.SPUtils;
+import com.iyoyogo.android.utils.search.SharedPrefrenceUtils;
 import com.iyoyogo.android.view.ZFlowLayout;
 
 import java.util.ArrayList;
@@ -73,6 +75,9 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
 
     private List<searchInfo> mList = new ArrayList<>();
     private List<searchInfo> list1;
+    private boolean fig = false;
+    private String mUser_id;
+    private String mUser_token;
 
     @Override
     protected int getLayoutId() {
@@ -109,9 +114,6 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
                 return false;
             }
         });
-
-
-
     }
     /**
      * 隐藏软键盘
@@ -129,18 +131,19 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
     protected void onResume() {
         super.onResume();
         //调用历史搜索  从重新获取焦点
-        rlLishi.setVisibility(View.VISIBLE);
-        historyFl.setVisibility(View.VISIBLE);
+        mPresenter.getSearch(mUser_id,mUser_token);
         initHistory();
+
 
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        String user_id = SpUtils.getString(SearchActivity.this, "user_id", null);
-        String user_token = SpUtils.getString(SearchActivity.this, "user_token", null);
-        mPresenter.getSearch(user_id, user_token);
+        mUser_id = SpUtils.getString(SearchActivity.this, "user_id", null);
+        mUser_token = SpUtils.getString(SearchActivity.this, "user_token", null);
+        mPresenter.getSearch(mUser_id, mUser_token);
+
     }
 
     private void initHistory() {
@@ -218,10 +221,8 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
             case R.id.clear_iv:
                 SPUtils.getInstance(SearchActivity.this).cleanHistory();
                 showToastShort(this, "已清除历史记录！");
-                rlLishi.setVisibility(View.GONE);
-                historyFl.setVisibility(View.GONE);
+                mPresenter.getSearchCler(mUser_id,mUser_token);
                 initHistory();
-
 
                 break;
             default:
@@ -254,6 +255,15 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
     @Override
     public void getRecommendTopicSuccess(searchInfo list) {
         List<String> list_hot = list.getData().getList_hot();
+        if (list.getData().getList_history().size() != 0){
+            rlLishi.setVisibility(View.VISIBLE);
+            historyFl.setVisibility(View.VISIBLE);
+            Log.e("qweqwewq", "getRecommendTopicSuccess: "+list.getData().getList_history().size() );
+        }else{
+            Log.e("qweqwewq", "getRecommendTopicSuccess:111111 "+list.getData().getList_history().size() );
+            rlLishi.setVisibility(View.GONE);
+            historyFl.setVisibility(View.GONE);
+        }
         initKeyword(list_hot);
         initHistory();
         String[] data = SPUtils.getInstance(this).getHistoryList();
@@ -285,6 +295,17 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
                 }
             }
         });
+    }
+
+    @Override
+    public void getData(ClerBean clerBean) {
+        ClerBean clerBean1 = clerBean;
+        int code = clerBean1.getCode();
+        if (code == 200){
+            Log.e("cczxzxzxz", "getData: "+"200" );
+            rlLishi.setVisibility(View.GONE);
+            historyFl.setVisibility(View.GONE);
+        }
     }
 
     @Override
