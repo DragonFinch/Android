@@ -16,7 +16,7 @@
 
     <LinearLayout
         android:layout_width="@dimen/dp_300"
-        android:layout_height="@dimen/dp_225"
+        android:layout_height="@dimen/dp_215"
         android:orientation="vertical"
         android:gravity="center"
         android:background="@drawable/tanchuang_bg"
