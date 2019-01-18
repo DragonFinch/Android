@@ -294,7 +294,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                     //获得焦点
                     tvCollection.setVisibility(View.GONE);
                     tvLike.setVisibility(View.GONE);
-                    editComment.setHint("码字不容易，留个评论鼓励下嘛~");
+                    editComment.setHint(" 码字不容易，留个评论鼓励下嘛~");
                     editComment.setHintTextColor(Color.parseColor("#888888"));
                     imgBrow.setVisibility(View.VISIBLE);
                     send_emoji.setVisibility(View.GONE);
@@ -312,7 +312,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                     //  editComment.setLayoutParams(layoutParams);
                     tvCollection.setVisibility(View.VISIBLE);
                     tvLike.setVisibility(View.VISIBLE);
-                    editComment.setHint("再不评论 , 你会被抓去写作业的~");
+                    editComment.setHint(" 再不评论 , 你会被抓去写作业的~");
                     editComment.setHintTextColor(Color.parseColor("#888888"));
                     imgBrow.setVisibility(View.GONE);
                     send_emoji.setVisibility(View.VISIBLE);

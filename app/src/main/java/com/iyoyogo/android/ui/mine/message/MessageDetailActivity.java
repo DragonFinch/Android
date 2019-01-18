@@ -132,6 +132,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
         setHeader(mRefreshAnimHeader);
         getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(getGlobalLayoutListener(getWindow().getDecorView(), FaceRelativeLayout));
     }
+
     private ViewTreeObserver.OnGlobalLayoutListener getGlobalLayoutListener(final View decorView, final View contentView) {
         return new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -154,6 +155,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
             }
         };
     }
+
     private void setHeader(RefreshHeader header) {
         smart.setRefreshHeader(header);
     }
@@ -354,6 +356,8 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                         @Override
                                         public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                                             mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
+
+                                            commentMessageAdapter.notifyDataSetChanged();
                                             FaceRelativeLayout.setVisibility(View.VISIBLE);
                                             etSendmessage.setText("");
                                             KeyBoardUtils.openKeybord(etSendmessage, MessageDetailActivity.this);
@@ -410,7 +414,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                                             etSendmessage.setFocusable(false);
                                                             Toast.makeText(MessageDetailActivity.this, "回复成功", Toast.LENGTH_SHORT).show();
                                                             FaceRelativeLayout.setVisibility(View.GONE);
-                                                            KeyBoardUtils.closeKeybord(etSendmessage,MessageDetailActivity.this);
+                                                            KeyBoardUtils.closeKeybord(etSendmessage, MessageDetailActivity.this);
                                                         } else {
                                                         }
                                                         return true;
@@ -545,14 +549,18 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                 commentMessageAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                     @Override
                     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                        mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
+
                         FaceRelativeLayout.setVisibility(View.VISIBLE);
+                        etSendmessage.setText("");
+                        KeyBoardUtils.openKeybord(etSendmessage, MessageDetailActivity.this);
                         etSendmessage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
                             @Override
                             public void onFocusChange(View v, boolean hasFocus) {
                                 if (hasFocus) {
                                     //获得焦点
-                                    etSendmessage.setHint("码字不容易，留个评论鼓励下嘛~");
+                                    etSendmessage.setHint(" 码字不容易，留个评论鼓励下嘛~");
                                     etSendmessage.setHintTextColor(Color.parseColor("#888888"));
                                     RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                                     layoutParams.setMargins(0, 0, DensityUtil.dp2px(MessageDetailActivity.this, 40), 0);
@@ -563,7 +571,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                     RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(DensityUtil.dp2px(MessageDetailActivity.this, 230), ViewGroup.LayoutParams.WRAP_CONTENT);
                                     layoutParams.setMargins(0, DensityUtil.dp2px(MessageDetailActivity.this, 20), 0, 0);
                                     // etSendmessage.setLayoutParams(layoutParams);
-                                    etSendmessage.setHint("再不评论 , 你会被抓去写作业的~");
+                                    etSendmessage.setHint(" 再不评论 , 你会被抓去写作业的~");
                                     etSendmessage.setHintTextColor(Color.parseColor("#888888"));
 
                                 }
@@ -599,6 +607,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                         etSendmessage.setFocusable(false);
                                         Toast.makeText(MessageDetailActivity.this, "回复成功", Toast.LENGTH_SHORT).show();
                                         FaceRelativeLayout.setVisibility(View.GONE);
+                                        KeyBoardUtils.closeKeybord(etSendmessage, MessageDetailActivity.this);
                                     } else {
                                     }
                                     return true;
@@ -618,7 +627,6 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
 
                     }
                 });
-
             } else if (title.equals("关注消息")) {
                 recyclerMessage.setLayoutManager(new LinearLayoutManager(MessageDetailActivity.this));
                 focusMessageAdapter = new FocusMessageAdapter(R.layout.activity_focus_message, mlist);//关注消息

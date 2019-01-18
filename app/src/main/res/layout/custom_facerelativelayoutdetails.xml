@@ -25,11 +25,11 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:background="#00000000"
-            android:hint="再不评论 , 你会被抓去写作业的~"
+            android:hint=" 再不评论 , 你会被抓去写作业的~"
             android:imeOptions="actionSend"
             android:paddingLeft="@dimen/dp_16"
             android:singleLine="true"
-            android:textSize="@dimen/sp_15" />
+            android:textSize="12sp" />
 
         <ImageView
             android:id="@+id/img_brow"
