@@ -57,30 +57,39 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position0) {
         final int index = position0;
-        holder.tv_collection_folder.setText(mList.get(index).getName() + "·" + mList.get(index).getCount_record());
-        List<MineCollectionBean.DataBean.TreeBean.RecordListBean> record_list = mList.get(index).getRecord_list();
+        final MineCollectionBean.DataBean.TreeBean bean = mList.get(index);
+        holder.tv_collection_folder.setText(bean.getName() + "·" + bean.getCount_record());
+        List<MineCollectionBean.DataBean.TreeBean.RecordListBean> record_list = bean.getRecord_list();
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.override(DensityUtil.dp2px(context, 80), DensityUtil.dp2px(context, 80))
                 .placeholder(R.mipmap.default_ic)
                 .error(R.mipmap.default_ic)
                 .centerCrop();
-        if (record_list.size() >= 4) {
+        if (bean.getCount_record() >= 4) {
             Glide.with(context).load(record_list.get(0).getFile_path()).apply(requestOptions).into(holder.img_one);
             Glide.with(context).load(record_list.get(1).getFile_path()).apply(requestOptions).into(holder.img_two);
             Glide.with(context).load(record_list.get(2).getFile_path()).apply(requestOptions).into(holder.img_three);
             Glide.with(context).load(record_list.get(3).getFile_path()).apply(requestOptions).into(holder.img_four);
-        } else if (record_list.size() == 3) {
+        } else if (bean.getCount_record() == 3) {
             Glide.with(context).load(record_list.get(0).getFile_path()).apply(requestOptions).into(holder.img_one);
             Glide.with(context).load(record_list.get(1).getFile_path()).apply(requestOptions).into(holder.img_two);
             Glide.with(context).load(record_list.get(2).getFile_path()).apply(requestOptions).into(holder.img_three);
-
-        } else if (record_list.size() == 2) {
+            holder.img_four.setImageResource(R.mipmap.default_ic);
+        } else if (bean.getCount_record() == 2) {
             Glide.with(context).load(record_list.get(0).getFile_path()).apply(requestOptions).into(holder.img_one);
             Glide.with(context).load(record_list.get(1).getFile_path()).apply(requestOptions).into(holder.img_two);
-
-        } else if (record_list.size() == 1) {
+            holder.img_three.setImageResource(R.mipmap.default_ic);
+            holder.img_four.setImageResource(R.mipmap.default_ic);
+        } else if (bean.getCount_record() == 1) {
             Glide.with(context).load(record_list.get(0).getFile_path()).apply(requestOptions).into(holder.img_one);
-
+            holder.img_two.setImageResource(R.mipmap.default_ic);
+            holder.img_three.setImageResource(R.mipmap.default_ic);
+            holder.img_four.setImageResource(R.mipmap.default_ic);
+        }else{
+            holder.img_one.setImageResource(R.mipmap.default_ic);
+            holder.img_two.setImageResource(R.mipmap.default_ic);
+            holder.img_three.setImageResource(R.mipmap.default_ic);
+            holder.img_four.setImageResource(R.mipmap.default_ic);
         }
         holder.itemView.setTag(index);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
