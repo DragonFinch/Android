@@ -9,8 +9,8 @@
     <ImageView
         android:layout_marginTop="20dp"
         android:id="@+id/item_iv_face"
-        android:layout_width="29dp"
-        android:layout_height="24dp"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:layout_centerInParent="true"
         android:scaleType="fitXY" />
 
