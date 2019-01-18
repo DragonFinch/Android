@@ -22,7 +22,7 @@
         <AutoCompleteTextView
             android:textCursorDrawable="@drawable/shape_et_cursor_color"
             android:imeOptions="actionSearch"
-            android:layout_marginLeft="@dimen/dp_5"
+            android:layout_marginLeft="@dimen/dp_7"
             android:id="@+id/auto_search"
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
@@ -72,9 +72,10 @@
             android:layout_height="match_parent"
             android:background="@color/FAFAFA"
             android:orientation="vertical"
-            android:padding="@dimen/dp_10">
+          >
 
             <RelativeLayout
+                android:layout_margin="@dimen/dp_10"
                 android:background="#FAFAFA"
                 android:id="@+id/rl_lishi"
                 android:layout_width="match_parent"
@@ -112,7 +113,7 @@
                 android:background="#FAFAFA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/dp_10"
+                android:layout_margin="@dimen/dp_20"
                 android:src="@mipmap/hot1" />
 
             <com.iyoyogo.android.view.ZFlowLayout
@@ -132,5 +133,6 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
 
 </LinearLayout>
