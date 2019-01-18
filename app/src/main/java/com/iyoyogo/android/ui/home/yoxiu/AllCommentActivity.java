@@ -83,6 +83,7 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
     private int id1;
     private List<YoXiuDetailBean.DataBean> dataBeans;
     private View view;
+    private TextView mFasong;
 
     @Override
     protected void setSetting() {
@@ -187,7 +188,6 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
         popup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         //点击空白处时，隐藏掉pop窗口
 
-
         //添加pop窗口关闭事件
         popup.setOnDismissListener(new poponDismissListener());
     }
@@ -198,18 +198,17 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
         tv_message_three.setTextColor(Color.parseColor("#FA800A"));
         backgroundAlpha(0.6f);
         tv_message.setText("Hi~");
+
         img_tip.setImageResource(R.mipmap.stamo_heart);
         tv_message_two.setText("谢谢喜欢~");
         tv_message_three.setText("给你小心心");
         popup.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 
-
     @Override
     public void getDetailSuccess(YoXiuDetailBean.DataBean data) {
 
     }
-
     @Override
     public void getCommentListSuccess(CommentBean.DataBean data) {//评论列表
         list = data.getList();
@@ -221,6 +220,7 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
         yoXiuDetailAdapter.setDeleteOnClickListener(new YoXiuDetailAdapter.DeleteOnClickListener() {
             @Override
             public void delete() {
+
                 mPresenter.getCommentList(user_id, user_token, 1, id1, 0);
             }
         });
@@ -230,7 +230,13 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
     protected void initView() {
         super.initView();
         StatusBarCompat.setStatusBarColor(this, Color.WHITE);
-
+        mFasong = findViewById(R.id.fasong);
+        mFasong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(AllCommentActivity.this,"qwe",Toast.LENGTH_SHORT).show();
+            }
+        });
         //输入框
         etSendmessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
         etSendmessage.addTextChangedListener(new TextWatcher() {
@@ -255,6 +261,7 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
                     if (etSendmessage.getText().toString().length() > 0) {
+
                         mPresenter.addComment(user_id, user_token, 0, id1, etSendmessage.getText().toString().trim());
                         closeInputMethod();
                         mPresenter.getCommentList(user_id, user_token, 1, id1, 0);
@@ -262,6 +269,7 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
                         etSendmessage.setFocusable(false);
 //                        yoXiuDetailAdapter.notifyItemInserted(dataBeans.size());
                     } else {
+
                     }
                     return true;
                 }

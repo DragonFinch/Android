@@ -31,7 +31,7 @@
             android:completionThreshold="1"
 
             android:drawablePadding="@dimen/dp_5"
-            android:hint="@string/name"
+            android:hint=" 请输入要找的内容yo~"
             android:padding="@dimen/dp_8"
             android:singleLine="true"
             android:textSize="@dimen/sp_12" />
