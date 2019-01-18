@@ -171,7 +171,6 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 intent.putExtra("position", "");
                 intent.putExtra("sign", "");
                 intent.putExtra("type", mList.get(0).getType());
-
                 context.startActivity(intent);
             }
         });
