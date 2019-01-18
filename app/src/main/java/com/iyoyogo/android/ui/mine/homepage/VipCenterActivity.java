@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -85,7 +86,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
     private View pop_view;
     private PopupWindow popMenu;
     private RelativeLayout relativeLayout;
-
+    private View view;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_vip_center;
@@ -99,6 +100,7 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
 
     private void initVipLevelUp() {
         View view = getLayoutInflater().inflate(R.layout.popup_up_vip, null);
+        TextView tv_vip = view.findViewById(R.id.tv_vip);
         PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(getApplicationContext(), 300), DensityUtil.dp2px(getApplicationContext(), 320), true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setBackgroundDrawable(new ColorDrawable());
@@ -340,6 +342,67 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
 //        }
 //        setScore();
         Glide.with(this).load(vipCenterBean.getData().getPic()).into(mVipImg);
+
+        view = getLayoutInflater().inflate(R.layout.popup_up_vip, null);
+        TextView tv_vip = view.findViewById(R.id.tv_vip);
+        if (score == 100){
+            tv_vip.setText("LV1!");
+            Popup();
+        }else  if (score == 200){
+            tv_vip.setText("LV2!");
+            Popup();
+        }else  if (score == 500){
+            tv_vip.setText("LV3!");
+            Popup();
+        }else  if (score == 2000){
+            tv_vip.setText("LV4!");
+            Popup();
+        }else  if (score == 10000){
+            tv_vip.setText("LV5!");
+            Popup();
+        }
+    }
+
+    private void Popup(){
+        PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(getApplicationContext(), 300), DensityUtil.dp2px(getApplicationContext(), 320), true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+        backgroundAlpha(0.6f);
+        popupWindow.setOnDismissListener(new poponDismissListener());
+        ImageView img_wechat = view.findViewById(R.id.img_wechat);
+        ImageView img_wechat_circle = view.findViewById(R.id.img_wechat_circle);
+        ImageView img_qq = view.findViewById(R.id.img_qq);
+        ImageView img_sina = view.findViewById(R.id.img_sina);
+        img_qq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                shareWeb(SHARE_MEDIA.QQ);
+            }
+        });
+        img_wechat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                shareWeb(SHARE_MEDIA.WEIXIN);
+            }
+        });
+        img_sina.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                shareWeb(SHARE_MEDIA.SINA);
+            }
+        });
+        img_wechat_circle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                shareWeb(SHARE_MEDIA.WEIXIN_CIRCLE);
+            }
+        });
+        popupWindow.setOnDismissListener(new poponDismissListener());
+        popupWindow.showAtLocation(findViewById(R.id.activity_vip_center), Gravity.CENTER, 0, 0);
     }
 
     private void setScore() {

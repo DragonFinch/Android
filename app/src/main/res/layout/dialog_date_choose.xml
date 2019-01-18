@@ -13,9 +13,10 @@
     android:src="@mipmap/guanbi"
     />
     <RelativeLayout
-        android:background="@color/white"
         android:layout_width="@dimen/dp_300"
-        android:layout_height="@dimen/dp_390">
+        android:layout_height="@dimen/dp_390"
+        android:background="@drawable/tanchuang_bg"
+        >
 
         <LinearLayout
             android:visibility="gone"
@@ -51,7 +52,8 @@
             android:id="@+id/border_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@mipmap/border_yoxiu" />
+            android:src="@mipmap/border_yoxiu"
+            android:visibility="gone"/>
 
         <View
             android:id="@+id/line"
@@ -133,7 +135,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:src="@mipmap/border_yoxiu"
-            />
+            android:visibility="gone"/>
 
         <View
             android:id="@+id/line3"
