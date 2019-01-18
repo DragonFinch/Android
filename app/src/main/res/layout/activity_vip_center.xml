@@ -76,7 +76,8 @@
                             android:layout_marginTop="@dimen/dp_18"
                             android:layout_marginBottom="@dimen/dp_22"
                             android:scaleType="centerCrop"
-                            android:src="@mipmap/huiyuanbiaoshi" />
+                            android:src="@mipmap/huiyuanbiaoshi"
+                            android:visibility="gone"/>
 
                         <ImageView
                             android:id="@+id/img_level"
