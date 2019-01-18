@@ -109,18 +109,18 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
         final MyGridLayout myDragGridLayout = findViewById(R.id.my_gridlayout);
         myDragGridLayout.setDragAble(true);
         mDragList = new ArrayList<String>();
-        mDragList.add("北京");
-        mDragList.add("上海");
-        mDragList.add("天津");
-        mDragList.add("哈尔滨");
-        mDragList.add("青海");
-        mDragList.add("西安");
-        mDragList.add("南京");
-        mDragList.add("杭州");
-        mDragList.add("厦门");
-        mDragList.add("成都");
-        mDragList.add("深圳");
         mDragList.add("广州");
+        mDragList.add("张家界");
+        mDragList.add("甘肃");
+        mDragList.add("黑龙江");
+        mDragList.add("太原");
+        mDragList.add("澳门");
+        mDragList.add("香港");
+        mDragList.add("石家庄");
+        mDragList.add("郑州");
+        mDragList.add("双邱");
+        mDragList.add("上海");
+        mDragList.add("北京");
         myDragGridLayout.addItems(mDragList);
 
         myDragGridLayout.setOnItemtClickListenner(new MyGridLayout.OnItemClickListenner() {
