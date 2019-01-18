@@ -106,13 +106,25 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
                 startActivity(new Intent(UserAndSecurityActivity.this, ReplacePhoneActivity.class));
                 break;
             case R.id.wx_rl_id:
-                weiXinLogin();
+                if (tvWx.getText().toString().trim().equals("已绑定")){
+
+                }else{
+                    weiXinLogin();
+                }
                 break;
             case R.id.wb_rl_id:
-                sinaLogin();
+                if (tvSina.getText().toString().trim().equals("已绑定")){
+
+                }else{
+                    sinaLogin();
+                }
                 break;
             case R.id.qq_rl_id:
-                qqLogin();
+                if (tvQq.getText().toString().trim().equals("已绑定")){
+
+                }else{
+                    qqLogin();
+                }
                 break;
         }
     }
@@ -148,10 +160,8 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
             @Override
             public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
                 Log.d("UserAndSecurityActivity", "onComplete " + "授权完成");
-
                 //sdk是6.4.4的,但是获取值的时候用的是6.2以前的(access_token)才能获取到值,未知原因
                 uid = map.get("uid");
-
                 String openid = map.get("openid");//微博没有
                 String unionid = map.get("unionid");//微博没有
                 String access_token = map.get("access_token");
@@ -174,8 +184,6 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
                 }else {
                     mPresenter.login("", android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, type, "", "", uid, name, iconurl);
                 }*/
-
-
             }
 
             @Override
