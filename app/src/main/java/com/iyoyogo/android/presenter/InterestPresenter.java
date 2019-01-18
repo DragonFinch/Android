@@ -34,6 +34,7 @@ public class InterestPresenter extends BasePresenter<InterestContract.View> impl
                     protected void doOnSuccess(InterestBean interestBean) {
                         List<InterestBean.DataBean.ListBean> list = interestBean.getData().getList();
                         if (list!=null){
+                            if (mView!=null)
                             mView.loadDataSuccess(list);
                         }
                     }
@@ -54,6 +55,7 @@ public class InterestPresenter extends BasePresenter<InterestContract.View> impl
                 .subscribe(new ApiObserver<BaseBean>(mView,this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
+                        if (mView!=null)
                         mView.addInterestSuccess();
                     }
 

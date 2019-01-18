@@ -574,10 +574,8 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
                 break;
             case R.id.login_weibo:
                 sinaLogin();
-//                mPresenter.login("", "", "", 3, "", "", uid, name, iconurl);
                 View btnWeibo = findViewById(R.id.login_weibo);
                 btnWeibo.setEnabled(false);
-                weiXinLogin();
                 loginWeibo.setEnabled(false);
                 loginWeibo.postDelayed(new Runnable() {
                     @Override

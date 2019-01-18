@@ -15,8 +15,10 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Gravity;
@@ -193,7 +195,6 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
                 }
             }
         });
-
     }
 
     @Override
@@ -216,6 +217,26 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
 
             }
         });
+        textView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String date = s.toString();
+                String month = date.substring(5,7);
+                String day = date.substring(8,10);
+                tvStartSeat.setText(getStarSeat(Integer.parseInt(month),Integer.parseInt(day)));
+            }
+        });
+
     }
 
     @Override
@@ -225,7 +246,6 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
 
     public String getStarSeat(int mouth, int day) {
         String starSeat = null;
-
         if ((mouth == 3 && day >= 21) || (mouth == 4 && day <= 19)) {
             starSeat = "白羊座";
         } else if ((mouth == 4 && day >= 20) || (mouth == 5 && day <= 20)) {
@@ -367,7 +387,6 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PictureConfig.CHOOSE_REQUEST) {
             List<LocalMedia> localMedia = PictureSelector.obtainMultipleResult(data);
             if (localMedia != null && localMedia.size() > 0) {
@@ -378,7 +397,6 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             }
             return;
         }
-
         if (requestCode == 1) {
             if (resultCode == 6) {
                 String city_name = data.getStringExtra("city_name");
@@ -403,24 +421,6 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
                 };
                 flow_interest.setAdapter(tagAdapter);
             }
-
-//            ArrayList<String> interestList = data.getStringArrayListExtra("interestList");
-//            if (interestList != null) {
-//                tvInterest.setVisibility(View.GONE);
-//                flow_interest.setVisibility(View.VISIBLE);
-//                TagAdapter<String> tagAdapter = new TagAdapter<String>(interestList) {
-//                    @Override
-//                    public View getView(FlowLayout parent, int position, String s) {
-//                        View contentView = getLayoutInflater().inflate(R.layout.item_interest_person, flow_interest, false);
-//                        TextView tv = contentView.findViewById(R.id.tv_interest);
-//                        tv.setText(interestList.get(position));
-//                        return contentView;
-//                    }
-//                };
-//                flow_interest.setAdapter(tagAdapter);
-//            }
-
-
         }
     }
 
@@ -580,6 +580,17 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
         } else {
             flow_interest.setVisibility(View.VISIBLE);
             tvInterest.setVisibility(View.GONE);
+            //绑定用户信息
+            if(interest_list!=null){
+                if(channel_arrays==null){
+                    channel_arrays = new ArrayList<>();
+                }else{
+                    channel_arrays.clear();
+                }
+                for(GetUserInfoBean.DataBean.InterestListBean intro : interest_list){
+                    channel_arrays.add(intro.getId());
+                }
+            }
             TagAdapter<GetUserInfoBean.DataBean.InterestListBean> tagAdapter = new TagAdapter<GetUserInfoBean.DataBean.InterestListBean>(interest_list) {
                 @Override
                 public View getView(FlowLayout parent, int position, GetUserInfoBean.DataBean.InterestListBean interestListBean) {

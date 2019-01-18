@@ -13,20 +13,21 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/line" />
 
-    <View
+    <ImageView
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:layout_above="@id/tabs_rg"
-        android:background="@drawable/img_line_gradate"
+        android:background="@drawable/gradent_alpha"
         />
-    <View
+
+    <ImageView
         android:id="@+id/line1"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:layout_above="@id/tabs_rg"
-        android:background="@drawable/img_line_gradate1"
+        android:background="@drawable/gradent_alpha"
         />
 
     <LinearLayout

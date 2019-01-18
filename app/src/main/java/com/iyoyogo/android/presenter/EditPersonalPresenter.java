@@ -45,6 +45,7 @@ public class EditPersonalPresenter extends BasePresenter<EditPersonalContract.Vi
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
+                        if(mView!=null)
                         mView.setUserInfoSuccess(baseBean);
                     }
 

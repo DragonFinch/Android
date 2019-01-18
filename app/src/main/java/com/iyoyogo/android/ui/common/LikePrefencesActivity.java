@@ -28,6 +28,7 @@ import com.iyoyogo.android.bean.yoxiu.channel.ChannelBean;
 import com.iyoyogo.android.contract.InterestContract;
 import com.iyoyogo.android.presenter.InterestPresenter;
 import com.iyoyogo.android.ui.home.yoxiu.ChannelActivity;
+import com.iyoyogo.android.ui.mine.EditPersonalMessageActivity;
 import com.iyoyogo.android.utils.GridSpacingItemDecoration;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtils;
@@ -98,7 +99,6 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
         Log.d("LikePrefencesActivity", user_id);
         Log.d("LikePrefencesActivity", user_token);
         mPresenter.getInterestSign(user_id, user_token);
-
     }
 
     @Override
@@ -108,8 +108,6 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
 
     @Override
     public void loadDataSuccess(List<InterestBean.DataBean.ListBean> list) {
-
-
         ArrayList<Integer> data = getIntent().getIntegerArrayListExtra("data");
         if (data != null && data.size() > 0) {
             for (InterestBean.DataBean.ListBean listBean : list) {
@@ -133,39 +131,6 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
         adapter1.setOnRecyclerViewItemClickListener(listener);
         gv_interest.setLayoutManager(layoutManager);
         gv_interest.setAdapter(adapter1);
-
-
-//        data = new ArrayList<>();
-//        data.addAll(list);
-//
-////        MyOnItemClickListener listener = new MyOnItemClickListener();
-//        adapter = new InterestsAdapter(LikePrefencesActivity.this, data);
-//
-//
-//        gv_interest.setAdapter(adapter);
-
-
-//        recyclerInterest.setLayoutManager(new GridLayoutManager(this, 4));
-       /* InterestsAdapter interestAdapter = new InterestsAdapter(LikePrefencesActivity.this, data);
-        gv_interest.setAdapter(interestAdapter);
-        gv_interest.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
-        gv_interest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                SparseBooleanArray checkedItemPositions = gv_interest.getCheckedItemPositions();
-                idList.add(data.get(position).getId());
-                interestList.add(data.get(position).getInterest());
-                size = idList.size();
-                array = idList.toArray(new Integer[size]);
-
-                for (int i = 0; i < array.length; i++) {
-                    Log.d("LikePrefencesActivity", "array[i]:" + array[i]);
-                }
-            }
-        });*/
-
-
     }
 
     public Integer[] ifRepeat(Integer[] arr) {
@@ -202,9 +167,7 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
 
     @Override
     public void addInterestSuccess() {
-        startActivity(new Intent(LikePrefencesActivity.this, MainActivity.class));
         finish();
-        Log.d("LikePrefencesActivity", "添加成功");
     }
 
 
@@ -212,12 +175,10 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.close_btn:
-                startActivity(new Intent(LikePrefencesActivity.this, MainActivity.class));
                 finish();
                 break;
-
             case R.id.confirm_btn:
-                Intent intent = new Intent();
+                Intent intent = new Intent(LikePrefencesActivity.this,EditPersonalMessageActivity.class);
                 integerList = adapter1.selectPhoto();
                 ArrayList<Integer> ids = adapter1.selectChannelIds();
                 strings = integerList.toArray(new String[size]);
@@ -233,40 +194,6 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
                     setResult(4, intent);
                     finish();
                 }
-//                mPresenter.addInterest(ids, user_id, user_token);
-//                setResult(4, intent);
-//                finish();
-//                List<Integer> integerList = adapter.selectPhoto();
-//                if (integerList != null) {
-//                    int size = integerList.size();
-//                    Integer[] integers = integerList.toArray(new Integer[size]);
-//                    for (int i = 0; i < integers.length; i++) {
-//                        Log.d("AAA", "integers[i]:" + integers[i]);
-//                    }
-//                    if (type == 6) {
-//                        ArrayList<String> strings = adapter.selectInterest();
-//                        Intent intent = new Intent();
-//                        intent.putStringArrayListExtra("interestList", strings);
-//                        for (int i = 0; i < strings.size(); i++) {
-//                            Log.d("LikePrefencesActivity", "interestList" + strings.get(i));
-//                        }
-//                        setResult(4, intent);
-//                        finish();
-//                    } else {
-//                        if (integers.length < 3) {
-//                            Toast.makeText(this, "亲，兴趣少于三条哦", Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            Log.d("LikePrefencesActivity", "array.length:" + integers.length);
-//                            Integer[] objects = (Integer[]) ifRepeat(integers);
-//                            for (int i = 0; i < objects.length; i++) {
-//                                Log.d("LikePrefencesActivity", "objects[i]:" + objects[i]);
-//                            }
-//                            mPresenter.addInterest(integers, user_id, user_token);
-//                        }
-//                    }
-//                } else {
-//
-//                }
                 break;
         }
     }
