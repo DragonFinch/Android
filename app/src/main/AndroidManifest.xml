@@ -505,6 +505,7 @@
         <activity android:name=".ui.home.GoSelectImageActivity" />
         <activity android:name=".ui.mine.BigPictureActivity" />
         <activity android:name=".ui.home.GoTakeDetailActivity" />
+        <activity android:name=".ui.home.yoxiu.NewYoXiuDetailActivity"></activity>
     </application>
 
 </manifest>

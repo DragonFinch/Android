@@ -15,6 +15,7 @@
         android:background="@mipmap/border_yoxiu" />
 
     <LinearLayout
+        android:id="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -68,6 +69,13 @@
                 android:gravity="center_vertical"
                 android:textColor="#333333"
                 android:textSize="15sp" />
+
+            <View
+                android:id="@+id/view_content_line"
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:visibility="gone"
+                android:background="#888888" />
         </LinearLayout>
 
         <LinearLayout
@@ -94,12 +102,20 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/view_option_line"
         android:layout_width="match_parent"
         android:layout_height="0.2dp"
         android:layout_marginTop="2dp"
         android:background="#bfbfbf" />
 
+    <View
+        android:id="@+id/view_fill"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
+
     <LinearLayout
+        android:id="@+id/ll_option"
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:orientation="horizontal"
