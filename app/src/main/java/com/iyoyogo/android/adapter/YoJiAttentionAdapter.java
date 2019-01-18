@@ -391,6 +391,15 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
                 holder.recycler_comment.setLayoutManager(new LinearLayoutManager(context));
                 holder.recycler_comment.setAdapter(yoJiListItemAdapter);
             }
+            //全部评论的接口
+            holder.tv_num_comment.setOnClickListener(new View.OnClickListener() {
+               @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, AllCommentActivity.class);
+                    intent.putExtra("id", mList.get(position).getYo_id());
+                    context.startActivity(intent);
+                }
+            });
 
             holder.dt_like.setImageResource(mList.get(position).getIs_my_praise() > 0 ? R.mipmap.yixihuan_xiangqing : R.mipmap.datu_xihuan);
             if (mList.get(position).getIs_my_praise() == 0) {

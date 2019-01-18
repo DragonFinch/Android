@@ -109,7 +109,6 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
                     mPresenter.banner(user_id, user_token, "attention","");
                 }
             });
-
         }
 
     }

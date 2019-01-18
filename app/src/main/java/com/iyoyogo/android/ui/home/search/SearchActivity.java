@@ -96,7 +96,6 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     //关闭软件盘
                     hideKeyboard(autoSearch);
-                    Toast.makeText(SearchActivity.this, "全部", Toast.LENGTH_SHORT).show();
                     if (autoSearch.getText().toString() != null){
                         Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
                         intent.putExtra("key", autoSearch.getText().toString());

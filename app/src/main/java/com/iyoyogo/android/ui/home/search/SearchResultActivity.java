@@ -46,6 +46,7 @@ import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.utils.SpUtils;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,6 +121,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             //放到网络请求上面
             searchGuanjiaci.setText(keyword);
         }
+        searchGuanjiaci.setSelection(searchGuanjiaci.getText().length());
 
         mPresenter.getKeyWord(user_id, user_token, keyword, "all", "");
 
@@ -301,7 +303,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             name.setVisibility(View.GONE);
             content.setVisibility(View.GONE);
             hit.setVisibility(View.GONE);
-
             tvGson.setVisibility(View.GONE);
             tvGson1.setVisibility(View.GONE);
             ListViewkeywordAdapter adapter = new ListViewkeywordAdapter(SearchResultActivity.this, listBeans, searchGuanjiaci.getText().toString());
@@ -451,13 +452,13 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             mUser.addAll(user_list1);
             lv.setAdapter(adapter);
             adapter.notifyDataSetChanged();
-            //优秀
+            //yo秀
             List<KeywordBean.DataBean.YoxListBean> yox_list = keywordBean.getData().getYox_list();
             myox.addAll(yox_list);
             lvUser.setAdapter(adapter1);
             adapter1.notifyDataSetChanged();
 
-            //有记
+            //yo纪
             List<KeywordBean.DataBean.YojListBean> yoj_list = keywordBean.getData().getYoj_list();
             myoj.addAll(yoj_list);
             lvContent.setAdapter(adapter3);
@@ -474,29 +475,52 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 public void set(int position) {
                 }
             });
+
             if (mUser.size() <=0){
-                view.setVisibility(View.GONE);
-            }else{
-                view.setVisibility(View.VISIBLE);
-            }
+                if (myox.size() <=0){
+                    if (myoj.size() <=0){
+                        hit.setVisibility(View.VISIBLE);
+                        tvGson.setVisibility(View.GONE);
+                        tvGson1.setVisibility(View.GONE);
+                        name.setVisibility(View.GONE);
+                        content.setVisibility(View.GONE);
 
-            name.setVisibility(View.VISIBLE);
-            lv.setVisibility(View.VISIBLE);
-            lvUser.setVisibility(View.VISIBLE);
-            lvContent.setVisibility(View.VISIBLE);
-            content.setVisibility(View.VISIBLE);
-            hit.setVisibility(View.GONE);
-            tvGson.setVisibility(View.GONE);
-            tvGson1.setVisibility(View.GONE);
-            listViewLv.setVisibility(View.GONE);
-            tvSetname.setVisibility(View.VISIBLE);
-            if (mUser.size() == 0) {
-                tvGson.setVisibility(View.VISIBLE);
-                if (myoj.size() == 0 && myox.size() == 0) {
-                    tvGson.setVisibility(View.VISIBLE);
-                    tvGson1.setVisibility(View.VISIBLE);
+                    }else{
+                        hit.setVisibility(View.GONE);
+                        name.setVisibility(View.VISIBLE);
+                        lv.setVisibility(View.VISIBLE);
+                        lvUser.setVisibility(View.VISIBLE);
+                        lvContent.setVisibility(View.VISIBLE);
+                        content.setVisibility(View.VISIBLE);
+                        tvGson.setVisibility(View.GONE);
+                        tvGson1.setVisibility(View.GONE);
+                        listViewLv.setVisibility(View.GONE);
+                        tvSetname.setVisibility(View.VISIBLE);
 
+                    }
+                }else{
+                    hit.setVisibility(View.GONE);
+                    name.setVisibility(View.GONE);
+                    lv.setVisibility(View.VISIBLE);
+                    lvUser.setVisibility(View.VISIBLE);
+                    lvContent.setVisibility(View.VISIBLE);
+                    content.setVisibility(View.VISIBLE);
+                    tvGson.setVisibility(View.GONE);
+                    tvGson1.setVisibility(View.GONE);
+                    listViewLv.setVisibility(View.GONE);
+                    tvSetname.setVisibility(View.VISIBLE);
                 }
+            }else{
+                hit.setVisibility(View.GONE);
+                name.setVisibility(View.VISIBLE);
+                lv.setVisibility(View.VISIBLE);
+                lvUser.setVisibility(View.VISIBLE);
+                lvContent.setVisibility(View.VISIBLE);
+                content.setVisibility(View.VISIBLE);
+                tvGson.setVisibility(View.GONE);
+                tvGson1.setVisibility(View.GONE);
+                listViewLv.setVisibility(View.GONE);
+                tvSetname.setVisibility(View.VISIBLE);
             }
         }
     }

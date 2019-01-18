@@ -20,9 +20,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
         <com.iyoyogo.android.view.ClearEditText
-            android:layout_marginLeft="@dimen/dp_20"
-            android:cursorVisible="false"
             android:textCursorDrawable="@drawable/shape_et_cursor_color"
+            android:layout_marginLeft="@dimen/dp_20"
             android:id="@+id/search_editText_searchContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
