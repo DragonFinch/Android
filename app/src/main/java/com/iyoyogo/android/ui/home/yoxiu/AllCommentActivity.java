@@ -124,7 +124,7 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     //获得焦点
-                    etSendmessage.setHint("码字不容易，留个评论鼓励下嘛~");
+                    etSendmessage.setHint(" 码字不容易，留个评论鼓励下嘛~");
                     etSendmessage.setHintTextColor(Color.parseColor("#888888"));
                     RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                     layoutParams.setMargins(0, 0, DensityUtil.dp2px(AllCommentActivity.this, 40), 0);
@@ -135,7 +135,7 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
                     RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(DensityUtil.dp2px(AllCommentActivity.this, 230), ViewGroup.LayoutParams.WRAP_CONTENT);
                     layoutParams.setMargins(0, DensityUtil.dp2px(AllCommentActivity.this, 20), 0, 0);
                     // etSendmessage.setLayoutParams(layoutParams);
-                    etSendmessage.setHint("再不评论 , 你会被抓去写作业的~");
+                    etSendmessage.setHint(" 再不评论 , 你会被抓去写作业的~");
                     etSendmessage.setHintTextColor(Color.parseColor("#888888"));
 
                 }

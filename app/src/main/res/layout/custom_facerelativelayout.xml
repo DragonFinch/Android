@@ -21,9 +21,9 @@
             android:layout_weight="1"
             android:background="@drawable/message_bg"
             android:gravity="center_vertical"
-            android:hint="你也来评论一下吧..."
+            android:hint=" 你也来评论一下吧..."
             android:padding="4dp"
-            android:textSize="@dimen/sp_15" />
+            android:textSize="12sp" />
 
         <ImageView
             android:layout_gravity="center"

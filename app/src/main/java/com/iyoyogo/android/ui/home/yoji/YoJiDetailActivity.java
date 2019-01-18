@@ -495,7 +495,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                     //获得焦点
                     tvCollection.setVisibility(View.GONE);
                     tvLike.setVisibility(View.GONE);
-                    editComment.setHint("码字不容易，留个评论鼓励下嘛~");
+                    editComment.setHint(" 码字不容易，留个评论鼓励下嘛~");
                     editComment.setHintTextColor(Color.parseColor("#888888"));
                     sendEmoji.setVisibility(View.VISIBLE);
                     imgBrow.setVisibility(View.GONE);
@@ -513,7 +513,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                     editComment.setLayoutParams(layoutParams);
                     tvCollection.setVisibility(View.VISIBLE);
                     tvLike.setVisibility(View.VISIBLE);
-                    editComment.setHint("再不评论 , 你会被抓去写作业的~");
+                    editComment.setHint(" 再不评论 , 你会被抓去写作业的~");
                     editComment.setHintTextColor(Color.parseColor("#888888"));
                     sendEmoji.setVisibility(View.GONE);
                     sendEmoji.setVisibility(View.GONE);
