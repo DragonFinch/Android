@@ -4,6 +4,8 @@ package com.iyoyogo.android.app;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -73,6 +75,10 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Resources res = super.getResources();
+        Configuration config = new Configuration();
+        config.setToDefaults();
+        res.updateConfiguration(config, res.getDisplayMetrics());
         SystemParams.init(this);
         isDownload = false;
         context = this;
