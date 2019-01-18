@@ -48,7 +48,8 @@ public class YoXiuDetailPresenter extends BasePresenter<YoXiuDetailContract.View
                     @Override
                     protected void doOnSuccess(CommentBean commentBean) {
                         CommentBean.DataBean data = commentBean.getData();
-                        if (data != null) {
+                        if (data != null && mView != null) {
+
                             mView.getCommentListSuccess(data);
                         }
                     }
@@ -70,7 +71,6 @@ public class YoXiuDetailPresenter extends BasePresenter<YoXiuDetailContract.View
                     protected void doOnSuccess(BaseBean baseBean) {
                         mView.addCommentSuccess(baseBean);
                     }
-
                     @Override
                     protected boolean doOnFailure(int code, String message) {
                         Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();

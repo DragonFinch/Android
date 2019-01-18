@@ -23,9 +23,8 @@
         android:layout_width="@dimen/dp_40"
         android:layout_height="@dimen/dp_40"
         android:layout_marginLeft="@dimen/dp15"
-        android:src="@mipmap/ic_launcher"
         android:layout_marginTop="@dimen/dp15"
-        />
+        android:src="@mipmap/ic_launcher" />
 
 
     <RelativeLayout
@@ -33,10 +32,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_35"
         android:layout_marginTop="@dimen/dp_17"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
         android:layout_toRightOf="@id/comment_message_user_icon"
-        >
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/comment_message_user_nick_name"
@@ -45,33 +43,43 @@
             android:layout_marginLeft="@dimen/dp_10"
             android:text="@string/fabuyouxiu"
             android:textColor="@color/FA800A"
-            android:textSize="@dimen/sp_12"/>
+            android:textSize="@dimen/sp_12"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/comment_message_tv_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_10"
+            android:layout_toRightOf="@id/comment_message_user_nick_name"
             android:text="@string/fabuyouxiu"
             android:textColor="@color/color333333"
-            android:textSize="@dimen/sp_12"
-            android:layout_toRightOf="@id/comment_message_user_nick_name"/>
+            android:textSize="@dimen/sp_12" />
 
-        <TextView
-            android:id="@+id/comment_message_tv_reply"
+        <LinearLayout
+            android:id="@+id/lin_reply"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/dp_20"
-            android:background="@drawable/gray_fillet"
-            android:paddingLeft="@dimen/dp_10"
-            android:paddingTop="@dimen/dp_2"
-            android:paddingRight="@dimen/dp_10"
-            android:paddingBottom="@dimen/dp_2"
-            android:text="@string/huifu"
-            android:textColor="@color/c888888"
-            android:textSize="@dimen/sp_12"
-            />
+            android:gravity="center"
+            >
+
+            <TextView
+                android:id="@+id/comment_message_tv_reply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_20"
+                android:background="@drawable/gray_fillet"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingTop="@dimen/dp_2"
+                android:paddingRight="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_2"
+                android:text="@string/huifu"
+                android:textColor="@color/c888888"
+                android:textSize="@dimen/sp_12" />
+        </LinearLayout>
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -88,21 +96,21 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/dp_10"
             android:layout_toLeftOf="@id/comment_message_item_like_iv_id"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:text="@string/fabuyouxiu"
             android:textColor="@color/color333333"
-            android:textSize="@dimen/sp_15"
-            android:maxLines="2"
-            android:ellipsize="end"/>
+            android:textSize="@dimen/sp_15" />
 
         <ImageView
             android:id="@+id/comment_message_item_like_iv_id"
             android:layout_width="@dimen/dp_50"
             android:layout_height="@dimen/dp_50"
             android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="@dimen/dp_20"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_launcher"
-            android:layout_marginTop="5dp"/>
+            android:src="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/comment_message_tv_time"
@@ -111,7 +119,7 @@
             android:layout_alignParentBottom="true"
             android:text="111"
             android:textColor="@color/c888888"
-            android:textSize="@dimen/sp_12"/>
+            android:textSize="@dimen/sp_12" />
     </RelativeLayout>
 
     <View

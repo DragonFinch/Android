@@ -2,6 +2,7 @@ package com.iyoyogo.android.ui.mine.message;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.text.SpannableString;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -19,6 +20,7 @@ import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.util.MyConversionUtil;
 import com.iyoyogo.android.widget.CircleImageView;
 
 import java.util.List;
@@ -103,6 +105,7 @@ public class CommentMessageAdapter extends BaseQuickAdapter<MessageBean.DataBean
             }
         });
         helper.addOnClickListener(R.id.comment_message_tv_reply);
+        helper.addOnClickListener(R.id.lin_reply);
         RelativeLayout layout = helper.getView(R.id.layout);
         RelativeLayout content_layout = helper.getView(R.id.content_layout);
         String yo_type = item.getYo_type();
@@ -184,6 +187,10 @@ public class CommentMessageAdapter extends BaseQuickAdapter<MessageBean.DataBean
                 }
             }
         });
-
+        TextView tv_content = helper.getView(R.id.comment_message_tv_content);
+        //设置图片的编码 展示图片
+        MyConversionUtil.getInstace().getFileText(mContext);
+        SpannableString spannableString =   MyConversionUtil.getInstace().getExpressionString(mContext, item.getContent());
+        tv_content.setText(spannableString);
     }
 }

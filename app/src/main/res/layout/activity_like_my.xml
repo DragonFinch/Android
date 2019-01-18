@@ -41,7 +41,8 @@
             android:layout_marginLeft="@dimen/dp_10"
             android:text="@string/fabuyouxiu"
             android:textColor="@color/FA800A"
-            android:textSize="@dimen/sp_12" />
+            android:textSize="@dimen/sp_12"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/like_me_tv_action"

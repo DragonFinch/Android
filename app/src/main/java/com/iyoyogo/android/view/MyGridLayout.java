@@ -15,12 +15,6 @@ import com.iyoyogo.android.R;
 
 import java.util.List;
 
-/**
- * 爱生活，爱代码
- * 创建于：2018/11/6 15:05
- * 作 者：T
- * 微信：704003376
- */
 public class MyGridLayout extends GridLayout implements View.OnLongClickListener {
 
     public MyGridLayout(Context context) {
@@ -36,7 +30,7 @@ public class MyGridLayout extends GridLayout implements View.OnLongClickListener
         init();
     }
 
-    private int mGridCount = 4;
+    private int mGridCount = 3;
 
     private void init() {
         setColumnCount(mGridCount);

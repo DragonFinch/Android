@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.mine.message.MessageDetailActivity">
+
     <RelativeLayout
         android:id="@+id/bar"
         android:layout_width="match_parent"
@@ -15,9 +16,9 @@
             android:id="@+id/message_center_back_im_id"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:paddingRight="@dimen/dp_20"
-            android:paddingLeft="@dimen/dp_20"
             android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_20"
             android:src="@mipmap/back_black" />
 
         <TextView
@@ -27,60 +28,137 @@
             android:layout_centerInParent="true"
             android:text="@string/xihuanwode"
             android:textColor="@color/color333333"
-            android:textSize="@dimen/sp_16"
-            />
+            android:textSize="@dimen/sp_16" />
     </RelativeLayout>
+
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:layout_below="@+id/bar"
         android:id="@+id/smart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/bar">
+
         <android.support.v7.widget.RecyclerView
 
+            android:id="@+id/recycler_message"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/recycler_message"
-            android:background="@color/white"
-            />
+            android:background="@color/white" />
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    <include  android:layout_below="@+id/bar"
+    <com.iyoyogo.android.utils.emoji.FaceRelativeLayout
+        android:id="@+id/FaceRelativeLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/rl_input"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_55"
+            android:padding="8dp">
+
+            <EditText
+                android:singleLine="true"
+                android:imeOptions="actionSend"
+                android:id="@+id/et_sendmessage"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/message_bg"
+                android:gravity="center_vertical"
+                android:hint="你也来评论一下吧..."
+                android:padding="4dp"
+                android:textSize="@dimen/sp_15" />
+
+            <ImageView
+                android:layout_gravity="center"
+                android:id="@+id/btn_face"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/input_biaoqing" />
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/btn_send"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/comment_send" />
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/ll_facechoose"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/dp_210"
+            android:layout_below="@id/rl_input"
+            android:background="#ffffff"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/vp_contains"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_160"></android.support.v4.view.ViewPager>
+
+                <LinearLayout
+                    android:id="@+id/iv_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="6dip"
+                    android:gravity="center"
+                    android:orientation="horizontal"></LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:background="#ffffff"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50"
+                    >
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_weight="3"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dp_21"
+                        android:src="@drawable/baiyan"/>
+                    <RelativeLayout
+
+                        android:background="#F1F1F1"
+                        android:layout_weight="9"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:textSize="15sp"
+                            android:textColor="@color/white"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="发送"
+                            android:layout_alignParentRight="true"
+                            android:paddingLeft="@dimen/dp_20"
+                            android:paddingRight="@dimen/dp_20"
+                            android:gravity="center"
+                            android:background="@color/orange"/>
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+
+    </com.iyoyogo.android.utils.emoji.FaceRelativeLayout>
+
+    <include
         android:id="@+id/like_layout"
         layout="@layout/include_layout_message_null"
-        android:visibility="gone"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent" />
-    <RelativeLayout
-        android:visibility="gone"
-        android:id="@+id/edit_layout"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
-        <EditText
-            android:singleLine="true"
-            android:id="@+id/edit_comment"
-            android:layout_marginRight="@dimen/dp_5"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_toLeftOf="@+id/input_expression"
-            android:layout_marginTop="@dimen/dp_18"
-            android:hint="码字不容易，留个评论鼓励下嘛~"
-            android:textColorHint="#888"
-            android:background="@color/transparent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:imeOptions="actionSend"
-            android:id="@+id/input_expression"
-            android:layout_marginRight="@dimen/dp_20"
-            android:layout_marginTop="@dimen/dp_18"
-            android:layout_marginBottom="@dimen/dp_18"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/input_biaoqing"
-            />
-    </RelativeLayout>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/bar"
+        android:visibility="gone" />
+
 </RelativeLayout>

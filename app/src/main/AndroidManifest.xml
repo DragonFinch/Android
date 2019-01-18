@@ -455,7 +455,8 @@
         <activity android:name=".ui.home.yoji.YoJiDetailActivity" />
         <activity android:name=".ui.home.yoji.ChooseSignActivity" />
         <activity android:name=".ui.mine.draft.DraftActivity" />
-        <activity android:name=".ui.mine.message.MessageDetailActivity" />
+        <activity android:name=".ui.mine.message.MessageDetailActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity android:name=".ui.mine.AddCollectionActivity" />
         <activity android:name=".ui.mine.homepage.AddressBookFriendsActivity" />
         <activity
