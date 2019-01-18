@@ -58,7 +58,13 @@ public abstract class TagAdapter<T> {
 
 //   return mTagDatas ==null?0:mTagDatas.size()
     public int getCount() {
-        return 3;
+        if(mTagDatas==null){
+            return 0;
+        }else if(mTagDatas.size()>=3){
+            return 3;
+        }else{
+            return mTagDatas.size();
+        }
     }
 
     public void notifyDataChanged() {
