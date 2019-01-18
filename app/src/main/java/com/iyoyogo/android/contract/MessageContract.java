@@ -12,7 +12,9 @@ import java.util.List;
  */
 public interface MessageContract {
     interface View extends IBaseView {
-        void getMessageSuccess(List<MessageBean.DataBean.ListBean> list);
+//        void getMessageSuccess(List<MessageBean.DataBean.ListBean> list);
+        void getMessageSuccess(MessageBean.DataBean bean);
+
         void readMessageSuccess(ReadMessage.DataBean data);
         //添加评论
         void addCommentSuccess(BaseBean baseBean);

@@ -30,13 +30,17 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.YoJiListHorizontalAdapter;
 import com.iyoyogo.android.adapter.MessageDetailAdapter;
+import com.iyoyogo.android.adapter.YoXiuListAdapter;
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.mine.center.YoJiContentBean;
 import com.iyoyogo.android.bean.mine.message.MessageBean;
 import com.iyoyogo.android.bean.mine.message.ReadMessage;
+import com.iyoyogo.android.bean.yoji.list.YoJiListBean;
+import com.iyoyogo.android.bean.yoxiu.YouXiuListBean;
 import com.iyoyogo.android.contract.MessageContract;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.net.ApiObserver;
@@ -44,9 +48,11 @@ import com.iyoyogo.android.presenter.MessagePresenter;
 import com.iyoyogo.android.ui.home.EditImageOrVideoActivity;
 import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
+import com.iyoyogo.android.ui.home.yoji.YoJiListActivity;
 import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
 import com.iyoyogo.android.ui.home.yoxiu.MoreTopicActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
+import com.iyoyogo.android.ui.home.yoxiu.YoXiuListActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SoftKeyboardStateHelper;
 import com.iyoyogo.android.utils.SpUtils;
@@ -114,19 +120,18 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
     private SystemMessageAdapter systemMessageAdapter;
     private CommentMessageAdapter commentMessageAdapter;
     private FocusMessageAdapter focusMessageAdapter;
-    private List<MessageBean.DataBean.ListBean> mList;
-    private int currentPage;
+    private int currentPage = 1;
+    private List<MessageBean.DataBean.ListBean> mlist;
+
 
     @Override
     protected void initView() {
         super.initView();
         StatusBarCompat.setStatusBarColor(this, Color.WHITE);
-        mList = new ArrayList<>();
-//        statusbar();
+        mlist = new ArrayList<>();
         Intent intent = getIntent();
         title = intent.getStringExtra("title");
         likeMeTitleTvId.setText(title);
-//        StatusBarUtils.setWindowStatusBarColor(MessageDetailActivity.this, R.color.white);
         smart.setRefreshFooter(new MyRefreshAnimFooter(this));
         mRefreshAnimHeader = new MyRefreshAnimHeader(this);
         setHeader(mRefreshAnimHeader);
@@ -146,7 +151,6 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-
         mRefreshAnimHeader = new MyRefreshAnimHeader(this);
         mRefreshAnimFooter = new MyRefreshAnimFooter(this);
         smart.setRefreshFooter(mRefreshAnimFooter);
@@ -168,168 +172,167 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
         smart.setRefreshFooter(new MyRefreshAnimFooter(this));
         smart.autoRefresh();
         smart.finishRefresh(1050);
-        smart.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mList.clear();
-                refreshLayout.finishRefresh(1050);
-                if (title.equals("喜欢我的")) {
-                    mPresenter.getMessage(user_id, user_token, 2, 1);
-                } else if (title.equals("系统消息")) {
-                    mPresenter.getMessage(user_id, user_token, 1, 1);
-                } else if (title.equals("评论消息")) {
-                    mPresenter.getMessage(user_id, user_token, 3, 1);
-                } else if (title.equals("关注消息")) {
-                    mPresenter.getMessage(user_id, user_token, 4, 1);
-                }
-            }
-        });
-        smart.setOnLoadMoreListener(new OnRefreshLoadMoreListener() {
+        smart.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 currentPage++;
                 if (title.equals("喜欢我的")) {
-                    mPresenter.getMessage(user_id, user_token, 2, currentPage);
-                    if (mList.size() != 0) {
-                        likeMeAdapter.notifyItemChanged(mList.size());
-                    }
+                    DataManager.getFromRemote().getMessage(user_id, user_token, 2, currentPage)
+                            .subscribe(new Consumer<MessageBean>() {
+                                @Override
+                                public void accept(MessageBean messageBean) throws Exception {
+                                    List<MessageBean.DataBean.ListBean> list = messageBean.getData().getList();
+                                    mlist.addAll(list);
+                                    likeMeAdapter.notifyItemInserted(mlist.size());
+                                }
+                            });
+
                 } else if (title.equals("系统消息")) {
-                    mPresenter.getMessage(user_id, user_token, 1, currentPage);
-                    if (mList.size() != 0) {
-                        systemMessageAdapter.notifyItemChanged(mList.size());
-                    }
+                    DataManager.getFromRemote().getMessage(user_id, user_token, 1, currentPage)
+                            .subscribe(new Consumer<MessageBean>() {
+                                @Override
+                                public void accept(MessageBean messageBean) throws Exception {
+                                    List<MessageBean.DataBean.ListBean> list = messageBean.getData().getList();
+                                    mlist.addAll(list);
+                                    systemMessageAdapter.notifyItemInserted(mlist.size());
+                                }
+                            });
                 } else if (title.equals("评论消息")) {
-                    mPresenter.getMessage(user_id, user_token, 3, currentPage);
-                    if (mList.size() != 0) {
-                        commentMessageAdapter.notifyItemChanged(mList.size());
-                    }
+                    DataManager.getFromRemote().getMessage(user_id, user_token, 3, currentPage)
+                            .subscribe(new Consumer<MessageBean>() {
+                                @Override
+                                public void accept(MessageBean messageBean) throws Exception {
+                                    List<MessageBean.DataBean.ListBean> list = messageBean.getData().getList();
+                                    mlist.addAll(list);
+                                    commentMessageAdapter.notifyItemInserted(mlist.size());
+                                }
+                            });
                 } else if (title.equals("关注消息")) {
-                    mPresenter.getMessage(user_id, user_token, 4, currentPage);
-                    if (mList.size() != 0) {
-                        focusMessageAdapter.notifyItemChanged(mList.size());
-                    }
+                    DataManager.getFromRemote().getMessage(user_id, user_token, 4, currentPage)
+                            .subscribe(new Consumer<MessageBean>() {
+                                @Override
+                                public void accept(MessageBean messageBean) throws Exception {
+                                    List<MessageBean.DataBean.ListBean> list = messageBean.getData().getList();
+                                    mlist.addAll(list);
+                                    focusMessageAdapter.notifyItemInserted(mlist.size());
+                                }
+                            });
                 }
-//                if (title.equals("喜欢我的")) {
-//                    DataManager.getFromRemote()
-//                            .getMessage(user_id,user_token,2,currentPage)
-//                            .subscribe(new Observer<MessageBean>() {
-//                                @Override
-//                                public void onSubscribe(Disposable d) {
-//
-//                                }
-//
-//                                @Override
-//                                public void onNext(MessageBean messageBean) {
-//                                    List<MessageBean.DataBean.ListBean> list = messageBean.getData().getList();
-//                                    mList.addAll(list);
-//                                    if (mList.size()!=0){
-//                                        likeMeAdapter.notifyItemChanged(mList.size());
-//                                    }
-//                                }
-//
-//                                @Override
-//                                public void onError(Throwable e) {
-//
-//                                }
-//
-//                                @Override
-//                                public void onComplete() {
-//
-//                                }
-//                            });
-//                } else if (title.equals("系统消息")) {
-//                    DataManager.getFromRemote()
-//                            .getMessage(user_id,user_token,1,currentPage)
-//                            .subscribe(new Observer<MessageBean>() {
-//                                @Override
-//                                public void onSubscribe(Disposable d) {
-//
-//                                }
-//
-//                                @Override
-//                                public void onNext(MessageBean messageBean) {
-//                                    List<MessageBean.DataBean.ListBean> list = messageBean.getData().getList();
-//                                    mList.addAll(list);
-//                                    if (mList.size()!=0){
-//                                        systemMessageAdapter.notifyItemChanged(mList.size());
-//                                    }
-//                                }
-//
-//                                @Override
-//                                public void onError(Throwable e) {
-//
-//                                }
-//
-//                                @Override
-//                                public void onComplete() {
-//
-//                                }
-//                            });
-//                } else if (title.equals("评论消息")) {
-//                    DataManager.getFromRemote()
-//                            .getMessage(user_id,user_token,3,currentPage)
-//                            .subscribe(new Observer<MessageBean>() {
-//                                @Override
-//                                public void onSubscribe(Disposable d) {
-//
-//                                }
-//
-//                                @Override
-//                                public void onNext(MessageBean messageBean) {
-//                                    List<MessageBean.DataBean.ListBean> list = messageBean.getData().getList();
-//                                    mList.addAll(list);
-//                                    if (mList.size()!=0){
-//                                        commentMessageAdapter.notifyItemChanged(mList.size());
-//                                    }
-//                                }
-//
-//                                @Override
-//                                public void onError(Throwable e) {
-//
-//                                }
-//
-//                                @Override
-//                                public void onComplete() {
-//
-//                                }
-//                            });
-//                } else if (title.equals("关注消息")) {
-//                    DataManager.getFromRemote()
-//                            .getMessage(user_id,user_token,4,currentPage)
-//                            .subscribe(new Observer<MessageBean>() {
-//                                @Override
-//                                public void onSubscribe(Disposable d) {
-//
-//                                }
-//
-//                                @Override
-//                                public void onNext(MessageBean messageBean) {
-//                                    List<MessageBean.DataBean.ListBean> list = messageBean.getData().getList();
-//                                    mList.addAll(list);
-//                                    if (mList.size()!=0){
-//                                        focusMessageAdapter.notifyItemChanged(mList.size());
-//                                    }
-//                                }
-//
-//                                @Override
-//                                public void onError(Throwable e) {
-//
-//                                }
-//
-//                                @Override
-//                                public void onComplete() {
-//
-//                                }
-//                            });
-//                }
                 refreshLayout.finishLoadMore(2000);
             }
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mlist.clear();
+                refreshLayout.finishRefresh(1050);
+                if (title.equals("喜欢我的")) {
+                    DataManager.getFromRemote().getMessage(user_id, user_token, 2, 1)
+                            .subscribe(new Observer<MessageBean>() {
+                                @Override
+                                public void onSubscribe(Disposable d) {
 
+                                }
+
+                                @Override
+                                public void onNext(MessageBean messageBean) {
+                                    List<MessageBean.DataBean.ListBean> list = messageBean.getData().getList();
+                                    mlist.addAll(list);
+                                    likeMeAdapter = new LikeMeAdapter(R.layout.activity_like_my, mlist);//喜欢我的
+                                    recyclerMessage.setAdapter(likeMeAdapter);
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Log.d("YoXiuListActivity", e.getMessage());
+                                }
+
+                                @Override
+                                public void onComplete() {
+
+                                }
+                            });
+                } else if (title.equals("系统消息")) {
+                    DataManager.getFromRemote().getMessage(user_id, user_token, 1, 1)
+                            .subscribe(new Observer<MessageBean>() {
+                                @Override
+                                public void onSubscribe(Disposable d) {
+
+                                }
+
+                                @Override
+                                public void onNext(MessageBean messageBean) {
+                                    List<MessageBean.DataBean.ListBean> list = messageBean.getData().getList();
+                                    mlist.addAll(list);
+                                    systemMessageAdapter = new SystemMessageAdapter(R.layout.activity_system_message, mlist);//系统消息
+                                    recyclerMessage.setAdapter(systemMessageAdapter);
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Log.d("YoXiuListActivity", e.getMessage());
+                                }
+
+                                @Override
+                                public void onComplete() {
+
+                                }
+                            });
+                } else if (title.equals("评论消息")) {
+                    DataManager.getFromRemote().getMessage(user_id, user_token, 3, 1)
+                            .subscribe(new Observer<MessageBean>() {
+                                @Override
+                                public void onSubscribe(Disposable d) {
+
+                                }
+
+                                @Override
+                                public void onNext(MessageBean messageBean) {
+                                    List<MessageBean.DataBean.ListBean> list = messageBean.getData().getList();
+                                    mlist.addAll(list);
+                                    commentMessageAdapter = new CommentMessageAdapter(R.layout.activity_comment_message, mlist);//评论消息
+                                    recyclerMessage.setAdapter(commentMessageAdapter);
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Log.d("YoXiuListActivity", e.getMessage());
+                                }
+
+                                @Override
+                                public void onComplete() {
+
+                                }
+                            });
+                } else if (title.equals("关注消息")) {
+                    DataManager.getFromRemote().getMessage(user_id, user_token, 4, 1)
+                            .subscribe(new Observer<MessageBean>() {
+                                @Override
+                                public void onSubscribe(Disposable d) {
+
+                                }
+
+                                @Override
+                                public void onNext(MessageBean messageBean) {
+                                    List<MessageBean.DataBean.ListBean> list = messageBean.getData().getList();
+                                    mlist.addAll(list);
+                                    focusMessageAdapter = new FocusMessageAdapter(R.layout.activity_focus_message, mlist);//关注消息
+                                    recyclerMessage.setAdapter(focusMessageAdapter);
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Log.d("YoXiuListActivity", e.getMessage());
+                                }
+
+                                @Override
+                                public void onComplete() {
+
+                                }
+                            });
+                }
             }
         });
+
     }
 
     @Override
@@ -337,47 +340,56 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
         return new MessagePresenter(this);
     }
 
+    private void closeInputMethod() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        boolean isOpen = imm.isActive();
+        if (isOpen) {
+            // imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//没有显示则显示
+            imm.hideSoftInputFromWindow(editComment.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
 
     @Override
-    public void getMessageSuccess(List<MessageBean.DataBean.ListBean> list) {
-        mList.addAll(list);
-        if (list.size() == 0) {
+    public void getMessageSuccess(MessageBean.DataBean bean) {
+        List<MessageBean.DataBean.ListBean> list = bean.getList();
+        mlist.addAll(list);
+        if (mlist.size() == 0) {
             likeLayout.setVisibility(View.VISIBLE);
         } else {
             if (title.equals("喜欢我的")) {
                 recyclerMessage.setLayoutManager(new LinearLayoutManager(MessageDetailActivity.this));
-                likeMeAdapter = new LikeMeAdapter(R.layout.activity_like_my, list);//喜欢我的
+                likeMeAdapter = new LikeMeAdapter(R.layout.activity_like_my, mlist);//喜欢我的
                 recyclerMessage.setAdapter(likeMeAdapter);
                 likeMeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                        if (list.get(position).getIs_read() == 0) {
-                            mPresenter.readMessage(user_id, user_token, list.get(position).getMessage_id() + "");
+                        if (mlist.get(position).getIs_read() == 0) {
+                            mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
                         }
                     }
                 });
             } else if (title.equals("系统消息")) {
                 recyclerMessage.setLayoutManager(new LinearLayoutManager(MessageDetailActivity.this));
-                systemMessageAdapter = new SystemMessageAdapter(R.layout.activity_system_message, list);//系统消息
+                systemMessageAdapter = new SystemMessageAdapter(R.layout.activity_system_message, mlist);//系统消息
                 recyclerMessage.setAdapter(systemMessageAdapter);
                 systemMessageAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                        if (list.get(position).getIs_read() == 0) {
-                            mPresenter.readMessage(user_id, user_token, list.get(position).getMessage_id() + "");
+                        if (mlist.get(position).getIs_read() == 0) {
+                            mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
                         }
                     }
                 });
 
             } else if (title.equals("评论消息")) {
                 recyclerMessage.setLayoutManager(new LinearLayoutManager(MessageDetailActivity.this));
-                commentMessageAdapter = new CommentMessageAdapter(R.layout.activity_comment_message, list);//评论消息
+                commentMessageAdapter = new CommentMessageAdapter(R.layout.activity_comment_message, mlist);//评论消息
                 recyclerMessage.setAdapter(commentMessageAdapter);
                 commentMessageAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                        if (list.get(position).getIs_read() == 0) {
-                            mPresenter.readMessage(user_id, user_token, list.get(position).getMessage_id() + "");
+                        if (mlist.get(position).getIs_read() == 0) {
+                            mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
                         }
                     }
                 });
@@ -432,7 +444,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                                 if (actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
                                     if (editComment.getText().toString().length() > 0) {
-                                        mPresenter.addComment(user_id, user_token, Integer.parseInt(list.get(position).getParam()), 0, editComment.getText().toString().trim());
+                                        mPresenter.addComment(user_id, user_token, Integer.parseInt(mlist.get(position).getParam()), 0, editComment.getText().toString().trim());
                                         closeInputMethod();
                                         editComment.clearFocus();
                                         editComment.setFocusable(false);
@@ -459,53 +471,19 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
 
             } else if (title.equals("关注消息")) {
                 recyclerMessage.setLayoutManager(new LinearLayoutManager(MessageDetailActivity.this));
-                focusMessageAdapter = new FocusMessageAdapter(R.layout.activity_focus_message, list);//关注消息
+                focusMessageAdapter = new FocusMessageAdapter(R.layout.activity_focus_message, mlist);//关注消息
                 recyclerMessage.setAdapter(focusMessageAdapter);
                 focusMessageAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                        if (list.get(position).getIs_read() == 0) {
-                            mPresenter.readMessage(user_id, user_token, list.get(position).getMessage_id() + "");
+                        if (mlist.get(position).getIs_read() == 0) {
+                            mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
                         }
                     }
                 });
             }
-//            MessageDetailAdapter messageDetailAdapter = new MessageDetailAdapter(MessageDetailActivity.this, list);
-//            recyclerMessage.setAdapter(messageDetailAdapter);
-//            messageDetailAdapter.setOnClickListener(new MessageDetailAdapter.OnClickListener() {
-//                @Override
-//                public void setOnClickListener(View v, int position) {
-//                    if (list.get(position).getYo_id().equals("")) {
-//
-//                    } else {
-//                        if (list.get(position).getYo_type().equals("1")) {
-//                            Intent intent = new Intent(MessageDetailActivity.this, YoXiuDetailActivity.class);
-//                            intent.putExtra("id", Integer.parseInt(list.get(position).getYo_id()));
-//                            startActivity(intent);
-//                        } else {
-//                            Intent intent = new Intent(MessageDetailActivity.this, YoJiDetailActivity.class);
-//                            intent.putExtra("yo_id", Integer.parseInt(list.get(position).getYo_id()));
-//                            startActivity(intent);
-//                        }
-//                    }
-//
-//                    mPresenter.readMessage(user_id, user_token, String.valueOf(list.get(position).getMessage_id()));
-//                    messageDetailAdapter.notifyDataSetChanged();
-//                }
-//            });
-        }
-
-    }
-
-    private void closeInputMethod() {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        boolean isOpen = imm.isActive();
-        if (isOpen) {
-            // imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//没有显示则显示
-            imm.hideSoftInputFromWindow(editComment.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
-
 
     @Override
     public void readMessageSuccess(ReadMessage.DataBean data) {

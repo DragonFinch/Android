@@ -127,8 +127,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/img_yoxiu"
-        android:paddingRight="@dimen/dp_20"
-
         >
 
         <ImageView

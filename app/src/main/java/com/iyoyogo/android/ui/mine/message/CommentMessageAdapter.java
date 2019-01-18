@@ -93,9 +93,13 @@ public class CommentMessageAdapter extends BaseQuickAdapter<MessageBean.DataBean
 
                             }
                         });
-                Intent intent = new Intent(mContext, UserHomepageActivity.class);
-                intent.putExtra("yo_user_id", item.getUser_id());
-                mContext.startActivity(intent);
+                String user_id1 = item.getUser_id();
+                if (user_id.equals(user_id1)) {
+                } else {
+                    Intent intent = new Intent(mContext, UserHomepageActivity.class);
+                    intent.putExtra("yo_user_id", item.getUser_id());
+                    mContext.startActivity(intent);
+                }
             }
         });
         helper.addOnClickListener(R.id.comment_message_tv_reply);

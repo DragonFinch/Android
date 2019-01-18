@@ -2,11 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_vip_center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/activity_vip_center"
-    >
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -33,9 +32,9 @@
                         android:id="@+id/return_img"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
                         android:paddingLeft="20dp"
                         android:paddingRight="20dp"
-                        android:layout_centerVertical="true"
                         android:src="@mipmap/fanhuishouye" />
 
                     <TextView
@@ -73,11 +72,11 @@
                             android:id="@+id/img_vip_sign"
                             android:layout_width="@dimen/dp_50"
                             android:layout_height="@dimen/dp_50"
+                            android:layout_marginLeft="-48dp"
+                            android:layout_marginTop="@dimen/dp_18"
                             android:layout_marginBottom="@dimen/dp_22"
                             android:scaleType="centerCrop"
-                            android:src="@mipmap/huiyuanbiaoshi"
-                            android:layout_marginTop="@dimen/dp_18"
-                            android:layout_marginLeft="-48dp"/>
+                            android:src="@mipmap/huiyuanbiaoshi" />
 
                         <ImageView
                             android:id="@+id/img_level"
@@ -88,7 +87,7 @@
                             android:layout_marginLeft="-25dp"
                             android:layout_marginTop="18dp"
                             android:src="@mipmap/lv1"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -107,9 +106,9 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
                                 android:gravity="center_vertical"
-                                android:orientation="horizontal"
-                                android:layout_marginTop="5dp">
+                                android:orientation="horizontal">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -126,10 +125,10 @@
                                     android:layout_marginLeft="5dp"
                                     android:background="@drawable/attention_btn_bg_unselect"
                                     android:paddingLeft="@dimen/dp_4"
-                                    android:paddingRight="@dimen/dp_4"
-                                    android:text="入门"
                                     android:paddingTop="@dimen/dp_1"
+                                    android:paddingRight="@dimen/dp_4"
                                     android:paddingBottom="@dimen/dp_1"
+                                    android:text="入门"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/sp_9" />
 
@@ -153,8 +152,7 @@
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/dp_20"
-                        android:scaleType="center"
-                        />
+                        android:scaleType="center" />
 
                 </RelativeLayout>
 
@@ -179,15 +177,15 @@
                             android:background="@mipmap/mem_jifenbg"
                             android:gravity="center_horizontal"
                             android:text="0"
-                            android:visibility="gone"
                             android:textColor="@color/FA800A"
-                            android:textSize="@dimen/dp_10" />
+                            android:textSize="@dimen/dp_10"
+                            android:visibility="gone" />
 
                         <include
                             layout="@layout/my_vip_progress_bar"
                             android:layout_width="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true" />
                     </RelativeLayout>
 
                 </HorizontalScrollView>
@@ -257,12 +255,35 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_180"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/dp20">
+
+                <ImageView
+                    android:id="@+id/vip_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/F1F1F1"/>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_20"
                 android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <RelativeLayout
+                    android:id="@+id/vip_img1"
                     android:layout_width="@dimen/dp_320"
                     android:layout_height="@dimen/dp_80"
                     android:background="@mipmap/mem_tequan1">
@@ -277,6 +298,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/vip_img2"
                     android:layout_width="@dimen/dp_320"
                     android:layout_height="@dimen/dp_80"
                     android:layout_marginTop="@dimen/dp_10"

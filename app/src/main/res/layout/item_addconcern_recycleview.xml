@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_2"
                 android:text="180"
-                android:textColor="@color/color333333"
+                android:textColor="@color/c888888"
                 android:textSize="@dimen/sp_10" />
 
             <ImageView
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_2"
                 android:text="180"
-                android:textColor="@color/color333333"
+                android:textColor="@color/c888888"
                 android:textSize="@dimen/sp_10" />
 
 

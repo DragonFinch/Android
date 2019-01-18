@@ -26,8 +26,9 @@ public class MessagePresenter extends BasePresenter<MessageContract.View> implem
                     @Override
                     protected void doOnSuccess(MessageBean messageBean) {
                         List<MessageBean.DataBean.ListBean> list = messageBean.getData().getList();
-                        if (list!=null){
-                            mView.getMessageSuccess(list);
+                        MessageBean.DataBean data = messageBean.getData();
+                        if (data!=null){
+                            mView.getMessageSuccess(data);
                         }
                     }
 

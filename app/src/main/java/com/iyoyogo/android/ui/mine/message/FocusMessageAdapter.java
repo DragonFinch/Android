@@ -10,10 +10,16 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.mine.message.MessageBean;
+import com.iyoyogo.android.bean.mine.message.ReadMessage;
+import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
+import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 
 import java.util.List;
+
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 //关注消息
 public class FocusMessageAdapter extends BaseQuickAdapter<MessageBean.DataBean.ListBean, BaseViewHolder> {
@@ -23,6 +29,8 @@ public class FocusMessageAdapter extends BaseQuickAdapter<MessageBean.DataBean.L
 
     @Override
     protected void convert(BaseViewHolder helper, MessageBean.DataBean.ListBean item) {
+        String user_id = SpUtils.getString(mContext, "user_id", null);
+        String user_token = SpUtils.getString(mContext, "user_token", null);
         View view = helper.getView(R.id.dot_read);
         int is_read = item.getIs_read();
         if (is_read == 0) {
@@ -41,9 +49,38 @@ public class FocusMessageAdapter extends BaseQuickAdapter<MessageBean.DataBean.L
         user_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, UserHomepageActivity.class);
-                intent.putExtra("yo_user_id", item.getUser_id());
-                mContext.startActivity(intent);
+                DataManager.getFromRemote().readMessage(user_id, user_token, item.getMessage_id() + "")
+                        .subscribe(new Observer<ReadMessage>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+
+                            }
+
+                            @Override
+                            public void onNext(ReadMessage readMessage) {
+                                int code = readMessage.getCode();
+                                if (code == 200) {
+                                    view.setVisibility(View.GONE);
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
+                String user_id1 = item.getUser_id();
+                if (user_id.equals(user_id1)) {
+                } else {
+                    Intent intent = new Intent(mContext, UserHomepageActivity.class);
+                    intent.putExtra("yo_user_id", item.getUser_id());
+                    mContext.startActivity(intent);
+                }
             }
         });
     }
