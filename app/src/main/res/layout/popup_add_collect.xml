@@ -56,6 +56,10 @@
                 android:minHeight="200dp"
                 android:overScrollMode="never" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="#f1f1f1"/>
 
             <LinearLayout
                 android:id="@+id/ll_create_collect"
@@ -108,6 +112,8 @@
                     android:background="@color/white"
                     android:imeOptions="actionDone"
                     android:inputType="text"
+                    android:hint="请输入10个字以内"
+                    android:textColorHint="#888888"
                     android:textColor="#333333" />
 
                 <ImageView
