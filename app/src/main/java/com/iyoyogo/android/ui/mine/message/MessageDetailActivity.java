@@ -353,7 +353,9 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                     commentMessageAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                                         @Override
                                         public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                                            mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
                                             FaceRelativeLayout.setVisibility(View.VISIBLE);
+                                            etSendmessage.setText("");
                                             KeyBoardUtils.openKeybord(etSendmessage, MessageDetailActivity.this);
                                             etSendmessage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
