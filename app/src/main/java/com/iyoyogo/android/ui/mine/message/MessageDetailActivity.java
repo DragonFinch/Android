@@ -4,9 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -24,49 +26,32 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
-import com.iyoyogo.android.YoJiListHorizontalAdapter;
-import com.iyoyogo.android.adapter.MessageDetailAdapter;
-import com.iyoyogo.android.adapter.YoXiuListAdapter;
-import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
-import com.iyoyogo.android.bean.mine.center.YoJiContentBean;
 import com.iyoyogo.android.bean.mine.message.MessageBean;
 import com.iyoyogo.android.bean.mine.message.ReadMessage;
-import com.iyoyogo.android.bean.yoji.list.YoJiListBean;
-import com.iyoyogo.android.bean.yoxiu.YouXiuListBean;
 import com.iyoyogo.android.contract.MessageContract;
 import com.iyoyogo.android.model.DataManager;
-import com.iyoyogo.android.net.ApiObserver;
 import com.iyoyogo.android.presenter.MessagePresenter;
 import com.iyoyogo.android.ui.home.EditImageOrVideoActivity;
-import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
-import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
-import com.iyoyogo.android.ui.home.yoji.YoJiListActivity;
-import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
 import com.iyoyogo.android.ui.home.yoxiu.MoreTopicActivity;
-import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
-import com.iyoyogo.android.ui.home.yoxiu.YoXiuListActivity;
 import com.iyoyogo.android.utils.DensityUtil;
+import com.iyoyogo.android.utils.KeyBoardUtils;
 import com.iyoyogo.android.utils.SoftKeyboardStateHelper;
 import com.iyoyogo.android.utils.SpUtils;
-import com.iyoyogo.android.utils.StatusBarUtils;
+import com.iyoyogo.android.utils.emoji.FaceRelativeLayout;
+import com.iyoyogo.android.utils.emoji.SoftKeyBoardListener;
 import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimFooter;
 import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimHeader;
-import com.iyoyogo.android.widget.CircleImageView;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.ArrayList;
@@ -99,14 +84,24 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
     TextView publishYoxiu;
     @BindView(R.id.like_layout)
     LinearLayout likeLayout;
-    @BindView(R.id.edit_comment)
-    EditText editComment;
-    @BindView(R.id.input_expression)
-    ImageView inputExpression;
-    @BindView(R.id.edit_layout)
-    RelativeLayout editLayout;
     @BindView(R.id.smart)
     SmartRefreshLayout smart;
+    @BindView(R.id.et_sendmessage)
+    EditText etSendmessage;
+    @BindView(R.id.FaceRelativeLayout)
+    com.iyoyogo.android.utils.emoji.FaceRelativeLayout FaceRelativeLayout;
+    @BindView(R.id.btn_face)
+    ImageView btnFace;
+    @BindView(R.id.btn_send)
+    ImageView btnSend;
+    @BindView(R.id.rl_input)
+    LinearLayout rlInput;
+    @BindView(R.id.vp_contains)
+    ViewPager vpContains;
+    @BindView(R.id.iv_image)
+    LinearLayout ivImage;
+    @BindView(R.id.ll_facechoose)
+    RelativeLayout llFacechoose;
     /**
      * 消息详情
      */
@@ -135,10 +130,48 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
         smart.setRefreshFooter(new MyRefreshAnimFooter(this));
         mRefreshAnimHeader = new MyRefreshAnimHeader(this);
         setHeader(mRefreshAnimHeader);
+        getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(getGlobalLayoutListener(getWindow().getDecorView(), FaceRelativeLayout));
     }
+    private ViewTreeObserver.OnGlobalLayoutListener getGlobalLayoutListener(final View decorView, final View contentView) {
+        return new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                decorView.getWindowVisibleDisplayFrame(r);
 
+                int height = decorView.getContext().getResources().getDisplayMetrics().heightPixels;
+                int diff = height - r.bottom;
+
+                if (diff != 0) {
+                    if (contentView.getPaddingBottom() != diff) {
+                        contentView.setPadding(0, 0, 0, diff);
+                    }
+                } else {
+                    if (contentView.getPaddingBottom() != 0) {
+                        contentView.setPadding(0, 0, 0, 0);
+                    }
+                }
+            }
+        };
+    }
     private void setHeader(RefreshHeader header) {
         smart.setRefreshHeader(header);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SoftKeyBoardListener.setListener(MessageDetailActivity.this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
+            @Override
+            public void keyBoardShow(int height) {
+                FaceRelativeLayout.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void keyBoardHide(int height) {
+                FaceRelativeLayout.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -311,6 +344,8 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                         @Override
                                         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                             if (mlist.get(position).getIs_read() == 0) {
+                                                FaceRelativeLayout.setVisibility(View.GONE);
+                                                KeyBoardUtils.closeKeybord(etSendmessage, MessageDetailActivity.this);
                                                 mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
                                             }
                                         }
@@ -318,15 +353,16 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                     commentMessageAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                                         @Override
                                         public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                                            editLayout.setVisibility(View.VISIBLE);
-                                            editComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                                            FaceRelativeLayout.setVisibility(View.VISIBLE);
+                                            KeyBoardUtils.openKeybord(etSendmessage, MessageDetailActivity.this);
+                                            etSendmessage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
                                                 @Override
                                                 public void onFocusChange(View v, boolean hasFocus) {
                                                     if (hasFocus) {
                                                         //获得焦点
-                                                        editComment.setHint("码字不容易，留个评论鼓励下嘛~");
-                                                        editComment.setHintTextColor(Color.parseColor("#888888"));
+                                                        etSendmessage.setHint("码字不容易，留个评论鼓励下嘛~");
+                                                        etSendmessage.setHintTextColor(Color.parseColor("#888888"));
                                                         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                                                         layoutParams.setMargins(0, 0, DensityUtil.dp2px(MessageDetailActivity.this, 40), 0);
                                                         //   etSendmessage.setLayoutParams(layoutParams);
@@ -336,15 +372,15 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                                         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(DensityUtil.dp2px(MessageDetailActivity.this, 230), ViewGroup.LayoutParams.WRAP_CONTENT);
                                                         layoutParams.setMargins(0, DensityUtil.dp2px(MessageDetailActivity.this, 20), 0, 0);
                                                         // etSendmessage.setLayoutParams(layoutParams);
-                                                        editComment.setHint("再不评论 , 你会被抓去写作业的~");
-                                                        editComment.setHintTextColor(Color.parseColor("#888888"));
+                                                        etSendmessage.setHint("再不评论 , 你会被抓去写作业的~");
+                                                        etSendmessage.setHintTextColor(Color.parseColor("#888888"));
 
                                                     }
                                                 }
                                             });
                                             //输入框
-                                            editComment.setImeOptions(EditorInfo.IME_ACTION_SEND);
-                                            editComment.addTextChangedListener(new TextWatcher() {
+                                            etSendmessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
+                                            etSendmessage.addTextChangedListener(new TextWatcher() {
                                                 @Override
                                                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -362,16 +398,17 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
 
                                                 }
                                             });
-                                            editComment.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                                            etSendmessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                                                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                                                     if (actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-                                                        if (editComment.getText().toString().length() > 0) {
-                                                            mPresenter.addComment(user_id, user_token, Integer.parseInt(mlist.get(position).getParam()), 0, editComment.getText().toString().trim());
+                                                        if (etSendmessage.getText().toString().length() > 0) {
+                                                            mPresenter.addComment(user_id, user_token, Integer.parseInt(mlist.get(position).getParam()), 0, etSendmessage.getText().toString().trim());
                                                             closeInputMethod();
-                                                            editComment.clearFocus();
-                                                            editComment.setFocusable(false);
+                                                            etSendmessage.clearFocus();
+                                                            etSendmessage.setFocusable(false);
                                                             Toast.makeText(MessageDetailActivity.this, "回复成功", Toast.LENGTH_SHORT).show();
-                                                            editLayout.setVisibility(View.GONE);
+                                                            FaceRelativeLayout.setVisibility(View.GONE);
+                                                            KeyBoardUtils.closeKeybord(etSendmessage,MessageDetailActivity.this);
                                                         } else {
                                                         }
                                                         return true;
@@ -380,14 +417,15 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
 
                                                 }
                                             });
-                                            editComment.setOnClickListener(new View.OnClickListener() {
+                                            etSendmessage.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
-                                                    editComment.setFocusable(true);
-                                                    editComment.setFocusableInTouchMode(true);
-                                                    editComment.requestFocus();
+                                                    etSendmessage.setFocusable(true);
+                                                    etSendmessage.setFocusableInTouchMode(true);
+                                                    etSendmessage.requestFocus();
                                                 }
                                             });
+
                                         }
                                     });
                                 }
@@ -452,7 +490,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
         boolean isOpen = imm.isActive();
         if (isOpen) {
             // imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//没有显示则显示
-            imm.hideSoftInputFromWindow(editComment.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            imm.hideSoftInputFromWindow(etSendmessage.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 
@@ -496,6 +534,8 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                     @Override
                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                         if (mlist.get(position).getIs_read() == 0) {
+                            FaceRelativeLayout.setVisibility(View.GONE);
+                            KeyBoardUtils.closeKeybord(etSendmessage, MessageDetailActivity.this);
                             mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
                         }
                     }
@@ -503,15 +543,15 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                 commentMessageAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                     @Override
                     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                        editLayout.setVisibility(View.VISIBLE);
-                        editComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                        FaceRelativeLayout.setVisibility(View.VISIBLE);
+                        etSendmessage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
                             @Override
                             public void onFocusChange(View v, boolean hasFocus) {
                                 if (hasFocus) {
                                     //获得焦点
-                                    editComment.setHint("码字不容易，留个评论鼓励下嘛~");
-                                    editComment.setHintTextColor(Color.parseColor("#888888"));
+                                    etSendmessage.setHint("码字不容易，留个评论鼓励下嘛~");
+                                    etSendmessage.setHintTextColor(Color.parseColor("#888888"));
                                     RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                                     layoutParams.setMargins(0, 0, DensityUtil.dp2px(MessageDetailActivity.this, 40), 0);
                                     //   etSendmessage.setLayoutParams(layoutParams);
@@ -521,15 +561,15 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                     RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(DensityUtil.dp2px(MessageDetailActivity.this, 230), ViewGroup.LayoutParams.WRAP_CONTENT);
                                     layoutParams.setMargins(0, DensityUtil.dp2px(MessageDetailActivity.this, 20), 0, 0);
                                     // etSendmessage.setLayoutParams(layoutParams);
-                                    editComment.setHint("再不评论 , 你会被抓去写作业的~");
-                                    editComment.setHintTextColor(Color.parseColor("#888888"));
+                                    etSendmessage.setHint("再不评论 , 你会被抓去写作业的~");
+                                    etSendmessage.setHintTextColor(Color.parseColor("#888888"));
 
                                 }
                             }
                         });
                         //输入框
-                        editComment.setImeOptions(EditorInfo.IME_ACTION_SEND);
-                        editComment.addTextChangedListener(new TextWatcher() {
+                        etSendmessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
+                        etSendmessage.addTextChangedListener(new TextWatcher() {
                             @Override
                             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -547,16 +587,16 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
 
                             }
                         });
-                        editComment.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                        etSendmessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                                 if (actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-                                    if (editComment.getText().toString().length() > 0) {
-                                        mPresenter.addComment(user_id, user_token, Integer.parseInt(mlist.get(position).getParam()), 0, editComment.getText().toString().trim());
+                                    if (etSendmessage.getText().toString().length() > 0) {
+                                        mPresenter.addComment(user_id, user_token, Integer.parseInt(mlist.get(position).getParam()), 0, etSendmessage.getText().toString().trim());
                                         closeInputMethod();
-                                        editComment.clearFocus();
-                                        editComment.setFocusable(false);
+                                        etSendmessage.clearFocus();
+                                        etSendmessage.setFocusable(false);
                                         Toast.makeText(MessageDetailActivity.this, "回复成功", Toast.LENGTH_SHORT).show();
-                                        editLayout.setVisibility(View.GONE);
+                                        FaceRelativeLayout.setVisibility(View.GONE);
                                     } else {
                                     }
                                     return true;
@@ -565,14 +605,15 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
 
                             }
                         });
-                        editComment.setOnClickListener(new View.OnClickListener() {
+                        etSendmessage.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                editComment.setFocusable(true);
-                                editComment.setFocusableInTouchMode(true);
-                                editComment.requestFocus();
+                                etSendmessage.setFocusable(true);
+                                etSendmessage.setFocusableInTouchMode(true);
+                                etSendmessage.requestFocus();
                             }
                         });
+
                     }
                 });
 
@@ -659,12 +700,12 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
 
     @Override
     public void onSoftKeyboardOpened(int keyboardHeightInPx) {
-        editLayout.setVisibility(View.VISIBLE);
+        FaceRelativeLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onSoftKeyboardClosed() {
-        editLayout.setVisibility(View.GONE);
+        FaceRelativeLayout.setVisibility(View.GONE);
     }
 
     @Override

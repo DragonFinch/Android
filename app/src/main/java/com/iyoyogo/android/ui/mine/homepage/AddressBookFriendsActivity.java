@@ -1,6 +1,7 @@
 package com.iyoyogo.android.ui.mine.homepage;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -13,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -129,10 +131,15 @@ public class AddressBookFriendsActivity extends BaseActivity<AddressBookContract
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 btu_guanzhu = view.findViewById(R.id.btu_guanzhu);
-                mPresenter.addAttention(user_id, user_token, list.get(position).getUser_id() + "");
-                int user_id = list.get(position).getUser_id();
-                if (user_id == 0) {
-                    ContentUtil.sendSmsWithBody(AddressBookFriendsActivity.this, list.get(position).getPhone(), Constants.BASE_URL+ "index.php/home/share/download_all.html");
+                int user_id1 = list.get(position).getUser_id();
+                if (user_id1 == 0) {
+                    try{
+                        ContentUtil.sendSmsWithBody(AddressBookFriendsActivity.this, list.get(position).getPhone(), Constants.BASE_URL+ "index.php/home/share/download_all.html");
+                    }catch (ActivityNotFoundException a){
+                        a.getMessage();
+                    }
+                }else {
+                    mPresenter.addAttention(user_id, user_token, list.get(position).getUser_id() + "");
                 }
             }
         });
