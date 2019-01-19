@@ -235,7 +235,6 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
         mFasong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AllCommentActivity.this,"qwe",Toast.LENGTH_SHORT).show();
                 mPresenter.addComment(user_id, user_token, 0, id1, etSendmessage.getText().toString().trim());
                 mPresenter.getCommentList(user_id, user_token, 1, id1, 0);
             }

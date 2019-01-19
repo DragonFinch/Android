@@ -256,9 +256,7 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
         if (list.getData().getList_history().size() != 0){
             rlLishi.setVisibility(View.VISIBLE);
             historyFl.setVisibility(View.VISIBLE);
-            Log.e("qweqwewq", "getRecommendTopicSuccess: "+list.getData().getList_history().size() );
         }else{
-            Log.e("qweqwewq", "getRecommendTopicSuccess:111111 "+list.getData().getList_history().size() );
             rlLishi.setVisibility(View.GONE);
             historyFl.setVisibility(View.GONE);
         }
