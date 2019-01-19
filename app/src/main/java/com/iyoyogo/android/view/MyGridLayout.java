@@ -51,7 +51,7 @@ public class MyGridLayout extends GridLayout implements View.OnLongClickListener
         tv.setBackgroundResource(R.drawable.gridlayout_tv_bg);
         tv.setTextSize(12);
         LayoutParams params = new LayoutParams();
-        int width = getResources().getDisplayMetrics().widthPixels / mGridCount - (mMargin + 3) * 2;
+        int width = getResources().getDisplayMetrics().widthPixels / mGridCount - (mMargin + 3) * 3;
         tv.setWidth(width);
         params.setMargins(mMargin + 3, mMargin + 5, mMargin + 3, mMargin + 5);
         tv.setLayoutParams(params);

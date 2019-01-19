@@ -106,39 +106,6 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
     protected void initView() {
         super.initView();
 
-        final MyGridLayout myDragGridLayout = findViewById(R.id.my_gridlayout);
-        myDragGridLayout.setDragAble(true);
-        mDragList = new ArrayList<String>();
-        mDragList.add("广州");
-        mDragList.add("张家界");
-        mDragList.add("甘肃");
-        mDragList.add("黑龙江");
-        mDragList.add("太原");
-        mDragList.add("澳门");
-        mDragList.add("香港");
-        mDragList.add("石家庄");
-        mDragList.add("郑州");
-        mDragList.add("双邱");
-        mDragList.add("上海");
-        mDragList.add("北京");
-        myDragGridLayout.addItems(mDragList);
-
-        myDragGridLayout.setOnItemtClickListenner(new MyGridLayout.OnItemClickListenner() {
-            @Override
-            public void setOnItemClickListenner(View view) {
-                if (view instanceof TextView) {
-                    String strText = ((TextView) view).getText().toString().trim();
-                    for (int i = 0; i < mDragList.size(); i++) {
-                        if (mDragList.get(i).equals(strText)) {
-                           EventBus.getDefault().post(mDragList.get(i));
-                            finish();
-                        }
-                    }
-                }
-
-            }
-        });
-
 
         StatusBarUtil.setStatusBarLayoutStyle(DiTuActivity.this, true);
         StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.holo_orange_dark));
@@ -286,6 +253,28 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
     public void renMeiChengshi(MapRenMei data) {
 //        Log.e("renMeiChengshi", "renMeiChengshi: "+data.getData().getList().size() );
         mList = data.getData().getList();
+
+        final MyGridLayout myDragGridLayout = findViewById(R.id.my_gridlayout);
+        myDragGridLayout.setDragAble(true);
+        mDragList = new ArrayList<String>();
+        mDragList.addAll(mList);
+        myDragGridLayout.addItems(mDragList);
+
+        myDragGridLayout.setOnItemtClickListenner(new MyGridLayout.OnItemClickListenner() {
+            @Override
+            public void setOnItemClickListenner(View view) {
+                if (view instanceof TextView) {
+                    String strText = ((TextView) view).getText().toString().trim();
+                    for (int i = 0; i < mDragList.size(); i++) {
+                        if (mDragList.get(i).equals(strText)) {
+                            EventBus.getDefault().post(mDragList.get(i));
+                            finish();
+                        }
+                    }
+                }
+
+            }
+        });
     }
 
     private void switchFragment(Fragment fragment) {
