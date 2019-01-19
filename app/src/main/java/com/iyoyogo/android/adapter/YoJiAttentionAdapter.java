@@ -502,7 +502,7 @@ public class YoJiAttentionAdapter extends RecyclerView.Adapter<YoJiAttentionAdap
                         });
                     }
                 } else {
-                    for (int i = 0; i < 10 && i < user_icons.get(position).getUsers_praise().size(); i++) {
+                    for (int i = 0; i < 10 && i < user_icons.size(); i++) {
                         user_icons.add(mList.get(position));
                         com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
                         Glide.with(context).load(user_icons.get(position).getUsers_praise().get(i).getUser_logo()).into(imageView);
