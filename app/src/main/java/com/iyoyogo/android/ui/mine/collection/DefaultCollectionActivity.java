@@ -33,6 +33,7 @@ import com.iyoyogo.android.bean.collection.CollectionFolderBean;
 import com.iyoyogo.android.bean.collection.CollectionFolderContentBean;
 import com.iyoyogo.android.contract.CollectionFolderContentContract;
 import com.iyoyogo.android.presenter.CollectionFolderContentPresenter;
+import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
 
@@ -140,7 +141,7 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
 
     private void initPopup() {
         View view = getLayoutInflater().from(DefaultCollectionActivity.this).inflate(R.layout.popup_choose_favorites, null);//DensityUtil.dp2px(DefaultCollectionActivity.this, 111)
-        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(DefaultCollectionActivity.this, 300), true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setBackgroundDrawable(new ColorDrawable());
         backgroundAlpha(0.6f);
