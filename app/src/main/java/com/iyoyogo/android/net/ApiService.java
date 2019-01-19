@@ -39,6 +39,7 @@ import com.iyoyogo.android.bean.mine.message.MessageBean;
 import com.iyoyogo.android.bean.mine.message.MessageCenterBean;
 import com.iyoyogo.android.bean.mine.message.ReadMessage;
 import com.iyoyogo.android.bean.mine.setting.MineSettingBean;
+import com.iyoyogo.android.bean.search.ClerBean;
 import com.iyoyogo.android.bean.search.GuanZhuBean;
 import com.iyoyogo.android.bean.search.KeywordBean;
 import com.iyoyogo.android.bean.search.KeywordUserBean;
@@ -148,7 +149,7 @@ public interface ApiService {
      */
     @POST("index.php/api/home/get_index_data")
     @FormUrlEncoded
-    Observable<HomeBean> homePager(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("type") String type,@Field("city")String city);
+    Observable<HomeBean> homePager(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("type") String type, @Field("city") String city);
 
     /**
      * 选择类型
@@ -283,12 +284,13 @@ public interface ApiService {
     Observable<YouXiuListBean> getYoXiuList(@Field("user_id") String user_id,
                                             @Field("user_token") String user_token,
                                             @Field("page") int page);
+
     //获取yo秀列表
     @POST("index.php/api/yoxcommend/get_list")
     @FormUrlEncoded
     Observable<YouXiuListBean> getYoXiuAttentionList(@Field("user_id") String user_id,
-                                            @Field("user_token") String user_token,
-                                            @Field("page") int page);
+                                                     @Field("user_token") String user_token,
+                                                     @Field("page") int page);
 
 
     //获取同款
@@ -507,8 +509,9 @@ public interface ApiService {
     @POST("index.php/api/yojcommend/get_list")
     @FormUrlEncoded
     Observable<YoJiListBean> getJiAttentionList(@Field("user_id") String user_id,
-                                                  @Field("user_token") String user_token,
-                                                  @Field("page") int page, @Field("page_size") int page_size);
+                                                @Field("user_token") String user_token,
+                                                @Field("page") int page, @Field("page_size") int page_size);
+
     //获取草稿详情
     @POST("index.php/api/yoj/details")
     @FormUrlEncoded
@@ -720,10 +723,15 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<searchInfo> search(@Field("user_id") String user_id, @Field("user_token") String user_token);
 
+    //首页搜索   页面
+    @POST("/index.php/api/search/delete_history")
+    @FormUrlEncoded
+    Observable<ClerBean> searchCler(@Field("user_id") String user_id, @Field("user_token") String user_token);
+
     //首页  搜索
     @POST("index.php/api/search/index")
     @FormUrlEncoded
-    Observable<KeywordBean> keyword(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("search") String search, @Field("type") String type,@Field("key_type") String key_type);
+    Observable<KeywordBean> keyword(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("search") String search, @Field("type") String type, @Field("key_type") String key_type);
 
 
     //首页  搜索
@@ -754,7 +762,7 @@ public interface ApiService {
     //首页  搜索 关键字搜索
     @POST("index.php/api/search/get_keywords")
     @FormUrlEncoded
-    Observable<KeywordUserBean> getserarch(@Field("user_id")String user_id, @Field("user_token") String user_token, @Field("search")String search);
+    Observable<KeywordUserBean> getserarch(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("search") String search);
 
     //index.php/api/yox/count_video_inc
     //浏览量加1
@@ -773,10 +781,12 @@ public interface ApiService {
 //    Observable<YouXiuListBean> getYoXiuPosition(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("position")String position,@Field("type")int type,@Field("page")int page,@Field("page_size")String page_size);
     @POST("index.php/api/clicksearch/get_yo_label_list")
     @FormUrlEncoded
-    Observable<YoJiListBean> getYoJiLabel(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("label")String label,@Field("page")int page,@Field("page_size")String page_size);
+    Observable<YoJiListBean> getYoJiLabel(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("label") String label, @Field("page") int page, @Field("page_size") String page_size);
+
     @POST("index.php/api/clicksearch/get_yo_position_list")
     @FormUrlEncoded
-    Observable<YoJiListBean> getYoJiPosition(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("position")String position,@Field("type")int type,@Field("page")int page,@Field("page_size")String page_size);
+    Observable<YoJiListBean> getYoJiPosition(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("position") String position, @Field("type") int type, @Field("page") int page, @Field("page_size") String page_size);
+
     @POST("index.php/api/clicksearch/get_yo_position_list")
     @FormUrlEncoded
     Observable<YouXiuListBean> getYoXiuPosition(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("position") String position, @Field("type") int type, @Field("page") int page, @Field("page_size") String page_size);
@@ -794,9 +804,10 @@ public interface ApiService {
 
     @GET
     Observable<ResponseBody> downFile(@Url String fileUrl);
+
     @POST("index.php/api/yoxgo/get_detaile")
     @FormUrlEncoded
-    Observable<SameBean.DataBean.ListBean> goCameraDetail(@Field("user_id")String user_id,@Field("user_token")String user_token,@Field("yo_id")int yo_id);
+    Observable<SameBean.DataBean.ListBean> goCameraDetail(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id);
 
     /**
      * 崩溃日志上传
@@ -806,6 +817,16 @@ public interface ApiService {
     @POST("index.php/api/v1_0_0.errorlog/add")
     @FormUrlEncoded
     Observable<ResponseBody> updateErrorLog(@Field("content") String content);
+
+    /***
+     * 用户解绑第三方绑定设备
+     */
+    @POST("index.php/api/v1_0_0.userbind/unbind_extra")
+    @FormUrlEncoded
+    Observable<BaseBean> getUserBind(@Field("user_id") String user_id,
+                                     @Field("user_token") String user_token,
+                                     @Field("type") int type,
+                                     @Field("openid") String openid);
 
 }
 

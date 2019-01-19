@@ -127,6 +127,7 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
     private String user_logo;
     private String user_nickName;
     public static boolean flag = false;
+    private RecyclerView recyclerYoji;
     private YoJiFragment yoJiFragment;
     String user_logo_big;
     YoXiuFragment yoXiuFragment;
@@ -231,6 +232,7 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
                 break;
             case R.id.img_view:
                 if (YoJiFragment.mList.size() != 0) {
+//                    recyclerYoji = getSupportFragmentManager().findFragmentById(R.id.frame_container).getView().findViewById(R.id.recycler_yoji);
                     if (imgView.getDrawable().getCurrent().getConstantState().equals(ContextCompat.getDrawable(this, R.mipmap.view22).getConstantState())) {
                         imgView.setImageResource(R.mipmap.view11);
                         yoJiFragment.refreshData2();

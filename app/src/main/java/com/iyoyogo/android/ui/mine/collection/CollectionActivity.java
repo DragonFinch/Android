@@ -139,9 +139,11 @@ public class CollectionActivity extends BaseActivity<CollectionContract.Presente
         mEditMode = mEditMode == MYLIVE_MODE_CHECK ? MYLIVE_MODE_EDIT : MYLIVE_MODE_CHECK;
         if (mEditMode == MYLIVE_MODE_EDIT) {
             managerCollectionFolder.setText("删除");
+            //修改列表图标
 
             editorStatus = true;
         } else {
+            managerCollectionFolder.setText("管理");
             List<String> idList = mineCollectionAdapter.getIdList();
             int[] like = new int[idList.size()];
             for (int i = 0; i < idList.size(); i++) {
@@ -150,25 +152,16 @@ public class CollectionActivity extends BaseActivity<CollectionContract.Presente
             for (int i = 0; i < like.length; i++) {
                 Log.d("CollectionActivity", "like[i]:" + like[i]);
             }
-
             Log.d("CollectionActivity", "idList.size():" + idList.size());
             Log.d("CollectionActivity", "idList.size():" + like.length);
-
             if (idList.size() > 0) {
-
                 mPresenter.deleteCollectionFolder(user_id, user_token, like);
-
             } else {
                 idList.clear();
                 Log.d("CollectionActivity", "idList.size():" + idList.size());
-                managerCollectionFolder.setText("管理");
-
                 editorStatus = false;
                 clearAll();
-
             }
-
-
         }
         mineCollectionAdapter.setEditMode(mEditMode);
     }
@@ -264,7 +257,7 @@ public class CollectionActivity extends BaseActivity<CollectionContract.Presente
     @Override
     public void deleteCollectionFolderSuccess(BaseBean baseBean) {
         Toast.makeText(this, "删除成功", Toast.LENGTH_SHORT).show();
-        finish();
+        mPresenter.getCollectionFold(user_id,user_token);
     }
 
     /**

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -102,23 +104,35 @@ public class AddressBookFriendsActivity extends BaseActivity<AddressBookContract
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 110){
+            if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                getPhoneNumber();
+            }else{
+                Toast.makeText(this,"您没有授权读取通讯录好友~",Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     private void getPhoneNumber() {
-        Cursor cursor = this.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                null, null, null, null);
-        //moveToNext方法返回的是一个boolean类型的数据
-        while (cursor.moveToNext()) {
-            //读取通讯录的姓名
-            name = cursor.getString(cursor
-                    .getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-            //读取通讯录的号码
-            number = cursor.getString(cursor
-                    .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            AddressBookPhoneInfoBean phoneInfo = new AddressBookPhoneInfoBean(name, number);
-            mlist.add(phoneInfo);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)) {
+            //需要授权
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 110);
+        }else{
+            Cursor cursor = this.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                    null, null, null, null);
+            //moveToNext方法返回的是一个boolean类型的数据
+            while (cursor.moveToNext()) {
+                //读取通讯录的姓名
+                name = cursor.getString(cursor
+                        .getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                //读取通讯录的号码
+                number = cursor.getString(cursor
+                        .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                AddressBookPhoneInfoBean phoneInfo = new AddressBookPhoneInfoBean(name, number);
+                mlist.add(phoneInfo);
+            }
+            json = new Gson().toJson(mlist);
         }
-        json = new Gson().toJson(mlist);
     }
 
     @Override

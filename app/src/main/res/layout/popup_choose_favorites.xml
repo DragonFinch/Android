@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="311dp"
     android:gravity="center"
     android:orientation="vertical">
 
-
-    android:orientation="vertical">
     <!--选择所要移动到的收藏夹的popup-->
     <ImageView
         android:id="@+id/popup_favorites_prompt_iv_id"
@@ -15,14 +13,16 @@
         android:layout_marginLeft="@dimen/dp_100"
         android:src="@mipmap/guanbi" />
 <LinearLayout
-    android:background="@color/white"
+    android:background="@drawable/corner_white"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        >
 
         <View
             android:layout_width="match_parent"
@@ -38,6 +38,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_40"
+            android:paddingTop="6dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -78,7 +79,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/FA800A"
-            android:text="@string/wozhidaole"
+            android:text="@string/str_confirm"
             android:textColor="@color/white" />
 
     </LinearLayout>

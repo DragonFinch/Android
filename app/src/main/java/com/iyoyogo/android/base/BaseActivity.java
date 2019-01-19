@@ -113,7 +113,7 @@ public abstract class BaseActivity<T extends IBasePresenter> extends AppCompatAc
 
     @Override
     public void onConnectServerError() {
-        shortToast(getResources().getString(R.string.connect_error));
+        //shortToast(getResources().getString(R.string.connect_error));
     }
 
     public void initTitle() {

@@ -52,8 +52,6 @@ public class DefaultCollectionAdapter extends RecyclerView.Adapter<DefaultCollec
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-
-
         String name = mList.get(position).getName();
         Log.d("DefaultCollectionAdaptr", title);
         if (name.equals(title)){
@@ -61,7 +59,6 @@ public class DefaultCollectionAdapter extends RecyclerView.Adapter<DefaultCollec
             viewHolder.mCheckBox.setVisibility(View.GONE);
         }
         viewHolder.mTvName.setText(name);
-
         if (selected == position) {
             viewHolder.mCheckBox.setChecked(true);
             viewHolder.itemView.setSelected(true);
@@ -69,11 +66,17 @@ public class DefaultCollectionAdapter extends RecyclerView.Adapter<DefaultCollec
             viewHolder.mCheckBox.setChecked(false);
             viewHolder.itemView.setSelected(false);
         }
-
         if (mOnItemClickLitener != null) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (viewHolder.mCheckBox.isChecked()){
+                        viewHolder.mCheckBox.setChecked(false);
+                        viewHolder.itemView.setSelected(false);
+                    }else{
+                        viewHolder.mCheckBox.setChecked(true);
+                        viewHolder.itemView.setSelected(true);
+                    }
                     mOnItemClickLitener.onItemClick(viewHolder.itemView, viewHolder.getAdapterPosition());
                 }
             });

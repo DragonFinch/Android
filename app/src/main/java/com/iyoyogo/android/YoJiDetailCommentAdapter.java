@@ -166,7 +166,6 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
 
                                 } else {
                                     Toast.makeText(context, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
-
                                 }
                             }
                         });

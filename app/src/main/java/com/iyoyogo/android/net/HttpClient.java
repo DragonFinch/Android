@@ -34,8 +34,6 @@ public class HttpClient {
                 .readTimeout(30, TimeUnit.MINUTES)// read timeout
                 .build();
 
-
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

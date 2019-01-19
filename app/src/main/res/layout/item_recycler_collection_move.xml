@@ -8,11 +8,14 @@
         android:layout_height="@dimen/dp_2"
         android:layout_marginLeft="@dimen/dp_20"
         android:layout_marginRight="@dimen/dp_20"
+        android:visibility="gone"
         android:background="#f1f1f1" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:gravity="center_vertical">
 
         <TextView
@@ -28,6 +31,7 @@
             android:id="@+id/cb"
             android:clickable="false"
             android:focusable="false"
+            android:layout_marginRight="12dp"
             android:focusableInTouchMode="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

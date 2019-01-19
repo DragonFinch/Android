@@ -41,6 +41,7 @@ import com.iyoyogo.android.bean.mine.message.MessageBean;
 import com.iyoyogo.android.bean.mine.message.MessageCenterBean;
 import com.iyoyogo.android.bean.mine.message.ReadMessage;
 import com.iyoyogo.android.bean.mine.setting.MineSettingBean;
+import com.iyoyogo.android.bean.search.ClerBean;
 import com.iyoyogo.android.bean.search.GuanZhuBean;
 import com.iyoyogo.android.bean.search.KeywordBean;
 import com.iyoyogo.android.bean.search.KeywordUserBean;
@@ -1181,6 +1182,12 @@ public class Model {
                 .getserarch(user_id, user_token, seatch)
                 .compose(this.switchThread());
     }
+    //首页搜索晴空历史
+    public Observable<ClerBean> searchCler(String user_id, String user_token) {
+        return HttpClient.getApiService()
+                .searchCler(user_id, user_token)
+                .compose(this.switchThread());
+    }
 
     public Observable<BaseBean> browse(String user_id, String user_token, String yo_id) {
         return HttpClient.getApiService().browse(user_id, user_token, yo_id)
@@ -1226,5 +1233,12 @@ public class Model {
 
     public Observable<ResponseBody> uploadErrorLog(@Url String content) {
         return HttpClient.getApiService().updateErrorLog(content).compose(this.switchThread());
+    }
+
+    /***
+     * 用户解绑第三方绑定设备
+     */
+    public Observable<BaseBean> getUserBind(String user_id, String user_token, int type, String openid) {
+        return HttpClient.getApiService().getUserBind(user_id,user_token,type,openid).compose(this.switchThread());
     }
 }

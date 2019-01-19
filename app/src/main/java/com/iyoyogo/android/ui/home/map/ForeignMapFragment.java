@@ -320,7 +320,6 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
                     totalCityList.add(cityEntity);
                 }
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }

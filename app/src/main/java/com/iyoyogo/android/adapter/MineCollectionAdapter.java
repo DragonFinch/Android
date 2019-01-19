@@ -31,7 +31,6 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
     int mEditMode = MYLIVE_MODE_CHECK;
     List<String> idList = new ArrayList<>();
     private OnItemClickListener mOnItemClickListener;
-    private int index;
 
     public MineCollectionAdapter(Context context, List<MineCollectionBean.DataBean.TreeBean> tree) {
         this.context = context;
@@ -56,90 +55,137 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        index = position;
-        holder.tv_collection_folder.setText(mList.get(position).getName() + "·" + mList.get(position).getCount_record());
-        List<MineCollectionBean.DataBean.TreeBean.RecordListBean> record_list = mList.get(position).getRecord_list();
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position0) {
+        final int index = position0;
+        final MineCollectionBean.DataBean.TreeBean bean = mList.get(index);
+        holder.tv_collection_folder.setText(bean.getName() + "·" + bean.getCount_record());
+        List<MineCollectionBean.DataBean.TreeBean.RecordListBean> record_list = bean.getRecord_list();
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.override(DensityUtil.dp2px(context, 80), DensityUtil.dp2px(context, 80))
                 .placeholder(R.mipmap.default_ic)
                 .error(R.mipmap.default_ic)
                 .centerCrop();
-/*
+        if (bean.getCount_record() >= 4) {
+            Glide.with(context).load(record_list.get(0).getFile_path()).apply(requestOptions).into(holder.img_one);
+            Glide.with(context).load(record_list.get(1).getFile_path()).apply(requestOptions).into(holder.img_two);
+            Glide.with(context).load(record_list.get(2).getFile_path()).apply(requestOptions).into(holder.img_three);
+            Glide.with(context).load(record_list.get(3).getFile_path()).apply(requestOptions).into(holder.img_four);
+        } else if (bean.getCount_record() == 3) {
+            Glide.with(context).load(record_list.get(0).getFile_path()).apply(requestOptions).into(holder.img_one);
+            Glide.with(context).load(record_list.get(1).getFile_path()).apply(requestOptions).into(holder.img_two);
+            Glide.with(context).load(record_list.get(2).getFile_path()).apply(requestOptions).into(holder.img_three);
+            holder.img_four.setImageResource(R.mipmap.default_ic);
+        } else if (bean.getCount_record() == 2) {
+            Glide.with(context).load(record_list.get(0).getFile_path()).apply(requestOptions).into(holder.img_one);
+            Glide.with(context).load(record_list.get(1).getFile_path()).apply(requestOptions).into(holder.img_two);
+            holder.img_three.setImageResource(R.mipmap.default_ic);
+            holder.img_four.setImageResource(R.mipmap.default_ic);
+        } else if (bean.getCount_record() == 1) {
+            Glide.with(context).load(record_list.get(0).getFile_path()).apply(requestOptions).into(holder.img_one);
+            holder.img_two.setImageResource(R.mipmap.default_ic);
+            holder.img_three.setImageResource(R.mipmap.default_ic);
+            holder.img_four.setImageResource(R.mipmap.default_ic);
+        }else{
+            holder.img_one.setImageResource(R.mipmap.default_ic);
+            holder.img_two.setImageResource(R.mipmap.default_ic);
+            holder.img_three.setImageResource(R.mipmap.default_ic);
+            holder.img_four.setImageResource(R.mipmap.default_ic);
+        }
+        holder.img_one.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                click1(index);
+            }
+        });
+        holder.img_two.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                click1(index);
+            }
+        });
+        holder.img_three.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                click1(index);
+            }
+        });
+        holder.img_four.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                click1(index);
+            }
+        });
+        holder.itemView.setTag(index);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               click(holder,index);
+            }
+        });
+        if(mEditMode == 1){
+            //删除模式
+            holder.checkBox.setVisibility(View.VISIBLE);
+            holder.img_next.setVisibility(View.GONE);
+            holder.img_next.setOnClickListener(null);
+            holder.checkBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (holder.checkBox.getVisibility() == View.VISIBLE)
+                        click(holder,index);
+                }
+            });
+        }else{
+            holder.checkBox.setVisibility(View.GONE);
+            holder.img_next.setVisibility(View.VISIBLE);
+            holder.checkBox.setOnClickListener(null);
+            holder.img_next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (holder.img_next.getVisibility() == View.VISIBLE)
+                        click(holder,index);
+                }
+            });
+        }
+        holder.next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                click1(index);
+            }
+        });
+    }
+
+    private void click1(int index){
+        Intent intent = new Intent(context, DefaultCollectionActivity.class);
+        intent.putExtra("type", 2);
+        String name = mList.get(index).getName();
+        int open = mList.get(index).getOpen();
+        int folder_id = mList.get(index).getFolder_id();
+        intent.putExtra("name", name + "·" + mList.get(index).getCount_record());
+        intent.putExtra("title", name);
+        intent.putExtra("folder_id", folder_id);
+        intent.putExtra("open", open);
+        intent.putExtra("user_id", mList.get(index).getUser_id());
+        context.startActivity(intent);
+    }
+
+    private void click(ViewHolder holder,int position){
+        mOnItemClickListener.onItemClickListener(holder.getAdapterPosition(), mList);
         if (mEditMode == MYLIVE_MODE_CHECK) {
             holder.checkBox.setVisibility(View.GONE);
             holder.img_next.setVisibility(View.VISIBLE);
         } else {
             holder.checkBox.setVisibility(View.VISIBLE);
             holder.img_next.setVisibility(View.GONE);
-        }*/
-
-        if (record_list.size() >= 4) {
-            Glide.with(context).load(record_list.get(0).getFile_path()).apply(requestOptions).into(holder.img_one);
-            Glide.with(context).load(record_list.get(1).getFile_path()).apply(requestOptions).into(holder.img_two);
-            Glide.with(context).load(record_list.get(2).getFile_path()).apply(requestOptions).into(holder.img_three);
-            Glide.with(context).load(record_list.get(3).getFile_path()).apply(requestOptions).into(holder.img_four);
-        } else if (record_list.size() == 3) {
-            Glide.with(context).load(record_list.get(0).getFile_path()).apply(requestOptions).into(holder.img_one);
-            Glide.with(context).load(record_list.get(1).getFile_path()).apply(requestOptions).into(holder.img_two);
-            Glide.with(context).load(record_list.get(2).getFile_path()).apply(requestOptions).into(holder.img_three);
-
-        } else if (record_list.size() == 2) {
-            Glide.with(context).load(record_list.get(0).getFile_path()).apply(requestOptions).into(holder.img_one);
-            Glide.with(context).load(record_list.get(1).getFile_path()).apply(requestOptions).into(holder.img_two);
-
-        } else if (record_list.size() == 1) {
-            Glide.with(context).load(record_list.get(0).getFile_path()).apply(requestOptions).into(holder.img_one);
-
         }
-        holder.itemView.setTag(position);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mOnItemClickListener.onItemClickListener(holder.getAdapterPosition(), mList);
-                if (mEditMode == MYLIVE_MODE_CHECK) {
-                    holder.checkBox.setVisibility(View.GONE);
-                    holder.img_next.setVisibility(View.VISIBLE);
-                } else {
-                    holder.checkBox.setVisibility(View.VISIBLE);
-                    holder.img_next.setVisibility(View.GONE);
-                }
-                if (mList.get(position).isSelect() && !idList.contains(mList.get(position).getFolder_id())) {
-                    holder.checkBox.setImageResource(R.mipmap.zp_xz);
-                    idList.add(mList.get(position).getFolder_id() + "");
-                    mList.get(position).setSelect(true);
-
-
-                } else {
-                    idList.remove(mList.get(position).getFolder_id() + "");
-                    holder.checkBox.setImageResource(R.mipmap.pic_wxz);
-                    mList.get(position).setSelect(false);
-
-                }
-            }
-        });
-        holder.checkBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mOnItemClickListener.onItemClickListener(holder.getAdapterPosition(), mList);
-            }
-        });
-        holder.next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, DefaultCollectionActivity.class);
-                intent.putExtra("type", 2);
-                String name = mList.get(position).getName();
-                int open = mList.get(position).getOpen();
-                int folder_id = mList.get(position).getFolder_id();
-                intent.putExtra("name", name + "·" + mList.get(position).getCount_record());
-                intent.putExtra("title", name);
-                intent.putExtra("folder_id", folder_id);
-                intent.putExtra("open", open);
-                intent.putExtra("user_id", mList.get(position).getUser_id());
-                context.startActivity(intent);
-            }
-        });
+        if (mList.get(position).isSelect() && !idList.contains(mList.get(position).getFolder_id())) {
+            holder.checkBox.setImageResource(R.mipmap.zp_xz);
+            idList.add(mList.get(position).getFolder_id() + "");
+            mList.get(position).setSelect(true);
+        } else {
+            idList.remove(mList.get(position).getFolder_id() + "");
+            holder.checkBox.setImageResource(R.mipmap.pic_wxz);
+            mList.get(position).setSelect(false);
+        }
     }
 
     @Override

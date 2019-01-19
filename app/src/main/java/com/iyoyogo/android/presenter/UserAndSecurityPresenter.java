@@ -55,4 +55,23 @@ public class UserAndSecurityPresenter extends BasePresenter<UserAndSecurityContr
                     }
                 })    ;
     }
+
+    @Override
+    public void userBind(String user_id, String user_token, int type, String openid) {
+        DataManager.getFromRemote().getUserBind(user_id, user_token,type,openid)
+                .subscribe(new ApiObserver<BaseBean>(mView, this) {
+
+
+                    @Override
+                    protected void doOnSuccess(BaseBean baseBean) {
+                        mView.userBindSuccess(baseBean);
+                    }
+
+                    @Override
+                    protected boolean doOnFailure(int code, String message) {
+                        Toast.makeText(App.context, message, Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+    }
 }

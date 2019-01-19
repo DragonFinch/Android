@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    >
+
+    <!--会员升级成功后弹出的popup-->
+
+    <ImageView
+        android:id="@+id/popup_praise_im_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_100"
+        android:src="@mipmap/guanbi" />
+
+        <LinearLayout
+            android:layout_width="@dimen/dp_300"
+            android:layout_height="@dimen/dp_173"
+            android:orientation="vertical"
+            android:background="@drawable/tanchuang_bg"
+            >
+            <LinearLayout
+                android:id="@+id/ll_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingLeft="15dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_first"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:maxLines="1"
+                        android:text="确定要删除吗？"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/c333333"
+                        android:textSize="15sp"
+                        android:layout_marginTop="@dimen/dp_17"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.2dp"
+                        android:background="#888888" />
+
+                    <TextView
+                        android:id="@+id/tv_second"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:text="丢掉的不是照片，是你看过的风景～"
+                        android:maxLines="1"
+                        android:gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:textColor="@color/c888888"
+                        android:textSize="12sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.2dp"
+                        android:background="#888888" />
+
+                    <TextView
+                        android:id="@+id/tv_third"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text=""
+                        android:maxLines="1"
+                        android:gravity="center_vertical"
+                        android:textColor="#333333"
+                        android:textSize="15sp" />
+
+                    <View
+                        android:id="@+id/view_content_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.2dp"
+                        android:visibility="gone"
+                        android:background="#888888" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp">
+
+                    <ImageView
+                        android:id="@+id/pop_im_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp"
+                        android:src="@mipmap/stamp_fish" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@mipmap/tangchuan_zhang" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view_option_line"
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_marginTop="2dp"
+                android:background="#bfbfbf" />
+
+            <View
+                android:id="@+id/view_fill"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
+
+            <LinearLayout
+                android:id="@+id/ll_option"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_cancel"
+                    android:layout_width="0dp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:text="放弃"
+                    android:paddingTop="18dp"
+                    android:paddingBottom="15dp"
+                    android:textColor="#333333"
+                    android:textSize="15sp"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="17dp"
+                    android:background="#bfbfbf"/>
+
+                <TextView
+                    android:id="@+id/tv_delete"
+                    android:layout_width="0dp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:paddingTop="18dp"
+                    android:text="删除"
+                    android:paddingBottom="15dp"
+                    android:textColor="#FA800A"
+                    android:textSize="15sp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+</LinearLayout>

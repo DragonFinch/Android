@@ -5,8 +5,8 @@
     <solid android:color="@color/white" />
     <padding
         android:bottom="5dp"
-        android:left="10dp"
-        android:right="10dp"
+        android:left="9dp"
+        android:right="9dp"
         android:top="5dp" />
 
     <stroke

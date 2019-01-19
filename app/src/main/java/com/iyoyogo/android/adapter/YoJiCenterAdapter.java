@@ -224,12 +224,12 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
 //                context.startActivity(intent);
 //            }
 //        });
-        holder.view_like.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                initDelete(holder, String.valueOf(mList.get(position).getUser_info().getUser_id()), mList.get(position).getYo_id());
-            }
-        });
+//        holder.view_like.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                initDelete(holder, String.valueOf(mList.get(position).getUser_info().getUser_id()), mList.get(position).getYo_id());
+//            }
+//        });
 
         RequestOptions myOptions1 = new RequestOptions()
                 .centerCrop()

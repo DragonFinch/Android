@@ -3,6 +3,7 @@ package com.iyoyogo.android.presenter;
 import android.util.Log;
 
 import com.iyoyogo.android.base.BasePresenter;
+import com.iyoyogo.android.bean.search.ClerBean;
 import com.iyoyogo.android.bean.search.SearchBean;
 import com.iyoyogo.android.bean.search.searchInfo;
 import com.iyoyogo.android.contract.SearchContract;
@@ -24,7 +25,6 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
                     @Override
                     protected void doOnSuccess(searchInfo searchBean) {
                         if (searchBean != null){
-                            Log.e("han", "doOnFailure: "+"qweqweqweqweqwe" );
                             mView.getRecommendTopicSuccess(searchBean);
                         }
 
@@ -32,10 +32,22 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
 
                     @Override
                     protected boolean doOnFailure(int code, String message) {
-                        Log.e("han", "doOnFailure: "+"qweqweqweqweqwe" );
+
                         return true;
 
                     }
                 });
     }
+
+    @Override
+    public void getSearchCler(String user_id, String user_token) {
+        DataManager.getFromRemote().searchCler(user_id,user_token).subscribe(new ApiObserver<ClerBean>(mView,this) {
+            @Override
+            protected void doOnSuccess(ClerBean clerBean) {
+                mView.getData(clerBean);
+            }
+        });
+    }
+
+
 }

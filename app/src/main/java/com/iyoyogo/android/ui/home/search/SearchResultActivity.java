@@ -115,12 +115,14 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
         lv.setLayoutManager(new LinearLayoutManager(this));
         lvUser.setLayoutManager(new LinearLayoutManager(this));
         lvContent.setLayoutManager(new LinearLayoutManager(this));
-        if (getIntent() != null) {
+
             Intent in = getIntent();
             keyword = in.getStringExtra("key");
-            //放到网络请求上面
-            searchGuanjiaci.setText(keyword);
-        }
+            if (keyword != null){
+                //放到网络请求上面
+                searchGuanjiaci.setText(keyword);
+            }
+
         searchGuanjiaci.setSelection(searchGuanjiaci.getText().length());
 
         mPresenter.getKeyWord(user_id, user_token, keyword, "all", "");
@@ -379,6 +381,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
 
     @Override
     public void keyWordMessage(KeywordBean keywordBean) {
+        if(keywordBean==null || keywordBean.getData()==null || keywordBean.getData().getType()==null){return;}
         if (keywordBean.getData().getType().equals("user")) {
             mUser.clear();
             user_list = keywordBean.getData().getUser_list();

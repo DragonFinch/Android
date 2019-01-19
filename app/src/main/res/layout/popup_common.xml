@@ -12,150 +12,160 @@
         android:layout_height="5dp"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="3dp"
-        android:background="@mipmap/border_yoxiu" />
-
+        android:background="@mipmap/border_yoxiu"
+        android:visibility="gone"/>
     <LinearLayout
-        android:id="@+id/ll_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
+        android:layout_height="@dimen/dp_170"
+        android:orientation="vertical"
+        android:background="@drawable/tanchuang_bg"
+        >
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingLeft="15dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_first"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:maxLines="1"
-                android:text="确定要取消收藏吗？"
-                android:gravity="center_vertical"
-                android:textColor="#FA800A"
-                android:textSize="15sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:background="#888888" />
-
-            <TextView
-                android:id="@+id/tv_second"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:text="这将从所有收藏夹中删除，"
-                android:maxLines="1"
-                android:gravity="center_vertical"
-                android:layout_weight="1"
-                android:textColor="#333333"
-                android:textSize="15sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:background="#888888" />
-
-            <TextView
-                android:id="@+id/tv_third"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="您真的想好了？"
-                android:maxLines="1"
-                android:gravity="center_vertical"
-                android:textColor="#333333"
-                android:textSize="15sp" />
-
-            <View
-                android:id="@+id/view_content_line"
-                android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:visibility="gone"
-                android:background="#888888" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/ll_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp">
+            android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/pop_im_id"
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingLeft="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_first"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:text="确定要取消收藏吗？"
+                    android:gravity="center_vertical"
+                    android:textColor="#FA800A"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.2dp"
+                    android:background="#888888" />
+
+                <TextView
+                    android:id="@+id/tv_second"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:text="这将从所有收藏夹中删除，"
+                    android:maxLines="1"
+                    android:gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:textColor="#333333"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.2dp"
+                    android:background="#888888" />
+
+                <TextView
+                    android:id="@+id/tv_third"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="您真的想好了？"
+                    android:maxLines="1"
+                    android:gravity="center_vertical"
+                    android:textColor="#333333"
+                    android:textSize="15sp" />
+
+                <View
+                    android:id="@+id/view_content_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.2dp"
+                    android:visibility="gone"
+                    android:background="#888888" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:src="@mipmap/stamp_biaoyang" />
+                android:orientation="vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:src="@mipmap/tangchuan_zhang" />
+                <ImageView
+                    android:id="@+id/pop_im_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:src="@mipmap/stamp_biaoyang" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/tangchuan_zhang" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-
-    <View
-        android:id="@+id/view_option_line"
-        android:layout_width="match_parent"
-        android:layout_height="0.2dp"
-        android:layout_marginTop="2dp"
-        android:background="#bfbfbf" />
-
-    <View
-        android:id="@+id/view_fill"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"/>
-
-    <LinearLayout
-        android:id="@+id/ll_option"
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/tv_cancel"
-            android:layout_width="0dp"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:text="点错了"
-            android:paddingTop="18dp"
-            android:paddingBottom="15dp"
-            android:textColor="#333333"
-            android:textSize="15sp"
-            android:layout_height="wrap_content" />
 
         <View
-            android:layout_width="0.5dp"
-            android:layout_height="17dp"
-            android:background="#bfbfbf"/>
+            android:id="@+id/view_option_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_marginTop="2dp"
+            android:background="#bfbfbf" />
 
-        <TextView
-            android:id="@+id/tv_done"
-            android:layout_width="0dp"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:paddingTop="18dp"
-            android:text="想好了"
-            android:paddingBottom="15dp"
-            android:textColor="#FA800A"
-            android:textSize="15sp"
-            android:layout_height="wrap_content" />
+        <View
+            android:id="@+id/view_fill"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
+
+        <LinearLayout
+            android:id="@+id/ll_option"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="点错了"
+                android:paddingTop="18dp"
+                android:paddingBottom="15dp"
+                android:textColor="#333333"
+                android:textSize="15sp"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="17dp"
+                android:background="#bfbfbf"/>
+
+            <TextView
+                android:id="@+id/tv_done"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:paddingTop="18dp"
+                android:text="想好了"
+                android:paddingBottom="15dp"
+                android:textColor="#FA800A"
+                android:textSize="15sp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
     </LinearLayout>
+
+
 
     <View
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="3dp"
-        android:background="@mipmap/border_yoxiu" />
+        android:background="@mipmap/border_yoxiu"
+        android:visibility="gone"/>
 
 </LinearLayout>

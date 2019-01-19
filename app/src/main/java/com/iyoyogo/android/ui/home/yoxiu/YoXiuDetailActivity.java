@@ -196,6 +196,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     private ImageView send_emoji;
     private String yo_id1;
     private Intent intent;
+    private PopupWindow popup_share;
+    private TextView mFasong;
 
     @Override
     protected void setSetting() {
@@ -211,7 +213,15 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         yo_id1 = intent.getStringExtra("yo_id");
         img_brow = findViewById(R.id.img_brow);
         send_emoji = findViewById(R.id.send_emoji);
-
+        //表情包的点击按钮 发送
+        mFasong = findViewById(R.id.fasongdetails);
+        mFasong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPresenter.addComment(user_id, user_token, 0, id, editComment.getText().toString().trim());
+                Toast.makeText(YoXiuDetailActivity.this,"评论成功",Toast.LENGTH_SHORT).show();
+            }
+        });
         ll_facechoose = findViewById(R.id.ll_facechoose);
         new SoftKeyboardStateHelper(findViewById(R.id.activity_yoxiu_detail)).addSoftKeyboardStateListener(this);
         editComment.setImeOptions(EditorInfo.IME_ACTION_SEND);
@@ -294,7 +304,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                     //获得焦点
                     tvCollection.setVisibility(View.GONE);
                     tvLike.setVisibility(View.GONE);
-                    editComment.setHint("码字不容易，留个评论鼓励下嘛~");
+                    editComment.setHint(" 码字不容易，留个评论鼓励下嘛~");
                     editComment.setHintTextColor(Color.parseColor("#888888"));
                     imgBrow.setVisibility(View.VISIBLE);
                     send_emoji.setVisibility(View.GONE);
@@ -312,7 +322,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                     //  editComment.setLayoutParams(layoutParams);
                     tvCollection.setVisibility(View.VISIBLE);
                     tvLike.setVisibility(View.VISIBLE);
-                    editComment.setHint("再不评论 , 你会被抓去写作业的~");
+                    editComment.setHint(" 再不评论 , 你会被抓去写作业的~");
                     editComment.setHintTextColor(Color.parseColor("#888888"));
                     imgBrow.setVisibility(View.GONE);
                     send_emoji.setVisibility(View.VISIBLE);
@@ -348,7 +358,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
     public void more() {
         View view = getLayoutInflater().inflate(R.layout.popup_user_share, null);
-        PopupWindow popup_share = new PopupWindow(view, DensityUtil.dp2px(YoXiuDetailActivity.this, 90), DensityUtil.dp2px(YoXiuDetailActivity.this, 110), true);
+        popup_share = new PopupWindow(view, DensityUtil.dp2px(YoXiuDetailActivity.this, 90), DensityUtil.dp2px(YoXiuDetailActivity.this, 110), true);
         popup_share.setBackgroundDrawable(new ColorDrawable());
         popup_share.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         popup_share.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -372,6 +382,38 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                popup_share.dismiss();
+                initPopupPraise();
+            }
+        });
+        backgroundAlpha(0.6f);
+
+        //添加pop窗口关闭事件
+        popup_share.setOnDismissListener(new poponDismissListener());
+        popup_share.showAtLocation(findViewById(R.id.share_img), Gravity.RIGHT | Gravity.TOP, 0, 130);
+    }
+
+    private void initPopupPraise() {
+        View pop_view = View.inflate(this, R.layout.popup_up_delete, null);
+        PopupWindow popMenu = new PopupWindow(pop_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        TextView delete = pop_view.findViewById(R.id.tv_delete);
+        TextView cancel = pop_view.findViewById(R.id.tv_cancel);
+        ImageView popup_praise_im_id = pop_view.findViewById(R.id.popup_praise_im_id);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popMenu.dismiss();
+            }
+        });
+        popup_praise_im_id.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popMenu.dismiss();
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 DataManager.getFromRemote().deleteYo(user_id, user_token, id)
                         .subscribe(new Observer<BaseBean>() {
                             @Override
@@ -383,7 +425,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                             public void onNext(BaseBean baseBean) {
                                 int code = baseBean.getCode();
                                 if (code == 200) {
-                                    popup_share.dismiss();
+                                    popMenu.dismiss();
                                     finish();
                                     Toast.makeText(YoXiuDetailActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
                                 }
@@ -399,14 +441,27 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
                             }
                         });
+
             }
         });
-        backgroundAlpha(0.6f);
+        popMenu.setFocusable(true);//设置pw中的控件能够获取焦点
+        ColorDrawable dw = new ColorDrawable(0xb0000000);
+        popMenu.setBackgroundDrawable(dw);//设置mPopupWindow背景颜色或图片，这里设置半透明
+        popMenu.setOutsideTouchable(true); //设置可以通过点击mPopupWindow外部关闭mPopupWindow
+//        popMenu.setAnimationStyle(R.style.PopupAnimationAmount);//设置mPopupWindow的进出动画
+        popMenu.update();//刷新mPopupWindow
+        popMenu.showAsDropDown(pop_view, Gravity.CENTER, 0, 0);//mPopupWindow显示的位置
+        /**
+         * PopupWindow消失监听方法
+         */
+        popMenu.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
 
-        //添加pop窗口关闭事件
-        popup_share.setOnDismissListener(new poponDismissListener());
-        popup_share.showAtLocation(findViewById(R.id.share_img), Gravity.RIGHT | Gravity.TOP, 0, 130);
+            }
+        });
     }
+
 
     //
     public void share() {
@@ -473,7 +528,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     private void shareWeb(SHARE_MEDIA share_media) {
         /*80002/yo_id/4143*/
         //http://192.168.0.104//80002/yo_id/4143
-        String url = Constants.BASE_URL+ "home/share/details_yox/share_user_id/" + user_id + "/yo_id/" + yo_id;
+        String url = Constants.BASE_URL + "home/share/details_yox/share_user_id/" + user_id + "/yo_id/" + yo_id;
         UMWeb web = new UMWeb(url);
         web.setTitle(path);//标题
         UMImage thumb = new UMImage(getApplicationContext(), path);
@@ -562,7 +617,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
                 Intent intent = new Intent(getApplicationContext(), YoXiuListActivity.class);
                 intent.putExtra("position", tvDesc.getText().toString().trim());
-                Log.e("zxxz", "onViewClicked: "+tvDesc.getText().toString().trim() );
+                Log.e("zxxz", "onViewClicked: " + tvDesc.getText().toString().trim());
                 startActivity(intent);
                 break;
             case R.id.img_go:
@@ -970,7 +1025,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         editComment.setText("");
         ll_facechoose.setVisibility(View.GONE);
         yoXiuDetailAdapter.notifyDataSetChanged();
-        KeyBoardUtils.closeKeybord(editComment,YoXiuDetailActivity.this);
+        KeyBoardUtils.closeKeybord(editComment, YoXiuDetailActivity.this);
         mPresenter.getCommentList(user_id, user_token, 1, id, 0);
     }
 
@@ -1106,12 +1161,6 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         send_emoji.setVisibility(View.GONE);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 
 
     //隐藏事件PopupWindow
