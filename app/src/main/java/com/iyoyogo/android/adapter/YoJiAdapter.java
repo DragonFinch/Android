@@ -263,7 +263,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
                     mList.get(position).setCount_praise(String.valueOf(count_praises));
 
                 }
-                DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getYo_id(), 0)
+                DataManager.getFromRemote().praise(context,user_id, user_token, mList.get(position).getYo_id(), 0)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -323,7 +323,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
             @Override
             public void onClick(View v) {
                 DataManager.getFromRemote()
-                        .dislike(user_id, user_token, yo_id, 1)
+                        .dislike(context,user_id, user_token, yo_id, 1)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -340,7 +340,7 @@ public class YoJiAdapter extends RecyclerView.Adapter<YoJiAdapter.Holder> implem
             @Override
             public void onClick(View v) {
                 DataManager.getFromRemote()
-                        .dislike(user_id, user_token, yo_id, 2)
+                        .dislike(context,user_id, user_token, yo_id, 2)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {

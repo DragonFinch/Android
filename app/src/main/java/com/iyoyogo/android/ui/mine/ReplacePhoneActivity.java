@@ -53,7 +53,7 @@ public class ReplacePhoneActivity extends BaseActivity<ReplacePhoneContract.Pres
 
     @Override
     protected ReplacePhoneContract.Presenter createPresenter() {
-        return new ReplacePhonePresenter(this);
+        return new ReplacePhonePresenter(ReplacePhoneActivity.this,this);
     }
 
     @Override
@@ -156,7 +156,7 @@ public class ReplacePhoneActivity extends BaseActivity<ReplacePhoneContract.Pres
                 Log.d("ReplacePhoneActivity", "sign=" + sign);
                 if (editPhone.getText().toString().trim().startsWith("1") && editPhone.getText().toString().trim().length() == 11) {
 
-                    mPresenter.sendMessage(editPhone.getText().toString().trim(), "", dateTime, sign);
+                    mPresenter.sendMessage(ReplacePhoneActivity.this,editPhone.getText().toString().trim(), "", dateTime, sign);
                 } else {
                     Toast.makeText(this, "手机格式不正确", Toast.LENGTH_SHORT).show();
                 }
@@ -164,7 +164,7 @@ public class ReplacePhoneActivity extends BaseActivity<ReplacePhoneContract.Pres
             case R.id.replacer_phone:
                 user_id = SpUtils.getString(ReplacePhoneActivity.this, "user_id", null);
                 user_token = SpUtils.getString(ReplacePhoneActivity.this, "user_token", null);
-                mPresenter.replacePhone(user_id, user_token, editPhone.getText().toString().trim(), editCode.getText().toString().trim());
+                mPresenter.replacePhone(ReplacePhoneActivity.this,user_id, user_token, editPhone.getText().toString().trim(), editCode.getText().toString().trim());
                 break;
         }
     }

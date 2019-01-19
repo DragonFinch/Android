@@ -125,7 +125,7 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 mList.clear();
                 refreshLayout.finishRefresh(1050);
-                mPresenter.getYoJiContent(user_id, user_token, yo_user_id, "1", "20");
+                mPresenter.getYoJiContent(getActivity(),user_id, user_token, yo_user_id, "1", "20");
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -134,7 +134,7 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
                 currentPage++;
                 Log.d("currentPage", "currentPage:" + currentPage);
                 DataManager.getFromRemote()
-                        .getYoJiContent(user_id, user_token, yo_user_id, currentPage + "", 20 + "")
+                        .getYoJiContent(getActivity(),user_id, user_token, yo_user_id, currentPage + "", 20 + "")
                         .subscribe(new Consumer<YoJiContentBean>() {
                             @Override
                             public void accept(YoJiContentBean yoJiContentBean) throws Exception {
@@ -160,7 +160,7 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
     public void onResume() {
         super.onResume();
         mList.clear();
-        mPresenter.getYoJiContent(user_id, user_token, yo_user_id, "1", "20");
+        mPresenter.getYoJiContent(getActivity(),user_id, user_token, yo_user_id, "1", "20");
     }
 
     @Override
@@ -170,7 +170,7 @@ public class YoJiFragment extends BaseFragment<YoJiContentContract.Presenter> im
 
     @Override
     protected YoJiContentContract.Presenter createPresenter() {
-        return new YoJiContentPresenter(this);
+        return new YoJiContentPresenter(getActivity(),this);
     }
 
     public void getYoJiContentSuccess(YoJiContentBean.DataBean data) {

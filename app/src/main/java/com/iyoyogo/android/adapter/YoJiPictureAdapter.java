@@ -94,7 +94,7 @@ public class YoJiPictureAdapter extends PagerAdapter {
             public boolean onLongClick(View v) {
                 String user_id = SpUtils.getString(context, "user_id", null);
                 String user_token = SpUtils.getString(context, "user_token", null);
-                DataManager.getFromRemote().setVipCenter(user_id, user_token)
+                DataManager.getFromRemote().setVipCenter(context,user_id, user_token)
                         .subscribe(new Observer<VipCenterBean>() {
                             @Override
                             public void onSubscribe(Disposable d) {

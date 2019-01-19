@@ -77,7 +77,7 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
         tvTitle.setText("选择频道");
         user_id = SpUtils.getString(ChannelActivity.this, "user_id", null);
         user_token = SpUtils.getString(ChannelActivity.this, "user_token", null);
-        mPresenter.getChannel(user_id, user_token);
+        mPresenter.getChannel(this,user_id, user_token);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class ChannelActivity extends BaseActivity<ChannelContract.Presenter> imp
 
     @Override
     protected ChannelContract.Presenter createPresenter() {
-        return new ChannelPresenter(this);
+        return new ChannelPresenter(ChannelActivity.this,this);
     }
 
     @Override

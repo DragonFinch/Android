@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.VipCenterBean;
@@ -16,6 +18,6 @@ public interface VipCenterContract {
     }
 
     interface Presenter extends IBasePresenter {
-        void getVipCenter(String user_id, String user_token);
+        void getVipCenter(Context context, String user_id, String user_token);
     }
 }

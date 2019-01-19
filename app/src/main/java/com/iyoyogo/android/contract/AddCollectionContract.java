@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.attention.AttentionBean;
@@ -19,8 +21,8 @@ public interface AddCollectionContract {
 
     interface Presenter extends IBasePresenter {
 
-        void getAddCollection(String user_id, String user_token, String page, String page_size);
+        void getAddCollection(Context context,String user_id, String user_token, String page, String page_size);
 
-        void addAttention(String user_id, String user_token, String target_id);
+        void addAttention(Context context,String user_id, String user_token, String target_id);
     }
 }

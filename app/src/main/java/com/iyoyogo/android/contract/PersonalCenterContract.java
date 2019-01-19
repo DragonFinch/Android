@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.attention.AttentionBean;
@@ -19,11 +21,11 @@ public interface PersonalCenterContract {
     }
 
     interface Presenter extends IBasePresenter {
-        void getPersonalCenter(String user_id, String user_token, String his_id);
+        void getPersonalCenter(Context context, String user_id, String user_token, String his_id);
 
-        void addAttention1(String user_id, String user_token, String target_id);
+        void addAttention1(Context context, String user_id, String user_token, String target_id);
 
-        void deleteAttention(String user_id, String user_token, String target_id);
+        void deleteAttention(Context context, String user_id, String user_token, String target_id);
 
     }
 }

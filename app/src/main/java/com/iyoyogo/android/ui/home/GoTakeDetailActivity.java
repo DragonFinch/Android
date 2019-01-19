@@ -95,7 +95,7 @@ public class GoTakeDetailActivity extends BaseActivity<SamePresenter> implements
 
     @Override
     protected SamePresenter createPresenter() {
-        return new SamePresenter(this);
+        return new SamePresenter(GoTakeDetailActivity.this,this);
     }
 
     @Override
@@ -196,7 +196,7 @@ public class GoTakeDetailActivity extends BaseActivity<SamePresenter> implements
                 }
                 break;
             case R.id.ll_like:
-                DataManager.getFromRemote().praise(user_id, user_token, mData.getData().getList().get(position).getYo_id(), 0).subscribe(baseBean -> {
+                DataManager.getFromRemote().praise(GoTakeDetailActivity.this,user_id, user_token, mData.getData().getList().get(position).getYo_id(), 0).subscribe(baseBean -> {
                     View      contentView = layoutManager.findViewByPosition(position);
                     ImageView ivLike      = contentView.findViewById(R.id.iv_like);
                     TextView  tvLike      = contentView.findViewById(R.id.tv_like_num);
@@ -280,13 +280,13 @@ public class GoTakeDetailActivity extends BaseActivity<SamePresenter> implements
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         page++;
-        mPresenter.getSameList(userId, token, lng, lat, page, "20");
+        mPresenter.getSameList(GoTakeDetailActivity.this,userId, token, lng, lat, page, "20");
     }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         page = 1;
-        mPresenter.getSameList(userId, token, lng, lat, page, "20");
+        mPresenter.getSameList(GoTakeDetailActivity.this,userId, token, lng, lat, page, "20");
     }
 
     @Override
@@ -355,7 +355,7 @@ public class GoTakeDetailActivity extends BaseActivity<SamePresenter> implements
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode==0){
             DataManager.getFromRemote()
-                    .getDetail(user_id, user_token, mData.getData().getList().get(position).getYo_id())
+                    .getDetail(GoTakeDetailActivity.this,user_id, user_token, mData.getData().getList().get(position).getYo_id())
                     .subscribe(yoXiuDetailBean -> {
                         View      itemView  = layoutManager.findViewByPosition(position);
                         TextView  tvComment = itemView.findViewById(R.id.tv_comment_num);

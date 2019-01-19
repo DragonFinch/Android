@@ -79,7 +79,7 @@ public class AddressBookFriendsActivity extends BaseActivity<AddressBookContract
 
     @Override
     protected AddressBookContract.Presenter createPresenter() {
-        return new AddressBookPresenter(this);
+        return new AddressBookPresenter(AddressBookFriendsActivity.this,this);
     }
 
 
@@ -98,7 +98,7 @@ public class AddressBookFriendsActivity extends BaseActivity<AddressBookContract
         search = addressBookSearch.getText().toString();
         //读取通讯录好友
         getPhoneNumber();
-        mPresenter.getAddressBookContract(user_id, user_token, search, json);
+        mPresenter.getAddressBookContract(AddressBookFriendsActivity.this,user_id, user_token, search, json);
     }
 
     @Override
@@ -153,7 +153,7 @@ public class AddressBookFriendsActivity extends BaseActivity<AddressBookContract
                         a.getMessage();
                     }
                 }else {
-                    mPresenter.addAttention(user_id, user_token, list.get(position).getUser_id() + "");
+                    mPresenter.addAttention(AddressBookFriendsActivity.this,user_id, user_token, list.get(position).getUser_id() + "");
                 }
             }
         });

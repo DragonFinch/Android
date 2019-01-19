@@ -95,7 +95,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
                 popup_more.dismiss();
                 report();
 
-                DataManager.getFromRemote().report(user_id, user_token, 0, comment_id, tv_advert.getText().toString())
+                DataManager.getFromRemote().report(context,user_id, user_token, 0, comment_id, tv_advert.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -116,7 +116,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
             public void onClick(View v) {
                 popup_more.dismiss();
                 report();
-                DataManager.getFromRemote().report(user_id, user_token, 0, comment_id, tv_harm.getText().toString())
+                DataManager.getFromRemote().report(context,user_id, user_token, 0, comment_id, tv_harm.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -137,7 +137,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
             public void onClick(View v) {
                 popup_more.dismiss();
                 report();
-                DataManager.getFromRemote().report(user_id, user_token, 0, comment_id, tv_violate.getText().toString())
+                DataManager.getFromRemote().report(context,user_id, user_token, 0, comment_id, tv_violate.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -158,7 +158,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
             public void onClick(View v) {
                 popup_more.dismiss();
                 report();
-                DataManager.getFromRemote().report(user_id, user_token, 0, comment_id, tv_else.getText().toString())
+                DataManager.getFromRemote().report(context,user_id, user_token, 0, comment_id, tv_else.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -281,7 +281,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
         tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DataManager.getFromRemote().deleteComment(user_id, user_token, comment_id)
+                DataManager.getFromRemote().deleteComment(context,user_id, user_token, comment_id)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -420,7 +420,7 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        DataManager.getFromRemote().praise(user_id, user_token, 0, mList.get(position).getId())
+                        DataManager.getFromRemote().praise(context,user_id, user_token, 0, mList.get(position).getId())
                                 .subscribe(new Consumer<BaseBean>() {
                                     @Override
                                     public void accept(BaseBean baseBean) throws Exception {

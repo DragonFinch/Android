@@ -1,5 +1,7 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.BasePresenter;
 import com.iyoyogo.android.bean.mine.message.MessageCenterBean;
 import com.iyoyogo.android.contract.MessageCenterContract;
@@ -8,13 +10,13 @@ import com.iyoyogo.android.net.ApiObserver;
 
 public class MessageCenterPresenter extends BasePresenter<MessageCenterContract.View> implements MessageCenterContract.Presenter {
 
-    public MessageCenterPresenter(MessageCenterContract.View mView) {
-        super(mView);
+    public MessageCenterPresenter(Context context, MessageCenterContract.View mView) {
+        super(context,mView);
     }
 
     @Override
-    public void getMessageCenter(String user_id, String user_token) {
-        DataManager.getFromRemote().messageCenter(user_id, user_token)
+    public void getMessageCenter(Context context,String user_id, String user_token) {
+        DataManager.getFromRemote().messageCenter(context,user_id, user_token)
                 .subscribe(new ApiObserver<MessageCenterBean>(mView,this) {
                     @Override
                     protected void doOnSuccess(MessageCenterBean messageCenterBean) {

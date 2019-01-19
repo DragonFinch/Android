@@ -1,5 +1,6 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
@@ -11,12 +12,12 @@ import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.net.ApiObserver;
 
 public class BindPresenter extends BasePresenter<BindPhoneContract.View> implements BindPhoneContract.Presenter {
-    public BindPresenter(BindPhoneContract.View mView) {
-        super(mView);
+    public BindPresenter(Context context,BindPhoneContract.View mView) {
+        super(context,mView);
     }
 
     @Override
-    public void sendMessage(String phone, String yzm, String datetime, String sign) {
+    public void sendMessage(Context context,String phone, String yzm, String datetime, String sign) {
         DataManager.getFromRemote()
                 .getSendMessage(phone, yzm, datetime, sign)
                 .subscribe(new ApiObserver<SendMessageBean>(mView, this) {
@@ -37,8 +38,8 @@ public class BindPresenter extends BasePresenter<BindPhoneContract.View> impleme
     }
 
     @Override
-    public void login(String login_addr, String phone_info, String app_version, int login_type, String phone, String yzm, String openid, String nickname, String logo) {
-        DataManager.getFromRemote().login(login_addr,phone_info,app_version,login_type,phone,yzm,openid,nickname,logo)
+    public void login(Context context,String login_addr, String phone_info, String app_version, int login_type, String phone, String yzm, String openid, String nickname, String logo) {
+        DataManager.getFromRemote().login(context,login_addr,phone_info,app_version,login_type,phone,yzm,openid,nickname,logo)
                 .subscribe(new ApiObserver<LoginBean>(mView,this) {
                     @Override
                     protected void doOnSuccess(LoginBean loginBean) {

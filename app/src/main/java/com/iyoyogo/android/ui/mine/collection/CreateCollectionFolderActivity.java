@@ -119,7 +119,7 @@ public class CreateCollectionFolderActivity extends BaseActivity<EditCollectionC
 
     @Override
     protected EditCollectionContract.Presenter createPresenter() {
-        return new EditCollectionPresenter(this);
+        return new EditCollectionPresenter(CreateCollectionFolderActivity.this,this);
     }
 
 
@@ -172,9 +172,9 @@ public class CreateCollectionFolderActivity extends BaseActivity<EditCollectionC
             public void onClick(View v) {
                 popMenu.dismiss();
                 if (title != null && title.length() > 0) {
-                    mPresenter.createFolder(user_id, user_token, editTitle.getText().toString().trim(), open_type, title);
+                    mPresenter.createFolder(CreateCollectionFolderActivity.this,user_id, user_token, editTitle.getText().toString().trim(), open_type, title);
                 } else {
-                    mPresenter.createFolder(user_id, user_token, editTitle.getText().toString().trim(), open_type, "");
+                    mPresenter.createFolder(CreateCollectionFolderActivity.this,user_id, user_token, editTitle.getText().toString().trim(), open_type, "");
 
                 }
                 finish();
@@ -249,7 +249,7 @@ public class CreateCollectionFolderActivity extends BaseActivity<EditCollectionC
             case R.id.tv_delete:
                 int[] folder_ids = new int[1];
                 folder_ids[0] = folder_id;
-                mPresenter.deleteFolder(user_id, user_token, folder_ids);
+                mPresenter.deleteFolder(CreateCollectionFolderActivity.this,user_id, user_token, folder_ids);
                 break;
             case R.id.tv_commit:
                 if (editTitle.getText().toString().trim().length() == 0) {
@@ -257,9 +257,9 @@ public class CreateCollectionFolderActivity extends BaseActivity<EditCollectionC
 
                 } else {
                     if (title != null) {
-                        mPresenter.createFolder(user_id, user_token, editTitle.getText().toString().trim(), open_type, "");
+                        mPresenter.createFolder(CreateCollectionFolderActivity.this,user_id, user_token, editTitle.getText().toString().trim(), open_type, "");
                     } else {
-                        mPresenter.createFolder(user_id, user_token, editTitle.getText().toString().trim(), open_type, title);
+                        mPresenter.createFolder(CreateCollectionFolderActivity.this,user_id, user_token, editTitle.getText().toString().trim(), open_type, title);
 
                     }
                 }

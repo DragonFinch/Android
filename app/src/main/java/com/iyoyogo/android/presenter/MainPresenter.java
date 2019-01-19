@@ -1,5 +1,6 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
@@ -10,8 +11,8 @@ import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.net.ApiObserver;
 
 public class MainPresenter extends BasePresenter<MainContract.View> implements MainContract.Presenter {
-    public MainPresenter(MainContract.View mView) {
-        super(mView);
+    public MainPresenter(Context context,MainContract.View mView) {
+        super(context,mView);
     }
 
     @Override

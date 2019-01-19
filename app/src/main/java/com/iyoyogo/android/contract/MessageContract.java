@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.BaseBean;
@@ -21,8 +23,8 @@ public interface MessageContract {
     }
 
     interface Presenter extends IBasePresenter {
-        void getMessage(String user_id,String user_token,int type,int page);
-        void readMessage(String user_id,String user_token,String message_id);
-        void addComment(String user_id,String user_token, int comment_id,int yo_id, String content);
+        void getMessage(Context context, String user_id, String user_token, int type, int page);
+        void readMessage(Context context,String user_id,String user_token,String message_id);
+        void addComment(Context context,String user_id,String user_token, int comment_id,int yo_id, String content);
     }
 }

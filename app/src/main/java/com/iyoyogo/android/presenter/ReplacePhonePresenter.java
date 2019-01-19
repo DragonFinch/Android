@@ -1,5 +1,6 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
@@ -10,14 +11,14 @@ import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.net.ApiObserver;
 
 public class ReplacePhonePresenter extends BasePresenter<ReplacePhoneContract.View>implements ReplacePhoneContract.Presenter {
-    public ReplacePhonePresenter(ReplacePhoneContract.View mView) {
-        super(mView);
+    public ReplacePhonePresenter(Context context,ReplacePhoneContract.View mView) {
+        super(context,mView);
     }
 
     @Override
-    public void replacePhone(String user_id, String user_token, String phone, String yzm) {
+    public void replacePhone(Context context,String user_id, String user_token, String phone, String yzm) {
         DataManager.getFromRemote()
-        .replacePhone(user_id,user_token,phone,yzm)
+        .replacePhone(context,user_id,user_token,phone,yzm)
         .subscribe(new ApiObserver<BaseBean>(mView,this) {
             @Override
             protected void doOnSuccess(BaseBean baseBean) {
@@ -33,7 +34,7 @@ public class ReplacePhonePresenter extends BasePresenter<ReplacePhoneContract.Vi
     }
 
     @Override
-    public void sendMessage(String phone, String yzm, String datetime, String sign) {
+    public void sendMessage(Context context,String phone, String yzm, String datetime, String sign) {
         DataManager.getFromRemote()
                 .getSendMessage(phone,yzm,datetime,sign)
                 .subscribe(new ApiObserver<BaseBean>(mView,this) {

@@ -64,7 +64,7 @@ public class FollowFragment extends BaseFragment<AttentionsContract.Presenter> i
         user_token = SpUtils.getString(getContext(), "user_token", null);
         Intent intent = getActivity().getIntent();
         yo_user_id = intent.getStringExtra("yo_user_id");
-        mPresenter.getAttentions(user_id, user_token, yo_user_id, 1 + "", 20 + "");
+        mPresenter.getAttentions(getActivity(),user_id, user_token, yo_user_id, 1 + "", 20 + "");
     }
 
     @Override
@@ -96,12 +96,12 @@ public class FollowFragment extends BaseFragment<AttentionsContract.Presenter> i
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.getAttentions(user_id, user_token, yo_user_id, 1 + "", 20 + "");
+        mPresenter.getAttentions(getActivity(),user_id, user_token, yo_user_id, 1 + "", 20 + "");
     }
 
     @Override
     protected AttentionsContract.Presenter createPresenter() {
-        return new AttentionsPresenter(this);
+        return new AttentionsPresenter(getActivity(),this);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class FollowFragment extends BaseFragment<AttentionsContract.Presenter> i
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 btu_guanzhu = view.findViewById(R.id.tv_guanzhu);
-                mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
+                mPresenter.addAttention1(getActivity(),user_id, user_token, list.get(position).getUser_id());
             }
         });
     }

@@ -67,7 +67,7 @@ public class SameActivity extends BaseActivity<SamePresenter> implements SameCon
 
     @Override
     protected SamePresenter createPresenter() {
-        return new SamePresenter(this);
+        return new SamePresenter(SameActivity.this,this);
     }
 
 
@@ -122,14 +122,14 @@ public class SameActivity extends BaseActivity<SamePresenter> implements SameCon
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         page++;
-        mPresenter.getSameList(userId, token, lng, lat, page, "20");
+        mPresenter.getSameList(SameActivity.this,userId, token, lng, lat, page, "20");
 //        mPresenter.getSameList(userId, token, "116.3322","39.764042", page, "20");
     }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         page = 1;
-        mPresenter.getSameList(userId, token, lng, lat, page, "20");
+        mPresenter.getSameList(SameActivity.this,userId, token, lng, lat, page, "20");
 //        mPresenter.getSameList(userId, token, "116.3322","39.764042", page, "20");
     }
 
@@ -168,7 +168,7 @@ public class SameActivity extends BaseActivity<SamePresenter> implements SameCon
         lng = aMapLocation.getLongitude() + "";
         page = 1;
 //        mPresenter.getSameList(userId, token, "116.3322","39.764042", page, "20");
-        mPresenter.getSameList(userId, token, lng, lat, page, "20");
+        mPresenter.getSameList(SameActivity.this,userId, token, lng, lat, page, "20");
     }
 
     @Override

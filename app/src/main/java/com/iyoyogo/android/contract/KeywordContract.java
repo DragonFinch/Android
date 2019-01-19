@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.search.GuanZhuBean;
@@ -13,8 +15,8 @@ public interface KeywordContract {
         void search(KeywordUserBean keywordBean);
     }
     interface Presenter extends IBasePresenter {
-        void getKeyWord(String user_id, String user_token, String search, String type,String key_type);
-        void getGuanZhu(String user_id, String user_token, String target_id);
-        void getSearch(String user_id, String user_token, String search);
+        void getKeyWord(Context context, String user_id, String user_token, String search, String type, String key_type);
+        void getGuanZhu(Context context,String user_id, String user_token, String target_id);
+        void getSearch(Context context,String user_id, String user_token, String search);
     }
 }

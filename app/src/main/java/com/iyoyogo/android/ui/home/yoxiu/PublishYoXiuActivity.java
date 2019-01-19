@@ -239,7 +239,7 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
         user_token = SpUtils.getString(PublishYoXiuActivity.this, "user_token", null);
         user_id = SpUtils.getString(PublishYoXiuActivity.this, "user_id", null);
         uploadYoXiuImage();
-        mPresenter.getRecommendTopic(user_id, user_token);
+        mPresenter.getRecommendTopic(PublishYoXiuActivity.this,user_id, user_token);
         editEdittextId.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -318,7 +318,7 @@ public class PublishYoXiuActivity extends BaseActivity<PublishYoXiuContract.Pres
 
     @Override
     protected PublishYoXiuContract.Presenter createPresenter() {
-        return new PublishYoXiuPresenter(this);
+        return new PublishYoXiuPresenter(PublishYoXiuActivity.this,this);
     }
 
     /**

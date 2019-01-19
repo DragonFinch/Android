@@ -195,20 +195,20 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
         user_token = SpUtils.getString(MoreTopicActivity.this, "user_token", null);
 
         if (locationEdit.getText().toString() != null) {
-            mPresenter.getHotTopic(user_id, user_token, locationEdit.getText().toString());
+            mPresenter.getHotTopic(MoreTopicActivity.this,user_id, user_token, locationEdit.getText().toString());
         } else {
 
-            mPresenter.getHotTopic(user_id, user_token, "");
+            mPresenter.getHotTopic(MoreTopicActivity.this,user_id, user_token, "");
 
         }
-        mPresenter.getNearTopic(user_id, user_token);
+        mPresenter.getNearTopic(MoreTopicActivity.this,user_id, user_token);
 
 
     }
 
     @Override
     protected MoreTopicContract.Presenter createPresenter() {
-        return new MoreTopicPresenter(this);
+        return new MoreTopicPresenter(MoreTopicActivity.this,this);
     }
 
 
@@ -350,7 +350,7 @@ public class MoreTopicActivity extends BaseActivity<MoreTopicContract.Presenter>
 //                mPresenter.getCreateTopic(user_id, user_token, locationEdit.getText().toString());
                 break;
             case R.id.clear:
-                mPresenter.getClearTopic(user_id, user_token);
+                mPresenter.getClearTopic(MoreTopicActivity.this,user_id, user_token);
                 break;
             case R.id.clear_search:
                 locationEdit.setText("");

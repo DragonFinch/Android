@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.BaseBean;
@@ -31,8 +33,8 @@ public interface LoginContract {
          * @param nickname
          * @param logo
          */
-        void login(String login_addr, String phone_info, String app_veresion, int login_type, String phone, String yzm, String openid, String nickname, String logo);
+        void login(Context context, String login_addr, String phone_info, String app_veresion, int login_type, String phone, String yzm, String openid, String nickname, String logo);
         void market();
-        void push(String user_id,String user_token,String device, String jpush_rid);
+        void push(Context context,String user_id,String user_token,String device, String jpush_rid);
     }
 }

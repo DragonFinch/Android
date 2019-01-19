@@ -128,7 +128,7 @@ public class NewYoXiuDetailActivity extends BaseActivity<NewYoXiuDetailPresenter
 
     @Override
     protected NewYoXiuDetailPresenter createPresenter() {
-        return new NewYoXiuDetailPresenter(this);
+        return new NewYoXiuDetailPresenter(NewYoXiuDetailActivity.this,this);
     }
 
     @Override
@@ -165,8 +165,8 @@ public class NewYoXiuDetailActivity extends BaseActivity<NewYoXiuDetailPresenter
         id = getIntent().getIntExtra("id", 0);
         userId = SpUtils.getString(this, "user_id", null);
         token = SpUtils.getString(this, "user_token", null);
-        mPresenter.getDetail(userId, token, id);
-        mPresenter.getCommentList(userId, token, 1, id, 0);
+        mPresenter.getDetail(NewYoXiuDetailActivity.this,userId, token, id);
+        mPresenter.getCommentList(NewYoXiuDetailActivity.this,userId, token, 1, id, 0);
     }
 
 
@@ -193,7 +193,7 @@ public class NewYoXiuDetailActivity extends BaseActivity<NewYoXiuDetailPresenter
                         .putExtra("yo_user_id", mData.getUser_id()));
                 break;
             case R.id.tv_follow:
-                mPresenter.addAttention(userId, token, Integer.valueOf(mData.getUser_id()));
+                mPresenter.addAttention(NewYoXiuDetailActivity.this,userId, token, Integer.valueOf(mData.getUser_id()));
                 break;
             case R.id.ll_more_comment:
                 startActivity(new Intent(this, AllCommentActivity.class).putExtra("id", id));
@@ -208,7 +208,7 @@ public class NewYoXiuDetailActivity extends BaseActivity<NewYoXiuDetailPresenter
                 break;
             case R.id.ll_like:
                 optionPosition = -1;
-                mPresenter.addLike(userId, token, id, 0);
+                mPresenter.addLike(NewYoXiuDetailActivity.this,userId, token, id, 0);
                 break;
             case R.id.ll_collect:
                 if (mData.getIs_my_collect() == 0) {
@@ -230,7 +230,7 @@ public class NewYoXiuDetailActivity extends BaseActivity<NewYoXiuDetailPresenter
         optionPosition = position;
         switch (view.getId()) {
             case R.id.ll_like:
-                mPresenter.addLike(userId, token, id, commentData.get(position).getId());
+                mPresenter.addLike(NewYoXiuDetailActivity.this,userId, token, id, commentData.get(position).getId());
                 break;
             case R.id.ll_replay:
                 startActivityForResult(new Intent(this, ReplyDiscussActivity.class).putExtra("data", commentData.get(position)),0);
@@ -252,13 +252,13 @@ public class NewYoXiuDetailActivity extends BaseActivity<NewYoXiuDetailPresenter
     @Override
     public void onCommonClick(View v) {
         if (v.getId() == R.id.tv_done) {
-            mPresenter.deleteCollection(userId, token, id);
+            mPresenter.deleteCollection(NewYoXiuDetailActivity.this,userId, token, id);
         }
     }
 
     @Override
     public void onReport(String content) {
-        mPresenter.report(userId, token, id, 0, content);
+        mPresenter.report(NewYoXiuDetailActivity.this,userId, token, id, 0, content);
     }
 
     @Override
@@ -289,7 +289,7 @@ public class NewYoXiuDetailActivity extends BaseActivity<NewYoXiuDetailPresenter
 
     @Override
     public void onAddCommentSuccess(BaseBean baseBean) {
-        mPresenter.getCommentList(userId, token, 1, id, 0);
+        mPresenter.getCommentList(NewYoXiuDetailActivity.this,userId, token, 1, id, 0);
         mData.setCount_comment(String.valueOf(Integer.valueOf(mData.getCount_comment()) + 1));
         mTvCommentNum.setText("评论 （" + mData.getCount_comment() + ")");
         mCommonPopup.setContent("Hi～", "谢谢评论～", "给你小心心")
@@ -346,7 +346,7 @@ public class NewYoXiuDetailActivity extends BaseActivity<NewYoXiuDetailPresenter
 
     @Override
     public void onSendComment(String comment) {
-        mPresenter.addComment(userId, token, 0, id, comment);
+        mPresenter.addComment(NewYoXiuDetailActivity.this,userId, token, 0, id, comment);
 //        Toast.makeText(this, comment, Toast.LENGTH_SHORT).show();
     }
 
@@ -368,8 +368,8 @@ public class NewYoXiuDetailActivity extends BaseActivity<NewYoXiuDetailPresenter
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode==0){
-            mPresenter.getDetail(userId, token, id);
-            mPresenter.getCommentList(userId, token, 1, id, 0);
+            mPresenter.getDetail(NewYoXiuDetailActivity.this,userId, token, id);
+            mPresenter.getCommentList(NewYoXiuDetailActivity.this,userId, token, 1, id, 0);
         }
     }
 }

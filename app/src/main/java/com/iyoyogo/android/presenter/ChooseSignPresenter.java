@@ -1,5 +1,6 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
@@ -12,14 +13,14 @@ import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.net.ApiObserver;
 
 public class ChooseSignPresenter extends BasePresenter<ChooseSignContract.View> implements ChooseSignContract.Presenter {
-    public ChooseSignPresenter(ChooseSignContract.View mView) {
-        super(mView);
+    public ChooseSignPresenter(Context context,ChooseSignContract.View mView) {
+        super(context,mView);
     }
 
     @Override
-    public void getLabelList(String user_id, String user_token) {
+    public void getLabelList(Context context,String user_id, String user_token) {
         DataManager.getFromRemote()
-                .getLabelList(user_id, user_token)
+                .getLabelList(context,user_id, user_token)
                 .subscribe(new ApiObserver<LabelListBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(LabelListBean labelListBean) {
@@ -38,9 +39,9 @@ public class ChooseSignPresenter extends BasePresenter<ChooseSignContract.View> 
     }
 
     @Override
-    public void addLabel(String user_id, String user_token, int label_id, int type, String label) {
+    public void addLabel(Context context,String user_id, String user_token, int label_id, int type, String label) {
         DataManager.getFromRemote()
-                .addLabel(user_id, user_token, label_id, type, label)
+                .addLabel(context,user_id, user_token, label_id, type, label)
                 .subscribe(new ApiObserver<AddLabelBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(AddLabelBean labelListBean) {
@@ -59,9 +60,9 @@ public class ChooseSignPresenter extends BasePresenter<ChooseSignContract.View> 
     }
 
     @Override
-    public void deleteLabel(String user_id, String user_token, int label_id) {
+    public void deleteLabel(Context context,String user_id, String user_token, int label_id) {
         DataManager.getFromRemote()
-                .deleteLabel(user_id, user_token, label_id)
+                .deleteLabel(context,user_id, user_token, label_id)
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {

@@ -61,7 +61,7 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
 
     @Override
     protected HomeContract.Presenter createPresenter() {
-        return new HomePresenter(this);
+        return new HomePresenter(getActivity(),this);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
                 @Override
                 public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                     refreshLayout.finishRefresh(1050);
-                    mPresenter.banner(user_id, user_token, "attention", city);
+                    mPresenter.banner(getActivity(),user_id, user_token, "attention", city);
                 }
             });
         }else {
@@ -106,7 +106,7 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
                 @Override
                 public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                     refreshLayout.finishRefresh(1050);
-                    mPresenter.banner(user_id, user_token, "attention","");
+                    mPresenter.banner(getActivity(),user_id, user_token, "attention","");
                 }
             });
         }
@@ -125,13 +125,13 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
        homeRecyclerViewAdapter.onRetryClickListener(new HomeRecyclerViewAdapter.OnRetryConnection() {
            @Override
            public void on_retry() {
-               mPresenter.banner(user_id,user_token,"attention",city);
+               mPresenter.banner(getActivity(),user_id,user_token,"attention",city);
            }
        });
        homeRecyclerViewAdapter.onItemRetryOnClickListener(new HomeRecyclerViewAdapter.OnRetryClickListener() {
            @Override
            public void onretry() {
-               mPresenter.banner(user_id,user_token,"attention",city);
+               mPresenter.banner(getActivity(),user_id,user_token,"attention",city);
            }
        });
     }

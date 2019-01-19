@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.attention.AttentionBean;
@@ -19,8 +21,8 @@ public interface AddressBookContract {
 
     interface Presenter extends IBasePresenter {
 
-        void getAddressBookContract(String user_id, String user_token, String search, String list);
+        void getAddressBookContract(Context context,String user_id, String user_token, String search, String list);
 
-        void addAttention(String user_id, String user_token, String target_id);
+        void addAttention(Context context,String user_id, String user_token, String target_id);
     }
 }

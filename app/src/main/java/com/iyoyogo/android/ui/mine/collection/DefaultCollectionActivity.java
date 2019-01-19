@@ -112,7 +112,7 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
 
     @Override
     protected CollectionFolderContentContract.Presenter createPresenter() {
-        return new CollectionFolderContentPresenter(this);
+        return new CollectionFolderContentPresenter(DefaultCollectionActivity.this,this);
     }
 
 
@@ -130,7 +130,7 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
                 break;
             case R.id.default_move_but_id:
 //                mPresenter.moveCollectionFolder(user_id, user_token, objects1);
-                mPresenter.getCollectionFolder(user_id, user_token);
+                mPresenter.getCollectionFolder(DefaultCollectionActivity.this,user_id, user_token);
                 initPopup();
                 break;
             case R.id.default_delete_but_id:
@@ -169,7 +169,7 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
                 for (int i = 0; i < idList1.size(); i++) {
                     like[i] = Integer.valueOf(idList1.get(i));
                 }
-                mPresenter.moveCollectionFolder(user_id, user_token, like, folder_ids);
+                mPresenter.moveCollectionFolder(DefaultCollectionActivity.this,user_id, user_token, like, folder_ids);
                 popupWindow.dismiss();
             }
         });
@@ -180,7 +180,7 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        mPresenter.getCollectionFolderContent(user_id, user_token, folder_id, 1);
+        mPresenter.getCollectionFolderContent(DefaultCollectionActivity.this,user_id, user_token, folder_id, 1);
         if (user_id.equals(yo_user_id)) {
             defaultSpotIvId.setVisibility(View.VISIBLE);
         } else {
@@ -296,7 +296,7 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.removeCollectionContent(user_id, user_token, like);
+                mPresenter.removeCollectionContent(DefaultCollectionActivity.this,user_id, user_token, like);
                 for (int i = collectionFolderContentAdapter.getMyLiveList().size(), j = 0; i > j; i--) {
                     CollectionFolderContentBean.DataBean.ListBean listBean = collectionFolderContentAdapter.getMyLiveList().get(i - 1);
                     if (listBean.isSelect()) {

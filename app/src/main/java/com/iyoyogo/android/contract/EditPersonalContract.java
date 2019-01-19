@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.BaseBean;
@@ -13,8 +15,8 @@ public interface EditPersonalContract {
         void setUserInfoSuccess(BaseBean baseBean);
     }
     interface Presenter extends IBasePresenter{
-        void getUserInfo(String user_id, String user_token);
-        void setUserInfo(String user_id,
+        void getUserInfo(Context context, String user_id, String user_token);
+        void setUserInfo(Context context,String user_id,
                          String user_token,
                          String user_nickname,
                          String user_logo,

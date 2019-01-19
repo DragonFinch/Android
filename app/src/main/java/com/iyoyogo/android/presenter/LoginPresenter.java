@@ -1,5 +1,6 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,8 +18,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class LoginPresenter extends BasePresenter<LoginContract.View> implements LoginContract.Presenter {
-    public LoginPresenter(LoginContract.View mView) {
-        super(mView);
+    public LoginPresenter(Context context, LoginContract.View mView) {
+        super(context,mView);
     }
 
     @Override
@@ -43,8 +44,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     }
 
     @Override
-    public void login(String login_addr, String phone_info, String app_version, int login_type,String phone, String yzm, String openid, String nickname, String logo) {
-    DataManager.getFromRemote().login(login_addr,phone_info,app_version,login_type,phone,yzm,openid,nickname,logo)
+    public void login(Context context,String login_addr, String phone_info, String app_version, int login_type,String phone, String yzm, String openid, String nickname, String logo) {
+    DataManager.getFromRemote().login(context,login_addr,phone_info,app_version,login_type,phone,yzm,openid,nickname,logo)
             .subscribe(new ApiObserver<LoginBean>(mView,this) {
                 @Override
                 protected void doOnSuccess(LoginBean loginBean) {
@@ -87,8 +88,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     }
 
     @Override
-    public void push(String user_id, String user_token, String device, String jpush_rid) {
-        DataManager.getFromRemote().push(user_id, user_token, device, jpush_rid)
+    public void push(Context context,String user_id, String user_token, String device, String jpush_rid) {
+        DataManager.getFromRemote().push(context,user_id, user_token, device, jpush_rid)
                 .subscribe(new ApiObserver<BaseBean>(mView,this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {

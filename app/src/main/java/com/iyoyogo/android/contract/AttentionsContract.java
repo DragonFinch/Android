@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.attention.AttentionBean;
@@ -19,11 +21,11 @@ public interface AttentionsContract {
 
     interface Presenter extends IBasePresenter {
 
-        void getAttentions(String user_id, String user_token, String his_id, String page, String page_size);
+        void getAttentions(Context context,String user_id, String user_token, String his_id, String page, String page_size);
 
-        void addAttention1(String user_id, String user_token, String target_id);
+        void addAttention1(Context context,String user_id, String user_token, String target_id);
 
-        void deleteAttention(String user_id, String user_token, String target_id);
+        void deleteAttention(Context context,String user_id, String user_token, String target_id);
 
     }
 }

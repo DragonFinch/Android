@@ -1,7 +1,9 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
+import com.google.android.exoplayer2.C;
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BasePresenter;
 import com.iyoyogo.android.bean.BaseBean;
@@ -15,14 +17,14 @@ import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.net.ApiObserver;
 
 public class YoXiuDetailPresenter extends BasePresenter<YoXiuDetailContract.View> implements YoXiuDetailContract.Presenter {
-    public YoXiuDetailPresenter(YoXiuDetailContract.View mView) {
-        super(mView);
+    public YoXiuDetailPresenter(Context context,YoXiuDetailContract.View mView) {
+        super(context,mView);
     }
 
     @Override
-    public void getDetail(String user_id, String user_token, int id) {
+    public void getDetail(Context context,String user_id, String user_token, int id) {
         DataManager.getFromRemote()
-                .getDetail(user_id, user_token, id)
+                .getDetail(context,user_id, user_token, id)
                 .subscribe(new ApiObserver<YoXiuDetailBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(YoXiuDetailBean yoXiuDetailBean) {
@@ -41,9 +43,9 @@ public class YoXiuDetailPresenter extends BasePresenter<YoXiuDetailContract.View
     }
 
     @Override
-    public void getCommentList(String user_id, String user_token, int page, int yo_id, int comment_id) {
+    public void getCommentList(Context context,String user_id, String user_token, int page, int yo_id, int comment_id) {
         DataManager.getFromRemote()
-                .getComment(user_id, user_token, page, yo_id, comment_id)
+                .getComment(context,user_id, user_token, page, yo_id, comment_id)
                 .subscribe(new ApiObserver<CommentBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(CommentBean commentBean) {
@@ -63,9 +65,9 @@ public class YoXiuDetailPresenter extends BasePresenter<YoXiuDetailContract.View
     }
 
     @Override
-    public void addComment(String user_id, String user_token, int comment_id, int yo_id, String content) {
+    public void addComment(Context context,String user_id, String user_token, int comment_id, int yo_id, String content) {
         DataManager.getFromRemote()
-                .addComment(user_id, user_token, comment_id, yo_id, content)
+                .addComment(context,user_id, user_token, comment_id, yo_id, content)
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
@@ -81,8 +83,8 @@ public class YoXiuDetailPresenter extends BasePresenter<YoXiuDetailContract.View
     }
 
     @Override
-    public void addAttention(String user_id, String user_token, int target_id) {
-        DataManager.getFromRemote().addAttention(user_id, user_token, target_id)
+    public void addAttention(Context context,String user_id, String user_token, int target_id) {
+        DataManager.getFromRemote().addAttention(context,user_id, user_token, target_id)
                 .subscribe(new ApiObserver<AttentionBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(AttentionBean attentionBean) {
@@ -101,8 +103,8 @@ public class YoXiuDetailPresenter extends BasePresenter<YoXiuDetailContract.View
     }
 
     @Override
-    public void deleteAttention(String user_id, String user_token, int id) {
-        DataManager.getFromRemote().deleteAttention(user_id, user_token, id)
+    public void deleteAttention(Context context,String user_id, String user_token, int id) {
+        DataManager.getFromRemote().deleteAttention(context,user_id, user_token, id)
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
@@ -121,8 +123,8 @@ public class YoXiuDetailPresenter extends BasePresenter<YoXiuDetailContract.View
     }
 
     @Override
-    public void getCollectionFolder(String user_id, String user_token) {
-        DataManager.getFromRemote().getCollectionFolder(user_id, user_token)
+    public void getCollectionFolder(Context context,String user_id, String user_token) {
+        DataManager.getFromRemote().getCollectionFolder(context,user_id, user_token)
                 .subscribe(new ApiObserver<CollectionFolderBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(CollectionFolderBean collectionFolderBean) {
@@ -143,8 +145,8 @@ public class YoXiuDetailPresenter extends BasePresenter<YoXiuDetailContract.View
     }
 
     @Override
-    public void createCollectionFolder(String user_id, String user_token, String name, int open, String id) {
-        DataManager.getFromRemote().create_folder(user_id, user_token, name, open, id)
+    public void createCollectionFolder(Context context,String user_id, String user_token, String name, int open, String id) {
+        DataManager.getFromRemote().create_folder(context,user_id, user_token, name, open, id)
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
@@ -163,9 +165,9 @@ public class YoXiuDetailPresenter extends BasePresenter<YoXiuDetailContract.View
     }
 
     @Override
-    public void addCollection(String user_id, String user_token, int folder_id, int yo_id) {
+    public void addCollection(Context context,String user_id, String user_token, int folder_id, int yo_id) {
         DataManager.getFromRemote()
-                .addCollection(user_id, user_token, folder_id, yo_id)
+                .addCollection(context,user_id, user_token, folder_id, yo_id)
                 .subscribe(new ApiObserver<AddCollectionBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(AddCollectionBean addCollectionBean) {
@@ -184,7 +186,7 @@ public class YoXiuDetailPresenter extends BasePresenter<YoXiuDetailContract.View
     }
 
     @Override
-    public void deleteCollection(String user_id, String user_token, int id) {
+    public void deleteCollection(Context context,String user_id, String user_token, int id) {
         DataManager.getFromRemote().deleteCollection(user_id, user_token, id)
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override

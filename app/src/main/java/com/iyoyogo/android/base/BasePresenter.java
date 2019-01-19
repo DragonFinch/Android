@@ -1,5 +1,7 @@
 package com.iyoyogo.android.base;
 
+import android.content.Context;
+
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -11,9 +13,10 @@ public class BasePresenter<T extends  IBaseView> implements IBasePresenter{
 
     protected T mView;
     private CompositeDisposable mCompositeDisposable;
-
-    public BasePresenter(T mView) {
+    private Context mContext;
+    public BasePresenter( Context context,T mView) {
         this.mView = mView;
+        this.mContext = context;
     }
 
     @Override

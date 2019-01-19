@@ -1,5 +1,6 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
@@ -14,14 +15,14 @@ import com.iyoyogo.android.net.ApiObserver;
 import java.util.List;
 
 public class MessagePresenter extends BasePresenter<MessageContract.View> implements MessageContract.Presenter {
-    public MessagePresenter(MessageContract.View mView) {
-        super(mView);
+    public MessagePresenter(Context context,MessageContract.View mView) {
+        super(context,mView);
     }
 
 
     @Override
-    public void getMessage(String user_id, String user_token, int type, int page) {
-        DataManager.getFromRemote().getMessage(user_id, user_token, type, page)
+    public void getMessage(Context context,String user_id, String user_token, int type, int page) {
+        DataManager.getFromRemote().getMessage(context,user_id, user_token, type, page)
                 .subscribe(new ApiObserver<MessageBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(MessageBean messageBean) {
@@ -40,8 +41,8 @@ public class MessagePresenter extends BasePresenter<MessageContract.View> implem
     }
 
     @Override
-    public void readMessage(String user_id, String user_token, String message_id) {
-        DataManager.getFromRemote().readMessage(user_id,user_token,message_id)
+    public void readMessage(Context context,String user_id, String user_token, String message_id) {
+        DataManager.getFromRemote().readMessage(context,user_id,user_token,message_id)
                 .subscribe(new ApiObserver<ReadMessage>(mView,this) {
                     @Override
                     protected void doOnSuccess(ReadMessage readMessage) {
@@ -60,9 +61,9 @@ public class MessagePresenter extends BasePresenter<MessageContract.View> implem
     }
 
     @Override
-    public void addComment(String user_id, String user_token, int comment_id, int yo_id, String content) {
+    public void addComment(Context context,String user_id, String user_token, int comment_id, int yo_id, String content) {
         DataManager.getFromRemote()
-                .addComment(user_id, user_token, comment_id, yo_id, content)
+                .addComment(context,user_id, user_token, comment_id, yo_id, content)
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {

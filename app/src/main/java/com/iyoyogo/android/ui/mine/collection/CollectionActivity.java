@@ -92,19 +92,19 @@ public class CollectionActivity extends BaseActivity<CollectionContract.Presente
             layoutCreateCollection.setVisibility(View.GONE);
             managerCollectionFolder.setVisibility(View.GONE);
             title.setText("TA的收藏");
-            mPresenter.getHisCollectionFold(user_id, user_token, id);
+            mPresenter.getHisCollectionFold(CollectionActivity.this,user_id, user_token, id);
         } else if (coll == 2) {
             recyclerCollectionFolder.setVisibility(View.VISIBLE);
             layoutCreateCollection.setVisibility(View.VISIBLE);
             managerCollectionFolder.setVisibility(View.VISIBLE);
             title.setText("我的收藏");
-            mPresenter.getCollectionFold(user_id, user_token);
+            mPresenter.getCollectionFold(CollectionActivity.this,user_id, user_token);
         }
     }
 
     @Override
     protected CollectionContract.Presenter createPresenter() {
-        return new CollectionPresenter(this);
+        return new CollectionPresenter(CollectionActivity.this,this);
     }
 
 
@@ -155,7 +155,7 @@ public class CollectionActivity extends BaseActivity<CollectionContract.Presente
             Log.d("CollectionActivity", "idList.size():" + idList.size());
             Log.d("CollectionActivity", "idList.size():" + like.length);
             if (idList.size() > 0) {
-                mPresenter.deleteCollectionFolder(user_id, user_token, like);
+                mPresenter.deleteCollectionFolder(CollectionActivity.this,user_id, user_token, like);
             } else {
                 idList.clear();
                 Log.d("CollectionActivity", "idList.size():" + idList.size());
@@ -257,7 +257,7 @@ public class CollectionActivity extends BaseActivity<CollectionContract.Presente
     @Override
     public void deleteCollectionFolderSuccess(BaseBean baseBean) {
         Toast.makeText(this, "删除成功", Toast.LENGTH_SHORT).show();
-        mPresenter.getCollectionFold(user_id,user_token);
+        mPresenter.getCollectionFold(CollectionActivity.this,user_id,user_token);
     }
 
     /**

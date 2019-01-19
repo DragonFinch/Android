@@ -66,7 +66,7 @@ public class UserFansFragment extends BaseFragment<HisHansContract.Presenter> im
         user_token = SpUtils.getString(getContext(), "user_token", null);
         Intent intent = getActivity().getIntent();
         yo_user_id = intent.getStringExtra("yo_user_id");
-        mPresenter.getHisHans(user_id, user_token, yo_user_id, 1 + "", 20 + "");
+        mPresenter.getHisHans(getActivity(),user_id, user_token, yo_user_id, 1 + "", 20 + "");
     }
 
     @Override
@@ -98,12 +98,12 @@ public class UserFansFragment extends BaseFragment<HisHansContract.Presenter> im
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.getHisHans(user_id, user_token, yo_user_id, 1 + "", 20 + "");
+        mPresenter.getHisHans(getActivity(),user_id, user_token, yo_user_id, 1 + "", 20 + "");
     }
 
     @Override
     protected HisHansContract.Presenter createPresenter() {
-        return new HisFansPresenter(this);
+        return new HisFansPresenter(getActivity(),this);
     }
 
     @Override
@@ -123,7 +123,7 @@ public class UserFansFragment extends BaseFragment<HisHansContract.Presenter> im
                     btu_guanzhu = view.findViewById(R.id.tv_guanzhu);
 //                    int status = list.get(position).getStatus();
 //                    if (status == 0) {//未关注
-                        mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
+                        mPresenter.addAttention1(getActivity(),user_id, user_token, list.get(position).getUser_id());
 //                        btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
 //                        btu_guanzhu.setText("已关注");
 //                        btu_guanzhu.setTextColor(Color.parseColor("#888888"));

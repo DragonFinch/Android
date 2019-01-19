@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.mine.PraiseBean;
@@ -11,6 +13,6 @@ public interface MinePraiseContract {
         void getPraiseSuccess(PraiseBean praiseBean);
     }
     interface Presenter extends IBasePresenter{
-        void getPraise(String user_id, String user_token, int page, int page_size);
+        void getPraise(Context context, String user_id, String user_token, int page, int page_size);
     }
 }

@@ -182,7 +182,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
     @Override
     protected PublishYoJiContract.Presenter createPresenter() {
-        return new PublishYoJiPresenter(this);
+        return new PublishYoJiPresenter(PublishYoJiActivity.this,this);
     }
 
 
@@ -521,7 +521,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         topic.setObjectRule("#");
         user_id = SpUtils.getString(PublishYoJiActivity.this, "user_id", null);
         user_token = SpUtils.getString(PublishYoJiActivity.this, "user_token", null);
-        mPresenter.getRecommendTopic(user_id, user_token);
+        mPresenter.getRecommendTopic(PublishYoJiActivity.this,user_id, user_token);
 
     }
 
@@ -843,7 +843,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 //                String json = new Gson().toJson(mList);
                 if (tvPay.getText().toString().trim().length() > 0) {
                     if (etTitle.getText().toString().trim().length() > 0) {
-                        mPresenter.publishYoJi(user_id, user_token, 0, url_cover, etTitle.getText().toString().trim(), etContent.getText().toString().trim(), Integer.parseInt(etCost.getText().toString().trim()), 1, 1, channel_ids.toString(), json);
+                        mPresenter.publishYoJi(PublishYoJiActivity.this,user_id, user_token, 0, url_cover, etTitle.getText().toString().trim(), etContent.getText().toString().trim(), Integer.parseInt(etCost.getText().toString().trim()), 1, 1, channel_ids.toString(), json);
                     } else {
                         Toast.makeText(this, "标题不能为空", Toast.LENGTH_SHORT).show();
                     }

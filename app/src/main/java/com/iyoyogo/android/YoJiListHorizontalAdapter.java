@@ -234,7 +234,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getYo_id(), 0)
+                        DataManager.getFromRemote().praise(context,user_id, user_token, mList.get(position).getYo_id(), 0)
                                 .subscribe(new Consumer<BaseBean>() {
                                     @Override
                                     public void accept(BaseBean baseBean) throws Exception {
@@ -308,7 +308,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
             @Override
             public void onClick(View v) {
                 DataManager.getFromRemote()
-                        .dislike(user_id, user_token, yo_id, 1)
+                        .dislike(context,user_id, user_token, yo_id, 1)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -322,7 +322,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
             @Override
             public void onClick(View v) {
                 DataManager.getFromRemote()
-                        .dislike(user_id, user_token, yo_id, 2)
+                        .dislike(context,user_id, user_token, yo_id, 2)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -489,7 +489,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
                 report();
                 popup_more.dismiss();
 
-                DataManager.getFromRemote().report(user_id, user_token, yo_id, 0, tv_advert.getText().toString())
+                DataManager.getFromRemote().report(context,user_id, user_token, yo_id, 0, tv_advert.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -510,7 +510,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
             public void onClick(View v) {
                 popup_more.dismiss();
                 report();
-                DataManager.getFromRemote().report(user_id, user_token, yo_id, 0, tv_harm.getText().toString())
+                DataManager.getFromRemote().report(context,user_id, user_token, yo_id, 0, tv_harm.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -531,7 +531,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
             public void onClick(View v) {
                 popup_more.dismiss();
                 report();
-                DataManager.getFromRemote().report(user_id, user_token, yo_id, 0, tv_violate.getText().toString())
+                DataManager.getFromRemote().report(context,user_id, user_token, yo_id, 0, tv_violate.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -553,7 +553,7 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
                 popup_more.dismiss();
                 report();
 
-                DataManager.getFromRemote().report(user_id, user_token, yo_id, 0, tv_else.getText().toString())
+                DataManager.getFromRemote().report(context,user_id, user_token, yo_id, 0, tv_else.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {

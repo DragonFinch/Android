@@ -89,7 +89,7 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
         user_id = SpUtils.getString(UserAndSecurityActivity.this, "user_id", null);
         user_token = SpUtils.getString(UserAndSecurityActivity.this, "user_token", null);
         openid = SpUtils.getString(UserAndSecurityActivity.this, "openid", null);
-        mPresenter.getBindInfo(user_id, user_token);
+        mPresenter.getBindInfo(UserAndSecurityActivity.this,user_id, user_token);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
 
     @Override
     protected UserAndSecurityContract.Presenter createPresenter() {
-        return new UserAndSecurityPresenter(this);
+        return new UserAndSecurityPresenter(UserAndSecurityActivity.this,this);
     }
 
     @OnClick({R.id.back_iv_id, R.id.phone_rl_id, R.id.wx_rl_id, R.id.wb_rl_id, R.id.qq_rl_id})
@@ -231,7 +231,7 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
                 SpUtils.putString(UserAndSecurityActivity.this, "nickname", name);
                 SpUtils.putString(UserAndSecurityActivity.this, "logo", iconurl);
                 //拿到信息去请求登录接口。。。
-                mPresenter.updateBind(user_id, user_token, type, uid, name, iconurl);
+                mPresenter.updateBind(UserAndSecurityActivity.this,user_id, user_token, type, uid, name, iconurl);
                /* if (address!=null){
 
                     mPresenter.login(address, android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, type, "", "", uid, name, iconurl);
@@ -279,7 +279,7 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
 
     @Override
     public void updateBindSuccess(BaseBean baseBean) {
-        mPresenter.getBindInfo(user_id, user_token);
+        mPresenter.getBindInfo(UserAndSecurityActivity.this,user_id, user_token);
     }
 
     @Override

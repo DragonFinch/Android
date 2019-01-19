@@ -1,6 +1,9 @@
 package com.iyoyogo.android.net;
 
 
+import android.content.Context;
+
+import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.HisFansBean;
 import com.iyoyogo.android.bean.HisPositionBean;
@@ -440,7 +443,7 @@ public interface ApiService {
     //不喜欢
     @POST("index.php/api/dislike/add")
     @FormUrlEncoded
-    Observable<BaseBean> dislike(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id);
+    Observable<BaseBean> dislike(Context activity,@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id);
 
     //举报
     @POST("index.php/api/report/do_report")
@@ -449,7 +452,7 @@ public interface ApiService {
      * content	是	string	原因
      */
     @FormUrlEncoded
-    Observable<BaseBean> report(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id, @Field("comment_id") int comment_id, @Field("content") String content);
+    Observable<BaseBean> report(Context activity,@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id, @Field("comment_id") int comment_id, @Field("content") String content);
 
     //获取标签列表
     @POST("index.php/api/label/get_all_list")

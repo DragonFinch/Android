@@ -195,7 +195,7 @@ public class SearchYoJiListHorizontalAdapter extends RecyclerView.Adapter<Search
                     holder.dt_like.setImageResource(mList.get(position).isIs_my_praise() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
 
                 }
-                DataManager.getFromRemote().praise(user_id, user_token, yo_id, 0).subscribe(new Consumer<BaseBean>() {
+                DataManager.getFromRemote().praise(context,user_id, user_token, yo_id, 0).subscribe(new Consumer<BaseBean>() {
                     @Override
                     public void accept(BaseBean baseBean) throws Exception {
 

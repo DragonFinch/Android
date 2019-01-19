@@ -58,7 +58,7 @@ public class LikeMeAdapter extends BaseQuickAdapter<MessageBean.DataBean.ListBea
         user_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DataManager.getFromRemote().readMessage(user_id, user_token, item.getMessage_id() + "")
+                DataManager.getFromRemote().readMessage(mContext,user_id, user_token, item.getMessage_id() + "")
                         .subscribe(new Observer<ReadMessage>() {
                             @Override
                             public void onSubscribe(Disposable d) {
@@ -98,7 +98,7 @@ public class LikeMeAdapter extends BaseQuickAdapter<MessageBean.DataBean.ListBea
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DataManager.getFromRemote().readMessage(user_id, user_token, item.getMessage_id() + "")
+                DataManager.getFromRemote().readMessage(mContext,user_id, user_token, item.getMessage_id() + "")
                         .subscribe(new Observer<ReadMessage>() {
                             @Override
                             public void onSubscribe(Disposable d) {
@@ -138,7 +138,7 @@ public class LikeMeAdapter extends BaseQuickAdapter<MessageBean.DataBean.ListBea
         content_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DataManager.getFromRemote().readMessage(user_id, user_token, item.getMessage_id() + "")
+                DataManager.getFromRemote().readMessage(mContext,user_id, user_token, item.getMessage_id() + "")
                         .subscribe(new Observer<ReadMessage>() {
                             @Override
                             public void onSubscribe(Disposable d) {

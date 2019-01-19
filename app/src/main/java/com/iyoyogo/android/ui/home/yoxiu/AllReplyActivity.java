@@ -114,7 +114,7 @@ public class AllReplyActivity extends BaseActivity<YoXiuDetailContract.Presenter
         String content = intent.getStringExtra("content");
         user_id = SpUtils.getString(this, "user_id", null);
         user_token = SpUtils.getString(this, "user_token", null);
-        mPresenter.getCommentList(user_id, user_token, 1, id, 0);
+        mPresenter.getCommentList(AllReplyActivity.this,user_id, user_token, 1, id, 0);
         allCommentContent.setText(content);
         allCommentTime.setText(time);
         allCommentTitle.setText(name);
@@ -123,7 +123,7 @@ public class AllReplyActivity extends BaseActivity<YoXiuDetailContract.Presenter
 
     @Override
     protected YoXiuDetailContract.Presenter createPresenter() {
-        return new YoXiuDetailPresenter(this);
+        return new YoXiuDetailPresenter(AllReplyActivity.this,this);
     }
 
     @Override
@@ -155,7 +155,7 @@ public class AllReplyActivity extends BaseActivity<YoXiuDetailContract.Presenter
 //        path = data.getFile_path();
         RequestOptions requestOptions = new RequestOptions();
         if (editComment.getText().toString().length() > 0) {
-            mPresenter.addComment(this.user_id, user_token, 0, this.id, editComment.getText().toString().trim());
+            mPresenter.addComment(AllReplyActivity.this,this.user_id, user_token, 0, this.id, editComment.getText().toString().trim());
             closeInputMethod();
 //            yoXiuDetailAdapter.notifyDataSetChanged();
 //            refresh();
@@ -290,7 +290,7 @@ public class AllReplyActivity extends BaseActivity<YoXiuDetailContract.Presenter
                 popup_more.dismiss();
                 String s = tv_advert.getText().toString();
                 DataManager.getFromRemote()
-                        .report(user_id, user_token, id, 0, s)
+                        .report(AllReplyActivity.this,user_id, user_token, id, 0, s)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -307,7 +307,7 @@ public class AllReplyActivity extends BaseActivity<YoXiuDetailContract.Presenter
                 popup_more.dismiss();
                 String s = tv_harm.getText().toString();
                 DataManager.getFromRemote()
-                        .report(user_id, user_token, id, 0, s)
+                        .report(AllReplyActivity.this,user_id, user_token, id, 0, s)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -324,7 +324,7 @@ public class AllReplyActivity extends BaseActivity<YoXiuDetailContract.Presenter
                 popup_more.dismiss();
                 String s = tv_violate.getText().toString();
                 DataManager.getFromRemote()
-                        .report(user_id, user_token, id, 0, s)
+                        .report(AllReplyActivity.this,user_id, user_token, id, 0, s)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -341,7 +341,7 @@ public class AllReplyActivity extends BaseActivity<YoXiuDetailContract.Presenter
                 popup_more.dismiss();
                 String s = tv_else.getText().toString();
                 DataManager.getFromRemote()
-                        .report(user_id, user_token, id, 0, s)
+                        .report(AllReplyActivity.this,user_id, user_token, id, 0, s)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -398,7 +398,7 @@ public class AllReplyActivity extends BaseActivity<YoXiuDetailContract.Presenter
                     dataBeans.get(0).setIs_my_like(1);
                     dataBeans.get(0).setCount_praise(count_praises+"");
                 }
-                DataManager.getFromRemote().praise(user_id, user_token, Integer.parseInt(dataBeans.get(0).getId()), 0)
+                DataManager.getFromRemote().praise(AllReplyActivity.this,user_id, user_token, Integer.parseInt(dataBeans.get(0).getId()), 0)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -462,9 +462,9 @@ public class AllReplyActivity extends BaseActivity<YoXiuDetailContract.Presenter
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
                     if (editComment.getText().toString().length() > 0) {
-                        mPresenter.addComment(user_id, user_token, 0, id, editComment.getText().toString().trim());
+                        mPresenter.addComment(AllReplyActivity.this,user_id, user_token, 0, id, editComment.getText().toString().trim());
                         closeInputMethod();
-                        mPresenter.getCommentList(user_id, user_token, 1, id, 0);
+                        mPresenter.getCommentList(AllReplyActivity.this,user_id, user_token, 1, id, 0);
                         editComment.clearFocus();
                         editComment.setFocusable(false);
 //                        yoXiuDetailAdapter.notifyItemInserted(dataBeans.size());

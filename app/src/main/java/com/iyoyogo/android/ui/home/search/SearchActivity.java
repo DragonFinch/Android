@@ -86,7 +86,7 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
 
     @Override
     protected SearchContract.Presenter createPresenter() {
-        return new SearchPresenter(this);
+        return new SearchPresenter(SearchActivity.this,this);
     }
 
     @Override
@@ -130,7 +130,7 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
     protected void onResume() {
         super.onResume();
         //调用历史搜索  从重新获取焦点
-        mPresenter.getSearch(mUser_id,mUser_token);
+        mPresenter.getSearch(SearchActivity.this,mUser_id,mUser_token);
         initHistory();
 
 
@@ -141,7 +141,7 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
         super.initData(savedInstanceState);
         mUser_id = SpUtils.getString(SearchActivity.this, "user_id", null);
         mUser_token = SpUtils.getString(SearchActivity.this, "user_token", null);
-        mPresenter.getSearch(mUser_id, mUser_token);
+        mPresenter.getSearch(SearchActivity.this,mUser_id, mUser_token);
     }
 
     private void initHistory() {
@@ -219,7 +219,7 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
             case R.id.clear_iv:
                 SPUtils.getInstance(SearchActivity.this).cleanHistory();
                 showToastShort(this, "已清除历史记录！");
-                mPresenter.getSearchCler(mUser_id,mUser_token);
+                mPresenter.getSearchCler(SearchActivity.this,mUser_id,mUser_token);
                 initHistory();
 
                 break;

@@ -200,7 +200,7 @@ public class YoJiContentAdapter2 extends RecyclerView.Adapter<YoJiContentAdapter
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        DataManager.getFromRemote().praise(user_id, user_token, 0, mList.get(position).getYo_id())
+                        DataManager.getFromRemote().praise(context,user_id, user_token, 0, mList.get(position).getYo_id())
                                 .subscribe(new Consumer<BaseBean>() {
                                     @Override
                                     public void accept(BaseBean baseBean) throws Exception {

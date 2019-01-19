@@ -1,5 +1,6 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
@@ -12,14 +13,14 @@ import com.iyoyogo.android.net.ApiObserver;
 import java.util.List;
 
 public class ChannelPresenter extends BasePresenter<ChannelContract.View> implements ChannelContract.Presenter {
-    public ChannelPresenter(ChannelContract.View mView) {
-        super(mView);
+    public ChannelPresenter(Context context,ChannelContract.View mView) {
+        super(context,mView);
     }
 
     @Override
-    public void getChannel(String user_id, String user_token) {
+    public void getChannel(Context context,String user_id, String user_token) {
         DataManager.getFromRemote()
-                .getChannel(user_id, user_token)
+                .getChannel(context,user_id, user_token)
                 .subscribe(new ApiObserver<ChannelBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(ChannelBean channelBean) {
@@ -36,4 +37,5 @@ public class ChannelPresenter extends BasePresenter<ChannelContract.View> implem
                     }
                 });
     }
+
 }

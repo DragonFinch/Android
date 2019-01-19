@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.BaseBean;
@@ -18,10 +20,10 @@ public interface UserAndSecurityContract {
     }
 
     interface Presenter extends IBasePresenter {
-        void getBindInfo(String user_id, String user_token);
+        void getBindInfo(Context context, String user_id, String user_token);
 
-        void updateBind(String user_id, String user_token, int type, String openid, String nickname, String logo);
+        void updateBind(Context context, String user_id, String user_token, int type, String openid, String nickname, String logo);
 
-        void userBind(String user_id, String user_token, int type, String openid);
+        void userBind( String user_id, String user_token, int type, String openid);
     }
 }

@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.BaseBean;
@@ -31,14 +33,14 @@ public interface YoXiuDetailContract {
         void deleteCollectionSuccess(BaseBean baseBean);
     }
     interface Presenter extends IBasePresenter{
-        void getDetail(String user_id,String user_token,int id);
-        void getCommentList(String user_id,String user_token, int page,int yo_id, int comment_id);
-        void addComment(String user_id,String user_token, int comment_id,int yo_id, String content);
-        void addAttention(String user_id,String user_token,int target_id);
-        void deleteAttention(String user_id,String user_token,int id);
-        void getCollectionFolder(String user_id,String user_token);
-        void createCollectionFolder(String user_id, String user_token,String name, int open, String id);
-        void addCollection(String user_id, String user_token, int folder_id, int yo_id);
-        void deleteCollection(String user_id, String user_token, int id);
+        void getDetail(Context context,String user_id, String user_token, int id);
+        void getCommentList(Context context,String user_id,String user_token, int page,int yo_id, int comment_id);
+        void addComment(Context context,String user_id,String user_token, int comment_id,int yo_id, String content);
+        void addAttention(Context context,String user_id,String user_token,int target_id);
+        void deleteAttention(Context context,String user_id,String user_token,int id);
+        void getCollectionFolder(Context context,String user_id,String user_token);
+        void createCollectionFolder(Context context,String user_id, String user_token,String name, int open, String id);
+        void addCollection(Context context,String user_id, String user_token, int folder_id, int yo_id);
+        void deleteCollection(Context context,String user_id, String user_token, int id);
     }
 }

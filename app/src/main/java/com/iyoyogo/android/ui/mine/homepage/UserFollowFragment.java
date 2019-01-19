@@ -4,14 +4,10 @@ package com.iyoyogo.android.ui.mine.homepage;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -30,8 +26,6 @@ import com.iyoyogo.android.utils.SpUtils;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,7 +61,7 @@ public class UserFollowFragment extends BaseFragment<AttentionsContract.Presente
         user_token = SpUtils.getString(getContext(), "user_token", null);
         Intent intent = getActivity().getIntent();
         yo_user_id = intent.getStringExtra("yo_user_id");
-        mPresenter.getAttentions(user_id, user_token, yo_user_id, 1 + "", 20 + "");
+        mPresenter.getAttentions(getActivity(),user_id, user_token, yo_user_id, 1 + "", 20 + "");
     }
 
     @Override
@@ -99,12 +93,12 @@ public class UserFollowFragment extends BaseFragment<AttentionsContract.Presente
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.getAttentions(user_id, user_token, yo_user_id, 1 + "", 20 + "");
+        mPresenter.getAttentions(getActivity(),user_id, user_token, yo_user_id, 1 + "", 20 + "");
     }
 
     @Override
     protected AttentionsContract.Presenter createPresenter() {
-        return new AttentionsPresenter(this);
+        return new AttentionsPresenter(getActivity(),this);
     }
 
     @Override
@@ -121,7 +115,7 @@ public class UserFollowFragment extends BaseFragment<AttentionsContract.Presente
                 @Override
                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                     btu_guanzhu = view.findViewById(R.id.tv_guanzhu);
-                    mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
+                    mPresenter.addAttention1(getActivity(),user_id, user_token, list.get(position).getUser_id());
                 }
             });
         }

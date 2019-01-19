@@ -77,7 +77,7 @@ public class AddCollectPopup extends BasePopupWindow implements BaseQuickAdapter
     }
 
     private void initData() {
-        DataManager.getFromRemote().getCollectionFolder(userId, token).subscribe(collectionFolderBean -> {
+        DataManager.getFromRemote().getCollectionFolder(getContext(),userId, token).subscribe(collectionFolderBean -> {
             mAdapter.setNewData(collectionFolderBean.getData().getList());
         });
     }
@@ -99,7 +99,7 @@ public class AddCollectPopup extends BasePopupWindow implements BaseQuickAdapter
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        DataManager.getFromRemote().addCollection(userId, token, mAdapter.getData().get(position).getFolder_id(), yoId)
+        DataManager.getFromRemote().addCollection(getContext(),userId, token, mAdapter.getData().get(position).getFolder_id(), yoId)
                 .subscribe(addCollectionBean -> {
                     dismiss();
                     if (mAddCollectListener != null) {
@@ -125,7 +125,7 @@ public class AddCollectPopup extends BasePopupWindow implements BaseQuickAdapter
                 break;
 
             case R.id.btn_done:
-                DataManager.getFromRemote().create_folder(userId, token, mEtTitle.getText().toString().trim(), isOpen, "")
+                DataManager.getFromRemote().create_folder(getContext(),userId, token, mEtTitle.getText().toString().trim(), isOpen, "")
                         .subscribe(baseBean -> {
                             initData();
                             mLlCreate.setVisibility(View.GONE);

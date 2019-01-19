@@ -1,5 +1,6 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
@@ -10,13 +11,13 @@ import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.net.ApiObserver;
 
 public class EditCollectionPresenter extends BasePresenter<EditCollectionContract.View> implements EditCollectionContract.Presenter {
-    public EditCollectionPresenter(EditCollectionContract.View mView) {
-        super(mView);
+    public EditCollectionPresenter(Context context,EditCollectionContract.View mView) {
+        super(context,mView);
     }
 
     @Override
-    public void createFolder(String user_id, String user_token, String name, int open, String id) {
-        DataManager.getFromRemote().create_folder(user_id,user_token,name,open,id)
+    public void createFolder(Context context,String user_id, String user_token, String name, int open, String id) {
+        DataManager.getFromRemote().create_folder(context,user_id,user_token,name,open,id)
                 .subscribe(new ApiObserver<BaseBean>(mView,this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
@@ -32,8 +33,8 @@ public class EditCollectionPresenter extends BasePresenter<EditCollectionContrac
     }
 
     @Override
-    public void deleteFolder(String user_id, String user_token, int[] folder_ids) {
-DataManager.getFromRemote().deleteCollectionFolder(user_id,user_token,folder_ids)
+    public void deleteFolder(Context context,String user_id, String user_token, int[] folder_ids) {
+DataManager.getFromRemote().deleteCollectionFolder(context,user_id,user_token,folder_ids)
         .subscribe(new ApiObserver<BaseBean>(mView,this) {
             @Override
             protected void doOnSuccess(BaseBean baseBean) {

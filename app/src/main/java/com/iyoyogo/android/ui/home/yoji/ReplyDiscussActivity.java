@@ -126,7 +126,7 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
                 popup_more.dismiss();
                 report();
 
-                DataManager.getFromRemote().report(user_id, user_token, yo_id, 0, tv_advert.getText().toString())
+                DataManager.getFromRemote().report(ReplyDiscussActivity.this,user_id, user_token, yo_id, 0, tv_advert.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -147,7 +147,7 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
             public void onClick(View v) {
                 popup_more.dismiss();
                 report();
-                DataManager.getFromRemote().report(user_id, user_token, yo_id, 0, tv_harm.getText().toString())
+                DataManager.getFromRemote().report(ReplyDiscussActivity.this,user_id, user_token, yo_id, 0, tv_harm.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -168,7 +168,7 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
             public void onClick(View v) {
                 popup_more.dismiss();
                 report();
-                DataManager.getFromRemote().report(user_id, user_token, yo_id, 0, tv_violate.getText().toString())
+                DataManager.getFromRemote().report(ReplyDiscussActivity.this,user_id, user_token, yo_id, 0, tv_violate.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -189,7 +189,7 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
             public void onClick(View v) {
                 popup_more.dismiss();
                 report();
-                DataManager.getFromRemote().report(user_id, user_token, yo_id, 0, tv_else.getText().toString())
+                DataManager.getFromRemote().report(ReplyDiscussActivity.this,user_id, user_token, yo_id, 0, tv_else.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -325,9 +325,9 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
                     if (editComment.getText().toString().length() > 0) {
-                        mPresenter.addComment(user_id, user_token, listBean.getId(), 0, editComment.getText().toString().trim());
+                        mPresenter.addComment(ReplyDiscussActivity.this,user_id, user_token, listBean.getId(), 0, editComment.getText().toString().trim());
                         closeInputMethod();
-                        mPresenter.getCommentList(user_id, user_token, 1, 0, listBean.getId());
+                        mPresenter.getCommentList(ReplyDiscussActivity.this,user_id, user_token, 1, 0, listBean.getId());
                         editComment.clearFocus();
                         editComment.setFocusable(false);
                         replyDiscussAdapter.notifyDataSetChanged();
@@ -360,7 +360,7 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
         tvTime.setText(listBean.getCreate_time());
         tvCommentLikeNum.setText(listBean.getCount_praise() + "");
         user_nickname = listBean.getUser_nickname();
-        mPresenter.getCommentList(user_id, user_token, 1, 0, listBean.getId());
+        mPresenter.getCommentList(ReplyDiscussActivity.this,user_id, user_token, 1, 0, listBean.getId());
 
         medal.setVisibility(View.VISIBLE);
         int partner_type = listBean.getPartner_type();
@@ -389,7 +389,7 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
 
     @Override
     protected ReplyDiscussContract.Presenter createPresenter() {
-        return new ReplyDiscussPresenter(this);
+        return new ReplyDiscussPresenter(ReplyDiscussActivity.this,this);
     }
 
     @Override
@@ -425,7 +425,7 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        DataManager.getFromRemote().praise(user_id, user_token, 0, listBean.getId())
+                        DataManager.getFromRemote().praise(ReplyDiscussActivity.this,user_id, user_token, 0, listBean.getId())
                                 .subscribe(new Consumer<BaseBean>() {
                                     @Override
                                     public void accept(BaseBean baseBean) throws Exception {
@@ -443,7 +443,7 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
     public void addCommentSuccess(BaseBean baseBean) {
         editComment.setText("");
         replyDiscussAdapter.notifyDataSetChanged();
-        mPresenter.getCommentList(user_id, user_token, 1, 0, listBean.getId());
+        mPresenter.getCommentList(ReplyDiscussActivity.this,user_id, user_token, 1, 0, listBean.getId());
     }
 
 
@@ -490,13 +490,13 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
             @SuppressLint("CheckResult")
             @Override
             public void onClick(View v) {
-                DataManager.getFromRemote().deleteComment(user_id, user_token, comment_id)
+                DataManager.getFromRemote().deleteComment(ReplyDiscussActivity.this,user_id, user_token, comment_id)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
                                 if (deleteOnClickListener != null) {
                                     deleteOnClickListener.delete();
-                                    DataManager.getFromRemote().getComment(user_id, user_token, 1, yo_id, 0)
+                                    DataManager.getFromRemote().getComment(ReplyDiscussActivity.this,user_id, user_token, 1, yo_id, 0)
                                             .subscribe(new Consumer<CommentBean>() {
                                                 @Override
                                                 public void accept(CommentBean commentBean) throws Exception {

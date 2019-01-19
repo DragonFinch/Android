@@ -1,5 +1,7 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.BasePresenter;
 import com.iyoyogo.android.bean.map.MapBean;
 import com.iyoyogo.android.bean.map.MapRenMei;
@@ -10,8 +12,8 @@ import com.iyoyogo.android.net.ApiObserver;
 public class MapSearchPresenter extends BasePresenter<MapSearchContract.View> implements MapSearchContract.Presenter {
 
 
-    public MapSearchPresenter(MapSearchContract.View mView) {
-        super(mView);
+    public MapSearchPresenter(Context context,MapSearchContract.View mView) {
+        super(context,mView);
     }
 
     @Override

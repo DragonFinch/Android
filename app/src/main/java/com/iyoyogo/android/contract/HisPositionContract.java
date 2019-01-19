@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.BaseBean;
@@ -16,7 +18,7 @@ public interface HisPositionContract {
     }
 
     interface Presenter extends IBasePresenter {
-        void getHisPosition(String user_id, String user_token, int page, int page_size);
-        void DelPosition(String user_id, String user_token);
+        void getHisPosition(Context context, String user_id, String user_token, int page, int page_size);
+        void DelPosition(Context context,String user_id, String user_token);
     }
 }

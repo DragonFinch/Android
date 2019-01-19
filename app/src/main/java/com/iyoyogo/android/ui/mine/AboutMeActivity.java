@@ -137,7 +137,7 @@ public class AboutMeActivity extends BaseActivity<AboutMeContract.Presenter> imp
 
     @Override
     protected AboutMeContract.Presenter createPresenter() {
-        return new AboutMePresenter(this);
+        return new AboutMePresenter(AboutMeActivity.this,this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)

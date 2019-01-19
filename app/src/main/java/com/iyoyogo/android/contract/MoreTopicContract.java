@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.yoxiu.topic.CreateTopicBean;
@@ -22,12 +24,12 @@ public interface MoreTopicContract {
     }
     interface Presenter extends IBasePresenter{
 
-        void getHotTopic(String user_id,String user_token,String search);
+        void getHotTopic(Context context, String user_id, String user_token, String search);
 
-        void getNearTopic(String user_id,String user_token );
+        void getNearTopic(Context context, String user_id,String user_token );
 
-        void getClearTopic(String user_id,String user_token);
+        void getClearTopic(Context context, String user_id,String user_token);
 
-        void getCreateTopic(String user_id,String user_token,String topic);
+        void getCreateTopic(Context context, String user_id,String user_token,String topic);
     }
 }

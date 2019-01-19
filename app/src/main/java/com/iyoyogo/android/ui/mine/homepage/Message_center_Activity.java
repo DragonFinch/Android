@@ -98,7 +98,7 @@ public class Message_center_Activity extends BaseActivity<MessageCenterContract.
         super.initData(savedInstanceState);
         user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
         user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
-        mPresenter.getMessageCenter(user_id, user_token);
+        mPresenter.getMessageCenter(Message_center_Activity.this,user_id, user_token);
 
 
     }
@@ -106,7 +106,7 @@ public class Message_center_Activity extends BaseActivity<MessageCenterContract.
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.getMessageCenter(user_id, user_token);
+        mPresenter.getMessageCenter(Message_center_Activity.this,user_id, user_token);
     }
 
     @Override
@@ -116,7 +116,7 @@ public class Message_center_Activity extends BaseActivity<MessageCenterContract.
 
     @Override
     protected MessageCenterContract.Presenter createPresenter() {
-        return new MessageCenterPresenter(this);
+        return new MessageCenterPresenter(Message_center_Activity.this,this);
     }
 
 

@@ -72,7 +72,7 @@ public class RecommendFragment extends BaseFragment<CommendAttentionContract.Pre
         super.initData();
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
-        mPresenter.getCommendAttention(user_id, user_token);
+        mPresenter.getCommendAttention(getActivity(),user_id, user_token);
         //初始化header
 //        mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
 //        setHeader(mRefreshAnimHeader);
@@ -108,12 +108,12 @@ public class RecommendFragment extends BaseFragment<CommendAttentionContract.Pre
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.getCommendAttention(user_id, user_token);
+        mPresenter.getCommendAttention(getActivity(),user_id, user_token);
     }
 
     @Override
     protected CommendAttentionContract.Presenter createPresenter() {
-        return new CommendAttentionPresenter(this);
+        return new CommendAttentionPresenter(getActivity(),this);
     }
 
     @Override
@@ -126,7 +126,7 @@ public class RecommendFragment extends BaseFragment<CommendAttentionContract.Pre
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 btu_guanzhu = view.findViewById(R.id.btu_guanzhu);
-                mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
+                mPresenter.addAttention1(getActivity(),user_id, user_token, list.get(position).getUser_id());
             }
         });
 

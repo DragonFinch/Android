@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.BaseBean;
@@ -19,9 +21,9 @@ public interface CollectionFolderContentContract {
     }
 
     interface Presenter extends IBasePresenter {
-        void getCollectionFolderContent(String user_id, String user_token, int folder_id, int page);
-        void removeCollectionContent(String user_id,String user_token,Integer[]record_ids);
-        void moveCollectionFolder(String user_id,String user_token,Integer[]record_ids,int folder_id);
-        void getCollectionFolder(String user_id,String user_token);
+        void getCollectionFolderContent(Context context,String user_id, String user_token, int folder_id, int page);
+        void removeCollectionContent(Context context,String user_id,String user_token,Integer[]record_ids);
+        void moveCollectionFolder(Context context,String user_id,String user_token,Integer[]record_ids,int folder_id);
+        void getCollectionFolder(Context context,String user_id,String user_token);
     }
 }

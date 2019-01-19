@@ -5,20 +5,13 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Patterns;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -37,17 +30,13 @@ import com.iyoyogo.android.ui.mine.homepage.Like_me_Activity;
 import com.iyoyogo.android.ui.mine.homepage.Message_center_Activity;
 import com.iyoyogo.android.ui.mine.homepage.MyFollowActivity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
-import com.iyoyogo.android.ui.mine.homepage.UserFansActivity;
 import com.iyoyogo.android.ui.mine.homepage.VipCenterActivity;
 import com.iyoyogo.android.utils.FastBlurUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.icondottextview.IconDotTextView;
 import com.iyoyogo.android.widget.CircleImageView;
 
-import java.util.ArrayList;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
@@ -123,7 +112,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
 
     @Override
     protected MineContract.Presenter createPresenter() {
-        return new MineMessagePresenter(this);
+        return new MineMessagePresenter(getActivity(),this);
     }
 
     @Override
@@ -184,7 +173,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
 
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
-        mPresenter.getUserInfo(user_id, user_token);
+        mPresenter.getUserInfo(getActivity(),user_id, user_token);
     }
 
     @OnClick({R.id.my_basic_fans_tv_id, R.id.my_basic_fansnumber_tv_id, R.id.my_basic_follow_tv_id, R.id.my_basic_follownumber_tv_id,R.id.my_basic_headimg_iv_id, R.id.vip_center_img, R.id.my_basic_name_iv_id, R.id.my_messge_im_id, R.id.my_addfriend_im_id, R.id.my_clock_but_id, R.id.my_option_home_id, R.id.my_option_draft_id, R.id.my_option_like_id, R.id.my_option_col_id, R.id.my_option_set_id})
@@ -208,7 +197,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
                 startActivity(new Intent(getContext(), AddCollectionActivity.class));
                 break;
             case R.id.my_clock_but_id:
-                mPresenter.punchClock(user_id, user_token);
+                mPresenter.punchClock(getActivity(),user_id, user_token);
                 break;
             case R.id.my_option_home_id:
                 Intent intent1 = new Intent(getContext(), Personal_homepage_Activity.class);
@@ -330,6 +319,6 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
 
     @Override
     public void punchClockSuccess(BaseBean baseBean) {
-        mPresenter.getUserInfo(user_id, user_token);
+        mPresenter.getUserInfo(getActivity(),user_id, user_token);
     }
 }

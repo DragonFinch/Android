@@ -124,7 +124,7 @@ public class YoJiPictureActivity extends BaseActivity implements SoftKeyboardSta
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
                     if (editComment.getText().toString().length() > 0) {
-                        DataManager.getFromRemote().addComment(user_id, user_token, 0, Integer.parseInt(yo_id), editComment.getText().toString().trim()).subscribe(new Consumer<BaseBean>() {
+                        DataManager.getFromRemote().addComment(YoJiPictureActivity.this,user_id, user_token, 0, Integer.parseInt(yo_id), editComment.getText().toString().trim()).subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
                                 editComment.setText("");
@@ -341,7 +341,7 @@ public class YoJiPictureActivity extends BaseActivity implements SoftKeyboardSta
             @Override
             public void onClick(View v) {
                 popup.dismiss();
-                DataManager.getFromRemote().create_folder(user_id, user_token, edit_title_collection.getText().toString().trim(), open, "")
+                DataManager.getFromRemote().create_folder(YoJiPictureActivity.this,user_id, user_token, edit_title_collection.getText().toString().trim(), open, "")
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -372,7 +372,7 @@ public class YoJiPictureActivity extends BaseActivity implements SoftKeyboardSta
             }
         });
         recycler_collection = view.findViewById(R.id.recycler_collection);
-        DataManager.getFromRemote().getCollectionFolder(user_id, user_token)
+        DataManager.getFromRemote().getCollectionFolder(YoJiPictureActivity.this,user_id, user_token)
                 .subscribe(new Consumer<CollectionFolderBean>() {
                     @Override
                     public void accept(CollectionFolderBean collectionFolderBean) throws Exception {
@@ -404,7 +404,7 @@ public class YoJiPictureActivity extends BaseActivity implements SoftKeyboardSta
                 }*/
                                 int folder_id = mList1.get(position).getFolder_id();
                                 if (is_my_collect == 0) {
-                                    DataManager.getFromRemote().addCollection(user_id, user_token, folder_id, Integer.parseInt(yo_id))
+                                    DataManager.getFromRemote().addCollection(YoJiPictureActivity.this,user_id, user_token, folder_id, Integer.parseInt(yo_id))
                                             .subscribe(new Consumer<AddCollectionBean>() {
                                                 @Override
                                                 public void accept(AddCollectionBean addCollectionBean) throws Exception {
@@ -498,7 +498,7 @@ public class YoJiPictureActivity extends BaseActivity implements SoftKeyboardSta
 //                    popup.showAtLocation(findViewById(R.id.activity_yoji_picture), Gravity.CENTER, 0, 0);
                 }
 
-                DataManager.getFromRemote().praise(user_id, user_token, Integer.parseInt(yo_id), 0)
+                DataManager.getFromRemote().praise(YoJiPictureActivity.this,user_id, user_token, Integer.parseInt(yo_id), 0)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {

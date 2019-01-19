@@ -159,7 +159,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
 
     @Override
     protected PersonalCenterContract.Presenter createPresenter() {
-        return new PersonalCenterPresenter(this);
+        return new PersonalCenterPresenter(UserHomepageActivity.this,this);
     }
 
     public int getAge(Date birthDay) throws Exception {
@@ -204,7 +204,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
         Intent intent = getIntent();
         yo_user_id = intent.getStringExtra("yo_user_id");
         if (yo_user_id != null) {
-            mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
+            mPresenter.getPersonalCenter(UserHomepageActivity.this,user_id, user_token, yo_user_id);
             rbYoji.setChecked(true);
         }
 
@@ -542,7 +542,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
                 startActivity(intent);
                 break;
             case R.id.tv_guanzhu:
-                mPresenter.addAttention1(user_id, user_token, yo_user_id);
+                mPresenter.addAttention1(UserHomepageActivity.this,user_id, user_token, yo_user_id);
                 break;
             case R.id.collect:
                 Intent intent1 = new Intent(this, CollectionActivity.class);

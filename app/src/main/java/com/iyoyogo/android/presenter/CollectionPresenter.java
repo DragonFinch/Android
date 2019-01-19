@@ -1,5 +1,6 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
@@ -11,13 +12,13 @@ import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.net.ApiObserver;
 
 public class CollectionPresenter extends BasePresenter<CollectionContract.View> implements CollectionContract.Presenter {
-    public CollectionPresenter(CollectionContract.View mView) {
-        super(mView);
+    public CollectionPresenter(Context context,CollectionContract.View mView) {
+        super(context,mView);
     }
 
     @Override
-    public void deleteCollectionFolder(String user_id, String user_token, int[] folder_ids) {
-        DataManager.getFromRemote().deleteCollectionFolder(user_id, user_token, folder_ids)
+    public void deleteCollectionFolder(Context context,String user_id, String user_token, int[] folder_ids) {
+        DataManager.getFromRemote().deleteCollectionFolder(context,user_id, user_token, folder_ids)
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
@@ -36,8 +37,8 @@ public class CollectionPresenter extends BasePresenter<CollectionContract.View> 
     }
 
     @Override
-    public void getCollectionFold(String user_id, String user_token) {
-        DataManager.getFromRemote().getMineCollection(user_id, user_token)
+    public void getCollectionFold(Context context,String user_id, String user_token) {
+        DataManager.getFromRemote().getMineCollection(context,user_id, user_token)
                 .subscribe(new ApiObserver<MineCollectionBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(MineCollectionBean mineCollectionBean) {
@@ -56,8 +57,8 @@ public class CollectionPresenter extends BasePresenter<CollectionContract.View> 
     }
 
     @Override
-    public void getHisCollectionFold(String user_id, String user_token, String his_id) {
-        DataManager.getFromRemote().getHisCollection(user_id, user_token, his_id)
+    public void getHisCollectionFold(Context context,String user_id, String user_token, String his_id) {
+        DataManager.getFromRemote().getHisCollection(context,user_id, user_token, his_id)
                 .subscribe(new ApiObserver<MineCollectionBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(MineCollectionBean mineCollectionBean) {

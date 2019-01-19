@@ -130,7 +130,7 @@ public class YoXiuListActivity extends BaseActivity {
         Log.e("type1212", "initData: "+type );
         if (position.equals("")) {
             if (type.equals("attention")) {
-                DataManager.getFromRemote().getYoXiuAttentionList(user_id, user_token, currentPage)
+                DataManager.getFromRemote().getYoXiuAttentionList(YoXiuListActivity.this,user_id, user_token, currentPage)
                         .subscribe(new Observer<YouXiuListBean>() {
                             @Override
                             public void onSubscribe(Disposable d) {
@@ -171,7 +171,7 @@ public class YoXiuListActivity extends BaseActivity {
                     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                         currentPage++;
                         Log.d("currentPage", "currentPage:" + currentPage);
-                        DataManager.getFromRemote().getYoXiuAttentionList(user_id, user_token, currentPage)
+                        DataManager.getFromRemote().getYoXiuAttentionList(YoXiuListActivity.this,user_id, user_token, currentPage)
                                 .subscribe(new Consumer<YouXiuListBean>() {
                                     @Override
                                     public void accept(YouXiuListBean youXiuListBean) throws Exception {
@@ -188,7 +188,7 @@ public class YoXiuListActivity extends BaseActivity {
                     @Override
                     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                         mList.clear();
-                        DataManager.getFromRemote().getYoXiuAttentionList(user_id, user_token, 1)
+                        DataManager.getFromRemote().getYoXiuAttentionList(YoXiuListActivity.this,user_id, user_token, 1)
                                 .subscribe(new Observer<YouXiuListBean>() {
                                     @Override
                                     public void onSubscribe(Disposable d) {
@@ -228,7 +228,7 @@ public class YoXiuListActivity extends BaseActivity {
                     }
                 });
             } else {
-                DataManager.getFromRemote().getYoXiuList(user_id, user_token, currentPage)
+                DataManager.getFromRemote().getYoXiuList(YoXiuListActivity.this,user_id, user_token, currentPage)
                         .subscribe(new Observer<YouXiuListBean>() {
                             @Override
                             public void onSubscribe(Disposable d) {
@@ -269,7 +269,7 @@ public class YoXiuListActivity extends BaseActivity {
                     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                         currentPage++;
                         Log.d("currentPage", "currentPage:" + currentPage);
-                        DataManager.getFromRemote().getYoXiuList(user_id, user_token, currentPage)
+                        DataManager.getFromRemote().getYoXiuList(YoXiuListActivity.this,user_id, user_token, currentPage)
                                 .subscribe(new Consumer<YouXiuListBean>() {
                                     @Override
                                     public void accept(YouXiuListBean youXiuListBean) throws Exception {
@@ -286,7 +286,7 @@ public class YoXiuListActivity extends BaseActivity {
                     @Override
                     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                         mList.clear();
-                        DataManager.getFromRemote().getYoXiuList(user_id, user_token, 1)
+                        DataManager.getFromRemote().getYoXiuList(YoXiuListActivity.this,user_id, user_token, 1)
                                 .subscribe(new Observer<YouXiuListBean>() {
                                     @Override
                                     public void onSubscribe(Disposable d) {
@@ -329,7 +329,7 @@ public class YoXiuListActivity extends BaseActivity {
 
         } else {
             tvMessage.setText(position);
-            DataManager.getFromRemote().getYoXiuPosition(user_id, user_token, position, 1, currentPage, "20")
+            DataManager.getFromRemote().getYoXiuPosition(YoXiuListActivity.this,user_id, user_token, position, 1, currentPage, "20")
                     .subscribe(new Observer<YouXiuListBean>() {
                         @Override
                         public void onSubscribe(Disposable d) {
@@ -370,7 +370,7 @@ public class YoXiuListActivity extends BaseActivity {
                 public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                     currentPage++;
                     Log.d("currentPage", "currentPage:" + currentPage);
-                    DataManager.getFromRemote().getYoXiuPosition(user_id, user_token, position, 1, currentPage, "20")
+                    DataManager.getFromRemote().getYoXiuPosition(YoXiuListActivity.this,user_id, user_token, position, 1, currentPage, "20")
                             .subscribe(new Consumer<YouXiuListBean>() {
                                 @Override
                                 public void accept(YouXiuListBean youXiuListBean) throws Exception {
@@ -387,7 +387,7 @@ public class YoXiuListActivity extends BaseActivity {
                 @Override
                 public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                     mList.clear();
-                    DataManager.getFromRemote().getYoXiuPosition(user_id, user_token, position, 1, 1, "")
+                    DataManager.getFromRemote().getYoXiuPosition(YoXiuListActivity.this,user_id, user_token, position, 1, 1, "")
                             .subscribe(new Observer<YouXiuListBean>() {
                                 @Override
                                 public void onSubscribe(Disposable d) {

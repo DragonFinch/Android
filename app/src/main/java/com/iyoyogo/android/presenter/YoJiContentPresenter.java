@@ -1,5 +1,6 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
@@ -10,14 +11,14 @@ import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.net.ApiObserver;
 
 public class YoJiContentPresenter extends BasePresenter<YoJiContentContract.View> implements YoJiContentContract.Presenter {
-    public YoJiContentPresenter(YoJiContentContract.View mView) {
-        super(mView);
+    public YoJiContentPresenter(Context context, YoJiContentContract.View mView) {
+        super(context,mView);
     }
 
     @Override
-    public void getYoJiContent(String user_id, String user_token, String his_id, String page, String page_size) {
+    public void getYoJiContent(Context context,String user_id, String user_token, String his_id, String page, String page_size) {
         DataManager.getFromRemote()
-                .getYoJiContent(user_id,user_token,his_id,page,page_size)
+                .getYoJiContent(context,user_id,user_token,his_id,page,page_size)
                 .subscribe(new ApiObserver<YoJiContentBean>(mView,this) {
                     @Override
                     protected void doOnSuccess(YoJiContentBean yoJiContentBean) {

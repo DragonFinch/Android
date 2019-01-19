@@ -121,7 +121,7 @@ public class YoJiListActivity extends BaseActivity {
                 user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
 
                 DataManager.getFromRemote()
-                        .getYoJiLabel(user_id, user_token, sign, 1, "20")
+                        .getYoJiLabel(YoJiListActivity.this,user_id, user_token, sign, 1, "20")
                         .subscribe(new Observer<YoJiListBean>() {
                             @Override
                             public void onSubscribe(Disposable d) {
@@ -181,7 +181,7 @@ public class YoJiListActivity extends BaseActivity {
                     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                         currentPage++;
                         Log.d("currentPage", "currentPage:" + currentPage);
-                        DataManager.getFromRemote().getYoJiLabel(user_id, user_token, sign, 1, "20")
+                        DataManager.getFromRemote().getYoJiLabel(YoJiListActivity.this,user_id, user_token, sign, 1, "20")
                                 .subscribe(new Consumer<YoJiListBean>() {
                                     @Override
                                     public void accept(YoJiListBean yoJiListBean) throws Exception {
@@ -198,7 +198,7 @@ public class YoJiListActivity extends BaseActivity {
 
                     @Override
                     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                        DataManager.getFromRemote().getYoJiLabel(user_id, user_token, sign, 1, "20")
+                        DataManager.getFromRemote().getYoJiLabel(YoJiListActivity.this,user_id, user_token, sign, 1, "20")
                                 .subscribe(new Observer<YoJiListBean>() {
                                     @Override
                                     public void onSubscribe(Disposable d) {
@@ -233,7 +233,7 @@ public class YoJiListActivity extends BaseActivity {
                     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                         currentPage++;
                         Log.d("currentPage", "currentPage:" + currentPage);
-                        DataManager.getFromRemote().getYoJiLabel(user_id, user_token, sign, 1, "20")
+                        DataManager.getFromRemote().getYoJiLabel(YoJiListActivity.this,user_id, user_token, sign, 1, "20")
                                 .subscribe(new Consumer<YoJiListBean>() {
                                     @Override
                                     public void accept(YoJiListBean yoJiListBean) throws Exception {
@@ -251,7 +251,7 @@ public class YoJiListActivity extends BaseActivity {
 
                     @Override
                     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                        DataManager.getFromRemote().getYoJiLabel(user_id, user_token, sign, 1, "20")
+                        DataManager.getFromRemote().getYoJiLabel(YoJiListActivity.this,user_id, user_token, sign, 1, "20")
                                 .subscribe(new Observer<YoJiListBean>() {
                                     @Override
                                     public void onSubscribe(Disposable d) {
@@ -293,7 +293,7 @@ public class YoJiListActivity extends BaseActivity {
                 user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
 
                 DataManager.getFromRemote()
-                        .getYoJiAttentionList(user_id, user_token, 1, 20)
+                        .getYoJiAttentionList(YoJiListActivity.this,user_id, user_token, 1, 20)
                         .subscribe(new Observer<YoJiListBean>() {
                             @Override
                             public void onSubscribe(Disposable d) {
@@ -352,7 +352,7 @@ public class YoJiListActivity extends BaseActivity {
                     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                         currentPage++;
                         Log.d("currentPage", "currentPage:" + currentPage);
-                        DataManager.getFromRemote().getYoJiAttentionList(user_id, user_token, currentPage, 20)
+                        DataManager.getFromRemote().getYoJiAttentionList(YoJiListActivity.this,user_id, user_token, currentPage, 20)
                                 .subscribe(new Consumer<YoJiListBean>() {
                                     @Override
                                     public void accept(YoJiListBean yoJiListBean) throws Exception {
@@ -369,7 +369,7 @@ public class YoJiListActivity extends BaseActivity {
 
                     @Override
                     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                        DataManager.getFromRemote().getYoJiAttentionList(user_id, user_token, 1, 20)
+                        DataManager.getFromRemote().getYoJiAttentionList(YoJiListActivity.this,user_id, user_token, 1, 20)
                                 .subscribe(new Observer<YoJiListBean>() {
                                     @Override
                                     public void onSubscribe(Disposable d) {
@@ -404,7 +404,7 @@ public class YoJiListActivity extends BaseActivity {
                     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                         currentPage++;
                         Log.d("currentPage", "currentPage:" + currentPage);
-                        DataManager.getFromRemote().getYoJiAttentionList(user_id, user_token, currentPage, 20)
+                        DataManager.getFromRemote().getYoJiAttentionList(YoJiListActivity.this,user_id, user_token, currentPage, 20)
                                 .subscribe(new Consumer<YoJiListBean>() {
                                     @Override
                                     public void accept(YoJiListBean yoJiListBean) throws Exception {
@@ -422,7 +422,7 @@ public class YoJiListActivity extends BaseActivity {
 
                     @Override
                     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                        DataManager.getFromRemote().getYoJiList(user_id, user_token, 1, 20)
+                        DataManager.getFromRemote().getYoJiList(YoJiListActivity.this,user_id, user_token, 1, 20)
                                 .subscribe(new Observer<YoJiListBean>() {
                                     @Override
                                     public void onSubscribe(Disposable d) {
@@ -463,7 +463,7 @@ public class YoJiListActivity extends BaseActivity {
                 user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
 
                 DataManager.getFromRemote()
-                        .getYoJiList(user_id, user_token, 1, 20)
+                        .getYoJiList(YoJiListActivity.this,user_id, user_token, 1, 20)
                         .subscribe(new Observer<YoJiListBean>() {
                             @Override
                             public void onSubscribe(Disposable d) {
@@ -522,7 +522,7 @@ public class YoJiListActivity extends BaseActivity {
                     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                         currentPage++;
                         Log.d("currentPage", "currentPage:" + currentPage);
-                        DataManager.getFromRemote().getYoJiList(user_id, user_token, currentPage, 20)
+                        DataManager.getFromRemote().getYoJiList(YoJiListActivity.this,user_id, user_token, currentPage, 20)
                                 .subscribe(new Consumer<YoJiListBean>() {
                                     @Override
                                     public void accept(YoJiListBean yoJiListBean) throws Exception {
@@ -539,7 +539,7 @@ public class YoJiListActivity extends BaseActivity {
 
                     @Override
                     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                        DataManager.getFromRemote().getYoJiList(user_id, user_token, 1, 20)
+                        DataManager.getFromRemote().getYoJiList(YoJiListActivity.this,user_id, user_token, 1, 20)
                                 .subscribe(new Observer<YoJiListBean>() {
                                     @Override
                                     public void onSubscribe(Disposable d) {
@@ -574,7 +574,7 @@ public class YoJiListActivity extends BaseActivity {
                     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                         currentPage++;
                         Log.d("currentPage", "currentPage:" + currentPage);
-                        DataManager.getFromRemote().getYoJiList(user_id, user_token, currentPage, 20)
+                        DataManager.getFromRemote().getYoJiList(YoJiListActivity.this,user_id, user_token, currentPage, 20)
                                 .subscribe(new Consumer<YoJiListBean>() {
                                     @Override
                                     public void accept(YoJiListBean yoJiListBean) throws Exception {
@@ -592,7 +592,7 @@ public class YoJiListActivity extends BaseActivity {
 
                     @Override
                     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                        DataManager.getFromRemote().getYoJiList(user_id, user_token, 1, 20)
+                        DataManager.getFromRemote().getYoJiList(YoJiListActivity.this,user_id, user_token, 1, 20)
                                 .subscribe(new Observer<YoJiListBean>() {
                                     @Override
                                     public void onSubscribe(Disposable d) {
@@ -635,7 +635,7 @@ public class YoJiListActivity extends BaseActivity {
             user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
 
             DataManager.getFromRemote()
-                    .getYoJiPosition(user_id, user_token, position, 2, 1, "20")
+                    .getYoJiPosition(YoJiListActivity.this,user_id, user_token, position, 2, 1, "20")
                     .subscribe(new Observer<YoJiListBean>() {
                         @Override
                         public void onSubscribe(Disposable d) {
@@ -694,7 +694,7 @@ public class YoJiListActivity extends BaseActivity {
                 public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                     currentPage++;
                     Log.d("currentPage", "currentPage:" + currentPage);
-                    DataManager.getFromRemote().getYoJiPosition(user_id, user_token, position, 2, 1, "20")
+                    DataManager.getFromRemote().getYoJiPosition(YoJiListActivity.this,user_id, user_token, position, 2, 1, "20")
                             .subscribe(new Consumer<YoJiListBean>() {
                                 @Override
                                 public void accept(YoJiListBean yoJiListBean) throws Exception {
@@ -711,7 +711,7 @@ public class YoJiListActivity extends BaseActivity {
 
                 @Override
                 public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                    DataManager.getFromRemote().getYoJiList(user_id, user_token, 1, 20)
+                    DataManager.getFromRemote().getYoJiList(YoJiListActivity.this,user_id, user_token, 1, 20)
                             .subscribe(new Observer<YoJiListBean>() {
                                 @Override
                                 public void onSubscribe(Disposable d) {
@@ -746,7 +746,7 @@ public class YoJiListActivity extends BaseActivity {
                 public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                     currentPage++;
                     Log.d("currentPage", "currentPage:" + currentPage);
-                    DataManager.getFromRemote().getYoJiPosition(user_id, user_token, position, 2, 1, "20")
+                    DataManager.getFromRemote().getYoJiPosition(YoJiListActivity.this,user_id, user_token, position, 2, 1, "20")
                             .subscribe(new Consumer<YoJiListBean>() {
                                 @Override
                                 public void accept(YoJiListBean yoJiListBean) throws Exception {
@@ -764,7 +764,7 @@ public class YoJiListActivity extends BaseActivity {
 
                 @Override
                 public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                    DataManager.getFromRemote().getYoJiList(user_id, user_token, 1, 20)
+                    DataManager.getFromRemote().getYoJiList(YoJiListActivity.this,user_id, user_token, 1, 20)
                             .subscribe(new Observer<YoJiListBean>() {
                                 @Override
                                 public void onSubscribe(Disposable d) {
