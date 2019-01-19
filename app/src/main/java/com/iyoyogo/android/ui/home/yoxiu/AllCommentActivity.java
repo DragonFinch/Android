@@ -254,7 +254,6 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
                     startActivity(new Intent(AllCommentActivity.this, MoreTopicActivity.class));
                 }
             }
-
             @Override
             public void afterTextChanged(Editable s) {
 

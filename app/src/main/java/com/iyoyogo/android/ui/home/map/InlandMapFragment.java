@@ -36,6 +36,7 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.map.CityEntity;
+import com.iyoyogo.android.bean.map.MapBean;
 import com.iyoyogo.android.ui.home.map.binding.Bind;
 import com.iyoyogo.android.ui.home.map.binding.ViewBinder;
 import com.iyoyogo.android.utils.map.JsonReadUtil;
@@ -113,6 +114,7 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
     @SuppressLint("ValidFragment")
     public InlandMapFragment(List<String> list) {
         mList1 = list;
+
     }
 
     @Nullable

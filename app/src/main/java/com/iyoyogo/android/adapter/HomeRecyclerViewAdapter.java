@@ -122,7 +122,6 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             return new Holder_ViewPager(view);
         } else if (viewType == 1) {
             view = LayoutInflater.from(context).inflate(R.layout.youxiu_item, viewGroup, false);
-
             return new Holder_YouXiu(view);
         } else if (viewType == 2) {
             view = LayoutInflater.from(context).inflate(R.layout.youji_item, viewGroup, false);
@@ -132,7 +131,6 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             return new Holder_Footer(view);
         }
         return null;
-
     }
 
     @Override
@@ -142,14 +140,13 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         Log.d("HomeRecyclerViewAdapter", "mList.get(position).getYox_list().size():" + mList.get(0).getYox_list().size());
         if (viewHolder instanceof Holder_ViewPager) {
             setViewPagerHolder((Holder_ViewPager) viewHolder, position);
-
         } else if (viewHolder instanceof Holder_YouXiu) {
             List<HomeBean.DataBean.YoxListBean> yox_list = mList.get(0).getYox_list();
             setYouXiuHolder((Holder_YouXiu) viewHolder, yox_list);
         } else if (viewHolder instanceof Holder_YouJi) {
             List<HomeBean.DataBean.YojListBean> yoj_list = mList.get(0).getYoj_list();
             setYouJiHolder((Holder_YouJi) viewHolder, yoj_list);
-
+            
 
         } else if (viewHolder instanceof Holder_Footer) {
             setFootHolder((Holder_Footer) viewHolder);
