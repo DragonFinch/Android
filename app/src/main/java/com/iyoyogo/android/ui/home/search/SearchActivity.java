@@ -93,7 +93,6 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
     protected void initView() {
         super.initView();
         StatusBarCompat.setStatusBarColor(this, Color.WHITE);
-
         //软键盘的搜索点击时间
         autoSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -143,7 +142,6 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
         mUser_id = SpUtils.getString(SearchActivity.this, "user_id", null);
         mUser_token = SpUtils.getString(SearchActivity.this, "user_token", null);
         mPresenter.getSearch(mUser_id, mUser_token);
-
     }
 
     private void initHistory() {
@@ -258,9 +256,7 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
         if (list.getData().getList_history().size() != 0){
             rlLishi.setVisibility(View.VISIBLE);
             historyFl.setVisibility(View.VISIBLE);
-            Log.e("qweqwewq", "getRecommendTopicSuccess: "+list.getData().getList_history().size() );
         }else{
-            Log.e("qweqwewq", "getRecommendTopicSuccess:111111 "+list.getData().getList_history().size() );
             rlLishi.setVisibility(View.GONE);
             historyFl.setVisibility(View.GONE);
         }

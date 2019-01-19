@@ -120,6 +120,7 @@ android:visibility="gone"
                     android:layout_width="0dp"
                     android:layout_height="match_parent">
                     <TextView
+                        android:id="@+id/fasongdetails"
                         android:textSize="15sp"
                         android:textColor="@color/white"
                         android:layout_width="wrap_content"

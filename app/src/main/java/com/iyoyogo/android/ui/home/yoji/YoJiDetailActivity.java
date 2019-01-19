@@ -309,6 +309,15 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         statusbar();
         new SoftKeyboardStateHelper(findViewById(R.id.activity_yoji_detail)).addSoftKeyboardStateListener(this);
         mLl_facechoose = findViewById(R.id.ll_facechoose);
+        TextView fasongdetails = findViewById(R.id.fasongdetails);
+        fasongdetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPresenter.addComment(user_id, user_token, 0, yo_id, editComment.getText().toString().trim());
+                closeInputMethod();
+                mPresenter.getCommentList(user_id, user_token, 1, yo_id, 0);
+            }
+        });
         intent = getIntent();
         yo_id = intent.getIntExtra("yo_id", 0);
         yo_user_id1 = intent.getStringExtra("yo_user_id");

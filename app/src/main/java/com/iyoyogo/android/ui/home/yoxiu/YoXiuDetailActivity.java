@@ -196,6 +196,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     private ImageView send_emoji;
     private String yo_id1;
     private Intent intent;
+    private TextView mFasong;
 
     @Override
     protected void setSetting() {
@@ -211,7 +212,15 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         yo_id1 = intent.getStringExtra("yo_id");
         img_brow = findViewById(R.id.img_brow);
         send_emoji = findViewById(R.id.send_emoji);
-
+        //表情包的点击按钮 发送
+        mFasong = findViewById(R.id.fasongdetails);
+        mFasong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPresenter.addComment(user_id, user_token, 0, id, editComment.getText().toString().trim());
+                Toast.makeText(YoXiuDetailActivity.this,"评论成功",Toast.LENGTH_SHORT).show();
+            }
+        });
         ll_facechoose = findViewById(R.id.ll_facechoose);
         new SoftKeyboardStateHelper(findViewById(R.id.activity_yoxiu_detail)).addSoftKeyboardStateListener(this);
         editComment.setImeOptions(EditorInfo.IME_ACTION_SEND);
