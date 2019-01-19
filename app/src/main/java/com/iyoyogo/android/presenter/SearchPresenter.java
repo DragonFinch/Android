@@ -25,7 +25,6 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
                     @Override
                     protected void doOnSuccess(searchInfo searchBean) {
                         if (searchBean != null){
-                            Log.e("han", "doOnFailure: "+"qweqweqweqweqwe" );
                             mView.getRecommendTopicSuccess(searchBean);
                         }
 
@@ -33,7 +32,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
 
                     @Override
                     protected boolean doOnFailure(int code, String message) {
-                        Log.e("han", "doOnFailure: "+"qweqweqweqweqwe" );
+
                         return true;
 
                     }
