@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/close_img"
-        android:background="@color/white"
+        android:background="@drawable/bg_corn"
         android:focusable="true"
         android:focusableInTouchMode="true">
 
