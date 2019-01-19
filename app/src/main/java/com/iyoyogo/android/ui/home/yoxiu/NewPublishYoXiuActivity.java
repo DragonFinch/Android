@@ -68,6 +68,8 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -211,10 +213,12 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
                     shareWeb(bean.getData().getYo_id(), SHARE_MEDIA.WEIXIN);
                     break;
                 default:
+                    EventBus.getDefault().post("publish_success");
                     finish();
                     break;
             }
         } else {
+            EventBus.getDefault().post("publish_success");
             finish();
         }
     }
@@ -612,6 +616,7 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
 
     @Override
     public void onShareSuccess(BaseBean data) {
+        EventBus.getDefault().post("publish_success");
         finish();
     }
 }
