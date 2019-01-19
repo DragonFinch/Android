@@ -379,6 +379,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
 
     @Override
     public void keyWordMessage(KeywordBean keywordBean) {
+        if(keywordBean==null || keywordBean.getData()==null || keywordBean.getData().getType()==null)return;
         if (keywordBean.getData().getType().equals("user")) {
             mUser.clear();
             user_list = keywordBean.getData().getUser_list();
