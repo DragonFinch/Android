@@ -3,7 +3,6 @@ package com.iyoyogo.android.model;
 
 import android.util.Log;
 
-import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.HisFansBean;
 import com.iyoyogo.android.bean.HisPositionBean;
@@ -1185,7 +1184,6 @@ public class Model {
                 .compose(this.switchThread()).filter(new Predicate<KeywordUserBean>() {
                     @Override
                     public boolean test(KeywordUserBean keywordUserBean) throws Exception {
-                        keywordUserBean.getCode()==202
                         return false;
                     }
                 });
