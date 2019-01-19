@@ -598,7 +598,7 @@ public class Model {
      * @return
      */
     public Observable<BaseBean> deleteCollection(String user_id, String user_token, int id) {
-        return HttpClient.getApiService().deleteCollection(user_id, user_token, id)
+        return HttpClient.getApiService().delCollection(user_id, user_token, id)
                 .compose(this.switchThread());
     }
 
