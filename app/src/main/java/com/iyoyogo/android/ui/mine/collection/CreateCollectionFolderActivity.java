@@ -57,7 +57,7 @@ public class CreateCollectionFolderActivity extends BaseActivity<EditCollectionC
     private ImageView popim;
     private TextView popyes;
     private PopupWindow popMenu;
-    private int open_type=1;
+    private int open_type = 1;
     private String user_token;
     private String user_id;
     private String title;
@@ -171,7 +171,7 @@ public class CreateCollectionFolderActivity extends BaseActivity<EditCollectionC
             @Override
             public void onClick(View v) {
                 popMenu.dismiss();
-                if (title.length() > 0) {
+                if (title != null && title.length() > 0) {
                     mPresenter.createFolder(user_id, user_token, editTitle.getText().toString().trim(), open_type, title);
                 } else {
                     mPresenter.createFolder(user_id, user_token, editTitle.getText().toString().trim(), open_type, "");
@@ -207,6 +207,12 @@ public class CreateCollectionFolderActivity extends BaseActivity<EditCollectionC
                 popMenu.dismiss();
             }
         });
+        pop_view.findViewById(R.id.popup_praise_but_id).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popMenu.dismiss();
+            }
+        });
         popMenu = new PopupWindow(pop_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         popMenu.setFocusable(true);//设置pw中的控件能够获取焦点
         ColorDrawable dw = new ColorDrawable(0xb0000000);
@@ -225,12 +231,6 @@ public class CreateCollectionFolderActivity extends BaseActivity<EditCollectionC
         });
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 
     @OnClick({R.id.back_iv_id, R.id.tv_title, R.id.tv_delete, R.id.tv_commit, R.id.clear_title, R.id.img_open})
     public void onViewClicked(View view) {

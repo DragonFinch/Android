@@ -1,15 +1,20 @@
 package com.iyoyogo.android.ui.mine;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
@@ -69,7 +74,8 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
     private String name;
     private String iconurl;
     private int type;
-
+    private int flag;
+    private String openid;
 
     @Override
     protected int getLayoutId() {
@@ -82,6 +88,7 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
 //        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         user_id = SpUtils.getString(UserAndSecurityActivity.this, "user_id", null);
         user_token = SpUtils.getString(UserAndSecurityActivity.this, "user_token", null);
+        openid = SpUtils.getString(UserAndSecurityActivity.this, "openid", null);
         mPresenter.getBindInfo(user_id, user_token);
     }
 
@@ -107,28 +114,74 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
                 startActivity(new Intent(UserAndSecurityActivity.this, ReplacePhoneActivity.class));
                 break;
             case R.id.wx_rl_id:
+                flag = 1;
                 if (tvWx.getText().toString().trim().equals("已绑定")) {
-                    new WeChatUntyingDialog(this).show();
+                    initPopupPraise();
                 } else {
                     weiXinLogin();
                 }
                 break;
             case R.id.wb_rl_id:
+                flag = 3;
                 if (tvSina.getText().toString().trim().equals("已绑定")) {
-                    new WeChatUntyingDialog(this).show();
+                    initPopupPraise();
                 } else {
                     sinaLogin();
                 }
                 break;
             case R.id.qq_rl_id:
+                flag = 2;
                 if (tvQq.getText().toString().trim().equals("已绑定")) {
-                    new WeChatUntyingDialog(this).show();
+                    initPopupPraise();
                 } else {
                     qqLogin();
                 }
                 break;
         }
     }
+
+    private void initPopupPraise() {
+        View pop_view = View.inflate(this, R.layout.dialog_untying, null);
+        PopupWindow popMenu = new PopupWindow(pop_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        TextView unty = pop_view.findViewById(R.id.tv_unty);
+        TextView cancel = pop_view.findViewById(R.id.tv_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popMenu.dismiss();
+            }
+        });
+        unty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (flag == 1) {
+                    mPresenter.userBind(user_id, user_token, 1, "");
+                } else if (flag == 2) {
+                    mPresenter.userBind(user_id, user_token, 2, "");
+                } else if (flag == 3) {
+                    mPresenter.userBind(user_id, user_token, 3, "");
+                }
+                popMenu.dismiss();
+            }
+        });
+        popMenu.setFocusable(true);//设置pw中的控件能够获取焦点
+        ColorDrawable dw = new ColorDrawable(0xb0000000);
+        popMenu.setBackgroundDrawable(dw);//设置mPopupWindow背景颜色或图片，这里设置半透明
+        popMenu.setOutsideTouchable(true); //设置可以通过点击mPopupWindow外部关闭mPopupWindow
+//        popMenu.setAnimationStyle(R.style.PopupAnimationAmount);//设置mPopupWindow的进出动画
+        popMenu.update();//刷新mPopupWindow
+        popMenu.showAsDropDown(pop_view, Gravity.CENTER, 0, 0);//mPopupWindow显示的位置
+        /**
+         * PopupWindow消失监听方法
+         */
+        popMenu.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+
+            }
+        });
+    }
+
 
     public void qqLogin() {
         type = 2;
@@ -227,6 +280,14 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
     @Override
     public void updateBindSuccess(BaseBean baseBean) {
         mPresenter.getBindInfo(user_id, user_token);
+    }
+
+    @Override
+    public void userBindSuccess(BaseBean baseBean) {
+        int code = baseBean.getCode();
+        if (code == 200) {
+            Toast.makeText(this, "解绑成功", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

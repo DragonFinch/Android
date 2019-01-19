@@ -1234,4 +1234,11 @@ public class Model {
     public Observable<ResponseBody> uploadErrorLog(@Url String content) {
         return HttpClient.getApiService().updateErrorLog(content).compose(this.switchThread());
     }
+
+    /***
+     * 用户解绑第三方绑定设备
+     */
+    public Observable<BaseBean> getUserBind(String user_id, String user_token, int type, String openid) {
+        return HttpClient.getApiService().getUserBind(user_id,user_token,type,openid).compose(this.switchThread());
+    }
 }
