@@ -3,6 +3,7 @@ package com.iyoyogo.android.model;
 
 import android.util.Log;
 
+import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.HisFansBean;
 import com.iyoyogo.android.bean.HisPositionBean;
@@ -69,6 +70,7 @@ import java.util.Map;
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -1180,7 +1182,13 @@ public class Model {
     public Observable<KeywordUserBean> srarch(String user_id, String user_token, String seatch) {
         return HttpClient.getApiService()
                 .getserarch(user_id, user_token, seatch)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<KeywordUserBean>() {
+                    @Override
+                    public boolean test(KeywordUserBean keywordUserBean) throws Exception {
+                        keywordUserBean.getCode()==202
+                        return false;
+                    }
+                });
     }
     //首页搜索晴空历史
     public Observable<ClerBean> searchCler(String user_id, String user_token) {
