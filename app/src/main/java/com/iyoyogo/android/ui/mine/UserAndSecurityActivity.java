@@ -19,6 +19,7 @@ import com.iyoyogo.android.bean.mine.GetBindInfoBean;
 import com.iyoyogo.android.contract.UserAndSecurityContract;
 import com.iyoyogo.android.presenter.UserAndSecurityPresenter;
 
+import com.iyoyogo.android.ui.mine.dialog.WeChatUntyingDialog;
 import com.iyoyogo.android.utils.SpUtils;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
@@ -106,23 +107,23 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
                 startActivity(new Intent(UserAndSecurityActivity.this, ReplacePhoneActivity.class));
                 break;
             case R.id.wx_rl_id:
-                if (tvWx.getText().toString().trim().equals("已绑定")){
-
-                }else{
+                if (tvWx.getText().toString().trim().equals("已绑定")) {
+                    new WeChatUntyingDialog(this).show();
+                } else {
                     weiXinLogin();
                 }
                 break;
             case R.id.wb_rl_id:
-                if (tvSina.getText().toString().trim().equals("已绑定")){
-
-                }else{
+                if (tvSina.getText().toString().trim().equals("已绑定")) {
+                    new WeChatUntyingDialog(this).show();
+                } else {
                     sinaLogin();
                 }
                 break;
             case R.id.qq_rl_id:
-                if (tvQq.getText().toString().trim().equals("已绑定")){
-
-                }else{
+                if (tvQq.getText().toString().trim().equals("已绑定")) {
+                    new WeChatUntyingDialog(this).show();
+                } else {
                     qqLogin();
                 }
                 break;
@@ -225,8 +226,9 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
 
     @Override
     public void updateBindSuccess(BaseBean baseBean) {
-    mPresenter.getBindInfo(user_id,user_token);
+        mPresenter.getBindInfo(user_id, user_token);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

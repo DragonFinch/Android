@@ -5,7 +5,7 @@
     android:layout_height="@dimen/dp_245"
     android:layout_marginTop="@dimen/dp_5"
     android:layout_marginBottom="@dimen/dp_5"
-    android:background="@drawable/bg_yoji_list"
+    android:background="@drawable/shape"
     android:layout_margin="@dimen/dp_4"
     android:paddingLeft="@dimen/dp_10"
     android:paddingRight="@dimen/dp_10"
