@@ -90,7 +90,6 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
     protected void initView() {
         super.initView();
         StatusBarCompat.setStatusBarColor(this, Color.WHITE);
-
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
         defaultTitleTvId.setText(name);
@@ -129,7 +128,6 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
                 selectAllMain();
                 break;
             case R.id.default_move_but_id:
-
 //                mPresenter.moveCollectionFolder(user_id, user_token, objects1);
                 mPresenter.getCollectionFolder(user_id, user_token);
                 initPopup();
@@ -141,9 +139,8 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
     }
 
     private void initPopup() {
-        View view = getLayoutInflater().from(DefaultCollectionActivity.this).inflate(R.layout.popup_choose_favorites, null);
-
-        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(DefaultCollectionActivity.this, 311), true);
+        View view = getLayoutInflater().from(DefaultCollectionActivity.this).inflate(R.layout.popup_choose_favorites, null);//DensityUtil.dp2px(DefaultCollectionActivity.this, 111)
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setBackgroundDrawable(new ColorDrawable());
         backgroundAlpha(0.6f);
@@ -156,7 +153,6 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
         ImageView popup_favorites_prompt_iv_id = view.findViewById(R.id.popup_favorites_prompt_iv_id);
         popup_favorites_prompt_rv_id = view.findViewById(R.id.popup_favorites_prompt_rv_id);
         Button popup_favorites_prompt_but_id = view.findViewById(R.id.popup_favorites_prompt_but_id);
-
 
         popup_favorites_prompt_iv_id.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,7 +168,6 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
                 for (int i = 0; i < idList1.size(); i++) {
                     like[i] = Integer.valueOf(idList1.get(i));
                 }
-
                 mPresenter.moveCollectionFolder(user_id, user_token, like, folder_ids);
                 popupWindow.dismiss();
             }
@@ -196,10 +191,7 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
 
     //初始化搜索popup (可以启动初始化)
     private void initSearchPopupWindow() {
-
         View contentview = getLayoutInflater().inflate(R.layout.popup_spot_default_collection, null);//自己的弹框布局
-
-
         contentview.setFocusable(true); // 这个很重要
         contentview.setFocusableInTouchMode(true);
         popupWindow = new PopupWindow(contentview, DensityUtil.dp2px(DefaultCollectionActivity.this, 110), DensityUtil.dp2px(DefaultCollectionActivity.this, 110), true);
@@ -414,7 +406,6 @@ public class DefaultCollectionActivity extends BaseActivity<CollectionFolderCont
             public void onItemClick(View view, int position) {
                 defaultCollectionAdapter.setSelection(position);
                 folder_ids = list.get(position).getFolder_id();
-
             }
 
             @Override

@@ -91,6 +91,30 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
             holder.img_three.setImageResource(R.mipmap.default_ic);
             holder.img_four.setImageResource(R.mipmap.default_ic);
         }
+        holder.img_one.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                click1(index);
+            }
+        });
+        holder.img_two.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                click1(index);
+            }
+        });
+        holder.img_three.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                click1(index);
+            }
+        });
+        holder.img_four.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                click1(index);
+            }
+        });
         holder.itemView.setTag(index);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,22 +149,26 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
         holder.next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, DefaultCollectionActivity.class);
-                intent.putExtra("type", 2);
-                String name = mList.get(index).getName();
-                int open = mList.get(index).getOpen();
-                int folder_id = mList.get(index).getFolder_id();
-                intent.putExtra("name", name + "·" + mList.get(index).getCount_record());
-                intent.putExtra("title", name);
-                intent.putExtra("folder_id", folder_id);
-                intent.putExtra("open", open);
-                intent.putExtra("user_id", mList.get(index).getUser_id());
-                context.startActivity(intent);
+                click1(index);
             }
         });
     }
 
-    public void click(ViewHolder holder,int position){
+    private void click1(int index){
+        Intent intent = new Intent(context, DefaultCollectionActivity.class);
+        intent.putExtra("type", 2);
+        String name = mList.get(index).getName();
+        int open = mList.get(index).getOpen();
+        int folder_id = mList.get(index).getFolder_id();
+        intent.putExtra("name", name + "·" + mList.get(index).getCount_record());
+        intent.putExtra("title", name);
+        intent.putExtra("folder_id", folder_id);
+        intent.putExtra("open", open);
+        intent.putExtra("user_id", mList.get(index).getUser_id());
+        context.startActivity(intent);
+    }
+
+    private void click(ViewHolder holder,int position){
         mOnItemClickListener.onItemClickListener(holder.getAdapterPosition(), mList);
         if (mEditMode == MYLIVE_MODE_CHECK) {
             holder.checkBox.setVisibility(View.GONE);
