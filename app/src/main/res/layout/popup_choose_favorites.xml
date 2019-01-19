@@ -40,7 +40,8 @@
             android:layout_height="@dimen/dp_40"
             android:paddingTop="6dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="@drawable/bg_white_cornor_10">
 
             <View
                 android:layout_width="@dimen/dp_5"

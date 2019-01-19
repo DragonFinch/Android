@@ -6,6 +6,7 @@ import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -27,8 +29,10 @@ import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.SameBean;
+import com.iyoyogo.android.bean.yoxiu.YoXiuDetailBean;
 import com.iyoyogo.android.contract.SameContract;
 import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.net.ApiObserver;
 import com.iyoyogo.android.presenter.SamePresenter;
 import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
@@ -181,7 +185,7 @@ public class GoTakeDetailActivity extends BaseActivity<SamePresenter> implements
             case R.id.ll_comment:
                 Intent intent = new Intent(this, AllCommentActivity.class);
                 intent.putExtra("id", mData.getData().getList().get(position).getYo_id());
-                startActivity(intent);
+                startActivityForResult(intent,0);
                 break;
             case R.id.ll_collect:
                 if (mData.getData().getList().get(position).getIs_my_collect() == 0) {
@@ -343,6 +347,21 @@ public class GoTakeDetailActivity extends BaseActivity<SamePresenter> implements
         super.onWindowFocusChanged(hasFocus);
         if (mData.getData().getList().get(position).getFile_type() == 2) {
             startVideo(mData.getData().getList().get(position).getVideo());
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==0){
+            DataManager.getFromRemote()
+                    .getDetail(user_id, user_token, mData.getData().getList().get(position).getYo_id())
+                    .subscribe(yoXiuDetailBean -> {
+                        View      itemView  = layoutManager.findViewByPosition(position);
+                        TextView  tvComment = itemView.findViewById(R.id.tv_comment_num);
+                        mData.getData().getList().get(position).setCount_comment(Integer.valueOf(yoXiuDetailBean.getData().getCount_comment()));
+                        tvComment.setText(yoXiuDetailBean.getData().getCount_comment()+"");
+                    });
         }
     }
 }

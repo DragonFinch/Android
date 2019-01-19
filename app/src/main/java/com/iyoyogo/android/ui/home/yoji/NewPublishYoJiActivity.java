@@ -77,6 +77,8 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -418,7 +420,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
             if (!TextUtils.isEmpty(coverPath)) {
                 uploadSize = getImageSize() + 1;
                 mOssService.asyncPutImage(coverPath, -1);
-            }else {
+            } else {
                 uploadSize = getImageSize();
             }
             for (int i = 0; i < mData.size(); i++) {
@@ -592,10 +594,12 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
                     shareWeb(baseBean.getData().getYo_id(), SHARE_MEDIA.WEIXIN);
                     break;
                 default:
+                    EventBus.getDefault().post("publish_success");
                     finish();
                     break;
             }
         } else {
+            EventBus.getDefault().post("publish_success");
             finish();
         }
     }
@@ -845,6 +849,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
 
     @Override
     public void onShareSuccess(BaseBean data) {
-
+        EventBus.getDefault().post("publish_success");
+        finish();
     }
 }

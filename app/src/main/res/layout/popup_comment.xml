@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_content"
+            android:layout_width="0dp"
+            android:inputType="text"
+            android:imeOptions="actionSend"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:paddingLeft="20dp"
+            android:textSize="15sp"
+            android:hint="再不评论, 你会被抓去写作业的~"
+            android:textColorHint="#888888"
+            android:paddingTop="16dp"
+            android:paddingBottom="20dp" />
+
+        <ImageView
+            android:id="@+id/iv_emoji"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:src="@mipmap/input_biaoqing" />
+    </LinearLayout>
+
+    <!--<com.iyoyogo.android.utils.emoji.FaceRelativeLayoutDetails-->
+    <!--android:id="@+id/faceRelativeLayout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"/>-->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="#f1f1f1" />
+
+    <RelativeLayout
+        android:id="@+id/rl_emoji"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/white"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
+
+        <com.iyoyogo.android.widget.ViewPagerIndicator
+            android:id="@+id/view_pager_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@id/viewPager"
+            app:vpi_default_color="#f1f1f1"
+            app:vpi_indicatorType="CIRCLE_LINE"
+            app:vpi_length="14dp"
+            app:vpi_radius="2dp"
+            app:vpi_selected_color="#bfbfbf" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_option"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:visibility="gone"
+        android:background="#f1f1f1">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:src="@drawable/weixiao" />
+
+        <TextView
+            android:id="@+id/tv_send"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="#FA800A"
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="发送"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="240dp"
+        android:background="@color/white"/>
+</LinearLayout>

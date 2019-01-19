@@ -148,7 +148,7 @@ public class YoXiuListActivity extends BaseActivity {
                                     @Override
                                     public void setOnClickListener(View v, int position) {
                                         int id = mList.get(position).getId();
-                                        Intent intent = new Intent(YoXiuListActivity.this, YoXiuDetailActivity.class);
+                                        Intent intent = new Intent(YoXiuListActivity.this, NewYoXiuDetailActivity.class);
                                         intent.putExtra("id", id);
                                         startActivity(intent);
                                     }
@@ -207,7 +207,7 @@ public class YoXiuListActivity extends BaseActivity {
                                             @Override
                                             public void setOnClickListener(View v, int position) {
                                                 int id = mList.get(position).getId();
-                                                Intent intent = new Intent(YoXiuListActivity.this, YoXiuDetailActivity.class);
+                                                Intent intent = new Intent(YoXiuListActivity.this, NewYoXiuDetailActivity.class);
                                                 intent.putExtra("id", id);
                                                 startActivity(intent);
                                             }
@@ -246,7 +246,7 @@ public class YoXiuListActivity extends BaseActivity {
                                     @Override
                                     public void setOnClickListener(View v, int position) {
                                         int id = mList.get(position).getId();
-                                        Intent intent = new Intent(YoXiuListActivity.this, YoXiuDetailActivity.class);
+                                        Intent intent = new Intent(YoXiuListActivity.this, NewYoXiuDetailActivity.class);
                                         intent.putExtra("id", id);
                                         startActivity(intent);
                                     }
@@ -305,7 +305,7 @@ public class YoXiuListActivity extends BaseActivity {
                                             @Override
                                             public void setOnClickListener(View v, int position) {
                                                 int id = mList.get(position).getId();
-                                                Intent intent = new Intent(YoXiuListActivity.this, YoXiuDetailActivity.class);
+                                                Intent intent = new Intent(YoXiuListActivity.this, NewYoXiuDetailActivity.class);
                                                 intent.putExtra("id", id);
                                                 startActivity(intent);
                                             }
@@ -347,7 +347,7 @@ public class YoXiuListActivity extends BaseActivity {
                                 @Override
                                 public void setOnClickListener(View v, int position) {
                                     int id = mList.get(position).getId();
-                                    Intent intent = new Intent(YoXiuListActivity.this, YoXiuDetailActivity.class);
+                                    Intent intent = new Intent(YoXiuListActivity.this, NewYoXiuDetailActivity.class);
                                     intent.putExtra("id", id);
                                     startActivity(intent);
                                 }
@@ -406,7 +406,7 @@ public class YoXiuListActivity extends BaseActivity {
                                         @Override
                                         public void setOnClickListener(View v, int position) {
                                             int id = mList.get(position).getId();
-                                            Intent intent = new Intent(YoXiuListActivity.this, YoXiuDetailActivity.class);
+                                            Intent intent = new Intent(YoXiuListActivity.this, NewYoXiuDetailActivity.class);
                                             intent.putExtra("id", id);
                                             startActivity(intent);
                                         }

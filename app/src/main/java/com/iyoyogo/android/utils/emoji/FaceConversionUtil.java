@@ -10,6 +10,7 @@ import android.text.style.ImageSpan;
 import android.util.Log;
 
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.utils.util.UiUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,7 +86,7 @@ public class FaceConversionUtil {
         }
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
                 imgId);
-        bitmap = Bitmap.createScaledBitmap(bitmap, 50, 50, true);
+        bitmap = Bitmap.createScaledBitmap(bitmap,UiUtils.dip2px(27),UiUtils.dip2px(24) , true);
         ImageSpan imageSpan = new ImageSpan(context, bitmap);
         SpannableString spannable = new SpannableString(spannableString);
         spannable.setSpan(imageSpan, 0, spannableString.length(),

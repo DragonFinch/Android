@@ -55,6 +55,10 @@ import com.meicam.sdk.NvsSize;
 import com.meicam.sdk.NvsStreamingContext;
 import com.meicam.sdk.NvsVideoFrameRetriever;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
@@ -189,6 +193,7 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
     @Override
     protected void initView() {
         super.initView();
+        EventBus.getDefault().register(this);
 //        StatusBarCompat.setStatusBarColor(this, Color.BLACK);
         statusbar();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -764,6 +769,7 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         if (mStreamingContext != null) {
             mStreamingContext.stop();
         }
@@ -812,5 +818,12 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
+    }
+
+    @Subscribe(threadMode =ThreadMode.MAIN) //在ui线程执行
+    public void onEventBusMessage(String event) {
+        if (event.equals("publish_success")){
+            finish();
+        }
     }
 }

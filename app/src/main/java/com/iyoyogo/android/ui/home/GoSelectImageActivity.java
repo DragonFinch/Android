@@ -68,6 +68,8 @@ import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropMulti;
 import com.yalantis.ucrop.model.CutInfo;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -167,6 +169,7 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         if (!RxBus.getDefault().isRegistered(this)) {
             RxBus.getDefault().register(this);
         }
@@ -1128,6 +1131,7 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         if (RxBus.getDefault().isRegistered(this)) {
             RxBus.getDefault().unregister(this);
         }
@@ -1154,6 +1158,13 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
                 // 录视频
                 startOpenCameraVideo();
                 break;
+        }
+    }
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = org.greenrobot.eventbus.ThreadMode.MAIN) //在ui线程执行
+    public void onEventBusMessage(String event) {
+        if (event.equals("publish_success")){
+            finish();
         }
     }
 }
