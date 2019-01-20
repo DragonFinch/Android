@@ -46,7 +46,6 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
     private List<YouXiuListBean.DataBean.ListBean> mList;
     private boolean fadeTips = false; // 变量，是否隐藏了底部的提示
     private Activity activity;
-    private int yo_id;
     private String user_id;
     private String user_token;
     private PopupWindow popup;
@@ -65,7 +64,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
         initPopup();
     }
 
-    private void initDislike() {
+    private void initDislike(int id) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_popwindow_not_like, null);
         PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 300), DensityUtil.dp2px(context, 230), true);
         TextView dislike_this_kind = view.findViewById(R.id.dislike_this_kind);
@@ -77,7 +76,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
             @Override
             public void onClick(View v) {
                 DataManager.getFromRemote()
-                        .dislike(context,user_id, user_token, yo_id, 1)
+                        .dislike(context,user_id, user_token, id, 1)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -91,7 +90,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
             @Override
             public void onClick(View v) {
                 DataManager.getFromRemote()
-                        .dislike(context,user_id, user_token, yo_id, 2)
+                        .dislike(context,user_id, user_token, id, 2)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -125,7 +124,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
-                initDislike();
+                initDislike(yo_id);
 
             }
         });
@@ -160,7 +159,8 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position0) {
+        final int position = position0;
         viewHolder.tv_yoxiu_desc.setText(mList.get(position).getPosition_name());
         viewHolder.img_more.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,7 +177,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
         viewHolder.num_browse.setText(mList.get(position).getCount_view());
         viewHolder.num_like.setText(mList.get(position).getCount_praise() + "");
         viewHolder.user_name.setText(mList.get(position).getUser_nickname());
-        viewHolder.comment_all.setText("全部评论(" + mList.get(position).getCount_comment() + ")");
+        viewHolder.comment_all.setText("全部评论(" + mList.get(position).getCount_comment() + ")" + mList.get(position).getId());
         int file_type = mList.get(position).getFile_type();
         RequestOptions requestOptions = new RequestOptions().placeholder(R.mipmap.default_touxiang).error(R.mipmap.default_touxiang);
         if (file_type == 2) {
@@ -283,7 +283,6 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
             viewHolder.img_like.setImageResource(R.mipmap.yixihuan_xiangqing);
         }
         viewHolder.img_like.setImageResource(mList.get(position).getIs_my_like() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
-        yo_id = mList.get(position).getId();
 
         viewHolder.img_like.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -348,7 +347,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
         popup.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 
-    public void loadMore(int comment_id) {
+    public void loadMore(int id) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_more, null);
         PopupWindow popup_more = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popup_more.setBackgroundDrawable(new ColorDrawable());
@@ -365,7 +364,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
                 report();
                 popup_more.dismiss();
 
-                DataManager.getFromRemote().report(context,user_id, user_token, yo_id, 0, tv_advert.getText().toString())
+                DataManager.getFromRemote().report(context,user_id, user_token, id, 0, tv_advert.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -386,7 +385,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
             public void onClick(View v) {
                 popup_more.dismiss();
                 report();
-                DataManager.getFromRemote().report(context,user_id, user_token, yo_id, 0, tv_harm.getText().toString())
+                DataManager.getFromRemote().report(context,user_id, user_token, id, 0, tv_harm.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -407,7 +406,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
             public void onClick(View v) {
                 popup_more.dismiss();
                 report();
-                DataManager.getFromRemote().report(context,user_id, user_token, yo_id, 0, tv_violate.getText().toString())
+                DataManager.getFromRemote().report(context,user_id, user_token, id, 0, tv_violate.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -429,7 +428,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
                 popup_more.dismiss();
                 report();
 
-                DataManager.getFromRemote().report(context,user_id, user_token, yo_id, 0, tv_else.getText().toString())
+                DataManager.getFromRemote().report(context,user_id, user_token, id, 0, tv_else.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {

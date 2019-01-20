@@ -46,7 +46,6 @@ public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHo
     private List<Integer> mHeight;
     private boolean fadeTips = false; // 变量，是否隐藏了底部的提示
     private Activity activity;
-    private int yo_id;
     private String user_token;
     private String user_id;
     private TextView tv_message;
@@ -89,7 +88,8 @@ public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHo
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position0) {
+            final int position = position0;
 //        ViewGroup.LayoutParams params = viewHolder.itemView.getLayoutParams();   //得到布局管理参数
 //        params.height = mHeight.get(position);
 //        viewHolder.itemView.setLayoutParams(params);
@@ -213,7 +213,6 @@ public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHo
                 viewHolder.iv_like.setImageResource(R.mipmap.yixihuan_xiangqing);
             }
             viewHolder.iv_like.setImageResource(mList.get(position).getIs_my_praise() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
-            yo_id = mList.get(position).getYo_id();
             viewHolder.iv_like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -294,7 +293,7 @@ public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHo
             img_level = itemView.findViewById(R.id.img_level);
         }
     }
-    private void initDislike() {
+    private void initDislike(int id) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_popwindow_not_like, null);
         PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 300), DensityUtil.dp2px(context, 230), true);
         TextView dislike_this_kind = view.findViewById(R.id.dislike_this_kind);
@@ -306,7 +305,7 @@ public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 DataManager.getFromRemote()
-                        .dislike(context,user_id, user_token, yo_id, 1)
+                        .dislike(context,user_id, user_token, id, 1)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -320,7 +319,7 @@ public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 DataManager.getFromRemote()
-                        .dislike(context,user_id, user_token, yo_id, 2)
+                        .dislike(context,user_id, user_token, id, 2)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -353,7 +352,7 @@ public class YoJiListAdapter extends RecyclerView.Adapter<YoJiListAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
-                initDislike();
+                initDislike(yo_id);
 
             }
         });
