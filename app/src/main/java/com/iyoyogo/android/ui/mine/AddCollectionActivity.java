@@ -130,7 +130,7 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
         /*80002/yo_id/4143*/
         String url = Constants.BASE_URL + "index.php/home/share/download_all.html";
         UMWeb web = new UMWeb(url);
-        web.setTitle("YoYoGo");//标题
+        web.setTitle("yoyoGo");//标题
         UMImage thumb = new UMImage(getApplicationContext(), R.mipmap.logo);
         web.setThumb(thumb);  //缩略图
 

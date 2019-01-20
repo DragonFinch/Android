@@ -106,7 +106,7 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
                 @Override
                 public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                     refreshLayout.finishRefresh(1050);
-                    mPresenter.banner(user_id, user_token, "attention","");
+                    mPresenter.banner(getContext(),user_id, user_token, "attention","");
                 }
             });
         }

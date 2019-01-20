@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/xihuanwode"
+            android:text="我喜欢的"
             android:textColor="@color/color333333"
             android:textSize="@dimen/sp_16"
             android:textStyle="bold" />

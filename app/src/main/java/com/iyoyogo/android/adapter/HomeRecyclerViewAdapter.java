@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ import com.iyoyogo.android.utils.util.MyConversionUtil;
 import com.iyoyogo.android.view.CardTransformer;
 import com.iyoyogo.android.view.MyViewPager;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,8 +53,9 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     private List<HomeBean.DataBean> mList;
     //是否轮循
     private boolean isLoop;
-    private static final int TIME = 2000;
+    private static final int TIME = 3000;
     private MyViewPager viewpager;
+    private FixedSpeedScroller mScroller;
     private int mCount;
     private Handler mHandler = new Handler() {
         @Override
@@ -78,6 +81,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 }
                 mHandler.postDelayed(this, TIME);
                 viewpager.setCurrentItem(currentItem);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -146,7 +150,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         } else if (viewHolder instanceof Holder_YouJi) {
             List<HomeBean.DataBean.YojListBean> yoj_list = mList.get(0).getYoj_list();
             setYouJiHolder((Holder_YouJi) viewHolder, yoj_list);
-            
+
 
         } else if (viewHolder instanceof Holder_Footer) {
             setFootHolder((Holder_Footer) viewHolder);
@@ -231,8 +235,17 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
         });
         isLoop = true;
-
-
+        //给viewpager添加滚动动画类
+        try {
+            // 通过class文件获取mScroller属性
+            Field mField = ViewPager.class.getDeclaredField("mScroller");
+            mField.setAccessible(true);
+            mScroller = new FixedSpeedScroller(viewpager.getContext(), new AccelerateInterpolator());
+            mField.set(viewpager, mScroller);
+            mScroller.setmDuration(1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //友秀
@@ -278,7 +291,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 user_id = SpUtils.getString(context, "user_id", null);
                 user_token = SpUtils.getString(context, "user_token", null);
                 Log.d("HomeRecyclerViewAdapter", "yox_list.get(position).getId():" + yox_list.get(position).getId());
-                DataManager.getFromRemote().browse(context,user_id, user_token, String.valueOf(yox_list.get(position).getId()))
+                DataManager.getFromRemote().browse(context, user_id, user_token, String.valueOf(yox_list.get(position).getId()))
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -325,7 +338,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 public void onClick(View v, int position) {
                     user_id = SpUtils.getString(context, "user_id", null);
                     user_token = SpUtils.getString(context, "user_token", null);
-                    DataManager.getFromRemote().browse(context,user_id, user_token, String.valueOf(yoj_list.get(position).getYo_id()))
+                    DataManager.getFromRemote().browse(context, user_id, user_token, String.valueOf(yoj_list.get(position).getYo_id()))
                             .subscribe(new Consumer<BaseBean>() {
                                 @Override
                                 public void accept(BaseBean baseBean) throws Exception {
@@ -367,8 +380,8 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                     int yo_id = yoj_list.get(position).getYo_id();
                     user_id = SpUtils.getString(context, "user_id", null);
                     user_token = SpUtils.getString(context, "user_token", null);
-                    Log.e("zxcvbn", "onClick: "+user_id +"..."+user_token );
-                    DataManager.getFromRemote().browse(context,user_id, user_token, String.valueOf(yoj_list.get(position).getYo_id()))
+                    Log.e("zxcvbn", "onClick: " + user_id + "..." + user_token);
+                    DataManager.getFromRemote().browse(context, user_id, user_token, String.valueOf(yoj_list.get(position).getYo_id()))
                             .subscribe(new Consumer<BaseBean>() {
                                 @Override
                                 public void accept(BaseBean baseBean) throws Exception {
