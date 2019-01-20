@@ -322,7 +322,7 @@ public class HomeFragment extends BaseFragment {
         attentionFragment = new AttentionFragment();
 
         getFragmentManager().beginTransaction()
-                .add(R.id.frame_container_home, recommedFragment)
+                .add(R.id.frame_container_home, recommedFragment,AttentionFragment.class.getSimpleName())
                 .commitAllowingStateLoss();
 
         bar.setYoyotopBarClickCallback(new YoyogoTopBarView.YoyotopBarClickCallback() {
@@ -383,12 +383,12 @@ public class HomeFragment extends BaseFragment {
 
     private FragmentTransaction switchFragment(Fragment targetFragment) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        if (!targetFragment.isAdded()) {
+        if (!targetFragment.isAdded() && null != getFragmentManager().findFragmentByTag(targetFragment.getClass().getSimpleName())) {
             //第一次使用switchFragment()时currentFragment为null，所以要判断一下    
             if (currentFragment != null) {
                 transaction.hide(currentFragment);
             }
-            transaction.add(R.id.frame_container_home, targetFragment, targetFragment.getClass().getName());
+            transaction.add(R.id.frame_container_home, targetFragment, targetFragment.getClass().getSimpleName());
         } else {
             transaction
                     .hide(currentFragment)
