@@ -2043,22 +2043,10 @@ public class Model {
                 });
     }
 
-    public Observable<GuanZhuBean> guanzhu(Context context,String user_id, String user_token, String target) {
+    public Observable<GuanZhuBean> guanzhu(String user_id, String user_token, String target) {
         return HttpClient.getApiService()
                 .keyword(user_id, user_token, target)
-                .compose(this.switchThread()).filter(new Predicate<GuanZhuBean>() {
-                    @Override
-                    public boolean test(GuanZhuBean guanZhuBean) throws Exception {
-                        if (guanZhuBean != null){
-                            int code = guanZhuBean.getCode();
-                            if (code == 202){
-                                Intent intent = new Intent(context,LoginActivity.class);
-                                context.startActivity(intent);
-                            }
-                        }
-                        return true;
-                    }
-                });
+                .compose(this.switchThread());
     }
 
     /*    public Observable<MapBean> mapDiTu(String user_id, String user_token, String type, String search){
@@ -2123,7 +2111,8 @@ public class Model {
                 .compose(this.switchThread()).filter(new Predicate<KeywordUserBean>() {
                     @Override
                     public boolean test(KeywordUserBean keywordUserBean) throws Exception {
-                        return false;
+                        startLogin(context,keywordUserBean);
+                        return true;
                     }
                 });
     }

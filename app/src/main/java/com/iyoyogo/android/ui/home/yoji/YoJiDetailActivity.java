@@ -110,8 +110,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     ImageView imgShare;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.coll)
-    CollapsingToolbarLayout coll;
+/*    @BindView(R.id.coll)
+    CollapsingToolbarLayout coll;*/
     @BindView(R.id.appbar)
     AppBarLayout appbar;
     @BindView(R.id.tv_title)

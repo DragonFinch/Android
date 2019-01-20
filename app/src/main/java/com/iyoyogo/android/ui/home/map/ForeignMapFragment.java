@@ -161,36 +161,6 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
                 showSetCityDialog(cityEntity.getName(), cityEntity.getCityCode());
             }
         });
-       /* searchLocateContentEt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String content = searchLocateContentEt.getText().toString().trim().toLowerCase();
-                setSearchCityList(content);
-            }
-        });
-
-        searchLocateContentEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    hideSoftInput(searchLocateContentEt.getWindowToken());
-                    String content = searchLocateContentEt.getText().toString().trim().toLowerCase();
-                    setSearchCityList(content);
-                    return true;
-                }
-                return false;
-            }
-        });*/
     }
 
     /**

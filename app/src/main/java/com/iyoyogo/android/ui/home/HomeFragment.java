@@ -344,6 +344,7 @@ public class HomeFragment extends BaseFragment {
             public void onLocationClick() {
                 Intent intent = new Intent(getActivity(),DiTuActivity.class);
                 intent.putExtra("gps",name1);
+                Log.e("gps", "onLocationClick: "+name1 );
                 startActivity(new Intent(getActivity(), DiTuActivity.class));
             }
 

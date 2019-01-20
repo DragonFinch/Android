@@ -634,6 +634,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
         SpUtils.putBoolean(LoginActivity.this, "isLogin", true);
         SpUtils.putString(LoginActivity.this, "user_id", user_id);
         SpUtils.putString(LoginActivity.this, "user_token", user_token);
+        Log.e("hoc", "loginSuccess: "+user_id+"user_token"+user_token );
         if (status == 2) {
             Intent intent = new Intent(LoginActivity.this, BindPhoneActivity.class);
             intent.putExtra("type", type);

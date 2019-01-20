@@ -33,9 +33,9 @@ public class KeywordPresenter extends BasePresenter<KeywordContract.View> implem
     }
 
     @Override
-    public void getGuanZhu(Context context,String user_id, String user_token, String target_id) {
+    public void getGuanZhu(String user_id, String user_token, String target_id) {
         DataManager.getFromRemote()
-                .guanzhu(context,user_id,user_token,target_id)
+                .guanzhu(user_id,user_token,target_id)
                 .subscribe(new ApiObserver<GuanZhuBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(GuanZhuBean guanZhuBean) {
@@ -50,6 +50,7 @@ public class KeywordPresenter extends BasePresenter<KeywordContract.View> implem
             @Override
             protected void doOnSuccess(KeywordUserBean keywordUserBean) {
                 mView.search(keywordUserBean);
+                Log.e("hanbaocdjh", "doOnSuccess: "+keywordUserBean.getData().getList().size());
             }
         });
     }

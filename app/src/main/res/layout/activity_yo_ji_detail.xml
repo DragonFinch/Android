@@ -17,28 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/coll"
-            android:animateLayoutChanges="true"
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:contentScrim="@color/white"
-
-            app:statusBarScrim="@color/white">
-
-            <cn.bingoogolapple.bgabanner.BGABanner
-
-                android:id="@+id/banner"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_222"
-                app:banner_pointContainerBackground="@color/transparent" />
-
-            <com.amap.api.maps2d.MapView
-                android:id="@+id/map_view"
-                android:layout_width="match_parent"
-                android:layout_height="222dp"/>
-
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -106,7 +84,6 @@
                 </RelativeLayout>
 
             </android.support.v7.widget.Toolbar>
-        </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
     <com.iyoyogo.android.widget.MyNestedScrollView
@@ -120,25 +97,44 @@
         android:descendantFocusability="blocksDescendants"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+
         <RelativeLayout
             android:background="#FAFAFA"
             android:animateLayoutChanges="true"
 
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <RelativeLayout
+                android:id="@+id/head"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <cn.bingoogolapple.bgabanner.BGABanner
+                    android:id="@+id/banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_222"
+                    app:banner_pointContainerBackground="@color/transparent" />
+
+                <com.amap.api.maps2d.MapView
+                    android:id="@+id/map_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="222dp"/>
+
+            </RelativeLayout>
 
             <RelativeLayout
+                android:layout_below="@+id/head"
                 android:background="#FAFAFA"
                 android:id="@+id/user_layouts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <RelativeLayout
+                    android:visibility="gone"
                     android:id="@+id/realtive"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_yoji_list"
-                    android:visibility="gone">
+                    >
 
                     <TextView
                         android:id="@+id/tv_title"

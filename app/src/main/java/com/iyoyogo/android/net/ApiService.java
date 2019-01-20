@@ -763,7 +763,7 @@ public interface ApiService {
     Observable<MapRenMei> getRenMei(@Field("user_id") String user_id, @Field("user_token") String user_token);
 
     //首页  搜索 关键字搜索
-    @POST("index.php/api/search/get_keywords")
+    @POST("/index.php/api/search/get_keywords")
     @FormUrlEncoded
     Observable<KeywordUserBean> getserarch(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("search") String search);
 

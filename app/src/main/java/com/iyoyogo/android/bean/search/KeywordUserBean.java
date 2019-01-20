@@ -2,6 +2,7 @@ package com.iyoyogo.android.bean.search;
 
 import com.iyoyogo.android.bean.BaseBean;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class KeywordUserBean extends BaseBean {
@@ -21,7 +22,7 @@ public class KeywordUserBean extends BaseBean {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         private List<ListBean> list;
 
         public List<ListBean> getList() {

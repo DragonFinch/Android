@@ -16,7 +16,7 @@ public interface KeywordContract {
     }
     interface Presenter extends IBasePresenter {
         void getKeyWord(Context context, String user_id, String user_token, String search, String type, String key_type);
-        void getGuanZhu(Context context,String user_id, String user_token, String target_id);
+        void getGuanZhu(String user_id, String user_token, String target_id);
         void getSearch(Context context,String user_id, String user_token, String search);
     }
 }

@@ -129,6 +129,7 @@ public class InlandMapFragment extends BaseFragment<MapSearchContract.Presenter>
     @SuppressLint("ValidFragment")
     public InlandMapFragment(String gps) {
         mGps1 = gps;
+        Log.e("czczxcz", "InlandMapFragment: "+mGps1 );
     }
 
 
@@ -141,7 +142,6 @@ public class InlandMapFragment extends BaseFragment<MapSearchContract.Presenter>
        // initData();
         initListener1();
         initdiwei();
-
         return inflate;
 
     }
@@ -238,7 +238,7 @@ public class InlandMapFragment extends BaseFragment<MapSearchContract.Presenter>
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 1) {
-                    CityEntity cityEntity = totalCityList.get(position);
+                    CityEntity cityEntity = totalCityList.get(position-2);
                     showSetCityDialog(cityEntity.getName(), cityEntity.getCityCode());
                 }
 

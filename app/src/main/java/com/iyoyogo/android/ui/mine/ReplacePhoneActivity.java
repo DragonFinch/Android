@@ -36,6 +36,7 @@ public class ReplacePhoneActivity extends BaseActivity<ReplacePhoneContract.Pres
     EditText editPhone;
     @BindView(R.id.edit_code)
     EditText editCode;
+
     @BindView(R.id.tv_code)
     TextView tvCode;
     @BindView(R.id.replacer_phone)

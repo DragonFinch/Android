@@ -146,15 +146,15 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             public void setOnClickListener(TextView tv_guanzhu, int po) {
                 tv_guanzhu1 = tv_guanzhu;
                 s = tv_guanzhu.getText().toString();
-                int user_id = mUser.get(po).getUser_id();
+                int user_id1 = mUser.get(po).getUser_id();
                 if (s.equals("已关注")) {
-                    mPresenter.getGuanZhu(SearchResultActivity.this,user_id+"", user_token, user_id + "");
+                    mPresenter.getGuanZhu(user_id, user_token, user_id1 + "");
                 }
                 if (s.equals("+关注")) {
-                    mPresenter.getGuanZhu(SearchResultActivity.this,user_id+"", user_token, user_id + "");
+                    mPresenter.getGuanZhu(user_id, user_token, user_id1 + "");
                 }
                 if (s.equals("互相关注")) {
-                    mPresenter.getGuanZhu(SearchResultActivity.this,user_id+"", user_token, user_id + "");
+                    mPresenter.getGuanZhu(user_id, user_token, user_id1 + "");
                 }
             }
         });
@@ -221,6 +221,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 if (!s.toString().isEmpty()) {
                     if (fig) {
                         mPresenter.getSearch(SearchResultActivity.this,user_id, user_token, s.toString());
+                        Log.e("xczv,lm", "afterTextChanged: "+user_id+"user_token"+user_token+s.toString() );
                         cancel.setVisibility(View.VISIBLE);
                     } else {
                         fig = true;

@@ -124,6 +124,7 @@ public class ReplyDiscussAdapter extends RecyclerView.Adapter<ReplyDiscussAdapte
             msp.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), 0, mList.get(position).getUser_nickname().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
             msp.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), 0, mList.get(position).getUser_nickname().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
             holder.user_content.setText(msp);
+
             holder.tv_time.setText(mList.get(position).getCreate_time());
             holder.tv_comment_like_num.setText(mList.get(position).getCount_praise() + "");
             RequestOptions requestOptions = new RequestOptions();
