@@ -56,6 +56,7 @@ import com.iyoyogo.android.contract.PublishYoJiContract;
 import com.iyoyogo.android.model.RObject;
 import com.iyoyogo.android.presenter.PublishYoJiPresenter;
 import com.iyoyogo.android.ui.common.SearchActivity;
+import com.iyoyogo.android.ui.home.HomeFragment;
 import com.iyoyogo.android.ui.home.yoxiu.ChannelActivity;
 import com.iyoyogo.android.ui.home.yoxiu.MoreTopicActivity;
 import com.iyoyogo.android.utils.SpUtils;
@@ -863,7 +864,7 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
 
     @Override
     public void publishYoJiSuccess(PublishSucessBean baseBean) {
-
+        HomeFragment.homeFragment.onEventBusMessage("publish_success");
     }
 
     @Override

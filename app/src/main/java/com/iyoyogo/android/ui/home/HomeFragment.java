@@ -68,6 +68,7 @@ import butterknife.Unbinder;
  * A simple {@link Fragment} subclass.首页
  */
 public class HomeFragment extends BaseFragment {
+    public static HomeFragment homeFragment;
     PopupWindow popup;
     @BindView(R.id.bar)
     YoyogoTopBarView bar;
@@ -277,6 +278,12 @@ public class HomeFragment extends BaseFragment {
                 startActivity(data.setClass(getActivity(), EditImageOrVideoActivity.class).putExtra("type", 2));
             }
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        homeFragment = this;
     }
 
     @Override

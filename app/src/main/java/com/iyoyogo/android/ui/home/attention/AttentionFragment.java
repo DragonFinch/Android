@@ -67,9 +67,6 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
     @Override
     public void onResume() {
         super.onResume();
-
-
-
     }
 
     @Override
@@ -95,7 +92,6 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
                 }
             });
         } else {
-
             refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
             //下拉刷新
             refreshLayout.setEnableRefresh(true);
@@ -106,7 +102,7 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
                 @Override
                 public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                     refreshLayout.finishRefresh(1050);
-                    mPresenter.banner(user_id, user_token, "attention","");
+                    mPresenter.banner(getContext(),user_id, user_token, "attention","");
                 }
             });
         }
@@ -142,6 +138,6 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
     }
 
     public void refresh() {
-    initData();
+        initData();
     }
 }

@@ -125,9 +125,7 @@ public class YoJiDetailPresenter extends BasePresenter<YoJiDetailContract.View> 
                         CollectionFolderBean.DataBean data = collectionFolderBean.getData();
                         if (data != null) {
                             mView.getCollectionFolderSuccess(data);
-
                         }
-
                     }
 
                     @Override
