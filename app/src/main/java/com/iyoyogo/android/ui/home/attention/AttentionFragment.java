@@ -44,7 +44,6 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
     private String user_token;
     private String city;
 
-
     @Override
     protected void initView() {
         super.initView();
@@ -138,6 +137,6 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
     }
 
     public void refresh() {
-        initData();
+        mPresenter.banner(getActivity(),user_id, user_token, "attention", city);
     }
 }

@@ -815,16 +815,13 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                 shortToast("vvv");
                 break;
             case R.id.back_img:
-
                 break;
             case R.id.tv_add_cover:
-
                 break;
             case R.id.more_topic:
                 Intent intent1 = new Intent(PublishYoJiActivity.this, MoreTopicActivity.class);
                 intent1.putExtra("type",2);
                 startActivityForResult(intent1, 1);
-
                 break;
             case R.id.next:
                 Intent intent = new Intent(PublishYoJiActivity.this, ChannelActivity.class);

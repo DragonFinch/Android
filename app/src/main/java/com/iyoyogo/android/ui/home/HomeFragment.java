@@ -352,17 +352,11 @@ public class HomeFragment extends BaseFragment {
 //                getFragmentManager().beginTransaction()
 //                        .add(R.id.frame_container_home, recommedFragment)
 //                        .commitAllowingStateLoss();
-
-
                 switchFragment(recommedFragment).commit();
-
             }
 
             @Override
             public void onAttentionClick() {
-//                getFragmentManager().beginTransaction()
-//                        .add(R.id.frame_container_home, attentionFragment)
-//                        .commitAllowingStateLoss();
                 switchFragment(attentionFragment).commit();
             }
 
@@ -382,14 +376,26 @@ public class HomeFragment extends BaseFragment {
     public void eventMessage(String name) {
         if (name==null)return;
         if("PUBLISH".equals(name)){
-            bar.changeAtt();
+            switchFragment(attentionFragment).commitAllowingStateLoss();
             attentionFragment.refresh();
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }else{
             name1 = name;
             bar.setLocationResult(name1);
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (currentFragment == attentionFragment){
+            bar.changeAtt();
+        }
+    }
 
     private FragmentTransaction switchFragment(Fragment targetFragment) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();

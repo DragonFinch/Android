@@ -78,12 +78,8 @@ public class YoyogoTopBarView extends RelativeLayout {
             public void onClick(View v) {
                 Drawable drawableLeft1 = getResources().getDrawable(
                         R.mipmap.line_white);
-
                 attendtion_tv.setCompoundDrawablesWithIntrinsicBounds(null,
                         null, null, drawableLeft1);
-                Drawable drawableLeft = getResources().getDrawable(
-                        R.mipmap.line_white);
-
                 recommend_tv.setCompoundDrawablesWithIntrinsicBounds(null,
                         null, null, null);
                 attendtion_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
@@ -98,14 +94,10 @@ public class YoyogoTopBarView extends RelativeLayout {
         recommend_tv.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Drawable drawableLeft1 = getResources().getDrawable(
-                        R.mipmap.line_white);
-
                 attendtion_tv.setCompoundDrawablesWithIntrinsicBounds(null,
                         null, null, null);
                 Drawable drawableLeft = getResources().getDrawable(
                         R.mipmap.line_white);
-
                 recommend_tv.setCompoundDrawablesWithIntrinsicBounds(null,
                         null, null, drawableLeft);
                 attendtion_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
@@ -154,12 +146,8 @@ public class YoyogoTopBarView extends RelativeLayout {
     public void changeAtt(){
         Drawable drawableLeft1 = getResources().getDrawable(
                 R.mipmap.line_white);
-
         attendtion_tv.setCompoundDrawablesWithIntrinsicBounds(null,
                 null, null, drawableLeft1);
-        Drawable drawableLeft = getResources().getDrawable(
-                R.mipmap.line_white);
-
         recommend_tv.setCompoundDrawablesWithIntrinsicBounds(null,
                 null, null, null);
         attendtion_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
