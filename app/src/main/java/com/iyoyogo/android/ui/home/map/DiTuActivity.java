@@ -105,8 +105,6 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
     @Override
     protected void initView() {
         super.initView();
-
-
         StatusBarUtil.setStatusBarLayoutStyle(DiTuActivity.this, true);
         StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.holo_orange_dark));
         InlandMapFragment inlandMapFragment = new InlandMapFragment(mList);

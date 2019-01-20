@@ -66,10 +66,7 @@ public class YoJiDetailPresenter extends BasePresenter<YoJiDetailContract.View> 
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
-
-
                         mView.deleteAttentionSuccess(baseBean);
-
                     }
 
                     @Override
@@ -147,10 +144,7 @@ public class YoJiDetailPresenter extends BasePresenter<YoJiDetailContract.View> 
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
-
                         mView.createFolderSuccess(baseBean);
-
-
                     }
 
                     @Override
@@ -188,10 +182,7 @@ public class YoJiDetailPresenter extends BasePresenter<YoJiDetailContract.View> 
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
-
                         mView.deleteCollectionSuccess(baseBean);
-
-
                     }
 
                     @Override
