@@ -80,6 +80,7 @@ import com.umeng.socialize.media.UMWeb;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -544,7 +545,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
     }
 
     public void selectTime(int position, int type) {
-        TimePickerView pvTime = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
+        TimePickerView.Builder centerLabel = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 String time = DateUtils.stampToDate(date, "yyyy-MM-dd");
@@ -560,10 +561,15 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
                 .setCancelText("取消")//取消按钮文字
                 .setSubmitText("确定")//确认按钮文字
                 .gravity(Gravity.CENTER)
-                .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
-                .build();
-
-        pvTime.show();
+                .isCenterLabel(false);//是否只显示中间选中项的label文字，false则每项item全部都带有label。
+        if (type == 2) {
+            Calendar instance = Calendar.getInstance();
+            instance.setTime(new Date(DateUtils.string2Milliseconds(mData.get(position).getStart_date(),"yyyy-MM-dd")));
+            Calendar end = Calendar.getInstance();
+            end.set(2100,12,31);
+            centerLabel.setRangDate(instance,end);
+        }
+        centerLabel.build().show();
     }
 
     private int getImageSize() {

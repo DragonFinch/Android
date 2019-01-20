@@ -150,4 +150,24 @@ public class YoyogoTopBarView extends RelativeLayout {
             loacktionTv.setText(city);
         }
     }
+
+    public void changeAtt(){
+        Drawable drawableLeft1 = getResources().getDrawable(
+                R.mipmap.line_white);
+
+        attendtion_tv.setCompoundDrawablesWithIntrinsicBounds(null,
+                null, null, drawableLeft1);
+        Drawable drawableLeft = getResources().getDrawable(
+                R.mipmap.line_white);
+
+        recommend_tv.setCompoundDrawablesWithIntrinsicBounds(null,
+                null, null, null);
+        attendtion_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+        attendtion_tv.setTextColor(Color.parseColor("#ffffff"));
+        recommend_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+        recommend_tv.setTextColor(Color.parseColor("#ffffff"));
+        if (yoyotopBarClickCallback != null) {
+            yoyotopBarClickCallback.onAttentionClick();
+        }
+    }
 }

@@ -36,7 +36,7 @@ import butterknife.Unbinder;
  */
 public class AttentionFragment extends BaseFragment<HomeContract.Presenter> implements HomeContract.View {
     @BindView(R.id.recycler_recommend)
-    RecyclerView recyclerHome;
+    RecyclerView       recyclerHome;
     @BindView(R.id.refresh_layout)
     SmartRefreshLayout refreshLayout;
     Unbinder unbinder;
@@ -80,7 +80,7 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
         setHeader(mRefreshAnimHeader);
-        if (city !=null){
+        if (city != null) {
             refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
             //下拉刷新
             refreshLayout.setEnableRefresh(true);
@@ -94,7 +94,7 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
                     mPresenter.banner(getActivity(),user_id, user_token, "attention", city);
                 }
             });
-        }else {
+        } else {
 
             refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
             //下拉刷新
@@ -106,7 +106,7 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
                 @Override
                 public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                     refreshLayout.finishRefresh(1050);
-                    mPresenter.banner(getActivity(),user_id, user_token, "attention","");
+                    mPresenter.banner(user_id, user_token, "attention","");
                 }
             });
         }
@@ -136,4 +136,12 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
        });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    public void refresh() {
+    initData();
+    }
 }
