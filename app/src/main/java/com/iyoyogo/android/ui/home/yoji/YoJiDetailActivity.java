@@ -2,6 +2,7 @@ package com.iyoyogo.android.ui.home.yoji;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -292,7 +293,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
+        //在activity执行onSaveInstanceState时执行
         mapView.onSaveInstanceState(outState);
     }
 
@@ -723,6 +724,11 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     }
 
+    float getRoundFloat(String ft){
+        return Float.parseFloat(ft);
+        //return Math.round(Float.parseFloat(ft)*100000000)/100000000;
+    }
+
     @Override
     public void getYoJiDetailSuccess(YoJiDetailBean.DataBean data) {
         List<LatLng> latLngs = new ArrayList<>();
@@ -763,17 +769,25 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         }
         List<Object> bannerList = new ArrayList<>();
         bannerList.add(data.getLogo());
-        aMap.getMapScreenShot(bitmap -> {
-            bitmap.setHasAlpha(true);
-            bannerList.add(0, bitmap);
-            mBanner.setData(bannerList, null);
-            mapView.setVisibility(View.GONE);
-        });
-
-
+        if (data.getList() == null || data.getList().size() == 0 || data.getList().size() ==1 ||(
+                data.getList().get(0).getLat().equals(data.getList().get(data.getList().size()-1).getLat())
+                        && data.getList().get(0).getLng().equals(data.getList().get(data.getList().size()-1).getLng())
+        )) {
+            //可认为是同一景点
+            Log.d("d","d");
+        }else{
+            aMap.getMapScreenShot(new AMap.OnMapScreenShotListener() {
+                @Override
+                public void onMapScreenShot(Bitmap bitmap) {
+                    bitmap.setHasAlpha(true);
+                    bannerList.add(0, bitmap);
+                }
+            });
+        }
         yo_attention_id = data.getUser_id();
+        mBanner.setData(bannerList, null);
+        mapView.setVisibility(View.GONE);
         title = data.getTitle();
-
         yo_ids = data.getYo_id();
         tvComment.setText("评论" + "(" + data.getCount_comment() + ")");
         initPopup();

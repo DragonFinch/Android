@@ -59,7 +59,7 @@
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbaretail"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="45dp"
                     app:layout_collapseMode="pin"
                     android:fitsSystemWindows="true"
                     android:paddingTop="15dp"
@@ -133,7 +133,7 @@
             android:id="@+id/nested"
             android:animateLayoutChanges="true"
             android:fillViewport="true"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="45dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:descendantFocusability="blocksDescendants"
