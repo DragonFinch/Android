@@ -131,7 +131,7 @@ public class ForeigniMapFragment extends BaseFragment<MapContract.Presenter> imp
         super.initData();
         String user_id = SpUtils.getString(getActivity(), "user_id", null);
         String user_token = SpUtils.getString(getActivity(), "user_token", null);
-        mPresenter.aboutMe(user_id,user_token,"international","");
+        mPresenter.aboutMe(getActivity(),user_id,user_token,"international","");
         Log.e("onResume", "onResume: "+user_id +"!!!!!!!"+user_token );
     }
 
@@ -285,7 +285,7 @@ public class ForeigniMapFragment extends BaseFragment<MapContract.Presenter> imp
 
     @Override
     protected MapContract.Presenter createPresenter() {
-        return new MapPresenter(this);
+        return new MapPresenter(getActivity(),this);
     }
 
     /**

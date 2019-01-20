@@ -187,12 +187,12 @@ public class VipCenterActivity extends BaseActivity<VipCenterContract.Presenter>
         super.initData(savedInstanceState);
         String user_id = SpUtils.getString(this, "user_id", null);
         String user_token = SpUtils.getString(this, "user_token", null);
-        mPresenter.getVipCenter(user_id, user_token);
+        mPresenter.getVipCenter(VipCenterActivity.this,user_id, user_token);
     }
 
     @Override
     protected VipCenterContract.Presenter createPresenter() {
-        return new VipCenterPresenter(this);
+        return new VipCenterPresenter(VipCenterActivity.this,this);
     }
 
     private void init() {

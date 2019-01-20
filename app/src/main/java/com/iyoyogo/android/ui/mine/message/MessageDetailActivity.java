@@ -193,13 +193,13 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
         user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
         user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
         if (title.equals("喜欢我的")) {
-            mPresenter.getMessage(user_id, user_token, 2, 1);
+            mPresenter.getMessage(MessageDetailActivity.this,user_id, user_token, 2, 1);
         } else if (title.equals("系统消息")) {
-            mPresenter.getMessage(user_id, user_token, 1, 1);
+            mPresenter.getMessage(MessageDetailActivity.this,user_id, user_token, 1, 1);
         } else if (title.equals("评论消息")) {
-            mPresenter.getMessage(user_id, user_token, 3, 1);
+            mPresenter.getMessage(MessageDetailActivity.this,user_id, user_token, 3, 1);
         } else if (title.equals("关注消息")) {
-            mPresenter.getMessage(user_id, user_token, 4, 1);
+            mPresenter.getMessage(MessageDetailActivity.this,user_id, user_token, 4, 1);
         }
 
         //下拉刷新
@@ -212,7 +212,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 currentPage++;
                 if (title.equals("喜欢我的")) {
-                    DataManager.getFromRemote().getMessage(user_id, user_token, 2, currentPage)
+                    DataManager.getFromRemote().getMessage(MessageDetailActivity.this,user_id, user_token, 2, currentPage)
                             .subscribe(new Consumer<MessageBean>() {
                                 @Override
                                 public void accept(MessageBean messageBean) throws Exception {
@@ -223,7 +223,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                             });
 
                 } else if (title.equals("系统消息")) {
-                    DataManager.getFromRemote().getMessage(user_id, user_token, 1, currentPage)
+                    DataManager.getFromRemote().getMessage(MessageDetailActivity.this,user_id, user_token, 1, currentPage)
                             .subscribe(new Consumer<MessageBean>() {
                                 @Override
                                 public void accept(MessageBean messageBean) throws Exception {
@@ -233,7 +233,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                 }
                             });
                 } else if (title.equals("评论消息")) {
-                    DataManager.getFromRemote().getMessage(user_id, user_token, 3, currentPage)
+                    DataManager.getFromRemote().getMessage(MessageDetailActivity.this,user_id, user_token, 3, currentPage)
                             .subscribe(new Consumer<MessageBean>() {
                                 @Override
                                 public void accept(MessageBean messageBean) throws Exception {
@@ -243,7 +243,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                 }
                             });
                 } else if (title.equals("关注消息")) {
-                    DataManager.getFromRemote().getMessage(user_id, user_token, 4, currentPage)
+                    DataManager.getFromRemote().getMessage(MessageDetailActivity.this,user_id, user_token, 4, currentPage)
                             .subscribe(new Consumer<MessageBean>() {
                                 @Override
                                 public void accept(MessageBean messageBean) throws Exception {
@@ -261,7 +261,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                 mlist.clear();
                 refreshLayout.finishRefresh(1050);
                 if (title.equals("喜欢我的")) {
-                    DataManager.getFromRemote().getMessage(user_id, user_token, 2, 1)
+                    DataManager.getFromRemote().getMessage(MessageDetailActivity.this,user_id, user_token, 2, 1)
                             .subscribe(new Observer<MessageBean>() {
                                 @Override
                                 public void onSubscribe(Disposable d) {
@@ -278,7 +278,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                         @Override
                                         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                             if (mlist.get(position).getIs_read() == 0) {
-                                                mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
+                                                mPresenter.readMessage(MessageDetailActivity.this,user_id, user_token, mlist.get(position).getMessage_id() + "");
                                             }
                                         }
                                     });
@@ -295,7 +295,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                 }
                             });
                 } else if (title.equals("系统消息")) {
-                    DataManager.getFromRemote().getMessage(user_id, user_token, 1, 1)
+                    DataManager.getFromRemote().getMessage(MessageDetailActivity.this,user_id, user_token, 1, 1)
                             .subscribe(new Observer<MessageBean>() {
                                 @Override
                                 public void onSubscribe(Disposable d) {
@@ -312,7 +312,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                         @Override
                                         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                             if (mlist.get(position).getIs_read() == 0) {
-                                                mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
+                                                mPresenter.readMessage(MessageDetailActivity.this,user_id, user_token, mlist.get(position).getMessage_id() + "");
                                             }
                                         }
                                     });
@@ -329,7 +329,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                 }
                             });
                 } else if (title.equals("评论消息")) {
-                    DataManager.getFromRemote().getMessage(user_id, user_token, 3, 1)
+                    DataManager.getFromRemote().getMessage(MessageDetailActivity.this,user_id, user_token, 3, 1)
                             .subscribe(new Observer<MessageBean>() {
                                 @Override
                                 public void onSubscribe(Disposable d) {
@@ -348,14 +348,14 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                             if (mlist.get(position).getIs_read() == 0) {
                                                 FaceRelativeLayout.setVisibility(View.GONE);
                                                 KeyBoardUtils.closeKeybord(etSendmessage, MessageDetailActivity.this);
-                                                mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
+                                                mPresenter.readMessage(MessageDetailActivity.this,user_id, user_token, mlist.get(position).getMessage_id() + "");
                                             }
                                         }
                                     });
                                     commentMessageAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                                         @Override
                                         public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                                            mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
+                                            mPresenter.readMessage(MessageDetailActivity.this,user_id, user_token, mlist.get(position).getMessage_id() + "");
 
                                             commentMessageAdapter.notifyDataSetChanged();
                                             FaceRelativeLayout.setVisibility(View.VISIBLE);
@@ -408,7 +408,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                                                     if (actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
                                                         if (etSendmessage.getText().toString().length() > 0) {
-                                                            mPresenter.addComment(user_id, user_token, Integer.parseInt(mlist.get(position).getParam()), 0, etSendmessage.getText().toString().trim());
+                                                            mPresenter.addComment(MessageDetailActivity.this,user_id, user_token, Integer.parseInt(mlist.get(position).getParam()), 0, etSendmessage.getText().toString().trim());
                                                             closeInputMethod();
                                                             etSendmessage.clearFocus();
                                                             etSendmessage.setFocusable(false);
@@ -447,7 +447,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                 }
                             });
                 } else if (title.equals("关注消息")) {
-                    DataManager.getFromRemote().getMessage(user_id, user_token, 4, 1)
+                    DataManager.getFromRemote().getMessage(MessageDetailActivity.this,user_id, user_token, 4, 1)
                             .subscribe(new Observer<MessageBean>() {
                                 @Override
                                 public void onSubscribe(Disposable d) {
@@ -464,7 +464,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                                         @Override
                                         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                             if (mlist.get(position).getIs_read() == 0) {
-                                                mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
+                                                mPresenter.readMessage(MessageDetailActivity.this,user_id, user_token, mlist.get(position).getMessage_id() + "");
                                             }
                                         }
                                     });
@@ -488,7 +488,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
 
     @Override
     protected MessageContract.Presenter createPresenter() {
-        return new MessagePresenter(this);
+        return new MessagePresenter(MessageDetailActivity.this,this);
     }
 
     private void closeInputMethod() {
@@ -515,7 +515,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                     @Override
                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                         if (mlist.get(position).getIs_read() == 0) {
-                            mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
+                            mPresenter.readMessage(MessageDetailActivity.this,user_id, user_token, mlist.get(position).getMessage_id() + "");
                         }
                     }
                 });
@@ -527,7 +527,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                     @Override
                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                         if (mlist.get(position).getIs_read() == 0) {
-                            mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
+                            mPresenter.readMessage(MessageDetailActivity.this,user_id, user_token, mlist.get(position).getMessage_id() + "");
                         }
                     }
                 });
@@ -542,14 +542,14 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                         if (mlist.get(position).getIs_read() == 0) {
                             FaceRelativeLayout.setVisibility(View.GONE);
                             KeyBoardUtils.closeKeybord(etSendmessage, MessageDetailActivity.this);
-                            mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
+                            mPresenter.readMessage(MessageDetailActivity.this,user_id, user_token, mlist.get(position).getMessage_id() + "");
                         }
                     }
                 });
                 commentMessageAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                     @Override
                     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                        mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
+                        mPresenter.readMessage(MessageDetailActivity.this,user_id, user_token, mlist.get(position).getMessage_id() + "");
 
                         FaceRelativeLayout.setVisibility(View.VISIBLE);
                         etSendmessage.setText("");
@@ -601,7 +601,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                                 if (actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
                                     if (etSendmessage.getText().toString().length() > 0) {
-                                        mPresenter.addComment(user_id, user_token, Integer.parseInt(mlist.get(position).getParam()), 0, etSendmessage.getText().toString().trim());
+                                        mPresenter.addComment(MessageDetailActivity.this,user_id, user_token, Integer.parseInt(mlist.get(position).getParam()), 0, etSendmessage.getText().toString().trim());
                                         closeInputMethod();
                                         etSendmessage.clearFocus();
                                         etSendmessage.setFocusable(false);
@@ -635,7 +635,7 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
                     @Override
                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                         if (mlist.get(position).getIs_read() == 0) {
-                            mPresenter.readMessage(user_id, user_token, mlist.get(position).getMessage_id() + "");
+                            mPresenter.readMessage(MessageDetailActivity.this,user_id, user_token, mlist.get(position).getMessage_id() + "");
                         }
                     }
                 });
@@ -647,13 +647,13 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
     public void readMessageSuccess(ReadMessage.DataBean data) {
 
         if (title.equals("喜欢我的")) {
-            mPresenter.getMessage(user_id, user_token, 2, 1);
+            mPresenter.getMessage(MessageDetailActivity.this,user_id, user_token, 2, 1);
         } else if (title.equals("系统消息")) {
-            mPresenter.getMessage(user_id, user_token, 1, 1);
+            mPresenter.getMessage(MessageDetailActivity.this,user_id, user_token, 1, 1);
         } else if (title.equals("评论消息")) {
-            mPresenter.getMessage(user_id, user_token, 3, 1);
+            mPresenter.getMessage(MessageDetailActivity.this,user_id, user_token, 3, 1);
         } else if (title.equals("关注消息")) {
-            mPresenter.getMessage(user_id, user_token, 4, 1);
+            mPresenter.getMessage(MessageDetailActivity.this,user_id, user_token, 4, 1);
         }
     }
 

@@ -1,13 +1,11 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BasePresenter;
 import com.iyoyogo.android.bean.SameBean;
-import com.iyoyogo.android.bean.comment.CommentBean;
-import com.iyoyogo.android.bean.mine.AboutMeBean;
-import com.iyoyogo.android.contract.AboutMeContract;
 import com.iyoyogo.android.contract.SameContract;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.net.ApiObserver;
@@ -15,8 +13,8 @@ import com.iyoyogo.android.net.ApiObserver;
 public class SamePresenter extends BasePresenter<SameContract.View> implements SameContract.Presenter {
 
 
-    public SamePresenter(SameContract.View mView) {
-        super(mView);
+    public SamePresenter(Context context, SameContract.View mView) {
+        super(context,mView);
     }
 
 
@@ -29,9 +27,9 @@ public class SamePresenter extends BasePresenter<SameContract.View> implements S
      * page_size	否	string	每页显示条数
      */
     @Override
-    public void getSameList(String user_id, String user_token, String lng, String lat, int page, String page_size) {
+    public void getSameList(Context context,String user_id, String user_token, String lng, String lat, int page, String page_size) {
         DataManager.getFromRemote()
-                .getSameList(user_id, user_token, lng, lat, page, page_size)
+                .getSameList(context,user_id, user_token, lng, lat, page, page_size)
                 .subscribe(new ApiObserver<SameBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(SameBean commentBean) {

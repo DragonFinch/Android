@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.BaseBean;
@@ -10,6 +12,6 @@ public interface UserBindContract {
     }
 
     interface Presenter extends IBasePresenter {
-        void getUserBind(String user_id, String user_token,int type,String openid);
+        void getUserBind(Context context, String user_id, String user_token, int type, String openid);
     }
 }

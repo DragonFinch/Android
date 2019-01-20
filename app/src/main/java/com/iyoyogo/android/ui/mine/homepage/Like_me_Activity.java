@@ -124,7 +124,7 @@ public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter>
         refreshLayout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
         user_id = SpUtils.getString(Like_me_Activity.this, "user_id", null);
         user_token = SpUtils.getString(Like_me_Activity.this, "user_token", null);
-        mPresenter.getPraise(user_id, user_token, currentPage, 20);
+        mPresenter.getPraise(Like_me_Activity.this,user_id, user_token, currentPage, 20);
         //下拉刷新
         refreshLayout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
         refreshLayout.setEnableRefresh(true);
@@ -136,7 +136,7 @@ public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter>
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 mList.clear();
                 refreshLayout.finishRefresh(1050);
-                mPresenter.getPraise(user_id, user_token, currentPage, 20);
+                mPresenter.getPraise(Like_me_Activity.this,user_id, user_token, currentPage, 20);
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -145,7 +145,7 @@ public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter>
                 currentPage++;
                 Log.d("currentPage", "currentPage:" + currentPage);
                 DataManager.getFromRemote()
-                        .getPraise(user_id, user_token, currentPage, 20)
+                        .getPraise(Like_me_Activity.this,user_id, user_token, currentPage, 20)
                         .subscribe(new Consumer<PraiseBean>() {
                             @Override
                             public void accept(PraiseBean praiseBean) throws Exception {
@@ -168,7 +168,7 @@ public class Like_me_Activity extends BaseActivity<MinePraiseContract.Presenter>
 
     @Override
     protected MinePraiseContract.Presenter createPresenter() {
-        return new MinePraisePresenter(this);
+        return new MinePraisePresenter(Like_me_Activity.this,this);
     }
 
 

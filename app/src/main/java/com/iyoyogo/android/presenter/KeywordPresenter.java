@@ -1,5 +1,6 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.iyoyogo.android.base.BasePresenter;
@@ -13,15 +14,15 @@ import com.iyoyogo.android.net.ApiObserver;
 public class KeywordPresenter extends BasePresenter<KeywordContract.View> implements KeywordContract.Presenter {
 
 
-    public KeywordPresenter(KeywordContract.View mView) {
-        super(mView);
+    public KeywordPresenter(Context context,KeywordContract.View mView) {
+        super(context,mView);
     }
 
 
     @Override
-    public void getKeyWord(String user_id, String user_token, String search, String type,String key_type) {
+    public void getKeyWord(Context context,String user_id, String user_token, String search, String type,String key_type) {
         DataManager.getFromRemote()
-                .keyword(user_id,user_token,search,type,key_type)
+                .keyword(context,user_id,user_token,search,type,key_type)
                 .subscribe(new ApiObserver<KeywordBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(KeywordBean keywordBean) {
@@ -32,9 +33,9 @@ public class KeywordPresenter extends BasePresenter<KeywordContract.View> implem
     }
 
     @Override
-    public void getGuanZhu(String user_id, String user_token, String target_id) {
+    public void getGuanZhu(Context context,String user_id, String user_token, String target_id) {
         DataManager.getFromRemote()
-                .guanzhu(user_id,user_token,target_id)
+                .guanzhu(context,user_id,user_token,target_id)
                 .subscribe(new ApiObserver<GuanZhuBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(GuanZhuBean guanZhuBean) {
@@ -44,8 +45,8 @@ public class KeywordPresenter extends BasePresenter<KeywordContract.View> implem
     }
 
     @Override
-    public void getSearch(String user_id, String user_token, String search) {
-        DataManager.getFromRemote().srarch(user_id,user_token,search).subscribe(new ApiObserver<KeywordUserBean>(mView, this) {
+    public void getSearch(Context context,String user_id, String user_token, String search) {
+        DataManager.getFromRemote().srarch(context,user_id,user_token,search).subscribe(new ApiObserver<KeywordUserBean>(mView, this) {
             @Override
             protected void doOnSuccess(KeywordUserBean keywordUserBean) {
                 mView.search(keywordUserBean);

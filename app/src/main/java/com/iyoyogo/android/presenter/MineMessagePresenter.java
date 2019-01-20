@@ -1,5 +1,6 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
@@ -12,14 +13,14 @@ import com.iyoyogo.android.net.ApiObserver;
 
 public class MineMessagePresenter extends BasePresenter<MineContract.View> implements MineContract.Presenter {
 
-    public MineMessagePresenter(MineContract.View mView) {
-        super(mView);
+    public MineMessagePresenter(Context context, MineContract.View mView) {
+        super(context,mView);
     }
 
     @Override
-    public void getUserInfo(String user_id, String user_token) {
+    public void getUserInfo(Context context,String user_id, String user_token) {
         DataManager.getFromRemote()
-                .getPersonInfo(user_id, user_token)
+                .getPersonInfo(context,user_id, user_token)
                 .subscribe(new ApiObserver<MineMessageBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(MineMessageBean mineMessageBean) {
@@ -38,9 +39,9 @@ public class MineMessagePresenter extends BasePresenter<MineContract.View> imple
     }
 
     @Override
-    public void punchClock(String user_id, String user_token) {
+    public void punchClock(Context context,String user_id, String user_token) {
         DataManager.getFromRemote()
-                .punchClock(user_id, user_token)
+                .punchClock(context,user_id, user_token)
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {

@@ -1,5 +1,6 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
@@ -10,14 +11,14 @@ import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.net.ApiObserver;
 
 public class YoXiuContentPresenter extends BasePresenter<YoXiuContentContract.View> implements YoXiuContentContract.Presenter {
-    public YoXiuContentPresenter(YoXiuContentContract.View mView) {
-        super(mView);
+    public YoXiuContentPresenter(Context context, YoXiuContentContract.View mView) {
+        super(context,mView);
     }
 
     @Override
-    public void getYoXiuContent(String user_id, String user_token, String his_id, String page, String page_size) {
+    public void getYoXiuContent(Context context,String user_id, String user_token, String his_id, String page, String page_size) {
         DataManager.getFromRemote()
-                .getYoXiuContent(user_id,user_token,his_id,page,page_size)
+                .getYoXiuContent(context,user_id,user_token,his_id,page,page_size)
                 .subscribe(new ApiObserver<YoXiuContentBean>(mView,this) {
                     @Override
                     protected void doOnSuccess(YoXiuContentBean yoXiuContentBean) {

@@ -190,14 +190,14 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
 
     @Override
     protected PersonalCenterContract.Presenter createPresenter() {
-        return new PersonalCenterPresenter(this);
+        return new PersonalCenterPresenter(Personal_homepage_Activity.this,this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        mPresenter.getPersonalCenter(user_id, user_token, yo_user_id);
+        mPresenter.getPersonalCenter(Personal_homepage_Activity.this,user_id, user_token, yo_user_id);
         rbYoji.setChecked(true);
       /*  switchContent(yoJiFragment,yoXiuFragment);
         Bundle bundle = new Bundle();

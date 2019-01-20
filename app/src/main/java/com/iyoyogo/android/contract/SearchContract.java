@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.search.ClerBean;
@@ -16,7 +18,7 @@ public interface SearchContract {
     }
 
     interface Presenter extends IBasePresenter {
-        void getSearch(String user_id, String user_token);
-        void getSearchCler(String user_id, String user_token);
+        void getSearch(Context context, String user_id, String user_token);
+        void getSearchCler(Context context, String user_id, String user_token);
     }
 }

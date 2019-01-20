@@ -101,7 +101,7 @@ public class GuoMeiFragment extends BaseFragment<GeRenChengShiContract.Presenter
 
     @Override
     protected GeRenChengShiContract.Presenter createPresenter() {
-        return new GenRenXinxiChengShiPresenter(this);
+        return new GenRenXinxiChengShiPresenter(getActivity(),this);
     }
     //网络请求的成功回调
     @Override
@@ -156,7 +156,7 @@ public class GuoMeiFragment extends BaseFragment<GeRenChengShiContract.Presenter
         super.initData();
         String user_id = SpUtils.getString(getActivity(), "user_id", null);
         String user_token = SpUtils.getString(getActivity(), "user_token", null);
-        mPresenter.aboutMe(user_id, user_token, "internal", "");
+        mPresenter.aboutMe(getActivity(),user_id, user_token, "internal", "");
     }
 
     @Override

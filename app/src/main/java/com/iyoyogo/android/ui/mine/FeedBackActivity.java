@@ -49,7 +49,7 @@ public class FeedBackActivity extends BaseActivity<FeedBackContract.Presenter> i
 
     @Override
     protected FeedBackContract.Presenter createPresenter() {
-        return new FeedBackPresenter(this);
+        return new FeedBackPresenter(FeedBackActivity.this,this);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class FeedBackActivity extends BaseActivity<FeedBackContract.Presenter> i
                 finish();
                 break;
             case R.id.tv_complete:
-                mPresenter.addFeedBack(user_id, user_token, editFeedBack.getText().toString().trim());
+                mPresenter.addFeedBack(FeedBackActivity.this,user_id, user_token, editFeedBack.getText().toString().trim());
                 break;
         }
     }

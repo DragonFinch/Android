@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.yoxiu.YouXiuListBean;
@@ -10,7 +12,7 @@ public interface YoXiuListContract {
         void loadMoreYoXiuListSuccess(YouXiuListBean.DataBean data);
     }
     interface Presenter extends IBasePresenter{
-        void getYoXiuList(String user_id,String user_token,int page);
-        void loadMoreYoXiuList(String user_id,String user_token,int page);
+        void getYoXiuList(Context context,String user_id, String user_token, int page);
+        void loadMoreYoXiuList(Context context,String user_id,String user_token,int page);
     }
 }

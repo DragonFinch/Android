@@ -99,7 +99,7 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
 
     @Override
     protected MapSearchPresenter createPresenter() {
-        return new MapSearchPresenter(this);
+        return new MapSearchPresenter(DiTuActivity.this,this);
     }
 
     @Override

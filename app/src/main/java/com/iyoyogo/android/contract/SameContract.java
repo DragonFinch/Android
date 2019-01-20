@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.SameBean;
@@ -15,6 +17,6 @@ public interface SameContract {
     }
 
     interface Presenter extends IBasePresenter {
-        void getSameList(String user_id, String user_token, String lng, String lat, int page, String page_size);
+        void getSameList(Context context, String user_id, String user_token, String lng, String lat, int page, String page_size);
     }
 }

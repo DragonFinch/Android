@@ -1,5 +1,6 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
@@ -17,14 +18,14 @@ import com.iyoyogo.android.view.LoadingDialog;
 import java.util.List;
 
 public class PublishYoXiuPresenter extends BasePresenter<PublishYoXiuContract.View> implements PublishYoXiuContract.Presenter {
-    public PublishYoXiuPresenter(PublishYoXiuContract.View mView) {
-        super(mView);
+    public PublishYoXiuPresenter(Context context, PublishYoXiuContract.View mView) {
+        super(context,mView);
     }
 
     @Override
-    public void getRecommendTopic(String user_id, String user_token) {
+    public void getRecommendTopic(Context context,String user_id, String user_token) {
         DataManager.getFromRemote()
-                .getRecommend(user_id, user_token)
+                .getRecommend(context,user_id, user_token)
                 .subscribe(new ApiObserver<HotTopicBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(HotTopicBean hotTopicBean) {
@@ -46,7 +47,7 @@ public class PublishYoXiuPresenter extends BasePresenter<PublishYoXiuContract.Vi
     }
 
     @Override
-    public void publishYoXiu(String user_id,
+    public void publishYoXiu(Context context,String user_id,
                              String user_token,
                              int yo_id,
                              String file_path,
@@ -62,7 +63,7 @@ public class PublishYoXiuPresenter extends BasePresenter<PublishYoXiuContract.Vi
                              String lng,
                              String lat,
                              String filter_id,String size) {
-        DataManager.getFromRemote().publish_yoXiu(user_id, user_token, yo_id, file_path, file_type, file_desc, channel_ids, open, valid, position_name, position_areas, position_address, position_city, lng, lat, filter_id, size)
+        DataManager.getFromRemote().publish_yoXiu(context,user_id, user_token, yo_id, file_path, file_type, file_desc, channel_ids, open, valid, position_name, position_areas, position_address, position_city, lng, lat, filter_id, size)
                 .subscribe(new ApiObserver<PublishSucessBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(PublishSucessBean baseBean) {
@@ -79,9 +80,9 @@ public class PublishYoXiuPresenter extends BasePresenter<PublishYoXiuContract.Vi
     }
 
     @Override
-    public void getYoXiuData(String user_id, String user_token, int yo_id) {
+    public void getYoXiuData(Context context,String user_id, String user_token, int yo_id) {
         DataManager.getFromRemote()
-                .getYoXiuData(user_id, user_token, yo_id+"")
+                .getYoXiuData(context,user_id, user_token, yo_id+"")
                 .subscribe(new ApiObserver<PublishYoXiuBean>(mView,this) {
                     @Override
                     protected void doOnSuccess(PublishYoXiuBean publishYoXiuBean) {

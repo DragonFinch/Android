@@ -150,7 +150,7 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
                 report();
                 popup_more.dismiss();
 
-                DataManager.getFromRemote().report(user_id, user_token, 0, comment_id, tv_advert.getText().toString())
+                DataManager.getFromRemote().report(context,user_id, user_token, 0, comment_id, tv_advert.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -171,7 +171,7 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
             public void onClick(View v) {
                 popup_more.dismiss();
                 report();
-                DataManager.getFromRemote().report(user_id, user_token, 0, comment_id, tv_harm.getText().toString())
+                DataManager.getFromRemote().report(context,user_id, user_token, 0, comment_id, tv_harm.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -192,7 +192,7 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
             public void onClick(View v) {
                 popup_more.dismiss();
                 report();
-                DataManager.getFromRemote().report(user_id, user_token, 0, comment_id, tv_violate.getText().toString())
+                DataManager.getFromRemote().report(context,user_id, user_token, 0, comment_id, tv_violate.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -214,7 +214,7 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
                 popup_more.dismiss();
                 report();
 
-                DataManager.getFromRemote().report(user_id, user_token, 0, comment_id, tv_else.getText().toString())
+                DataManager.getFromRemote().report(context,user_id, user_token, 0, comment_id, tv_else.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -371,7 +371,7 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        DataManager.getFromRemote().praise(user_id, user_token, 0, mList.get(position).getId())
+                        DataManager.getFromRemote().praise(context,user_id, user_token, 0, mList.get(position).getId())
                                 .subscribe(new Consumer<BaseBean>() {
                                     @Override
                                     public void accept(BaseBean baseBean) throws Exception {
@@ -469,13 +469,13 @@ public class YoXiuDetailAdapter extends RecyclerView.Adapter<YoXiuDetailAdapter.
         tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DataManager.getFromRemote().deleteComment(user_id, user_token, comment_id)
+                DataManager.getFromRemote().deleteComment(context,user_id, user_token, comment_id)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
                                 if (deleteOnClickListener != null) {
                                     deleteOnClickListener.delete();
-                                    DataManager.getFromRemote().getComment(user_id, user_token, 1, yo_id, 0)
+                                    DataManager.getFromRemote().getComment(context,user_id, user_token, 1, yo_id, 0)
                                             .subscribe(new Consumer<CommentBean>() {
                                                 @Override
                                                 public void accept(CommentBean commentBean) throws Exception {

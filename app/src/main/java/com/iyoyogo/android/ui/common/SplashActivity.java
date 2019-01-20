@@ -216,7 +216,7 @@ public class SplashActivity extends AppCompatActivity {
         String user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
         if (user_id != null) {
             if (longitude!=0.0&&latitude!=0.0){
-                DataManager.getFromRemote().setLocation(user_id, user_token, String.valueOf(longitude), String.valueOf(latitude))
+                DataManager.getFromRemote().setLocation(SplashActivity.this,user_id, user_token, String.valueOf(longitude), String.valueOf(latitude))
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {

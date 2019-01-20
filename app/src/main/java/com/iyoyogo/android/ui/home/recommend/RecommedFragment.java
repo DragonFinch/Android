@@ -170,7 +170,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
                 @Override
                 public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                     refreshLayout.finishRefresh(1050);
-                    mPresenter.banner(user_id, user_token, "commend", city);
+                    mPresenter.banner(getActivity(),user_id, user_token, "commend", city);
                 }
             });
         } else {
@@ -186,7 +186,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
                 @Override
                 public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                     refreshLayout.finishRefresh(1050);
-                    mPresenter.banner(user_id, user_token, "commend", "");
+                    mPresenter.banner(getActivity(),user_id, user_token, "commend", "");
                 }
             });
         }
@@ -240,7 +240,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
 
     @Override
     protected HomeContract.Presenter createPresenter() {
-        return new HomePresenter(this);
+        return new HomePresenter(getActivity(),this);
     }
 
 
@@ -308,7 +308,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
         homeRecyclerViewAdapter.onItemRetryOnClickListener(new HomeRecyclerViewAdapter.OnRetryClickListener() {
             @Override
             public void onretry() {
-                mPresenter.banner(user_id, user_token, "commend", city);
+                mPresenter.banner(getActivity(),user_id, user_token, "commend", city);
             }
         });
         String registrationID = JPushInterface.getRegistrationID(getContext());

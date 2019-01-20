@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.PublishSucessBean;
@@ -25,9 +27,9 @@ public interface PublishYoXiuContract {
 
     interface Presenter extends IBasePresenter {
 
-        void getRecommendTopic(String user_id, String user_token);
+        void getRecommendTopic(Context context, String user_id, String user_token);
 
-        void publishYoXiu(String user_id,
+        void publishYoXiu(Context context, String user_id,
                           String user_token,
                           int yo_id,
                           String file_path,
@@ -44,7 +46,7 @@ public interface PublishYoXiuContract {
                           String lat,
                           String filter_id,String size);
 
-        void getYoXiuData(String user_id,
+        void getYoXiuData(Context context, String user_id,
                          String user_token,
                          int yo_id);
     }

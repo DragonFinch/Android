@@ -1,5 +1,6 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
@@ -13,12 +14,12 @@ import com.iyoyogo.android.net.ApiObserver;
 
 public class UserBindPresenter extends BasePresenter<UserBindContract.View> implements UserBindContract.Presenter {
 
-    public UserBindPresenter(UserBindContract.View mView) {
-        super(mView);
+    public UserBindPresenter(Context context, UserBindContract.View mView) {
+        super(context,mView);
     }
 
     @Override
-    public void getUserBind(String user_id, String user_token, int type, String openid) {
+    public void getUserBind(Context context,String user_id, String user_token, int type, String openid) {
         DataManager.getFromRemote().getUserBind(user_id, user_token,type,openid)
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
 

@@ -1,5 +1,6 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
@@ -15,14 +16,14 @@ import com.iyoyogo.android.net.ApiObserver;
 import java.util.List;
 
 public class PublishYoJiPresenter extends BasePresenter<PublishYoJiContract.View> implements PublishYoJiContract.Presenter {
-    public PublishYoJiPresenter(PublishYoJiContract.View mView) {
-        super(mView);
+    public PublishYoJiPresenter(Context context,PublishYoJiContract.View mView) {
+        super(context,mView);
     }
 
     @Override
-    public void getRecommendTopic(String user_id, String user_token) {
+    public void getRecommendTopic(Context context,String user_id, String user_token) {
         DataManager.getFromRemote()
-                .getRecommend(user_id, user_token)
+                .getRecommend(context,user_id, user_token)
                 .subscribe(new ApiObserver<HotTopicBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(HotTopicBean hotTopicBean) {
@@ -42,9 +43,9 @@ public class PublishYoJiPresenter extends BasePresenter<PublishYoJiContract.View
     }
 
     @Override
-    public void publishYoJi(String user_id, String user_token, int yo_id, String logo, String title, String desc, int cost, int open, int valid, String channel_ids, String json) {
+    public void publishYoJi(Context context,String user_id, String user_token, int yo_id, String logo, String title, String desc, int cost, int open, int valid, String channel_ids, String json) {
         DataManager.getFromRemote()
-                .publishYoJi(user_id, user_token, yo_id, logo, title, desc, cost, open, valid, channel_ids, json)
+                .publishYoJi(context,user_id, user_token, yo_id, logo, title, desc, cost, open, valid, channel_ids, json)
                 .subscribe(new ApiObserver<PublishSucessBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(PublishSucessBean baseBean) {
@@ -61,9 +62,9 @@ public class PublishYoJiPresenter extends BasePresenter<PublishYoJiContract.View
     }
 
     @Override
-    public void getYoJiData(String user_id, String user_token, int yo_id) {
+    public void getYoJiData(Context context,String user_id, String user_token, int yo_id) {
         DataManager.getFromRemote()
-                .getYoJiData(user_id, user_token, yo_id+"")
+                .getYoJiData(context,user_id, user_token, yo_id+"")
                 .subscribe(new ApiObserver<PublishYoJiBean>(mView,this) {
                     @Override
                     protected void doOnSuccess(PublishYoJiBean publishYoJiBean) {

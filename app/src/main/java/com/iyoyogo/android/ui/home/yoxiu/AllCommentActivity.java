@@ -111,13 +111,13 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
 
     @Override
     protected YoXiuDetailContract.Presenter createPresenter() {
-        return new YoXiuDetailPresenter(this);
+        return new YoXiuDetailPresenter(AllCommentActivity.this,this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.getCommentList(user_id, user_token, 1, id1, 0);
+        mPresenter.getCommentList(AllCommentActivity.this,user_id, user_token, 1, id1, 0);
         etSendmessage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             @Override
@@ -221,7 +221,7 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
             @Override
             public void delete() {
 
-                mPresenter.getCommentList(user_id, user_token, 1, id1, 0);
+                mPresenter.getCommentList(AllCommentActivity.this,user_id, user_token, 1, id1, 0);
             }
         });
     }
@@ -235,8 +235,8 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
         mFasong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.addComment(user_id, user_token, 0, id1, etSendmessage.getText().toString().trim());
-                mPresenter.getCommentList(user_id, user_token, 1, id1, 0);
+                mPresenter.addComment(AllCommentActivity.this,user_id, user_token, 0, id1, etSendmessage.getText().toString().trim());
+                mPresenter.getCommentList(AllCommentActivity.this,user_id, user_token, 1, id1, 0);
             }
         });
         //输入框
@@ -263,9 +263,9 @@ public class AllCommentActivity extends BaseActivity<YoXiuDetailContract.Present
                 if (actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
                     if (etSendmessage.getText().toString().length() > 0) {
 
-                        mPresenter.addComment(user_id, user_token, 0, id1, etSendmessage.getText().toString().trim());
+                        mPresenter.addComment(AllCommentActivity.this,user_id, user_token, 0, id1, etSendmessage.getText().toString().trim());
                         closeInputMethod();
-                        mPresenter.getCommentList(user_id, user_token, 1, id1, 0);
+                        mPresenter.getCommentList(AllCommentActivity.this,user_id, user_token, 1, id1, 0);
                         etSendmessage.clearFocus();
                         etSendmessage.setFocusable(false);
 //                        yoXiuDetailAdapter.notifyItemInserted(dataBeans.size());

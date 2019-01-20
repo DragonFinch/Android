@@ -158,7 +158,7 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
 
     @Override
     protected PublishYoXiuPresenter createPresenter() {
-        return new PublishYoXiuPresenter(this);
+        return new PublishYoXiuPresenter(NewPublishYoXiuActivity.this,this);
     }
 
     @Override
@@ -176,12 +176,12 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
         super.initData(savedInstanceState);
         channel_arrays=new ArrayList<>();
         channel_list=new ArrayList<>();
-        mSharePresenter = new SharePresenter(this);
+        mSharePresenter = new SharePresenter(NewPublishYoXiuActivity.this,this);
         mData = new PublishYoXiuBean.DataBean();
         mOssService = new OssService(this);
         userId = SpUtils.getString(this, "user_id", null);
         token = SpUtils.getString(this, "user_token", null);
-        mPresenter.getRecommendTopic(userId, token);
+        mPresenter.getRecommendTopic(NewPublishYoXiuActivity.this,userId, token);
 
         id = getIntent().getIntExtra("id", 0);
         if (id == 0) {
@@ -190,7 +190,7 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
             mIvVideo.setVisibility(coverPath.contains(".mp4") ? View.VISIBLE : View.GONE);
             Glide.with(this).load(coverPath).apply(new RequestOptions().centerCrop()).into(mIvCover);
         } else {
-            mPresenter.getYoXiuData(userId, token, id);
+            mPresenter.getYoXiuData(NewPublishYoXiuActivity.this,userId, token, id);
         }
 
     }
@@ -280,7 +280,7 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
                     saveType = 1;
                     LoadingDialog.get().create(this).show();
                     if (TextUtils.isEmpty(coverPath) && !TextUtils.isEmpty(coverUrl)) {
-                        mPresenter.publishYoXiu(userId, token, id, coverUrl, coverUrl.contains(".mp4") ? 2 : 1, mEtTitle.getText().toString(), channel_arrays.toString().replace("[", "").replace("]", ""), isOpen, saveType, mData.getPosition_name(), mData.getPosition_areas(), mData.getPosition_address(), mData.getPosition_city(), mData.getLng(), mData.getLat(), filterId, scale);
+                        mPresenter.publishYoXiu(NewPublishYoXiuActivity.this,userId, token, id, coverUrl, coverUrl.contains(".mp4") ? 2 : 1, mEtTitle.getText().toString(), channel_arrays.toString().replace("[", "").replace("]", ""), isOpen, saveType, mData.getPosition_name(), mData.getPosition_areas(), mData.getPosition_address(), mData.getPosition_city(), mData.getLng(), mData.getLat(), filterId, scale);
                     } else if (!TextUtils.isEmpty(coverPath)) {
                         mOssService.asyncPutImage(coverPath, -1);
                     }
@@ -432,7 +432,7 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
         coverUrl = url;
         PictureFileUtils.deleteCacheDirFile(this);
         Log.d("NewPublishYoJiActivity", new Gson().toJson(mData));
-        runOnUiThread(() -> mPresenter.publishYoXiu(userId, token, id, coverUrl, coverPath.contains(".mp4") ? 2 : 1, mEtTitle.getText().toString(), channel_arrays.toString().replace("[", "").replace("]", ""), isOpen, saveType, mData.getPosition_name(), mData.getPosition_areas(), mData.getPosition_address(), mData.getPosition_city(), mData.getLng(), mData.getLat(), filterId, scale));
+        runOnUiThread(() -> mPresenter.publishYoXiu(NewPublishYoXiuActivity.this,userId, token, id, coverUrl, coverPath.contains(".mp4") ? 2 : 1, mEtTitle.getText().toString(), channel_arrays.toString().replace("[", "").replace("]", ""), isOpen, saveType, mData.getPosition_name(), mData.getPosition_areas(), mData.getPosition_address(), mData.getPosition_city(), mData.getLng(), mData.getLat(), filterId, scale));
     }
 
     @Override
@@ -518,7 +518,7 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
                 saveType = 3;
                 LoadingDialog.get().create(NewPublishYoXiuActivity.this).show();
                 if (TextUtils.isEmpty(coverPath) && !TextUtils.isEmpty(coverUrl)) {
-                    mPresenter.publishYoXiu(userId, token, id, coverUrl, coverUrl.contains(".mp4") ? 2 : 1, mEtTitle.getText().toString(), channel_arrays.toString().replace("[", "").replace("]", ""), isOpen, saveType, mData.getPosition_name(), mData.getPosition_areas(), mData.getPosition_address(), mData.getPosition_city(), mData.getLng(), mData.getLat(), filterId, scale);
+                    mPresenter.publishYoXiu(NewPublishYoXiuActivity.this,userId, token, id, coverUrl, coverUrl.contains(".mp4") ? 2 : 1, mEtTitle.getText().toString(), channel_arrays.toString().replace("[", "").replace("]", ""), isOpen, saveType, mData.getPosition_name(), mData.getPosition_areas(), mData.getPosition_address(), mData.getPosition_city(), mData.getLng(), mData.getLat(), filterId, scale);
                 } else if (!TextUtils.isEmpty(coverPath)) {
                     mOssService.asyncPutImage(coverPath, -1);
                 }
@@ -597,7 +597,7 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
 
                     @Override
                     public void onResult(SHARE_MEDIA share_media) {
-                        mSharePresenter.share(userId, token, id);
+                        mSharePresenter.share(NewPublishYoXiuActivity.this,userId, token, id);
                     }
 
                     @Override

@@ -169,7 +169,7 @@ public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter>
 
     @Override
     protected BindPhoneContract.Presenter createPresenter() {
-        return new BindPresenter(this);
+        return new BindPresenter(this,this);
     }
 
     @Override
@@ -289,7 +289,7 @@ public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter>
                 if (editBind.getText().toString().length() > 0) {
 
                     sign = MD5(editBind.getText().toString().trim() + "" + dateTime + "yoyogo");
-                    mPresenter.sendMessage(editBind.getText().toString().trim(), "", dateTime, sign);
+                    mPresenter.sendMessage(this,editBind.getText().toString().trim(), "", dateTime, sign);
                 } else {
                     Toast.makeText(this, "手机号必须填", Toast.LENGTH_SHORT).show();
                 }
@@ -297,7 +297,7 @@ public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter>
                 break;
             case R.id.btn_bind:
                 if (type == 0) {
-                    mPresenter.login(
+                    mPresenter.login(this,
                             "",
                             "",
                             "",
@@ -309,7 +309,7 @@ public class BindPhoneActivity extends BaseActivity<BindPhoneContract.Presenter>
                             logo);
 
                 } else {
-                    mPresenter.login("", "", "", type, editBind.getText().toString(), editBindCode.getText().toString(), openid, nickname, logo);
+                    mPresenter.login(this,"", "", "", type, editBind.getText().toString(), editBindCode.getText().toString(), openid, nickname, logo);
 
                 }
                 break;

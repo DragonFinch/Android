@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.BaseBean;
@@ -23,9 +25,9 @@ public interface PublishYoJiContract {
     }
 
     interface Presenter extends IBasePresenter {
-        void getRecommendTopic(String user_id, String user_token);
+        void getRecommendTopic(Context context, String user_id, String user_token);
 
-        void publishYoJi(String user_id,
+        void publishYoJi(Context context, String user_id,
                          String user_token,
                          int yo_id,
                          String logo,
@@ -35,9 +37,9 @@ public interface PublishYoJiContract {
                          int open,
                          int valid,
                          String channel_ids,
-                       String json);
+                         String json);
 
-        void getYoJiData(String user_id,
+        void getYoJiData(Context context, String user_id,
                          String user_token,
                          int yo_id);
     }

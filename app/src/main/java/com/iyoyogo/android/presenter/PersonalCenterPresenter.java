@@ -1,5 +1,6 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
@@ -11,14 +12,14 @@ import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.net.ApiObserver;
 
 public class PersonalCenterPresenter extends BasePresenter<PersonalCenterContract.View> implements PersonalCenterContract.Presenter {
-    public PersonalCenterPresenter(PersonalCenterContract.View mView) {
-        super(mView);
+    public PersonalCenterPresenter(Context context,PersonalCenterContract.View mView) {
+        super(context,mView);
     }
 
     @Override
-    public void getPersonalCenter(String user_id, String user_token, String his_id) {
+    public void getPersonalCenter(Context context,String user_id, String user_token, String his_id) {
         DataManager.getFromRemote()
-                .getUserCenter(user_id, user_token, his_id)
+                .getUserCenter(context,user_id, user_token, his_id)
                 .subscribe(new ApiObserver<UserCenterBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(UserCenterBean userCenterBean) {
@@ -37,9 +38,9 @@ public class PersonalCenterPresenter extends BasePresenter<PersonalCenterContrac
     }
 
     @Override
-    public void addAttention1(String user_id, String user_token, String target_id) {
+    public void addAttention1(Context context,String user_id, String user_token, String target_id) {
         DataManager.getFromRemote()
-                .addAttention1(user_id, user_token, target_id)
+                .addAttention1(context,user_id, user_token, target_id)
                 .subscribe(new ApiObserver<AttentionBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(AttentionBean attentionBean) {
@@ -58,9 +59,9 @@ public class PersonalCenterPresenter extends BasePresenter<PersonalCenterContrac
     }
 
     @Override
-    public void deleteAttention(String user_id, String user_token, String target_id) {
+    public void deleteAttention(Context context,String user_id, String user_token, String target_id) {
         DataManager.getFromRemote()
-                .addAttention1(user_id, user_token, target_id)
+                .addAttention1(context,user_id, user_token, target_id)
                 .subscribe(new ApiObserver<AttentionBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(AttentionBean attentionBean) {

@@ -218,7 +218,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         mFasong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.addComment(user_id, user_token, 0, id, editComment.getText().toString().trim());
+                mPresenter.addComment(YoXiuDetailActivity.this,user_id, user_token, 0, id, editComment.getText().toString().trim());
                 Toast.makeText(YoXiuDetailActivity.this,"评论成功",Toast.LENGTH_SHORT).show();
             }
         });
@@ -247,7 +247,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
                     if (editComment.getText().toString().length() > 0) {
-                        mPresenter.addComment(user_id, user_token, 0, id, editComment.getText().toString().trim());
+                        mPresenter.addComment(YoXiuDetailActivity.this,user_id, user_token, 0, id, editComment.getText().toString().trim());
                         closeInputMethod();
 //                        mPresenter.getCommentList(user_id, user_token, 1, id, 0);
                         editComment.clearFocus();
@@ -295,8 +295,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         Log.d("YoXiuDetailActivity", "id:" + id);
         Log.d("YoXiuDetailActivity", "user_id:" + user_id);
         Log.d("YoXiuDetailActivity", "user_token:" + user_token);
-        mPresenter.getDetail(user_id, user_token, id);
-        mPresenter.getCommentList(user_id, user_token, 1, id, 0);
+        mPresenter.getDetail(YoXiuDetailActivity.this,user_id, user_token, id);
+        mPresenter.getCommentList(YoXiuDetailActivity.this,user_id, user_token, 1, id, 0);
         editComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -353,7 +353,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
 
     @Override
     protected YoXiuDetailContract.Presenter createPresenter() {
-        return new YoXiuDetailPresenter(this);
+        return new YoXiuDetailPresenter(YoXiuDetailActivity.this,this);
     }
 
     public void more() {
@@ -414,7 +414,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DataManager.getFromRemote().deleteYo(user_id, user_token, id)
+                DataManager.getFromRemote().deleteYo(YoXiuDetailActivity.this,user_id, user_token, id)
                         .subscribe(new Observer<BaseBean>() {
                             @Override
                             public void onSubscribe(Disposable d) {
@@ -585,7 +585,6 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                     dataBeans.get(0).setIs_my_like(0);
                     dataBeans.get(0).setCount_praise(count_praises + "");
                     tvLike.setText(count_praises + "");
-
                 } else {
                     //由不喜欢变为喜欢，暗变亮
                     tvLike.setCompoundDrawablesWithIntrinsicBounds(null,
@@ -597,7 +596,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                     dataBeans.get(0).setCount_praise(count_praises + "");
                     tvLike.setText(count_praises + "");
                 }
-                DataManager.getFromRemote().praise(user_id, user_token, Integer.parseInt(dataBeans.get(0).getId()), 0)
+                DataManager.getFromRemote().praise(YoXiuDetailActivity.this,user_id, user_token, Integer.parseInt(dataBeans.get(0).getId()), 0)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -648,7 +647,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                 }*/
 
 
-                mPresenter.addAttention(user_id, user_token, yo_attention_id);
+                mPresenter.addAttention(YoXiuDetailActivity.this,user_id, user_token, yo_attention_id);
 
 //                    Log.d("YoXiuDetailActivity", target_id);
 
@@ -741,7 +740,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
             @Override
             public void onClick(View v) {
                 popup.dismiss();
-                mPresenter.createCollectionFolder(user_id, user_token, edit_title_collection.getText().toString().trim(), open, "");
+                mPresenter.createCollectionFolder(YoXiuDetailActivity.this,user_id, user_token, edit_title_collection.getText().toString().trim(), open, "");
             }
         });
         backgroundAlpha(0.6f);
@@ -765,7 +764,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
             }
         });
         recycler_collection = view.findViewById(R.id.recycler_collection);
-        mPresenter.getCollectionFolder(user_id, user_token);
+        mPresenter.getCollectionFolder(YoXiuDetailActivity.this,user_id, user_token);
 
 
         popup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
@@ -815,7 +814,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         path = data.getFile_path();
         RequestOptions requestOptions = new RequestOptions();
         if (editComment.getText().toString().length() > 0) {
-            mPresenter.addComment(this.user_id, user_token, 0, this.id, editComment.getText().toString().trim());
+            mPresenter.addComment(YoXiuDetailActivity.this,this.user_id, user_token, 0, this.id, editComment.getText().toString().trim());
             closeInputMethod();
             yoXiuDetailAdapter.notifyDataSetChanged();
             refresh();
@@ -1013,7 +1012,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         yoXiuDetailAdapter.setDeleteOnClickListener(new YoXiuDetailAdapter.DeleteOnClickListener() {
             @Override
             public void delete() {
-                mPresenter.getCommentList(user_id, user_token, 1, id, 0);
+                mPresenter.getCommentList(YoXiuDetailActivity.this,user_id, user_token, 1, id, 0);
             }
         });
     }
@@ -1026,7 +1025,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         ll_facechoose.setVisibility(View.GONE);
         yoXiuDetailAdapter.notifyDataSetChanged();
         KeyBoardUtils.closeKeybord(editComment, YoXiuDetailActivity.this);
-        mPresenter.getCommentList(user_id, user_token, 1, id, 0);
+        mPresenter.getCommentList(YoXiuDetailActivity.this,user_id, user_token, 1, id, 0);
     }
 
     @Override
@@ -1078,10 +1077,10 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
                     }
                 }*/
                 int folder_id = mList.get(position).getFolder_id();
-                mPresenter.getDetail(user_id, user_token, id);
+                mPresenter.getDetail(YoXiuDetailActivity.this,user_id, user_token, id);
                 Log.d("YoXiuDetailActivity", "folder_id:" + folder_id);
                 Log.d("YoXiuDetailActivity", "yo_user_id:" + yo_user_id);
-                mPresenter.addCollection(user_id, user_token, folder_id, yo_user_id);
+                mPresenter.addCollection(YoXiuDetailActivity.this,user_id, user_token, folder_id, yo_user_id);
 //                    Log.d("YoXiuDetailActivity", target_id);
                 popup.dismiss();
 

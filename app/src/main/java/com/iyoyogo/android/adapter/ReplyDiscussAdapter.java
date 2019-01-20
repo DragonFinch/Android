@@ -105,7 +105,7 @@ public class ReplyDiscussAdapter extends RecyclerView.Adapter<ReplyDiscussAdapte
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            DataManager.getFromRemote().praise(user_id, user_token, 0, mList.get(position).getId())
+                            DataManager.getFromRemote().praise(context,user_id, user_token, 0, mList.get(position).getId())
                                     .subscribe(new Consumer<BaseBean>() {
                                         @Override
                                         public void accept(BaseBean baseBean) throws Exception {
@@ -151,7 +151,7 @@ public class ReplyDiscussAdapter extends RecyclerView.Adapter<ReplyDiscussAdapte
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            DataManager.getFromRemote().praise(user_id, user_token, 0, mList.get(position).getId())
+                            DataManager.getFromRemote().praise(context,user_id, user_token, 0, mList.get(position).getId())
                                     .subscribe(new Consumer<BaseBean>() {
                                         @Override
                                         public void accept(BaseBean baseBean) throws Exception {

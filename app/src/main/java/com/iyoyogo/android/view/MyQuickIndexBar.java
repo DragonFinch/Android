@@ -82,12 +82,8 @@ public class MyQuickIndexBar extends View {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
                 int index = (int) (event.getY() / mCellHeight);
-                if (mLastIndex != index) {
-                    if (mListenner != null) {
-                        Log.e("1onTouchEvent", "onTouchEvent: "+index);
-                        Log.e("1onTouchEvent", "onTouchEvent: "+mStrArr.length );
+                if (mLastIndex != index && index >=0 && mListenner != null && mStrArr != null && index < mStrArr.length) {
                         mListenner.getOnImtemPosition(mStrArr[index]);
-                    }
                 }
                 mLastIndex = index;
                 break;
@@ -95,7 +91,6 @@ public class MyQuickIndexBar extends View {
                 Log.e("assaas", "action_up");
                 mLastIndex = -1;
                 break;
-
         }
         //重绘 (重新绘制View)
         invalidate();

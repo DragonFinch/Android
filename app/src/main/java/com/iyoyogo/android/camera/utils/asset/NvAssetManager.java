@@ -364,11 +364,13 @@ public class NvAssetManager implements NvHttpRequest.NvHttpRequestListener, NvsA
     public void searchLocalAssets(int assetType) {
         if (getIsLocalAssetSearched(assetType))
             return;
-
-        String dirPath = getAssetDownloadDir(assetType);
-        searchAssetInLocalPath(assetType, dirPath);
-
-        setIsLocalAssetSearched(assetType, true);
+         try{
+             String dirPath = getAssetDownloadDir(assetType);
+             searchAssetInLocalPath(assetType, dirPath);
+             setIsLocalAssetSearched(assetType, true);
+         }catch (Exception e){
+             e.printStackTrace();
+         }
     }
 
     /**

@@ -263,7 +263,7 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
 
     @Override
     protected MapContract.Presenter createPresenter() {
-        return new MapPresenter(this);
+        return new MapPresenter(getActivity(),this);
     }
 
     /**

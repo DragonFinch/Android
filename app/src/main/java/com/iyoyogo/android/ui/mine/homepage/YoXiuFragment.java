@@ -118,7 +118,7 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 mList.clear();
                 refreshLayout.finishRefresh(1050);
-                mPresenter.getYoXiuContent(user_id, user_token, yo_user_id, "1", "20");
+                mPresenter.getYoXiuContent(getActivity(),user_id, user_token, yo_user_id, "1", "20");
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -127,7 +127,7 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
                 currentPage++;
                 Log.d("currentPage", "currentPage:" + currentPage);
                 DataManager.getFromRemote()
-                        .getYoXiuContent(user_id, user_token, yo_user_id, currentPage + "", 20 + "")
+                        .getYoXiuContent(getActivity(),user_id, user_token, yo_user_id, currentPage + "", 20 + "")
                         .subscribe(new Consumer<YoXiuContentBean>() {
                             @Override
                             public void accept(YoXiuContentBean yoXiuContentBean) throws Exception {
@@ -217,12 +217,12 @@ public class YoXiuFragment extends BaseFragment<YoXiuContentContract.Presenter> 
     public void onResume() {
         super.onResume();
         mList.clear();
-        mPresenter.getYoXiuContent(user_id, user_token, yo_user_id, 1 + "", 20 + "");
+        mPresenter.getYoXiuContent(getActivity(),user_id, user_token, yo_user_id, 1 + "", 20 + "");
     }
 
     @Override
     protected YoXiuContentContract.Presenter createPresenter() {
-        return new YoXiuContentPresenter(this);
+        return new YoXiuContentPresenter(getActivity(),this);
     }
 
     @Override

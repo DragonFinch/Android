@@ -152,7 +152,7 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
     //la    39.7634 long  116.326
     @Override
     protected CreatePointContract.Presenter createPresenter() {
-        return new CreatePointPresenter(this);
+        return new CreatePointPresenter(CreatePointActivity.this,this);
     }
 
     protected void initView() {
@@ -284,13 +284,13 @@ public class CreatePointActivity extends BaseActivity<CreatePointContract.Presen
                 Log.d("CreatePointActivity", "latitude:" + latitude);
                 if (editCreatePoint.getText().toString().length() != 0) {
 
-                    mPresenter.createPoint(user_id, user_token, editCreatePoint.getText().toString().trim(), "", tvCity.getText().toString(), place, String.valueOf(longitude), String.valueOf(latitude), String.valueOf(id));
+                    mPresenter.createPoint(CreatePointActivity.this,user_id, user_token, editCreatePoint.getText().toString().trim(), "", tvCity.getText().toString(), place, String.valueOf(longitude), String.valueOf(latitude), String.valueOf(id));
                 } else {
                     Toast.makeText(this, "创建点的位置不能为空", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.tv_choose_type:
-                mPresenter.setType(SpUtils.getString(CreatePointActivity.this, "user_id", null), SpUtils.getString(CreatePointActivity.this, "user_token", null));
+                mPresenter.setType(CreatePointActivity.this,SpUtils.getString(CreatePointActivity.this, "user_id", null), SpUtils.getString(CreatePointActivity.this, "user_token", null));
 
                 break;
         }

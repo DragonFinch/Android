@@ -240,7 +240,7 @@ public class YoXiuContentAdapter extends RecyclerView.Adapter<YoXiuContentAdapte
                     mList.get(position).setCount_praise(String.valueOf(count_praises));
 
                 }
-                DataManager.getFromRemote().praise(user_id, user_token, mList.get(position).getId(), 0)
+                DataManager.getFromRemote().praise(context,user_id, user_token, mList.get(position).getId(), 0)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {

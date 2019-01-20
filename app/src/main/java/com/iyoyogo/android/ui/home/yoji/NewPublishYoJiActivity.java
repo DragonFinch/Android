@@ -194,11 +194,11 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
         mData = new ArrayList<>();
         channel_arrays = new ArrayList<>();
         channel_list = new ArrayList<>();
-        mSharePresenter = new SharePresenter(this);
+        mSharePresenter = new SharePresenter(NewPublishYoJiActivity.this,this);
         mOssService = new OssService(this);
         userId = SpUtils.getString(this, "user_id", null);
         token = SpUtils.getString(this, "user_token", null);
-        mPresenter.getRecommendTopic(userId, token);
+        mPresenter.getRecommendTopic(NewPublishYoJiActivity.this,userId, token);
 
         id = getIntent().getIntExtra("id", 0);
         Log.d("NewPublishYoJiActivity", "id:" + id);
@@ -214,14 +214,14 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
             coverPath = TextUtils.isEmpty(localMedia.get(0).getCompressPath()) ? localMedia.get(0).getPath() : localMedia.get(0).getCompressPath();
             Glide.with(this).load(coverPath).apply(new RequestOptions().centerCrop()).into(mIvCover);
         } else {
-            mPresenter.getYoJiData(userId, token, id);
+            mPresenter.getYoJiData(NewPublishYoJiActivity.this,userId, token, id);
         }
 
     }
 
     @Override
     protected PublishYoJiPresenter createPresenter() {
-        return new PublishYoJiPresenter(this);
+        return new PublishYoJiPresenter(NewPublishYoJiActivity.this,this);
     }
 
     @OnClick({R.id.iv_back, R.id.tv_change_image, R.id.ll_channel, R.id.tv_publish, R.id.iv_cover, R.id.tv_more_topic, R.id.rbtn_friend_circle, R.id.rbtn_weibo, R.id.rbtn_qq, R.id.rbtn_wechat, R.id.tv_publish_type})
@@ -434,7 +434,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
             }
         } else {
             Log.d("NewPublishYoJiActivity", new Gson().toJson(setParams()).toString());
-            mPresenter.publishYoJi(userId, token, id, coverUrl, mEtTitle.getText().toString(), mEtInfo.getText().toString(), Integer.valueOf(mEtMoney.getText().toString()), isOpen, saveType, channel_arrays.toString().replace("[", "").replace("]", ""), new Gson().toJson(setParams()));
+            mPresenter.publishYoJi(NewPublishYoJiActivity.this,userId, token, id, coverUrl, mEtTitle.getText().toString(), mEtInfo.getText().toString(), Integer.valueOf(mEtMoney.getText().toString()), isOpen, saveType, channel_arrays.toString().replace("[", "").replace("]", ""), new Gson().toJson(setParams()));
         }
     }
 
@@ -632,7 +632,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
 
                     @Override
                     public void onResult(SHARE_MEDIA share_media) {
-                        mSharePresenter.share(userId, token, id);
+                        mSharePresenter.share(NewPublishYoJiActivity.this,userId, token, id);
                     }
 
                     @Override
@@ -737,7 +737,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
             PictureFileUtils.deleteCacheDirFile(this);
             Log.d("NewPublishYoJiActivity", new Gson().toJson(mData));
 
-            runOnUiThread(() -> mPresenter.publishYoJi(userId,
+            runOnUiThread(() -> mPresenter.publishYoJi(NewPublishYoJiActivity.this,userId,
                     token,
                     id,
                     coverUrl,

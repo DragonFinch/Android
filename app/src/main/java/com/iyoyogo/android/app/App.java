@@ -17,6 +17,8 @@ import com.danikula.videocache.HttpProxyCacheServer;
 import com.iyoyogo.android.bean.yoji.publish.MessageBean;
 import com.iyoyogo.android.camera.utils.CrashHandler;
 import com.iyoyogo.android.camera.utils.asset.NvAssetManager;
+import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.net.ApiObserver;
 import com.iyoyogo.android.utils.GdLocationUtil;
 import com.iyoyogo.android.utils.Utils;
 import com.iyoyogo.android.utils.download.SystemParams;
@@ -32,12 +34,18 @@ import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.observers.DefaultObserver;
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.unit.Subunits;
-
+import okhttp3.ResponseBody;
 
 
 import static com.iyoyogo.android.app.AppInfo.getCurProcessName;
@@ -82,33 +90,27 @@ public class App extends Application {
         SystemParams.init(this);
         isDownload = false;
         context = this;
-
         //表情包的初始化
         FaceConversionUtil.getInstace().getFileText(context);
-
         //umeng的初始化
         UMShareAPI.get(this);
         instance = this;
         UMConfigure.init(this, "5bea3cb0f1f5565cc1000170"
                 , "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
         mContext = getApplicationContext();
-        //
         PlatformConfig.setSinaWeibo("3163111192", "d6a50a54a967198b5e58e01fa92d448d", "http://www.iyoyogo.com:8090/api/1.0/about/us/wbAuth");
         PlatformConfig.setWeixin("wxedcd176470bd0c5b", "dfe479bd5608ae481183c84b32f0c360");
         PlatformConfig.setQQZone("1107050658", "MPqlCLruUzjIUAAu");
         init();
-
         if (BuildConfig.DEBUG) {
             UMConfigure.setLogEnabled(true);
         } else {
             UMConfigure.setLogEnabled(false);
         }
-
         //全局不活一场
         CrashHandler.getInstance().init(mContext);
         //防止方法数
         MultiDex.install(this);
-
         //初始化
         String licensePath = "assets:/meishe.lic";
         NvsStreamingContext.init(this, licensePath, NvsStreamingContext.STREAMING_CONTEXT_FLAG_SUPPORT_4K_EDIT);

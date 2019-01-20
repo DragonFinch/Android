@@ -208,7 +208,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
 //        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         user_id = SpUtils.getString(EditPersonalMessageActivity.this, "user_id", null);
         user_token = SpUtils.getString(EditPersonalMessageActivity.this, "user_token", null);
-        mPresenter.getUserInfo(user_id, user_token);
+        mPresenter.getUserInfo(EditPersonalMessageActivity.this,user_id, user_token);
         interestLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -241,7 +241,7 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
 
     @Override
     protected EditPersonalContract.Presenter createPresenter() {
-        return new EditPersonalPresenter(this);
+        return new EditPersonalPresenter(EditPersonalMessageActivity.this,this);
     }
 
     public String getStarSeat(int mouth, int day) {
@@ -296,10 +296,10 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             @Override
             public void onClick(View v) {
                 if (url == null) {
-                    mPresenter.setUserInfo(user_id, user_token, nickName.getText().toString(), user_logo, sex, textView.getText().toString().trim(), cityTvId.getText().toString());
+                    mPresenter.setUserInfo(EditPersonalMessageActivity.this,user_id, user_token, nickName.getText().toString(), user_logo, sex, textView.getText().toString().trim(), cityTvId.getText().toString());
                 } else {
                     Log.d("EditPersonalMessageActi", textView.getText().toString().trim());
-                    mPresenter.setUserInfo(user_id, user_token, nickName.getText().toString(), url, sex, textView.getText().toString().trim(), cityTvId.getText().toString());
+                    mPresenter.setUserInfo(EditPersonalMessageActivity.this,user_id, user_token, nickName.getText().toString(), url, sex, textView.getText().toString().trim(), cityTvId.getText().toString());
                 }
 
             }

@@ -32,13 +32,11 @@ import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.PoiSearchAdapter;
 import com.iyoyogo.android.base.BaseActivity;
-import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.HisPositionBean;
 import com.iyoyogo.android.bean.LocationBean;
 import com.iyoyogo.android.contract.HisPositionContract;
 import com.iyoyogo.android.presenter.HisPositionPresenter;
-import com.iyoyogo.android.ui.home.yoxiu.PublishYoXiuActivity;
 import com.iyoyogo.android.utils.SpUtils;
 
 import java.util.ArrayList;
@@ -180,7 +178,7 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
 //                            goCreatePoint.setVisibility(View.VISIBLE);
                             locationRVId.setVisibility(View.VISIBLE);
                             history.setVisibility(View.VISIBLE);
-                            mPresenter.getHisPosition(user_id, user_token, 1, 20);
+                            mPresenter.getHisPosition(SearchActivity.this,user_id, user_token, 1, 20);
                         } else {
                             history.setVisibility(View.GONE);
 //                            goCreatePoint.setVisibility(View.GONE);
@@ -275,7 +273,7 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
 
     @Override
     protected HisPositionContract.Presenter createPresenter() {
-        return new HisPositionPresenter(this);
+        return new HisPositionPresenter(SearchActivity.this,this);
     }
 
     private void setCurrentLocationDetails(LatLonPoint latLonPoint) {
@@ -364,11 +362,11 @@ public class SearchActivity extends BaseActivity<HisPositionContract.Presenter> 
                             history.setVisibility(View.VISIBLE);
                             goCreatePoint.setVisibility(View.VISIBLE);
                             locationRVId.setVisibility(View.VISIBLE);
-                            mPresenter.getHisPosition(user_id, user_token, 1, 20);
+                            mPresenter.getHisPosition(SearchActivity.this,user_id, user_token, 1, 20);
                             historyClose.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    mPresenter.DelPosition(user_id, user_token);
+                                    mPresenter.DelPosition(SearchActivity.this,user_id, user_token);
                                 }
                             });
 

@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.BaseBean;
@@ -20,11 +22,11 @@ public interface ChooseSignContract {
 
     interface Presenter extends IBasePresenter {
 
-        void getLabelList(String user_id, String user_token);
+        void getLabelList(Context context,String user_id, String user_token);
 
-        void addLabel(String user_id, String user_token, int label_id, int type, String label);
+        void addLabel(Context context,String user_id, String user_token, int label_id, int type, String label);
 
-        void deleteLabel(String user_id, String user_token, int label_id);
+        void deleteLabel(Context context,String user_id, String user_token, int label_id);
 
     }
 }

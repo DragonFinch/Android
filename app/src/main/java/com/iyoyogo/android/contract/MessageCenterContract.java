@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.mine.message.MessageCenterBean;
@@ -11,6 +13,6 @@ public interface MessageCenterContract {
         void getMessageCenterSuccess(MessageCenterBean.DataBean data);
     }
     interface Presenter extends IBasePresenter{
-        void getMessageCenter(String user_id,String user_token);
+        void getMessageCenter(Context context, String user_id, String user_token);
     }
 }

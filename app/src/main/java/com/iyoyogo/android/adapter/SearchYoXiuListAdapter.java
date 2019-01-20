@@ -170,7 +170,7 @@ public class SearchYoXiuListAdapter extends RecyclerView.Adapter<SearchYoXiuList
                     viewHolder.img_like.setImageResource(mList.get(position).isIs_my_praise() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
 
                 }
-                DataManager.getFromRemote().praise(user_id, user_token, yo_id, 0).subscribe(new Consumer<BaseBean>() {
+                DataManager.getFromRemote().praise(context,user_id, user_token, yo_id, 0).subscribe(new Consumer<BaseBean>() {
                     @Override
                     public void accept(BaseBean baseBean) throws Exception {
 
@@ -267,7 +267,7 @@ public class SearchYoXiuListAdapter extends RecyclerView.Adapter<SearchYoXiuList
                 popup_more.dismiss();
                 String s = tv_advert.getText().toString();
                 DataManager.getFromRemote()
-                        .report(user_id, user_token, yo_id, 0, s)
+                        .report(context,user_id, user_token, yo_id, 0, s)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -284,7 +284,7 @@ public class SearchYoXiuListAdapter extends RecyclerView.Adapter<SearchYoXiuList
                 popup_more.dismiss();
                 String s = tv_harm.getText().toString();
                 DataManager.getFromRemote()
-                        .report(user_id, user_token, yo_id, 0, s)
+                        .report(context,user_id, user_token, yo_id, 0, s)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -301,7 +301,7 @@ public class SearchYoXiuListAdapter extends RecyclerView.Adapter<SearchYoXiuList
                 popup_more.dismiss();
                 String s = tv_violate.getText().toString();
                 DataManager.getFromRemote()
-                        .report(user_id, user_token, yo_id, 0, s)
+                        .report(context,user_id, user_token, yo_id, 0, s)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -318,7 +318,7 @@ public class SearchYoXiuListAdapter extends RecyclerView.Adapter<SearchYoXiuList
                 popup_more.dismiss();
                 String s = tv_else.getText().toString();
                 DataManager.getFromRemote()
-                        .report(user_id, user_token, yo_id, 0, s)
+                        .report(context,user_id, user_token, yo_id, 0, s)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {

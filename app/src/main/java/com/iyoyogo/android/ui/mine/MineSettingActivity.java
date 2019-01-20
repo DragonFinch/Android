@@ -119,7 +119,7 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        mPresenter.getMineSetting(user_id, user_token);
+        mPresenter.getMineSetting(MineSettingActivity.this,user_id, user_token);
      switchButton1.setOnCheckedChangeListener(this);
      switchButton2.setOnCheckedChangeListener(this);
      switchButton3.setOnCheckedChangeListener(this);
@@ -174,7 +174,7 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
 
                 break;
             case R.id.btn_logout:
-                mPresenter.logout(user_id, user_token, address, phone_type, localVersion);
+                mPresenter.logout(MineSettingActivity.this,user_id, user_token, address, phone_type, localVersion);
                 break;
         }
     }
@@ -187,7 +187,7 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
 
     @Override
     protected MineSettingContract.Presenter createPresenter() {
-        return new MineSettingPresenter(this);
+        return new MineSettingPresenter(MineSettingActivity.this,this);
     }
 
     @Override
@@ -231,7 +231,7 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
 
     @Override
     public void setMineSettingSuccess(BaseBean baseBean) {
-        mPresenter.getMineSetting(user_id, user_token);
+        mPresenter.getMineSetting(MineSettingActivity.this,user_id, user_token);
     }
 
     @Override
@@ -239,9 +239,9 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
         switch (view.getId()) {
             case R.id.switch_button1:
                 if (isChecked){
-                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, 1, is_mail);
+                    mPresenter.setMineSetting(MineSettingActivity.this,user_id, user_token, is_autoPlay, 1, is_mail);
                 }else {
-                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, 0, is_mail);
+                    mPresenter.setMineSetting(MineSettingActivity.this,user_id, user_token, is_autoPlay, 0, is_mail);
                 }
 //                if (is_notice == 1) {
 //                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, 1, is_mail);
@@ -253,9 +253,9 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
                 break;
             case R.id.switch_button2:
                 if (isChecked){
-                    mPresenter.setMineSetting(user_id, user_token,is_autoPlay, is_notice, 1);
+                    mPresenter.setMineSetting(MineSettingActivity.this,user_id, user_token,is_autoPlay, is_notice, 1);
                 }else {
-                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, is_notice, 0);
+                    mPresenter.setMineSetting(MineSettingActivity.this,user_id, user_token, is_autoPlay, is_notice, 0);
                 }
 //                if (is_mail == 1) {
 //                    mPresenter.setMineSetting(user_id, user_token, is_autoPlay, is_notice, 1);
@@ -267,9 +267,9 @@ public class MineSettingActivity extends BaseActivity<MineSettingContract.Presen
                 break;
             case R.id.switch_button3:
                 if (isChecked){
-                    mPresenter.setMineSetting(user_id, user_token,1, is_notice, is_mail);
+                    mPresenter.setMineSetting(MineSettingActivity.this,user_id, user_token,1, is_notice, is_mail);
                 }else {
-                    mPresenter.setMineSetting(user_id, user_token, 0, is_notice, is_mail);
+                    mPresenter.setMineSetting(MineSettingActivity.this,user_id, user_token, 0, is_notice, is_mail);
                 }
 //                if (is_autoPlay == 1) {
 //                    mPresenter.setMineSetting(user_id, user_token, 1, is_notice, is_mail);

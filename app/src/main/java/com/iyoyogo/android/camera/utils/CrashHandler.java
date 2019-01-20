@@ -138,12 +138,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         printWriter.close();
         String result = writer.toString();
         sb.append(result);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                DataManager.getFromRemote().uploadErrorLog(sb.toString());
-            }
-        }).start();
+        DataManager.getFromRemote().uploadErrorLog(sb.toString()).subscribe();
         try {
             long timestamp = System.currentTimeMillis();
             String time = format.format(new Date());

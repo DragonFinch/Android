@@ -1,5 +1,6 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
@@ -14,14 +15,14 @@ import com.iyoyogo.android.net.ApiObserver;
 import java.util.List;
 
 public class CollectionFolderContentPresenter extends BasePresenter<CollectionFolderContentContract.View> implements CollectionFolderContentContract.Presenter {
-    public CollectionFolderContentPresenter(CollectionFolderContentContract.View mView) {
-        super(mView);
+    public CollectionFolderContentPresenter(Context context,CollectionFolderContentContract.View mView) {
+        super(context,mView);
     }
 
     @Override
-    public void getCollectionFolderContent(String user_id, String user_token, int folder_id, int page) {
+    public void getCollectionFolderContent(Context context,String user_id, String user_token, int folder_id, int page) {
         DataManager.getFromRemote()
-                .getContent(user_id, user_token, folder_id, page)
+                .getContent(context,user_id, user_token, folder_id, page)
                 .subscribe(new ApiObserver<CollectionFolderContentBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(CollectionFolderContentBean collectionFolderContentBean) {
@@ -40,8 +41,8 @@ public class CollectionFolderContentPresenter extends BasePresenter<CollectionFo
     }
 
     @Override
-    public void removeCollectionContent(String user_id, String user_token, Integer[] record_ids) {
-        DataManager.getFromRemote().deleteCollection(user_id, user_token, record_ids)
+    public void removeCollectionContent(Context context,String user_id, String user_token, Integer[] record_ids) {
+        DataManager.getFromRemote().deleteCollection(context,user_id, user_token, record_ids)
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
@@ -57,8 +58,8 @@ public class CollectionFolderContentPresenter extends BasePresenter<CollectionFo
     }
 
     @Override
-    public void moveCollectionFolder(String user_id, String user_token, Integer[] record_ids, int folder_id) {
-        DataManager.getFromRemote().moveCollectionFolder(user_id, user_token, record_ids, folder_id)
+    public void moveCollectionFolder(Context context,String user_id, String user_token, Integer[] record_ids, int folder_id) {
+        DataManager.getFromRemote().moveCollectionFolder(context,user_id, user_token, record_ids, folder_id)
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
@@ -74,9 +75,9 @@ public class CollectionFolderContentPresenter extends BasePresenter<CollectionFo
     }
 
     @Override
-    public void getCollectionFolder(String user_id, String user_token) {
+    public void getCollectionFolder(Context context,String user_id, String user_token) {
         DataManager.getFromRemote()
-                .getCollectionFolder(user_id, user_token)
+                .getCollectionFolder(context,user_id, user_token)
                 .subscribe(new ApiObserver<CollectionFolderBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(CollectionFolderBean collectionFolderBean) {

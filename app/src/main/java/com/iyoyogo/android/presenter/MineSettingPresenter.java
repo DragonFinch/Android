@@ -1,5 +1,6 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
@@ -11,14 +12,14 @@ import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.net.ApiObserver;
 
 public class MineSettingPresenter extends BasePresenter<MineSettingContract.View> implements MineSettingContract.Presenter {
-    public MineSettingPresenter(MineSettingContract.View mView) {
-        super(mView);
+    public MineSettingPresenter(Context context, MineSettingContract.View mView) {
+        super(context,mView);
     }
 
     @Override
-    public void logout(String user_id, String user_token, String addr, String phone_info, String app_version) {
+    public void logout(Context context,String user_id, String user_token, String addr, String phone_info, String app_version) {
         DataManager.getFromRemote()
-                .logout(user_id, user_token, addr, phone_info, app_version)
+                .logout(context,user_id, user_token, addr, phone_info, app_version)
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
@@ -34,9 +35,9 @@ public class MineSettingPresenter extends BasePresenter<MineSettingContract.View
     }
 
     @Override
-    public void getMineSetting(String user_id, String user_token) {
+    public void getMineSetting(Context context,String user_id, String user_token) {
         DataManager.getFromRemote()
-                .getMineSetting(user_id, user_token)
+                .getMineSetting(context,user_id, user_token)
                 .subscribe(new ApiObserver<MineSettingBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(MineSettingBean mineSettingBean) {
@@ -53,9 +54,9 @@ public class MineSettingPresenter extends BasePresenter<MineSettingContract.View
     }
 
     @Override
-    public void setMineSetting(String user_id, String user_token, int wifi_auto_play_video, int notice, int address_list) {
+    public void setMineSetting(Context context,String user_id, String user_token, int wifi_auto_play_video, int notice, int address_list) {
         DataManager.getFromRemote()
-                .setMineSetting(user_id, user_token, wifi_auto_play_video, notice, address_list)
+                .setMineSetting(context,user_id, user_token, wifi_auto_play_video, notice, address_list)
                 .subscribe(new ApiObserver<BaseBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {

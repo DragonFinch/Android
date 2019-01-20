@@ -1,6 +1,8 @@
 package com.iyoyogo.android.model;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.iyoyogo.android.bean.BaseBean;
@@ -59,8 +61,8 @@ import com.iyoyogo.android.bean.yoxiu.channel.ChannelBean;
 import com.iyoyogo.android.bean.yoxiu.topic.CreateTopicBean;
 import com.iyoyogo.android.bean.yoxiu.topic.HotTopicBean;
 import com.iyoyogo.android.model.en.SendMessageRequest;
-import com.iyoyogo.android.net.AddInterestRequest;
 import com.iyoyogo.android.net.HttpClient;
+import com.iyoyogo.android.ui.common.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,12 +71,9 @@ import java.util.Map;
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import retrofit2.http.Field;
 import retrofit2.http.Url;
 
 
@@ -110,9 +109,22 @@ public class Model {
      *
      * @return
      */
-    public Observable<InterestBean> getInterestSign(String user_id, String user_token) {
+    public Observable<InterestBean> getInterestSign(Context activity, String user_id, String user_token) {
         return HttpClient.getApiService().getInterest(user_id, user_token)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<InterestBean>() {
+                    @Override
+                    public boolean test(InterestBean interestBean) throws Exception {
+                         startLogin(activity,interestBean);
+                        return true;
+                    }
+                });
+    }
+
+    void startLogin(Context activity,BaseBean bean) {
+        if (bean != null && bean.getCode() == 202) {
+            Intent intent = new Intent(activity, LoginActivity.class);
+            activity.startActivity(intent);
+        }
     }
 
     /**
@@ -142,7 +154,7 @@ public class Model {
      * @param user_token
      * @return
      */
-    public Observable<BaseBean> addInterest(ArrayList<Integer> interest_ids, String user_id, String user_token) {
+    public Observable<BaseBean> addInterest(Context context,ArrayList<Integer> interest_ids, String user_id, String user_token) {
         Map<String, Object> map = new HashMap<>();
         map.put("user_id", user_id);
         map.put("user_token", user_token);
@@ -150,7 +162,19 @@ public class Model {
             map.put("interest_ids[" + i + "]", interest_ids.get(i));
         }
         return HttpClient.getApiService().addInterest(map)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -167,10 +191,14 @@ public class Model {
      * @param logo
      * @return
      */
-    public Observable<LoginBean> login(String login_addr, String phone_info, String app_version, int login_type, String phone, String yzm, String openid, String nickname, String logo) {
-
+    public Observable<LoginBean> login(Context context,String login_addr, String phone_info, String app_version, int login_type, String phone, String yzm, String openid, String nickname, String logo) {
         return HttpClient.getApiService().login(login_addr, phone_info, app_version, login_type, phone, yzm, openid, nickname, logo)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<LoginBean>() {
+                    @Override
+                    public boolean test(LoginBean loginBean) throws Exception {
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -190,9 +218,21 @@ public class Model {
      * @param type
      * @return
      */
-    public Observable<HomeBean> homePager(String user_id, String user_token, String type, String city) {
+    public Observable<HomeBean> homePager(Context context,String user_id, String user_token, String type, String city) {
         return HttpClient.getApiService().homePager(user_id, user_token, type, city)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<HomeBean>() {
+                    @Override
+                    public boolean test(HomeBean homeBean) throws Exception {
+                        if (homeBean != null){
+                            int code = homeBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -202,9 +242,21 @@ public class Model {
      * @param user_token
      * @return
      */
-    public Observable<TypeBean> getType(String user_id, String user_token) {
+    public Observable<TypeBean> getType(Context context,String user_id, String user_token) {
         return HttpClient.getApiService().getType(user_id, user_token)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<TypeBean>() {
+                    @Override
+                    public boolean test(TypeBean typeBean) throws Exception {
+                        if (typeBean != null){
+                            int code = typeBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -221,7 +273,7 @@ public class Model {
      * @param type_id
      * @return
      */
-    public Observable<BaseBean> create_point(String user_id,
+    public Observable<BaseBean> create_point(Context context,String user_id,
                                              String user_token,
                                              String name,
                                              String en_name,
@@ -230,7 +282,19 @@ public class Model {
                                              String lng,
                                              String lat,
                                              String type_id) {
-        return HttpClient.getApiService().create_pointer(user_id, user_token, name, en_name, areas, address, lng, lat, type_id).compose(this.switchThread());
+        return HttpClient.getApiService().create_pointer(user_id, user_token, name, en_name, areas, address, lng, lat, type_id).compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+            @Override
+            public boolean test(BaseBean baseBean) throws Exception {
+                if (baseBean != null){
+                    int code = baseBean.getCode();
+                    if (code == 202){
+                        Intent intent = new Intent(context,LoginActivity.class);
+                        context.startActivity(intent);
+                    }
+                }
+                return true;
+            }
+        });
     }
 
     /**
@@ -241,11 +305,23 @@ public class Model {
      * @param search
      * @return
      */
-    public Observable<HotTopicBean> getHotTopic(String user_id,
+    public Observable<HotTopicBean> getHotTopic(Context context,String user_id,
                                                 String user_token,
                                                 String search) {
         return HttpClient.getApiService().getHotTopic(user_id, user_token, search)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<HotTopicBean>() {
+                    @Override
+                    public boolean test(HotTopicBean hotTopicBean) throws Exception {
+                        if (hotTopicBean != null){
+                            int code = hotTopicBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -255,10 +331,22 @@ public class Model {
      * @param user_token
      * @return
      */
-    public Observable<HotTopicBean> getNearTopic(String user_id,
+    public Observable<HotTopicBean> getNearTopic(Context context,String user_id,
                                                  String user_token) {
         return HttpClient.getApiService().getNearTopic(user_id, user_token)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<HotTopicBean>() {
+                    @Override
+                    public boolean test(HotTopicBean hotTopicBean) throws Exception {
+                        if (hotTopicBean != null){
+                            int code = hotTopicBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -269,19 +357,43 @@ public class Model {
      * @param topic
      * @return
      */
-    public Observable<CreateTopicBean> createTopic(String user_id,
+    public Observable<CreateTopicBean> createTopic(Context context,String user_id,
                                                    String user_token, String topic) {
         return HttpClient.getApiService().createTopic(user_id, user_token, topic)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<CreateTopicBean>() {
+                    @Override
+                    public boolean test(CreateTopicBean createTopicBean) throws Exception {
+                        if (createTopicBean != null){
+                            int code = createTopicBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /*8
     清空话题
      */
-    public Observable<BaseBean> clearTopic(String user_id,
+    public Observable<BaseBean> clearTopic(Context context,String user_id,
                                            String user_token) {
         return HttpClient.getApiService().clearTopic(user_id, user_token)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -291,10 +403,22 @@ public class Model {
      * @param user_token
      * @return
      */
-    public Observable<HotTopicBean> getRecommend(String user_id,
+    public Observable<HotTopicBean> getRecommend(Context context,String user_id,
                                                  String user_token) {
         return HttpClient.getApiService().getRecommend(user_id, user_token)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<HotTopicBean>() {
+                    @Override
+                    public boolean test(HotTopicBean hotTopicBean) throws Exception {
+                        if (hotTopicBean != null){
+                            int code = hotTopicBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -304,10 +428,22 @@ public class Model {
      * @param user_token
      * @return
      */
-    public Observable<ChannelBean> getChannel(String user_id,
+    public Observable<ChannelBean> getChannel(Context context,String user_id,
                                               String user_token) {
         return HttpClient.getApiService().getChannel(user_id, user_token)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<ChannelBean>() {
+                    @Override
+                    public boolean test(ChannelBean channelBean) throws Exception {
+                        if (channelBean != null){
+                            int code = channelBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -329,7 +465,7 @@ public class Model {
      * @param filter_id
      * @return
      */
-    public Observable<PublishSucessBean> publish_yoXiu(String user_id,
+    public Observable<PublishSucessBean> publish_yoXiu(Context context,String user_id,
                                                        String user_token,
                                                        int yo_id,
                                                        String file_path,
@@ -346,7 +482,19 @@ public class Model {
                                                        String lat,
                                                        String filter_id, String size) {
         return HttpClient.getApiService().publish_yoXiu(user_id, user_token, yo_id, file_path, file_type, file_desc, channel_ids, open, valid, position_name, position_areas, position_address, position_city, lng, lat, filter_id, size)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<PublishSucessBean>() {
+                    @Override
+                    public boolean test(PublishSucessBean publishSucessBean) throws Exception {
+                        if (publishSucessBean != null){
+                            int code = publishSucessBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -357,9 +505,21 @@ public class Model {
      * @param id
      * @return
      */
-    public Observable<YoXiuDetailBean> getDetail(String user_id, String user_token, int id) {
+    public Observable<YoXiuDetailBean> getDetail(Context context,String user_id, String user_token, int id) {
         return HttpClient.getApiService().getDetail(user_id, user_token, id)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<YoXiuDetailBean>() {
+                    @Override
+                    public boolean test(YoXiuDetailBean yoXiuDetailBean) throws Exception {
+                        if (yoXiuDetailBean != null){
+                            int code = yoXiuDetailBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -370,9 +530,21 @@ public class Model {
      * @param page
      * @return
      */
-    public Observable<YouXiuListBean> getYoXiuList(String user_id, String user_token, int page) {
+    public Observable<YouXiuListBean> getYoXiuList(Context context,String user_id, String user_token, int page) {
         return HttpClient.getApiService().getYoXiuList(user_id, user_token, page)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<YouXiuListBean>() {
+                    @Override
+                    public boolean test(YouXiuListBean youXiuListBean) throws Exception {
+                        if (youXiuListBean != null){
+                            int code = youXiuListBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
     /**
      * 获取yo秀关注列表
@@ -382,25 +554,61 @@ public class Model {
      * @param page
      * @return
      */
-    public Observable<YouXiuListBean> getYoXiuAttentionList(String user_id, String user_token, int page) {
+    public Observable<YouXiuListBean> getYoXiuAttentionList(Context context,String user_id, String user_token, int page) {
         return HttpClient.getApiService().getYoXiuAttentionList(user_id, user_token, page)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<YouXiuListBean>() {
+                    @Override
+                    public boolean test(YouXiuListBean youXiuListBean) throws Exception {
+                        if (youXiuListBean != null){
+                            int code = youXiuListBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
      * 获取同款
      */
-    public Observable<SameBean> getSameList(String user_id, String user_token, String lng, String lat, int page, String page_size) {
+    public Observable<SameBean> getSameList(Context context,String user_id, String user_token, String lng, String lat, int page, String page_size) {
         return HttpClient.getApiService().getSameList(user_id, user_token, lng, lat, page, page_size)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<SameBean>() {
+                    @Override
+                    public boolean test(SameBean sameBean) throws Exception {
+                        if (sameBean != null){
+                            int code = sameBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /*8
    点赞
      */
-    public Observable<LikeBean> praise(String user_id, String user_token, int yo_id, int comment_id) {
+    public Observable<LikeBean> praise(Context context,String user_id, String user_token, int yo_id, int comment_id) {
         return HttpClient.getApiService().praise(user_id, user_token, yo_id, comment_id)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<LikeBean>() {
+                    @Override
+                    public boolean test(LikeBean likeBean) throws Exception {
+                        if (likeBean != null){
+                            int code = likeBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -410,9 +618,21 @@ public class Model {
      * @param user_token
      * @return
      */
-    public Observable<MineMessageBean> getPersonInfo(String user_id, String user_token) {
+    public Observable<MineMessageBean> getPersonInfo(Context context,String user_id, String user_token) {
         return HttpClient.getApiService().getPersonInfo(user_id, user_token)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<MineMessageBean>() {
+                    @Override
+                    public boolean test(MineMessageBean mineMessageBean) throws Exception {
+                        if (mineMessageBean != null){
+                            int code = mineMessageBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -425,18 +645,42 @@ public class Model {
      * @param comment_id
      * @return
      */
-    public Observable<CommentBean> getComment(String user_id, String user_token, int page, int yo_id, int comment_id) {
+    public Observable<CommentBean> getComment(Context context,String user_id, String user_token, int page, int yo_id, int comment_id) {
         return HttpClient.getApiService().getComment(user_id, user_token, page, yo_id, comment_id)
-                .compose(this.switchThread())
+                .compose(this.switchThread()).filter(new Predicate<CommentBean>() {
+                    @Override
+                    public boolean test(CommentBean commentBean) throws Exception {
+                        if (commentBean != null){
+                            int code = commentBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                })
                 ;
     }
 
     /*8
     添加评论
      */
-    public Observable<BaseBean> addComment(String user_id, String user_token, int comment_id, int yo_id, String content) {
+    public Observable<BaseBean> addComment(Context context,String user_id, String user_token, int comment_id, int yo_id, String content) {
         return HttpClient.getApiService().addComment(user_id, user_token, comment_id, yo_id, content)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -446,9 +690,21 @@ public class Model {
      * @param user_token
      * @return
      */
-    public Observable<GetUserInfoBean> getUserInfo(String user_id, String user_token) {
+    public Observable<GetUserInfoBean> getUserInfo(Context context,String user_id, String user_token) {
         return HttpClient.getApiService().getUserInfo(user_id, user_token)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<GetUserInfoBean>() {
+                    @Override
+                    public boolean test(GetUserInfoBean getUserInfoBean) throws Exception {
+                        if (getUserInfoBean != null){
+                            int code = getUserInfoBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -463,7 +719,7 @@ public class Model {
      * @param user_city
      * @return
      */
-    public Observable<BaseBean> setUserInfo(String user_id,
+    public Observable<BaseBean> setUserInfo(Context context,String user_id,
                                             String user_token,
                                             String user_nickname,
                                             String user_logo,
@@ -471,7 +727,19 @@ public class Model {
                                             String user_birthday,
                                             String user_city) {
         return HttpClient.getApiService().setUserInfo(user_id, user_token, user_nickname, user_logo, user_sex, user_birthday, user_city)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
 
     }
 
@@ -482,9 +750,21 @@ public class Model {
      * @param user_token
      * @return
      */
-    public Observable<GetBindInfoBean> getBindInfo(String user_id, String user_token) {
+    public Observable<GetBindInfoBean> getBindInfo(Context context,String user_id, String user_token) {
         return HttpClient.getApiService().getBindInfo(user_id, user_token)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<GetBindInfoBean>() {
+                    @Override
+                    public boolean test(GetBindInfoBean getBindInfoBean) throws Exception {
+                        if (getBindInfoBean != null){
+                            int code = getBindInfoBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -496,9 +776,21 @@ public class Model {
      * @param yzm
      * @return
      */
-    public Observable<BaseBean> replacePhone(String user_id, String user_token, String phone, String yzm) {
+    public Observable<BaseBean> replacePhone(Context context,String user_id, String user_token, String phone, String yzm) {
         return HttpClient.getApiService().replacePhone(user_id, user_token, phone, yzm)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -511,9 +803,21 @@ public class Model {
      * @param app_version
      * @return
      */
-    public Observable<BaseBean> logout(String user_id, String user_token, String addr, String phone_type, String app_version) {
+    public Observable<BaseBean> logout(Context context,String user_id, String user_token, String addr, String phone_type, String app_version) {
         return HttpClient.getApiService().logout(user_id, user_token, addr, phone_type, app_version)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -524,19 +828,55 @@ public class Model {
      * @param target_id
      * @return
      */
-    public Observable<AttentionBean> addAttention(String user_id, String user_token, int target_id) {
+    public Observable<AttentionBean> addAttention(Context context,String user_id, String user_token, int target_id) {
         return HttpClient.getApiService().addAttention(user_id, user_token, target_id)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<AttentionBean>() {
+                    @Override
+                    public boolean test(AttentionBean attentionBean) throws Exception {
+                        if (attentionBean != null){
+                            int code = attentionBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
-    public Observable<AttentionBean> addAttention1(String user_id, String user_token, String target_id) {
+    public Observable<AttentionBean> addAttention1(Context context,String user_id, String user_token, String target_id) {
         return HttpClient.getApiService().addAttention1(user_id, user_token, target_id)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<AttentionBean>() {
+                    @Override
+                    public boolean test(AttentionBean attentionBean) throws Exception {
+                        if (attentionBean != null){
+                            int code = attentionBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
-    public Observable<BaseBean> deleteAttention(String user_id, String user_token, int id) {
+    public Observable<BaseBean> deleteAttention(Context context,String user_id, String user_token, int id) {
         return HttpClient.getApiService().deleteAttention(user_id, user_token, id)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -546,9 +886,21 @@ public class Model {
      * @param user_token
      * @return
      */
-    public Observable<CollectionFolderBean> getCollectionFolder(String user_id, String user_token) {
+    public Observable<CollectionFolderBean> getCollectionFolder(Context context,String user_id, String user_token) {
         return HttpClient.getApiService().getCollectionFolder(user_id, user_token)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<CollectionFolderBean>() {
+                    @Override
+                    public boolean test(CollectionFolderBean collectionFolderBean) throws Exception {
+                        if (collectionFolderBean != null){
+                            int code = collectionFolderBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -561,9 +913,21 @@ public class Model {
      * @param id
      * @return
      */
-    public Observable<BaseBean> create_folder(String user_id, String user_token, String name, int open, String id) {
+    public Observable<BaseBean> create_folder(Context context,String user_id, String user_token, String name, int open, String id) {
         return HttpClient.getApiService().createFolder(user_id, user_token, name, open, id)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
 
     }
 
@@ -576,9 +940,21 @@ public class Model {
      * @param yo_id
      * @return
      */
-    public Observable<AddCollectionBean> addCollection(String user_id, String user_token, int folder_id, int yo_id) {
+    public Observable<AddCollectionBean> addCollection(Context context,String user_id, String user_token, int folder_id, int yo_id) {
         return HttpClient.getApiService().addCollection(user_id, user_token, folder_id, yo_id)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<AddCollectionBean>() {
+                    @Override
+                    public boolean test(AddCollectionBean addCollectionBean) throws Exception {
+                        if (addCollectionBean != null){
+                            int code = addCollectionBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -610,9 +986,21 @@ public class Model {
      * @param yo_id
      * @return
      */
-    public Observable<BaseBean> dislike(String user_id, String user_token, int yo_id) {
-        return HttpClient.getApiService().dislike(user_id, user_token, yo_id)
-                .compose(this.switchThread());
+    public Observable<BaseBean> dislike(Context context,String user_id, String user_token, int yo_id) {
+        return HttpClient.getApiService().dislike(context,user_id, user_token, yo_id)
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -625,9 +1013,21 @@ public class Model {
      * @param content
      * @return
      */
-    public Observable<BaseBean> report(String user_id, String user_token, int yo_id, int comment_id, String content) {
-        return HttpClient.getApiService().report(user_id, user_token, yo_id, comment_id, content)
-                .compose(this.switchThread());
+    public Observable<BaseBean> report(Context context,String user_id, String user_token, int yo_id, int comment_id, String content) {
+        return HttpClient.getApiService().report(context,user_id, user_token, yo_id, comment_id, content)
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -637,9 +1037,21 @@ public class Model {
      * @param user_token
      * @return
      */
-    public Observable<LabelListBean> getLabelList(String user_id, String user_token) {
+    public Observable<LabelListBean> getLabelList(Context context,String user_id, String user_token) {
         return HttpClient.getApiService().getLabelList(user_id, user_token)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<LabelListBean>() {
+                    @Override
+                    public boolean test(LabelListBean labelListBean) throws Exception {
+                        if (labelListBean != null){
+                            int code = labelListBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -652,9 +1064,21 @@ public class Model {
      * @param label
      * @return
      */
-    public Observable<AddLabelBean> addLabel(String user_id, String user_token, int label_id, int type, String label) {
+    public Observable<AddLabelBean> addLabel(Context context,String user_id, String user_token, int label_id, int type, String label) {
         return HttpClient.getApiService().addLabel(user_id, user_token, label_id, type, label)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<AddLabelBean>() {
+                    @Override
+                    public boolean test(AddLabelBean addLabelBean) throws Exception {
+                        if (addLabelBean != null){
+                            int code = addLabelBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -665,9 +1089,21 @@ public class Model {
      * @param label_id
      * @return
      */
-    public Observable<BaseBean> deleteLabel(String user_id, String user_token, int label_id) {
+    public Observable<BaseBean> deleteLabel(Context context,String user_id, String user_token, int label_id) {
         return HttpClient.getApiService().deleteLabel(user_id, user_token, label_id)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -687,11 +1123,23 @@ public class Model {
      * @param json
      * @return
      */
-    public Observable<PublishSucessBean> publishYoJi(String user_id, String user_token, int yo_id, String logo, String title, String desc, int cost, int open, int valid, String channel_ids, String json) {
+    public Observable<PublishSucessBean> publishYoJi(Context context,String user_id, String user_token, int yo_id, String logo, String title, String desc, int cost, int open, int valid, String channel_ids, String json) {
 
         Log.e("Gson", json);
         return HttpClient.getApiService().publish_yoji(user_id, user_token, yo_id, logo, title, desc, cost, open, valid, channel_ids, json)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<PublishSucessBean>() {
+                    @Override
+                    public boolean test(PublishSucessBean publishSucessBean) throws Exception {
+                        if (publishSucessBean != null){
+                            int code = publishSucessBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -703,9 +1151,21 @@ public class Model {
      * @param page_size
      * @return
      */
-    public Observable<DraftBean> getDraft(String user_id, String user_token, int page, int page_size) {
+    public Observable<DraftBean> getDraft(Context context,String user_id, String user_token, int page, int page_size) {
         return HttpClient.getApiService().getDraft(user_id, user_token, page, page_size)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<DraftBean>() {
+                    @Override
+                    public boolean test(DraftBean draftBean) throws Exception {
+                        if (draftBean != null){
+                            int code = draftBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -717,9 +1177,21 @@ public class Model {
      * @param page_size
      * @return
      */
-    public Observable<YoJiListBean> getYoJiList(String user_id, String user_token, int page, int page_size) {
+    public Observable<YoJiListBean> getYoJiList(Context context,String user_id, String user_token, int page, int page_size) {
         return HttpClient.getApiService().getYoJiList(user_id, user_token, page, page_size)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<YoJiListBean>() {
+                    @Override
+                    public boolean test(YoJiListBean yoJiListBean) throws Exception {
+                        if (yoJiListBean != null){
+                            int code = yoJiListBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -731,9 +1203,21 @@ public class Model {
      * @param page_size
      * @return
      */
-    public Observable<YoJiListBean> getYoJiAttentionList(String user_id, String user_token, int page, int page_size) {
+    public Observable<YoJiListBean> getYoJiAttentionList(Context context,String user_id, String user_token, int page, int page_size) {
         return HttpClient.getApiService().getJiAttentionList(user_id, user_token, page, page_size)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<YoJiListBean>() {
+                    @Override
+                    public boolean test(YoJiListBean yoJiListBean) throws Exception {
+                        if (yoJiListBean != null){
+                            int code = yoJiListBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -744,9 +1228,21 @@ public class Model {
      * @param yo_id
      * @return
      */
-    public Observable<YoJiDetailBean> getYoJiDetail(String user_id, String user_token, int yo_id) {
+    public Observable<YoJiDetailBean> getYoJiDetail(Context context,String user_id, String user_token, int yo_id) {
         return HttpClient.getApiService().getYoJiDetail(user_id, user_token, yo_id)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<YoJiDetailBean>() {
+                    @Override
+                    public boolean test(YoJiDetailBean yoJiDetailBean) throws Exception {
+                        if (yoJiDetailBean != null){
+                            int code = yoJiDetailBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -756,9 +1252,21 @@ public class Model {
      * @param user_token
      * @return
      */
-    public Observable<MineCollectionBean> getMineCollection(String user_id, String user_token) {
+    public Observable<MineCollectionBean> getMineCollection(Context context,String user_id, String user_token) {
         return HttpClient.getApiService().getMineCollection(user_id, user_token)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<MineCollectionBean>() {
+                    @Override
+                    public boolean test(MineCollectionBean mineCollectionBean) throws Exception {
+                        if (mineCollectionBean != null){
+                            int code = mineCollectionBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -768,9 +1276,21 @@ public class Model {
      * @param user_token
      * @return
      */
-    public Observable<MineCollectionBean> getHisCollection(String user_id, String user_token, String his_id) {
+    public Observable<MineCollectionBean> getHisCollection(Context context,String user_id, String user_token, String his_id) {
         return HttpClient.getApiService().getHisCollection(user_id, user_token, his_id)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<MineCollectionBean>() {
+                    @Override
+                    public boolean test(MineCollectionBean mineCollectionBean) throws Exception {
+                        if (mineCollectionBean != null){
+                            int code = mineCollectionBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -781,9 +1301,21 @@ public class Model {
      * @param folder_ids
      * @return
      */
-    public Observable<BaseBean> deleteCollectionFolder(String user_id, String user_token, int[] folder_ids) {
+    public Observable<BaseBean> deleteCollectionFolder(Context context,String user_id, String user_token, int[] folder_ids) {
         return HttpClient.getApiService().deleteCollectionFolder(user_id, user_token, folder_ids)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -794,9 +1326,21 @@ public class Model {
      * @param his_id
      * @return
      */
-    public Observable<UserCenterBean> getUserCenter(String user_id, String user_token, String his_id) {
+    public Observable<UserCenterBean> getUserCenter(Context context,String user_id, String user_token, String his_id) {
         return HttpClient.getApiService().getUserCenter(user_id, user_token, his_id)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<UserCenterBean>() {
+                    @Override
+                    public boolean test(UserCenterBean userCenterBean) throws Exception {
+                        if (userCenterBean != null){
+                            int code = userCenterBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -809,9 +1353,21 @@ public class Model {
      * @param page_size
      * @return
      */
-    public Observable<YoJiContentBean> getYoJiContent(String user_id, String user_token, String his_id, String page, String page_size) {
+    public Observable<YoJiContentBean> getYoJiContent(Context context,String user_id, String user_token, String his_id, String page, String page_size) {
         return HttpClient.getApiService().getYoJiContent(user_id, user_token, his_id, page, page_size)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<YoJiContentBean>() {
+                    @Override
+                    public boolean test(YoJiContentBean yoJiContentBean) throws Exception {
+                        if (yoJiContentBean != null){
+                            int code = yoJiContentBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -823,9 +1379,21 @@ public class Model {
      * @param page_size
      * @return
      */
-    public Observable<PraiseBean> getPraise(String user_id, String user_token, int page, int page_size) {
+    public Observable<PraiseBean> getPraise(Context context,String user_id, String user_token, int page, int page_size) {
         return HttpClient.getApiService().getPraise(user_id, user_token, page, page_size)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<PraiseBean>() {
+                    @Override
+                    public boolean test(PraiseBean praiseBean) throws Exception {
+                        if (praiseBean != null){
+                            int code = praiseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -837,9 +1405,21 @@ public class Model {
      * @param page_size
      * @return
      */
-    public Observable<CollectionFolderContentBean> getContent(String user_id, String user_token, int page, int page_size) {
+    public Observable<CollectionFolderContentBean> getContent(Context context,String user_id, String user_token, int page, int page_size) {
         return HttpClient.getApiService().getContent(user_id, user_token, page, page_size)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<CollectionFolderContentBean>() {
+                    @Override
+                    public boolean test(CollectionFolderContentBean collectionFolderContentBean) throws Exception {
+                        if (collectionFolderContentBean != null){
+                            int code = collectionFolderContentBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -850,9 +1430,21 @@ public class Model {
      * @param record_ids
      * @return
      */
-    public Observable<BaseBean> deleteCollection(String user_id, String user_token, Integer[] record_ids) {
+    public Observable<BaseBean> deleteCollection(Context context,String user_id, String user_token, Integer[] record_ids) {
         return HttpClient.getApiService().deleteCollection(user_id, user_token, record_ids)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -864,9 +1456,21 @@ public class Model {
      * @param folder_id
      * @return
      */
-    public Observable<BaseBean> moveCollectionFolder(String user_id, String user_token, Integer[] record_ids, int folder_id) {
+    public Observable<BaseBean> moveCollectionFolder(Context context,String user_id, String user_token, Integer[] record_ids, int folder_id) {
         return HttpClient.getApiService().moveCollectionFolder(user_id, user_token, record_ids, folder_id)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -876,9 +1480,21 @@ public class Model {
      * @param user_token
      * @return
      */
-    public Observable<MineSettingBean> getMineSetting(String user_id, String user_token) {
+    public Observable<MineSettingBean> getMineSetting(Context context,String user_id, String user_token) {
         return HttpClient.getApiService().getMineSetting(user_id, user_token)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<MineSettingBean>() {
+                    @Override
+                    public boolean test(MineSettingBean mineSettingBean) throws Exception {
+                        if (mineSettingBean != null){
+                            int code = mineSettingBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -891,9 +1507,21 @@ public class Model {
      * @param address_list
      * @return
      */
-    public Observable<BaseBean> setMineSetting(String user_id, String user_token, int wifi_auto_play_video, int notice, int address_list) {
+    public Observable<BaseBean> setMineSetting(Context context,String user_id, String user_token, int wifi_auto_play_video, int notice, int address_list) {
         return HttpClient.getApiService().setMineSetting(user_id, user_token, wifi_auto_play_video, notice, address_list)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -904,9 +1532,21 @@ public class Model {
      * @param desc
      * @return
      */
-    public Observable<BaseBean> feedBack(String user_id, String user_token, String desc) {
+    public Observable<BaseBean> feedBack(Context context,String user_id, String user_token, String desc) {
         return HttpClient.getApiService().addFeedBack(user_id, user_token, desc)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -924,9 +1564,21 @@ public class Model {
      *
      * @return
      */
-    public Observable<BaseBean> share(String user_id, String user_token, String id) {
+    public Observable<BaseBean> share(Context context,String user_id, String user_token, String id) {
         return HttpClient.getApiService().share(user_id, user_token, id)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -938,9 +1590,21 @@ public class Model {
      * @param page
      * @return
      */
-    public Observable<MessageBean> getMessage(String user_id, String user_token, int type, int page) {
+    public Observable<MessageBean> getMessage(Context context,String user_id, String user_token, int type, int page) {
         return HttpClient.getApiService().getMessage(user_id, user_token, type, page)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<MessageBean>() {
+                    @Override
+                    public boolean test(MessageBean messageBean) throws Exception {
+                        if (messageBean != null){
+                            int code = messageBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -951,9 +1615,21 @@ public class Model {
      * @return
      */
 
-    public Observable<MessageCenterBean> messageCenter(String user_id, String user_token) {
+    public Observable<MessageCenterBean> messageCenter(Context context,String user_id, String user_token) {
         return HttpClient.getApiService().getMessageCenter(user_id, user_token)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<MessageCenterBean>() {
+                    @Override
+                    public boolean test(MessageCenterBean messageCenterBean) throws Exception {
+                        if (messageCenterBean != null){
+                            int code = messageCenterBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -964,21 +1640,57 @@ public class Model {
      * @param message_id
      * @return
      */
-    public Observable<ReadMessage> readMessage(String user_id, String user_token, String message_id) {
+    public Observable<ReadMessage> readMessage(Context context,String user_id, String user_token, String message_id) {
         return HttpClient.getApiService().readMessage(user_id, user_token, message_id)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<ReadMessage>() {
+                    @Override
+                    public boolean test(ReadMessage readMessage) throws Exception {
+                        if (readMessage != null){
+                            int code = readMessage.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     //获取我粉丝中 我没关注的 (是我的粉丝，我却不是他的粉丝)
-    public Observable<AddCollectionBean1> setAddCollection(String user_id, String user_token, String page, String page_size) {
+    public Observable<AddCollectionBean1> setAddCollection(Context context,String user_id, String user_token, String page, String page_size) {
         return HttpClient.getApiService().setAddCollection(user_id, user_token, page, page_size)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<AddCollectionBean1>() {
+                    @Override
+                    public boolean test(AddCollectionBean1 addCollectionBean1) throws Exception {
+                        if (addCollectionBean1 != null){
+                            int code = addCollectionBean1.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     //获取通讯录中 关注情况
-    public Observable<AddressBookBean> setAddressBook(String user_id, String user_token, String search, String list) {
+    public Observable<AddressBookBean> setAddressBook(Context context,String user_id, String user_token, String search, String list) {
         return HttpClient.getApiService().setAddressBook(user_id, user_token, search, list)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<AddressBookBean>() {
+                    @Override
+                    public boolean test(AddressBookBean addressBookBean) throws Exception {
+                        if (addressBookBean != null){
+                            int code = addressBookBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -990,27 +1702,75 @@ public class Model {
      * @param jpush_rid
      * @return
      */
-    public Observable<BaseBean> push(String user_id, String user_token, String device, String jpush_rid) {
+    public Observable<BaseBean> push(Context context,String user_id, String user_token, String device, String jpush_rid) {
         return HttpClient.getApiService().push(user_id, user_token, device, jpush_rid)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     //推荐 给我 要关注的人
-    public Observable<CommendAttentionBean> setCommendAttention(String user_id, String user_token) {
+    public Observable<CommendAttentionBean> setCommendAttention(Context context,String user_id, String user_token) {
         return HttpClient.getApiService().setCommendAttention(user_id, user_token)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<CommendAttentionBean>() {
+                    @Override
+                    public boolean test(CommendAttentionBean commendAttentionBean) throws Exception {
+                        if (commendAttentionBean != null){
+                            int code = commendAttentionBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     //获取 用户 关注的人群
-    public Observable<AttentionsBean> setAttentions(String user_id, String user_token, String his_id, String page, String page_size) {
+    public Observable<AttentionsBean> setAttentions(Context context,String user_id, String user_token, String his_id, String page, String page_size) {
         return HttpClient.getApiService().setAttentions(user_id, user_token, his_id, page, page_size)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<AttentionsBean>() {
+                    @Override
+                    public boolean test(AttentionsBean attentionsBean) throws Exception {
+                        if (attentionsBean != null){
+                            int code = attentionsBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     //获取 用户 粉丝人群
-    public Observable<HisFansBean> setHisFans(String user_id, String user_token, String his_id, String page, String page_size) {
+    public Observable<HisFansBean> setHisFans(Context context,String user_id, String user_token, String his_id, String page, String page_size) {
         return HttpClient.getApiService().setHisFans(user_id, user_token, his_id, page, page_size)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<HisFansBean>() {
+                    @Override
+                    public boolean test(HisFansBean hisFansBean) throws Exception {
+                        if (hisFansBean != null){
+                            int code = hisFansBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -1020,9 +1780,21 @@ public class Model {
      * @param user_token
      * @return
      */
-    public Observable<BaseBean> punchClock(String user_id, String user_token) {
+    public Observable<BaseBean> punchClock(Context context,String user_id, String user_token) {
         return HttpClient.getApiService().punchClock(user_id, user_token)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -1047,15 +1819,39 @@ public class Model {
      * @param type
      * @return
      */
-    public Observable<BaseBean> dislike(String user_id, String user_token, int yo_id, int type) {
+    public Observable<BaseBean> dislike(Context context,String user_id, String user_token, int yo_id, int type) {
         return HttpClient.getApiService().dislike(user_id, user_token, yo_id, type)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     //用户等级页
-    public Observable<VipCenterBean> setVipCenter(String user_id, String user_token) {
+    public Observable<VipCenterBean> setVipCenter(Context context,String user_id, String user_token) {
         return HttpClient.getApiService().setVipCenter(user_id, user_token)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<VipCenterBean>() {
+                    @Override
+                    public boolean test(VipCenterBean vipCenterBean) throws Exception {
+                        if (vipCenterBean != null){
+                            int code = vipCenterBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -1068,9 +1864,21 @@ public class Model {
      * @param page_size
      * @return
      */
-    public Observable<YoXiuContentBean> getYoXiuContent(String user_id, String user_token, String his_id, String page, String page_size) {
+    public Observable<YoXiuContentBean> getYoXiuContent(Context context,String user_id, String user_token, String his_id, String page, String page_size) {
         return HttpClient.getApiService().getYoXiuContent(user_id, user_token, his_id, page, page_size)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<YoXiuContentBean>() {
+                    @Override
+                    public boolean test(YoXiuContentBean yoXiuContentBean) throws Exception {
+                        if (yoXiuContentBean != null){
+                            int code = yoXiuContentBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -1081,24 +1889,72 @@ public class Model {
      * @param yo_id
      * @return
      */
-    public Observable<BaseBean> deleteYo(String user_id, String user_token, int yo_id) {
+    public Observable<BaseBean> deleteYo(Context context,String user_id, String user_token, int yo_id) {
         return HttpClient.getApiService().deleteYo(user_id, user_token, yo_id)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
-    public Observable<BaseBean> deleteComment(String user_id, String user_token, int comment_id) {
+    public Observable<BaseBean> deleteComment(Context context,String user_id, String user_token, int comment_id) {
         return HttpClient.getApiService().deleteComment(user_id, user_token, comment_id)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
-    public Observable<PublishYoJiBean> getYoJiData(String user_id, String user_token, String yo_id) {
+    public Observable<PublishYoJiBean> getYoJiData(Context context,String user_id, String user_token, String yo_id) {
         return HttpClient.getApiService().getYoJiData(user_id, user_token, yo_id)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<PublishYoJiBean>() {
+                    @Override
+                    public boolean test(PublishYoJiBean publishYoJiBean) throws Exception {
+                        if (publishYoJiBean != null){
+                            int code = publishYoJiBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
-    public Observable<PublishYoXiuBean> getYoXiuData(String user_id, String user_token, String yo_id) {
+    public Observable<PublishYoXiuBean> getYoXiuData(Context context,String user_id, String user_token, String yo_id) {
         return HttpClient.getApiService().getYoXiuData(user_id, user_token, yo_id)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<PublishYoXiuBean>() {
+                    @Override
+                    public boolean test(PublishYoXiuBean publishYoXiuBean) throws Exception {
+                        if (publishYoXiuBean != null){
+                            int code = publishYoXiuBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -1109,9 +1965,21 @@ public class Model {
      * @param
      * @return
      */
-    public Observable<HisPositionBean> setHisPosition(String user_id, String user_token, int page, int page_size) {
+    public Observable<HisPositionBean> setHisPosition(Context context,String user_id, String user_token, int page, int page_size) {
         return HttpClient.getApiService().setHisPosition(user_id, user_token, page, page_size)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<HisPositionBean>() {
+                    @Override
+                    public boolean test(HisPositionBean hisPositionBean) throws Exception {
+                        if (hisPositionBean != null){
+                            int code = hisPositionBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /**
@@ -1122,27 +1990,75 @@ public class Model {
      * @param
      * @return
      */
-    public Observable<BaseBean> DelPosition(String user_id, String user_token) {
+    public Observable<BaseBean> DelPosition(Context context,String user_id, String user_token) {
         return HttpClient.getApiService().DelPosition(user_id, user_token)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
-    public Observable<searchInfo> search(String user_id, String user_token) {
+    public Observable<searchInfo> search(Context context,String user_id, String user_token) {
         return HttpClient.getApiService()
                 .search(user_id, user_token)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<searchInfo>() {
+                    @Override
+                    public boolean test(searchInfo searchInfo) throws Exception {
+                        if (searchInfo != null){
+                            int code = searchInfo.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
-    public Observable<KeywordBean> keyword(String user_id, String user_token, String search, String type,String key_type) {
+    public Observable<KeywordBean> keyword(Context context,String user_id, String user_token, String search, String type,String key_type) {
         return HttpClient.getApiService()
                 .keyword(user_id, user_token, search, type,key_type)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<KeywordBean>() {
+                    @Override
+                    public boolean test(KeywordBean keywordBean) throws Exception {
+                        if (keywordBean != null){
+                            int code = keywordBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
-    public Observable<GuanZhuBean> guanzhu(String user_id, String user_token, String target) {
+    public Observable<GuanZhuBean> guanzhu(Context context,String user_id, String user_token, String target) {
         return HttpClient.getApiService()
                 .keyword(user_id, user_token, target)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<GuanZhuBean>() {
+                    @Override
+                    public boolean test(GuanZhuBean guanZhuBean) throws Exception {
+                        if (guanZhuBean != null){
+                            int code = guanZhuBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     /*    public Observable<MapBean> mapDiTu(String user_id, String user_token, String type, String search){
@@ -1150,17 +2066,41 @@ public class Model {
                     .getChengShi(user_id, user_token,type,search)
                     .compose(this.switchThread());
         }*/
-    public Observable<MapBean> mapDiTu(String user_id, String user_token, String type, String seatch) {
+    public Observable<MapBean> mapDiTu(Context context,String user_id, String user_token, String type, String seatch) {
         return HttpClient.getApiService()
                 .getChengShi(user_id, user_token, type, seatch)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<MapBean>() {
+                    @Override
+                    public boolean test(MapBean mapBean) throws Exception {
+                        if (mapBean != null){
+                            int code = mapBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     //个人信息 城市的选择
-    public Observable<MapBean> chengShi(String user_id, String user_token, String type, String seatch) {
+    public Observable<MapBean> chengShi(Context context,String user_id, String user_token, String type, String seatch) {
         return HttpClient.getApiService()
                 .getChengShiLieBiao(user_id, user_token, type, seatch)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<MapBean>() {
+                    @Override
+                    public boolean test(MapBean mapBean) throws Exception {
+                        if (mapBean != null){
+                            int code = mapBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
     //首页地图定位
@@ -1177,40 +2117,57 @@ public class Model {
     }
 
     //首页搜索  关键字  搜索
-    public Observable<KeywordUserBean> srarch(String user_id, String user_token, String seatch) {
+    public Observable<KeywordUserBean> srarch(Context context,String user_id, String user_token, String seatch) {
         return HttpClient.getApiService()
                 .getserarch(user_id, user_token, seatch)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<KeywordUserBean>() {
+                    @Override
+                    public boolean test(KeywordUserBean keywordUserBean) throws Exception {
+                        return false;
+                    }
+                });
     }
     //首页搜索晴空历史
-    public Observable<ClerBean> searchCler(String user_id, String user_token) {
+    public Observable<ClerBean> searchCler(Context context,String user_id, String user_token) {
         return HttpClient.getApiService()
                 .searchCler(user_id, user_token)
                 .compose(this.switchThread());
     }
 
-    public Observable<BaseBean> browse(String user_id, String user_token, String yo_id) {
+    public Observable<BaseBean> browse(Context context,String user_id, String user_token, String yo_id) {
         return HttpClient.getApiService().browse(user_id, user_token, yo_id)
-                .compose(this.switchThread());
+                .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
+                    @Override
+                    public boolean test(BaseBean baseBean) throws Exception {
+                        if (baseBean != null){
+                            int code = baseBean.getCode();
+                            if (code == 202){
+                                Intent intent = new Intent(context,LoginActivity.class);
+                                context.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
 
-    public Observable<BaseBean> setLocation(String user_id, String user_token, String lng, String lat) {
+    public Observable<BaseBean> setLocation(Context context,String user_id, String user_token, String lng, String lat) {
         return HttpClient.getApiService().setLocation(user_id, user_token, lng, lat)
                 .compose(this.switchThread());
 
     }
 
-    public Observable<YouXiuListBean> getYoXiuPosition(String user_id, String user_token, String position, int type, int page, String page_size) {
+    public Observable<YouXiuListBean> getYoXiuPosition(Context context,String user_id, String user_token, String position, int type, int page, String page_size) {
         return HttpClient.getApiService().getYoXiuPosition(user_id, user_token, position, type, page, page_size)
                 .compose(this.switchThread());
     }
 
-    public Observable<YoJiListBean> getYoJiPosition(String user_id, String user_token, String position, int type, int page, String page_size) {
+    public Observable<YoJiListBean> getYoJiPosition(Context context,String user_id, String user_token, String position, int type, int page, String page_size) {
         return HttpClient.getApiService().getYoJiPosition(user_id, user_token, position, type, page, page_size)
                 .compose(this.switchThread());
     }
 
-    public Observable<YoJiListBean> getYoJiLabel(String user_id, String user_token, String label, int page, String page_size) {
+    public Observable<YoJiListBean> getYoJiLabel(Context context,String user_id, String user_token, String label, int page, String page_size) {
         return HttpClient.getApiService().getYoJiLabel(user_id, user_token, label, page, page_size)
                 .compose(this.switchThread());
     }
@@ -1218,7 +2175,7 @@ public class Model {
     /**
      *
      */
-    public Observable<BaseBean> update_bind(String user_id, String user_token, int type, String openid, String nickname, String logo) {
+    public Observable<BaseBean> update_bind(Context context,String user_id, String user_token, int type, String openid, String nickname, String logo) {
         return HttpClient.getApiService().update_bind(user_id, user_token, type, openid, nickname, logo)
                 .compose(this.switchThread());
     }
@@ -1226,7 +2183,7 @@ public class Model {
     public Observable<ResponseBody> downFile(@Url String fileUrl) {
         return HttpClient.getApiService().downFile(fileUrl).compose(this.switchThread());
     }
-    public Observable<SameBean.DataBean.ListBean> goCameraDetail(String user_id,String user_token,int yo_id){
+    public Observable<SameBean.DataBean.ListBean> goCameraDetail(Context context,String user_id,String user_token,int yo_id){
         return HttpClient.getApiService().goCameraDetail(user_id, user_token, yo_id)
                 .compose(this.switchThread());
     }

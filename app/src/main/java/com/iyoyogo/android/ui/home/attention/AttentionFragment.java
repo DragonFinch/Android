@@ -21,10 +21,6 @@ import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +54,6 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
     private void setHeader(RefreshHeader header) {
         refreshLayout.setRefreshHeader(header);
     }
-
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_attention;
@@ -66,12 +61,13 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
 
     @Override
     protected HomeContract.Presenter createPresenter() {
-        return new HomePresenter(this);
+        return new HomePresenter(getActivity(),this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
 
 
     }
@@ -95,7 +91,7 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
                 @Override
                 public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                     refreshLayout.finishRefresh(1050);
-                    mPresenter.banner(user_id, user_token, "attention", city);
+                    mPresenter.banner(getActivity(),user_id, user_token, "attention", city);
                 }
             });
         } else {
@@ -110,7 +106,7 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
                 @Override
                 public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                     refreshLayout.finishRefresh(1050);
-                    mPresenter.banner(user_id, user_token, "attention", "");
+                    mPresenter.banner(user_id, user_token, "attention","");
                 }
             });
         }
@@ -126,18 +122,18 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
         Log.d("HomeFragment", "mList.size():" + mList.size());
         recyclerHome.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerHome.setAdapter(homeRecyclerViewAdapter);
-        homeRecyclerViewAdapter.onRetryClickListener(new HomeRecyclerViewAdapter.OnRetryConnection() {
-            @Override
-            public void on_retry() {
-                mPresenter.banner(user_id, user_token, "attention", city);
-            }
-        });
-        homeRecyclerViewAdapter.onItemRetryOnClickListener(new HomeRecyclerViewAdapter.OnRetryClickListener() {
-            @Override
-            public void onretry() {
-                mPresenter.banner(user_id, user_token, "attention", city);
-            }
-        });
+       homeRecyclerViewAdapter.onRetryClickListener(new HomeRecyclerViewAdapter.OnRetryConnection() {
+           @Override
+           public void on_retry() {
+               mPresenter.banner(getActivity(),user_id,user_token,"attention",city);
+           }
+       });
+       homeRecyclerViewAdapter.onItemRetryOnClickListener(new HomeRecyclerViewAdapter.OnRetryClickListener() {
+           @Override
+           public void onretry() {
+               mPresenter.banner(getActivity(),user_id,user_token,"attention",city);
+           }
+       });
     }
 
     @Override

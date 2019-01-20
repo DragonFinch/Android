@@ -89,7 +89,7 @@ public class GuiJiFragment extends BaseFragment<GeRenChengShiContract.Presenter>
 
     @Override
     protected GeRenChengShiContract.Presenter createPresenter() {
-        return new GenRenXinxiChengShiPresenter(this);
+        return new GenRenXinxiChengShiPresenter(getActivity(),this);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class GuiJiFragment extends BaseFragment<GeRenChengShiContract.Presenter>
         name.setText(name1);
         String user_id = SpUtils.getString(getActivity(), "user_id", null);
         String user_token = SpUtils.getString(getActivity(), "user_token", null);
-        mPresenter.aboutMe(user_id, user_token, "international", "");
+        mPresenter.aboutMe(getActivity(),user_id, user_token, "international", "");
     }
     //q请求成功的回调
     @Override

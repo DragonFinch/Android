@@ -46,7 +46,7 @@ public class HisFansActivity extends BaseActivity<HisHansContract.Presenter> imp
 
     @Override
     protected HisHansContract.Presenter createPresenter() {
-        return new HisFansPresenter(this);
+        return new HisFansPresenter(HisFansActivity.this,this);
     }
 
     protected void initView() {
@@ -62,7 +62,7 @@ public class HisFansActivity extends BaseActivity<HisHansContract.Presenter> imp
         user_token = SpUtils.getString(this, "user_token", null);
         Intent intent = getIntent();
         String yo_user_id = intent.getStringExtra("yo_user_id");
-        mPresenter.getHisHans(user_id, user_token, yo_user_id, 1 + "", 20 + "");
+        mPresenter.getHisHans(HisFansActivity.this,user_id, user_token, yo_user_id, 1 + "", 20 + "");
     }
 
     @Override
@@ -79,7 +79,7 @@ public class HisFansActivity extends BaseActivity<HisHansContract.Presenter> imp
                 @Override
                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                     btu_guanzhu = view.findViewById(R.id.tv_guanzhu);
-                    mPresenter.addAttention1(user_id, user_token, list.get(position).getUser_id());
+                    mPresenter.addAttention1(HisFansActivity.this,user_id, user_token, list.get(position).getUser_id());
                 }
             });
         }

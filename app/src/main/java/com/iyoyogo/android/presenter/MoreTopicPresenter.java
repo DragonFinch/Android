@@ -1,5 +1,6 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
@@ -14,14 +15,14 @@ import com.iyoyogo.android.net.ApiObserver;
 import java.util.List;
 
 public class MoreTopicPresenter extends BasePresenter<MoreTopicContract.View> implements MoreTopicContract.Presenter {
-    public MoreTopicPresenter(MoreTopicContract.View mView) {
-        super(mView);
+    public MoreTopicPresenter(Context context,MoreTopicContract.View mView) {
+        super(context,mView);
     }
 
     @Override
-    public void getHotTopic(String user_id, String user_token, String search) {
+    public void getHotTopic(Context context,String user_id, String user_token, String search) {
         DataManager.getFromRemote()
-                .getHotTopic(user_id,user_token,search)
+                .getHotTopic(context,user_id,user_token,search)
                 .subscribe(new ApiObserver<HotTopicBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(HotTopicBean hotTopicBean) {
@@ -40,9 +41,9 @@ public class MoreTopicPresenter extends BasePresenter<MoreTopicContract.View> im
     }
 
     @Override
-    public void getNearTopic(String user_id, String user_token) {
+    public void getNearTopic(Context context,String user_id, String user_token) {
         DataManager.getFromRemote()
-                .getNearTopic(user_id,user_token)
+                .getNearTopic(context,user_id,user_token)
                 .subscribe(new ApiObserver<HotTopicBean>(mView,this) {
                     @Override
                     protected void doOnSuccess(HotTopicBean nearTopicBean) {
@@ -62,9 +63,9 @@ public class MoreTopicPresenter extends BasePresenter<MoreTopicContract.View> im
     }
 
     @Override
-    public void getClearTopic(String user_id, String user_token) {
+    public void getClearTopic(Context context,String user_id, String user_token) {
         DataManager.getFromRemote()
-                .clearTopic(user_id,user_token)
+                .clearTopic(context,user_id,user_token)
                 .subscribe(new ApiObserver<BaseBean>(mView,this) {
                     @Override
                     protected void doOnSuccess(BaseBean baseBean) {
@@ -81,9 +82,9 @@ public class MoreTopicPresenter extends BasePresenter<MoreTopicContract.View> im
     }
 
     @Override
-    public void getCreateTopic(String user_id, String user_token,String topic) {
+    public void getCreateTopic(Context context,String user_id, String user_token,String topic) {
         DataManager.getFromRemote()
-                .createTopic(user_id,user_token,topic)
+                .createTopic(context,user_id,user_token,topic)
                 .subscribe(new ApiObserver<CreateTopicBean>(mView,this) {
                     @Override
                     protected void doOnSuccess(CreateTopicBean createTopicBean) {

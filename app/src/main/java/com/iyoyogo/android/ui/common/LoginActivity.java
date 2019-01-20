@@ -13,7 +13,6 @@ import android.os.Message;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -44,7 +43,6 @@ import com.iyoyogo.android.bean.login.login.LoginBean;
 import com.iyoyogo.android.bean.login.login.MarketBean;
 import com.iyoyogo.android.contract.LoginContract;
 import com.iyoyogo.android.presenter.LoginPresenter;
-import com.iyoyogo.android.ui.mine.WebViewActivity;
 import com.iyoyogo.android.utils.SpUtils;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
@@ -274,7 +272,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
 
     @Override
     protected LoginContract.Presenter createPresenter() {
-        return new LoginPresenter(this);
+        return new LoginPresenter(LoginActivity.this,this);
     }
 
     public void qqLogin() {
@@ -324,9 +322,9 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
                 SpUtils.putString(LoginActivity.this, "logo", iconurl);
                 //拿到信息去请求登录接口。。。
                 if (address != null) {
-                    mPresenter.login(address, android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, type, "", "", uid, name, iconurl);
+                    mPresenter.login(LoginActivity.this,address, android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, type, "", "", uid, name, iconurl);
                 } else {
-                    mPresenter.login("", android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, type, "", "", uid, name, iconurl);
+                    mPresenter.login(LoginActivity.this,"", android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, type, "", "", uid, name, iconurl);
                 }
 
 
@@ -534,9 +532,9 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
                     if (etPhoneNum.getText().toString().length() == 11 && !TextUtils.isEmpty(etPhoneNum.getText().toString()) && etPhoneNum.getText().toString().startsWith("1")) {
                         if (!TextUtils.isEmpty(etVerCode.getText().toString().trim())) {
                             if (address != null) {
-                                mPresenter.login(address, android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, 4, etPhoneNum.getText().toString().trim(), etVerCode.getText().toString().trim(), "", "", "");
+                                mPresenter.login(LoginActivity.this,address, android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, 4, etPhoneNum.getText().toString().trim(), etVerCode.getText().toString().trim(), "", "", "");
                             } else {
-                                mPresenter.login("", android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, 4, etPhoneNum.getText().toString().trim(), etVerCode.getText().toString().trim(), "", "", "");
+                                mPresenter.login(LoginActivity.this,"", android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, 4, etPhoneNum.getText().toString().trim(), etVerCode.getText().toString().trim(), "", "", "");
                                 loginBtn.setClickable(false);
                             }
                         } else {
@@ -643,7 +641,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
             finish();
 
         } else {
-            mPresenter.push(user_id, user_token, "and", registrationID);
+            mPresenter.push(LoginActivity.this,user_id, user_token, "and", registrationID);
             have_interest = data.getHave_interest();
             if (have_interest == 1) {
                 intent = new Intent();

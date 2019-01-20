@@ -60,7 +60,7 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
 
     @Override
     protected AddCollectionContract.Presenter createPresenter() {
-        return new AddCollectionPresenter(this);
+        return new AddCollectionPresenter(AddCollectionActivity.this,this);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
         super.initData(savedInstanceState);
         user_id = SpUtils.getString(this, "user_id", null);
         user_token = SpUtils.getString(this, "user_token", null);
-        mPresenter.getAddCollection(user_id, user_token, 1 + "", 20 + "");
+        mPresenter.getAddCollection(AddCollectionActivity.this,user_id, user_token, 1 + "", 20 + "");
     }
 
     @Override
@@ -81,7 +81,7 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 btu_guanzhu = view.findViewById(R.id.tv_guanzhu);
-                mPresenter.addAttention(user_id, user_token, list.get(position).getUser_id());
+                mPresenter.addAttention(AddCollectionActivity.this,user_id, user_token, list.get(position).getUser_id());
             }
         });
     }

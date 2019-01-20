@@ -109,7 +109,7 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
         super.onResume();
         user_id = SpUtils.getString(ChooseSignActivity.this, "user_id", null);
         user_token = SpUtils.getString(ChooseSignActivity.this, "user_token", null);
-        mPresenter.getLabelList(user_id, user_token);
+        mPresenter.getLabelList(this,user_id, user_token);
 
     }
 
@@ -144,14 +144,14 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
         btn_commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.addLabel(user_id, user_token, 0, type, edit_label.getText().toString().trim());
+                mPresenter.addLabel(ChooseSignActivity.this,user_id, user_token, 0, type, edit_label.getText().toString().trim());
               /*  labelThreeAdapter.tagAdapter.notifyDataChanged();
                 labelTwoAdapter.tagAdapter.notifyDataChanged();*/
 //                labelAdapter.refresh();
 //                labelTwoAdapter.refresh();
 //                labelThreeAdapter.refresh();
                 popup.dismiss();
-                mPresenter.getLabelList(user_id, user_token);
+                mPresenter.getLabelList(ChooseSignActivity.this,user_id, user_token);
 //                labelAdapter.notifyDataSetChanged();
 //                labelTwoAdapter.notifyDataSetChanged();
 //                labelThreeAdapter.notifyDataSetChanged();
@@ -229,7 +229,7 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
 
     @Override
     protected ChooseSignContract.Presenter createPresenter() {
-        return new ChooseSignPresenter(this);
+        return new ChooseSignPresenter(this,this);
     }
 
     @OnClick({R.id.back, R.id.create_complete, R.id.add_make_worth, R.id.add_pit_guide, R.id.add_exclusive_mine})
@@ -767,12 +767,12 @@ public class ChooseSignActivity extends BaseActivity<ChooseSignContract.Presente
 
     @Override
     public void addLabelSuccess(AddLabelBean.DataBean data) {
-        mPresenter.getLabelList(user_id, user_token);
+        mPresenter.getLabelList(this,user_id, user_token);
     }
 
     @Override
     public void deleteLabelSuccess(BaseBean baseBean) {
-        mPresenter.getLabelList(user_id, user_token);
+        mPresenter.getLabelList(this,user_id, user_token);
     }
 
     @Override

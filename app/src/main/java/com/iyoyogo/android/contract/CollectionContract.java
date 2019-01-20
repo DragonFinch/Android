@@ -1,5 +1,7 @@
 package com.iyoyogo.android.contract;
 
+import android.content.Context;
+
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.base.IBaseView;
 import com.iyoyogo.android.bean.BaseBean;
@@ -18,11 +20,11 @@ public interface CollectionContract {
 
     interface Presenter extends IBasePresenter {
 
-        void deleteCollectionFolder(String user_id, String user_token, int[] folder_ids);
+        void deleteCollectionFolder(Context context,String user_id, String user_token, int[] folder_ids);
 
-        void getCollectionFold(String user_id, String user_token);
+        void getCollectionFold(Context context,String user_id, String user_token);
 
-        void getHisCollectionFold(String user_id, String user_token,String his_id);
+        void getHisCollectionFold(Context context,String user_id, String user_token,String his_id);
 
     }
 }

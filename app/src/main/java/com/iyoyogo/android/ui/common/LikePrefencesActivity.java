@@ -98,12 +98,12 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
         user_token = SpUtils.getString(LikePrefencesActivity.this, "user_token", null);
         Log.d("LikePrefencesActivity", user_id);
         Log.d("LikePrefencesActivity", user_token);
-        mPresenter.getInterestSign(user_id, user_token);
+        mPresenter.getInterestSign(LikePrefencesActivity.this,user_id, user_token);
     }
 
     @Override
     protected InterestContract.Presenter createPresenter() {
-        return new InterestPresenter(this);
+        return new InterestPresenter(LikePrefencesActivity.this,this);
     }
 
     @Override
@@ -190,7 +190,7 @@ public class LikePrefencesActivity extends BaseActivity<InterestContract.Present
                 if (strings.length < 3) {
                     Toast.makeText(this, "亲，兴趣少于三条哦", Toast.LENGTH_SHORT).show();
                 } else {
-                    mPresenter.addInterest(ids, user_id, user_token);
+                    mPresenter.addInterest(LikePrefencesActivity.this,ids, user_id, user_token);
                     setResult(4, intent);
                     finish();
                 }

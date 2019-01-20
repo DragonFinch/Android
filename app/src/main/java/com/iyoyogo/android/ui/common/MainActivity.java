@@ -430,7 +430,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
 
     @Override
     protected MainContract.Presenter createPresenter() {
-        return new MainPresenter(this);
+        return new MainPresenter(MainActivity.this,this);
     }
 
 

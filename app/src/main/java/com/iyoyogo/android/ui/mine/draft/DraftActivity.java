@@ -62,7 +62,7 @@ public class DraftActivity extends BaseActivity<DraftContract.Presenter> impleme
 
     @Override
     protected DraftContract.Presenter createPresenter() {
-        return new DraftPresenter(this);
+        return new DraftPresenter(DraftActivity.this,this);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class DraftActivity extends BaseActivity<DraftContract.Presenter> impleme
         super.onResume();
         user_id = SpUtils.getString(DraftActivity.this, "user_id", null);
         user_token = SpUtils.getString(DraftActivity.this, "user_token", null);
-        mPresenter.getDraft(user_id, user_token, 1, 20);
+        mPresenter.getDraft(DraftActivity.this,user_id, user_token, 1, 20);
     }
 
     @Override

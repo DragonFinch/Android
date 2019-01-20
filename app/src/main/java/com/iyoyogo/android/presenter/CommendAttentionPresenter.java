@@ -1,26 +1,25 @@
 package com.iyoyogo.android.presenter;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.base.BasePresenter;
 import com.iyoyogo.android.bean.attention.AttentionBean;
-import com.iyoyogo.android.bean.collection.AddCollectionBean1;
 import com.iyoyogo.android.bean.collection.CommendAttentionBean;
-import com.iyoyogo.android.contract.AddCollectionContract;
 import com.iyoyogo.android.contract.CommendAttentionContract;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.net.ApiObserver;
 
 public class CommendAttentionPresenter extends BasePresenter<CommendAttentionContract.View> implements CommendAttentionContract.Presenter {
 
-    public CommendAttentionPresenter(CommendAttentionContract.View mView) {
-        super(mView);
+    public CommendAttentionPresenter(Context context,CommendAttentionContract.View mView) {
+        super(context,mView);
     }
 
     @Override
-    public void getCommendAttention(String user_id, String user_token) {
-        DataManager.getFromRemote().setCommendAttention(user_id, user_token)
+    public void getCommendAttention(Context context,String user_id, String user_token) {
+        DataManager.getFromRemote().setCommendAttention(context,user_id, user_token)
                 .subscribe(new ApiObserver<CommendAttentionBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(CommendAttentionBean commendAttentionBean) {
@@ -39,8 +38,8 @@ public class CommendAttentionPresenter extends BasePresenter<CommendAttentionCon
     }
 
     @Override
-    public void addAttention1(String user_id, String user_token, String target_id) {
-        DataManager.getFromRemote().addAttention1(user_id, user_token, target_id)
+    public void addAttention1(Context context,String user_id, String user_token, String target_id) {
+        DataManager.getFromRemote().addAttention1(context,user_id, user_token, target_id)
                 .subscribe(new ApiObserver<AttentionBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(AttentionBean attentionBean) {
@@ -59,8 +58,8 @@ public class CommendAttentionPresenter extends BasePresenter<CommendAttentionCon
     }
 
     @Override
-    public void deleteAttention(String user_id, String user_token, String target_id) {
-        DataManager.getFromRemote().addAttention1(user_id, user_token, target_id)
+    public void deleteAttention(Context context,String user_id, String user_token, String target_id) {
+        DataManager.getFromRemote().addAttention1(context,user_id, user_token, target_id)
                 .subscribe(new ApiObserver<AttentionBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(AttentionBean attentionBean) {
