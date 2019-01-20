@@ -74,9 +74,14 @@ public class ReplyDiscussAdapter extends RecyclerView.Adapter<ReplyDiscussAdapte
         //设置字体(default,default-bold,monospace,serif,sans-serif)
 //        msp.setSpan(new TypefaceSpan("monospace"), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         if (position == 0) {
-            SpannableString msp1 = new SpannableString(mList.get(position).getUser_nickname() + " 回复" + userName + ":" + mList.get(position).getContent());
+         /*   SpannableString msp1 = new SpannableString(mList.get(position).getUser_nickname() + " 回复" + userName + ":" + mList.get(position).getContent());
             msp1.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), 0, mList.get(position).getUser_nickname().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
             msp1.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), mList.get(position).getUser_nickname().length() + 3, mList.get(position).getUser_nickname().length() + 4 + userName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
+            holder.user_content.setText(msp1);*/
+            MyConversionUtil.getInstace().getFileText(context);
+            SpannableString msp1 =   MyConversionUtil.getInstace().getExpressionString(context, mList.get(position).getUser_nickname() + "  回复  " +":"+ mList.get(position).getContent());
+            msp1.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), 0, mList.get(position).getUser_nickname().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
+            msp1.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), 0, mList.get(position).getUser_nickname().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
             holder.user_content.setText(msp1);
             holder.tv_time.setText(mList.get(position).getCreate_time());
             holder.tv_comment_like_num.setText(mList.get(position).getCount_praise() + "");
@@ -120,10 +125,12 @@ public class ReplyDiscussAdapter extends RecyclerView.Adapter<ReplyDiscussAdapte
                 }
             });
         } else {
-            SpannableString msp = new SpannableString(mList.get(position).getUser_nickname() + " 回复" + ":" +  mList.get(position).getContent());
-            msp.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), 0, mList.get(position).getUser_nickname().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
-            msp.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), 0, mList.get(position).getUser_nickname().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
-            holder.user_content.setText(msp);
+
+            MyConversionUtil.getInstace().getFileText(context);
+            SpannableString msp1 =   MyConversionUtil.getInstace().getExpressionString(context, mList.get(position).getUser_nickname() + "  回复  " +":"+ mList.get(position).getContent());
+            msp1.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), 0, mList.get(position).getUser_nickname().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
+            msp1.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), 0, mList.get(position).getUser_nickname().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
+            holder.user_content.setText(msp1);
 
             holder.tv_time.setText(mList.get(position).getCreate_time());
             holder.tv_comment_like_num.setText(mList.get(position).getCount_praise() + "");
