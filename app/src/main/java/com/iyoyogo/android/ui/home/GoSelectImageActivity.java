@@ -86,36 +86,36 @@ import io.reactivex.schedulers.Schedulers;
 public class GoSelectImageActivity extends PictureBaseActivity implements View.OnClickListener,
         GoPictureAlbumDirectoryAdapter.OnItemClickListener,
         GoSelectImageAdapter.OnPhotoSelectChangedListener, PhotoPopupWindow.OnItemClickListener, CommonPopup.OnCommonClick {
-    private final static String TAG            = GoSelectImageActivity.class.getSimpleName();
-    private static final int    SHOW_DIALOG    = 0;
-    private static final int    DISMISS_DIALOG = 1;
+    private final static String TAG = GoSelectImageActivity.class.getSimpleName();
+    private static final int SHOW_DIALOG = 0;
+    private static final int DISMISS_DIALOG = 1;
 
-    public CheckBox  mCbOriginal;
+    public CheckBox mCbOriginal;
     public ImageView mIvDelete;
     public ImageView mIvPublishYoji;
     public ImageView mIvPublishYoxiu;
 
     private ImageView picture_left_back;
-    private TextView  picture_title, tv_empty,
+    private TextView picture_title, tv_empty,
             tv_PlayPause, tv_Stop, tv_Quit,
             tv_musicStatus, tv_musicTotal, tv_musicTime;
-    private RelativeLayout               rl_picture_title;
-    private RecyclerView                 picture_recycler;
-    private GoSelectImageAdapter         adapter;
-    private List<LocalMedia>             images      = new ArrayList<>();
-    private List<LocalMediaFolder>       foldersList = new ArrayList<>();
+    private RelativeLayout rl_picture_title;
+    private RecyclerView picture_recycler;
+    private GoSelectImageAdapter adapter;
+    private List<LocalMedia> images = new ArrayList<>();
+    private List<LocalMediaFolder> foldersList = new ArrayList<>();
     private GoImageSelectFolderPopWindow folderWindow;
-    private Animation                    animation   = null;
-    private boolean                      anim        = false;
-    private RxPermissions                rxPermissions;
-    private PhotoPopupWindow             popupWindow;
-    private LocalMediaLoader             mediaLoader;
-    private MediaPlayer                  mediaPlayer;
-    private SeekBar                      musicSeekBar;
-    private boolean                      isPlayAudio = false;
-    private CustomDialog                 audioDialog;
-    private int                          audioH;
-    private Handler                      mHandler    = new Handler() {
+    private Animation animation = null;
+    private boolean anim = false;
+    private RxPermissions rxPermissions;
+    private PhotoPopupWindow popupWindow;
+    private LocalMediaLoader mediaLoader;
+    private MediaPlayer mediaPlayer;
+    private SeekBar musicSeekBar;
+    private boolean isPlayAudio = false;
+    private CustomDialog audioDialog;
+    private int audioH;
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -207,13 +207,13 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
         } else {
             setContentView(R.layout.activity_go_select_image);
             initView(savedInstanceState);
-            StatusBarCompat.setStatusBarColor(this,Color.WHITE);
+            StatusBarCompat.setStatusBarColor(this, Color.WHITE);
             View view = findViewById(R.id.status_bar);
-            view.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,UiUtils.getStatusHeight(this)));
+            view.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UiUtils.getStatusHeight(this)));
         }
     }
 
-    protected void compress(final List<LocalMedia> result,int type) {
+    protected void compress(final List<LocalMedia> result, int type) {
         showCompressDialog();
         Flowable.just(result)
                 .observeOn(Schedulers.io())
@@ -228,7 +228,7 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
                     return files;
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(files -> handleCompressCallBack(result, files,type));
+                .subscribe(files -> handleCompressCallBack(result, files, type));
     }
 
     /**
@@ -237,28 +237,28 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
      * @param images
      * @param files
      */
-    private void handleCompressCallBack(List<LocalMedia> images, List<File> files,int type) {
+    private void handleCompressCallBack(List<LocalMedia> images, List<File> files, int type) {
         if (files.size() == images.size()) {
             for (int i = 0, j = images.size(); i < j; i++) {
                 // 压缩成功后的地址
-                String     path  = files.get(i).getPath();
+                String path = files.get(i).getPath();
                 LocalMedia image = images.get(i);
                 // 如果是网络图片则不压缩
-                boolean http   = PictureMimeType.isHttp(path);
+                boolean http = PictureMimeType.isHttp(path);
                 boolean eqTrue = !TextUtils.isEmpty(path) && http;
                 image.setCompressed(eqTrue ? false : true);
                 image.setCompressPath(eqTrue ? "" : path);
             }
         }
         dismissCompressDialog();
-        startActivity(PictureSelector.putIntentResult(images).setClass(this, type==1?NewPublishYoJiActivity.class:NewPublishYoXiuActivity.class));
+        startActivity(PictureSelector.putIntentResult(images).setClass(this, type == 1 ? NewPublishYoJiActivity.class : NewPublishYoXiuActivity.class));
     }
 
     /**
      * init views
      */
     private void initView(Bundle savedInstanceState) {
-        mCommonPopup=new CommonPopup(this);
+        mCommonPopup = new CommonPopup(this);
         mCommonPopup.setOnCommonClick(this);
 
         this.mCbOriginal = findViewById(R.id.cb_original);
@@ -503,7 +503,7 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
      * @return
      */
     private Uri parUri(File cameraFile) {
-        Uri    imageUri;
+        Uri imageUri;
         String authority = getPackageName() + ".provider";
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
             //通过FileProvider创建一个content类型的Uri
@@ -541,31 +541,39 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
                 mCbOriginal.setTextColor(Color.parseColor(mCbOriginal.isChecked() ? "#FA800A" : "#333333"));
                 break;
             case R.id.iv_delete:
-                mCommonPopup.setContent("确定要删除吗？","您真的想好了？","");
+                mCommonPopup.setContent("确定要删除吗？", "您真的想好了？", "");
                 mCommonPopup.showPopupWindow();
                 break;
             case R.id.iv_publish_yoji:
                 List<LocalMedia> images = adapter.getSelectedImages();
-                LocalMedia image = images.size() > 0 ? images.get(0) : null;
-                String pictureType = image != null ? image.getPictureType() : "";
-                if (!mCbOriginal.isChecked() && pictureType.startsWith(PictureConfig.IMAGE)) {
-                    compress(images, 1);
+                if (images != null && images.size() != 0) {
+                    LocalMedia image = images.size() > 0 ? images.get(0) : null;
+                    String pictureType = image != null ? image.getPictureType() : "";
+                    if (!mCbOriginal.isChecked() && pictureType.startsWith(PictureConfig.IMAGE)) {
+                        compress(images, 1);
+                    } else {
+                        startActivity(PictureSelector.putIntentResult(images).setClass(this, NewPublishYoJiActivity.class));
+                    }
                 } else {
-                    startActivity(PictureSelector.putIntentResult(images).setClass(this, NewPublishYoJiActivity.class));
+                    Toast.makeText(this, "发布yo·记必须选择一张图片", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.iv_publish_yoxiu:
                 List<LocalMedia> list = adapter.getSelectedImages();
-                if (list.size() > 1) {
-                    Toast.makeText(this, "发布yo·秀只能选择一张图片或者一个视频", Toast.LENGTH_SHORT).show();
-                } else {
-                    LocalMedia       local       = list.size() > 0 ? list.get(0) : null;
-                    String           type = local != null ? local.getPictureType() : "";
-                    if (!mCbOriginal.isChecked() && type.startsWith(PictureConfig.IMAGE)) {
-                        compress(list, 2);
+                if (list != null && list.size() != 0) {
+                    if (list.size() > 1) {
+                        Toast.makeText(this, "发布yo·秀只能选择一张图片或者一个视频", Toast.LENGTH_SHORT).show();
                     } else {
-                        startActivity(PictureSelector.putIntentResult(list).setClass(this, NewPublishYoXiuActivity.class));
+                        LocalMedia local = list.size() > 0 ? list.get(0) : null;
+                        String type = local != null ? local.getPictureType() : "";
+                        if (!mCbOriginal.isChecked() && type.startsWith(PictureConfig.IMAGE)) {
+                            compress(list, 2);
+                        } else {
+                            startActivity(PictureSelector.putIntentResult(list).setClass(this, NewPublishYoXiuActivity.class));
+                        }
                     }
+                } else {
+                    Toast.makeText(this, "发布yo·秀必须选择一张图片或者一个视频", Toast.LENGTH_SHORT).show();
                 }
                 break;
 
@@ -675,7 +683,7 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
     }
 
     //  通过 Handler 更新 UI 上的组件状态
-    public Handler  handler  = new Handler();
+    public Handler handler = new Handler();
     public Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -719,7 +727,7 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
                 file.delete();
             }
             Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-            Uri    uri    = Uri.fromFile(file);
+            Uri uri = Uri.fromFile(file);
             intent.setData(uri);
             sendBroadcast(intent);
             images.remove(selectedImages.get(i));
@@ -890,11 +898,11 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
      * @param position
      */
     public void startPreview(List<LocalMedia> previewImages, int position) {
-        LocalMedia       media       = previewImages.get(position);
-        String           pictureType = media.getPictureType();
-        Bundle           bundle      = new Bundle();
-        List<LocalMedia> result      = new ArrayList<>();
-        int              mediaType   = PictureMimeType.isPictureType(pictureType);
+        LocalMedia media = previewImages.get(position);
+        String pictureType = media.getPictureType();
+        Bundle bundle = new Bundle();
+        List<LocalMedia> result = new ArrayList<>();
+        int mediaType = PictureMimeType.isPictureType(pictureType);
         switch (mediaType) {
             case PictureConfig.TYPE_IMAGE:
                 // image
@@ -932,8 +940,8 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             List<LocalMedia> medias = new ArrayList<>();
-            LocalMedia       media;
-            String           imageType;
+            LocalMedia media;
+            String imageType;
             switch (requestCode) {
                 case UCrop.REQUEST_CROP:
                     Uri resultUri = UCrop.getOutput(data);
@@ -1102,7 +1110,7 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
     private void manualSaveFolder(LocalMedia media) {
         try {
             createNewFolder(foldersList);
-            LocalMediaFolder folder       = getImageFolder(media.getPath(), foldersList);
+            LocalMediaFolder folder = getImageFolder(media.getPath(), foldersList);
             LocalMediaFolder cameraFolder = foldersList.size() > 0 ? foldersList.get(0) : null;
             if (cameraFolder != null && folder != null) {
                 // 相机胶卷
@@ -1161,9 +1169,10 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
         }
     }
 
-    @org.greenrobot.eventbus.Subscribe(threadMode = org.greenrobot.eventbus.ThreadMode.MAIN) //在ui线程执行
+    @org.greenrobot.eventbus.Subscribe(threadMode = org.greenrobot.eventbus.ThreadMode.MAIN)
+    //在ui线程执行
     public void onEventBusMessage(String event) {
-        if (event.equals("PUBLISH")){
+        if (event.equals("PUBLISH")) {
             finish();
         }
     }
