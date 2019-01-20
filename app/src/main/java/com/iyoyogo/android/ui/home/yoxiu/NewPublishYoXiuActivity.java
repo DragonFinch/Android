@@ -213,12 +213,12 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
                     shareWeb(bean.getData().getYo_id(), SHARE_MEDIA.WEIXIN);
                     break;
                 default:
-                    EventBus.getDefault().post("publish_success");
+                    EventBus.getDefault().post("PUBLISH");
                     finish();
                     break;
             }
         } else {
-            EventBus.getDefault().post("publish_success");
+            EventBus.getDefault().post("PUBLISH");
             finish();
         }
     }
@@ -616,7 +616,7 @@ public class NewPublishYoXiuActivity extends BaseActivity<PublishYoXiuPresenter>
 
     @Override
     public void onShareSuccess(BaseBean data) {
-        EventBus.getDefault().post("publish_success");
+        EventBus.getDefault().post("PUBLISH");
         finish();
     }
 }

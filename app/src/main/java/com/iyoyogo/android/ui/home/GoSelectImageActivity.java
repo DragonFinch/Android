@@ -1163,7 +1163,7 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
 
     @org.greenrobot.eventbus.Subscribe(threadMode = org.greenrobot.eventbus.ThreadMode.MAIN) //在ui线程执行
     public void onEventBusMessage(String event) {
-        if (event.equals("publish_success")){
+        if (event.equals("PUBLISH")){
             finish();
         }
     }

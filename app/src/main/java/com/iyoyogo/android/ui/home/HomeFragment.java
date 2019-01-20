@@ -379,13 +379,15 @@ public class HomeFragment extends BaseFragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void Token(String name) {
-        if (name != null) {
+    public void eventMessage(String name) {
+        if (name==null)return;
+        if("PUBLISH".equals(name)){
+            bar.changeAtt();
+            attentionFragment.refresh();
+        }else{
             name1 = name;
-            Log.e("Token", "Token: " + name);
+            bar.setLocationResult(name1);
         }
-
-        bar.setLocationResult(name1);
     }
 
 
@@ -472,13 +474,5 @@ public class HomeFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
         EventBus.getDefault().removeAllStickyEvents();
 
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
-    public void onEventBusMessage(String event) {
-        if (event.equals("publish_success")) {
-            bar.changeAtt();
-            attentionFragment.refresh();
-        }
     }
 }

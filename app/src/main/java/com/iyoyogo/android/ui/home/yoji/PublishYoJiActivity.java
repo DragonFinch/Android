@@ -70,6 +70,8 @@ import com.iyoyogo.android.widget.flow.FlowLayout;
 import com.iyoyogo.android.widget.flow.TagAdapter;
 import com.iyoyogo.android.widget.flow.TagFlowLayout;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -835,12 +837,8 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
                     Log.d("PublishYoJiActivity", urls.get(i));
                 }
                 Log.d("PublishYoJiActivity", mList.toString());
-
-
                 String json = new Gson().toJson(list);
                 Log.i("数据", "----->  " + json);
-
-
 //                String json = new Gson().toJson(mList);
                 if (tvPay.getText().toString().trim().length() > 0) {
                     if (etTitle.getText().toString().trim().length() > 0) {
@@ -856,15 +854,10 @@ public class PublishYoJiActivity extends BaseActivity<PublishYoJiContract.Presen
         }
     }
 
-//
-//    @Override
-//    public void publishYoJiSuccess(BaseBean baseBean) {
-//        Toast.makeText(this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
-//    }
-
     @Override
     public void publishYoJiSuccess(PublishSucessBean baseBean) {
-        HomeFragment.homeFragment.onEventBusMessage("publish_success");
+        EventBus.getDefault().post("PUBLISH");
+        finish();
     }
 
     @Override

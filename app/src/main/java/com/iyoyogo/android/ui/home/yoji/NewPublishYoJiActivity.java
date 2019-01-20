@@ -600,12 +600,12 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
                     shareWeb(baseBean.getData().getYo_id(), SHARE_MEDIA.WEIXIN);
                     break;
                 default:
-                    EventBus.getDefault().post("publish_success");
+                    EventBus.getDefault().post("PUBLISH");
                     finish();
                     break;
             }
         } else {
-            EventBus.getDefault().post("publish_success");
+            EventBus.getDefault().post("PUBLISH");
             finish();
         }
     }
@@ -855,7 +855,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
 
     @Override
     public void onShareSuccess(BaseBean data) {
-        EventBus.getDefault().post("publish_success");
+        EventBus.getDefault().post("PUBLISH");
         finish();
     }
 }

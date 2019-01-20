@@ -822,7 +822,7 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
 
     @Subscribe(threadMode =ThreadMode.MAIN) //在ui线程执行
     public void onEventBusMessage(String event) {
-        if (event.equals("publish_success")){
+        if (event.equals("PUBLISH")){
             finish();
         }
     }
