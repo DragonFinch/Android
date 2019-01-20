@@ -63,6 +63,7 @@ public class AddressBookFriendsActivity extends BaseActivity<AddressBookContract
     String user_token;
     String search;
     TextView btu_guanzhu;
+    private int REQUEST_PERMISSION_TIMES = 0;
 
     @Override
     protected int getLayoutId() {
@@ -114,6 +115,11 @@ public class AddressBookFriendsActivity extends BaseActivity<AddressBookContract
     }
 
     private void getPhoneNumber() {
+        if (REQUEST_PERMISSION_TIMES >=2){
+            return;
+        }else{
+            REQUEST_PERMISSION_TIMES++;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)) {
             //需要授权
             requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 110);
@@ -183,5 +189,11 @@ public class AddressBookFriendsActivity extends BaseActivity<AddressBookContract
     @OnClick(R.id.message_center_back_im_id)
     public void onViewClicked() {
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        REQUEST_PERMISSION_TIMES=0;
+        super.onDestroy();
     }
 }
