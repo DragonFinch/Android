@@ -1,19 +1,25 @@
 package com.iyoyogo.android.ui.mine.homepage;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
 import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.base.IBasePresenter;
 import com.iyoyogo.android.ui.mine.AddCollectionActivity;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -40,18 +46,38 @@ public class MyFollowActivity extends BaseActivity {
 
     protected void initView() {
         super.initView();
-        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            //5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色
+            Window window = getWindow();
+            View decorView = window.getDecorView();
+            //两个 flag 要结合使用，表示让应用的主体内容占用系统状态栏的空间
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+            //导航栏颜色也可以正常设置
+            //window.setNavigationBarColor(Color.TRANSPARENT);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = getWindow();
+            WindowManager.LayoutParams attributes = window.getAttributes();
+            int flagTranslucentStatus = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+            attributes.flags |= flagTranslucentStatus;
+            //int flagTranslucentNavigation = WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
+            //attributes.flags |= flagTranslucentNavigation;
+            window.setAttributes(attributes);
+        }
 //        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
-        switchContent(followFragment,recommendFragment);
+        switchContent(followFragment, recommendFragment);
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_yoji:
-                        switchContent(followFragment,recommendFragment);
+                        switchContent(followFragment, recommendFragment);
                         break;
                     case R.id.rb_yoxiu:
-                        switchContent(recommendFragment,followFragment);
+                        switchContent(recommendFragment, followFragment);
                         break;
                 }
             }

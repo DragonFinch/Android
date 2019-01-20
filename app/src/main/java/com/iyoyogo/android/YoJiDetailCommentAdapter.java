@@ -281,17 +281,56 @@ public class YoJiDetailCommentAdapter extends RecyclerView.Adapter<YoJiDetailCom
         tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DataManager.getFromRemote().deleteComment(context,user_id, user_token, comment_id)
-                        .subscribe(new Consumer<BaseBean>() {
-                            @Override
-                            public void accept(BaseBean baseBean) throws Exception {
-                                if (deleteOnClickListener != null) {
-                                    deleteOnClickListener.delete();
-                                    mList.remove(position);
-                                    notifyDataSetChanged();
-                                }
-                            }
-                        });
+                View pop_view = View.inflate(context, R.layout.popup_up_delete, null);
+                PopupWindow popMenu = new PopupWindow(pop_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                TextView delete = pop_view.findViewById(R.id.tv_delete);
+                TextView cancel = pop_view.findViewById(R.id.tv_cancel);
+                ImageView popup_praise_im_id = pop_view.findViewById(R.id.popup_praise_im_id);
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popMenu.dismiss();
+                    }
+                });
+                popup_praise_im_id.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popMenu.dismiss();
+                    }
+                });
+                delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DataManager.getFromRemote().deleteComment(context,user_id, user_token, comment_id)
+                                .subscribe(new Consumer<BaseBean>() {
+                                    @Override
+                                    public void accept(BaseBean baseBean) throws Exception {
+                                        if (deleteOnClickListener != null) {
+                                            deleteOnClickListener.delete();
+                                            mList.remove(position);
+                                            popMenu.dismiss();
+                                            notifyDataSetChanged();
+                                        }
+                                    }
+                                });
+                    }
+                });
+                popMenu.setFocusable(true);//设置pw中的控件能够获取焦点
+                ColorDrawable dw = new ColorDrawable(0xb0000000);
+                popMenu.setBackgroundDrawable(dw);//设置mPopupWindow背景颜色或图片，这里设置半透明
+                popMenu.setOutsideTouchable(true); //设置可以通过点击mPopupWindow外部关闭mPopupWindow
+//        popMenu.setAnimationStyle(R.style.PopupAnimationAmount);//设置mPopupWindow的进出动画
+                popMenu.update();//刷新mPopupWindow
+                popMenu.showAsDropDown(pop_view, Gravity.CENTER, 0, 0);//mPopupWindow显示的位置
+                /**
+                 * PopupWindow消失监听方法
+                 */
+                popMenu.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+
+                    }
+                });
                 popupWindow.dismiss();
             }
         });

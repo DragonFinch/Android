@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -62,7 +63,8 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
 
     protected void initView() {
         super.initView();
-        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
+
     }
 
     @Override

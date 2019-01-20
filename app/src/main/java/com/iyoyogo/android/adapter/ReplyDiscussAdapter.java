@@ -19,7 +19,9 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.ui.home.yoji.ReplyDiscussActivity;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.util.MyConversionUtil;
 import com.iyoyogo.android.widget.CircleImageView;
 
 import java.util.List;
@@ -105,7 +107,7 @@ public class ReplyDiscussAdapter extends RecyclerView.Adapter<ReplyDiscussAdapte
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            DataManager.getFromRemote().praise(context,user_id, user_token, 0, mList.get(position).getId())
+                            DataManager.getFromRemote().praise(context, user_id, user_token, 0, mList.get(position).getId())
                                     .subscribe(new Consumer<BaseBean>() {
                                         @Override
                                         public void accept(BaseBean baseBean) throws Exception {
@@ -118,7 +120,7 @@ public class ReplyDiscussAdapter extends RecyclerView.Adapter<ReplyDiscussAdapte
                 }
             });
         } else {
-            SpannableString msp = new SpannableString(mList.get(position).getUser_nickname() + " 回复" + ":" + mList.get(position).getContent());
+            SpannableString msp = new SpannableString(mList.get(position).getUser_nickname() + " 回复" + ":" +  mList.get(position).getContent());
             msp.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), 0, mList.get(position).getUser_nickname().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
             msp.setSpan(new ForegroundColorSpan(Color.parseColor("#FA800A")), 0, mList.get(position).getUser_nickname().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
             holder.user_content.setText(msp);
@@ -151,7 +153,7 @@ public class ReplyDiscussAdapter extends RecyclerView.Adapter<ReplyDiscussAdapte
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            DataManager.getFromRemote().praise(context,user_id, user_token, 0, mList.get(position).getId())
+                            DataManager.getFromRemote().praise(context, user_id, user_token, 0, mList.get(position).getId())
                                     .subscribe(new Consumer<BaseBean>() {
                                         @Override
                                         public void accept(BaseBean baseBean) throws Exception {
@@ -175,7 +177,7 @@ public class ReplyDiscussAdapter extends RecyclerView.Adapter<ReplyDiscussAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView user_content, tv_time, tv_comment_like_num;
         CircleImageView img_user_icon;
-        ImageView img_comment_like,medal;
+        ImageView img_comment_like, medal;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

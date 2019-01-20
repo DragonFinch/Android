@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -38,10 +39,12 @@ import com.iyoyogo.android.bean.comment.CommentBean;
 import com.iyoyogo.android.contract.ReplyDiscussContract;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.presenter.ReplyDiscussPresenter;
+import com.iyoyogo.android.ui.home.yoxiu.AllCommentActivity;
 import com.iyoyogo.android.ui.home.yoxiu.MoreTopicActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtils;
+import com.iyoyogo.android.utils.util.MyConversionUtil;
 import com.iyoyogo.android.widget.CircleImageView;
 
 import java.util.ArrayList;
@@ -92,6 +95,8 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
     EditText editComment;
     @BindView(R.id.medal)
     ImageView medal;
+    @BindView(R.id.fasong)
+    TextView fasong;
     private String user_id;
     private String user_token;
     private CommentBean.DataBean.ListBean listBean;
@@ -126,7 +131,7 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
                 popup_more.dismiss();
                 report();
 
-                DataManager.getFromRemote().report(ReplyDiscussActivity.this,user_id, user_token, yo_id, 0, tv_advert.getText().toString())
+                DataManager.getFromRemote().report(ReplyDiscussActivity.this, user_id, user_token, yo_id, 0, tv_advert.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -147,7 +152,7 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
             public void onClick(View v) {
                 popup_more.dismiss();
                 report();
-                DataManager.getFromRemote().report(ReplyDiscussActivity.this,user_id, user_token, yo_id, 0, tv_harm.getText().toString())
+                DataManager.getFromRemote().report(ReplyDiscussActivity.this, user_id, user_token, yo_id, 0, tv_harm.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -168,7 +173,7 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
             public void onClick(View v) {
                 popup_more.dismiss();
                 report();
-                DataManager.getFromRemote().report(ReplyDiscussActivity.this,user_id, user_token, yo_id, 0, tv_violate.getText().toString())
+                DataManager.getFromRemote().report(ReplyDiscussActivity.this, user_id, user_token, yo_id, 0, tv_violate.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -189,7 +194,7 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
             public void onClick(View v) {
                 popup_more.dismiss();
                 report();
-                DataManager.getFromRemote().report(ReplyDiscussActivity.this,user_id, user_token, yo_id, 0, tv_else.getText().toString())
+                DataManager.getFromRemote().report(ReplyDiscussActivity.this, user_id, user_token, yo_id, 0, tv_else.getText().toString())
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -325,9 +330,9 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
                     if (editComment.getText().toString().length() > 0) {
-                        mPresenter.addComment(ReplyDiscussActivity.this,user_id, user_token, listBean.getId(), 0, editComment.getText().toString().trim());
+                        mPresenter.addComment(ReplyDiscussActivity.this, user_id, user_token, listBean.getId(), 0, editComment.getText().toString().trim());
                         closeInputMethod();
-                        mPresenter.getCommentList(ReplyDiscussActivity.this,user_id, user_token, 1, 0, listBean.getId());
+                        mPresenter.getCommentList(ReplyDiscussActivity.this, user_id, user_token, 1, 0, listBean.getId());
                         editComment.clearFocus();
                         editComment.setFocusable(false);
                         replyDiscussAdapter.notifyDataSetChanged();
@@ -347,6 +352,13 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
                 editComment.requestFocus();
             }
         });
+        fasong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.addComment(ReplyDiscussActivity.this, user_id, user_token, listBean.getId(), 0, editComment.getText().toString().trim());
+                mPresenter.getCommentList(ReplyDiscussActivity.this, user_id, user_token, 1, 0, 0);
+            }
+        });
         user_id = SpUtils.getString(ReplyDiscussActivity.this, "user_id", null);
         user_token = SpUtils.getString(ReplyDiscussActivity.this, "user_token", null);
         Intent intent = getIntent();
@@ -356,11 +368,14 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
         requestOptions.placeholder(R.mipmap.default_touxiang).error(R.mipmap.default_touxiang);
         Glide.with(this).load(user_logo).apply(requestOptions).into(imgUserIcon);
         userName.setText(listBean.getUser_nickname());
-        tvContent.setText(listBean.getContent());
+        //表情包的转码
+        MyConversionUtil.getInstace().getFileText(ReplyDiscussActivity.this);
+        SpannableString spannableString = MyConversionUtil.getInstace().getExpressionString(ReplyDiscussActivity.this, listBean.getContent());
+        tvContent.setText(spannableString);
         tvTime.setText(listBean.getCreate_time());
         tvCommentLikeNum.setText(listBean.getCount_praise() + "");
         user_nickname = listBean.getUser_nickname();
-        mPresenter.getCommentList(ReplyDiscussActivity.this,user_id, user_token, 1, 0, listBean.getId());
+        mPresenter.getCommentList(ReplyDiscussActivity.this, user_id, user_token, 1, 0, listBean.getId());
 
         medal.setVisibility(View.VISIBLE);
         int partner_type = listBean.getPartner_type();
@@ -389,7 +404,7 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
 
     @Override
     protected ReplyDiscussContract.Presenter createPresenter() {
-        return new ReplyDiscussPresenter(ReplyDiscussActivity.this,this);
+        return new ReplyDiscussPresenter(ReplyDiscussActivity.this, this);
     }
 
     @Override
@@ -425,7 +440,7 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        DataManager.getFromRemote().praise(ReplyDiscussActivity.this,user_id, user_token, 0, listBean.getId())
+                        DataManager.getFromRemote().praise(ReplyDiscussActivity.this, user_id, user_token, 0, listBean.getId())
                                 .subscribe(new Consumer<BaseBean>() {
                                     @Override
                                     public void accept(BaseBean baseBean) throws Exception {
@@ -443,7 +458,7 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
     public void addCommentSuccess(BaseBean baseBean) {
         editComment.setText("");
         replyDiscussAdapter.notifyDataSetChanged();
-        mPresenter.getCommentList(ReplyDiscussActivity.this,user_id, user_token, 1, 0, listBean.getId());
+        mPresenter.getCommentList(ReplyDiscussActivity.this, user_id, user_token, 1, 0, listBean.getId());
     }
 
 
@@ -490,28 +505,67 @@ public class ReplyDiscussActivity extends BaseActivity<ReplyDiscussContract.Pres
             @SuppressLint("CheckResult")
             @Override
             public void onClick(View v) {
-                DataManager.getFromRemote().deleteComment(ReplyDiscussActivity.this,user_id, user_token, comment_id)
-                        .subscribe(new Consumer<BaseBean>() {
-                            @Override
-                            public void accept(BaseBean baseBean) throws Exception {
-                                if (deleteOnClickListener != null) {
-                                    deleteOnClickListener.delete();
-                                    DataManager.getFromRemote().getComment(ReplyDiscussActivity.this,user_id, user_token, 1, yo_id, 0)
-                                            .subscribe(new Consumer<CommentBean>() {
-                                                @Override
-                                                public void accept(CommentBean commentBean) throws Exception {
+                View pop_view = View.inflate(ReplyDiscussActivity.this, R.layout.popup_up_delete, null);
+                PopupWindow popMenu = new PopupWindow(pop_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                TextView delete = pop_view.findViewById(R.id.tv_delete);
+                TextView cancel = pop_view.findViewById(R.id.tv_cancel);
+                ImageView popup_praise_im_id = pop_view.findViewById(R.id.popup_praise_im_id);
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popMenu.dismiss();
+                    }
+                });
+                popup_praise_im_id.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popMenu.dismiss();
+                    }
+                });
+                delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DataManager.getFromRemote().deleteComment(ReplyDiscussActivity.this, user_id, user_token, comment_id)
+                                .subscribe(new Consumer<BaseBean>() {
+                                    @Override
+                                    public void accept(BaseBean baseBean) throws Exception {
+                                        if (deleteOnClickListener != null) {
+                                            deleteOnClickListener.delete();
+                                            DataManager.getFromRemote().getComment(ReplyDiscussActivity.this, user_id, user_token, 1, yo_id, 0)
+                                                    .subscribe(new Consumer<CommentBean>() {
+                                                        @Override
+                                                        public void accept(CommentBean commentBean) throws Exception {
 
-                                                }
-                                            });
-                                }
-                                int code = baseBean.getCode();
-                                if (code == 200){
-                                    replyDiscussAdapter.notifyDataSetChanged();
-                                    Toast.makeText(ReplyDiscussActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
-                                    finish();
-                                }
-                            }
-                        });
+                                                        }
+                                                    });
+                                        }
+                                        int code = baseBean.getCode();
+                                        if (code == 200) {
+                                            replyDiscussAdapter.notifyDataSetChanged();
+                                            Toast.makeText(ReplyDiscussActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        }
+                                    }
+                                });
+                        popupWindow.dismiss();
+                    }
+                });
+                popMenu.setFocusable(true);//设置pw中的控件能够获取焦点
+                ColorDrawable dw = new ColorDrawable(0xb0000000);
+                popMenu.setBackgroundDrawable(dw);//设置mPopupWindow背景颜色或图片，这里设置半透明
+                popMenu.setOutsideTouchable(true); //设置可以通过点击mPopupWindow外部关闭mPopupWindow
+//        popMenu.setAnimationStyle(R.style.PopupAnimationAmount);//设置mPopupWindow的进出动画
+                popMenu.update();//刷新mPopupWindow
+                popMenu.showAsDropDown(pop_view, Gravity.CENTER, 0, 0);//mPopupWindow显示的位置
+                /**
+                 * PopupWindow消失监听方法
+                 */
+                popMenu.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+
+                    }
+                });
                 popupWindow.dismiss();
             }
         });

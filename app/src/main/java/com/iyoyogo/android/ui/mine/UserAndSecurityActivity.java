@@ -74,7 +74,6 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
     private String name;
     private String iconurl;
     private int type;
-    private int flag;
     private String openid;
 
     @Override
@@ -89,7 +88,7 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
         user_id = SpUtils.getString(UserAndSecurityActivity.this, "user_id", null);
         user_token = SpUtils.getString(UserAndSecurityActivity.this, "user_token", null);
         openid = SpUtils.getString(UserAndSecurityActivity.this, "openid", null);
-        mPresenter.getBindInfo(UserAndSecurityActivity.this,user_id, user_token);
+        mPresenter.getBindInfo(UserAndSecurityActivity.this, user_id, user_token);
     }
 
     @Override
@@ -101,7 +100,7 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
 
     @Override
     protected UserAndSecurityContract.Presenter createPresenter() {
-        return new UserAndSecurityPresenter(UserAndSecurityActivity.this,this);
+        return new UserAndSecurityPresenter(UserAndSecurityActivity.this, this);
     }
 
     @OnClick({R.id.back_iv_id, R.id.phone_rl_id, R.id.wx_rl_id, R.id.wb_rl_id, R.id.qq_rl_id})
@@ -114,25 +113,19 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
                 startActivity(new Intent(UserAndSecurityActivity.this, ReplacePhoneActivity.class));
                 break;
             case R.id.wx_rl_id:
-                flag = 1;
                 if (tvWx.getText().toString().trim().equals("已绑定")) {
-                    initPopupPraise();
                 } else {
                     weiXinLogin();
                 }
                 break;
             case R.id.wb_rl_id:
-                flag = 3;
                 if (tvSina.getText().toString().trim().equals("已绑定")) {
-                    initPopupPraise();
                 } else {
                     sinaLogin();
                 }
                 break;
             case R.id.qq_rl_id:
-                flag = 2;
                 if (tvQq.getText().toString().trim().equals("已绑定")) {
-                    initPopupPraise();
                 } else {
                     qqLogin();
                 }
@@ -140,47 +133,6 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
         }
     }
 
-    private void initPopupPraise() {
-        View pop_view = View.inflate(this, R.layout.dialog_untying, null);
-        PopupWindow popMenu = new PopupWindow(pop_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        TextView unty = pop_view.findViewById(R.id.tv_unty);
-        TextView cancel = pop_view.findViewById(R.id.tv_cancel);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popMenu.dismiss();
-            }
-        });
-        unty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (flag == 1) {
-                    mPresenter.userBind(user_id, user_token, 1, "");
-                } else if (flag == 2) {
-                    mPresenter.userBind(user_id, user_token, 2, "");
-                } else if (flag == 3) {
-                    mPresenter.userBind(user_id, user_token, 3, "");
-                }
-                popMenu.dismiss();
-            }
-        });
-        popMenu.setFocusable(true);//设置pw中的控件能够获取焦点
-        ColorDrawable dw = new ColorDrawable(0xb0000000);
-        popMenu.setBackgroundDrawable(dw);//设置mPopupWindow背景颜色或图片，这里设置半透明
-        popMenu.setOutsideTouchable(true); //设置可以通过点击mPopupWindow外部关闭mPopupWindow
-//        popMenu.setAnimationStyle(R.style.PopupAnimationAmount);//设置mPopupWindow的进出动画
-        popMenu.update();//刷新mPopupWindow
-        popMenu.showAsDropDown(pop_view, Gravity.CENTER, 0, 0);//mPopupWindow显示的位置
-        /**
-         * PopupWindow消失监听方法
-         */
-        popMenu.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-
-            }
-        });
-    }
 
 
     public void qqLogin() {
@@ -231,7 +183,7 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
                 SpUtils.putString(UserAndSecurityActivity.this, "nickname", name);
                 SpUtils.putString(UserAndSecurityActivity.this, "logo", iconurl);
                 //拿到信息去请求登录接口。。。
-                mPresenter.updateBind(UserAndSecurityActivity.this,user_id, user_token, type, uid, name, iconurl);
+                mPresenter.updateBind(UserAndSecurityActivity.this, user_id, user_token, type, uid, name, iconurl);
                /* if (address!=null){
 
                     mPresenter.login(address, android.os.Build.BRAND + "_" + android.os.Build.MODEL, Build.VERSION.RELEASE, type, "", "", uid, name, iconurl);
@@ -261,16 +213,130 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
         int user_wx = data.getUser_wx();
         if (user_qq == 1) {
             tvQq.setText("已绑定");
+            tvQq.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    View pop_view = View.inflate(UserAndSecurityActivity.this, R.layout.dialog_untying, null);
+                    PopupWindow popMenu = new PopupWindow(pop_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    TextView unty = pop_view.findViewById(R.id.tv_unty);
+                    TextView cancel = pop_view.findViewById(R.id.tv_cancel);
+                    cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            popMenu.dismiss();
+                        }
+                    });
+                    unty.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mPresenter.userBind(user_id, user_token, 2, openid);
+                            popMenu.dismiss();
+                        }
+                    });
+                    popMenu.setFocusable(true);//设置pw中的控件能够获取焦点
+                    ColorDrawable dw = new ColorDrawable(0xb0000000);
+                    popMenu.setBackgroundDrawable(dw);//设置mPopupWindow背景颜色或图片，这里设置半透明
+                    popMenu.setOutsideTouchable(true); //设置可以通过点击mPopupWindow外部关闭mPopupWindow
+//        popMenu.setAnimationStyle(R.style.PopupAnimationAmount);//设置mPopupWindow的进出动画
+                    popMenu.update();//刷新mPopupWindow
+                    popMenu.showAsDropDown(pop_view, Gravity.CENTER, 0, 0);//mPopupWindow显示的位置
+                    /**
+                     * PopupWindow消失监听方法
+                     */
+                    popMenu.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                        @Override
+                        public void onDismiss() {
+
+                        }
+                    });
+                }
+            });
         } else {
             tvQq.setText("未绑定");
         }
         if (user_wb == 1) {
             tvSina.setText("已绑定");
+            tvSina.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    View pop_view = View.inflate(UserAndSecurityActivity.this, R.layout.dialog_untying, null);
+                    PopupWindow popMenu = new PopupWindow(pop_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    TextView unty = pop_view.findViewById(R.id.tv_unty);
+                    TextView cancel = pop_view.findViewById(R.id.tv_cancel);
+                    cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            popMenu.dismiss();
+                        }
+                    });
+                    unty.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mPresenter.userBind(user_id, user_token, 3, openid);
+                            popMenu.dismiss();
+                        }
+                    });
+                    popMenu.setFocusable(true);//设置pw中的控件能够获取焦点
+                    ColorDrawable dw = new ColorDrawable(0xb0000000);
+                    popMenu.setBackgroundDrawable(dw);//设置mPopupWindow背景颜色或图片，这里设置半透明
+                    popMenu.setOutsideTouchable(true); //设置可以通过点击mPopupWindow外部关闭mPopupWindow
+//        popMenu.setAnimationStyle(R.style.PopupAnimationAmount);//设置mPopupWindow的进出动画
+                    popMenu.update();//刷新mPopupWindow
+                    popMenu.showAsDropDown(pop_view, Gravity.CENTER, 0, 0);//mPopupWindow显示的位置
+                    /**
+                     * PopupWindow消失监听方法
+                     */
+                    popMenu.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                        @Override
+                        public void onDismiss() {
+
+                        }
+                    });
+                }
+            });
         } else {
             tvSina.setText("未绑定");
         }
         if (user_wx == 1) {
             tvWx.setText("已绑定");
+            tvWx.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    View pop_view = View.inflate(UserAndSecurityActivity.this, R.layout.dialog_untying, null);
+                    PopupWindow popMenu = new PopupWindow(pop_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    TextView unty = pop_view.findViewById(R.id.tv_unty);
+                    TextView cancel = pop_view.findViewById(R.id.tv_cancel);
+                    cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            popMenu.dismiss();
+                        }
+                    });
+                    unty.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mPresenter.userBind(user_id, user_token, 1, openid);
+                            popMenu.dismiss();
+                        }
+                    });
+                    popMenu.setFocusable(true);//设置pw中的控件能够获取焦点
+                    ColorDrawable dw = new ColorDrawable(0xb0000000);
+                    popMenu.setBackgroundDrawable(dw);//设置mPopupWindow背景颜色或图片，这里设置半透明
+                    popMenu.setOutsideTouchable(true); //设置可以通过点击mPopupWindow外部关闭mPopupWindow
+//        popMenu.setAnimationStyle(R.style.PopupAnimationAmount);//设置mPopupWindow的进出动画
+                    popMenu.update();//刷新mPopupWindow
+                    popMenu.showAsDropDown(pop_view, Gravity.CENTER, 0, 0);//mPopupWindow显示的位置
+                    /**
+                     * PopupWindow消失监听方法
+                     */
+                    popMenu.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                        @Override
+                        public void onDismiss() {
+
+                        }
+                    });
+                }
+            });
         } else {
             tvWx.setText("未绑定");
         }
@@ -279,7 +345,7 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
 
     @Override
     public void updateBindSuccess(BaseBean baseBean) {
-        mPresenter.getBindInfo(UserAndSecurityActivity.this,user_id, user_token);
+        mPresenter.getBindInfo(UserAndSecurityActivity.this, user_id, user_token);
     }
 
     @Override
@@ -287,6 +353,7 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
         int code = baseBean.getCode();
         if (code == 200) {
             Toast.makeText(this, "解绑成功", Toast.LENGTH_SHORT).show();
+            mPresenter.getBindInfo(UserAndSecurityActivity.this, user_id, user_token);
         }
     }
 
@@ -299,4 +366,5 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
         UMShareAPI.get(this).setShareConfig(config);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
+
 }
