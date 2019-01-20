@@ -133,7 +133,7 @@ public class HomeFragment extends BaseFragment {
                     amapLocation.getLongitude();//获取经度
                     amapLocation.getAccuracy();//获取精度信息
                     String address = amapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
-                    String city = amapLocation.getCity();//城市信息
+                    String city    = amapLocation.getCity();//城市信息
                     SpUtils.putString(getContext(), "address", address);
                     String systemVersion = Build.VERSION.RELEASE;
                     SpUtils.putString(getContext(), "phone_type", android.os.Build.BRAND + "_" + android.os.Build.MODEL);
@@ -289,6 +289,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initView() {
         super.initView();
+        EventBus.getDefault().register(this);
         initLocation();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色
@@ -359,7 +360,7 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void setOnClickListener() {
-                startActivity(new Intent(getActivity(),DiTuActivity.class));
+                startActivity(new Intent(getActivity(), DiTuActivity.class));
             }
         });
     }
@@ -367,7 +368,6 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
@@ -464,5 +464,13 @@ public class HomeFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
         EventBus.getDefault().removeAllStickyEvents();
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
+    public void onEventBusMessage(String event) {
+        if (event.equals("publish_success")) {
+            bar.changeAtt();
+            attentionFragment.refresh();
+        }
     }
 }
