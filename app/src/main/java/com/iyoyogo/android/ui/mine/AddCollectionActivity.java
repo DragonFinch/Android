@@ -1,7 +1,11 @@
 package com.iyoyogo.android.ui.mine;
 
 import android.Manifest;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +32,9 @@ import com.iyoyogo.android.ui.mine.homepage.AddressBookFriendsActivity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.utils.SpUtils;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.editorpage.ShareActivity;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 
@@ -60,7 +67,7 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
 
     @Override
     protected AddCollectionContract.Presenter createPresenter() {
-        return new AddCollectionPresenter(AddCollectionActivity.this,this);
+        return new AddCollectionPresenter(AddCollectionActivity.this, this);
     }
 
     @Override
@@ -68,7 +75,7 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
         super.initData(savedInstanceState);
         user_id = SpUtils.getString(this, "user_id", null);
         user_token = SpUtils.getString(this, "user_token", null);
-        mPresenter.getAddCollection(AddCollectionActivity.this,user_id, user_token, 1 + "", 20 + "");
+        mPresenter.getAddCollection(AddCollectionActivity.this, user_id, user_token, 1 + "", 20 + "");
     }
 
     @Override
@@ -81,7 +88,7 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 btu_guanzhu = view.findViewById(R.id.tv_guanzhu);
-                mPresenter.addAttention(AddCollectionActivity.this,user_id, user_token, list.get(position).getUser_id());
+                mPresenter.addAttention(AddCollectionActivity.this, user_id, user_token, list.get(position).getUser_id());
             }
         });
     }
@@ -93,7 +100,7 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
             btu_guanzhu.setBackgroundResource(R.drawable.bg_delete_yoji);
             btu_guanzhu.setText("已关注");
             btu_guanzhu.setTextColor(Color.parseColor("#888888"));
-        }else {
+        } else {
             btu_guanzhu.setBackgroundResource(R.drawable.bg_collection);
             btu_guanzhu.setText("+关注");
             btu_guanzhu.setTextColor(Color.parseColor("#ffffff"));
@@ -121,7 +128,7 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
                 shareWeb(SHARE_MEDIA.SINA);
                 break;
             case R.id.Invite_QQ_Friends://QQ
-                shareWeb(SHARE_MEDIA.QQ);
+                shareQQ(AddCollectionActivity.this,"记录旅行每一刻，快来yoyoGo跟我一起玩呀！" +  Constants.BASE_URL + "index.php/home/share/download_all.html");
                 break;
         }
     }
@@ -129,19 +136,52 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
     private void shareWeb(SHARE_MEDIA share_media) {
         /*80002/yo_id/4143*/
         String url = Constants.BASE_URL + "index.php/home/share/download_all.html";
-        UMWeb web = new UMWeb(url);
-        web.setTitle("YoYoGo");//标题
-        UMImage thumb = new UMImage(getApplicationContext(), R.mipmap.logo);
-        web.setThumb(thumb);  //缩略图
+//        UMWeb web = new UMWeb(url);
+//        web.setTitle("yoyoGo");//标题
+//        UMImage thumb = new UMImage(getApplicationContext(), R.mipmap.logo);
+//        web.setThumb(thumb);  //缩略图
+//
+//        web.setDescription("");//描述
 
-        web.setDescription("");//描述
+//        new ShareAction(AddCollectionActivity.this)
+//                .withMedia(web)
+//                .setPlatform(share_media)
+//                .share();
+        new ShareAction(AddCollectionActivity.this).setPlatform(share_media).withText("记录旅行每一刻，快来yoyoGo跟我一起玩呀！" + url).share();
+    }
 
-        new ShareAction(AddCollectionActivity.this)
-                .withMedia(web)
-                .setPlatform(share_media)
-                .share();
 
+    /**
+     * @param mContext 上下文
+     * @param content 要分享的文本
+     * */
+    public static void shareQQ(Context mContext, String content) {
+        if (isQQClientAvailable(mContext)) {
+            Intent intent = new Intent("android.intent.action.SEND");
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
+            intent.putExtra(Intent.EXTRA_TEXT, content);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setComponent(new ComponentName("com.tencent.mobileqq", "com.tencent.mobileqq.activity.JumpActivity"));
+            mContext.startActivity(intent);
+        } else {
+            Toast.makeText(mContext, "您需要安装QQ客户端", Toast.LENGTH_LONG).show();
+        }
+    }
 
+    // 是否存在QQ客户端
+    public static boolean isQQClientAvailable(Context context) {
+        final PackageManager packageManager = context.getPackageManager();
+        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
+        if (pinfo != null) {
+            for (int i = 0; i < pinfo.size(); i++) {
+                String pn = pinfo.get(i).packageName;
+                if (pn.equals("com.tencent.mobileqq")) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override

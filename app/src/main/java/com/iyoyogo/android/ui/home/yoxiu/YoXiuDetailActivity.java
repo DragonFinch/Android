@@ -765,7 +765,12 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         });
         recycler_collection = view.findViewById(R.id.recycler_collection);
         mPresenter.getCollectionFolder(YoXiuDetailActivity.this,user_id, user_token);
-
+        view.findViewById(R.id.close_img).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup.dismiss();
+            }
+        });
 
         popup.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         popup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);

@@ -91,8 +91,7 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.publish_home)
     ImageView publish_home;
     private String name1;
-
-
+    
     private Fragment currentFragment = new Fragment();
 
     public String sHA1(Context context) {
@@ -343,6 +342,8 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void onLocationClick() {
+                Intent intent = new Intent(getActivity(),DiTuActivity.class);
+                intent.putExtra("gps",name1);
                 startActivity(new Intent(getActivity(), DiTuActivity.class));
             }
 

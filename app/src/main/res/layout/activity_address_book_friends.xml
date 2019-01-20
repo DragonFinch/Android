@@ -51,13 +51,24 @@
             android:textColor="@color/c888888"
             android:textSize="@dimen/sp_12" />
 
-        <ImageView
-            android:layout_width="@dimen/dp_16"
-            android:layout_height="@dimen/dp_16"
+        <LinearLayout
+            android:id="@+id/lin_Search"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dp_33"
-            android:src="@mipmap/ic_location_search" />
+            android:layout_marginRight="@dimen/dp20"
+            android:gravity="center"
+            >
+            <ImageView
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_location_search"
+                />
+        </LinearLayout>
+
+
 
     </RelativeLayout>
 

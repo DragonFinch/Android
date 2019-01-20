@@ -646,15 +646,15 @@ public class MessageDetailActivity extends BaseActivity<MessageContract.Presente
     @Override
     public void readMessageSuccess(ReadMessage.DataBean data) {
 
-        if (title.equals("喜欢我的")) {
-            mPresenter.getMessage(MessageDetailActivity.this,user_id, user_token, 2, 1);
-        } else if (title.equals("系统消息")) {
-            mPresenter.getMessage(MessageDetailActivity.this,user_id, user_token, 1, 1);
-        } else if (title.equals("评论消息")) {
-            mPresenter.getMessage(MessageDetailActivity.this,user_id, user_token, 3, 1);
-        } else if (title.equals("关注消息")) {
-            mPresenter.getMessage(MessageDetailActivity.this,user_id, user_token, 4, 1);
-        }
+//        if (title.equals("喜欢我的")) {
+//            mPresenter.getMessage(user_id, user_token, 2, 1);
+//        } else if (title.equals("系统消息")) {
+//            mPresenter.getMessage(user_id, user_token, 1, 1);
+//        } else if (title.equals("评论消息")) {
+//            mPresenter.getMessage(user_id, user_token, 3, 1);
+//        } else if (title.equals("关注消息")) {
+//            mPresenter.getMessage(user_id, user_token, 4, 1);
+//        }
     }
 
     @Override

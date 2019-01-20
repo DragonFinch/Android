@@ -19,6 +19,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +54,8 @@ public class AddressBookFriendsActivity extends BaseActivity<AddressBookContract
     EditText addressBookSearch;
     @BindView(R.id.address_book_RecyclerView)
     RecyclerView addressBookRecyclerView;
+    @BindView(R.id.lin_Search)
+    LinearLayout linSearch;
     private String name;
     private String number;
     private String json;
@@ -154,7 +157,7 @@ public class AddressBookFriendsActivity extends BaseActivity<AddressBookContract
                 int user_id1 = list.get(position).getUser_id();
                 if (user_id1 == 0) {
                     try{
-                        ContentUtil.sendSmsWithBody(AddressBookFriendsActivity.this, list.get(position).getPhone(), Constants.BASE_URL+ "index.php/home/share/download_all.html");
+                        ContentUtil.sendSmsWithBody(AddressBookFriendsActivity.this, list.get(position).getPhone(), "记录旅行每一刻，快来yoyoGo跟我一起玩呀！" + Constants.BASE_URL+ "index.php/home/share/download_all.html");
                     }catch (ActivityNotFoundException a){
                         a.getMessage();
                     }
@@ -189,6 +192,11 @@ public class AddressBookFriendsActivity extends BaseActivity<AddressBookContract
     @OnClick(R.id.message_center_back_im_id)
     public void onViewClicked() {
         finish();
+    }
+
+    @OnClick(R.id.lin_Search)
+    public void Search() {
+        mPresenter.getAddressBookContract(AddressBookFriendsActivity.this,user_id, user_token, addressBookSearch.getText().toString(), json);
     }
 
     @Override

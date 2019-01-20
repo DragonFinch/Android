@@ -91,6 +91,7 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
     private String mUser_id;
     private String mUser_token;
     private List<String> mList;
+    private InlandMapFragment mInlandMapFragment;
 
     @Override
     protected int getLayoutId() {
@@ -105,19 +106,21 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
     @Override
     protected void initView() {
         super.initView();
+        String gps = getIntent().getStringExtra("gps");
+
         StatusBarUtil.setStatusBarLayoutStyle(DiTuActivity.this, true);
         StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.holo_orange_dark));
-        InlandMapFragment inlandMapFragment = new InlandMapFragment(mList);
+        mInlandMapFragment = new InlandMapFragment(gps);
         ForeignMapFragment foreignMapFragment = new ForeignMapFragment();
-        list1.add(inlandMapFragment);
+        list1.add(mInlandMapFragment);
         list1.add(foreignMapFragment);
-        switchFragment(inlandMapFragment);
+        switchFragment(mInlandMapFragment);
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_yoji:
-                        switchFragment(inlandMapFragment);
+                        switchFragment(mInlandMapFragment);
                         break;
                     case R.id.rb_yoxiu:
                         switchFragment(foreignMapFragment);
@@ -134,7 +137,7 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
 
 
         initView1();
-        inlandMapFragment.setSetData(new InlandMapFragment.setData() {
+        mInlandMapFragment.setSetData(new InlandMapFragment.setData() {
             @Override
             public void getData(String name) {
                 EventBus.getDefault().post(name);
@@ -192,6 +195,12 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
             }
         }
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
