@@ -157,7 +157,7 @@ public class AddressBookFriendsActivity extends BaseActivity<AddressBookContract
                 int user_id1 = list.get(position).getUser_id();
                 if (user_id1 == 0) {
                     try{
-                        ContentUtil.sendSmsWithBody(AddressBookFriendsActivity.this, list.get(position).getPhone(), Constants.BASE_URL+ "index.php/home/share/download_all.html");
+                        ContentUtil.sendSmsWithBody(AddressBookFriendsActivity.this, list.get(position).getPhone(), "记录旅行每一刻，快来yoyoGo跟我一起玩呀！" + Constants.BASE_URL+ "index.php/home/share/download_all.html");
                     }catch (ActivityNotFoundException a){
                         a.getMessage();
                     }
