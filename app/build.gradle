@@ -175,4 +175,5 @@ dependencies {
     implementation files('libs/nineoldandroids-2.4.0.jar')
     implementation 'cn.bingoogolapple:bga-banner:2.2.4@aar'
     implementation files('libs/umeng-analytics-7.4.4.jar')
+    implementation 'com.youth.banner:banner:1.4.9'
 }

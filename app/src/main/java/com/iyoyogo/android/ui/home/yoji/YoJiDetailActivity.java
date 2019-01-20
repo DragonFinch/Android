@@ -76,6 +76,7 @@ import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
+import com.youth.banner.Banner;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -94,8 +95,6 @@ import io.reactivex.functions.Consumer;
  * yo记详情
  */
 public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presenter> implements YoJiDetailContract.View, SoftKeyboardStateHelper.SoftKeyboardStateListener {
-
-
     @BindView(R.id.img_back)
     ImageView imgBack;
     @BindView(R.id.img_head)
@@ -108,14 +107,20 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     RelativeLayout imgMessage;
     @BindView(R.id.img_share)
     ImageView imgShare;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
 /*    @BindView(R.id.coll)
     CollapsingToolbarLayout coll;*/
-    @BindView(R.id.appbar)
-    AppBarLayout appbar;
+    @BindView(R.id.appBar)
+    AppBarLayout appBar;
+    @BindView(R.id.toolbarLayout)
+    CollapsingToolbarLayout toolbarLayout;
+    @BindView(R.id.banner_layout)
+    RelativeLayout banner_layout;
     @BindView(R.id.tv_title)
     TextView tvTitle;
+    @BindView(R.id.banner0)
+    Banner banner;
+    @BindView(R.id.toolbaretail)
+    Toolbar toolbaretail;
     @BindView(R.id.tv_time_create)
     TextView tvTimeCreate;
     @BindView(R.id.tv_create)
@@ -277,7 +282,6 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     private AMap aMap;
     private RelativeLayout mLl_facechoose;
     private PopupWindow popup_share;
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -290,6 +294,69 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         super.onSaveInstanceState(outState);
         //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
         mapView.onSaveInstanceState(outState);
+    }
+
+    /**
+     * 初始化setToolBar
+     */
+    private void setToolBar(){
+        setSupportActionBar(toolbaretail);
+        toolbaretail.setTitleTextColor(Color.WHITE);
+        toolbarLayout.setTitleEnabled(false);
+        toolbarLayout.setExpandedTitleGravity(Gravity.CENTER);//设置展开后标题的位置
+        toolbarLayout.setCollapsedTitleGravity(Gravity.CENTER);//设置收缩后标题的位置
+        toolbarLayout.setExpandedTitleColor(Color.WHITE);//设置展开后标题的颜色
+        toolbarLayout.setCollapsedTitleTextColor(Color.WHITE);//设置收缩后标题的颜色
+        appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                //verticalOffset  当前偏移量 appBarLayout.getTotalScrollRange() 最大高度 便宜值
+                int Offset = Math.abs(verticalOffset); //目的是将负数转换为绝对正数；
+                //标题栏的渐变
+                toolbaretail.setBackgroundColor(changeAlpha(getResources().getColor(R.color.red)
+                        , Math.abs(verticalOffset * 1.0f) / appBarLayout.getTotalScrollRange()));
+                 //当前最大高度偏移值除以2 在减去已偏移值 获取浮动 先显示在隐藏
+                if (Offset < appBarLayout.getTotalScrollRange() / 2) {
+                    toolbaretail.setTitle("");
+                    toolbaretail.setAlpha(1.0f);
+                    imgShare.setAlpha(1.0f);
+                    imgBack.setAlpha(1.0f);
+                    imgBack.setImageResource(R.mipmap.fanhui_bai);
+                    if (user_id.equals(yo_user_id1)) {
+                        imgShare.setImageResource(R.mipmap.more);
+                    } else {
+                        imgShare.setImageResource(R.mipmap.fenxiang_bai);
+                    }
+                    imgMessage.setVisibility(View.GONE);
+                    messageTrip.setVisibility(View.GONE);
+                    realtive.setVisibility(View.VISIBLE);
+                } else if (Offset > appBarLayout.getTotalScrollRange() / 2) {
+                    //设置上拉标题样式
+                    float floate = (Offset - appBarLayout.getTotalScrollRange() / 2) * 1.0f / (appBarLayout.getTotalScrollRange() / 2);
+                    toolbaretail.setAlpha(floate);
+                    imgShare.setAlpha(floate);
+                    imgBack.setAlpha(floate);
+                    imgBack.setImageResource(R.mipmap.fanhui_black);
+                    toolbaretail.setAlpha(floate);
+                    if (user_id.equals(yo_user_id1)) {
+                        imgShare.setImageResource(R.mipmap.more);
+                    } else {
+                        imgShare.setImageResource(R.mipmap.fenxiang_hei);
+                    }
+                    imgMessage.setVisibility(View.VISIBLE);
+                    messageTrip.setVisibility(View.VISIBLE);
+                    realtive.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
+    /**
+     * 根据百分比改变颜色透明度
+     */
+    public int changeAlpha(int color, float fraction) {
+        int alpha = (int) (Color.alpha(color) * fraction);
+        return Color.argb(alpha, 255, 255, 255);
     }
 
     @Override
@@ -306,7 +373,6 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     protected void initView() {
         super.initView();
-        statusbar();
         new SoftKeyboardStateHelper(findViewById(R.id.activity_yoji_detail)).addSoftKeyboardStateListener(this);
         mLl_facechoose = findViewById(R.id.ll_facechoose);
         TextView fasongdetails = findViewById(R.id.fasongdetails);
@@ -322,64 +388,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         yo_id = intent.getIntExtra("yo_id", 0);
         yo_user_id1 = intent.getStringExtra("yo_user_id");
         user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
-        setSupportActionBar(toolbar);
-        appbar.setExpanded(true);
-        appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            //verticalOffset是当前appbarLayout的高度与最开始appbarlayout高度的差，向上滑动的话是负数
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                //通过日志得出活动启动是两次，由于之前有setExpanded所以三次
-                Log.d("启动活动调用监听次数", "几次");
-                if (getSupportActionBar().getHeight() - appBarLayout.getHeight() == verticalOffset) {
-                    //折叠监听
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        Window window = getWindow();
-                        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                        window.setStatusBarColor(getResources().getColor(android.R.color.white));
-                        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                    }
-                    MIUISetStatusBarLightMode(getWindow(), true);
-                    if (user_id.equals(yo_user_id1)) {
-                        imgShare.setImageResource(R.mipmap.more);
-                    } else {
-                        imgShare.setImageResource(R.mipmap.fenxiang_hei);
-                    }
-                    imgBack.setImageResource(R.mipmap.fanhui_black);
-                    imgMessage.setVisibility(View.VISIBLE);
-//                    imgMessage.startAnimation(mShowAction);
-//                    messageTrip.startAnimation(mShowAction);
-//                    realtive.startAnimation(mHiddenAction);
-                    messageTrip.setVisibility(View.VISIBLE);
-                    realtive.setVisibility(View.GONE);
-//                    StatusBarUtil.setStatusBarColor(YoJiDetailActivity.this,Color.parseColor("#ffffff"));
-                }
-                if (expendedtag == 2 && verticalOffset == 0) {
-//                    statusbar();
-//                    StatusBarUtil.setTransparent(YoJiDetailActivity.this);
-                    //展开监听
-                    MIUISetStatusBarLightMode(getWindow(), false);
-                    imgBack.setImageResource(R.mipmap.back_icon);
-                    if (user_id.equals(yo_user_id1)) {
-                        imgShare.setImageResource(R.mipmap.more);
-                    } else {
-                        imgShare.setImageResource(R.mipmap.fenxiang_bai);
-                    }
-                    imgMessage.setVisibility(View.GONE);
-                    messageTrip.setVisibility(View.GONE);
-                    realtive.setVisibility(View.VISIBLE);
-//                    imgMessage.startAnimation(mHiddenAction);
-//                    messageTrip.startAnimation(mHiddenAction);
-//                    realtive.startAnimation(mShowAction);
-//                    StatusBarUtil.setStatusBarColor(YoJiDetailActivity.this,Color.parseColor("#00000000"));
-
-                }
-                if (expendedtag != 2 && verticalOffset == 0) {
-                    expendedtag++;
-                }
-            }
-        });
-
-
+        setToolBar();
     }
 
     private void closeInputMethod() {
