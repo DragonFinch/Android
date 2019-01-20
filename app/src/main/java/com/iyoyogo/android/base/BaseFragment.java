@@ -106,6 +106,7 @@ public abstract class BaseFragment<T extends IBasePresenter> extends Fragment im
      */
     @Override
     public void setLoadingView(boolean isShow) {
+        if (mHolder==null)return;
         if (isShow) {
             mHolder.showLoadingView();
         } else {

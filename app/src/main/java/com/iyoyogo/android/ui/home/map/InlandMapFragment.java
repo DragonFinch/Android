@@ -1,9 +1,12 @@
 package com.iyoyogo.android.ui.home.map;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,7 +14,9 @@ import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
@@ -29,6 +34,7 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -36,9 +42,14 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.adapter.map.CityEntity;
+import com.iyoyogo.android.base.BaseFragment;
 import com.iyoyogo.android.bean.map.MapBean;
+import com.iyoyogo.android.bean.map.MapRenMei;
+import com.iyoyogo.android.contract.MapSearchContract;
+import com.iyoyogo.android.presenter.MapSearchPresenter;
 import com.iyoyogo.android.ui.home.map.binding.Bind;
 import com.iyoyogo.android.ui.home.map.binding.ViewBinder;
+import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.map.JsonReadUtil;
 import com.iyoyogo.android.utils.map.ToastUtils;
 import com.iyoyogo.android.utils.search.SharedPrefrenceUtils;
@@ -58,7 +69,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 @SuppressLint("ValidFragment")
-public class InlandMapFragment extends Fragment implements AbsListView.OnScrollListener {
+public class InlandMapFragment extends BaseFragment<MapSearchContract.Presenter> implements AbsListView.OnScrollListener,MapSearchContract.View{
 
 
     @BindView(R.id.total_city_lv)
@@ -108,13 +119,18 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
             }
         }
     };
-    private final List<String> mList1;
     private TextView mCur_city_re_get_location_tv1;
+    private List<MapBean.DataBean.ListBean> mRemein;
+    private List<String> mAll;
+    private List<MapBean.DataBean.ListBean> mMAll;
+    private List<String> mMremei;
+    private final String mGps1;
 
     @SuppressLint("ValidFragment")
-    public InlandMapFragment(List<String> list) {
-        mList1 = list;
+    public InlandMapFragment(String gps) {
+        mGps1 = gps;
     }
+
 
     @Nullable
     @Override
@@ -122,11 +138,26 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
         View inflate = inflater.inflate(R.layout.mapguomei, container, false);
         unbinder = ButterKnife.bind(this, inflate);
         initView1();
-        initData();
+       // initData();
         initListener1();
         initdiwei();
 
         return inflate;
+
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return 0;
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
+        String  mUser_id = SpUtils.getString(getActivity(), "user_id", null);
+        String  mUser_token = SpUtils.getString(getActivity(), "user_token", null);
+        mPresenter.renMei(mUser_id,mUser_token);
+        mPresenter.aboutMe(mUser_id,mUser_token,"internal","");
 
     }
 
@@ -198,7 +229,7 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
         builder.create().show();
     }
 
-    private void initData() {
+    private void initData1() {
         initTotalCityList();
         cityListAdapter = new CityListAdapter(getActivity(), totalCityList, hotCityList);
         totalCityLv.setAdapter(cityListAdapter);
@@ -215,6 +246,12 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
         });
         totalCityLettersLv.setOnTouchingLetterChangedListener(new LetterListViewListener());
         initOverlay();
+    }
+
+    //presenter
+    @Override
+    protected MapSearchContract.Presenter createPresenter() {
+        return  new  MapSearchPresenter(getActivity(),this);
     }
 
 
@@ -241,72 +278,28 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
         hotCityList.clear();
         totalCityList.clear();
         curCityList.clear();
-       /* List<CityEntity> renmei = SharedPrefrenceUtils.getSerializableList(getActivity(), "renmei");
-        List<CityEntity> renmei1 = SharedPrefrenceUtils.getSerializableList(getActivity(), "renmei1");
-        List<CityEntity> renmei2 = SharedPrefrenceUtils.getSerializableList(getActivity(), "renmei2");
-        if (renmei != null){
-            if (renmei1 != null){
-                if (renmei2 != null){
-                    for (int i = 0; i < renmei.size(); i++) {
-                        for (int j = 0; j <renmei1.size() ; j++) {
-                            for (int k = 0; k < renmei2.size(); k++) {
-                                if (renmei.equals("热门")) {
-                                    hotCityList.addAll(renmei);
-                                } else {
-                                    if (renmei1.get(j).getKey().equals("0") && !renmei1.get(j).getKey().equals("1")) {
-                                        curCityList.addAll(renmei1);
-                                    }
-                                   // totalCityList.addAll(renmei2);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            Log.e("chengshi", "initTotalCityList11: "+renmei.size() );
-            Log.e("chengshi", "initTotalCityList22: "+renmei1.size() );
-            Log.e("chengshi", "initTotalCityList33: "+renmei2.size() );
-        }else{*/
-        String cityListJson = JsonReadUtil.getJsonStr(getActivity(), CityFileName);
-        JSONObject jsonObject;
-        try {
-            jsonObject = new JSONObject(cityListJson);
-            JSONArray array = jsonObject.getJSONArray("City");
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject object = array.getJSONObject(i);
-                String name = object.getString("name");
-                String key = object.getString("key");
-                String pinyin = object.getString("full");
-                String first = object.getString("first");
-                String cityCode = object.getString("code");
+        /**
+         * 处理数据
+         */
 
-                CityEntity cityEntity = new CityEntity();
-                cityEntity.setName(name);
-                cityEntity.setKey(key);
-                cityEntity.setPinyin(pinyin);
-                cityEntity.setFirst(first);
-                cityEntity.setCityCode(cityCode);
+        // 热门数据
+        for (int i = 0; i <mMremei.size() ; i++) {
+            CityEntity hotCity = new CityEntity();
+            hotCity.setName(mMremei.get(i));
+            hotCityList.add(hotCity);
+        }
+        for (int i = 0; i <mMAll.size() ; i++) {
+            CityEntity cityEntity = new CityEntity();
+            cityEntity.setName(mMAll.get(i).getChina_name());
+            //处理K
+            String english_name = mMAll.get(i).getEnglish_name();
+            english_name = english_name.substring(0,1);
+            cityEntity.setKey(english_name);
+            cityEntity.setPinyin(mMAll.get(i).getEnglish_name());
+            //cityEntity.setFirst(first);
+            // cityEntity.setCityCode(cityCode);
 
-                if (cityEntity != null) {
-                    if (key.equals("热门")) {
-                        hotCityList.add(cityEntity);
-                    } else {
-                        if (!cityEntity.getKey().equals("0") && !cityEntity.getKey().equals("1")) {
-                            curCityList.add(cityEntity);
-                        }
-                        totalCityList.add(cityEntity);
-                    }
-                }
-
-            }
-       /*         SharedPrefrenceUtils.putSerializableList(getActivity(),"renmei",hotCityList);
-                SharedPrefrenceUtils.putSerializableList(getActivity(),"renmei1",curCityList);
-                SharedPrefrenceUtils.putSerializableList(getActivity(),"renmei2",totalCityList);
-                Log.e("chengshi", "initTotalCityList2: "+hotCityList.get(0).toString() );
-                Log.e("chengshi", "initTotalCityList3: "+curCityList.get(0).toString() );
-                Log.e("chengshi", "initTotalCityList4: "+totalCityList.get(0).toString() );*/
-        } catch (JSONException e) {
-            e.printStackTrace();
+            totalCityList.add(cityEntity);
         }
     }
 
@@ -360,6 +353,21 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
     @Override
     public void onResume() {
         super.onResume();
+
+
+    }
+
+    //all
+    @Override
+    public void aboutMeSuccess(MapBean data) {
+        mMAll = data.getData().getList();
+        initData1();
+    }
+    //remei
+    @Override
+    public void renMeiChengshi(MapRenMei data) {
+        mMremei = data.getData().getList();
+
     }
 
     /**
@@ -474,7 +482,7 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
 
         @Override
         public int getCount() {
-            return totalCityList == null ? 0 : totalCityList.size();
+            return totalCityList == null ? 0 : totalCityList.size()+2;
         }
 
         @Override
@@ -507,9 +515,18 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
                         @Override
                         public void onClick(View v) {
                             //定位
-                            initdiwei();
+                            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                                    != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
+                                //开启定位权限,200是标识码
+                                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
+                            } else {
+                                initdiwei();//开始定位
+                                Toast.makeText(getActivity(), "已定位", Toast.LENGTH_LONG).show();
+
+                            }
                         }
                     });
+
                 } else {
                     noLocationLl.setVisibility(View.GONE);
                     curCityNameTv.setVisibility(View.VISIBLE);
@@ -518,7 +535,16 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
                     mCur_city_re_get_location_tv1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            initdiwei();
+                          //  Toast.makeText(getActivity(), "qwe", Toast.LENGTH_SHORT).show();
+                            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                                    != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
+                                //开启定位权限,200是标识码
+                                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
+                            } else {
+                                initdiwei();//开始定位
+                                Toast.makeText(getActivity(), "已开启定位权限", Toast.LENGTH_LONG).show();
+
+                            }
                         }
                     });
                     curCityNameTv.setOnClickListener(new View.OnClickListener() {
@@ -563,13 +589,13 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
                     holder = (ViewHolder) convertView.getTag();
                 }
 
-                CityEntity cityEntity = totalCityList.get(position);
+                CityEntity cityEntity = totalCityList.get(position-2);
                 holder.cityKeyTv.setVisibility(View.VISIBLE);
                 holder.cityKeyTv.setText(getAlpha(cityEntity.getKey()));
                 holder.cityNameTv.setText(cityEntity.getName());
 
-                if (position >= 1) {
-                    CityEntity preCity = totalCityList.get(position - 1);
+                if (position >= 3) {
+                    CityEntity preCity = totalCityList.get(position -3);
                     if (preCity.getKey().equals(cityEntity.getKey())) {
                         holder.cityKeyTv.setVisibility(View.GONE);
                     } else {
@@ -589,7 +615,21 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
         }
     }
 
-  /*  @Override
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case 200://刚才的识别码
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){//用户同意权限,执行我们的操作
+                    initdiwei();//开始定位
+                }else{//用户拒绝之后,当然我们也可以弹出一个窗口,直接跳转到系统设置页面
+                    Toast.makeText(getActivity(),"未开启定位权限,请手动到设置去开启权限",Toast.LENGTH_LONG).show();
+                }
+                break;
+            default:break;
+        }
+    }
+/*  @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         String s = tt.getText().toString();
         if(!s.equals("无法获取您的定位地址")&&s.equals("")){

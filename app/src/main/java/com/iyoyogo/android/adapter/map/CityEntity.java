@@ -1,8 +1,6 @@
 package com.iyoyogo.android.adapter.map;
 
-import java.io.Serializable;
-
-import me.yokeyword.indexablerv.PinyinUtil;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by fySpring
@@ -10,11 +8,15 @@ import me.yokeyword.indexablerv.PinyinUtil;
  * To do :
  */
 
-public class CityEntity implements Serializable {
+public class CityEntity {
+    @SerializedName("china_name")
     private String name;
+
     private String key;
+    @SerializedName("english_name")
     private String pinyin;  //全拼
     private String first;   //首字母
+    @SerializedName("code")
     private String cityCode;
 
     public String getName() {
@@ -55,7 +57,6 @@ public class CityEntity implements Serializable {
 
     public void setCityCode(String cityCode) {
         this.cityCode = cityCode;
-
     }
 
     @Override
