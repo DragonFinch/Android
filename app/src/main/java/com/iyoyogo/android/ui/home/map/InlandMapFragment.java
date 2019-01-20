@@ -114,7 +114,6 @@ public class InlandMapFragment extends Fragment implements AbsListView.OnScrollL
     @SuppressLint("ValidFragment")
     public InlandMapFragment(List<String> list) {
         mList1 = list;
-
     }
 
     @Nullable
