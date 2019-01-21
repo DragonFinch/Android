@@ -98,6 +98,8 @@ import io.reactivex.functions.Consumer;
 public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presenter> implements YoJiDetailContract.View, SoftKeyboardStateHelper.SoftKeyboardStateListener {
     @BindView(R.id.img_back)
     ImageView imgBack;
+    @BindView(R.id.img_back0)
+    ImageView imgBack0;
     @BindView(R.id.img_head)
     CircleImageView imgHead;
     @BindView(R.id.tv_user_name)
@@ -108,6 +110,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     RelativeLayout imgMessage;
     @BindView(R.id.img_share)
     ImageView imgShare;
+    @BindView(R.id.img_share0)
+    ImageView imgShare0;
 /*    @BindView(R.id.coll)
     CollapsingToolbarLayout coll;*/
     @BindView(R.id.appBar)
@@ -318,11 +322,12 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                         , Math.abs(verticalOffset * 1.0f) / appBarLayout.getTotalScrollRange()));
                  //当前最大高度偏移值除以2 在减去已偏移值 获取浮动 先显示在隐藏
                 if (Offset < appBarLayout.getTotalScrollRange() / 2) {
-                    toolbaretail.setTitle("");
+                    Log.d("wanggsx","下拉");
+                    //下拉标题样式
                     toolbaretail.setAlpha(1.0f);
                     imgShare.setAlpha(1.0f);
                     imgBack.setAlpha(1.0f);
-                    imgBack.setImageResource(R.mipmap.fanhui_bai);
+                    imgBack.setImageResource(R.mipmap.fanhui_black);
                     if (user_id.equals(yo_user_id1)) {
                         imgShare.setImageResource(R.mipmap.more);
                     } else {
@@ -333,10 +338,11 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
                     realtive.setVisibility(View.VISIBLE);
                 } else if (Offset > appBarLayout.getTotalScrollRange() / 2) {
                     //设置上拉标题样式
+                    Log.d("wanggsx","上拉");
                     float floate = (Offset - appBarLayout.getTotalScrollRange() / 2) * 1.0f / (appBarLayout.getTotalScrollRange() / 2);
                     toolbaretail.setAlpha(floate);
-                    imgShare.setAlpha(floate);
-                    imgBack.setAlpha(floate);
+                    imgShare.setAlpha(1.0f);
+                    imgBack.setAlpha(1.0f);
                     imgBack.setImageResource(R.mipmap.fanhui_black);
                     toolbaretail.setAlpha(floate);
                     if (user_id.equals(yo_user_id1)) {
@@ -543,23 +549,24 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     }
 
-    @OnClick({R.id.add_attention, R.id.img_back, R.id.img_share, R.id.tv_attention, R.id.tv_load_more, R.id.tv_comment, R.id.tv_like, R.id.tv_collection, R.id.tv_more_comment})
+    @OnClick({R.id.add_attention, R.id.img_back,R.id.img_back0, R.id.img_share,R.id.img_share0, R.id.tv_attention, R.id.tv_load_more, R.id.tv_comment, R.id.tv_like, R.id.tv_collection, R.id.tv_more_comment})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_back:
+            case R.id.img_back0:
                 finish();
                 break;
             case R.id.add_attention:
                 mPresenter.addAttention(YoJiDetailActivity.this,user_id, user_token, Integer.parseInt(yo_attention_id));
                 break;
             case R.id.img_share:
+            case R.id.img_share0:
                 yo_user_id1 = intent.getStringExtra("yo_user_id");
                 if (user_id.equals(yo_user_id1)) {
                     more();
                 } else {
                     share();
                 }
-//                share();
                 break;
             case R.id.tv_attention:
                 mPresenter.addAttention(YoJiDetailActivity.this,user_id, user_token, Integer.parseInt(yo_attention_id));
