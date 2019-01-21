@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -79,6 +80,7 @@ import com.umeng.socialize.media.UMWeb;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -217,6 +219,27 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
             mPresenter.getYoJiData(NewPublishYoJiActivity.this,userId, token, id);
         }
 
+        View.OnClickListener listener = new View.OnClickListener() {
+            private int mLastCheckedId = 0;
+            private boolean mIsLastChecked = false;
+            @Override
+            public void onClick(View v) {
+                if (v instanceof RadioButton){
+                    if (mIsLastChecked && mLastCheckedId == v.getId()){
+                        mLastCheckedId = 0;
+                        mIsLastChecked = false;
+                        ((RadioGroup)v.getParent()).clearCheck();
+                    }else{
+                        mLastCheckedId = v.getId();
+                        mIsLastChecked = true;
+                    }
+                }
+            }
+        };
+        mRbtnWeibo.setOnClickListener(listener);
+        mRbtnQq.setOnClickListener(listener);
+        mRbtnFriendCircle.setOnClickListener(listener);
+        mRbtnWechat.setOnClickListener(listener);
     }
 
     @Override
@@ -224,7 +247,7 @@ public class NewPublishYoJiActivity extends BaseActivity<PublishYoJiPresenter> i
         return new PublishYoJiPresenter(NewPublishYoJiActivity.this,this);
     }
 
-    @OnClick({R.id.iv_back, R.id.tv_change_image, R.id.ll_channel, R.id.tv_publish, R.id.iv_cover, R.id.tv_more_topic, R.id.rbtn_friend_circle, R.id.rbtn_weibo, R.id.rbtn_qq, R.id.rbtn_wechat, R.id.tv_publish_type})
+    @OnClick({R.id.iv_back, R.id.tv_change_image,R.id.ll_channel, R.id.tv_publish, R.id.iv_cover, R.id.tv_more_topic, R.id.rbtn_friend_circle, R.id.rbtn_weibo, R.id.rbtn_qq, R.id.rbtn_wechat, R.id.tv_publish_type})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:

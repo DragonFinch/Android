@@ -82,6 +82,8 @@ YoJiDetailAdapter extends RecyclerView.Adapter<YoJiDetailAdapter.Holder> impleme
                         ViewGroup.MarginLayoutParams.WRAP_CONTENT);
         params.setMargins(1, 15, 15, 15);
         child.setLayoutParams(params);
+        child.setPadding(6,2,6,2);
+        child.setTextSize(14);
         if (type == 1) {
             child.setBackgroundResource(R.drawable.label_bg_fkzn);
             child.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.mipmap.make), null, null, null);
