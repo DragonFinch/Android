@@ -254,73 +254,32 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:orientation="vertical"
                 android:layout_margin="@dimen/dp20">
 
                 <ImageView
                     android:id="@+id/vip_img"
                     android:layout_width="wrap_content"
+                    android:scaleType="fitXY"
                     android:layout_height="wrap_content" />
 
-            </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/mem_yihuoquan"
+                    />
+
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
                 android:background="@color/F1F1F1"/>
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_20"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <RelativeLayout
-                    android:id="@+id/vip_img1"
-                    android:layout_width="@dimen/dp_320"
-                    android:layout_height="@dimen/dp_80"
-                    android:background="@mipmap/mem_tequan1">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:background="@mipmap/mem_yihuoquan" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/vip_img2"
-                    android:layout_width="@dimen/dp_320"
-                    android:layout_height="@dimen/dp_80"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:background="@mipmap/mem_tequan2">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:background="@mipmap/mem_yihuoquan" />
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_5"
-                    android:layout_marginTop="@dimen/dp_15"
-                    android:background="@color/F1F1F1" />
-
-            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/vip_promote_rl_id"
