@@ -351,4 +351,11 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFrame">@null</item><!--边框-->
     </style>
+
+    <!--colorControlNormal 为没有获取焦点时候下划线的颜色-->
+    <!--colorControlActivated 为获取焦点时候光标与下划线的颜色-->
+    <style name="MyEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/title_bar_bg_color</item>
+    </style>
 </resources>

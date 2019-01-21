@@ -20,7 +20,6 @@
             android:layout_height="wrap_content" />
 
         <AutoCompleteTextView
-            android:textCursorDrawable="@drawable/shape_et_cursor_color"
             android:imeOptions="actionSearch"
             android:layout_marginLeft="@dimen/dp_7"
             android:id="@+id/auto_search"
@@ -29,7 +28,7 @@
             android:layout_weight="1"
             android:background="@drawable/whitebg_radius3"
             android:completionThreshold="1"
-
+            android:theme="@style/MyEditText"
             android:drawablePadding="@dimen/dp_5"
             android:hint=" 请输入要找的内容yo~"
             android:padding="@dimen/dp_8"

@@ -1,8 +1,10 @@
 package com.iyoyogo.android.ui.home.map;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,7 +12,9 @@ import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,6 +32,7 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -346,6 +351,7 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
     @Override
     public void onResume() {
         super.onResume();
+
     }
 
     @Override
@@ -498,7 +504,14 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
                         @Override
                         public void onClick(View v) {
                             //定位
-                            initdiwei();
+                            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                                    != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
+                                //开启定位权限,200是标识码
+                                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
+                            } else {
+                                initdiwei();//开始定位
+
+                            }
                         }
                     });
                 } else {
@@ -508,7 +521,16 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
                     mCur_city_re_get_location_tv1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            initdiwei();
+                            //  Toast.makeText(getActivity(), "qwe", Toast.LENGTH_SHORT).show();
+                            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                                    != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
+                                //开启定位权限,200是标识码
+                                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
+                            } else {
+                                initdiwei();//开始定位
+                                //   Toast.makeText(getActivity(), "已开启定位权限", Toast.LENGTH_LONG).show();
+
+                            }
                         }
                     });
                     curCityNameTv.setText(locationCity);
@@ -715,6 +737,20 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
             }
 
             searchCityListAdapter.notifyDataSetChanged();
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case 200://刚才的识别码
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){//用户同意权限,执行我们的操作
+                    initdiwei();//开始定位
+                }else{//用户拒绝之后,当然我们也可以弹出一个窗口,直接跳转到系统设置页面
+                    Toast.makeText(getActivity(),"未开启定位权限,请手动到设置去开启权限",Toast.LENGTH_LONG).show();
+                }
+                break;
+            default:break;
         }
     }
 

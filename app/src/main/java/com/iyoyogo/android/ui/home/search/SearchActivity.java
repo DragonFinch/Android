@@ -94,6 +94,30 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
         super.initView();
         StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         //软键盘的搜索点击时间
+        autoSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(autoSearch.getText()!=null && autoSearch.getText().toString().trim().length()>0){
+                    Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
+                    intent.putExtra("key", autoSearch.getText().toString());
+                    startActivityForResult(intent, 0);
+                    String keyWord = autoSearch.getText().toString();
+                    SPUtils.getInstance(SearchActivity.this).save(autoSearch.getText().toString());
+                }else{
+                    showToastShort(SearchActivity.this, "请输入搜索内容！");
+                }
+            }
+        });
         autoSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -113,6 +137,7 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
                 return false;
             }
         });
+
     }
     /**
      * 隐藏软键盘
@@ -310,6 +335,7 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter> imple
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+
 
 
 }
