@@ -246,8 +246,10 @@
         android:layout_height="0dp" />
 
     <LinearLayout
+        android:id="@+id/llyt_bar"
         android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:layout_marginTop="@dimen/dp_35"
         android:layout_below="@id/status_bar"
         android:orientation="horizontal">
 

@@ -3,9 +3,12 @@ package com.iyoyogo.android.ui.home;
 import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,6 +135,8 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
     View           mViewSelectType;
     @BindView(R.id.tv_video_time)
     TextView       mTvVideoTime;
+    @BindView(R.id.llyt_bar)
+    LinearLayout mBarButtons;
 
     private static final int REQUEST_CAMERA_PERMISSION_CODE                 = 0;
     private static final int REQUEST_RECORD_AUDIO_PERMISSION_CODE           = 1;
@@ -200,16 +206,13 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             mStatusBar.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UiUtils.getStatusHeight(this)+20));
         }
-
         mSeekbar.setOnSeekBarChangeListener(this);
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-
         initCapture();
-
         mAssetManager = NvAssetManager.sharedInstance();
         mAssetManager.searchLocalAssets(NvAsset.ASSET_FILTER);
         String bundlePath = "filter";
@@ -218,12 +221,52 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
         mFocusAnimation = new AlphaAnimation(1.0f, 0.0f);
         mFocusAnimation.setDuration(1000);
         mFocusAnimation.setFillAfter(true);
+        //判断是否显示状态栏
+        Rect rect = new Rect();
+        getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+        if(isAllScreenDevice(GoTakePhotoActivity.this)){
 
+        }
         //滤镜初始化
         initFilterList();
         initFilter();
-
         initListener();
+    }
+
+    /**
+     * 判断是否是全面屏
+     */
+    private volatile static boolean mHasCheckAllScreen;
+    private volatile static boolean mIsAllScreenDevice;
+
+    public static boolean isAllScreenDevice(Context context) {
+        if (mHasCheckAllScreen) {
+            return mIsAllScreenDevice;
+        }
+        mHasCheckAllScreen = true;
+        mIsAllScreenDevice = false;
+        // 低于 API 21的，都不会是全面屏。。。
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            return false;
+        }
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        if (windowManager != null) {
+            Display display = windowManager.getDefaultDisplay();
+            Point point = new Point();
+            display.getRealSize(point);
+            float width, height;
+            if (point.x < point.y) {
+                width = point.x;
+                height = point.y;
+            } else {
+                width = point.y;
+                height = point.x;
+            }
+            if (height / width >= 1.97f) {
+                mIsAllScreenDevice = true;
+            }
+        }
+        return mIsAllScreenDevice;
     }
 
     private void initFilter() {
