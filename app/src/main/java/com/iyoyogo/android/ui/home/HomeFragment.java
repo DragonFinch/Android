@@ -387,6 +387,7 @@ public class HomeFragment extends BaseFragment {
         }else{
             name1 = name;
             bar.setLocationResult(name1);
+            Log.e("czczxcz", "eventMessage: "+name1 );
         }
     }
 

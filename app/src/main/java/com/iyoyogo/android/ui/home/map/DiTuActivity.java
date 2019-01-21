@@ -107,7 +107,7 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
     protected void initView() {
         super.initView();
         String gps = getIntent().getStringExtra("gps");
-
+        Log.e("czczxcz", "initView:+11 "+gps );
         StatusBarUtil.setStatusBarLayoutStyle(DiTuActivity.this, true);
         StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.holo_orange_dark));
         mInlandMapFragment = new InlandMapFragment(gps);

@@ -29,8 +29,7 @@
             android:textSize="@dimen/sp_10" />
 
         <com.iyoyogo.android.view.ClearEditText
-
-            android:textCursorDrawable="@drawable/shape_et_cursor_color"
+            android:theme="@style/MyEditText"
             android:singleLine="true"
             android:imeOptions="actionSearch"
             android:layout_marginLeft="@dimen/dp_20"

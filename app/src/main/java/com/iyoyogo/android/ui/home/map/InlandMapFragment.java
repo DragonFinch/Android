@@ -139,7 +139,6 @@ public class InlandMapFragment extends BaseFragment<MapSearchContract.Presenter>
         View inflate = inflater.inflate(R.layout.mapguomei, container, false);
         unbinder = ButterKnife.bind(this, inflate);
         initView1();
-       // initData();
         initListener1();
         initdiwei();
         return inflate;
@@ -367,7 +366,6 @@ public class InlandMapFragment extends BaseFragment<MapSearchContract.Presenter>
     @Override
     public void renMeiChengshi(MapRenMei data) {
         mMremei = data.getData().getList();
-
     }
 
     /**
@@ -521,7 +519,6 @@ public class InlandMapFragment extends BaseFragment<MapSearchContract.Presenter>
                                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
                             } else {
                                 initdiwei();//开始定位
-                                Toast.makeText(getActivity(), "已定位", Toast.LENGTH_LONG).show();
 
                             }
                         }
@@ -542,7 +539,7 @@ public class InlandMapFragment extends BaseFragment<MapSearchContract.Presenter>
                                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
                             } else {
                                 initdiwei();//开始定位
-                                Toast.makeText(getActivity(), "已开启定位权限", Toast.LENGTH_LONG).show();
+                             //   Toast.makeText(getActivity(), "已开启定位权限", Toast.LENGTH_LONG).show();
 
                             }
                         }
