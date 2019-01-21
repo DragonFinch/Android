@@ -356,6 +356,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             if (list.size() == 0) {
                 tvSetname.setVisibility(View.VISIBLE);
                 hit.setVisibility(View.VISIBLE);
+                listViewLv.setVisibility(View.GONE);
                 Toast.makeText(SearchResultActivity.this, "没有匹配到您要查询的关键字", Toast.LENGTH_SHORT).show();
             }
         }

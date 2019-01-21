@@ -45,6 +45,7 @@ import com.iyoyogo.android.adapter.map.CityEntity;
 import com.iyoyogo.android.base.BaseFragment;
 import com.iyoyogo.android.bean.map.MapBean;
 import com.iyoyogo.android.bean.map.MapRenMei;
+import com.iyoyogo.android.camera.utils.SpUtil;
 import com.iyoyogo.android.contract.MapSearchContract;
 import com.iyoyogo.android.presenter.MapSearchPresenter;
 import com.iyoyogo.android.ui.home.map.binding.Bind;
@@ -189,7 +190,14 @@ public class InlandMapFragment extends BaseFragment<MapSearchContract.Presenter>
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CityEntity cityEntity = searchCityList.get(position);
-                showSetCityDialog(cityEntity.getName(), cityEntity.getCityCode());
+                SpUtils.putString(getActivity(),"citychengshi",cityEntity.getName());
+                String city = SpUtils.getString(getActivity(), "citychengshi", "");
+                Log.e("qweqweqweq", "onClick: "+city );
+                //选中之后做你的方法
+                if (setData != null) {
+                    setData.getData(cityEntity.getName());
+                }
+               // showSetCityDialog(cityEntity.getName(), cityEntity.getCityCode());
             }
         });
     }
@@ -212,6 +220,9 @@ public class InlandMapFragment extends BaseFragment<MapSearchContract.Presenter>
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                SpUtils.putString(getActivity(),"citychengshi",name);
+                String city = SpUtils.getString(getActivity(), "citychengshi", "");
+                Log.e("qweqweqweq", "onClick: "+city );
                 //选中之后做你的方法
                 if (setData != null) {
                     setData.getData(name);
@@ -238,7 +249,14 @@ public class InlandMapFragment extends BaseFragment<MapSearchContract.Presenter>
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 1) {
                     CityEntity cityEntity = totalCityList.get(position-2);
-                    showSetCityDialog(cityEntity.getName(), cityEntity.getCityCode());
+                    SpUtils.putString(getActivity(),"citychengshi",cityEntity.getName());
+                    String city = SpUtils.getString(getActivity(), "citychengshi", "");
+                    Log.e("qweqweqweq", "onClick: "+city );
+                    //选中之后做你的方法
+                    if (setData != null) {
+                        setData.getData(cityEntity.getName());
+                    }
+//                    showSetCityDialog(cityEntity.getName(), cityEntity.getCityCode());
                 }
 
             }
@@ -556,7 +574,14 @@ public class InlandMapFragment extends BaseFragment<MapSearchContract.Presenter>
                                         break;
                                     }
                                 }
-                                showSetCityDialog(locationCity, cityCode);
+                                SpUtils.putString(getActivity(),"citychengshi",locationCity);
+                                String city = SpUtils.getString(getActivity(), "citychengshi", "");
+                                Log.e("qweqweqweq", "onClick: "+city );
+                                //选中之后做你的方法
+                                if (setData != null) {
+                                    setData.getData(locationCity);
+                                }
+                               // showSetCityDialog(locationCity, cityCode);
                             } else {
                                 ToastUtils.show("当前定位城市" + curCityNameTv.getText().toString());
                             }
@@ -573,7 +598,15 @@ public class InlandMapFragment extends BaseFragment<MapSearchContract.Presenter>
                     public void onItemClick(AdapterView<?> parent, View view,
                                             int position, long id) {
                         CityEntity cityEntity = hotCityList.get(position);
-                        showSetCityDialog(cityEntity.getName(), cityEntity.getCityCode());
+                        //已选择
+                        SpUtils.putString(getActivity(),"citychengshi",cityEntity.getName());
+                        String city = SpUtils.getString(getActivity(), "citychengshi", "");
+                        Log.e("qweqweqweq", "onClick: "+city );
+                        //选中之后做你的方法
+                        if (setData != null) {
+                            setData.getData(cityEntity.getName());
+                        }
+                       // showSetCityDialog(cityEntity.getName(), cityEntity.getCityCode());
                     }
                 });
             } else {

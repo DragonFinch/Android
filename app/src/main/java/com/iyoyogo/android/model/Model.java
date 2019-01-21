@@ -530,8 +530,8 @@ public class Model {
      * @param page
      * @return
      */
-    public Observable<YouXiuListBean> getYoXiuList(Context context,String user_id, String user_token, int page) {
-        return HttpClient.getApiService().getYoXiuList(user_id, user_token, page)
+    public Observable<YouXiuListBean> getYoXiuList(Context context,String user_id, String user_token, int page,String city) {
+        return HttpClient.getApiService().getYoXiuList(user_id, user_token, page,city)
                 .compose(this.switchThread()).filter(new Predicate<YouXiuListBean>() {
                     @Override
                     public boolean test(YouXiuListBean youXiuListBean) throws Exception {
@@ -554,8 +554,8 @@ public class Model {
      * @param page
      * @return
      */
-    public Observable<YouXiuListBean> getYoXiuAttentionList(Context context,String user_id, String user_token, int page) {
-        return HttpClient.getApiService().getYoXiuAttentionList(user_id, user_token, page)
+    public Observable<YouXiuListBean> getYoXiuAttentionList(Context context,String user_id, String user_token, int page,String city) {
+        return HttpClient.getApiService().getYoXiuAttentionList(user_id, user_token, page,city)
                 .compose(this.switchThread()).filter(new Predicate<YouXiuListBean>() {
                     @Override
                     public boolean test(YouXiuListBean youXiuListBean) throws Exception {
@@ -2123,8 +2123,8 @@ public class Model {
                 .compose(this.switchThread());
     }
 
-    public Observable<BaseBean> browse(Context context,String user_id, String user_token, String yo_id) {
-        return HttpClient.getApiService().browse(user_id, user_token, yo_id)
+    public Observable<BaseBean> browse(Context context,String user_id, String user_token, String yo_id,String city) {
+        return HttpClient.getApiService().browse(user_id, user_token, yo_id,city)
                 .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
                     @Override
                     public boolean test(BaseBean baseBean) throws Exception {

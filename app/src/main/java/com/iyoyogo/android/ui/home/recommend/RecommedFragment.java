@@ -118,11 +118,18 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
     private DownLoadDialog lodingDialog;
     private AppVersionDialog dialog;
     private String dowloadPath;
+    private String mCity1;
 
 
     @Override
     protected void initView() {
         super.initView();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
 
     }
 
@@ -140,7 +147,42 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
     @Override
     public void onStart() {
         super.onStart();
-
+        mCity1 = SpUtils.getString(getActivity(), "citychengshi", "");
+        if ( mCity1 != null) {
+            MyRefreshAnimHeader mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
+            setHeader(mRefreshAnimHeader);
+            refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
+            //下拉刷新
+            refreshLayout.setEnableRefresh(true);
+            refreshLayout.setFooterHeight(1.0f);
+            refreshLayout.autoRefresh();
+            refreshLayout.finishRefresh(1050);
+            refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+                @Override
+                public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                    refreshLayout.finishRefresh(1050);
+                    mPresenter.banner(getActivity(),user_id, user_token, "commend",mCity1);
+                    Log.e("hqweqwe", "onRefresh: "+ RecommedFragment.this.city);
+                }
+            });
+        } else {
+            MyRefreshAnimHeader mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
+            setHeader(mRefreshAnimHeader);
+            refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
+            //下拉刷新
+            refreshLayout.setEnableRefresh(true);
+            refreshLayout.setFooterHeight(1.0f);
+            refreshLayout.autoRefresh();
+            refreshLayout.finishRefresh(1050);
+            refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+                @Override
+                public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                    refreshLayout.finishRefresh(1050);
+                    mPresenter.banner(getActivity(),user_id, user_token, "commend", mCity1);
+                    Log.e("hqweqwe", "onRefresh111: "+ RecommedFragment.this.city);
+                }
+            });
+        }
     }
 
     @Override
@@ -154,7 +196,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
         dialog.setAppClickLister(this);
         lodingDialog = new DownLoadDialog(getContext(), R.style.AppVerDialog);
 
-        city = SpUtils.getString(getContext(), "city", null);
+        city = SpUtils.getString(getContext(), "citychengshi", null);
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
         if (city != null) {
@@ -171,6 +213,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
                 public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                     refreshLayout.finishRefresh(1050);
                     mPresenter.banner(getActivity(),user_id, user_token, "commend", city);
+                    Log.e("hqweqwe", "onRefresh: "+city );
                 }
             });
         } else {

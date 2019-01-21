@@ -16,9 +16,9 @@ public class YoXiuListPresenter extends BasePresenter<YoXiuListContract.View> im
     }
 
     @Override
-    public void getYoXiuList(Context context,String user_id, String user_token, int page) {
+    public void getYoXiuList(Context context,String user_id, String user_token, int page,String city) {
         DataManager.getFromRemote()
-                .getYoXiuList(context,user_id,user_token,page)
+                .getYoXiuList(context,user_id,user_token,page,city)
                 .subscribe(new ApiObserver<YouXiuListBean>(mView,this) {
                     @Override
                     protected void doOnSuccess(YouXiuListBean youXiuListBean) {
@@ -37,9 +37,9 @@ public class YoXiuListPresenter extends BasePresenter<YoXiuListContract.View> im
     }
 
     @Override
-    public void loadMoreYoXiuList(Context context,String user_id, String user_token, int page) {
+    public void loadMoreYoXiuList(Context context,String user_id, String user_token, int pag,String city) {
         DataManager.getFromRemote()
-                .getYoXiuList(context,user_id,user_token,page)
+                .getYoXiuList(context,user_id,user_token,pag,city)
                 .subscribe(new ApiObserver<YouXiuListBean>(mView,this) {
                     @Override
                     protected void doOnSuccess(YouXiuListBean youXiuListBean) {

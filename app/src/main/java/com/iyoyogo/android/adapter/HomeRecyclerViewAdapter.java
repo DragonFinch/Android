@@ -91,6 +91,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     private String type;
     private String user_token;
     private String user_id;
+    private String mCitychengshi;
 
     //开始轮循
     public void startLoop() {
@@ -291,7 +292,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 user_id = SpUtils.getString(context, "user_id", null);
                 user_token = SpUtils.getString(context, "user_token", null);
                 Log.d("HomeRecyclerViewAdapter", "yox_list.get(position).getId():" + yox_list.get(position).getId());
-                DataManager.getFromRemote().browse(context, user_id, user_token, String.valueOf(yox_list.get(position).getId()))
+                DataManager.getFromRemote().browse(context, user_id, user_token, String.valueOf(yox_list.get(position).getId()),mCitychengshi)
                         .subscribe(new Consumer<BaseBean>() {
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
@@ -328,6 +329,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
 
         youJiHolder.recycler_youji.setLayoutManager(new LinearLayoutManager(context));
+        mCitychengshi = SpUtils.getString(context, "citychengshi", "");
         if (type.equals("attention")) {
             Log.e("attention", "yoj_list.size():" + yoj_list.size());
             YoJiAttentionAdapter yoJiAttentionAdapter = new YoJiAttentionAdapter(context, yoj_list, type);
@@ -338,7 +340,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 public void onClick(View v, int position) {
                     user_id = SpUtils.getString(context, "user_id", null);
                     user_token = SpUtils.getString(context, "user_token", null);
-                    DataManager.getFromRemote().browse(context, user_id, user_token, String.valueOf(yoj_list.get(position).getYo_id()))
+                    DataManager.getFromRemote().browse(context, user_id, user_token, String.valueOf(yoj_list.get(position).getYo_id()),mCitychengshi)
                             .subscribe(new Consumer<BaseBean>() {
                                 @Override
                                 public void accept(BaseBean baseBean) throws Exception {
@@ -381,7 +383,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                     user_id = SpUtils.getString(context, "user_id", null);
                     user_token = SpUtils.getString(context, "user_token", null);
                     Log.e("zxcvbn", "onClick: " + user_id + "..." + user_token);
-                    DataManager.getFromRemote().browse(context, user_id, user_token, String.valueOf(yoj_list.get(position).getYo_id()))
+                    DataManager.getFromRemote().browse(context, user_id, user_token, String.valueOf(yoj_list.get(position).getYo_id()),mCitychengshi)
                             .subscribe(new Consumer<BaseBean>() {
                                 @Override
                                 public void accept(BaseBean baseBean) throws Exception {
