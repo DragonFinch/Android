@@ -12,7 +12,7 @@ public interface YoXiuListContract {
         void loadMoreYoXiuListSuccess(YouXiuListBean.DataBean data);
     }
     interface Presenter extends IBasePresenter{
-        void getYoXiuList(Context context,String user_id, String user_token, int page);
-        void loadMoreYoXiuList(Context context,String user_id,String user_token,int page);
+        void getYoXiuList(Context context,String user_id, String user_token, int page,String city);
+        void loadMoreYoXiuList(Context context,String user_id,String user_token,int page,String city);
     }
 }

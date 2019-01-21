@@ -177,7 +177,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
         viewHolder.num_browse.setText(mList.get(position).getCount_view());
         viewHolder.num_like.setText(mList.get(position).getCount_praise() + "");
         viewHolder.user_name.setText(mList.get(position).getUser_nickname());
-        viewHolder.comment_all.setText("全部评论(" + mList.get(position).getCount_comment() + ")" + mList.get(position).getId());
+        viewHolder.comment_all.setText("全部评论(" + mList.get(position).getCount_comment() + ")");
         int file_type = mList.get(position).getFile_type();
         RequestOptions requestOptions = new RequestOptions().placeholder(R.mipmap.default_touxiang).error(R.mipmap.default_touxiang);
         if (file_type == 2) {

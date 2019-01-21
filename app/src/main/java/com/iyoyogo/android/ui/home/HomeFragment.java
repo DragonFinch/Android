@@ -93,6 +93,7 @@ public class HomeFragment extends BaseFragment {
     private String name1;
     
     private Fragment currentFragment = new Fragment();
+    private String mCity;
 
     public String sHA1(Context context) {
         try {
@@ -133,15 +134,16 @@ public class HomeFragment extends BaseFragment {
                     amapLocation.getLongitude();//获取经度
                     amapLocation.getAccuracy();//获取精度信息
                     String address = amapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
-                    String city    = amapLocation.getCity();//城市信息
+                    //城市信息
+                    mCity = amapLocation.getCity();
                     SpUtils.putString(getContext(), "address", address);
                     String systemVersion = Build.VERSION.RELEASE;
                     SpUtils.putString(getContext(), "phone_type", android.os.Build.BRAND + "_" + android.os.Build.MODEL);
                     SpUtils.putString(getContext(), "system_version", systemVersion);
-                    SpUtils.putString(getContext(), "city", city);
+                    SpUtils.putString(getContext(), "citychengshi", mCity);
                     amapLocation.getCountry();//国家信息
                     amapLocation.getProvince();//省信息
-                    bar.setLocationResult(city);
+                    bar.setLocationResult(mCity);
                     amapLocation.getDistrict();//城区信息
                     amapLocation.getStreet();//街道信息
                     amapLocation.getStreetNum();//街道门牌号信息
@@ -394,6 +396,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        bar.setLocationResult(name1);
         if (currentFragment == attentionFragment){
             bar.changeAtt();
         }

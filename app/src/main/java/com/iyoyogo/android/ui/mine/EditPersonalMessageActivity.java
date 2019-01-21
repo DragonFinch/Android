@@ -68,6 +68,7 @@ import com.iyoyogo.android.ui.home.HomeFragment;
 import com.iyoyogo.android.ui.home.yoxiu.ChannelActivity;
 import com.iyoyogo.android.utils.KeyBoardUtils;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.search.SPUtils;
 import com.iyoyogo.android.view.LoadingDialog;
 import com.iyoyogo.android.widget.CircleImageView;
 import com.iyoyogo.android.widget.flow.FlowLayout;
@@ -175,7 +176,9 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
     private String birthday;
     private String s;
     private String format;
-
+    //改变个人资料的保存
+    private Boolean fig;
+    private GetUserInfoBean.DataBean mData1;
 
 
     @Override
@@ -295,14 +298,16 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                if (url == null) {
-                    mPresenter.setUserInfo(EditPersonalMessageActivity.this,user_id, user_token, nickName.getText().toString(), user_logo, sex, textView.getText().toString().trim(), cityTvId.getText().toString());
-                } else {
-                    Log.d("EditPersonalMessageActi", textView.getText().toString().trim());
-                    mPresenter.setUserInfo(EditPersonalMessageActivity.this,user_id, user_token, nickName.getText().toString(), url, sex, textView.getText().toString().trim(), cityTvId.getText().toString());
-                }
 
-            }
+                    if (url == null) {
+                        mPresenter.setUserInfo(EditPersonalMessageActivity.this,user_id, user_token, nickName.getText().toString(), user_logo, sex, textView.getText().toString().trim(), cityTvId.getText().toString());
+                    }else{
+                        mPresenter.setUserInfo(EditPersonalMessageActivity.this,user_id, user_token, nickName.getText().toString(), user_logo, sex, textView.getText().toString().trim(), cityTvId.getText().toString());
+                    }
+
+
+        }
+
         });
 
         //跳转城市选择
@@ -379,7 +384,11 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             public void onDismiss() {
 //                Toast.makeText(getContext(), "退出", Toast.LENGTH_SHORT).show();
                 finish();
-                Toast.makeText(EditPersonalMessageActivity.this, "保存成功!", Toast.LENGTH_SHORT).show();
+                boolean fig1 = SpUtils.getBoolean(EditPersonalMessageActivity.this, "fig", false);
+                fig1 = false;
+                Log.e("fig", "pop: "+ fig1);
+                SpUtils.putBoolean(EditPersonalMessageActivity.this,"fig1", EditPersonalMessageActivity.this.fig);
+              //  Toast.makeText(EditPersonalMessageActivity.this, "保存成功!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -527,11 +536,13 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
 
     @Override
     public void getUserInfoSuccess(GetUserInfoBean.DataBean data) {//获取个人信息
+        mData1 = data;
         String user_nickname = data.getUser_nickname();
         if (user_nickname.equals("")) {
             nickName.setText("起个响亮的名字~");
         } else {
             nickName.setText(user_nickname);
+
         }
         user_logo = data.getUser_logo();
         if (user_logo.equals("")) {
@@ -602,14 +613,36 @@ public class EditPersonalMessageActivity extends BaseActivity<EditPersonalContra
             };
             flow_interest.setAdapter(tagAdapter);
         }
-
+        if (mData1.getUser_city() != null) {
+            if (mData1.getUser_logo() != null) {
+                if (mData1.getUser_nickname() != null) {
+                    if (mData1.getUser_sex() != null) {
+                        if (mData1.getUser_birthday() != null) {
+                            if (mData1.getInterest_list().get(0) != null) {
+                                fig = true;
+                                Log.e("fig", "onDismiss:个人资料返回 "+fig );
+                                SpUtils.putBoolean(EditPersonalMessageActivity.this,"fig",fig);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void setUserInfoSuccess(BaseBean baseBean) {//设置个人信息
-        initPopuptWindow();
+        boolean fig = SpUtils.getBoolean(EditPersonalMessageActivity.this, "fig1", false);
+        Log.e("fig", "设置信息 "+fig );
+        if (fig){
+            finish();
+        }else{
+            initPopuptWindow();
+        }
+
+
     }
 
 

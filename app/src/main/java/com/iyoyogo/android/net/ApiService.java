@@ -286,14 +286,14 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<YouXiuListBean> getYoXiuList(@Field("user_id") String user_id,
                                             @Field("user_token") String user_token,
-                                            @Field("page") int page);
+                                            @Field("page") int page,@Field("city") String city);
 
     //获取yo秀列表
     @POST("index.php/api/yoxcommend/get_list")
     @FormUrlEncoded
     Observable<YouXiuListBean> getYoXiuAttentionList(@Field("user_id") String user_id,
                                                      @Field("user_token") String user_token,
-                                                     @Field("page") int page);
+                                                     @Field("page") int page,@Field("city") String city);
 
 
     //获取同款
@@ -771,7 +771,7 @@ public interface ApiService {
     //浏览量加1
     @POST("index.php/api/yox/count_video_inc")
     @FormUrlEncoded
-    Observable<BaseBean> browse(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") String yo_id);
+    Observable<BaseBean> browse(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") String yo_id,@Field("city") String city);
 
     //设置位置
     @POST("index.php/api/userposition/set")

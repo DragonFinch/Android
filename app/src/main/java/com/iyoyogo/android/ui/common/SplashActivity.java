@@ -147,7 +147,7 @@ public class SplashActivity extends AppCompatActivity {
 
         //初始化定位
         mLocationClient = new AMapLocationClient(getApplicationContext());
-//设置定位回调监听
+        //设置定位回调监听
         mLocationClient.setLocationListener(mLocationListener);
         mLocationOption = new AMapLocationClientOption();
 
@@ -203,15 +203,15 @@ public class SplashActivity extends AppCompatActivity {
 
         builder.detectFileUriExposure();
 
-        if (Build.VERSION.SDK_INT >= 23) {
-            String[] mPermissionList = new String[]{
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_PHONE_STATE};
+    /*    if (Build.VERSION.SDK_INT >= 23) {
+                String[] mPermissionList = new String[]{
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_PHONE_STATE};
             ActivityCompat.requestPermissions(SplashActivity.this, mPermissionList, 123);
-        }
+        }*/
         String user_id = SpUtils.getString(getApplicationContext(), "user_id", null);
         String user_token = SpUtils.getString(getApplicationContext(), "user_token", null);
         if (user_id != null) {

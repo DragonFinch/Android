@@ -163,7 +163,14 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CityEntity cityEntity = searchCityList.get(position);
-                showSetCityDialog(cityEntity.getName(), cityEntity.getCityCode());
+                SpUtils.putString(getActivity(),"citychengshi",cityEntity.getName());
+                String city = SpUtils.getString(getActivity(), "citychengshi", "");
+                Log.e("qweqweqweq", "onClick: "+city );
+                if (getData != null){
+                    getData.getData1(cityEntity.getName());
+                    Log.e("hanbaocheng", "onClick: "+cityEntity.getName() );
+                }
+               // showSetCityDialog(cityEntity.getName(), cityEntity.getCityCode());
             }
         });
     }
@@ -193,6 +200,9 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
                 // DiTuActivity.this.finish();
                 EventBus.getDefault().post(name);
                 startActivity(intent);*/
+                SpUtils.putString(getActivity(),"citychengshi",name);
+                String city = SpUtils.getString(getActivity(), "citychengshi", "");
+                Log.e("qweqweqweq", "onClick: "+city );
                 if (getData != null){
                     getData.getData1(name);
                     Log.e("hanbaocheng", "onClick: "+name );
@@ -219,7 +229,14 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 1) {
                     CityEntity mapInfo = totalCityList.get(position);
-                    showSetCityDialog(mapInfo.getName(), mapInfo.getCityCode());
+                    SpUtils.putString(getActivity(),"citychengshi",mapInfo.getName());
+                    String city = SpUtils.getString(getActivity(), "citychengshi", "");
+                    Log.e("qweqweqweq", "onClick: "+city );
+                    if (getData != null){
+                        getData.getData1(mapInfo.getName());
+                        Log.e("hanbaocheng", "onClick: "+mapInfo.getName() );
+                    }
+//                    showSetCityDialog(mapInfo.getName(), mapInfo.getCityCode());
                 }
 
             }
@@ -546,7 +563,14 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
                                         break;
                                     }
                                 }
-                                showSetCityDialog(locationCity, cityCode);
+                                SpUtils.putString(getActivity(),"citychengshi",locationCity);
+                                String city = SpUtils.getString(getActivity(), "citychengshi", "");
+                                Log.e("qweqweqweq", "onClick: "+city );
+                                if (getData != null){
+                                    getData.getData1(locationCity);
+                                    Log.e("hanbaocheng", "onClick: "+locationCity );
+                                }
+                               // showSetCityDialog(locationCity, cityCode);
                             } else {
                                 ToastUtils.show("当前定位城市" + curCityNameTv.getText().toString());
                             }
@@ -562,7 +586,14 @@ public class ForeignMapFragment extends BaseFragment<MapContract.Presenter> impl
                     public void onItemClick(AdapterView<?> parent, View view,
                                             int position, long id) {
                         CityEntity cityEntity = hotCityList.get(position);
-                        showSetCityDialog(cityEntity.getName(), cityEntity.getCityCode());
+                        SpUtils.putString(getActivity(),"citychengshi",cityEntity.getName());
+                        String city = SpUtils.getString(getActivity(), "citychengshi", "");
+                        Log.e("qweqweqweq", "onClick: "+city );
+                        if (getData != null){
+                            getData.getData1(cityEntity.getName());
+                            Log.e("hanbaocheng", "onClick: "+cityEntity.getName() );
+                        }
+                       // showSetCityDialog(cityEntity.getName(), cityEntity.getCityCode());
                     }
                 });
             } else {

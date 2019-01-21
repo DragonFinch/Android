@@ -65,6 +65,7 @@ public class YoXiuListActivity extends BaseActivity {
     private MyRefreshAnimFooter mRefreshAnimFooter;
     private String position;
     private String type;
+    private String mCity;
 
     /**
      * 设置刷新header风格
@@ -113,7 +114,7 @@ public class YoXiuListActivity extends BaseActivity {
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-
+        mCity = SpUtils.getString(YoXiuListActivity.this, "city", "");
         refreshLayout.setRefreshFooter(new MyRefreshAnimFooter(this));
         //下拉刷新
         user_id = SpUtils.getString(YoXiuListActivity.this, "user_id", null);
@@ -130,7 +131,7 @@ public class YoXiuListActivity extends BaseActivity {
         Log.e("type1212", "initData: "+type );
         if (position.equals("")) {
             if (type.equals("attention")) {
-                DataManager.getFromRemote().getYoXiuAttentionList(YoXiuListActivity.this,user_id, user_token, currentPage)
+                DataManager.getFromRemote().getYoXiuAttentionList(YoXiuListActivity.this,user_id, user_token, currentPage,mCity)
                         .subscribe(new Observer<YouXiuListBean>() {
                             @Override
                             public void onSubscribe(Disposable d) {
@@ -171,7 +172,7 @@ public class YoXiuListActivity extends BaseActivity {
                     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                         currentPage++;
                         Log.d("currentPage", "currentPage:" + currentPage);
-                        DataManager.getFromRemote().getYoXiuAttentionList(YoXiuListActivity.this,user_id, user_token, currentPage)
+                        DataManager.getFromRemote().getYoXiuAttentionList(YoXiuListActivity.this,user_id, user_token, currentPage,mCity)
                                 .subscribe(new Consumer<YouXiuListBean>() {
                                     @Override
                                     public void accept(YouXiuListBean youXiuListBean) throws Exception {
@@ -188,7 +189,7 @@ public class YoXiuListActivity extends BaseActivity {
                     @Override
                     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                         mList.clear();
-                        DataManager.getFromRemote().getYoXiuAttentionList(YoXiuListActivity.this,user_id, user_token, 1)
+                        DataManager.getFromRemote().getYoXiuAttentionList(YoXiuListActivity.this,user_id, user_token, 1,mCity)
                                 .subscribe(new Observer<YouXiuListBean>() {
                                     @Override
                                     public void onSubscribe(Disposable d) {
@@ -228,7 +229,7 @@ public class YoXiuListActivity extends BaseActivity {
                     }
                 });
             } else {
-                DataManager.getFromRemote().getYoXiuList(YoXiuListActivity.this,user_id, user_token, currentPage)
+                DataManager.getFromRemote().getYoXiuList(YoXiuListActivity.this,user_id, user_token, currentPage,mCity)
                         .subscribe(new Observer<YouXiuListBean>() {
                             @Override
                             public void onSubscribe(Disposable d) {
@@ -269,7 +270,7 @@ public class YoXiuListActivity extends BaseActivity {
                     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                         currentPage++;
                         Log.d("currentPage", "currentPage:" + currentPage);
-                        DataManager.getFromRemote().getYoXiuList(YoXiuListActivity.this,user_id, user_token, currentPage)
+                        DataManager.getFromRemote().getYoXiuList(YoXiuListActivity.this,user_id, user_token, currentPage,mCity)
                                 .subscribe(new Consumer<YouXiuListBean>() {
                                     @Override
                                     public void accept(YouXiuListBean youXiuListBean) throws Exception {
@@ -286,7 +287,7 @@ public class YoXiuListActivity extends BaseActivity {
                     @Override
                     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                         mList.clear();
-                        DataManager.getFromRemote().getYoXiuList(YoXiuListActivity.this,user_id, user_token, 1)
+                        DataManager.getFromRemote().getYoXiuList(YoXiuListActivity.this,user_id, user_token, 1,mCity)
                                 .subscribe(new Observer<YouXiuListBean>() {
                                     @Override
                                     public void onSubscribe(Disposable d) {
