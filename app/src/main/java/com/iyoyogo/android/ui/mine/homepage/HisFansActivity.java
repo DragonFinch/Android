@@ -23,7 +23,6 @@ import com.iyoyogo.android.utils.SpUtils;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /***
@@ -51,8 +50,6 @@ public class HisFansActivity extends BaseActivity<HisHansContract.Presenter> imp
 
     protected void initView() {
         super.initView();
-        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
-//        statusbar();
     }
 
     @Override

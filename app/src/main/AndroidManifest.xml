@@ -464,19 +464,19 @@
         <activity
             android:name=".ui.home.yoji.ReplyDiscussActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".ui.mine.homepage.MyFollowActivity" />
-        <activity android:name=".ui.mine.homepage.HisFansActivity" />
         <activity
             android:name=".ui.common.VideoActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.mine.homepage.UserFansActivity" />
         <activity android:name=".ui.home.yoji.UserHomepageActivity" />
         <activity android:name=".ui.common.Same_page_Activity" />
         <activity android:name=".ui.common.Album_details_Activity" />
         <activity android:name=".ui.common.CameraActivity" />
         <activity android:name=".ui.common.Vertical_picture_Activity" />
         <activity android:name=".ui.home.yoxiu.AllReplyActivity" />
+        <activity android:name=".ui.mine.homepage.UserFanActivity"/>
+        <activity android:name=".ui.mine.homepage.MyFollowActivity"/>
+        <activity android:name=".ui.mine.homepage.HisFansActivity"/>
         <activity
             android:name=".ui.home.yoji.NewPublishYoJiActivity"
             android:windowSoftInputMode="stateHidden" />

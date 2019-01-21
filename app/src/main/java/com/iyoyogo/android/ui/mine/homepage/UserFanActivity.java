@@ -23,7 +23,7 @@ import butterknife.OnClick;
  * 用户主页 — 粉丝
  */
 
-public class UserFansActivity extends BaseActivity {
+public class UserFanActivity extends BaseActivity {
 
     @BindView(R.id.rb_yoji)
     RadioButton rbYoji;
@@ -33,10 +33,8 @@ public class UserFansActivity extends BaseActivity {
     RadioGroup group;
     @BindView(R.id.fragment)
     FrameLayout fragment;
-    private Fragment currentFragment = new Fragment();
     private UserFollowFragment followFragment = new UserFollowFragment();
     private UserFansFragment fansFragment = new UserFansFragment();
-    private FragmentTransaction transaction;
 
 
     @Override
@@ -46,8 +44,7 @@ public class UserFansActivity extends BaseActivity {
 
     protected void initView() {
         super.initView();
-        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
-//        statusbar();
+        StatusBarCompat.setStatusBarColor(this,getResources().getColor(R.color.white));
         Intent intent = getIntent();
         int id = intent.getIntExtra("id", 0);
         if (id == 1) {

@@ -3,25 +3,14 @@ package com.iyoyogo.android.ui.home.yoji;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.text.TextUtils;
-import android.util.Patterns;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,31 +27,22 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
-import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.app.Constants;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.mine.center.UserCenterBean;
-import com.iyoyogo.android.bean.mine.center.YoJiContentBean;
 import com.iyoyogo.android.contract.PersonalCenterContract;
-import com.iyoyogo.android.model.DataManager;
-import com.iyoyogo.android.net.ApiObserver;
 import com.iyoyogo.android.presenter.PersonalCenterPresenter;
 import com.iyoyogo.android.ui.mine.BigPictureActivity;
 import com.iyoyogo.android.ui.mine.collection.CollectionActivity;
-import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
-import com.iyoyogo.android.ui.mine.homepage.UserFansActivity;
+import com.iyoyogo.android.ui.mine.homepage.UserFanActivity;
 import com.iyoyogo.android.ui.mine.homepage.YoJiFragment;
 import com.iyoyogo.android.ui.mine.homepage.YoXiuFragment;
 import com.iyoyogo.android.utils.DensityUtil;
-import com.iyoyogo.android.utils.FastBlurUtil;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.widget.CircleImageView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
@@ -77,10 +57,7 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 
 /**
  * 用户中心
@@ -530,13 +507,13 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
                 finish();
                 break;
             case R.id.my_collection:
-                Intent intent = new Intent(this, UserFansActivity.class);
+                Intent intent = new Intent(this, UserFanActivity.class);
                 intent.putExtra("id", 1);
                 intent.putExtra("yo_user_id", yo_user_id);
                 startActivity(intent);
                 break;
             case R.id.get_hisFans:
-                intent = new Intent(this, UserFansActivity.class);
+                intent = new Intent(this, UserFanActivity.class);
                 intent.putExtra("id", 2);
                 intent.putExtra("yo_user_id", yo_user_id);
                 startActivity(intent);
