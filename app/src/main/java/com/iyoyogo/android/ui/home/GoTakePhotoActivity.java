@@ -16,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -221,16 +222,21 @@ public class GoTakePhotoActivity extends BaseActivity implements NvsStreamingCon
         mFocusAnimation = new AlphaAnimation(1.0f, 0.0f);
         mFocusAnimation.setDuration(1000);
         mFocusAnimation.setFillAfter(true);
-        //判断是否显示状态栏
-        Rect rect = new Rect();
-        getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+        //判断是否是全面屏
         if(isAllScreenDevice(GoTakePhotoActivity.this)){
-
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mBarButtons.getLayoutParams();
+            params.setMargins(0,dp2px(this,65),0,0);
+            mBarButtons.setLayoutParams(params);
         }
         //滤镜初始化
         initFilterList();
         initFilter();
         initListener();
+    }
+
+    public static int dp2px(Context context, float dpVal) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                dpVal, context.getResources().getDisplayMetrics());
     }
 
     /**
