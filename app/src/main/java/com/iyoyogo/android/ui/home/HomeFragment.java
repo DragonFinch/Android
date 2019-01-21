@@ -386,7 +386,7 @@ public class HomeFragment extends BaseFragment {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }else{
+        }else if(!"location".equals(name)){
             name1 = name;
             bar.setLocationResult(name1);
             Log.e("czczxcz", "eventMessage: "+name1 );

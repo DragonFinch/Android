@@ -59,6 +59,10 @@ import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -147,6 +151,13 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
     @Override
     public void onStart() {
         super.onStart();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void refreshData(String fromName){
+        if(!fromName.equals("location")){
+            return;
+        }
         mCity1 = SpUtils.getString(getActivity(), "citychengshi", "");
         if ( mCity1 != null) {
             MyRefreshAnimHeader mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
@@ -183,6 +194,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
                 }
             });
         }
+
     }
 
     @Override
@@ -195,45 +207,18 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
         dialog.setCancelable(false);
         dialog.setAppClickLister(this);
         lodingDialog = new DownLoadDialog(getContext(), R.style.AppVerDialog);
-
         city = SpUtils.getString(getContext(), "citychengshi", null);
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
-        if (city != null) {
-            MyRefreshAnimHeader mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
-            setHeader(mRefreshAnimHeader);
-            refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
-            //下拉刷新
-            refreshLayout.setEnableRefresh(true);
-            refreshLayout.setFooterHeight(1.0f);
-            refreshLayout.autoRefresh();
-            refreshLayout.finishRefresh(1050);
-            refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-                @Override
-                public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                    refreshLayout.finishRefresh(1050);
-                    mPresenter.banner(getActivity(),user_id, user_token, "commend", city);
-                    Log.e("hqweqwe", "onRefresh: "+city );
-                }
-            });
-        } else {
-            MyRefreshAnimHeader mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
-            setHeader(mRefreshAnimHeader);
-            refreshLayout.setRefreshFooter(new BallPulseFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));
-            //下拉刷新
-            refreshLayout.setEnableRefresh(true);
-            refreshLayout.setFooterHeight(1.0f);
-            refreshLayout.autoRefresh();
-            refreshLayout.finishRefresh(1050);
-            refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-                @Override
-                public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                    refreshLayout.finishRefresh(1050);
-                    mPresenter.banner(getActivity(),user_id, user_token, "commend", "");
-                }
-            });
-        }
+        EventBus.getDefault().register(this);
+        refreshData("location");
+    }
 
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        EventBus.getDefault().removeAllStickyEvents();
+        super.onDestroy();
     }
 
     @Override

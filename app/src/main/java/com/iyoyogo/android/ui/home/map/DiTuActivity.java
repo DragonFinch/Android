@@ -141,6 +141,7 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
             @Override
             public void getData(String name) {
                 EventBus.getDefault().post(name);
+                EventBus.getDefault().post("location");
                 finish();
             }
         });
@@ -148,6 +149,7 @@ public class DiTuActivity extends BaseActivity<MapSearchContract.Presenter> impl
             @Override
             public void getData1(String name) {
                 EventBus.getDefault().post(name);
+                EventBus.getDefault().post("location");
                 finish();
             }
         });
