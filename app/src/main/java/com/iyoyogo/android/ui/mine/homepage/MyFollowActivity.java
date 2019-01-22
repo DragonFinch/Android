@@ -46,6 +46,7 @@ public class MyFollowActivity extends BaseActivity {
     protected void initView() {
         super.initView();
         switchContent(followFragment, recommendFragment);
+        if (group!=null){
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -59,6 +60,7 @@ public class MyFollowActivity extends BaseActivity {
                 }
             }
         });
+        }
     }
 
     @Override
