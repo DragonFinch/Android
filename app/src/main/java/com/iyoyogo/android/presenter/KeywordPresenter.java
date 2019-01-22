@@ -20,7 +20,7 @@ public class KeywordPresenter extends BasePresenter<KeywordContract.View> implem
         super(context,mView);
     }
 
-
+    //搜索
     @Override
     public void getKeyWord(Context context,String user_id, String user_token, String search, String type,String key_type) {
         DataManager.getFromRemote()
@@ -47,7 +47,7 @@ public class KeywordPresenter extends BasePresenter<KeywordContract.View> implem
                     }
                 });
     }
-
+    //联想词汇
     @Override
     public void getSearch(Context context,String user_id, String user_token, String search) {
         DataManager.getFromRemote().srarch(context,user_id,user_token,search).subscribe(new ApiObserver<KeywordUserBean>(mView, this) {
@@ -61,6 +61,7 @@ public class KeywordPresenter extends BasePresenter<KeywordContract.View> implem
             }
         });
     }
+    //热门搜索
     @Override
     public void getSearch(Context context,String user_id, String user_token) {
         DataManager.getFromRemote()

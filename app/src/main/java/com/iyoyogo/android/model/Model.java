@@ -987,7 +987,7 @@ public class Model {
      * @return
      */
     public Observable<BaseBean> dislike(Context context,String user_id, String user_token, int yo_id) {
-        return HttpClient.getApiService().dislike(context,user_id, user_token, yo_id)
+        return HttpClient.getApiService().dislike(user_id, user_token, yo_id)
                 .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
                     @Override
                     public boolean test(BaseBean baseBean) throws Exception {
@@ -1014,7 +1014,7 @@ public class Model {
      * @return
      */
     public Observable<BaseBean> report(Context context,String user_id, String user_token, int yo_id, int comment_id, String content) {
-        return HttpClient.getApiService().report(context,user_id, user_token, yo_id, comment_id, content)
+        return HttpClient.getApiService().report(user_id, user_token, yo_id, comment_id, content)
                 .compose(this.switchThread()).filter(new Predicate<BaseBean>() {
                     @Override
                     public boolean test(BaseBean baseBean) throws Exception {

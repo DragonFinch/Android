@@ -59,7 +59,7 @@ public class KeywordUserBean extends BaseBean {
             private int label_id;
             private String label;
             private String key_type;
-            private int position_id;
+            private String position_id;
             private String position_name;
             private int channel_id;
             private String channel;
@@ -136,11 +136,11 @@ public class KeywordUserBean extends BaseBean {
                 this.key_type = key_type;
             }
 
-            public int getPosition_id() {
+            public String getPosition_id() {
                 return position_id;
             }
 
-            public void setPosition_id(int position_id) {
+            public void setPosition_id(String position_id) {
                 this.position_id = position_id;
             }
 

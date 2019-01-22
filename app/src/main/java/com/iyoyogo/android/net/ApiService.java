@@ -443,16 +443,16 @@ public interface ApiService {
     //不喜欢
     @POST("index.php/api/dislike/add")
     @FormUrlEncoded
-    Observable<BaseBean> dislike(Context activity,@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id);
+    Observable<BaseBean> dislike(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id);
 
     //举报
-    @POST("index.php/api/report/do_report")
     /**
      * comment_id	是	int	举报对象 comment_id 可以为0
      * content	是	string	原因
      */
+    @POST("index.php/api/report/do_report")
     @FormUrlEncoded
-    Observable<BaseBean> report(Context activity,@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id, @Field("comment_id") int comment_id, @Field("content") String content);
+    Observable<BaseBean> report(@Field("user_id") String user_id, @Field("user_token") String user_token, @Field("yo_id") int yo_id, @Field("comment_id") int comment_id, @Field("content") String content);
 
     //获取标签列表
     @POST("index.php/api/label/get_all_list")
