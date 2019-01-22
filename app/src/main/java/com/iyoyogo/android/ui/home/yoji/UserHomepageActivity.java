@@ -292,7 +292,7 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
             backgroundAlpha(1.0f);
         }
     }
-    
+
     public String getStarSeat(int mouth, int day) {
         String starSeat = null;
         if ((mouth == 3 && day >= 21) || (mouth == 4 && day <= 19)) {

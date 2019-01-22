@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -62,7 +63,7 @@ public class DraftAdapter extends RecyclerView.Adapter<DraftAdapter.ViewHolder> 
             holder.img_type.setImageResource(R.mipmap.caogao_yoji);
         }
         holder.tv_title.setText(mList.get(position).getTitle());
-        holder.more.setOnClickListener(new View.OnClickListener() {
+        holder.more_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 initDelete(holder, mList.get(position).getYo_id(),position);
@@ -97,11 +98,13 @@ public class DraftAdapter extends RecyclerView.Adapter<DraftAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView img_draft, more, img_type;
         TextView tv_title, tv_commit_time;
+        LinearLayout more_view;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             img_draft = itemView.findViewById(R.id.img_draft);
             more = itemView.findViewById(R.id.more);
+            more_view = itemView.findViewById(R.id.more_view);
             img_type = itemView.findViewById(R.id.type_img);
             tv_title = itemView.findViewById(R.id.tv_title);
             tv_commit_time = itemView.findViewById(R.id.tv_commit_time);
