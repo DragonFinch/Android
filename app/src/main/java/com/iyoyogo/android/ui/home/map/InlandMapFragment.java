@@ -367,12 +367,6 @@ public class InlandMapFragment extends BaseFragment<MapSearchContract.Presenter>
         unbinder.unbind();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-
-    }
 
     //all
     @Override
@@ -732,22 +726,6 @@ public class InlandMapFragment extends BaseFragment<MapSearchContract.Presenter>
         }
     }
 
-
-    /*    */
-    /**
-     * 设置沉浸式状态栏
-     *//*
-    private void setSystemBarTransparent() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // 5.0 LOLLIPOP解决方案
-            getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            // 4.4 KITKAT解决方案
-            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
-    }*/
 
     //声明定位回调监听器
     public AMapLocationListener mLocationListener = new AMapLocationListener() {

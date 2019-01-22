@@ -95,6 +95,8 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
                             @Override
                             public void accept(BaseBean baseBean) throws Exception {
                                 popupWindow.dismiss();
+                                Log.e("ada", "accept: "+baseBean.getCode());
+                                Log.e("ada", "onClick: "+"user_id"+user_id+"user_token"+user_token );
                                 notifyDataSetChanged();
                             }
                         });
@@ -111,19 +113,21 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
     }
 
     private void initDelete(ViewHolder holder, String yo_user_id, int yo_id) {
+        Log.e("ada", "onClick:不喜欢 "+yo_id );
         View view = LayoutInflater.from(context).inflate(R.layout.popwindow_like, null);
         PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 125), DensityUtil.dp2px(context, 50), true);
-        String user_id = SpUtils.getString(context, "user_id", null);
-        String user_token = SpUtils.getString(context, "user_token", null);
         TextView tv_dislike = view.findViewById(R.id.tv_dislike);
         View line = view.findViewById(R.id.line);
         line.setVisibility(View.GONE);
         TextView tv_report = view.findViewById(R.id.tv_report);
         tv_report.setVisibility(View.GONE);
+
         tv_dislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
+                Log.e("ada", "onClick:不喜欢onCli "+yo_id );
+                Log.e("ada", "onClick: "+"user_id"+user_id+"user_token"+user_token );
                 initDislike(yo_id);
 
             }
@@ -168,6 +172,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
             @Override
             public void onClick(View v) {
                 initDelete(viewHolder, String.valueOf(mList.get(position).getUser_id()), mList.get(position).getId());
+                Log.e("ada", "onClick: "+mList.get(position).getId()+"user_id"+user_id+"user_token"+user_token );
             }
         });
         if (type != null) {

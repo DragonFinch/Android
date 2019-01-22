@@ -40,6 +40,7 @@ import com.iyoyogo.android.ui.home.attention.AttentionFragment;
 import com.iyoyogo.android.ui.home.map.DiTuActivity;
 import com.iyoyogo.android.ui.home.recommend.RecommedFragment;
 import com.iyoyogo.android.ui.home.search.SearchActivity;
+import com.iyoyogo.android.ui.home.search.SearchResultActivity;
 import com.iyoyogo.android.ui.home.yoji.NewPublishYoJiActivity;
 import com.iyoyogo.android.ui.home.yoxiu.SourceChooseActivity;
 import com.iyoyogo.android.utils.DensityUtil;
@@ -338,7 +339,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onSearchClick() {
                 //
-                startActivity(new Intent(getActivity(), SearchActivity.class));
+                startActivity(new Intent(getActivity(), SearchResultActivity.class));
 
             }
 

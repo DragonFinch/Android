@@ -4,9 +4,11 @@ import android.content.Context;
 import android.util.Log;
 
 import com.iyoyogo.android.base.BasePresenter;
+import com.iyoyogo.android.bean.search.ClerBean;
 import com.iyoyogo.android.bean.search.GuanZhuBean;
 import com.iyoyogo.android.bean.search.KeywordBean;
 import com.iyoyogo.android.bean.search.KeywordUserBean;
+import com.iyoyogo.android.bean.search.searchInfo;
 import com.iyoyogo.android.contract.KeywordContract;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.net.ApiObserver;
@@ -26,8 +28,10 @@ public class KeywordPresenter extends BasePresenter<KeywordContract.View> implem
                 .subscribe(new ApiObserver<KeywordBean>(mView, this) {
                     @Override
                     protected void doOnSuccess(KeywordBean keywordBean) {
+                        if (keywordBean != null) {
                             mView.keyWordMessage(keywordBean);
-                        Log.e("doOnSuccess", "doOnSuccess: "+keywordBean.getData().getUser_list().size() );
+                           // Log.e("doOnSuccess", "doOnSuccess: " + keywordBean.getData().getUser_list().size());
+                        }
                     }
                 });
     }
@@ -49,9 +53,45 @@ public class KeywordPresenter extends BasePresenter<KeywordContract.View> implem
         DataManager.getFromRemote().srarch(context,user_id,user_token,search).subscribe(new ApiObserver<KeywordUserBean>(mView, this) {
             @Override
             protected void doOnSuccess(KeywordUserBean keywordUserBean) {
-                mView.search(keywordUserBean);
-                Log.e("hanbaocdjh", "doOnSuccess: "+keywordUserBean.getData().getList().size());
+                if (keywordUserBean != null){
+                    mView.search(keywordUserBean);
+                    Log.e("hanbaocdjh", "doOnSuccess: "+keywordUserBean.getData().getList().size());
+                }
+
             }
         });
     }
+    @Override
+    public void getSearch(Context context,String user_id, String user_token) {
+        DataManager.getFromRemote()
+                .search(context,user_id,user_token)
+                .subscribe(new ApiObserver<searchInfo>(mView,this){
+                    @Override
+                    protected void doOnSuccess(searchInfo searchBean) {
+                        if (searchBean != null){
+                            mView.getRecommendTopicSuccess(searchBean);
+                        }
+
+                    }
+
+                    @Override
+                    protected boolean doOnFailure(int code, String message) {
+
+                        return true;
+
+                    }
+                });
+    }
+
+    @Override
+    public void getSearchCler(Context context,String user_id, String user_token) {
+        DataManager.getFromRemote().searchCler(context,user_id,user_token).subscribe(new ApiObserver<ClerBean>(mView,this) {
+            @Override
+            protected void doOnSuccess(ClerBean clerBean) {
+                mView.getData(clerBean);
+            }
+        });
+    }
+
+
 }
