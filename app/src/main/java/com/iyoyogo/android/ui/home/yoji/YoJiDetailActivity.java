@@ -380,6 +380,7 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
     @Override
     protected void initView() {
         super.initView();
+        statusbar();
         new SoftKeyboardStateHelper(findViewById(R.id.activity_yoji_detail)).addSoftKeyboardStateListener(this);
         mLl_facechoose = findViewById(R.id.ll_facechoose);
         TextView fasongdetails = findViewById(R.id.fasongdetails);
