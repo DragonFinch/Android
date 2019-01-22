@@ -45,6 +45,7 @@ import com.iyoyogo.android.ui.home.yoji.NewPublishYoJiActivity;
 import com.iyoyogo.android.ui.home.yoxiu.SourceChooseActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.ToastUtil;
 import com.iyoyogo.android.utils.imagepicker.activities.ImagesPickActivity;
 import com.iyoyogo.android.view.YoyogoTopBarView;
 import com.luck.picture.lib.PictureSelector;
@@ -397,13 +398,6 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (attentionFragment==null){
-            attentionFragment = new AttentionFragment();
-        }
-        if (recommedFragment == null){
-            recommedFragment = new RecommedFragment();
-            switchFragment(recommedFragment);
-        }
         bar.setLocationResult(name1);
         if (currentFragment == attentionFragment){
             bar.changeAtt();

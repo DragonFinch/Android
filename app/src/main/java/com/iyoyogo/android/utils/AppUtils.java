@@ -1,5 +1,6 @@
 package com.iyoyogo.android.utils;
 
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,8 @@ import android.os.Environment;
 import com.iyoyogo.android.app.Constants;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
 import static android.content.Context.DOWNLOAD_SERVICE;
@@ -23,6 +26,14 @@ import static android.content.Context.DOWNLOAD_SERVICE;
  */
 
 public class AppUtils {
+
+    public static List<Activity> stackActivity = new ArrayList<>();
+
+    public static void clearActivity(){
+        for (Activity act : stackActivity){
+            act.finish();
+        }
+    }
 
     /**
      * 获取当前APP版本号

@@ -213,6 +213,26 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
         }
     }
 
+    public void setDisabledFayoxiu(boolean isDisabled){
+        if (isDisabled){
+            mIvPublishYoxiu.setImageResource(R.drawable.fayoxiu_bukeyong);
+            mIvPublishYoxiu.setClickable(false);
+        }else{
+            mIvPublishYoxiu.setImageResource(R.drawable.fayoxiu);
+            mIvPublishYoxiu.setClickable(true);
+        }
+    }
+
+    public void setDisabledFayoJi(boolean isDisabled){
+        if (isDisabled){
+            mIvPublishYoji.setImageResource(R.drawable.fayoji_bukeyong);
+            mIvPublishYoji.setClickable(false);
+        }else{
+            mIvPublishYoji.setImageResource(R.drawable.fayoji);
+            mIvPublishYoji.setClickable(true);
+        }
+    }
+
     protected void compress(final List<LocalMedia> result, int type) {
         showCompressDialog();
         Flowable.just(result)

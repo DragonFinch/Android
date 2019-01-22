@@ -25,6 +25,7 @@ import com.githang.statusbar.StatusBarCompat;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.app.App;
 import com.iyoyogo.android.ui.common.LoginActivity;
+import com.iyoyogo.android.utils.AppUtils;
 import com.iyoyogo.android.utils.DisplayAdapter;
 import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.StatusBarUtils;
@@ -85,6 +86,7 @@ public abstract class BaseActivity<T extends IBasePresenter> extends AppCompatAc
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppUtils.stackActivity.add(this);
         setSetting();
         setScreenOrientation();
 //        setDefaultDisplayAdaptOrientation();

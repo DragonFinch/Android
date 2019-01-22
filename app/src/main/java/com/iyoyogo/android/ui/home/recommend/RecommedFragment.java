@@ -49,6 +49,7 @@ import com.iyoyogo.android.utils.ResUtils;
 import com.iyoyogo.android.utils.SpUtils;
 
 
+import com.iyoyogo.android.utils.ToastUtil;
 import com.iyoyogo.android.utils.refreshheader.MyRefreshAnimHeader;
 import com.iyoyogo.android.widget.AppVersionDialog;
 import com.iyoyogo.android.widget.DownLoadDialog;
@@ -70,6 +71,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.Unbinder;
@@ -144,12 +147,6 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
     @Override
     public void onResume() {
         super.onResume();
-        if (mList==null){
-            mList = new ArrayList<>();
-        }else if(mList.size() == 0){
-            refresh();
-        }
-
     }
 
     @Override

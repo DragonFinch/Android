@@ -47,6 +47,7 @@ import com.iyoyogo.android.ui.receive.UpdateService;
 import com.iyoyogo.android.utils.AppUtils;
 import com.iyoyogo.android.utils.ExampleUtil;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.ToastUtil;
 import com.iyoyogo.android.utils.download.DownLoadUtils;
 import com.iyoyogo.android.utils.download.DownloadApk;
 import com.iyoyogo.android.widget.AppVersionDialog;
@@ -147,7 +148,6 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     }
 
     private void inint() {
-
         initViews();
     }
 
@@ -505,8 +505,6 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     @Override
     protected void onResume() {
         super.onResume();
-
-
     }
 
     @Override

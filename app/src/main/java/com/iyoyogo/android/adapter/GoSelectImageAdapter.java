@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.ui.home.GoSelectImageActivity;
 import com.luck.picture.lib.adapter.PictureImageGridAdapter;
 import com.luck.picture.lib.anim.OptAnimationLoader;
 import com.luck.picture.lib.config.PictureConfig;
@@ -346,6 +347,26 @@ public class GoSelectImageAdapter extends RecyclerView.Adapter<RecyclerView.View
         selectImage(contentHolder, !isChecked, true);
         if (imageSelectChangedListener != null) {
             imageSelectChangedListener.onChange(selectImages);
+        }
+        if(selectImages.size() == 0 ){
+            ((GoSelectImageActivity)context).setDisabledFayoxiu(true);
+            ((GoSelectImageActivity)context).setDisabledFayoJi(true);
+        }else if(selectImages.size() == 1){
+            ((GoSelectImageActivity)context).setDisabledFayoxiu(false);
+            ((GoSelectImageActivity)context).setDisabledFayoJi(false);
+        }else{
+            ((GoSelectImageActivity)context).setDisabledFayoxiu(true);
+            boolean hasVideo = false;
+            for (LocalMedia picType : selectImages){
+                if (!selectImages.get(0).getPictureType().startsWith(PictureConfig.IMAGE)){
+                    hasVideo = true;
+                }
+            }
+            if (hasVideo){
+                ((GoSelectImageActivity)context).setDisabledFayoJi(true);
+            }else{
+                ((GoSelectImageActivity)context).setDisabledFayoJi(false);
+            }
         }
     }
 

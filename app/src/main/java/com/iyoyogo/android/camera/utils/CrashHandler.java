@@ -1,15 +1,19 @@
 package com.iyoyogo.android.camera.utils;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Looper;
+import android.support.v4.view.KeyEventDispatcher;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.iyoyogo.android.model.DataManager;
+import com.iyoyogo.android.utils.AppUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -60,11 +64,17 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             mDefaultHandler.uncaughtException(thread, ex);
         } else {
             try {
-                Thread.sleep(3000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 Log.e(TAG, "uncaughtException: " + e.getMessage());
             }
+            AppUtils.clearActivity();
             android.os.Process.killProcess(android.os.Process.myPid());
+            if (mContext!=null) {
+                Intent mIntent = new Intent();
+                mIntent.setComponent(new ComponentName("com.iyoyogo.android", "com.iyoyogo.android.ui.common.MainActivity"));
+                mContext.startActivity(mIntent);
+            }
         }
     }
 
