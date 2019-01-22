@@ -206,6 +206,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     protected void initView() {
         super.initView();
         StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
         //软键盘的搜索点击时间
         autoSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -236,6 +237,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 }
             }
         });
+
         //搜索框的搜索栏
         autoSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -594,6 +596,11 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 tvSetname.setVisibility(View.GONE);
                 hit.setVisibility(View.VISIBLE);
             }
+        if (autoSearch.getText().toString().trim().equals("")){
+            listviewAdapter.clearData();
+            listviewAdapter.notifyDataSetChanged();
+            vertical.setVisibility(View.VISIBLE);
+        }
     }
 
 /*
