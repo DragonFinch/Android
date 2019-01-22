@@ -377,7 +377,7 @@ public interface ApiService {
                                      @Field("user_birthday") String user_birthday,
                                      @Field("user_city") String user_city);
 
-    @POST("index.php/api/userbind/get")
+    @POST("index.php/api/v1_0_0.userbind/get")
     //获取绑定信息
     @FormUrlEncoded
     Observable<GetBindInfoBean> getBindInfo(@Field("user_id") String user_id,

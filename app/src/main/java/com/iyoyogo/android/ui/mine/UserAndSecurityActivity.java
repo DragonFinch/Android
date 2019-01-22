@@ -31,6 +31,7 @@ import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -74,7 +75,6 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
     private String name;
     private String iconurl;
     private int type;
-    private String openid;
 
     @Override
     protected int getLayoutId() {
@@ -87,7 +87,6 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
 //        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
         user_id = SpUtils.getString(UserAndSecurityActivity.this, "user_id", null);
         user_token = SpUtils.getString(UserAndSecurityActivity.this, "user_token", null);
-        openid = SpUtils.getString(UserAndSecurityActivity.this, "openid", null);
         mPresenter.getBindInfo(UserAndSecurityActivity.this, user_id, user_token);
     }
 
@@ -132,7 +131,6 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
                 break;
         }
     }
-
 
 
     public void qqLogin() {
@@ -208,12 +206,12 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
     public void getBindInfoSuccess(GetBindInfoBean.DataBean data) {
         String user_phone = data.getUser_phone();
         tvPhone.setText(user_phone);
-        int user_qq = data.getUser_qq();
-        int user_wb = data.getUser_wb();
-        int user_wx = data.getUser_wx();
-        if (user_qq == 1) {
+        List<GetBindInfoBean.DataBean.UserQqBean> user_qq = data.getUser_qq();
+        List<GetBindInfoBean.DataBean.UserWxBean> user_wx = data.getUser_wx();
+        List<GetBindInfoBean.DataBean.UserWbBean> user_wb = data.getUser_wb();
+        if (user_qq.size() != 0) {
             tvQq.setText("已绑定");
-            tvQq.setOnClickListener(new View.OnClickListener() {
+            qqRlId.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     View pop_view = View.inflate(UserAndSecurityActivity.this, R.layout.dialog_untying, null);
@@ -229,7 +227,7 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
                     unty.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mPresenter.userBind(user_id, user_token, 2, openid);
+                            mPresenter.userBind(user_id, user_token, user_qq.get(0).getType(), user_qq.get(0).getOpenid());
                             popMenu.dismiss();
                         }
                     });
@@ -253,10 +251,16 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
             });
         } else {
             tvQq.setText("未绑定");
+            qqRlId.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    qqLogin();
+                }
+            });
         }
-        if (user_wb == 1) {
+        if (user_wb.size() != 0) {
             tvSina.setText("已绑定");
-            tvSina.setOnClickListener(new View.OnClickListener() {
+            wbRlId.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     View pop_view = View.inflate(UserAndSecurityActivity.this, R.layout.dialog_untying, null);
@@ -272,7 +276,7 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
                     unty.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mPresenter.userBind(user_id, user_token, 3, openid);
+                            mPresenter.userBind(user_id, user_token, user_wb.get(0).getType(), user_wb.get(0).getOpenid());
                             popMenu.dismiss();
                         }
                     });
@@ -296,10 +300,16 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
             });
         } else {
             tvSina.setText("未绑定");
+            wbRlId.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sinaLogin();
+                }
+            });
         }
-        if (user_wx == 1) {
+        if (user_wx.size() != 0) {
             tvWx.setText("已绑定");
-            tvWx.setOnClickListener(new View.OnClickListener() {
+            wxRlId.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     View pop_view = View.inflate(UserAndSecurityActivity.this, R.layout.dialog_untying, null);
@@ -315,7 +325,7 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
                     unty.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mPresenter.userBind(user_id, user_token, 1, openid);
+                            mPresenter.userBind(user_id, user_token, user_wx.get(0).getType(), user_wx.get(0).getOpenid());
                             popMenu.dismiss();
                         }
                     });
@@ -339,6 +349,12 @@ public class UserAndSecurityActivity extends BaseActivity<UserAndSecurityContrac
             });
         } else {
             tvWx.setText("未绑定");
+            wxRlId.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    weiXinLogin();
+                }
+            });
         }
 
     }

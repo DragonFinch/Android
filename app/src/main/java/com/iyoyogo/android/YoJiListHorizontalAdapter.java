@@ -302,6 +302,8 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
         TextView dislike_this_kind = view.findViewById(R.id.dislike_this_kind);
         TextView dislike_this_item = view.findViewById(R.id.dislike_this_item);
         ImageView pop_im_id = view.findViewById(R.id.pop_im_id);
+        user_id = SpUtils.getString(context, "user_id", null);
+        user_token = SpUtils.getString(context, "user_token", null);
         pop_im_id.setImageResource(R.mipmap.stamp_shijian);
         backgroundAlpha(0.6f);
         dislike_this_item.setOnClickListener(new View.OnClickListener() {
@@ -345,8 +347,8 @@ public class YoJiListHorizontalAdapter extends RecyclerView.Adapter<YoJiListHori
     private void initDelete(Holder holder, String yo_user_id, int yo_id) {
         View view = LayoutInflater.from(context).inflate(R.layout.popwindow_like, null);
         PopupWindow popupWindow = new PopupWindow(view, DensityUtil.dp2px(context, 125), DensityUtil.dp2px(context, 50), true);
-        String user_id = SpUtils.getString(context, "user_id", null);
-        String user_token = SpUtils.getString(context, "user_token", null);
+        user_id = SpUtils.getString(context, "user_id", null);
+        user_token = SpUtils.getString(context, "user_token", null);
         TextView tv_dislike = view.findViewById(R.id.tv_dislike);
         View line = view.findViewById(R.id.line);
         line.setVisibility(View.GONE);
