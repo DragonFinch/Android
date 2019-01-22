@@ -75,7 +75,8 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Holder holder, int position) {
+    public void onBindViewHolder(@NonNull Holder holder, int position0) {
+        final int position = position0;
         holder.more_img.setVisibility(View.GONE);
         int is_highquality = mList.get(position).getQuality_type();
         if (is_highquality == 1) {
@@ -178,13 +179,13 @@ public class YoJiCenterAdapter extends RecyclerView.Adapter<YoJiCenterAdapter.Ho
                     com.iyoyogo.android.view.CircleImageView imageView = (com.iyoyogo.android.view.CircleImageView) inflater.inflate(R.layout.item_head_image, holder.pile_layout, false);
                     Glide.with(context).load(user_icons.get(i)).apply(requestOptions).into(imageView);
                     holder.pile_layout.addView(imageView);
-                    int finalI = i;
+                    final int finalI = i;
                     imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 //                            Toast.makeText(context, "mList.get(position).getUsers_praise().get(i).getUser_id():" + mList.get(position).getUsers_praise().get(finalI).getUser_id(), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(context, UserHomepageActivity.class);
-                            intent.putExtra("yo_user_id", String.valueOf(mList.get(finalI).getUsers_praise().get(finalI).getUser_id()));
+                            intent.putExtra("yo_user_id", String.valueOf(mList.get(position).getUsers_praise().get(finalI).getUser_id()));
                             context.startActivity(intent);
                         }
                     });
