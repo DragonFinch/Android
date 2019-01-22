@@ -1,224 +1,361 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/Li"
 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_height="@dimen/dp_45"
+        android:background="@color/white"
+        android:gravity="center"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_setname"
-            android:layout_width="@dimen/dp_45"
-            android:layout_height="@dimen/dp_20"
-            android:layout_gravity="center_vertical"
+        <ImageView
             android:layout_marginLeft="@dimen/dp_20"
-            android:layout_marginRight="@dimen/dp_10"
-            android:background="@drawable/orange_fillet"
-            android:drawableRight="@mipmap/botton"
-            android:drawablePadding="-10dp"
-            android:gravity="center"
-            android:paddingRight="@dimen/dp_10"
-            android:text="@string/user"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_10" />
-
-        <com.iyoyogo.android.view.ClearEditText
-            android:theme="@style/MyEditText"
-            android:singleLine="true"
-            android:imeOptions="actionSearch"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:id="@+id/search_guanjiaci"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:background="@null"
-            android:drawablePadding="5dp"
-            android:ems="10"
-            android:isScrollContainer="false"
-            android:maxLines="1"
-            android:padding="5dp"
-            android:text="qweqweqweqweqweqw"
-            android:textSize="@dimen/dp15" />
-
-        <FrameLayout
+            android:src="@mipmap/sousuo_grey"
+            android:id="@+id/iv_back"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="5dp">
+            android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/dp_20"
-                android:text="@string/quxiao"
-                android:textColor="@color/c333333"
-                android:textSize="@dimen/dp_14" />
-            />
-        </FrameLayout>
+        <AutoCompleteTextView
+            android:imeOptions="actionSearch"
+            android:layout_marginLeft="@dimen/dp_7"
+            android:id="@+id/auto_search"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/whitebg_radius3"
+            android:completionThreshold="1"
+            android:theme="@style/MyEditText"
+            android:drawablePadding="@dimen/dp_5"
+            android:hint=" 请输入要找的内容yo~"
+            android:padding="@dimen/dp_8"
+            android:singleLine="true"
+            android:textSize="@dimen/sp_12" />
+
+        <TextView
+            android:id="@+id/tv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_20"
+            android:text="@string/quxiao"
+            android:textColor="@color/c888888"
+            android:textSize="@dimen/dp_13" />
 
     </LinearLayout>
-
-
-    <!--</RelativeLayout>-->
-
     <View
-        android:layout_width="match_parent"
-        android:layout_height="0.01dp"
         android:layout_marginLeft="@dimen/dp_20"
         android:layout_marginRight="@dimen/dp_68"
-        android:background="@color/c888888" />
-
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#e1e1e1"></View>
     <View
+        android:layout_marginTop="@dimen/dp_4"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_1"
-        android:layout_marginTop="@dimen/dp_5"
-        android:background="@color/cut_off_line" />
+        android:layout_height="10px"
+        android:background="#f1f1f1"></View>
 
-    <ListView
-        android:divider="#00000000"
-        android:id="@+id/list_view_lv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:overScrollMode="never"
-        android:scrollbars="none"
-        android:visibility="gone"></ListView>
 
-    <ScrollView
-        android:id="@+id/sl"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dp_0"
+        android:layout_weight="1"
         android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-        <LinearLayout
-            android:background="#FAFAFA"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:background="@color/FAFAFA"
+            android:orientation="vertical"
+            >
 
-            <ImageView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:src="@mipmap/user_title"
-                android:visibility="gone" />
-        </LinearLayout>
-            <TextView
-                android:visibility="gone"
-                android:layout_margin="@dimen/dp_5"
-                android:id="@+id/tv_gson"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="没有更多内容"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:textColor="@color/ff000000"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:nestedScrollingEnabled="false"
-                android:overScrollMode="never"
-                android:scrollbars="none"
-                android:id="@+id/lv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:visibility="gone"></android.support.v7.widget.RecyclerView>
-            <View
-                android:id="@+id/view"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_6"
-                android:background="#F1F1F1"
-                ></View>
-            <LinearLayout
+            <RelativeLayout
+                android:layout_margin="@dimen/dp_10"
                 android:background="#FAFAFA"
+                android:id="@+id/rl_lishi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal">
+
                 <ImageView
-                    android:visibility="gone"
-                    android:id="@+id/content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:src="@mipmap/content_title"
-                    />
-            </LinearLayout>
-            <TextView
-                android:visibility="gone"
-                android:layout_margin="@dimen/dp_5"
-                android:id="@+id/tv_gson1"
+                    android:layout_margin="@dimen/dp_10"
+                    android:src="@mipmap/history" />
+
+                <TextView
+                    android:id="@+id/clear_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:layout_marginRight="@dimen/dp_20"
+                    android:text="@string/qingkong"
+                    android:textColor="@color/c888888"
+                    android:textSize="@dimen/sp_12" />
+
+            </RelativeLayout>
+
+            <com.iyoyogo.android.view.ZFlowLayout
+                android:id="@+id/history_fl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="没有更多内容"
-                android:textSize="20sp"
+                android:background="@color/white"
+                android:orientation="vertical" />
+
+            <ImageView
+                android:background="#FAFAFA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_20"
+                android:src="@mipmap/hot1" />
+
+            <com.iyoyogo.android.view.ZFlowLayout
                 android:gravity="center"
-                android:textColor="@color/ff000000"/>
-
-
-            <android.support.v7.widget.RecyclerView
-                android:visibility="gone"
-                android:id="@+id/lv_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:paddingLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:paddingRight="10dp"
+                android:id="@+id/keyword_fl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:nestedScrollingEnabled="false"
-                android:overScrollMode="never"
-                android:scrollbars="none"
-                ></android.support.v7.widget.RecyclerView>
-
-
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/lv_user"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:nestedScrollingEnabled="false"
-                android:overScrollMode="never"
-                android:scrollbars="none"
-                android:visibility="gone"></android.support.v7.widget.RecyclerView>
-
-
-
+                android:background="@color/white"
+                android:orientation="vertical" />
         </LinearLayout>
-    </ScrollView>
 
-    <LinearLayout
-        android:id="@+id/hit"
+    </android.support.v4.widget.NestedScrollView>
+        <ListView
+            android:divider="#00000000"
+            android:id="@+id/list_view_lv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            ></ListView>
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/Lin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
+        android:background="@color/white"
         android:orientation="vertical"
         android:visibility="gone">
 
-        <ImageView
-            android:layout_width="@dimen/dp_127"
-            android:layout_height="@dimen/dp_110"
-            android:src="@mipmap/blank_search" />
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_20"
-            android:text="这里是空的yo~"
-            android:textColor="@color/c333333"
-            android:textSize="@dimen/sp_15" />
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/tv_setname"
+                android:layout_width="@dimen/dp_45"
+                android:layout_height="@dimen/dp_20"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_marginRight="@dimen/dp_10"
+                android:background="@drawable/orange_fillet"
+                android:drawableRight="@mipmap/botton"
+                android:drawablePadding="-10dp"
+                android:gravity="center"
+                android:paddingRight="@dimen/dp_10"
+                android:text="@string/user"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_10" />
+
+            <com.iyoyogo.android.view.ClearEditText
+                android:theme="@style/MyEditText"
+                android:singleLine="true"
+                android:imeOptions="actionSearch"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:id="@+id/search_guanjiaci"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:drawablePadding="5dp"
+                android:ems="10"
+                android:isScrollContainer="false"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:text=""
+                android:textSize="@dimen/dp15" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp">
+
+                <TextView
+                    android:id="@+id/cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_20"
+                    android:text="@string/quxiao"
+                    android:textColor="@color/c333333"
+                    android:textSize="@dimen/dp_14" />
+                />
+            </FrameLayout>
+
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.01dp"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_68"
+            android:background="@color/c888888" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_marginTop="@dimen/dp_5"
+            android:background="@color/cut_off_line" />
+
+
+
+        <ScrollView
+            android:id="@+id/sl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:background="#FAFAFA"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:src="@mipmap/user_title"
+                        android:visibility="gone" />
+                </LinearLayout>
+                <TextView
+                    android:visibility="gone"
+                    android:layout_margin="@dimen/dp_5"
+                    android:id="@+id/tv_gson"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="没有更多内容"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:textColor="@color/ff000000"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:id="@+id/lv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"></android.support.v7.widget.RecyclerView>
+                <View
+                    android:id="@+id/view"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_6"
+                    android:background="#F1F1F1"
+                    ></View>
+                <LinearLayout
+                    android:background="#FAFAFA"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:src="@mipmap/content_title"
+                        />
+                </LinearLayout>
+                <TextView
+                    android:visibility="gone"
+                    android:layout_margin="@dimen/dp_5"
+                    android:id="@+id/tv_gson1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="没有更多内容"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:textColor="@color/ff000000"/>
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:visibility="gone"
+                    android:id="@+id/lv_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    ></android.support.v7.widget.RecyclerView>
+
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/lv_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:visibility="gone"></android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/hit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="@dimen/dp_127"
+                android:layout_height="@dimen/dp_110"
+                android:src="@mipmap/blank_search" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20"
+                android:text="这里是空的yo~"
+                android:textColor="@color/c333333"
+                android:textSize="@dimen/sp_15" />
+
+        </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

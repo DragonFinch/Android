@@ -89,6 +89,10 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     TextView tvGson1;
     @BindView(R.id.view)
     View view;
+    @BindView(R.id.Lin)
+    LinearLayout Lin;
+    @BindView(R.id.Li)
+    LinearLayout Li;
     private PopupWindow popupWindow;
     private List<KeywordBean.DataBean.UserListBean> mUser = new ArrayList<>();
     private List<KeywordBean.DataBean.YojListBean> myoj = new ArrayList<>();
@@ -96,7 +100,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     private List<KeywordBean.DataBean> mdata = new ArrayList<>();
     private String user_id;
     private String user_token;
-    private String keyword;
     private SearchUserAdapter adapter = new SearchUserAdapter(SearchResultActivity.this, mUser, mdata);
     private SearchYoJiListHorizontalAdapter adapter3 = new SearchYoJiListHorizontalAdapter(SearchResultActivity.this, myoj);
     private SearchYoXiuListAdapter adapter1 = new SearchYoXiuListAdapter(SearchResultActivity.this, myox);
@@ -105,27 +108,42 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     private List<KeywordUserBean.DataBean.ListBean> listBeans = new ArrayList<>();
     private List<KeywordUserBean.DataBean.ListBean> list;
     private TextView tv_guanzhu1;
-    boolean fig = false;
+    boolean fig1 = false;
+    boolean canLinstener = true;
+
+    //首页搜索
+    @BindView(R.id.auto_search)
+    AutoCompleteTextView autoSearch;
+    @BindView(R.id.tv_search)
+    TextView tvSearch;
+    @BindView(R.id.clear_iv)
+    TextView clearIv;
+    @BindView(R.id.history_fl)
+    ZFlowLayout historyFl;
+    @BindView(R.id.iv_back)
+    ImageView ivBack;
+    @BindView(R.id.keyword_fl)
+    ZFlowLayout keywordFl;
+    @BindView(R.id.rl_lishi)
+    RelativeLayout rlLishi;
+
+    private List<searchInfo> mList = new ArrayList<>();
+    private List<searchInfo> list1;
+    private boolean fig = false;
+    private String mUser_id;
+    private String mUser_token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        String key = getIntent().getStringExtra("key");
         lv.setLayoutManager(new LinearLayoutManager(this));
         lvUser.setLayoutManager(new LinearLayoutManager(this));
         lvContent.setLayoutManager(new LinearLayoutManager(this));
 
-            Intent in = getIntent();
-            keyword = in.getStringExtra("key");
-            if (keyword != null){
-                //放到网络请求上面
-                searchGuanjiaci.setText(keyword);
-            }
-
         searchGuanjiaci.setSelection(searchGuanjiaci.getText().length());
 
-        mPresenter.getKeyWord(SearchResultActivity.this,user_id, user_token, keyword, "all", "");
+        //
 
         tvSetname.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,24 +206,16 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
 
     @Override
     protected KeywordContract.Presenter createPresenter() {
-        return new KeywordPresenter(SearchResultActivity.this,this);
+        return new KeywordPresenter(SearchResultActivity.this, this);
     }
 
     @Override
     protected void initView() {
         super.initView();
         StatusBarCompat.setStatusBarColor(this, Color.WHITE);
-
-    }
-
-
-    @Override
-    protected void initData(Bundle savedInstanceState) {
-        int i = 0;
-        super.initData(savedInstanceState);
-        user_id = SpUtils.getString(SearchResultActivity.this, "user_id", null);
-        user_token = SpUtils.getString(SearchResultActivity.this, "user_token", null);
-        searchGuanjiaci.addTextChangedListener(new TextWatcher() {
+        StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+        //软键盘的搜索点击时间
+        autoSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -213,19 +223,277 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String s1 = String.valueOf(s);
+                if (s1.isEmpty()){
+                    Li.setVisibility(View.VISIBLE);
+
+                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!s.toString().isEmpty()) {
-                    if (fig) {
-                        mPresenter.getSearch(SearchResultActivity.this,user_id, user_token, s.toString());
-                        Log.e("xczv,lm", "afterTextChanged: "+user_id+"user_token"+user_token+s.toString() );
-                        cancel.setVisibility(View.VISIBLE);
+                if (s.toString() != null){
+                    mPresenter.getSearch(SearchResultActivity.this, user_id, user_token, autoSearch.getText().toString());
+                    SPUtils.getInstance(SearchResultActivity.this).save(searchGuanjiaci.getText().toString());
+                    initHistory();
+                }
+            }
+        });
+        //搜索框的搜索栏
+        autoSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    //关闭软件盘
+                    hideKeyboard(autoSearch);
+                    autoSearch.setSelection(autoSearch.getText().length());
+                    if (autoSearch.getText() != null && autoSearch.getText().toString().trim().length() > 0) {
+                        searchGuanjiaci.setText(autoSearch.getText().toString());
+                        mPresenter.getKeyWord(SearchResultActivity.this, user_id, user_token, autoSearch.getText().toString(), "all", "");
+                      //  mPresenter.getSearch(SearchResultActivity.this, user_id, user_token, searchGuanjiaci.getText().toString());
+                        SPUtils.getInstance(SearchResultActivity.this).save(autoSearch.getText().toString());
+                        initHistory();
                     } else {
-                        fig = true;
+                        showToastShort(SearchResultActivity.this, "请输入搜索内容！");
                     }
                 }
+                return false;
+            }
+        });
+    }
+
+    //点击事件的处理
+    @OnClick({R.id.iv_back, R.id.clear_iv, R.id.tv_search})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_back:
+                finish();
+                break;
+            case R.id.tv_search:
+                String searchKey = autoSearch.getText().toString();
+                autoSearch.setText("");
+                finish();
+                break;
+
+            case R.id.clear_iv:
+                SPUtils.getInstance(SearchResultActivity.this).cleanHistory();
+                mPresenter.getSearchCler(SearchResultActivity.this, mUser_id, mUser_token);
+                initHistory();
+
+                break;
+            case R.id.select_all:
+                tvSetname.setText("全部");
+                popupWindow.dismiss();
+                //切换进行网络请求   调用BaseActivit
+                searchGuanjiaci.setSelection(searchGuanjiaci.getText().length());
+                mPresenter.getKeyWord(SearchResultActivity.this, user_id, user_token,searchGuanjiaci.getText().toString() , "all", "");
+                break;
+            case R.id.youji:
+                searchGuanjiaci.setSelection(searchGuanjiaci.getText().length());
+                tvSetname.setText("yo记");
+                popupWindow.dismiss();
+                mPresenter.getKeyWord(SearchResultActivity.this, user_id, user_token, searchGuanjiaci.getText().toString(), "yoj", "");
+                break;
+            case R.id.yoxiu:
+                searchGuanjiaci.setSelection(searchGuanjiaci.getText().length());
+                tvSetname.setText("yo秀");
+                popupWindow.dismiss();
+                mPresenter.getKeyWord(SearchResultActivity.this, user_id, user_token, searchGuanjiaci.getText().toString(), "yox", "");
+                break;
+            case R.id.user:
+                searchGuanjiaci.setSelection(searchGuanjiaci.getText().length());
+                tvSetname.setText("用户");
+                popupWindow.dismiss();
+                mPresenter.getKeyWord(SearchResultActivity.this, user_id, user_token, searchGuanjiaci.getText().toString(), "user", "");
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    private boolean isNullorEmpty(String str) {
+        return str == null || "".equals(str);
+    }
+
+    private void showToastShort(Context context, String data) {
+        Toast toast = Toast.makeText(context, data, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                initHistory();
+            }
+        }
+    }
+
+    @Override
+    public void getRecommendTopicSuccess(searchInfo list) {
+        List<String> list_hot = list.getData().getList_hot();
+        if (list.getData().getList_history().size() != 0) {
+            rlLishi.setVisibility(View.VISIBLE);
+            historyFl.setVisibility(View.VISIBLE);
+        } else {
+            rlLishi.setVisibility(View.GONE);
+            historyFl.setVisibility(View.GONE);
+        }
+        initKeyword(list_hot);
+        initHistory();
+        String[] data = SPUtils.getInstance(this).getHistoryList();
+
+        ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<String>(this,
+                R.layout.view_mw_textview, data);
+        autoSearch.setAdapter(autoCompleteAdapter);
+
+        autoSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable != null) {
+                    ivBack.setVisibility(View.GONE);
+                } else {
+
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getData(ClerBean clerBean) {
+        ClerBean clerBean1 = clerBean;
+        int code = clerBean1.getCode();
+        if (code == 200) {
+            Log.e("cczxzxzxz", "getData: " + "200");
+            rlLishi.setVisibility(View.GONE);
+            historyFl.setVisibility(View.GONE);
+        }
+    }
+
+    //历史搜索
+    private void initHistory() {
+        final String[] data = SPUtils.getInstance(this).getHistoryList();
+        ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(10, 10, 10, 10);
+        historyFl.removeAllViews();
+        for (int i = 0; i < data.length; i++) {
+            if (isNullorEmpty(data[i])) {
+                return;
+            }
+            final int j = i;
+            //添加分类块
+            View paramItemView = getLayoutInflater().inflate(R.layout.adapter_search_keyword, null);
+            TextView keyWordTv = paramItemView.findViewById(R.id.tv_content);
+            keyWordTv.setText(data[j]);
+            keyWordTv.setBackgroundResource(R.drawable.whitebg_strokegrey_radius3);
+            historyFl.addView(paramItemView, layoutParams);
+            keyWordTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    autoSearch.setText(data[j]);
+                    autoSearch.setSelection(autoSearch.getText().length());
+                    if (autoSearch.getText() != null && autoSearch.getText().toString().trim().length() > 0) {
+                        searchGuanjiaci.setText(autoSearch.getText().toString());
+                        SPUtils.getInstance(SearchResultActivity.this).save(autoSearch.getText().toString());
+                        mPresenter.getKeyWord(SearchResultActivity.this, user_id, user_token, autoSearch.getText().toString(), "all", "");
+                    } else {
+                        showToastShort(SearchResultActivity.this, "请输入搜索内容！");
+                    }
+                }
+            });
+        }
+    }
+    //接口返回数据热门搜索
+    private void initKeyword(final List<String> keyword) {
+        ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(10, 10, 10, 10);
+        keywordFl.removeAllViews();
+        for (int i = 0; i < keyword.size(); i++) {
+            final int j = i;
+            //添加分类块
+            View paramItemView = getLayoutInflater().inflate(R.layout.adapter_search_keyword, null);
+            TextView keyWordTv = paramItemView.findViewById(R.id.tv_content);
+            keyWordTv.setText(keyword.get(i));
+            keyWordTv.setBackgroundResource(R.drawable.whitebg_strokegrey_radius3);
+            keywordFl.addView(paramItemView, layoutParams);
+            keyWordTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    autoSearch.setText(keyword.get(j));
+                    autoSearch.setSelection(autoSearch.getText().length());
+                    if (autoSearch.getText() != null && autoSearch.getText().toString().trim().length() > 0) {
+                        /*Intent intent = new Intent(SearchResultActivity.this, SearchResultActivity.class);
+                        intent.putExtra("key", autoSearch.getText().toString());
+                        startActivityForResult(intent, 0);
+                        String keyWord = autoSearch.getText().toString();
+                        SPUtils.getInstance(SearchResultActivity.this).save(autoSearch.getText().toString());*/
+                        searchGuanjiaci.setText(autoSearch.getText().toString());
+                        SPUtils.getInstance(SearchResultActivity.this).save(autoSearch.getText().toString());
+                        mPresenter.getKeyWord(SearchResultActivity.this, user_id, user_token, autoSearch.getText().toString(), "all", "");
+                    } else {
+                        showToastShort(SearchResultActivity.this, "请输入搜索内容！");
+                    }
+                }
+            });
+        }
+    }
+
+    //网络请求
+    @Override
+    protected void initData(Bundle savedInstanceState) {
+        int i = 0;
+        super.initData(savedInstanceState);
+        mUser_id = SpUtils.getString(SearchResultActivity.this, "user_id", null);
+        mUser_token = SpUtils.getString(SearchResultActivity.this, "user_token", null);
+        mPresenter.getSearch(SearchResultActivity.this, mUser_id, mUser_token);
+        user_id = SpUtils.getString(SearchResultActivity.this, "user_id", null);
+        user_token = SpUtils.getString(SearchResultActivity.this, "user_token", null);
+        searchGuanjiaci.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                Log.e("mn", "onTextChanged11111111: "+"qwe" );
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String s1 = String.valueOf(s);
+                if (canLinstener && s1.isEmpty()){
+                   /* Li.setVisibility(View.VISIBLE);
+                    Lin.setVisibility(View.GONE);*/
+                    tvSetname.setVisibility(View.GONE);
+                    Log.e("mn", "onTextChanged11: "+"qwe" );
+                    Li.setVisibility(View.VISIBLE);
+                    Lin.setVisibility(View.GONE);
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (canLinstener && !s.toString().isEmpty()) {
+                    if (fig1) {
+                        mPresenter.getSearch(SearchResultActivity.this, user_id, user_token, s.toString());
+                        Log.e("xczv,lm", "afterTextChanged: " + user_id + "user_token" + user_token + s.toString());
+                        cancel.setVisibility(View.VISIBLE);
+                    } else {
+                        fig1 = true;
+                    }
+                    Log.e("mn", "onTextChanged:11 "+"qwe" );
+                }
+                Log.e("mn", "onTextChanged: "+"qwe" );
             }
         });
         //软键盘的搜索点击时间
@@ -235,7 +503,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     //关闭软件盘
                     hideKeyboard(searchGuanjiaci);
-                    mPresenter.getKeyWord(SearchResultActivity.this,user_id, user_token, searchGuanjiaci.getText().toString(), "all", "");
+                    mPresenter.getKeyWord(SearchResultActivity.this, user_id, user_token, searchGuanjiaci.getText().toString(), "all", "");
                 }
                 return false;
             }
@@ -243,33 +511,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
 
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.select_all:
-                tvSetname.setText("全部");
-                popupWindow.dismiss();
-                //切换进行网络请求   调用BaseActivit
-                mPresenter.getKeyWord(SearchResultActivity.this,user_id, user_token, keyword, "all", "");
-                break;
-            case R.id.youji:
-                tvSetname.setText("yo记");
-                popupWindow.dismiss();
-                mPresenter.getKeyWord(SearchResultActivity.this,user_id, user_token, keyword, "yoj", "");
-                break;
-            case R.id.yoxiu:
-                tvSetname.setText("yo秀");
-                popupWindow.dismiss();
-                mPresenter.getKeyWord(SearchResultActivity.this,user_id, user_token, keyword, "yox", "");
-                break;
-            case R.id.user:
-                tvSetname.setText("用户");
-                popupWindow.dismiss();
-                mPresenter.getKeyWord(SearchResultActivity.this,user_id, user_token, keyword, "user", "");
-                break;
-
-        }
-    }
 
     //网络请求成功的回调用户关注，
     @Override
@@ -295,9 +536,10 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
         listBeans.clear();
         Log.e("search", "search: " + keywordBean.getData().getList().size());
         if (keywordBean.getData().getList() != null) {
+            Li.setVisibility(View.GONE);
             list = keywordBean.getData().getList();
             listBeans.addAll(list);
-            listViewLv.setVisibility(View.VISIBLE);
+            Lin.setVisibility(View.VISIBLE);
             lv.setVisibility(View.GONE);
             lvUser.setVisibility(View.GONE);
             lvContent.setVisibility(View.GONE);
@@ -307,6 +549,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             hit.setVisibility(View.GONE);
             tvGson.setVisibility(View.GONE);
             tvGson1.setVisibility(View.GONE);
+            listViewLv.setVisibility(View.VISIBLE);
             ListViewkeywordAdapter adapter = new ListViewkeywordAdapter(SearchResultActivity.this, listBeans, searchGuanjiaci.getText().toString());
             listViewLv.setAdapter(adapter);
             listViewLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -334,29 +577,38 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                             break;
                         //标签
                         case 4:
-                            mPresenter.getKeyWord(SearchResultActivity.this,user_id, user_token, listBeans.get(position).getLabel(), "all", listBeans.get(position).getKey_type());
+                            canLinstener = false;
+                            searchGuanjiaci.setText(list.get(position).getLabel());
+                            canLinstener = true;
+                            mPresenter.getKeyWord(SearchResultActivity.this, user_id, user_token, listBeans.get(position).getLabel(), "all", listBeans.get(position).getKey_type());
                             break;
                         //定位
                         case 5:
-                            mPresenter.getKeyWord(SearchResultActivity.this,user_id, user_token, listBeans.get(position).getPosition_name(), "all", listBeans.get(position).getKey_type());
+                            canLinstener = false;
+                            searchGuanjiaci.setText(list.get(position).getPosition_name());
+                            canLinstener = true;
+                            mPresenter.getKeyWord(SearchResultActivity.this, user_id, user_token, listBeans.get(position).getPosition_name(), "all", listBeans.get(position).getKey_type());
                             break;
                         //频道
                         case 6:
-                            mPresenter.getKeyWord(SearchResultActivity.this,user_id, user_token, listBeans.get(position).getChannel(), "all", listBeans.get(position).getKey_type());
+                            canLinstener = false;
+                            searchGuanjiaci.setText(list.get(position).getChannel());
+                            canLinstener = true;
+                            mPresenter.getKeyWord(SearchResultActivity.this, user_id, user_token, listBeans.get(position).getChannel(), "all", listBeans.get(position).getKey_type());
                             break;
                         //搜索全部
                         case 7:
-                            mPresenter.getKeyWord(SearchResultActivity.this,user_id, user_token, searchGuanjiaci.getText().toString(), "all", "");
+                            mPresenter.getKeyWord(SearchResultActivity.this, user_id, user_token, searchGuanjiaci.getText().toString(), "all", "");
                             break;
                     }
                 }
             });
 
             if (list.size() == 0) {
+                listViewLv.setVisibility(View.GONE);
                 tvSetname.setVisibility(View.VISIBLE);
                 hit.setVisibility(View.VISIBLE);
-                listViewLv.setVisibility(View.GONE);
-                //Toast.makeText(SearchResultActivity.this, "没有匹配到您要查询的关键字", Toast.LENGTH_SHORT).show();
+
             }
         }
     }
@@ -382,7 +634,9 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
 
     @Override
     public void keyWordMessage(KeywordBean keywordBean) {
-        if(keywordBean==null || keywordBean.getData()==null || keywordBean.getData().getType()==null){return;}
+        if (keywordBean == null || keywordBean.getData() == null || keywordBean.getData().getType() == null) {
+            return;
+        }
         if (keywordBean.getData().getType().equals("user")) {
             mUser.clear();
             user_list = keywordBean.getData().getUser_list();
@@ -447,6 +701,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
         }
         if (keywordBean.getData().getType().equals("all")) {
 
+            searchGuanjiaci.setSelection(searchGuanjiaci.getText().length());
             mUser.clear();
             myoj.clear();
             myox.clear();
@@ -479,18 +734,20 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 public void set(int position) {
                 }
             });
+            Li.setVisibility(View.GONE);
+            Lin.setVisibility(View.VISIBLE);
 
-            if (mUser.size() <=0){
-                if (myox.size() <=0){
-                    if (myoj.size() <=0){
+            if (mUser.size() <= 0) {
+                if (myox.size() <= 0) {
+                    if (myoj.size() <= 0) {
                         hit.setVisibility(View.VISIBLE);
                         tvGson.setVisibility(View.GONE);
                         tvGson1.setVisibility(View.GONE);
-                        name.setVisibility(View.GONE);
                         listViewLv.setVisibility(View.GONE);
+                        name.setVisibility(View.GONE);
                         content.setVisibility(View.GONE);
 
-                    }else{
+                    } else {
                         hit.setVisibility(View.GONE);
                         name.setVisibility(View.VISIBLE);
                         lv.setVisibility(View.VISIBLE);
@@ -503,7 +760,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                         tvSetname.setVisibility(View.VISIBLE);
 
                     }
-                }else{
+                } else {
                     hit.setVisibility(View.GONE);
                     name.setVisibility(View.GONE);
                     lv.setVisibility(View.VISIBLE);
@@ -515,7 +772,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                     listViewLv.setVisibility(View.GONE);
                     tvSetname.setVisibility(View.VISIBLE);
                 }
-            }else{
+            } else {
                 hit.setVisibility(View.GONE);
                 name.setVisibility(View.VISIBLE);
                 lv.setVisibility(View.VISIBLE);
@@ -528,6 +785,8 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 tvSetname.setVisibility(View.VISIBLE);
             }
         }
+        mPresenter.getSearch(SearchResultActivity.this, mUser_id, mUser_token);
+        initHistory();
     }
 
     /**
@@ -542,10 +801,4 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
         manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // mPresenter.getKeyWord(user_id,user_token,keyword,"all");
-        // mPresenter.getSearch(user_id,user_token,s.toString());
-    }
 }
