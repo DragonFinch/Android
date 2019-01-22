@@ -168,7 +168,7 @@
 
                 <!-- 标题开始 -->
                 <RelativeLayout
-                    android:layout_marginTop="@dimen/dp_15"
+                    android:layout_marginTop="@dimen/dp_30"
                     android:id="@+id/rl_title"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_30"
