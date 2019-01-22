@@ -161,6 +161,8 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position0) {
         final int position = position0;
+        user_id = SpUtils.getString(context, "user_id", null);
+        user_token = SpUtils.getString(context, "user_token", null);
         viewHolder.tv_yoxiu_desc.setText(mList.get(position).getPosition_name());
         viewHolder.img_more.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -287,8 +289,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
         viewHolder.img_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String user_id = SpUtils.getString(context, "user_id", null);
-                String user_token = SpUtils.getString(context, "user_token", null);
+
 
                /* Drawable like = getResources().getDrawable(
                         R.mipmap.xihuan_xiangqing);
@@ -356,8 +357,7 @@ public class YoXiuListAdapter extends RecyclerView.Adapter<YoXiuListAdapter.View
         //点击空白处时，隐藏掉pop窗口
         //广告信息
         TextView tv_advert = view.findViewById(R.id.tv_advert);
-        user_id = SpUtils.getString(context, "user_id", null);
-        user_token = SpUtils.getString(context, "user_token", null);
+
         tv_advert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

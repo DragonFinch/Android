@@ -213,7 +213,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
@@ -357,7 +356,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 tvSetname.setVisibility(View.VISIBLE);
                 hit.setVisibility(View.VISIBLE);
                 listViewLv.setVisibility(View.GONE);
-                Toast.makeText(SearchResultActivity.this, "没有匹配到您要查询的关键字", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(SearchResultActivity.this, "没有匹配到您要查询的关键字", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -488,6 +487,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                         tvGson.setVisibility(View.GONE);
                         tvGson1.setVisibility(View.GONE);
                         name.setVisibility(View.GONE);
+                        listViewLv.setVisibility(View.GONE);
                         content.setVisibility(View.GONE);
 
                     }else{
