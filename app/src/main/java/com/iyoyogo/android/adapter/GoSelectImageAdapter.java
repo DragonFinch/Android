@@ -352,8 +352,12 @@ public class GoSelectImageAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((GoSelectImageActivity)context).setDisabledFayoxiu(true);
             ((GoSelectImageActivity)context).setDisabledFayoJi(true);
         }else if(selectImages.size() == 1){
+            if (!selectImages.get(0).getPictureType().startsWith(PictureConfig.IMAGE)){
+                ((GoSelectImageActivity)context).setDisabledFayoJi(true);
+            }else{
+                ((GoSelectImageActivity)context).setDisabledFayoJi(false);
+            }
             ((GoSelectImageActivity)context).setDisabledFayoxiu(false);
-            ((GoSelectImageActivity)context).setDisabledFayoJi(false);
         }else{
             ((GoSelectImageActivity)context).setDisabledFayoxiu(true);
             boolean hasVideo = false;
