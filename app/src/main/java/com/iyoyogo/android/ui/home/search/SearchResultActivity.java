@@ -530,6 +530,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             listviewAdapter = new ListViewkeywordAdapter(SearchResultActivity.this, listBeans, autoSearch.getText().toString());
             listViewLv.setAdapter(listviewAdapter);
             canLinstener = true;
+
             listViewLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -586,10 +587,12 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             });
 
             if (list.size() <= 0) {
+                listviewAdapter.clearData();
+                listviewAdapter.notifyDataSetChanged();
                 Li.setVisibility(View.VISIBLE);
                 listViewLv.setVisibility(View.GONE);
                 tvSetname.setVisibility(View.GONE);
-                hit.setVisibility(View.GONE);
+                hit.setVisibility(View.VISIBLE);
             }
     }
 
