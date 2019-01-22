@@ -416,6 +416,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                         autoSearch.setSelection(autoSearch.getText().length());
                         autoSearch.setText(autoSearch.getText().toString());
                         SPUtils.getInstance(SearchResultActivity.this).save(autoSearch.getText().toString());
+                        autoSearch.setSelection(autoSearch.getText().length());
                         mPresenter.getKeyWord(SearchResultActivity.this, user_id, user_token, autoSearch.getText().toString(), "all", "");
                     } else {
                         showToastShort(SearchResultActivity.this, "请输入搜索内容");
