@@ -181,7 +181,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
                 public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                     refreshLayout.finishRefresh(1050);
                     mPresenter.banner(getActivity(),user_id, user_token, "commend",mCity1);
-                    Log.e("hqweqwe", "onRefresh: "+ RecommedFragment.this.city);
+                    Log.e("hqweqwe", "onRefresh: "+ RecommedFragment.this.mCity1);
                 }
             });
         } else {
@@ -198,7 +198,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
                 public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                     refreshLayout.finishRefresh(1050);
                     mPresenter.banner(getActivity(),user_id, user_token, "commend", mCity1);
-                    Log.e("hqweqwe", "onRefresh111: "+ RecommedFragment.this.city);
+                    Log.e("hqweqwe", "onRefresh111: "+ RecommedFragment.this.mCity1);
                 }
             });
         }
@@ -334,6 +334,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
 
     @Override
     public void bannerSuccess(HomeBean.DataBean data) {
+        mList.clear();
         mList.add(data);
         Log.d("HomeFragment", "mList.size():" + mList.size());
         HomeRecyclerViewAdapter homeRecyclerViewAdapter = new HomeRecyclerViewAdapter(getContext(), mList);
@@ -347,7 +348,6 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
             }
         });
         String registrationID = JPushInterface.getRegistrationID(getContext());
-        Log.d("龙雀", registrationID);
         if (!NetUtils.isInternetConnection(App.context)) {
             shortToast("网络异常表");
             return;

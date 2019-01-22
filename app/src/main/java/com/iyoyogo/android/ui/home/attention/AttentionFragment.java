@@ -115,6 +115,7 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
 
     @Override
     public void bannerSuccess(HomeBean.DataBean data) {
+        mList.clear();
         mList.add(data);
         Log.d("HomeFragment", "mList.size():" + mList.size());
         HomeRecyclerViewAdapter homeRecyclerViewAdapter = new HomeRecyclerViewAdapter(getContext(), mList);
