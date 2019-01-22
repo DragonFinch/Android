@@ -12,6 +12,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +20,14 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -36,15 +40,19 @@ import com.iyoyogo.android.adapter.SearchYoXiuListAdapter;
 import com.iyoyogo.android.adapter.search.ListViewkeywordAdapter;
 import com.iyoyogo.android.adapter.search.SearchYoJiListHorizontalAdapter;
 import com.iyoyogo.android.base.BaseActivity;
+import com.iyoyogo.android.bean.search.ClerBean;
 import com.iyoyogo.android.bean.search.GuanZhuBean;
 import com.iyoyogo.android.bean.search.KeywordBean;
 import com.iyoyogo.android.bean.search.KeywordUserBean;
+import com.iyoyogo.android.bean.search.searchInfo;
 import com.iyoyogo.android.contract.KeywordContract;
 import com.iyoyogo.android.presenter.KeywordPresenter;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
 import com.iyoyogo.android.utils.SpUtils;
+import com.iyoyogo.android.utils.search.SPUtils;
+import com.iyoyogo.android.view.ZFlowLayout;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -52,6 +60,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Name: SearchResultActivity
