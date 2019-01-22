@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <AutoCompleteTextView
+        <EditText
             android:imeOptions="actionSearch"
             android:layout_marginLeft="@dimen/dp_7"
             android:id="@+id/auto_search"

@@ -123,7 +123,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
     private AppVersionDialog dialog;
     private String dowloadPath;
     private String mCity1;
-
+    private List<HomeBean.DataBean> mList = new ArrayList<>();
 
     @Override
     protected void initView() {
@@ -144,7 +144,11 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
     @Override
     public void onResume() {
         super.onResume();
-
+        if (mList==null){
+            mList = new ArrayList<>();
+        }else if(mList.size() == 0){
+            refresh();
+        }
 
     }
 
@@ -158,6 +162,10 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
         if(!fromName.equals("location")){
             return;
         }
+        refresh();
+    }
+
+    public void refresh(){
         mCity1 = SpUtils.getString(getActivity(), "citychengshi", "");
         if ( mCity1 != null) {
             MyRefreshAnimHeader mRefreshAnimHeader = new MyRefreshAnimHeader(getContext());
@@ -211,7 +219,7 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
         user_id = SpUtils.getString(getContext(), "user_id", null);
         user_token = SpUtils.getString(getContext(), "user_token", null);
         EventBus.getDefault().register(this);
-        refreshData("location");
+        refresh();
     }
 
     @Override
@@ -326,7 +334,6 @@ public class RecommedFragment extends BaseFragment<HomeContract.Presenter> imple
 
     @Override
     public void bannerSuccess(HomeBean.DataBean data) {
-        List<HomeBean.DataBean> mList = new ArrayList<>();
         mList.add(data);
         Log.d("HomeFragment", "mList.size():" + mList.size());
         HomeRecyclerViewAdapter homeRecyclerViewAdapter = new HomeRecyclerViewAdapter(getContext(), mList);

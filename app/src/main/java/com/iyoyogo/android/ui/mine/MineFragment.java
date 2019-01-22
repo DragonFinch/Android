@@ -113,7 +113,6 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
     @Override
     protected void initData() {
         super.initData();
-
     }
 
     @Override

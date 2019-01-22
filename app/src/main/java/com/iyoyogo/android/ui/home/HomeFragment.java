@@ -397,6 +397,13 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        if (attentionFragment==null){
+            attentionFragment = new AttentionFragment();
+        }
+        if (recommedFragment == null){
+            recommedFragment = new RecommedFragment();
+            switchFragment(recommedFragment);
+        }
         bar.setLocationResult(name1);
         if (currentFragment == attentionFragment){
             bar.changeAtt();
@@ -419,7 +426,6 @@ public class HomeFragment extends BaseFragment {
         currentFragment = targetFragment;
         return transaction;
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     private void initLocation() {

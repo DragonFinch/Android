@@ -14,6 +14,7 @@ import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.search.KeywordUserBean;
 import com.iyoyogo.android.ui.home.search.SearchResultActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListViewkeywordAdapter extends BaseAdapter {
@@ -24,6 +25,12 @@ public class ListViewkeywordAdapter extends BaseAdapter {
         this.context = searchResultActivity;
         this.listBeans = listBeans;
         this.s = s;
+    }
+
+    public void clearData(){
+        if (listBeans!=null){
+            listBeans.clear();
+        }
     }
 
     @Override

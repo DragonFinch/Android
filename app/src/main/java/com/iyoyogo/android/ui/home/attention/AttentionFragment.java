@@ -43,6 +43,7 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
     private String user_id;
     private String user_token;
     private String city;
+    private List<HomeBean.DataBean> mList = new ArrayList<>();
 
     @Override
     protected void initView() {
@@ -66,6 +67,11 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
     @Override
     public void onResume() {
         super.onResume();
+        if(mList==null){
+            mList = new ArrayList<>();
+        }else if(mList.size() == 0){
+            initData();
+        }
     }
 
     @Override
@@ -105,12 +111,10 @@ public class AttentionFragment extends BaseFragment<HomeContract.Presenter> impl
                 }
             });
         }
-
     }
 
     @Override
     public void bannerSuccess(HomeBean.DataBean data) {
-        List<HomeBean.DataBean> mList = new ArrayList<>();
         mList.add(data);
         Log.d("HomeFragment", "mList.size():" + mList.size());
         HomeRecyclerViewAdapter homeRecyclerViewAdapter = new HomeRecyclerViewAdapter(getContext(), mList);

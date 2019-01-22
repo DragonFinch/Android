@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -20,15 +19,13 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -118,7 +115,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
 
     //首页搜索
     @BindView(R.id.auto_search)
-    AutoCompleteTextView autoSearch;
+    EditText autoSearch;
     @BindView(R.id.tv_search)
     TextView tvSearch;
     @BindView(R.id.clear_iv)
@@ -137,6 +134,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     private boolean fig = false;
     private String mUser_id;
     private String mUser_token;
+    private  ListViewkeywordAdapter listviewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -217,13 +215,13 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String s1 = String.valueOf(s);
-                if (s1.isEmpty()) {
+                if (s1.isEmpty()&& listviewAdapter != null) {
+                    listviewAdapter.clearData();
+                    listviewAdapter.notifyDataSetChanged();
                     vertical.setVisibility(View.VISIBLE);
                     Lin.setVisibility(View.GONE);
                     hit.setVisibility(View.GONE);
                     tvSetname.setVisibility(View.GONE);
-                    listViewLv.setVisibility(View.GONE);
-                    Log.e("bvbvb", "onTextChanged: " + "wqeq");
                 }
             }
 
@@ -245,8 +243,9 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     //关闭软件盘
                     hideKeyboard(autoSearch);
-                    autoSearch.setSelection(autoSearch.getText().length());
+
                     if (autoSearch.getText() != null && autoSearch.getText().toString().trim().length() > 0) {
+                        autoSearch.setSelection(autoSearch.getText().length());
                         mPresenter.getKeyWord(SearchResultActivity.this, user_id, user_token, autoSearch.getText().toString(), "all", "");
                         //  mPresenter.getSearch(SearchResultActivity.this, user_id, user_token, searchGuanjiaci.getText().toString());
                         SPUtils.getInstance(SearchResultActivity.this).save(autoSearch.getText().toString());
@@ -342,12 +341,6 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
         }
         initKeyword(list_hot);
         initHistory();
-        String[] data = SPUtils.getInstance(this).getHistoryList();
-
-        ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<String>(this,
-                R.layout.view_mw_textview, data);
-        autoSearch.setAdapter(autoCompleteAdapter);
-
     }
 
     @Override
@@ -383,10 +376,11 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 public void onClick(View v) {
                     canLinstener = false;
                     autoSearch.setText(data[j]);
-                    autoSearch.setSelection(autoSearch.getText().length());
                     if (autoSearch.getText() != null && autoSearch.getText().toString().trim().length() > 0) {
+
                         autoSearch.setText(autoSearch.getText().toString());
                         SPUtils.getInstance(SearchResultActivity.this).save(autoSearch.getText().toString());
+                        autoSearch.setSelection(autoSearch.getText().length());
                         mPresenter.getKeyWord(SearchResultActivity.this, user_id, user_token, autoSearch.getText().toString(), "all", "");
                     } else {
                         showToastShort(SearchResultActivity.this, "请输入搜索内容！");
@@ -415,8 +409,9 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 public void onClick(View v) {
                     canLinstener = false;
                     autoSearch.setText(keyword.get(j));
-                    autoSearch.setSelection(autoSearch.getText().length());
+
                     if (autoSearch.getText() != null && autoSearch.getText().toString().trim().length() > 0) {
+                        autoSearch.setSelection(autoSearch.getText().length());
                         autoSearch.setText(autoSearch.getText().toString());
                         SPUtils.getInstance(SearchResultActivity.this).save(autoSearch.getText().toString());
                         mPresenter.getKeyWord(SearchResultActivity.this, user_id, user_token, autoSearch.getText().toString(), "all", "");
@@ -510,6 +505,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     @SuppressLint("ResourceAsColor")
     @Override
     public void search(KeywordUserBean keywordBean) {
+        autoSearch.setSelection(autoSearch.getText().length());
         //清空集合
         listBeans.clear();
         Log.e("search", "search: " + keywordBean.getData().getList().size());
@@ -531,8 +527,8 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             tvGson.setVisibility(View.GONE);
             tvGson1.setVisibility(View.GONE);
 
-            ListViewkeywordAdapter adapter = new ListViewkeywordAdapter(SearchResultActivity.this, listBeans, autoSearch.getText().toString());
-            listViewLv.setAdapter(adapter);
+            listviewAdapter = new ListViewkeywordAdapter(SearchResultActivity.this, listBeans, autoSearch.getText().toString());
+            listViewLv.setAdapter(listviewAdapter);
             canLinstener = true;
             listViewLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
