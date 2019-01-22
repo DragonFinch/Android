@@ -33,6 +33,8 @@ import com.iyoyogo.android.utils.SpUtils;
 import com.iyoyogo.android.utils.icondottextview.IconDotTextView;
 import com.iyoyogo.android.widget.CircleImageView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.Unbinder;
@@ -287,6 +289,7 @@ public class MineFragment extends BaseFragment<MineContract.Presenter> implement
         } else {
             myMessgeImId.setDotVisibility(false);
         }
+        EventBus.getDefault().postSticky(data);
     }
 
     @Override

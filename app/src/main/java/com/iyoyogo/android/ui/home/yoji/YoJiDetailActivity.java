@@ -1489,11 +1489,11 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
         /*80002/yo_id/4143*/
         String url = Constants.BASE_URL + "home/share/details_yoj/share_user_id/" + user_id + "/yo_id/" + yo_id;
         UMWeb web = new UMWeb(url);
-        web.setTitle(title);//标题
-        UMImage thumb = new UMImage(getApplicationContext(), logo);
+        web.setTitle("@"+tvUserNickname.getText().toString()+"的旅行照片简直太好看了吧！");//标题
+        UMImage thumb = new UMImage(getApplicationContext(), R.mipmap.logo);
         web.setThumb(thumb);  //缩略图
         if (!TextUtils.isEmpty(desc)) {
-            web.setDescription(desc);//描述
+            web.setDescription("快来yoyoGo看看Ta都秀了些啥～");//描述
         }
         new ShareAction(YoJiDetailActivity.this)
                 .withMedia(web)

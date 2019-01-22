@@ -47,6 +47,8 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -340,11 +342,11 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
         /*80002/yo_id/4143*/
         String url = Constants.BASE_URL+ "home/share/center_yoj/share_user_id/" + user_id + "/his_id/" + yo_user_id;
         UMWeb web = new UMWeb(url);
-        web.setTitle(user_nickName);//标题
-        UMImage thumb = new UMImage(getApplicationContext(), R.mipmap.logo);
+        web.setTitle("@"+user_nickName+"的个人主页");//标题
+        UMImage thumb = new UMImage(getApplicationContext(),R.mipmap.logo);
         web.setThumb(thumb);  //缩略图
 
-        web.setDescription("个人主页");//描述
+        web.setDescription("记录旅行每一刻，快来yoyoGo来跟我一起玩呀！");//描述
 
         new ShareAction(Personal_homepage_Activity.this)
                 .withMedia(web)
@@ -555,8 +557,9 @@ public class Personal_homepage_Activity extends BaseActivity<PersonalCenterContr
 //            imgBg.setImageBitmap(blurBitmap);
 //        }
         user_logo_big = data.getUser_logo_big();
-
     }
+
+
 
 
     @Override

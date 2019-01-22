@@ -264,11 +264,11 @@ public class UserHomepageActivity extends BaseActivity<PersonalCenterContract.Pr
         /*80002/yo_id/4143*/
         String url = Constants.BASE_URL + "home/share/center_yoj/share_user_id/" + user_id + "/his_id/" + yo_user_id;
         UMWeb web = new UMWeb(url);
-        web.setTitle(user_nickname);//标题
-        UMImage thumb = new UMImage(getApplicationContext(), user_logo);
+        web.setTitle("@"+user_nickName+"的个人主页");//标题
+        UMImage thumb = new UMImage(getApplicationContext(), R.mipmap.logo);
         web.setThumb(thumb);  //缩略图
 
-        web.setDescription("用户主页");//描述
+        web.setDescription("记录旅行每一刻，快来yoyoGo来跟我一起玩呀！");//描述
 
         new ShareAction(UserHomepageActivity.this)
                 .withMedia(web)

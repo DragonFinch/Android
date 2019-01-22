@@ -52,6 +52,11 @@ public class UserCenterBean extends BaseBean {
         private String count_yoj;
         private int is_my_attention;
 
+        public DataBean(String user_logo_big, String user_nickname) {
+            this.user_logo_big = user_logo_big;
+            this.user_nickname = user_nickname;
+        }
+
         public String getUser_logo_big() {
             return user_logo_big;
         }

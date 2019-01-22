@@ -530,8 +530,8 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         //http://192.168.0.104//80002/yo_id/4143
         String url = Constants.BASE_URL + "home/share/details_yox/share_user_id/" + user_id + "/yo_id/" + yo_id;
         UMWeb web = new UMWeb(url);
-        web.setTitle(path);//标题
-        UMImage thumb = new UMImage(getApplicationContext(), path);
+        web.setTitle("@"+userName.getText().toString()+"的旅行照片简直太好看了吧！");//标题
+        UMImage thumb = new UMImage(getApplicationContext(), R.mipmap.logo);
         web.setThumb(thumb);  //缩略图
         if (!TextUtils.isEmpty(file_desc)) {
             web.setDescription(file_desc);//描述

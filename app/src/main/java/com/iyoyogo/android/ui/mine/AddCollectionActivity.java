@@ -27,6 +27,8 @@ import com.iyoyogo.android.app.Constants;
 import com.iyoyogo.android.base.BaseActivity;
 import com.iyoyogo.android.bean.attention.AttentionBean;
 import com.iyoyogo.android.bean.collection.AddCollectionBean1;
+import com.iyoyogo.android.bean.mine.MineMessageBean;
+import com.iyoyogo.android.bean.mine.center.UserCenterBean;
 import com.iyoyogo.android.contract.AddCollectionContract;
 import com.iyoyogo.android.presenter.AddCollectionPresenter;
 import com.iyoyogo.android.ui.mine.homepage.AddressBookFriendsActivity;
@@ -38,6 +40,10 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.editorpage.ShareActivity;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -55,6 +61,9 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
     String user_id;
     String user_token;
     TextView btu_guanzhu;
+    private String nickName;
+    private String userLogo;
+
 
     @Override
     protected int getLayoutId() {
@@ -130,7 +139,8 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
                 shareWeb(SHARE_MEDIA.SINA);
                 break;
             case R.id.Invite_QQ_Friends://QQ
-                shareQQ(AddCollectionActivity.this,"记录旅行每一刻，快来yoyoGo跟我一起玩呀！" +  Constants.BASE_URL + "index.php/home/share/download_all.html");
+                shareWeb(SHARE_MEDIA.QQ);
+//                shareQQ(AddCollectionActivity.this, "记录旅行每一刻，快来yoyoGo跟我一起玩呀！" + Constants.BASE_URL + "index.php/home/share/download_all.html");
                 break;
         }
     }
@@ -138,25 +148,42 @@ public class AddCollectionActivity extends BaseActivity<AddCollectionContract.Pr
     private void shareWeb(SHARE_MEDIA share_media) {
         /*80002/yo_id/4143*/
         String url = Constants.BASE_URL + "index.php/home/share/download_all.html";
-//        UMWeb web = new UMWeb(url);
-//        web.setTitle("yoyoGo");//标题
-//        UMImage thumb = new UMImage(getApplicationContext(), R.mipmap.logo);
-//        web.setThumb(thumb);  //缩略图
-//
-//        web.setDescription("");//描述
+        UMWeb web = new UMWeb(url);
+        web.setTitle("  ");//标题
+        UMImage thumb = new UMImage(getApplicationContext(), R.mipmap.logo);
+        web.setThumb(thumb);  //缩略图
 
-//        new ShareAction(AddCollectionActivity.this)
-//                .withMedia(web)
-//                .setPlatform(share_media)
-//                .share();
-        new ShareAction(AddCollectionActivity.this).setPlatform(share_media).withText("记录旅行每一刻，快来yoyoGo跟我一起玩呀！" + url).share();
+        web.setDescription("记录旅行每一刻，快来yoyoGo来跟我一起玩呀，搜索" + "“" + nickName + "”" + "就能找到我！");//描述
+
+        new ShareAction(AddCollectionActivity.this)
+                .withMedia(web)
+                .setPlatform(share_media)
+                .share();
+//        new ShareAction(AddCollectionActivity.this).setPlatform(share_media).withText("记录旅行每一刻，快来yoyoGo跟我一起玩呀！" + url).share();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void Name(MineMessageBean.DataBean dataBean) {
+        nickName = dataBean.getUser_nickname();
+        userLogo = dataBean.getUser_logo();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
 
     /**
      * @param mContext 上下文
-     * @param content 要分享的文本
-     * */
+     * @param content  要分享的文本
+     */
     public static void shareQQ(Context mContext, String content) {
         if (isQQClientAvailable(mContext)) {
             Intent intent = new Intent("android.intent.action.SEND");
