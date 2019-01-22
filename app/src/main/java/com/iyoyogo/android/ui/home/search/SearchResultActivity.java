@@ -206,6 +206,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
     protected void initView() {
         super.initView();
         StatusBarCompat.setStatusBarColor(this, Color.WHITE);
+
         //软键盘的搜索点击时间
         autoSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -236,6 +237,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 }
             }
         });
+
         //搜索框的搜索栏
         autoSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -414,6 +416,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                         autoSearch.setSelection(autoSearch.getText().length());
                         autoSearch.setText(autoSearch.getText().toString());
                         SPUtils.getInstance(SearchResultActivity.this).save(autoSearch.getText().toString());
+                        autoSearch.setSelection(autoSearch.getText().length());
                         mPresenter.getKeyWord(SearchResultActivity.this, user_id, user_token, autoSearch.getText().toString(), "all", "");
                     } else {
                         showToastShort(SearchResultActivity.this, "请输入搜索内容");
@@ -530,6 +533,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             listviewAdapter = new ListViewkeywordAdapter(SearchResultActivity.this, listBeans, autoSearch.getText().toString());
             listViewLv.setAdapter(listviewAdapter);
             canLinstener = true;
+
             listViewLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -586,11 +590,18 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
             });
 
             if (list.size() <= 0) {
+                listviewAdapter.clearData();
+                listviewAdapter.notifyDataSetChanged();
                 Li.setVisibility(View.VISIBLE);
                 listViewLv.setVisibility(View.GONE);
                 tvSetname.setVisibility(View.GONE);
-                hit.setVisibility(View.GONE);
+                hit.setVisibility(View.VISIBLE);
             }
+        if (autoSearch.getText().toString().trim().equals("")){
+            listviewAdapter.clearData();
+            listviewAdapter.notifyDataSetChanged();
+            vertical.setVisibility(View.VISIBLE);
+        }
     }
 
 /*
