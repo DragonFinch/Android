@@ -160,7 +160,7 @@ public class MineCollectionAdapter extends RecyclerView.Adapter<MineCollectionAd
         String name = mList.get(index).getName();
         int open = mList.get(index).getOpen();
         int folder_id = mList.get(index).getFolder_id();
-        intent.putExtra("name", name + "·" + mList.get(index).getCount_record());
+        intent.putExtra("name", name );
         intent.putExtra("title", name);
         intent.putExtra("folder_id", folder_id);
         intent.putExtra("open", open);
