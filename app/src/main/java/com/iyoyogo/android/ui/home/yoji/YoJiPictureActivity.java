@@ -410,7 +410,11 @@ public class YoJiPictureActivity extends BaseActivity implements SoftKeyboardSta
                                                 public void accept(AddCollectionBean addCollectionBean) throws Exception {
                                                     String collection_id = addCollectionBean.getData().getId();
 //                                              add_collection_id = Integer.parseInt(collection_id);
-                                                    count_comment += 1;
+                                                    if (count_comment==null||"null".equals(count_comment)){
+                                                        count_comment = "1";
+                                                    }else {
+                                                        count_comment += 1;
+                                                    }
                                                     Drawable collection = getResources().getDrawable(
                                                             R.mipmap.shoucang_bai);
                                                     Drawable collectioned = getResources().getDrawable(

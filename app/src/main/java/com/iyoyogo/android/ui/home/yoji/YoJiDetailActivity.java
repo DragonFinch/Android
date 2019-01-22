@@ -1284,7 +1284,8 @@ public class YoJiDetailActivity extends BaseActivity<YoJiDetailContract.Presente
 
     private void collection() {
         View view = LayoutInflater.from(YoJiDetailActivity.this).inflate(R.layout.item_collection_list, null);
-        PopupWindow popup = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(YoJiDetailActivity.this, 300), true);
+//        PopupWindow popup = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(YoJiDetailActivity.this, 300), true);
+        PopupWindow popup = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,  ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popup.setOutsideTouchable(true);
         popup.setBackgroundDrawable(new ColorDrawable());
 

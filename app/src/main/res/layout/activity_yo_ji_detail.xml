@@ -615,15 +615,20 @@
             android:id="@+id/shadow"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_5"
-            android:background="@mipmap/home_l_shadow" />
+            android:background="@mipmap/home_l_shadow"
+            android:visibility="gone"/>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <include android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                layout="@layout/custom_facerelativelayoutdetails"></include>
+            <include
+                layout="@layout/custom_facerelativelayoutdetails"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </include>
+
+
         </LinearLayout>
 
 

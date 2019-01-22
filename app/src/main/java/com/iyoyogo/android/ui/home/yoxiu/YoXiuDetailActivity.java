@@ -1132,7 +1132,7 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
     @Override
     public void onSoftKeyboardOpened(int keyboardHeightInPx) {
         //获得焦点
-        tvCollection.setVisibility(View.GONE);
+        tvCollection.setVisibility(View. GONE);
         tvLike.setVisibility(View.GONE);
         editComment.setHint("码字不容易，留个评论鼓励下嘛~");
         editComment.setHintTextColor(Color.parseColor("#888888"));
