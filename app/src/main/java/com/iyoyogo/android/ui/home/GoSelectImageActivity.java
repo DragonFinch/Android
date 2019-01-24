@@ -36,6 +36,7 @@ import com.iyoyogo.android.adapter.GoPictureAlbumDirectoryAdapter;
 import com.iyoyogo.android.adapter.GoSelectImageAdapter;
 import com.iyoyogo.android.ui.home.yoji.NewPublishYoJiActivity;
 import com.iyoyogo.android.ui.home.yoxiu.NewPublishYoXiuActivity;
+import com.iyoyogo.android.ui.mine.draft.DraftActivity;
 import com.iyoyogo.android.utils.util.UiUtils;
 import com.iyoyogo.android.widget.CommonPopup;
 import com.luck.picture.lib.PictureBaseActivity;
@@ -213,21 +214,21 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
         }
     }
 
-    public void setDisabledFayoxiu(boolean isDisabled){
-        if (isDisabled){
+    public void setDisabledFayoxiu(boolean isDisabled) {
+        if (isDisabled) {
             mIvPublishYoxiu.setImageResource(R.drawable.fayoxiu_bukeyong);
             mIvPublishYoxiu.setClickable(false);
-        }else{
+        } else {
             mIvPublishYoxiu.setImageResource(R.drawable.fayoxiu);
             mIvPublishYoxiu.setClickable(true);
         }
     }
 
-    public void setDisabledFayoJi(boolean isDisabled){
-        if (isDisabled){
+    public void setDisabledFayoJi(boolean isDisabled) {
+        if (isDisabled) {
             mIvPublishYoji.setImageResource(R.drawable.fayoji_bukeyong);
             mIvPublishYoji.setClickable(false);
-        }else{
+        } else {
             mIvPublishYoji.setImageResource(R.drawable.fayoji);
             mIvPublishYoji.setClickable(true);
         }
@@ -355,6 +356,21 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
             selectionMedias = PictureSelector.obtainSelectorList(savedInstanceState);
         }
         adapter = new GoSelectImageAdapter(mContext, config);
+        adapter.setGetData(new GoSelectImageAdapter.getData() {
+            @Override
+            public void getoncli(int pos) {
+                Intent intent = new Intent(GoSelectImageActivity.this, EditImageOrVideoActivity.class);
+                if (images.get(pos).getPictureType().startsWith(PictureConfig.IMAGE)) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("LOCALMEDIA",images.get(pos));
+                    bundle.putInt("type", 1);
+                    startActivity(intent);
+                } else {
+                    intent.putExtra("type", 2);
+                    startActivity(intent);
+                }
+            }
+        });
         adapter.setOnPhotoSelectChangedListener(this);
         adapter.bindSelectImages(selectionMedias);
         picture_recycler.setAdapter(adapter);
@@ -958,6 +974,14 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data != null) {
+            if (requestCode == PictureConfig.CHOOSE_REQUEST) {
+                startActivity(data.setClass(GoSelectImageActivity.this, EditImageOrVideoActivity.class).putExtra("type", 1));
+            } else if (requestCode == 201) {
+                startActivity(data.setClass(GoSelectImageActivity.this, EditImageOrVideoActivity.class).putExtra("type", 2));
+            }
+        }
+
         if (resultCode == RESULT_OK) {
             List<LocalMedia> medias = new ArrayList<>();
             LocalMedia media;
@@ -1105,6 +1129,13 @@ public class GoSelectImageActivity extends PictureBaseActivity implements View.O
         } else if (resultCode == UCrop.RESULT_ERROR) {
             Throwable throwable = (Throwable) data.getSerializableExtra(UCrop.EXTRA_ERROR);
             ToastManage.s(mContext, throwable.getMessage());
+        }
+        if (data != null) {
+            if (requestCode == PictureConfig.CHOOSE_REQUEST) {
+                startActivity(data.setClass(GoSelectImageActivity.this, EditImageOrVideoActivity.class).putExtra("type", 1));
+            } else if (requestCode == 201) {
+                startActivity(data.setClass(GoSelectImageActivity.this, EditImageOrVideoActivity.class).putExtra("type", 2));
+            }
         }
     }
 

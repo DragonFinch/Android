@@ -43,21 +43,21 @@ public class EditImageOrVideoActivity extends BaseActivity {
 
 
     @BindView(R.id.iv_back)
-    ImageView      mIvBack;
+    ImageView mIvBack;
     @BindView(R.id.tv_edit)
-    TextView       mTvEdit;
+    TextView mTvEdit;
     @BindView(R.id.viewPager)
-    MyViewPagers   mViewPager;
+    MyViewPagers mViewPager;
     @BindView(R.id.btn_done)
-    Button         mBtnDone;
+    Button mBtnDone;
     @BindView(R.id.iv_filter)
-    ImageView      mIvFilter;
+    ImageView mIvFilter;
     @BindView(R.id.iv_coup)
-    ImageView      mIvCoup;
+    ImageView mIvCoup;
     @BindView(R.id.iv_video)
-    ImageView      mIvVideo;
+    ImageView mIvVideo;
     @BindView(R.id.ll_option_image)
-    LinearLayout   mLlOptionImage;
+    LinearLayout mLlOptionImage;
     @BindView(R.id.rl_done)
     RelativeLayout mRlDone;
 
@@ -80,7 +80,13 @@ public class EditImageOrVideoActivity extends BaseActivity {
         super.initView();
         StatusBarCompat.setStatusBarColor(this, Color.WHITE);
 //        statusbar();
-        localMedia = PictureSelector.obtainMultipleResult(getIntent());
+        Bundle bundle = getIntent().getExtras();
+        if (bundle!=null&&bundle.containsKey("LOCALMEDIA")){
+            localMedia = new ArrayList<>();
+            localMedia.add(bundle.getParcelable("LOCALMEDIA"));
+        }else{
+            localMedia = PictureSelector.obtainMultipleResult(getIntent());
+        }
         mViewPager.setCanScroll(true);
         mViewPager.setAdapter(new EditImageOrVideoAdapter(localMedia, this));
         if (localMedia != null && localMedia.size() > 0) {
@@ -158,8 +164,8 @@ public class EditImageOrVideoActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         int position = mViewPager.getCurrentItem();
         if (resultCode == RESULT_OK) {
-            CutInfo    cutInfo = (CutInfo) data.getSerializableExtra("data");
-            LocalMedia local   = this.localMedia.get(position);
+            CutInfo cutInfo = (CutInfo) data.getSerializableExtra("data");
+            LocalMedia local = this.localMedia.get(position);
             local.setCutPath(cutInfo.getCutPath());
             local.setCompressPath(cutInfo.getCutPath());
             local.setCut(cutInfo.isCut());

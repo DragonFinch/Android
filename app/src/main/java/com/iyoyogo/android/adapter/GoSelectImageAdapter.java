@@ -3,6 +3,7 @@ package com.iyoyogo.android.adapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
@@ -20,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
+import com.iyoyogo.android.ui.home.EditImageOrVideoActivity;
 import com.iyoyogo.android.ui.home.GoSelectImageActivity;
 import com.luck.picture.lib.adapter.PictureImageGridAdapter;
 import com.luck.picture.lib.anim.OptAnimationLoader;
@@ -42,29 +44,29 @@ import java.util.List;
  * @description
  */
 public class GoSelectImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final static int                                                  DURATION           = 450;
-    private              Context                                              context;
-    private              boolean                                              showCamera         = true;
-    private              OnPhotoSelectChangedListener imageSelectChangedListener;
-    private              int                                                  maxSelectNum;
-    private              List<LocalMedia>                                     images             = new ArrayList<LocalMedia>();
-    private              List<LocalMedia>                                     selectImages       = new ArrayList<LocalMedia>();
-    private              boolean                                              enablePreview;
-    private              int                                                  selectMode         = PictureConfig.MULTIPLE;
-    private              boolean                                              enablePreviewVideo = false;
-    private              boolean                                              enablePreviewAudio = false;
-    private              boolean                                              is_checked_num;
-    private              boolean                                              enableVoice;
-    private              int                                                  overrideWidth, overrideHeight;
-    private float                  sizeMultiplier;
-    private Animation              animation;
+    private final static int DURATION = 450;
+    private Context context;
+    private boolean showCamera = true;
+    private OnPhotoSelectChangedListener imageSelectChangedListener;
+    private int maxSelectNum;
+    private List<LocalMedia> images = new ArrayList<LocalMedia>();
+    private List<LocalMedia> selectImages = new ArrayList<LocalMedia>();
+    private boolean enablePreview;
+    private int selectMode = PictureConfig.MULTIPLE;
+    private boolean enablePreviewVideo = false;
+    private boolean enablePreviewAudio = false;
+    private boolean is_checked_num;
+    private boolean enableVoice;
+    private int overrideWidth, overrideHeight;
+    private float sizeMultiplier;
+    private Animation animation;
     private PictureSelectionConfig config;
-    private int                    mimeType;
-    private boolean                zoomAnim;
+    private int mimeType;
+    private boolean zoomAnim;
     /**
      * 单选图片
      */
-    private boolean                isGo;
+    private boolean isGo;
 
     public GoSelectImageAdapter(Context context, PictureSelectionConfig config) {
         this.context = context;
@@ -77,7 +79,7 @@ public class GoSelectImageAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.overrideHeight = 0;
         this.enableVoice = false;
         this.sizeMultiplier = 0.5f;
-        this.mimeType =PictureMimeType.ofAll();
+        this.mimeType = PictureMimeType.ofAll();
         this.zoomAnim = true;
         animation = OptAnimationLoader.loadAnimation(context, R.anim.modal_in);
     }
@@ -152,7 +154,7 @@ public class GoSelectImageAdapter extends RecyclerView.Adapter<RecyclerView.View
             });
         } else {
             final ViewHolder contentHolder = (ViewHolder) holder;
-            final LocalMedia                         image         = images.get(showCamera ? position - 1 : position);
+            final LocalMedia image = images.get(showCamera ? position - 1 : position);
             image.position = contentHolder.getAdapterPosition();
             final String path = image.getPath();
             final String pictureType = image.getPictureType();
@@ -210,7 +212,7 @@ public class GoSelectImageAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }
                 });
             }
-            contentHolder.contentView.setOnClickListener(new View.OnClickListener() {
+            contentHolder.ll_check.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // 如原图路径不存在或者路径存在但文件不存在
@@ -229,10 +231,47 @@ public class GoSelectImageAdapter extends RecyclerView.Adapter<RecyclerView.View
                         imageSelectChangedListener.onPictureClick(image, index);
                     } else {
                         changeCheckboxState(contentHolder, image);
+//                        if (getData != null){
+//                            getData.getoncli();
+//                        }
+                    }
+                }
+            });
+            contentHolder.iv_picture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // 如原图路径不存在或者路径存在但文件不存在
+                    if (!new File(path).exists()) {
+                        ToastManage.s(context, PictureMimeType.s(context, mediaMimeType));
+                        return;
+                    }
+                    int index = showCamera ? position - 1 : position;
+                    boolean eqResult =
+                            mediaMimeType == PictureConfig.TYPE_IMAGE && enablePreview
+                                    || mediaMimeType == PictureConfig.TYPE_VIDEO && (enablePreviewVideo
+                                    || selectMode == PictureConfig.SINGLE)
+                                    || mediaMimeType == PictureConfig.TYPE_AUDIO && (enablePreviewAudio
+                                    || selectMode == PictureConfig.SINGLE);
+                    if (eqResult) {
+                        imageSelectChangedListener.onPictureClick(image, index);
+                    } else {
+                        if (getData != null) {
+                            getData.getoncli(position);
+                        }
                     }
                 }
             });
         }
+    }
+
+    private getData getData;
+
+    public void setGetData(GoSelectImageAdapter.getData getData) {
+        this.getData = getData;
+    }
+
+    public interface getData {
+        void getoncli(int pos);
     }
 
 
@@ -242,7 +281,7 @@ public class GoSelectImageAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public class HeaderViewHolder extends RecyclerView.ViewHolder {
-        View     headerView;
+        View headerView;
         TextView tv_title_camera;
 
         public HeaderViewHolder(View itemView) {
@@ -260,7 +299,7 @@ public class GoSelectImageAdapter extends RecyclerView.Adapter<RecyclerView.View
         ImageView iv_picture;
         TextView check;
         TextView tv_duration, tv_isGif, tv_long_chart;
-        View         contentView;
+        View contentView;
         LinearLayout ll_check;
 
         public ViewHolder(View itemView) {
@@ -348,28 +387,28 @@ public class GoSelectImageAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (imageSelectChangedListener != null) {
             imageSelectChangedListener.onChange(selectImages);
         }
-        if(selectImages.size() == 0 ){
-            ((GoSelectImageActivity)context).setDisabledFayoxiu(true);
-            ((GoSelectImageActivity)context).setDisabledFayoJi(true);
-        }else if(selectImages.size() == 1){
-            if (!selectImages.get(0).getPictureType().startsWith(PictureConfig.IMAGE)){
-                ((GoSelectImageActivity)context).setDisabledFayoJi(true);
-            }else{
-                ((GoSelectImageActivity)context).setDisabledFayoJi(false);
+        if (selectImages.size() == 0) {
+            ((GoSelectImageActivity) context).setDisabledFayoxiu(true);
+            ((GoSelectImageActivity) context).setDisabledFayoJi(true);
+        } else if (selectImages.size() == 1) {
+            if (!selectImages.get(0).getPictureType().startsWith(PictureConfig.IMAGE)) {
+                ((GoSelectImageActivity) context).setDisabledFayoJi(true);
+            } else {
+                ((GoSelectImageActivity) context).setDisabledFayoJi(false);
             }
-            ((GoSelectImageActivity)context).setDisabledFayoxiu(false);
-        }else{
-            ((GoSelectImageActivity)context).setDisabledFayoxiu(true);
+            ((GoSelectImageActivity) context).setDisabledFayoxiu(false);
+        } else {
+            ((GoSelectImageActivity) context).setDisabledFayoxiu(true);
             boolean hasVideo = false;
-            for (LocalMedia picType : selectImages){
-                if (!selectImages.get(0).getPictureType().startsWith(PictureConfig.IMAGE)){
+            for (LocalMedia picType : selectImages) {
+                if (!selectImages.get(0).getPictureType().startsWith(PictureConfig.IMAGE)) {
                     hasVideo = true;
                 }
             }
-            if (hasVideo){
-                ((GoSelectImageActivity)context).setDisabledFayoJi(true);
-            }else{
-                ((GoSelectImageActivity)context).setDisabledFayoJi(false);
+            if (hasVideo) {
+                ((GoSelectImageActivity) context).setDisabledFayoJi(true);
+            } else {
+                ((GoSelectImageActivity) context).setDisabledFayoJi(false);
             }
         }
     }
@@ -475,4 +514,5 @@ public class GoSelectImageAdapter extends RecyclerView.Adapter<RecyclerView.View
             set.start();
         }
     }
+
 }
