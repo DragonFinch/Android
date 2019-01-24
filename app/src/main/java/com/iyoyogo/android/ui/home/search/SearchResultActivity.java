@@ -164,6 +164,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                 }
                 if (s.equals("+关注")) {
                     mPresenter.getGuanZhu(user_id, user_token, user_id1 + "");
+                    //qwe1
                 }
                 if (s.equals("互相关注")) {
                     mPresenter.getGuanZhu(user_id, user_token, user_id1 + "");
