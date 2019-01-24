@@ -1,8 +1,14 @@
 package com.iyoyogo.android.adapter;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,18 +18,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.iyoyogo.android.R;
 import com.iyoyogo.android.bean.BaseBean;
 import com.iyoyogo.android.bean.home.HomeBean;
 import com.iyoyogo.android.model.DataManager;
 import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
+import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuListActivity;
 import com.iyoyogo.android.utils.DensityUtil;
 import com.iyoyogo.android.utils.GlideRoundTransform;
@@ -179,7 +190,7 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
             holder.iv_like.setImageResource(R.mipmap.datu_xihuan);
         } else {
             holder.iv_like.setImageResource(R.mipmap.yixihuan_xiangqing);
-        }
+    }
         holder.iv_like.setImageResource(mList.get(position).getIs_my_like() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
 
         holder.user_icon.setOnClickListener(new View.OnClickListener() {
@@ -190,6 +201,9 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
                 context.startActivity(intent);
             }
         });
+
+
+        //点击事件
         holder.iv_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,10 +212,10 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
                 if (mList.get(position).getIs_my_like() == 1) {
                     count_praise += 1;
                     mList.get(position).setCount_praise(count_praise);
+
                 } else if (count_praise > 0) {
                     count_praise -= 1;
                     mList.get(position).setCount_praise(count_praise);
-
                 }
                 holder.num_like.setText(count_praise + "");
                 holder.iv_like.setImageResource(mList.get(position).getIs_my_like() == 0 ? R.mipmap.datu_xihuan : R.mipmap.yixihuan_xiangqing);
@@ -470,5 +484,35 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
 
     public void setOnRetryClickListener(OnRetryClickListener onRetryClickListener) {
         this.onRetryClickListener = onRetryClickListener;
+    }
+
+    /**
+     * @param v  执行动画的view
+     * @param startBounds  开始的边界
+     * @param finalBounds  结束时的边界
+     * @param startScale  开始的拉伸比率
+     */
+    public void startZoomAnim(View v, Rect startBounds, Rect finalBounds, float startScale) {
+        AnimatorSet set = new AnimatorSet();
+        set.play(
+                ObjectAnimator.ofFloat(v, "x", startBounds.left, finalBounds.left))
+                .with(ObjectAnimator.ofFloat(v, "y", startBounds.top, finalBounds.top))
+                .with(ObjectAnimator.ofFloat(v, "scaleX", startScale, 1f))
+                .with(ObjectAnimator.ofFloat(v, "scaleY", startScale, 1f));
+
+        set.setDuration(200);
+        set.setInterpolator(new DecelerateInterpolator());
+        set.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                //
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                //
+            }
+        });
+        set.start();
     }
 }

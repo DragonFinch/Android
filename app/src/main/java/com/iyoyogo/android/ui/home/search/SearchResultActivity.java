@@ -43,6 +43,7 @@ import com.iyoyogo.android.bean.search.KeywordUserBean;
 import com.iyoyogo.android.bean.search.searchInfo;
 import com.iyoyogo.android.contract.KeywordContract;
 import com.iyoyogo.android.presenter.KeywordPresenter;
+import com.iyoyogo.android.ui.home.yoji.UserHomepageActivity;
 import com.iyoyogo.android.ui.home.yoji.YoJiDetailActivity;
 import com.iyoyogo.android.ui.home.yoxiu.YoXiuDetailActivity;
 import com.iyoyogo.android.ui.mine.homepage.Personal_homepage_Activity;
@@ -234,6 +235,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                     mPresenter.getSearch(SearchResultActivity.this, user_id, user_token, autoSearch.getText().toString());
                     Log.e("search", "afterTextChanged1111: " + autoSearch.getText().toString());
                     SPUtils.getInstance(SearchResultActivity.this).save(autoSearch.getText().toString());
+                    initHistory();
                 }
             }
         });
@@ -384,6 +386,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                         SPUtils.getInstance(SearchResultActivity.this).save(autoSearch.getText().toString());
                         autoSearch.setSelection(autoSearch.getText().length());
                         mPresenter.getKeyWord(SearchResultActivity.this, user_id, user_token, autoSearch.getText().toString(), "all", "");
+                        initHistory();
                     } else {
                         showToastShort(SearchResultActivity.this, "请输入搜索内容！");
                     }
@@ -418,6 +421,7 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                         SPUtils.getInstance(SearchResultActivity.this).save(autoSearch.getText().toString());
                         autoSearch.setSelection(autoSearch.getText().length());
                         mPresenter.getKeyWord(SearchResultActivity.this, user_id, user_token, autoSearch.getText().toString(), "all", "");
+                        initHistory();
                     } else {
                         showToastShort(SearchResultActivity.this, "请输入搜索内容");
                     }
@@ -541,9 +545,10 @@ public class SearchResultActivity extends BaseActivity<KeywordContract.Presenter
                     switch (type) {
                         //个人信息
                         case 1:
-                            Intent intent = new Intent(SearchResultActivity.this, Personal_homepage_Activity.class);
+                            Intent intent = new Intent(SearchResultActivity.this, UserHomepageActivity.class);
                             intent.putExtra("yo_user_id", list.get(position).getUser_id() + "");
                             startActivity(intent);
+                            adapter.notifyDataSetChanged();
                             break;
                         //有记
                         case 2:

@@ -436,8 +436,6 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
 
     private void checkAllPermission() {
         if (Build.VERSION.SDK_INT >= 23) {
-
-
             String[] mPermissionList = new String[]{
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_FINE_LOCATION,

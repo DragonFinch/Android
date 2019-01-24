@@ -32,6 +32,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.githang.statusbar.StatusBarCompat;
@@ -213,6 +214,12 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         yo_id1 = intent.getStringExtra("yo_id");
         img_brow = findViewById(R.id.img_brow);
         send_emoji = findViewById(R.id.send_emoji);
+        RequestOptions options = new RequestOptions()
+                .error(R.mipmap.ic_launcher)
+                .override(100,100)
+                .skipMemoryCache(true);
+
+        Glide.with(YoXiuDetailActivity.this).asGif().load(R.drawable.tubiaogo).apply(options).into(imgGo);
         //表情包的点击按钮 发送
         mFasong = findViewById(R.id.fasongdetails);
         mFasong.setOnClickListener(new View.OnClickListener() {

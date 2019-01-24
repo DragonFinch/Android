@@ -1,8 +1,13 @@
 package com.iyoyogo.android.adapter.search;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +21,8 @@ import com.iyoyogo.android.ui.home.search.SearchResultActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ListViewkeywordAdapter extends BaseAdapter {
     private Context context;
@@ -79,8 +86,86 @@ public class ListViewkeywordAdapter extends BaseAdapter {
          if (listBeans.get(position).getType() == 6){
             viewHolder.im_dizhi.setImageResource(R.drawable.pindao);
           }
-            String content= listBeans.get(position).getUser_nickname();
-            if (!TextUtils.isEmpty(s)&&!TextUtils.isEmpty(content)) {
+      /*  Log.e("zczxczczx", "getView:11111111111111 +"+listBeans.get(position).getUser_nickname() );
+        Log.e("zczxczczx", "getView:11111111111111 +"+listBeans.get(position).getTitle() );
+        Log.e("zczxczczx", "getView:11111111111111 +"+listBeans.get(position).getFile_desc() );
+        Log.e("zczxczczx", "getView:11111111111111 +"+listBeans.get(position).getPosition_name() );
+          if (s != null && listBeans.get(position).getUser_nickname() != null){
+              Log.e("zczxczczx", "getView: "+"s"+s+"List"+listBeans.get(position).getUser_nickname() );
+              SpannableString string = matcherSearchText(Color.parseColor("#FA800A"), listBeans.get(position).getUser_nickname()+"", s);
+              viewHolder.txtv.setText(string);
+          }else{
+              Log.e("zczxczczx", "getView:1 "+listBeans.get(position).getUser_nickname() );
+            viewHolder.txtv.setText(listBeans.get(position).getUser_nickname());
+          }
+        if (s != null && listBeans.get(position).getTitle() != null){
+            SpannableString string = matcherSearchText(Color.parseColor("#FA800A"), listBeans.get(position).getTitle()+"", s);
+            viewHolder.txtv.setText(string);
+        }else{
+            viewHolder.txtv.setText(listBeans.get(position).getTitle());
+        }
+        if (s != null && listBeans.get(position).getFile_desc() != null){
+            SpannableString string = matcherSearchText(Color.parseColor("#FA800A"), listBeans.get(position).getFile_desc()+"", s);
+            viewHolder.txtv.setText(string);
+        }else{
+            viewHolder.txtv.setText(listBeans.get(position).getFile_desc());
+        }
+        if (s != null && listBeans.get(position).getLabel() != null){
+            SpannableString string = matcherSearchText(Color.parseColor("#FA800A"), listBeans.get(position).getLabel()+"", s);
+            viewHolder.txtv.setText(string);
+        }else{
+            viewHolder.txtv.setText(listBeans.get(position).getLabel());
+        }
+        if (s != null && listBeans.get(position).getPosition_name() != null){
+            SpannableString string = matcherSearchText(Color.parseColor("#FA800A"), listBeans.get(position).getPosition_name()+"", s);
+            viewHolder.txtv.setText(string);
+        }else{
+            viewHolder.txtv.setText(listBeans.get(position).getPosition_name());
+        }
+        if (s != null  && listBeans.get(position).getChannel() != null){
+            SpannableString string = matcherSearchText(Color.parseColor("#FA800A"), listBeans.get(position).getChannel()+"", s);
+            viewHolder.txtv.setText(string);
+        }else{
+            viewHolder.txtv.setText(listBeans.get(position).getChannel());
+        }*/
+
+        String content= listBeans.get(position).getUser_nickname();
+        if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content)){
+            content = content.replace(s, "<font color='#FA800A'>" + s + "</font>");
+            viewHolder.txtv.setText(Html.fromHtml(content));
+        }
+        String content1 = listBeans.get(position).getTitle();
+        if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content1)){
+            content1 = content1.replace(s, "<font color='#FA800A'>" + s + "</font>");
+            Log.e("asdzxc", "getView: "+content1 );
+            Log.e("asdzxc", "getView: "+s );
+            viewHolder.txtv.setText(Html.fromHtml(content1));
+        }
+        String content2 = listBeans.get(position).getFile_desc();
+        if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content2)){
+            content2 = content2.replace(s, "<font color='#FA800A'>" + s + "</font>");
+            viewHolder.txtv.setText(Html.fromHtml(content2));
+        }
+        String content3 = listBeans.get(position).getLabel();
+        if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content3)){
+            content3 = content3.replace(s, "<font color='#FA800A'>" + s + "</font>");
+            viewHolder.txtv.setText(Html.fromHtml(content3));
+        }
+        String content4 = listBeans.get(position).getPosition_name();
+        if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content4)){
+            content4 = content4.replace(s, "<font color='#FA800A'>" + s + "</font>");
+            viewHolder.txtv.setText(Html.fromHtml(content4));
+        }
+        String content5 = listBeans.get(position).getChannel();
+        if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content5)){
+            content5 = content5.replace(s, "<font color='#FA800A'>" + s + "</font>");
+            viewHolder.txtv.setText(Html.fromHtml(content5));
+        }
+
+       /*
+
+        Log.e("wqezxc", "getView: "+s );
+           *//* if (!TextUtils.isEmpty(s)&&!TextUtils.isEmpty(content)) {
                 int index = content.indexOf(s);
                 if (index>=0) {
                     viewHolder.txtv.setText(content.substring(0, index));
@@ -88,9 +173,11 @@ public class ListViewkeywordAdapter extends BaseAdapter {
                     String str = content.substring(s.length() + index, content.length());
                     viewHolder.txtv.append(str);
                 }
-            }
-        String content1 = listBeans.get(position).getTitle();
-        if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content1)) {
+            }*//*
+
+      *//*  *//*
+
+   *//*     if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content1)) {
             int index = content1.indexOf(s);
             if (index >= 0) {
                 viewHolder.txtv.setText(content1.substring(0, index));
@@ -98,9 +185,10 @@ public class ListViewkeywordAdapter extends BaseAdapter {
                 String str = content1.substring(s.length() + index, content1.length());
                 viewHolder.txtv.append(str);
             }
-        }
-        String content2 = listBeans.get(position).getFile_desc();
-        if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content2)) {
+        }*//*
+
+
+      *//*  if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content2)) {
             int index = content2.indexOf(s);
             if (index >= 0) {
                 viewHolder.txtv.setText(content2.substring(0, index));
@@ -108,9 +196,9 @@ public class ListViewkeywordAdapter extends BaseAdapter {
                 String str = content2.substring(s.length() + index, content2.length());
                 viewHolder.txtv.append(str);
             }
-        }
-        String content3 = listBeans.get(position).getLabel();
-        if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content3)) {
+        }*//*
+
+      *//*  if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content3)) {
             int index = content3.indexOf(s);
             if (index >= 0) {
                 viewHolder.txtv.setText(content3.substring(0, index));
@@ -118,9 +206,10 @@ public class ListViewkeywordAdapter extends BaseAdapter {
                 String str = content3.substring(s.length() + index, content3.length());
                 viewHolder.txtv.append(str);
             }
-        }
-        String content4 = listBeans.get(position).getPosition_name();
-        if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content4)) {
+        }*//*
+
+
+    *//*    if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content4)) {
             int index = content4.indexOf(s);
             if (index >= 0) {
                 viewHolder.txtv.setText(content4.substring(0, index));
@@ -128,9 +217,9 @@ public class ListViewkeywordAdapter extends BaseAdapter {
                 String str = content4.substring(s.length() + index, content4.length());
                 viewHolder.txtv.append(str);
             }
-        }
-        String content5 = listBeans.get(position).getChannel();
-        if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content5)) {
+        }*//*
+        */
+       /* if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(content5)) {
             int index = content5.indexOf(s);
             if (index >= 0) {
                 viewHolder.txtv.setText(content5.substring(0, index));
@@ -138,7 +227,7 @@ public class ListViewkeywordAdapter extends BaseAdapter {
                 String str = content5.substring(s.length() + index, content5.length());
                 viewHolder.txtv.append(str);
             }
-        }
+        }*/
 
         return convertView;
     }
@@ -148,155 +237,22 @@ public class ListViewkeywordAdapter extends BaseAdapter {
         ImageView im_dizhi;
 
 }
-
-  /*  private Context context;
-    private ArrayList<KeywordUserBean.DataBean.ListBean> mOriginalValues;
-    private List<KeywordUserBean.DataBean.ListBean> mObjects;
-
-    private final Object mLock = new Object();
-
-    private LayoutInflater mInflater;
-
-    private String keyWrold = ""; // 关键字
-    private String str;
-
-    public ListViewkeywordAdapter(Context context, List<KeywordUserBean.DataBean.ListBean> list) {
-        this.context = context;
-        this.mObjects = list;
-        this.mInflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    @Override
-    public int getCount() {
-        Log.e("hanbaocheng", "getCount: "+mObjects.size() );
-        // TODO Auto-generated method stub
-        if (mObjects == null || mObjects.size() == 0)
-            return 0;
-        return mObjects.size();
-
-    }
-    @Override
-    public Object getItem(int position) {
-        // TODO Auto-generated method stub
-        return mObjects.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        // TODO Auto-generated method stub
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        // TODO Auto-generated method stub
-        ViewHolder viewHolder;
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.search_layout_item, parent, false);
-            viewHolder = new ViewHolder();
-            viewHolder.txtv = (TextView) convertView.findViewById(R.id.text_name);
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
+    /**
+     * 正则匹配 返回值是一个SpannableString 即经过变色处理的数据
+     */
+    private SpannableString matcherSearchText(int color, String text, String keyword) {
+        SpannableString spannableString = new SpannableString(text);
+        //条件 keyword
+        Pattern pattern = Pattern.compile(keyword);
+        //匹配
+        Matcher matcher = pattern.matcher(spannableString);
+        while (matcher.find()) {
+            int start = matcher.start();
+            int end = matcher.end();
+            //ForegroundColorSpan 需要new 不然也只能是部分变色
+            spannableString.setSpan(new ForegroundColorSpan(color), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        if (mObjects.get(position).getType() ==1){
-            str = mObjects.get(position).getUser_nickname().toString().toLowerCase();
-        }
-        Log.e("hanbaocheng", "getView: "+str.toString() );
-        if (!keyWrold.equals("")) {
-            String patten = "" + keyWrold;
-            Pattern p = Pattern.compile(patten);
-            Matcher m = p.matcher(str);
-            SpannableString spannableString = new SpannableString(str);
-            while (m.find()) {
-                if (str.contains(m.group())) {
-                    spannableString.setSpan(
-                            new ForegroundColorSpan(0xffec8b44), m.start(),
-                            m.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                }
-            }
-            viewHolder.txtv.setText(spannableString);
-        } else {
-            SpannableString spannableString = new SpannableString(str);
-            spannableString.setSpan(new ForegroundColorSpan(Color.BLACK), 0,
-                    str.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            viewHolder.txtv.setText(mObjects.get(position).getPosition_name().toString());
-        }
-        return convertView;
+        //返回变色处理的结果
+        return spannableString;
     }
-
-    class ViewHolder {
-        TextView txtv;
-    }
-
-
-    public Filter getFilter() {
-        // TODO Auto-generated method stub
-        return filter;
-    }
-
-    Filter filter = new Filter() {
-        @Override
-        protected void publishResults(CharSequence constraint,
-                                      FilterResults results) {
-            mObjects = (List<KeywordUserBean.DataBean.ListBean>) results.values;
-            if (results.count > 0) {
-                notifyDataSetChanged();
-            } else {
-                notifyDataSetInvalidated();
-            }
-        }
-
-        @Override
-        protected FilterResults performFiltering(CharSequence prefix) {
-            // TODO Auto-generated method stub
-            FilterResults filterResults = new FilterResults();
-
-            if (mOriginalValues == null) {
-                synchronized (mLock) {
-                    mOriginalValues = new ArrayList<KeywordUserBean.DataBean.ListBean>(mObjects);
-                }
-            }
-
-            if (prefix == null || prefix.length() == 0) {
-                ArrayList<KeywordUserBean.DataBean.ListBean> list;
-                synchronized (mLock) {
-                    list = new ArrayList<KeywordUserBean.DataBean.ListBean>(mOriginalValues);
-                }
-                filterResults.values = list;
-                filterResults.count = list.size();
-                keyWrold = "";
-            } else {
-                String prefixString = prefix.toString().toLowerCase();
-                ArrayList<KeywordUserBean.DataBean.ListBean> values;
-                synchronized (mLock) {
-                    values = new ArrayList<KeywordUserBean.DataBean.ListBean>(mOriginalValues);
-                }
-
-                final int count = values.size();
-                final ArrayList<KeywordUserBean.DataBean.ListBean> newValues = new ArrayList<KeywordUserBean.DataBean.ListBean>();
-
-                for (int i = 0; i < count; i++) {
-                    final KeywordUserBean.DataBean.ListBean value = values.get(i);
-                    Log.e("hanbaocheng", "performFiltering111111111111111 "+value );
-                    final String valueText = value.toString().toLowerCase();
-                    // First match against the whole, non-splitted value
-                    if (valueText.contains(prefixString)) {
-                        newValues.add(value);
-                        keyWrold = prefixString;
-                    }
-                }
-
-                filterResults.values = newValues;
-                filterResults.count = newValues.size();
-            }
-
-            return filterResults;
-        }
-
-    };
-
-*/
-
 }
