@@ -226,11 +226,11 @@ public class YoXiuAdapter extends RecyclerView.Adapter<YoXiuAdapter.Holder> impl
                                 .subscribe(new Consumer<BaseBean>() {
                                     @Override
                                     public void accept(BaseBean baseBean) throws Exception {
+
                                     }
                                 });
                     }
                 }).start();
-
             }
         });
         holder.user_icon.setOnClickListener(new View.OnClickListener() {

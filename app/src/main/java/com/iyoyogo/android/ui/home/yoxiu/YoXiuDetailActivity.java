@@ -216,10 +216,11 @@ public class YoXiuDetailActivity extends BaseActivity<YoXiuDetailContract.Presen
         send_emoji = findViewById(R.id.send_emoji);
         RequestOptions options = new RequestOptions()
                 .error(R.mipmap.ic_launcher)
-                .override(100,100)
+                .override(80,80)
                 .skipMemoryCache(true);
 
-        Glide.with(YoXiuDetailActivity.this).asGif().load(R.drawable.tubiaogo).apply(options).into(imgGo);
+        Glide.with(YoXiuDetailActivity.this).asGif().load(R.drawable.tubiaog).apply(options).into(imgGo);
+        imgGo.setBackgroundColor(Color.parseColor("#00000000"));
         //表情包的点击按钮 发送
         mFasong = findViewById(R.id.fasongdetails);
         mFasong.setOnClickListener(new View.OnClickListener() {
